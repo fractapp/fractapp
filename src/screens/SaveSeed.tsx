@@ -1,24 +1,34 @@
 import React from 'react';
-import { StyleSheet, View, Text, ViewComponent } from 'react-native';
+import { StyleSheet, View, Text, ViewComponent, Alert } from 'react-native';
 import { BlueButton, SeedButton } from 'components';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { showMessage } from "react-native-flash-message";
+import Clipboard from '@react-native-community/clipboard';
 
 const SaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
     const seed = route.params.seed
     const randomSeed = [...seed].sort(() => (0.5 - Math.random()));
-    
+
     let seedBtns = new Array<Element>();
     for (let index in seed) {
         seedBtns.push(<SeedButton key={seed[index]} prefix={Number(index) + 1} text={seed[index]} />)
     }
-    
+
     return (
-        <View style={{ flexDirection: "column", flex: 1, alignItems: "center" }}>
+        <View style={{ flexDirection: "column", flex: 1, alignItems: "center", marginTop: 40 }}>
             <Text style={styles.title}>Your secret phrase</Text>
             <Text style={styles.description}>Write or copy these words in the correct order and keep in a safe place.</Text>
             <View style={styles.seed}>
                 {seedBtns}
             </View>
+
+            <Text style={styles.copy} onPress={() => {
+                Clipboard.setString(seed.join(" "));
+                showMessage({
+                    message: "Seed copied (не забудте удалить из буфера обмена)",
+                    type: "info",
+                    icon: "info"
+                })
+            }}>Copy</Text>
             <View style={{ width: '80%', position: 'absolute', bottom: 40 }}>
                 <BlueButton text={"Next"} height={50} onPress={() => navigation.navigate('ConfirmSaveSeed', { seed: seed, randomSeed: randomSeed })} />
             </View>
@@ -36,6 +46,14 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         width: '90%',
         marginTop: 40,
+    },
+    copy: {
+        alignSelf: 'flex-end',
+        marginRight: '10%',
+        marginTop: 10,
+        fontSize: 15,
+        fontFamily: "Roboto-Medium",
+        color: "#2AB2E2"
     },
     title: {
         marginTop: 80,

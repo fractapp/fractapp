@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TouchableHighlight } from 'react-native';
 import { Transaction, TxType } from '../models/transaction';
+import { getSymbol, getLogo } from '../models/wallet'
 
 const TransactionInfo = ({ transaction }: { transaction: Transaction }) => {
     let prefix: string;
@@ -30,19 +31,14 @@ const TransactionInfo = ({ transaction }: { transaction: Transaction }) => {
             <View style={{ width: "90%" }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Image
-                        source={transaction.logo}
+                        source={getLogo(transaction.currency)}
                         style={styles.logo}
                     />
                     <View style={{ flex: 1, flexDirection: 'column-reverse', marginLeft: 20, paddingTop: 5 }}>
                         <View style={{ flexDirection: 'row', paddingTop: 5 }} >
                             <View style={{ flex: 1 }}>
                                 <Text style={[styles.balance, { textAlign: "left", color: color }]}>
-                                    {prefix}{transaction.value} {transaction.symbol}
-                                </Text>
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <Text style={[styles.balance, { textAlign: "right", color: color }]}>
-                                    {prefix}{transaction.usdValue} $
+                                    {prefix}{transaction.value} {getSymbol(transaction.currency)}
                                 </Text>
                             </View>
                         </View>

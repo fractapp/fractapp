@@ -1,24 +1,32 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, View, Text, ViewComponent } from 'react-native';
-import { BlueButton, SeedButton } from 'components';
-import { setSeed } from 'utils/db'
+import { BlueButton, SeedButton, Loader } from 'components';
+import { createAccounts } from 'utils/db'
+import * as Auth from 'storage/Auth'
 
 export const ConfirmSaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
+    const { authStore, authDispatch } = useContext(Auth.Context)
     const [selectedPhrase, setSelectedPhrase] = useState(new Array<string>())
     const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(route.params.randomSeed)
+    const [isLoading, setLoading] = useState<boolean>(false)
+    const [isSaveSeed, setSaveSeed] = useState<boolean>(false)
     const seed = route.params.seed
 
-    const saveSeed = async () => {
-        await setSeed(seed.join(" "))
-        navigation.reset({
-            index: 0,
-            routes: [
-                {
-                    name: 'TabScreen'
-                },
-            ],
-        })
+    const startSaveSeed = async () => {
+        setLoading(true)
+        setSaveSeed(true)
     }
+
+    useEffect(() => {
+        if (!isSaveSeed)
+            return
+
+        createAccounts(seed.join(" ")).then(async () => {
+            authDispatch(Auth.signIn());
+            setLoading(false)
+        })
+    }, [isSaveSeed])
+
 
     const selectPhrase = (index: number, value: string,
         source: Array<string>, destination: Array<string>,
@@ -60,9 +68,10 @@ export const ConfirmSaveSeed = ({ navigation, route }: { navigation: any, route:
         return phrase(selectedPhrase, noSelectedPhrase, setSelectedPhrase, setNoSelectedPhrase)
     }
 
-    const renderIsValidSeed = () => {
+    const renderButtonOrError = () => {
         if (selectedPhrase.length != seed.length)
             return null
+
         for (let i = 0; i < seed.length; i++) {
             if (selectedPhrase[i] == seed[i])
                 continue
@@ -71,13 +80,17 @@ export const ConfirmSaveSeed = ({ navigation, route }: { navigation: any, route:
         }
         return (
             <View style={{ width: '80%', position: 'absolute', bottom: 40 }}>
-                <BlueButton text={"Next"} height={50} onPress={saveSeed} />
+                <BlueButton text={"Next"} height={50} onPress={startSaveSeed} />
             </View>
         )
     }
 
+    if (isLoading) {
+        return <Loader />
+    }
+
     return (
-        <View style={{ flexDirection: "column", flex: 1, alignItems: "center" }}>
+        <View style={{ flexDirection: "column", flex: 1, alignItems: "center", marginTop: 40 }}>
             <Text style={styles.title}>Veryfy secret phrase</Text>
             <Text style={styles.description}>Put the words in the correct order.</Text>
             <View style={styles.selectedBox}>
@@ -88,7 +101,7 @@ export const ConfirmSaveSeed = ({ navigation, route }: { navigation: any, route:
                 {renderNoSelectedPhrase()}
             </View>
 
-            {renderIsValidSeed()}
+            {renderButtonOrError()}
         </View>
     );
 }

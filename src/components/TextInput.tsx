@@ -5,7 +5,9 @@ export enum InputType {
     Password
 }
 
-export const TextInput = ({ placeholder, inputType = InputType.Password, width = "100%", onChangeText }: { placeholder: string, inputType: InputType, width: string, onChangeText: (text: string) => void}) => {
+export const TextInput = ({ placeholder, defaultValue = "", inputType = InputType.Password, width = "100%", onChangeText }:
+    { placeholder: string, defaultValue?: string, inputType?: InputType, width?: string, onChangeText: (text: string) => void }) => {
+
     return (
         <ReactNative.TextInput
             style={[styles.input, { width: width }]}
@@ -15,6 +17,7 @@ export const TextInput = ({ placeholder, inputType = InputType.Password, width =
             autoCompleteType={"password"}
             textContentType={"newPassword"}
             secureTextEntry={true}
+            defaultValue={defaultValue}
         />
     );
 }
@@ -22,7 +25,7 @@ export const TextInput = ({ placeholder, inputType = InputType.Password, width =
 
 const styles = StyleSheet.create({
     input: {
-        borderColor: '#CCCCCC', 
+        borderColor: '#CCCCCC',
         borderBottomWidth: 1,
         height: 40,
         fontSize: 15,

@@ -1,17 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { color } from 'react-native-reanimated';
 import { Currency } from '../models/wallet'
 
 const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }) => {
-    const MininalSize = 2
+    const defaultColor = "#CCCCCC"
+    let total = 0;
 
-    const total = (() => {
-        let result = 0
-        for (let [key, value] of distribution) {
-            result += value
-        }
-        return result
-    })()
+    for (let [key, value] of distribution) {
+        total += +value.toFixed(2)
+    }
 
     const getColorByCurrency = (currency: Currency) => {
         let color = ""
@@ -23,7 +22,7 @@ const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }
                 color = "#888888"
                 break;
             default:
-                color = "888888"
+                color = defaultColor
                 break;
         }
         return color
@@ -32,47 +31,35 @@ const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }
     const renderDistribution = () => {
         const distributionView = new Array();
 
-        let distributionWithoutMin = new Map<Currency, number>();
-        let roundTotal = 0
-        for (let [currency, value] of distribution) {
-            const size = value / total * 100
-            if (size < MininalSize) {
-                continue
-            }
-            roundTotal += value
-            distributionWithoutMin.set(currency, value)
-        }
+        const end = { x: -1, y: 0 }
+        const colors = new Array<string>()
 
-        const distributionSize = distributionWithoutMin.size
-        if (distributionSize == 0) {
-            let defaultColor = "#f0f0f0"
-            distributionView.push(<View style={[styles.distributionStart, { borderColor: defaultColor, backgroundColor: defaultColor, width: '50%' }]} />)
-            distributionView.push(<View style={[styles.distributionEnd, { borderColor: defaultColor, backgroundColor: defaultColor, width: '50%' }]} />)
+        if (distribution.size == 0 || total == 0) {
+            end.x = 1
+            colors.push(defaultColor)
+            colors.push(defaultColor)
         } else {
-            let index = 0
-            for (let [currency, value] of distributionWithoutMin) {
-                let color = getColorByCurrency(currency)
-                const size = value / roundTotal * 100
-                const sizeString = String(size) + "%"
-
-                if (distributionSize == 1) {
-                    distributionView.push(<View key={currency} style={[styles.distributionStart, { borderColor: color, backgroundColor: color, width: '50%' }]} />)
-                    distributionView.push(<View key={currency} style={[styles.distributionEnd, { borderColor: color, backgroundColor: color, width: '50%' }]} />)
-                } else if (index == 0) {
-                    distributionView.push(<View key={currency} style={[styles.distributionStart, { borderColor: color, backgroundColor: color, width: sizeString }]} />)
-                } else if (index == distributionSize - 1) {
-                    distributionView.push(<View key={currency} style={[styles.distributionEnd, { borderColor: color, backgroundColor: color, width: sizeString }]} />)
-                } else {
-                    distributionView.push(<View key={currency} style={[styles.distributionMid, { borderColor: color, backgroundColor: color, width: sizeString }]} />)
+            for (let [currency, value] of distribution) {
+                const size = value / total
+                if (end.x == -1) {
+                    end.x = size
                 }
-                index++
+                colors.push(getColorByCurrency(currency))
+            }
+            if (colors.length < 2) {
+                colors.push(colors[0])
             }
         }
 
         return (
-            <View style={styles.distribution}>
-                {distributionView}
-            </View>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={end}
+                locations={[1, 1]}
+                colors={colors}
+                style={styles.distributionLine}
+            >
+            </LinearGradient>
         )
     }
     return (
@@ -117,24 +104,11 @@ const styles = StyleSheet.create({
         lineHeight: 18,
         color: "black"
     },
-    distribution: {
+    distributionLine: {
         marginTop: 5,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         width: '100%',
-    },
-    distributionStart: {
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
+        borderWidth: 0,
+        borderRadius: 20,
         height: 10
     },
-    distributionMid: {
-        height: 10
-    },
-    distributionEnd: {
-        borderTopRightRadius: 20,
-        borderBottomRightRadius: 20,
-        width: '30%',
-        height: 10
-    }
 });

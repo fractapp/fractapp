@@ -24,7 +24,9 @@ module.exports = {
 					models: './src/models',
 					screens: './src/screens',
 					assets: './assets',
-					utils: './src/utils'
+					utils: './src/utils',
+					storage: './src/storage',
+					tasks: './src/tasks'
 				},
 				root: ['.']
 			}

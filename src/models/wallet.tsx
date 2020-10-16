@@ -5,35 +5,48 @@ export enum Currency {
     Kusama
 }
 
+export function getLogo(currency: Currency) {
+    let logo: ImageSourcePropType
+    switch (currency) {
+        case Currency.Polkadot:
+            logo = require("assets/img/dot.png")
+            break
+        case Currency.Kusama:
+            logo = require("assets/img/kusama.png")
+            break
+        default:
+            throw ("invalid currency")
+    }
+    return logo
+}
+export function getSymbol(currency: Currency) {
+    let symbol = ""
+    switch (currency) {
+        case Currency.Polkadot:
+            symbol = "DOT"
+            break
+        case Currency.Kusama:
+            symbol = "KSM"
+            break
+        default:
+            throw ("invalid currency")
+    }
+    return symbol
+}
+
 export class Wallet {
     name: string;
     address: string;
     balance: number;
     currency: Currency;
-
-    symbol: string;
     usdValue: number;
-    logo: ImageSourcePropType;
 
-    constructor(name: string, address: string, currency: Currency, balance: number) {
+    constructor(name: string, address: string, currency: Currency, balance: number, price: number) {
         this.name = name;
         this.address = address;
         this.balance = balance;
         this.currency = currency;
-        
-        //TODO get state
-        let rate = 10
-        this.usdValue = balance * rate
-        switch (currency) {
-            case Currency.Polkadot:
-                this.logo = require("assets/img/dot.png")
-                this.symbol = "DOT"
-                break
-            case Currency.Kusama:
-                this.logo = require("assets/img/kusama.png")
-                this.symbol = "KSM"
-                break
-        }
 
+        this.usdValue = +(balance * price).toFixed(2)
     }
 }

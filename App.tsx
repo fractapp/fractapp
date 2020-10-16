@@ -1,20 +1,43 @@
 import "./shim.js";
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, StatusBar, View } from 'react-native';
+import React, { useState, useEffect, useReducer } from 'react';
+import { StyleSheet, StatusBar, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import FlashMessage from "react-native-flash-message";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
-import { Wallets, Start, SettingWallet, ImportWallet, SaveWallet, ConfirmSaveSeed, WalletEncryption, SaveSeed, WalletDetails } from 'screens'
-import { getSeed, removeSeed } from 'utils/db'
+import {
+  Wallets, Start, SettingWallet, ImportWallet, SaveWallet,
+  ConfirmSaveSeed, WalletFileBackup, SaveSeed, WalletDetails,
+  ImportSeed, WalletFileImport, GoogleDiskPicker,
+  Receive, Milestone
+} from 'screens'
+import { Dialog, SplashScreen } from 'components'
+import * as db from 'utils/db'
+import * as tasks from 'utils/tasks'
+import * as AuthStore from 'storage/Auth'
+import * as DialogStore from 'storage/Dialog'
+import * as AccountsStore from 'storage/Accounts'
+import * as PricesStore from 'storage/Prices'
+import { Currency, getSymbol } from "models/wallet";
+
+
+
+const Tab = createBottomTabNavigator();
+const WalletStack = createStackNavigator();
+const ChatStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+const RootStack = createStackNavigator();
 
 export default function App() {
-  const [isSeedExist, setIsSeedExist] = useState<Boolean>(false)
-
-  const Stack = createStackNavigator();
+  const [authStore, authDispatch] = useReducer(AuthStore.reducer, AuthStore.initialState);
+  const [dialogStore, diaglogDispatch] = useReducer(DialogStore.reducer, DialogStore.initialState);
+  const [accountsStore, accountsDispatch] = useReducer(AccountsStore.reducer, AccountsStore.initialState);
+  const [pricesStore, pricesDispatch] = useReducer(PricesStore.reducer, PricesStore.initialState);
+  const [isLoading, setLoading] = useState<Boolean>(false)
 
   const Theme = {
     dark: false,
@@ -27,63 +50,117 @@ export default function App() {
       notification: '#2AB2E2'
     }
   };
-  useEffect(() => {
-      getSeed().then((seed) => setIsSeedExist(seed != undefined))
-  });
 
-  let root = TabScreen
-  if (!isSeedExist) {
-    root = Start
+  useEffect(() => {
+    setLoading(true);
+    //TODO: при регистрации зарегестрировать таску, сейчас она регестрируется, но падает ошибка с глубоким рендерингом
+    db.getSeed().then(async (seed) => {
+      if (seed != undefined) {
+        authDispatch(AuthStore.signIn());
+      }
+      if (authStore.isSign) {
+        await tasks.createTask(accountsDispatch, pricesDispatch)
+      }
+      setLoading(false);
+    })
+  }, [authStore.isSign]);
+
+  if (isLoading) {
+    return <SplashScreen />
   }
 
   return (
     <SafeAreaProvider style={styles.container}>
       <StatusBar backgroundColor={styles.container.backgroundColor} barStyle={"dark-content"} hidden={false} />
+      <DialogStore.Context.Provider value={{ dialogStore, diaglogDispatch }}>
+        <AuthStore.Context.Provider value={{ authStore, authDispatch }}>
+          <AccountsStore.Context.Provider value={{ accountsStore, accountsDispatch }}>
+            <PricesStore.Context.Provider value={{ pricesStore, pricesDispatch }}>
+              <NavigationContainer theme={Theme} >
+                <RootStack.Navigator screenOptions={{
+                  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+                >
 
-      <NavigationContainer theme={Theme} >
-        <Stack.Navigator screenOptions={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-        }}
-        >
+                  {!authStore.isSign ?
+                    <>
+                      <RootStack.Screen options={{ headerShown: false }} name="Root" component={Start} />
+                      <RootStack.Screen options={{ headerShown: false }} name="SettingWallet" component={SettingWallet} />
+                      <RootStack.Screen options={{ headerShown: false }} name="ImportWallet" component={ImportWallet} />
+                      <RootStack.Screen options={{ headerShown: false }} name="SaveWallet" component={SaveWallet} />
+                      <RootStack.Screen options={{ headerShown: false }} name="WalletFileBackup" component={WalletFileBackup} />
+                      <RootStack.Screen options={{ headerShown: false }} name="SaveSeed" component={SaveSeed} />
+                      <RootStack.Screen options={{ headerShown: false }} name="ConfirmSaveSeed" component={ConfirmSaveSeed} />
+                      <RootStack.Screen options={{ headerShown: false }} name="ImportSeed" component={ImportSeed} />
+                      <RootStack.Screen options={{ headerShown: false }} name="WalletFileImport" component={WalletFileImport} />
+                      <RootStack.Screen options={{ headerShown: false }} name="GoogleDiskPicker" component={GoogleDiskPicker} />
+                    </>
+                    :
+                    <>
+                      <RootStack.Screen options={{ headerShown: false }} name="Home" component={TabScreen} />
+                      <RootStack.Screen
+                        name="WalletDetails"
+                        component={WalletDetails}
+                        options={{
+                          title: "Details",
+                          headerTitleAlign: 'center',
+                          headerRightContainerStyle: {
+                            marginRight: 10,
+                          },
+                          headerStyle: {
+                            elevation: 0,
+                            shadowOpacity: 0,
+                            borderBottomWidth: 0,
+                          },
+                          cardShadowEnabled: true,
+                          headerTitleStyle: {
+                            fontSize: 18,
+                            textAlign: "center",
+                            fontFamily: "Roboto-Bold",
+                            color: "black"
+                          },
+                        }}
+                      />
+                      <RootStack.Screen
+                        name="Receive"
+                        component={Receive}
+                        options={({ route }) => ({
+                          title: "Receive " + getSymbol(route.params.currency),
+                          headerTitleAlign: 'center',
+                          headerRightContainerStyle: {
+                            marginRight: 10,
+                          },
+                          headerStyle: {
+                            elevation: 0,
+                            shadowOpacity: 0,
+                            borderBottomWidth: 0,
+                          },
+                          cardShadowEnabled: true,
+                          headerTitleStyle: {
+                            fontSize: 18,
+                            textAlign: "center",
+                            fontFamily: "Roboto-Bold",
+                            color: "black"
+                          },
+                        })}
+                      />
+                    </>
+                  }
+                </RootStack.Navigator>
 
-          <Stack.Screen options={{ headerShown: false }} name="Root" component={root} />
-          <Stack.Screen options={{ headerShown: false }} name="TabScreen" component={TabScreen} />
-          <Stack.Screen options={{ headerShown: false }} name="SettingWallet" component={SettingWallet} />
-          <Stack.Screen options={{ headerShown: false }} name="ImportWallet" component={ImportWallet} />
-          <Stack.Screen options={{ headerShown: false }} name="SaveWallet" component={SaveWallet} />
-          <Stack.Screen options={{ headerShown: false }} name="WalletEncryption" component={WalletEncryption} />
-          <Stack.Screen options={{ headerShown: false }} name="SaveSeed" component={SaveSeed} />
-          <Stack.Screen options={{ headerShown: false }} name="ConfirmSaveSeed" component={ConfirmSaveSeed} />
+              </NavigationContainer>
+            </PricesStore.Context.Provider>
+          </AccountsStore.Context.Provider>
+        </AuthStore.Context.Provider>
 
-          <Stack.Screen
-            name="WalletDetails"
-            component={WalletDetails}
-            options={{
-              title: "Details",
-              headerTitleAlign: 'center',
-              headerRightContainerStyle: {
-                marginRight: 10,
-              },
-              headerStyle: {
-                elevation: 0,
-                shadowOpacity: 0,
-                borderBottomWidth: 0,
-              },
-              cardShadowEnabled: true,
-              headerTitleStyle: {
-                fontSize: 18,
-                textAlign: "center",
-                fontFamily: "Roboto-Bold",
-                color: "black"
-              },
-            }}
-          />
-
-
-        </Stack.Navigator>
-      </NavigationContainer>
-
-
+        <Dialog
+          visible={dialogStore.visible}
+          onPress={dialogStore.onPress}
+          title={dialogStore.title}
+          text={dialogStore.text}
+        />
+      </DialogStore.Context.Provider>
+      <FlashMessage position="bottom" />
     </SafeAreaProvider>
   );
 }
@@ -95,45 +172,12 @@ const TabScreen = () => {
     Wallet: "Wallet",
     Profile: "Profile"
   }
-
-  const Tab = createBottomTabNavigator();
-  const Stack = createStackNavigator();
-
-  const WalletTab = () => {
-    return (<Stack.Navigator>
-      <Stack.Screen
-        name="Wallet"
-        component={Wallets}
-        options={{
-          headerTitleAlign: 'center',
-          headerRightContainerStyle: {
-            marginRight: 10,
-          },
-          headerStyle: {
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          cardShadowEnabled: true,
-          headerTitleStyle: {
-            fontSize: 18,
-            textAlign: "center",
-            fontFamily: "Roboto-Bold",
-            color: "black"
-          },
-        }}
-      />
-    </Stack.Navigator>)
-  }
-
   return (
     <Tab.Navigator
-      tabBarOptions={{ style: { elevation: 0 }, labelStyle: { fontFamily: "Roboto-Regular" } }}
+      tabBarOptions={{ style: { elevation: 0, marginBottom: 10 }, labelStyle: { fontFamily: "Roboto-Regular" } }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           switch (route.name) {
-            case MenuTabs.Discovery:
-              return <MaterialIcons name="explore" size={size} color={color} />
             case MenuTabs.Chats:
               return <FontAwesome name="comments" size={size} color={color} />
               break;
@@ -145,9 +189,92 @@ const TabScreen = () => {
         },
       })}>
 
-      <Tab.Screen name={MenuTabs.Wallet} component={WalletTab} />
+      <Tab.Screen name={MenuTabs.Wallet} component={Wallet} />
+      <Tab.Screen name={MenuTabs.Chats} component={Chats} />
+      <Tab.Screen name={MenuTabs.Profile} component={Profile} />
     </Tab.Navigator>
   )
+}
+
+const Wallet = () => {
+  return (<WalletStack.Navigator>
+    <WalletStack.Screen
+      name="Wallet"
+      component={Wallets}
+      options={{
+        headerTitleAlign: 'center',
+        headerRightContainerStyle: {
+          marginRight: 10,
+        },
+        headerStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        cardShadowEnabled: true,
+        headerTitleStyle: {
+          fontSize: 18,
+          textAlign: "center",
+          fontFamily: "Roboto-Bold",
+          color: "black"
+        },
+      }}
+    />
+  </WalletStack.Navigator>)
+}
+
+const Chats = () => {
+  return (<ChatStack.Navigator>
+    <ChatStack.Screen
+      name="Milestone 3"
+      component={Milestone}
+      options={{
+        headerTitleAlign: 'center',
+        headerRightContainerStyle: {
+          marginRight: 10,
+        },
+        headerStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        cardShadowEnabled: true,
+        headerTitleStyle: {
+          fontSize: 18,
+          textAlign: "center",
+          fontFamily: "Roboto-Bold",
+          color: "black"
+        },
+      }}
+    />
+  </ChatStack.Navigator>)
+}
+
+const Profile = () => {
+  return (<ProfileStack.Navigator>
+    <ProfileStack.Screen
+      name="Milestone 2"
+      component={Milestone}
+      options={{
+        headerTitleAlign: 'center',
+        headerRightContainerStyle: {
+          marginRight: 10,
+        },
+        headerStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        cardShadowEnabled: true,
+        headerTitleStyle: {
+          fontSize: 18,
+          textAlign: "center",
+          fontFamily: "Roboto-Bold",
+          color: "black"
+        },
+      }}
+    />
+  </ProfileStack.Navigator>)
 }
 
 const styles = StyleSheet.create({

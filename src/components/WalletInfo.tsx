@@ -1,31 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
-import { Wallet } from 'rmodels/wallet';
+import { getLogo, getSymbol, Wallet } from 'models/wallet';
 
-const WalletInfo = ({ navigation, account }: { navigation: any, account: Wallet }) => {
+const WalletInfo = ({ navigation, wallet }: { navigation: any, wallet: Wallet }) => {
+    const symbol = getSymbol(wallet.currency)
     return (
         <View style={{ width: '100%', justifyContent: 'center' }}>
             <TouchableHighlight
-                key={account.symbol}
-                onPress={() => navigation.navigate('WalletDetails')}
+                key={symbol}
+                onPress={() => navigation.navigate('WalletDetails', { wallet: wallet })}
                 underlayColor="#f8f9fb"
             >
                 <View style={styles.account}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Image
-                            source={account.logo}
+                            source={getLogo(wallet.currency)}
                             style={styles.logo}
                         />
                         <View style={{ flex: 1, flexDirection: 'column-reverse', marginLeft: 20 }}>
                             <View style={{ height: 25, flexDirection: 'row' }} >
                                 <View style={{ flex: 1 }}>
-                                    <Text style={[styles.balance, { textAlign: "left" }]}>{account.balance} {account.symbol}</Text>
+                                    <Text style={[styles.balance, { textAlign: "left" }]}>{wallet.balance} {symbol}</Text>
                                 </View>
                                 <View style={{ flex: 1 }}>
-                                    <Text style={[styles.balance, { textAlign: "right" }]}>{account.usdValue}$</Text>
+                                    <Text style={[styles.balance, { textAlign: "right" }]}>{wallet.usdValue}$</Text>
                                 </View>
                             </View>
-                            <Text style={styles.accountName}>{account.name}</Text>
+                            <Text style={styles.accountName}>{wallet.name}</Text>
                         </View>
                     </View>
                 </View>

@@ -5,7 +5,7 @@ import { Wallet, Currency } from 'models/wallet'
 import * as AccountsStore from 'storage/Accounts';
 import * as PricesStore from 'storage/Prices';
 
-const Wallets = ({ navigation }: { navigation: any }) => {
+export const Wallets = ({ navigation }: { navigation: any }) => {
     const { accountsStore, accountsDispatch } = useContext(AccountsStore.Context)
     const { pricesStore, pricesDispatch } = useContext(PricesStore.Context)
 
@@ -21,7 +21,13 @@ const Wallets = ({ navigation }: { navigation: any }) => {
         }
 
         for (let i = 0; i < wallets.length; i++) {
-            result.push(<WalletInfo navigation={navigation} key={wallets[i].address} wallet={wallets[i]} />)
+            result.push(
+                <WalletInfo
+                    key={wallets[i].address}
+                    wallet={wallets[i]}
+                    onPress={() => navigation.navigate('WalletDetails', { wallet: wallets[i] })}
+                />
+            )
         }
         return result
     }
@@ -32,7 +38,7 @@ const Wallets = ({ navigation }: { navigation: any }) => {
             let price = pricesStore.prices.get(currency)
             if (price == undefined)
                 price = 0
-    
+
             distribution.set(currency, account.balance * price)
         }
         return distribution
@@ -51,8 +57,6 @@ const Wallets = ({ navigation }: { navigation: any }) => {
         </View>
     );
 }
-
-export default Wallets
 
 const styles = StyleSheet.create({
     wallet: {

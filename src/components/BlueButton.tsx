@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 
-const BlueButton = ({ text, height, width = "100%", onPress }: { text: string, height: number, width: string, onPress: () => void} ) => {
+export const BlueButton = ({ text, height, width = "100%", onPress }: { text: string, height: number, width: string, onPress: () => void} ) => {
     return (
         <TouchableOpacity style={[styles.button, {height: height, width: width} ]} onPress={onPress}>
             <Text style={styles.buttonText}>{text}</Text>
@@ -10,7 +10,6 @@ const BlueButton = ({ text, height, width = "100%", onPress }: { text: string, h
     );
 }
 
-export default BlueButton
 
 const styles = StyleSheet.create({
     buttonText: {

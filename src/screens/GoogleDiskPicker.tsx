@@ -6,7 +6,7 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { DiskItem } from 'models/google'
 import { FileBackup } from 'models/backup';
 import { Type } from 'models/google'
-import { Loader } from 'components'
+import { Loader, DiskItemView } from 'components'
 import { getItems, getFileBackup } from 'utils/google'
 
 export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route: any }) => {
@@ -90,19 +90,6 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
     );
 }
 
-const DiskItemView = ({ item, onPress }: { item: DiskItem, onPress: () => void }) => (
-    <TouchableOpacity style={styles.item} onPress={onPress}>
-        <View style={{ flexDirection: "row" }}>
-            {
-                item.type == Type.Dir ?
-                    <Feather name="folder" size={30} color={"#888888"} /> :
-                    <AntDesign name="file1" size={30} color={"#888888"} />
-            }
-
-            <Text style={styles.itemText}>{item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}</Text>
-        </View>
-    </TouchableOpacity>
-);
 
 const styles = StyleSheet.create({
     dividingLine: {
@@ -110,16 +97,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 1,
         backgroundColor: '#cccccc'
-    },
-    item: {
-        height: 50,
-        justifyContent: 'center'
-    },
-    itemText: {
-        marginLeft: 10,
-        fontSize: 20,
-        fontFamily: "Roboto-Regular",
-        color: "black",
     },
     title: {
         marginTop: 20,

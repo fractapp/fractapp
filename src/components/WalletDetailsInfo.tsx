@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import { getLogo, getSymbol, Wallet } from 'models/wallet'
 
-const WalletDetailsInfo = ({ wallet }: { wallet: Wallet }) => {
+export const WalletDetailsInfo = ({ wallet }: { wallet: Wallet }) => {
     return (
         <View style={styles.accountInfo}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -25,7 +25,6 @@ const WalletDetailsInfo = ({ wallet }: { wallet: Wallet }) => {
         </View>
     );
 }
-export default WalletDetailsInfo
 
 const styles = StyleSheet.create({
     accountInfo: {

@@ -1,6 +1,6 @@
 import "./shim.js";
 import React, { useState, useEffect, useReducer } from 'react';
-import { StyleSheet, StatusBar, View, Text } from 'react-native';
+import { StyleSheet, StatusBar, View, Text, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -13,7 +13,7 @@ import {
   Wallets, Start, SettingWallet, ImportWallet, SaveWallet,
   ConfirmSaveSeed, WalletFileBackup, SaveSeed, WalletDetails,
   ImportSeed, WalletFileImport, GoogleDiskPicker,
-  Receive, Milestone
+  Receive, Milestone, TransactionDetails
 } from 'screens'
 import { Dialog, SplashScreen } from 'components'
 import * as db from 'utils/db'
@@ -23,8 +23,7 @@ import * as DialogStore from 'storage/Dialog'
 import * as AccountsStore from 'storage/Accounts'
 import * as PricesStore from 'storage/Prices'
 import { Currency, getSymbol } from "models/wallet";
-
-
+import changeNavigationBarColor, { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
 
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
@@ -52,8 +51,9 @@ export default function App() {
   };
 
   useEffect(() => {
+    hideNavigationBar()
     setLoading(true);
-    //TODO: при регистрации зарегестрировать таску, сейчас она регестрируется, но падает ошибка с глубоким рендерингом
+
     db.getSeed().then(async (seed) => {
       if (seed != undefined) {
         authDispatch(AuthStore.signIn());
@@ -61,6 +61,9 @@ export default function App() {
       if (authStore.isSign) {
         await tasks.createTask(accountsDispatch, pricesDispatch)
       }
+
+      showNavigationBar()
+      await changeNavigationBarColor('#ffffff', true, true);
       setLoading(false);
     })
   }, [authStore.isSign]);
@@ -103,6 +106,29 @@ export default function App() {
                         component={WalletDetails}
                         options={{
                           title: "Details",
+                          headerTitleAlign: 'center',
+                          headerRightContainerStyle: {
+                            marginRight: 10,
+                          },
+                          headerStyle: {
+                            elevation: 0,
+                            shadowOpacity: 0,
+                            borderBottomWidth: 0,
+                          },
+                          cardShadowEnabled: true,
+                          headerTitleStyle: {
+                            fontSize: 18,
+                            textAlign: "center",
+                            fontFamily: "Roboto-Bold",
+                            color: "black"
+                          },
+                        }}
+                      />
+                      <RootStack.Screen
+                        name="TransactionDetails"
+                        component={TransactionDetails}
+                        options={{
+                          title: "Transaction",
                           headerTitleAlign: 'center',
                           headerRightContainerStyle: {
                             marginRight: 10,
@@ -174,7 +200,7 @@ const TabScreen = () => {
   }
   return (
     <Tab.Navigator
-      tabBarOptions={{ style: { elevation: 0, marginBottom: 10 }, labelStyle: { fontFamily: "Roboto-Regular" } }}
+      tabBarOptions={{ style: { elevation: 0, marginBottom: 5 }, labelStyle: { fontFamily: "Roboto-Regular" } }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           switch (route.name) {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableHighlight, Alert } from 'react-native';
 import { Transaction, TxType } from '../models/transaction';
 import { getSymbol, getLogo } from '../models/wallet'
 
-const TransactionInfo = ({ transaction }: { transaction: Transaction }) => {
+export const TransactionInfo = ({ transaction, onPress }: { transaction: Transaction, onPress: () => void }) => {
     let prefix: string;
     let color: string;
     switch (transaction.txType) {
@@ -16,14 +16,14 @@ const TransactionInfo = ({ transaction }: { transaction: Transaction }) => {
             color = "#84D371"
             break
         case TxType.Sent:
-            prefix = "+"
+            prefix = "-"
             color = "#F45252"
             break
     }
 
     return (
         <TouchableHighlight
-            onPress={() => alert("")}
+            onPress={onPress}
             key={transaction.id}
             underlayColor="#f8f9fb"
             style={styles.transaction}
@@ -53,8 +53,6 @@ const TransactionInfo = ({ transaction }: { transaction: Transaction }) => {
         </TouchableHighlight>
     );
 }
-
-export default TransactionInfo
 
 const styles = StyleSheet.create({
     transaction: {

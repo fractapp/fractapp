@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import { getLogo, getSymbol, Wallet } from 'models/wallet';
 
-const WalletInfo = ({ navigation, wallet }: { navigation: any, wallet: Wallet }) => {
+export const WalletInfo = ({ onPress, wallet }: { onPress: () => void, wallet: Wallet }) => {
     const symbol = getSymbol(wallet.currency)
     return (
         <View style={{ width: '100%', justifyContent: 'center' }}>
             <TouchableHighlight
                 key={symbol}
-                onPress={() => navigation.navigate('WalletDetails', { wallet: wallet })}
+                onPress={onPress}
                 underlayColor="#f8f9fb"
             >
                 <View style={styles.account}>
@@ -34,8 +34,6 @@ const WalletInfo = ({ navigation, wallet }: { navigation: any, wallet: Wallet })
         </View>
     );
 }
-
-export default WalletInfo
 
 const styles = StyleSheet.create({
     account: {

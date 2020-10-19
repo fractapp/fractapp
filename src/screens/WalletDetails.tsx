@@ -6,65 +6,63 @@ import { Transaction, TxType } from 'models/transaction';
 import { WalletDetailsInfo, TransactionInfo } from "components";
 import { Api } from "utils/polkadot"
 import * as dateUtils from 'utils/date'
-import * as db from 'utils/db'
 
-const WalletDetails = ({ navigation, route }: { navigation: any, route: any }) => {
-    const [transactions, setTransactions] = useState<Map<string, Map<string, Transaction>>>(new Map())
-    const [isLoading, setLoading] = useState<boolean>(false)
-    const [lastPage, setLastPage] = useState<number>(1)
+export const WalletDetails = ({ navigation, route }: { navigation: any, route: any }) => {
+    const [transactions, setTransactions] = useState<Map<string, Transaction>>(new Map())
+    const [isLoading, setLoading] = useState<boolean>(true)
+    const [isEnd, setIsEnd] = useState<boolean>(false)
+    const [lastPage, setLastPage] = useState<number>(0)
     const wallet: Wallet = route.params.wallet
 
-    const updateTxs = async (page: number = 1, size: number = 2) => {
-        if (isLoading)
+    const startUpdateTxs = () => {
+        if (isLoading || isEnd)
             return
 
         setLoading(true)
+    }
 
+    const updateTxs = async (page: number = 1, size: number = 10) => {
         const api = await Api.getInstance(wallet.currency)
-        //TODO address
-        let txs = await db.getTransactions(wallet.address, page, size)
+        let txs = await api.getTransactions(wallet.address, page, size)
 
-        //TODO page = 1 
-        //TODO добавление новых транзакций
-        /* if (txs.length == 0) {
-             setLoading(false)
-             return
-         }*/
-        if (txs.length == 0) {
-            console.log("get: " + page)
-            txs = await api.getTransactions(wallet.address, page, size)
-            await db.addTransaction(wallet.address, txs)
-        }
-        const now = new Date()
-        let transactionsMap = new Map(transactions)
+        const updatedMap = new Map(transactions)
         for (let i = 0; i < txs.length; i++) {
-            let dateValue = dateUtils.toTitle(now, txs[i].date)
-            if (!transactionsMap.has(dateValue))
-                transactionsMap.set(dateValue, new Map<string, Transaction>())
-
-            transactionsMap.get(dateValue)?.push(txs[i])
+            updatedMap.set(txs[i].id, txs[i])
         }
+
+        if (txs.length < size)
+            setIsEnd(true)
 
         setLastPage(page)
-        setTransactions(transactionsMap)
+        setTransactions(updatedMap)
         setLoading(false)
     }
 
     useEffect(() => {
-        updateTxs()
-    }, [])
+        if (!isLoading)
+            return
 
-    const getSections = (map: Map<string, Map<string, Transaction>>) => {
+        updateTxs(lastPage + 1)
+    }, [isLoading])
+
+    const getDataWithSections = () => {
         let sections = new Array()
-        for (const [key, value] of map) {
-            const txs = new Array<Transaction>()
-            for (const [id, tx] of value) {
-                txs.push(tx)
-            }
+
+        const now = new Date()
+        let txsBySelections = new Map<string, Array<Transaction>>()
+        for (let [id, tx] of transactions) {
+            let dateValue = dateUtils.toTitle(now, tx.date)
+            if (!txsBySelections.has(dateValue))
+                txsBySelections.set(dateValue, new Array<Transaction>())
+
+            txsBySelections.get(dateValue)?.push(tx)
+        }
+
+        for (const [key, value] of txsBySelections) {
             sections.push(
                 {
                     title: key,
-                    data: txs
+                    data: value
                 }
             )
         }
@@ -109,10 +107,16 @@ const WalletDetails = ({ navigation, route }: { navigation: any, route: any }) =
                         </View>
                         : null
                 }
-                sections={getSections(transactions)}
+                onEndReachedThreshold={0.01}
+                sections={getDataWithSections()}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <TransactionInfo key={item.id} transaction={item} />}
-                onEndReached={() => updateTxs(lastPage + 1)}
+                renderItem={({ item }) =>
+                    <TransactionInfo
+                        key={item.id} transaction={item}
+                        onPress={() => navigation.navigate('TransactionDetails', { transaction: item, wallet: wallet })}
+                    />
+                }
+                onEndReached={startUpdateTxs}
                 renderSectionHeader={({ section: { title } }) => (
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.dateTitle}>{title}</Text>
@@ -123,8 +127,6 @@ const WalletDetails = ({ navigation, route }: { navigation: any, route: any }) =
         </View>
     );
 }
-
-export default WalletDetails
 
 const styles = StyleSheet.create({
     btns: {

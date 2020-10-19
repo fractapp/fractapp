@@ -6,7 +6,7 @@ import { BackupType } from 'utils/backup'
 import { signIn, signOut } from 'utils/google';
 import * as Dialog from 'storage/Dialog'
 
-const SaveWallet = ({ navigation }: { navigation: any }) => {
+export const SaveWallet = ({ navigation }: { navigation: any }) => {
     const seed = mnemonicGenerate().split(" ")
     const [visible, setVisible] = useState<boolean>(false)
     const { dialogStore, diaglogDispatch } = useContext(Dialog.Context)
@@ -87,8 +87,6 @@ const SaveWallet = ({ navigation }: { navigation: any }) => {
         </View>
     );
 }
-
-export default SaveWallet
 
 const styles = StyleSheet.create({
     title: {

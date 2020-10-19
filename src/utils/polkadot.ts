@@ -34,7 +34,7 @@ export class Api {
             break;
           case Currency.Kusama:
             apiUrl = "ws://kusama-rpc.polkadot.io"
-            explorerApiUrl = "https://explorer-31.polkascan.io/kusams"
+            explorerApiUrl = "https://explorer-31.polkascan.io/kusama"
             break;
           default:
             throw ("Invalid currency")
@@ -59,7 +59,7 @@ export class Api {
     }
     return plancks.mul(new BN(1000)).div(new BN(10).pow(b)).toNumber() / 1000
   }
-  
+
   public async balance(address: string): Promise<number> {
     let accountInfo = await this.apiPromise.query.system.account(address);
     return this.convertFromPlanck(accountInfo.data.free.toBn())
@@ -67,9 +67,11 @@ export class Api {
 
   public async getTransactions(address: string, page: number = 1, size: number = 10): Promise<Array<Transaction>> {
     let transactions = new Array<Transaction>()
-    
+
     try {
       let rs = await fetch(`${this.explorerApiUrl}/api/v1/event?filter[address]=${address}&filter[search_index]=2&page[number]=${page}&page[size]=${size}`)
+      if (!rs.ok) return new Array()
+
       const transfers = (await rs.json()).data
       for (let i = 0; i < transfers.length; i++) {
         const idx = `${transfers[i].attributes.block_id}-${transfers[i].attributes.extrinsic_idx}`
@@ -90,9 +92,9 @@ export class Api {
         let fee = new BN(0)
         for (let j = 0; j < events.length; j++) {
           if (events[j].attributes.module_id == "treasury" && events[j].attributes.event_id == "Deposit") {
-            fee.add(new BN(events[j].attributes.attributes[0].value))
+            fee = fee.add(new BN(events[j].attributes.attributes[0].value))
           } else if (events[j].attributes.module_id == "balances" && events[j].attributes.event_id == "Deposit") {
-            fee.add(new BN(events[j].attributes.attributes[1].value))
+            fee = fee.add(new BN(events[j].attributes.attributes[1].value))
           }
         }
 

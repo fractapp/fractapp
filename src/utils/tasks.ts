@@ -6,11 +6,13 @@ import * as AccountsStore from 'storage/Accounts'
 import * as PricesStore from 'storage/Prices'
 import { getSymbol } from 'models/wallet';
 import { Account } from 'models/account';
+import { Alert } from 'react-native';
 
 const sec = 1000
 const min = 60 * sec
 export const createTask = async (accountDispatch: React.Dispatch<any>, pricesDispatch: React.Dispatch<any>) => {
     const accountsAddress = await db.getAccounts()
+
     if (accountsAddress == null || accountsAddress.length == 0)
         throw ("accounts not found")
 
@@ -27,7 +29,6 @@ export const createTask = async (accountDispatch: React.Dispatch<any>, pricesDis
         BackgroundTimer.runBackgroundTimer(async () => {
             await updatePrice(pricesDispatch, account)
         }, 5 * min)
-    
     }
 }
 
@@ -39,6 +40,7 @@ const updateBalance = async (api: polkadot.Api, accountDispatch: React.Dispatch<
         await db.setAccountInfo(account)
     }
 }
+
 const updatePrice = async (pricesDispatch: React.Dispatch<any>, account: Account) => {
     const symbol = getSymbol(account.currency)
     const response = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`)

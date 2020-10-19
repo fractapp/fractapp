@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { BlueButton } from 'components';
 
-const Start = ({ navigation }: { navigation: any }) => {
+export const Start = ({ navigation }: { navigation: any }) => {
     return (
         <View style={{ flexDirection: "column", flex: 1, alignItems: "center" }}>
             <Image
@@ -22,7 +22,6 @@ const Start = ({ navigation }: { navigation: any }) => {
         </View>
     );
 }
-export default Start
 
 const styles = StyleSheet.create({
     logo: {

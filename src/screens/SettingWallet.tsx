@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { WhiteButton } from 'components';
 
-const SettingWallet = ({ navigation }: { navigation: any }) => {
+export const SettingWallet = ({ navigation }: { navigation: any }) => {
     return (
         <View style={{ flexDirection: "column", flex: 1, alignItems: "center", marginTop: 40 }}>
             <Text style={styles.title}>Setting wallet</Text>
@@ -24,8 +24,6 @@ const SettingWallet = ({ navigation }: { navigation: any }) => {
         </View>
     );
 }
-
-export default SettingWallet
 
 const styles = StyleSheet.create({
     title: {

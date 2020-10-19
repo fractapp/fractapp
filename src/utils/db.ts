@@ -55,32 +55,6 @@ export async function setAccountInfo(account: Account): Promise<void> {
     await SecureStorage.setItem(accountInfoKey(account.address), JSON.stringify(account), currentAccountsStore);
 }
 
-export async function getTransactionsFull(address: string,): Promise<Array<Transaction>> {
-    const transactions: Array<Transaction> = JSON.parse(await SecureStorage.getItem(transactionsInfoKey(address), currentAccountsStore), date.dateReviver)
-    if (transactions == null)
-        return new Array()
-
-    return transactions;
-}
-
-export async function getTransactions(address: string, page: number, size: number): Promise<Array<Transaction>> {
-    const transactions: Array<Transaction> = await getTransactionsFull(address)
-    const start = (page - 1) * size
-    const end = page * size
-    if (transactions == null)
-        return new Array()
-    return transactions.splice(start, end);
-}
-export async function removeTransactions(address: string): Promise<void> {
-    await SecureStorage.deleteItem(transactionsInfoKey(address), currentAccountsStore);
-}
-
-export async function addTransaction(address: string, txs: Array<Transaction>): Promise<void> {
-    let transactions = await getTransactionsFull(address)
-    transactions = transactions.concat(txs)
-    await SecureStorage.setItem(transactionsInfoKey(address), JSON.stringify(transactions), currentAccountsStore);
-}
-
 export async function removeSeed(): Promise<void> {
     await SecureStorage.deleteItem(seedKey, currentAccountsStore);
 }

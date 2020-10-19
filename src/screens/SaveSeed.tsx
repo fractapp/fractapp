@@ -4,7 +4,7 @@ import { BlueButton, SeedButton } from 'components';
 import { showMessage } from "react-native-flash-message";
 import Clipboard from '@react-native-community/clipboard';
 
-const SaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
+export const SaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
     const seed = route.params.seed
     const randomSeed = [...seed].sort(() => (0.5 - Math.random()));
 
@@ -35,8 +35,6 @@ const SaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
         </View>
     );
 }
-
-export default SaveSeed
 
 const styles = StyleSheet.create({
     seed: {

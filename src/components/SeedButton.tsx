@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
-const SeedButton = ({ prefix, text, onPress }: { prefix: string, text: string, onPress: () => void }) => {
+export const SeedButton = ({ prefix, text, onPress }: { prefix: string, text: string, onPress: () => void }) => {
     return (
         <TouchableOpacity activeOpacity={1} style={styles.button} onPress={onPress}>
             <Text style={styles.prefixText}>{prefix} </Text>
@@ -9,8 +9,6 @@ const SeedButton = ({ prefix, text, onPress }: { prefix: string, text: string, o
         </TouchableOpacity>
     );
 }
-
-export default SeedButton
 
 const styles = StyleSheet.create({
     button: {

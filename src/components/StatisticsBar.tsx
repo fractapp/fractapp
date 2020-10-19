@@ -4,14 +4,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import { color } from 'react-native-reanimated';
 import { Currency } from '../models/wallet'
 
-const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }) => {
+export const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }) => {
     const defaultColor = "#CCCCCC"
     let total = 0;
 
     for (let [key, value] of distribution) {
-        total += +value.toFixed(2)
+        total += value
     }
-
+    total = +total.toFixed(2)
     const getColorByCurrency = (currency: Currency) => {
         let color = ""
         switch (currency) {
@@ -76,8 +76,6 @@ const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }
         </View>
     );
 }
-
-export default StatisticsBar
 
 const styles = StyleSheet.create({
     statistics: {

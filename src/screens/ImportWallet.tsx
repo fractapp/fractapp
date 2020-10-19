@@ -7,7 +7,7 @@ import { FileBackup } from 'models/backup';
 import { signIn, signOut } from 'utils/google'
 import * as Dialog from 'storage/Dialog'
 
-const ImportWallet = ({ navigation }: { navigation: any }) => {
+export const ImportWallet = ({ navigation }: { navigation: any }) => {
     const { dialogStore, diaglogDispatch } = useContext(Dialog.Context)
     const [visible, setVisible] = useState<boolean>(false)
 
@@ -105,8 +105,6 @@ const ImportWallet = ({ navigation }: { navigation: any }) => {
         </View>
     );
 }
-
-export default ImportWallet
 
 const styles = StyleSheet.create({
     title: {

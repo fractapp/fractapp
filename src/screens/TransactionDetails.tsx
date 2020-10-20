@@ -17,7 +17,7 @@ export const TransactionDetails = ({ navigation, route }: { navigation: any, rou
                     style={styles.logo}
                 />
                 <Text style={styles.address}>{tx.member}</Text>
-                <Text style={styles.value}>{tx.txType == TxType.Sent ? "-" : null}{tx.value} {getSymbol(tx.currency)}</Text>
+                <Text style={styles.value}>{tx.txType == TxType.Sent ? "-" : "+"}{tx.value} {getSymbol(tx.currency)}</Text>
                 <View style={styles.status}>
                     <MaterialIcons name="done" size={25} color="#888888" />
                     <Text style={styles.statusText}>Success</Text>

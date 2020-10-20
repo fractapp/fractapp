@@ -1,12 +1,10 @@
 import BackgroundTimer from 'react-native-background-timer';
-import { acc } from 'react-native-reanimated';
 import * as db from 'utils/db'
 import * as polkadot from 'utils/polkadot'
 import * as AccountsStore from 'storage/Accounts'
 import * as PricesStore from 'storage/Prices'
 import { getSymbol } from 'models/wallet';
 import { Account } from 'models/account';
-import { Alert } from 'react-native';
 
 const sec = 1000
 const min = 60 * sec

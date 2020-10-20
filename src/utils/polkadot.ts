@@ -1,9 +1,8 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { Int } from '@polkadot/types';
 import { Currency } from 'models/wallet';
-import * as db from 'utils/db'
 import BN from 'bn.js'
 import { Transaction, TxType } from 'models/transaction';
+import { Alert } from 'react-native';
 
 export class Api {
   private KSMDecimals = new BN(12);

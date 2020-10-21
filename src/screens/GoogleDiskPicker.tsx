@@ -21,6 +21,7 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
         const items = await getItems(last)
         await setItems(paths.length > 1 ? [new DiskItem(BackItemId, "...", Type.Dir), ...items] : items)
     }
+
     const openJson = async (id: string) => {
         try {
             let file: FileBackup;
@@ -45,6 +46,7 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
         setPaths([...paths, path])
         setLoading(true)
     }
+    
     const back = () => {
         if (paths.length <= 1)
             return
@@ -68,9 +70,6 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
         }
     })
 
-    const renderItem = ({ item }: { item: DiskItem }) => (
-        <DiskItemView item={item} onPress={() => item.id != BackItemId ? open(item.id, item.type) : back()} />
-    );
 
     if (isLoading) {
         return <Loader />
@@ -82,7 +81,7 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
             <FlatList
                 data={items}
                 ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
-                renderItem={renderItem}
+                renderItem={(item) => <DiskItemView item={item} onPress={() => item.id != BackItemId ? open(item.id, item.type) : back()} />}
                 keyExtractor={item => item.id}
                 style={{ width: "90%", marginTop: 20 }}
             />

@@ -12,7 +12,6 @@ export enum BackupType {
     GoogleDisk
 }
 
-
 const algorithm = 'aes-128-ctr'
 export function encrypt(seed: string, password: string): FileBackup {
     const cipher = crypto.createCipher(algorithm, password)

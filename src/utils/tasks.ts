@@ -19,6 +19,9 @@ export const createTask = async (accountDispatch: React.Dispatch<any>, pricesDis
         const api = await polkadot.Api.getInstance(account.currency)
         accountDispatch(AccountsStore.addAccount(account))
 
+        await updateBalance(api, accountDispatch, account)
+        await updatePrice(pricesDispatch, account)
+
         BackgroundTimer.runBackgroundTimer(async () => {
             await updateBalance(api, accountDispatch, account)
         }, 10 * sec)

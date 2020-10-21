@@ -2,7 +2,7 @@ export { BlueButton } from './BlueButton';
 export { WhiteButton, Img } from './WhiteButton';
 export { SeedButton } from './SeedButton';
 export { StatisticsBar } from './StatisticsBar';
-export { TextInput, InputType } from './TextInput';
+export { PasswordInput } from './PasswordInput';
 export { TransactionInfo } from './TransactionInfo';
 export { WalletInfo } from './WalletInfo';
 export { WalletDetailsInfo } from './WalletDetailsInfo';

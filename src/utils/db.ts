@@ -12,10 +12,8 @@ const currentAccountsStore = {
     keychainService: 'fractapp_v1'
 };
 
-const metadateKey = "metadate"
 const accountsKey = "accounts"
 const accountInfoKey = (address: string) => `account_${address}`
-const transactionsInfoKey = (address: string) => `transactions_${address}`
 
 export async function getSeed(): Promise<string | null> {
     return await SecureStorage.getItem(seedKey, currentAccountsStore);

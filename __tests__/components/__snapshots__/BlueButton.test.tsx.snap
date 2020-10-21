@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test height=20 && text="Text #1" && width=default 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#2AB2E2",
+      "borderRadius": 10,
+      "height": 20,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    Text #1
+  </Text>
+</View>
+`;
+
+exports[`Test height=40 && text="Text #2" && width=50  1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#2AB2E2",
+      "borderRadius": 10,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": 50,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    Text #2
+  </Text>
+</View>
+`;

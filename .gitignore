@@ -5,6 +5,7 @@ dist/
 
 # jest cache
 test/.jest/
+coverage
 
 # NDK
 NDK/

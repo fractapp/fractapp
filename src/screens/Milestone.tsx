@@ -8,7 +8,3 @@ export const Milestone = () => {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-
-});

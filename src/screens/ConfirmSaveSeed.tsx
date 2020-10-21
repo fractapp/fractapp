@@ -4,7 +4,7 @@ import { BlueButton, SeedButton, Loader } from 'components';
 import { createAccounts } from 'utils/db'
 import * as Auth from 'storage/Auth'
 
-export const ConfirmSaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
+export const ConfirmSaveSeed = ({ route }: { route: any }) => {
     const { authStore, authDispatch } = useContext(Auth.Context)
     const [selectedPhrase, setSelectedPhrase] = useState(new Array<string>())
     const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(route.params.randomSeed)
@@ -147,13 +147,5 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: "Roboto-Regular",
         color: "#888888",
-    },
-    newPassword: {
-        marginTop: 30,
-        width: "90%"
-    },
-    confirmPassword: {
-        marginTop: 20,
-        width: "90%"
     }
 });

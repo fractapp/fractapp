@@ -6,7 +6,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --verbose",
+    "snapshot": "jest --updateSnapshot",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "@react-navigation/bottom-tabs": "^5.9.1",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
+    "@testing-library/react-native": "^7.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-rewrite-require": "^1.14.5",
     "node-libs-react-native": "^1.2.0",
@@ -57,6 +59,7 @@
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
+    "@testing-library/jest-native": "^3.4.3",
     "@types/jest": "^25.2.3",
     "@types/react-native": "^0.63.2",
     "@types/react-test-renderer": "^16.9.2",
@@ -71,6 +74,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -78,6 +84,15 @@
       "jsx",
       "json",
       "node"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!static-container)/"
     ]
   }
 }

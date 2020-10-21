@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { StatisticsBar, WalletInfo } from 'components'
 import { Wallet, Currency } from 'models/wallet'

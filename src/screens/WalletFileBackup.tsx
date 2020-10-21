@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Platform, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
-import { BlueButton, TextInput, InputType, Loader } from 'components';
+import { BlueButton, PasswordInput, InputType, Loader } from 'components';
 import { createAccounts } from 'utils/db'
 import { backup, BackupType, GoogleDiskFolder } from 'utils/backup'
 import * as Auth from 'storage/Auth'
@@ -90,16 +90,16 @@ export const WalletFileBackup = ({ navigation, route }: { navigation: any, route
             <Text style={styles.description}>Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.</Text>
 
             <View style={styles.newPassword}>
-                <TextInput
-                    onChangeText={value => setPassword(value)}
+                <PasswordInput
+                    onChangeText={(value: string) => setPassword(value)}
                     inputType={InputType.Password}
                     placeholder={"Password"}
                     defaultValue={password}
                 />
             </View>
             <View style={styles.confirmPassword}>
-                <TextInput
-                    onChangeText={value => setConfirmPassword(value)}
+                <PasswordInput
+                    onChangeText={(value: string) => setConfirmPassword(value)}
                     inputType={InputType.Password}
                     placeholder={"Confirm password"}
                     defaultValue={confirmPassword}

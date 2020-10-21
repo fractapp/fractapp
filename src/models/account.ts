@@ -1,6 +1,5 @@
 import { Currency } from "./wallet";
 
-
 export class Account {
     name: string;
     address: string;

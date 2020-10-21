@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactNative, { StyleSheet, TouchableOpacity } from 'react-native';
 
-export enum InputType {
-    Password
-}
 
-export const TextInput = ({ placeholder, defaultValue = "", inputType = InputType.Password, width = "100%", onChangeText }:
-    { placeholder: string, defaultValue?: string, inputType?: InputType, width?: string, onChangeText: (text: string) => void }) => {
+export const PasswordInput = ({ placeholder, defaultValue = "", width = "100%", onChangeText }:
+    { placeholder: string, defaultValue?: string, width?: string, onChangeText: (text: string) => void }) => {
 
     return (
         <ReactNative.TextInput

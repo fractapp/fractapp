@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import { getLogo, getSymbol, Wallet } from 'models/wallet';
 
-export const WalletInfo = ({ onPress, wallet }: { onPress: () => void, wallet: Wallet }) => {
+export const WalletInfo = ({ wallet, onPress }: { wallet: Wallet, onPress: () => void }) => {
     const symbol = getSymbol(wallet.currency)
     return (
         <View style={{ width: '100%', justifyContent: 'center' }}>

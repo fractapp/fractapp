@@ -24,7 +24,7 @@ export const TransactionDetails = ({ navigation, route }: { navigation: any, rou
                 </View>
             </View>
 
-            <View style={{ width: '100%', marginTop: 20 }}>
+            <View style={{ width: '100%', marginTop: 30 }}>
                 <Text style={[styles.title, { marginBottom: 10 }]}>Write-off account</Text>
                 <WalletInfo wallet={wallet} />
             </View>

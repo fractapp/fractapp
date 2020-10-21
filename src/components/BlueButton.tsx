@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 
-export const BlueButton = ({ text, height, width = "100%", onPress }: { text: string, height: number, width: string, onPress: () => void} ) => {
+export const BlueButton = ({ text, height, width = "100%", onPress }: { text: string, height: number, width?: string, onPress: () => void} ) => {
     return (
         <TouchableOpacity style={[styles.button, {height: height, width: width} ]} onPress={onPress}>
             <Text style={styles.buttonText}>{text}</Text>

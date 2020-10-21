@@ -11,7 +11,7 @@ export enum Img {
     Copy
 }
 
-export const WhiteButton = ({ text, height, onPress, img = Img.None, width = "100%" }: { img: Img, text: string, height: number, width: string, onPress: () => void }) => {
+export const WhiteButton = ({ text, height, onPress, img = Img.None, width = "100%" }: { text: string, height: number, img?: Img, width?: string, onPress: () => void }) => {
     let imageView: any
     switch (img) {
         case Img.GoogleDisk:

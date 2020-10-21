@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Kusams wallet 1`] = `
+<View
+  style={
+    Object {
+      "alignSelf": "center",
+      "marginTop": 15,
+      "width": "85%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/kusama.png",
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 75,
+          "height": 60,
+          "overflow": "hidden",
+          "width": 60,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column-reverse",
+          "marginLeft": 20,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "paddingTop": 5,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 18,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            20
+             
+            KSM
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 18,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            100
+             $
+          </Text>
+        </View>
+      </View>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 16,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Wallet Kusama
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Polkadot wallet 1`] = `
+<View
+  style={
+    Object {
+      "alignSelf": "center",
+      "marginTop": 15,
+      "width": "85%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/dot.png",
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 75,
+          "height": 60,
+          "overflow": "hidden",
+          "width": 60,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column-reverse",
+          "marginLeft": 20,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "paddingTop": 5,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 18,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            100
+             
+            DOT
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 18,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            1000
+             $
+          </Text>
+        </View>
+      </View>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 16,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Wallet Polkadot
+      </Text>
+    </View>
+  </View>
+</View>
+`;

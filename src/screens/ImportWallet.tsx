@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Text, Platform, Alert, PermissionsAndroid } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, View, Text, Alert, PermissionsAndroid } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import { WhiteButton, Img, } from 'components';
 import { getFile } from 'utils/backup'
@@ -8,67 +8,56 @@ import { signIn, signOut } from 'utils/google'
 import * as Dialog from 'storage/Dialog'
 
 export const ImportWallet = ({ navigation }: { navigation: any }) => {
-    const { dialogStore, diaglogDispatch } = useContext(Dialog.Context)
-    const [visible, setVisible] = useState<boolean>(false)
+    const dialogContext = useContext(Dialog.Context)
 
     const openFilePicker = async () => {
-        try {
-            const statues = await PermissionsAndroid.requestMultiple(
-                [
-                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
-                ]
-            );
-            let isGaranted = true
-            for (let key in statues) {
-                const status = statues[key]
-                if (status == "granted") {
-                    continue
-                }
-                if (status == "never_ask_again") {
-                    diaglogDispatch(
-                        Dialog.open(
-                            "Setting",
-                            "Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.",
-                            () => diaglogDispatch(Dialog.close())
-                        )
+        const statues = await PermissionsAndroid.requestMultiple(
+            [
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+            ]
+        );
+        let isGaranted = true
+        for (let key in statues) {
+            const status = statues[key]
+            if (status == "granted") {
+                continue
+            }
+            if (status == "never_ask_again") {
+                dialogContext.dispatch(
+                    Dialog.open(
+                        "Setting",
+                        "Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.",
+                        () => dialogContext.dispatch(Dialog.close())
                     )
-                }
-
-                isGaranted = false
+                )
             }
 
-            if (!isGaranted)
-                return
-
-            const res = await DocumentPicker.pick({
-                type: [DocumentPicker.types.allFiles],
-            });
-
-            let file: FileBackup;
-            try {
-                file = await getFile(res.uri)
-            } catch (err) {
-                Alert.alert("Error", "Invalid file")
-                return
-            }
-
-            navigation.navigate("WalletFileImport", { file: file })
-        } catch (err) {
-            if (!DocumentPicker.isCancel(err)) {
-                console.log(err)
-            }
+            isGaranted = false
         }
+
+        if (!isGaranted)
+            return
+
+        const res = await DocumentPicker.pick({
+            type: [DocumentPicker.types.allFiles],
+        });
+
+        let file: FileBackup;
+        try {
+            file = await getFile(res.uri)
+        } catch (err) {
+            Alert.alert("Error", "Invalid file")
+            return
+        }
+
+        navigation.navigate("WalletFileImport", { file: file })
     }
 
     const openFileGoogleDiskPicker = async () => {
-        try {
-            await signOut()
-            await signIn();
-            navigation.navigate("GoogleDiskPicker")
-        } catch (e) {
-            console.log(e)
-        }
+        await signOut()
+        await signIn()
+        navigation.navigate("GoogleDiskPicker")
     }
 
     return (
@@ -91,15 +80,14 @@ export const ImportWallet = ({ navigation }: { navigation: any }) => {
                     />
                 </View>
                 {
-                    Platform.OS == "android" ?
-                        <View style={{ marginTop: 20, width: "90%" }} >
-                            <WhiteButton
-                                text={"Google disk"}
-                                img={Img.GoogleDisk}
-                                height={50}
-                                onPress={() => openFileGoogleDiskPicker()}
-                            />
-                        </View> : null
+                    <View style={{ marginTop: 20, width: "90%" }} >
+                        <WhiteButton
+                            text={"Google disk"}
+                            img={Img.GoogleDisk}
+                            height={50}
+                            onPress={() => openFileGoogleDiskPicker()}
+                        />
+                    </View>
                 }
             </View>
         </View>

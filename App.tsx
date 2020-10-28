@@ -55,7 +55,7 @@ export default function App() {
     setLoading(true);
 
     db.getSeed().then(async (seed) => {
-      if (seed != undefined) {
+      if (seed != undefined && seed != null) {
         authDispatch(AuthStore.signIn());
       }
       if (authStore.isSign) {
@@ -75,10 +75,10 @@ export default function App() {
   return (
     <SafeAreaProvider style={styles.container}>
       <StatusBar backgroundColor={styles.container.backgroundColor} barStyle={"dark-content"} hidden={false} />
-      <DialogStore.Context.Provider value={{ dialogStore, diaglogDispatch }}>
-        <AuthStore.Context.Provider value={{ authStore, authDispatch }}>
-          <AccountsStore.Context.Provider value={{ accountsStore, accountsDispatch }}>
-            <PricesStore.Context.Provider value={{ pricesStore, pricesDispatch }}>
+      <DialogStore.Context.Provider value={{ dialog: dialogStore.dialog, dispatch: diaglogDispatch }}>
+        <AuthStore.Context.Provider value={{ isSign: authStore.isSign, dispatch: authDispatch }}>
+          <AccountsStore.Context.Provider value={{ accounts: accountsStore.accounts, dispatch: accountsDispatch }}>
+            <PricesStore.Context.Provider value={{ prices: pricesStore.prices, dispatch: pricesDispatch }}>
               <NavigationContainer theme={Theme} >
                 <RootStack.Navigator screenOptions={{
                   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
@@ -180,10 +180,10 @@ export default function App() {
         </AuthStore.Context.Provider>
 
         <Dialog
-          visible={dialogStore.visible}
-          onPress={dialogStore.onPress}
-          title={dialogStore.title}
-          text={dialogStore.text}
+          visible={dialogStore.dialog.visible}
+          onPress={dialogStore.dialog.onPress}
+          title={dialogStore.dialog.title}
+          text={dialogStore.dialog.text}
         />
       </DialogStore.Context.Provider>
       <FlashMessage position="bottom" />

@@ -1,9 +1,7 @@
 import crypto from 'react-native-crypto';
 import { FileBackup } from 'models/backup'
-import { Alert, Platform } from 'react-native';
 import RNFS from 'react-native-fs';
-import Share from 'react-native-share'
-import { mnemonicGenerate, mnemonicValidate } from '@polkadot/util-crypto';
+import { mnemonicValidate } from '@polkadot/util-crypto';
 import { signIn, safeSave } from 'utils/google'
 
 export const GoogleDiskFolder = "fractapp"
@@ -29,19 +27,20 @@ export async function backup(seed: string, password: string, type: BackupType): 
     let fileName = `fractapp-${hash}.json`
     switch (type) {
         case BackupType.File:
-            const path = Platform.OS == "ios" ? RNFS.DocumentDirectoryPath : `${RNFS.DownloadDirectoryPath}`
+            // const path = Platform.OS == "ios" ? RNFS.DocumentDirectoryPath : `${RNFS.DownloadDirectoryPath}`
+            const path = RNFS.DownloadDirectoryPath
             const filePath = `${path}/fractapp-${hash}.json`
 
             try {
                 await RNFS.writeFile(filePath, json, 'utf8')
-                if (Platform.OS == "ios") {
-                    await Share.open({ url: `file://${filePath}` })
-                    await RNFS.unlink(filePath)
-                }
+                /* if (Platform.OS == "ios") {
+                     await Share.open({ url: `file://${filePath}` })
+                     await RNFS.unlink(filePath)
+                 }*/
             } catch (e) {
                 console.log(e)
-                if (Platform.OS == "ios")
-                    await RNFS.unlink(filePath)
+                /* if (Platform.OS == "ios")
+                     await RNFS.unlink(filePath)*/
                 return { fileName: "", isSuccess: false }
             }
 

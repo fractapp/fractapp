@@ -6,7 +6,6 @@ import Clipboard from '@react-native-community/clipboard';
 
 export const SaveSeed = ({ navigation, route }: { navigation: any, route: any }) => {
     const seed = route.params.seed
-    const randomSeed = [...seed].sort(() => (0.5 - Math.random()));
 
     let seedBtns = new Array<Element>();
     for (let index in seed) {
@@ -30,7 +29,7 @@ export const SaveSeed = ({ navigation, route }: { navigation: any, route: any })
                 })
             }}>Copy</Text>
             <View style={{ width: '80%', position: 'absolute', bottom: 40 }}>
-                <BlueButton text={"Next"} height={50} onPress={() => navigation.navigate('ConfirmSaveSeed', { seed: seed, randomSeed: randomSeed })} />
+                <BlueButton text={"Next"} height={50} onPress={() => navigation.navigate('ConfirmSaveSeed', { seed: seed })} />
             </View>
         </View>
     );

@@ -1,14 +1,11 @@
 import { Account } from 'models/account'
 import SecureStorage from 'react-native-sensitive-info'
 import { Keyring } from '@polkadot/api';
-import { Metadata } from '@polkadot/types';
-import { hexToString, u8aToHex } from '@polkadot/util';
+import { u8aToHex } from '@polkadot/util';
 import { Currency } from 'models/wallet';
-import { Transaction } from 'models/transaction';
-import * as date from 'utils/date'
 
 const seedKey = "seed"
-const currentAccountsStore = {
+export const currentAccountsStore = {
     keychainService: 'fractapp_v1'
 };
 

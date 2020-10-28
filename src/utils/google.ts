@@ -1,17 +1,16 @@
-import { Platform } from 'react-native'
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin } from '@react-native-community/google-signin';
 import GDrive from "react-native-google-drive-api-wrapper";
 import { Type, DiskItem } from 'models/google'
 import { FileBackup } from 'models/backup';
 
 const folderType = "application/vnd.google-apps.folder"
 const jsonType = "application/json"
-const configureGoogleSignIn =
-    Platform.OS == "android" ? GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/drive'],
-        offlineAccess: false,
-        forceCodeForRefreshToken: true,
-    }) : null
+
+GoogleSignin.configure({
+    scopes: ['https://www.googleapis.com/auth/drive'],
+    offlineAccess: false,
+    forceCodeForRefreshToken: true,
+})
 
 export async function signOut() {
     const isSigned = await GoogleSignin.isSignedIn()
@@ -47,7 +46,7 @@ export async function safeSave(dir: string, fileName: string, file: string): Pro
             file,
             "application/json",
             {
-                parents: [ fieldIdDir ],
+                parents: [fieldIdDir],
                 name: fileName
             }, false);
         if (result.status != 200)
@@ -85,7 +84,7 @@ export async function getFileBackup(id: string): Promise<FileBackup> {
     const rs = await GDrive.files.get(id, { alt: "media" })
     const rsBody = await rs.json()
 
-    if (!(rsBody as FileBackup)) {
+    if (!(rsBody instanceof FileBackup)) {
         throw ("Invalid file")
     }
     return rsBody

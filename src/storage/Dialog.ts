@@ -1,26 +1,48 @@
 import { createContext } from "react";
+import React, { Dispatch } from "react";
 
-enum Action {
+export enum Action {
   OPEN,
   CLOSE
 }
-export const initialState = { title: "", text: "", visible: false }
+
+type DialogInfo = {
+  title: string,
+  text: string,
+  visible: boolean,
+  onPress?: () => void
+}
+
+type State = {
+  dialog: DialogInfo
+  dispatch: Dispatch<any>
+};
+
+export const initialState: State = {
+  dialog: {
+    text: "",
+    title: "",
+    visible: false
+  }
+}
 
 export const Context = createContext(initialState)
 export function reducer(prevState: any, action: any) {
   switch (action.type) {
     case Action.OPEN:
       return {
-        ...prevState,
-        title: action.title,
-        text: action.text,
-        onPress: action.onPress,
-        visible: true
+        dialog: {
+          title: action.title,
+          text: action.text,
+          onPress: action.onPress,
+          visible: true
+        }
       };
     case Action.CLOSE:
+     let newDialog = Object.assign({}, prevState).dialog;
+     newDialog.visible = false
       return {
-        ...prevState,
-        visible: false
+        dialog: newDialog
       };
   }
 }

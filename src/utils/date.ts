@@ -24,6 +24,7 @@ export function toTitle(now: Date, date: Date): string {
     return dateValue
 }
 
+/*
 export function dateReviver(key: string, value: any): Date {
     var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     if ({}.toString.call(value) === "[object String]" && datePattern.test(value)) {
@@ -31,4 +32,4 @@ export function dateReviver(key: string, value: any): Date {
     }
 
     return (value);
-}
+}*/

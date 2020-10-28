@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ActivityIndicator, Text, TouchableHighlight, ScrollView, Alert, SectionList } from 'react-native';
-import { Wallet, Currency } from 'models/wallet'
+import { StyleSheet, View, ActivityIndicator, Text, TouchableHighlight, Alert, SectionList } from 'react-native';
+import { Wallet } from 'models/wallet'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Transaction, TxType } from 'models/transaction';
+import { Transaction } from 'models/transaction';
 import { WalletDetailsInfo, TransactionInfo } from "components";
 import { Api } from "utils/polkadot"
 import * as dateUtils from 'utils/date'
@@ -24,7 +24,6 @@ export const WalletDetails = ({ navigation, route }: { navigation: any, route: a
     const updateTxs = async (page: number = 1, size: number = 10) => {
         const api = await Api.getInstance(wallet.currency)
         let txs = await api.getTransactions(wallet.address, page, size)
-
         const updatedMap = new Map(transactions)
         for (let i = 0; i < txs.length; i++) {
             updatedMap.set(txs[i].id, txs[i])

@@ -1,16 +1,13 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { StyleSheet, View, Text, BackHandler, Alert, ActivityIndicator } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { DiskItem } from 'models/google'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, BackHandler, Alert } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { DiskItem, BackItemId } from 'models/google'
 import { FileBackup } from 'models/backup';
 import { Type } from 'models/google'
 import { Loader, DiskItemView } from 'components'
 import { getItems, getFileBackup } from 'utils/google'
 
-export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route: any }) => {
-    const BackItemId = "back"
+export const GoogleDiskPicker = ({ navigation }: { navigation: any }) => {
     const [paths, setPaths] = useState<Array<string>>(new Array("root"))
     const [items, setItems] = useState<Array<DiskItem>>()
     const [isLoading, setLoading] = useState<boolean>(true)
@@ -46,7 +43,7 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
         setPaths([...paths, path])
         setLoading(true)
     }
-    
+
     const back = () => {
         if (paths.length <= 1)
             return
@@ -81,7 +78,13 @@ export const GoogleDiskPicker = ({ navigation, route }: { navigation: any, route
             <FlatList
                 data={items}
                 ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
-                renderItem={(item) => <DiskItemView item={item} onPress={() => item.id != BackItemId ? open(item.id, item.type) : back()} />}
+                renderItem={
+                    (item) =>
+                        <DiskItemView
+                            item={item.item}
+                            onPress={() => item.item.id != BackItemId ? open(item.item.id, item.item.type) : back()}
+                        />
+                }
                 keyExtractor={item => item.id}
                 style={{ width: "90%", marginTop: 20 }}
             />

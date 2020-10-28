@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Platform, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
-import { BlueButton, PasswordInput, InputType, Loader } from 'components';
+import { StyleSheet, View, Text } from 'react-native';
+import { BlueButton, PasswordInput, Loader } from 'components';
 import { createAccounts } from 'utils/db'
 import { backup, BackupType, GoogleDiskFolder } from 'utils/backup'
 import * as Auth from 'storage/Auth'
@@ -8,9 +8,9 @@ import * as Dialog from 'storage/Dialog'
 
 const minPasswordLength = 6
 
-export const WalletFileBackup = ({ navigation, route }: { navigation: any, route: any }) => {
-    const { authStore, authDispatch } = useContext(Auth.Context)
-    const { dialogStore, diaglogDispatch } = useContext(Dialog.Context)
+export const WalletFileBackup = ({ route }: { route: any }) => {
+    const authContext = useContext(Auth.Context)
+    const dialogContext = useContext(Dialog.Context)
 
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
@@ -26,8 +26,8 @@ export const WalletFileBackup = ({ navigation, route }: { navigation: any, route
     }
 
     const signIn = async () => {
-        await diaglogDispatch(Dialog.close())
-        authDispatch(Auth.signIn())
+        await dialogContext.dispatch(Dialog.close())
+        authContext.dispatch(Auth.signIn())
     }
 
     useEffect(() => {
@@ -42,25 +42,22 @@ export const WalletFileBackup = ({ navigation, route }: { navigation: any, route
 
             await createAccounts(seed)
 
-            if (Platform.OS == "android") {
-                switch (type) {
-                    case BackupType.File:
-                        diaglogDispatch(
-                            Dialog.open("Success save file", `Save your wallet in a safe place. File: ${info.fileName}`, signIn)
+
+            switch (type) {
+                case BackupType.File:
+                    dialogContext.dispatch(
+                        Dialog.open("Success save file", `Save your wallet in a safe place. File: ${info.fileName}`, signIn)
+                    )
+                    break
+                case BackupType.GoogleDisk:
+                    dialogContext.dispatch(
+                        Dialog.open(
+                            "Success google disk",
+                            `Save your wallet in a safe place. Folder: ${GoogleDiskFolder}. File: ${info.fileName}`,
+                            signIn
                         )
-                        break
-                    case BackupType.GoogleDisk:
-                        diaglogDispatch(
-                            Dialog.open(
-                                "Success google disk",
-                                `Save your wallet in a safe place. Folder: ${GoogleDiskFolder}. File: ${info.fileName}`,
-                                signIn
-                            )
-                        )
-                        break
-                }
-            } else {
-                await signIn()
+                    )
+                    break
             }
         })
     }, [isBackup])
@@ -92,7 +89,6 @@ export const WalletFileBackup = ({ navigation, route }: { navigation: any, route
             <View style={styles.newPassword}>
                 <PasswordInput
                     onChangeText={(value: string) => setPassword(value)}
-                    inputType={InputType.Password}
                     placeholder={"Password"}
                     defaultValue={password}
                 />
@@ -100,7 +96,6 @@ export const WalletFileBackup = ({ navigation, route }: { navigation: any, route
             <View style={styles.confirmPassword}>
                 <PasswordInput
                     onChangeText={(value: string) => setConfirmPassword(value)}
-                    inputType={InputType.Password}
                     placeholder={"Confirm password"}
                     defaultValue={confirmPassword}
                 />

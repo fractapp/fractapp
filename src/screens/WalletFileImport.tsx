@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Platform, StyleSheet, View, Text, Linking, Alert } from 'react-native';
-import { BlueButton, PasswordInput, InputType, Loader } from 'components';
+import { StyleSheet, View, Text, Alert } from 'react-native';
+import { BlueButton, PasswordInput, Loader } from 'components';
 import { createAccounts } from 'utils/db'
-import { getSeed, BackupType } from 'utils/backup'
+import { getSeed } from 'utils/backup'
 import { FileBackup } from 'models/backup';
 import * as Auth from 'storage/Auth'
 
-export const WalletFileImport = ({ navigation, route }: { navigation: any, route: any }) => {
-    const { authStore, authDispatch } = useContext(Auth.Context)
+export const WalletFileImport = ({ route }: { route: any }) => {
+    const authContext = useContext(Auth.Context)
 
     const [password, setPassword] = useState<string>("")
     const [isLoading, setLoading] = useState<boolean>(false)
@@ -35,7 +35,7 @@ export const WalletFileImport = ({ navigation, route }: { navigation: any, route
             }
 
             await createAccounts(seed)
-            authDispatch(Auth.signIn());
+            authContext.dispatch(Auth.signIn());
         })()
 
     }, [isImport])
@@ -52,7 +52,6 @@ export const WalletFileImport = ({ navigation, route }: { navigation: any, route
             <View style={styles.newPassword}>
                 <PasswordInput
                     onChangeText={(value: string) => setPassword(value)}
-                    inputType={InputType.Password}
                     placeholder={"Password"}
                 />
             </View>

@@ -1,0 +1,1547 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test save seed #1 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+      "marginTop": 40,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Your secret phrase
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Write or copy these words in the correct order and keep in a safe place.
+  </Text>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        1
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        run
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        2
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        knee
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        3
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        code
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        4
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        wall
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        5
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        merge
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        6
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        impact
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        7
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        teach
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        8
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        grain
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        9
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        slim
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        10
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        quality
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        11
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        patient
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        12
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        curve
+      </Text>
+    </View>
+  </View>
+  <Text
+    onPress={[Function]}
+    style={
+      Object {
+        "alignSelf": "flex-end",
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": 15,
+        "marginRight": "10%",
+        "marginTop": 10,
+      }
+    }
+  >
+    Copy
+  </Text>
+  <View
+    style={
+      Object {
+        "bottom": 40,
+        "position": "absolute",
+        "width": "80%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#2AB2E2",
+          "borderRadius": 10,
+          "height": 50,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Next
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test save seed #1 2`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+      "marginTop": 40,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Your secret phrase
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Write or copy these words in the correct order and keep in a safe place.
+  </Text>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        1
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        staff
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        2
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        select
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        3
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        toddler
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        4
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        junior
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        5
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        robot
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        6
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        own
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        7
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        paper
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        8
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        sniff
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        9
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        glare
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        10
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        drive
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        11
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        stay
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "#888888",
+          "borderRadius": 10,
+          "borderWidth": 0.5,
+          "flexDirection": "row",
+          "height": 30,
+          "justifyContent": "center",
+          "margin": 3,
+          "opacity": 1,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#CCCCCC",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        12
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        census
+      </Text>
+    </View>
+  </View>
+  <Text
+    onPress={[Function]}
+    style={
+      Object {
+        "alignSelf": "flex-end",
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": 15,
+        "marginRight": "10%",
+        "marginTop": 10,
+      }
+    }
+  >
+    Copy
+  </Text>
+  <View
+    style={
+      Object {
+        "bottom": 40,
+        "position": "absolute",
+        "width": "80%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#2AB2E2",
+          "borderRadius": 10,
+          "height": 50,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Next
+      </Text>
+    </View>
+  </View>
+</View>
+`;

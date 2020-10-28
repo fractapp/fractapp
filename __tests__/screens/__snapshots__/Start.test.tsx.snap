@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test positive 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/logo-shadow.png",
+      }
+    }
+    style={
+      Object {
+        "height": 120,
+        "marginTop": 230,
+        "width": 120,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+      }
+    }
+  >
+    Welcome to Fractapp
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 13,
+        "marginTop": 5,
+      }
+    }
+  >
+    Messenger with cryptocurrency wallet
+  </Text>
+  <View
+    style={
+      Object {
+        "bottom": 40,
+        "position": "absolute",
+        "width": "80%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#2AB2E2",
+          "borderRadius": 10,
+          "height": 50,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Start
+      </Text>
+    </View>
+  </View>
+</View>
+`;

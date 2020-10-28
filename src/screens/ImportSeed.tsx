@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { BlueButton } from 'components';
 import { mnemonicValidate } from '@polkadot/util-crypto';
 import { Loader } from 'components'
 import * as Auth from 'storage/Auth'
 import * as db from 'utils/db'
 
-export const ImportSeed = ({ navigation, route }: { navigation: any, route: any }) => {
-    const { authStore, authDispatch } = useContext(Auth.Context)
+export const ImportSeed = () => {
+    const authContext = useContext(Auth.Context)
     const [seed, setSeed] = useState<string>("")
     const [isLoading, setLoading] = useState<boolean>(false)
     const [isSaveSeed, setSaveSeed] = useState<boolean>(false)
-
+    
     const startSaveSeed = async () => {
         setLoading(true)
         setSaveSeed(true)
@@ -21,7 +21,7 @@ export const ImportSeed = ({ navigation, route }: { navigation: any, route: any 
         if (!isSaveSeed)
             return
         db.createAccounts(seed).then(async () => {
-            authDispatch(Auth.signIn());
+            authContext.dispatch(Auth.signIn());
             setLoading(false)
         })
     }, [isSaveSeed])

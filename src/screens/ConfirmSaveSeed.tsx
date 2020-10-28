@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { StyleSheet, View, Text, ViewComponent } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { BlueButton, SeedButton, Loader } from 'components';
 import { createAccounts } from 'utils/db'
 import * as Auth from 'storage/Auth'
 
 export const ConfirmSaveSeed = ({ route }: { route: any }) => {
-    const { authStore, authDispatch } = useContext(Auth.Context)
+    const seed = route.params.seed
+    const randomSeed = [...seed].sort(() => (0.5 - Math.random()))
+
+    const authContext = useContext(Auth.Context)
     const [selectedPhrase, setSelectedPhrase] = useState(new Array<string>())
-    const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(route.params.randomSeed)
+    const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(randomSeed)
     const [isLoading, setLoading] = useState<boolean>(false)
     const [isSaveSeed, setSaveSeed] = useState<boolean>(false)
-    const seed = route.params.seed
 
     const startSaveSeed = async () => {
         setLoading(true)
@@ -22,7 +24,7 @@ export const ConfirmSaveSeed = ({ route }: { route: any }) => {
             return
 
         createAccounts(seed.join(" ")).then(async () => {
-            authDispatch(Auth.signIn());
+            authContext.dispatch(Auth.signIn());
             setLoading(false)
         })
     }, [isSaveSeed])

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Text, Platform, PermissionsAndroid } from 'react-native';
+import { StyleSheet, View, Text, PermissionsAndroid } from 'react-native';
 import { WhiteButton, Img } from 'components';
 import { mnemonicGenerate } from '@polkadot/util-crypto';
 import { BackupType } from 'utils/backup'
@@ -8,8 +8,7 @@ import * as Dialog from 'storage/Dialog'
 
 export const SaveWallet = ({ navigation }: { navigation: any }) => {
     const seed = mnemonicGenerate().split(" ")
-    const [visible, setVisible] = useState<boolean>(false)
-    const { dialogStore, diaglogDispatch } = useContext(Dialog.Context)
+    const dialogContext = useContext(Dialog.Context)
 
     const backupFile = async () => {
         const statues = await PermissionsAndroid.requestMultiple(
@@ -26,11 +25,11 @@ export const SaveWallet = ({ navigation }: { navigation: any }) => {
             }
 
             if (status == "never_ask_again") {
-                diaglogDispatch(
+                dialogContext.dispatch(
                     Dialog.open(
                         "Setting",
                         "Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.",
-                        () => diaglogDispatch(Dialog.close())
+                        () => dialogContext.dispatch(Dialog.close())
                     )
                 )
             }
@@ -44,15 +43,11 @@ export const SaveWallet = ({ navigation }: { navigation: any }) => {
     }
 
     const backupGoogleDisk = async () => {
-        try {
-            await signOut()
-            await signIn()
-            navigation.navigate("WalletFileBackup", { seed: seed, type: BackupType.GoogleDisk })
-        } catch (e) {
-            console.log(e)
-        }
+        await signOut()
+        await signIn()
+        navigation.navigate("WalletFileBackup", { seed: seed, type: BackupType.GoogleDisk })
     }
-    
+
     return (
         <View style={{ flexDirection: "column", flex: 1, alignItems: "center", marginTop: 40 }}>
             <Text style={styles.title}>Save a wallet</Text>
@@ -74,15 +69,14 @@ export const SaveWallet = ({ navigation }: { navigation: any }) => {
                     />
                 </View>
                 {
-                    Platform.OS == "android" ?
-                        <View style={{ marginTop: 20, width: "90%" }} >
-                            <WhiteButton
-                                text={"Google disk"}
-                                img={Img.GoogleDisk}
-                                height={50}
-                                onPress={backupGoogleDisk}
-                            />
-                        </View> : null
+                    <View style={{ marginTop: 20, width: "90%" }} >
+                        <WhiteButton
+                            text={"Google disk"}
+                            img={Img.GoogleDisk}
+                            height={50}
+                            onPress={backupGoogleDisk}
+                        />
+                    </View>
                 }
             </View>
         </View>

@@ -5,7 +5,7 @@ import { getLogo, getSymbol, Wallet } from 'models/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { WalletInfo } from 'components/';
 
-export const TransactionDetails = ({ navigation, route }: { navigation: any, route: any }) => {
+export const TransactionDetails = ({ route }: { route: any }) => {
     const tx: Transaction = route.params.transaction
     const wallet: Wallet = route.params.wallet
 

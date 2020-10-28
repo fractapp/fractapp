@@ -2,20 +2,19 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Currency } from 'models/wallet';
 import BN from 'bn.js'
 import { Transaction, TxType } from 'models/transaction';
-import { Alert } from 'react-native';
 
 export class Api {
-  private KSMDecimals = new BN(12);
-  private DOTDecimals = new BN(10);
   private static instance: Map<Currency, Api>;
   private explorerApiUrl: string;
   private apiPromise: ApiPromise;
   private currency: Currency;
+  private decimals: BN;
 
-  private constructor(apiPromise: ApiPromise, currency: Currency, explorerApiUrl: string) {
+  public constructor(apiPromise: ApiPromise, currency: Currency, explorerApiUrl: string, decimals: BN) {
     this.apiPromise = apiPromise;
     this.currency = currency;
     this.explorerApiUrl = explorerApiUrl;
+    this.decimals = decimals
   }
 
   public static getInstance(currency: Currency): Promise<Api> {
@@ -26,37 +25,31 @@ export class Api {
       if (!this.instance.has(currency)) {
         let apiUrl = ""
         let explorerApiUrl = ""
+        let decimals = new BN(0)
         switch (currency) {
           case Currency.Polkadot:
-            apiUrl = "ws://rpc.polkadot.io"
+            apiUrl = "wss://rpc.polkadot.io"
             explorerApiUrl = "https://explorer-31.polkascan.io/polkadot"
+            decimals = new BN(12)
             break;
           case Currency.Kusama:
-            apiUrl = "ws://kusama-rpc.polkadot.io"
+            apiUrl = "wss://kusama-rpc.polkadot.io"
             explorerApiUrl = "https://explorer-31.polkascan.io/kusama"
+            decimals = new BN(10);
             break;
           default:
             throw ("Invalid currency")
         }
         const provider = new WsProvider(apiUrl);
         let apiPromise = await ApiPromise.create({ provider })
-        this.instance.set(currency, new Api(apiPromise, currency, explorerApiUrl))
+        this.instance.set(currency, new Api(apiPromise, currency, explorerApiUrl, decimals))
       }
       return <Api>this.instance.get(currency);
     })(currency)
   }
 
   public convertFromPlanck(plancks: BN): number {
-    let b = new BN(0);
-    switch (this.currency) {
-      case Currency.Kusama:
-        b = this.KSMDecimals
-        break;
-      case Currency.Polkadot:
-        b = this.DOTDecimals
-        break;
-    }
-    return plancks.mul(new BN(1000)).div(new BN(10).pow(b)).toNumber() / 1000
+    return plancks.mul(new BN(1000)).div(new BN(10).pow(this.decimals)).toNumber() / 1000
   }
 
   public async balance(address: string): Promise<number> {

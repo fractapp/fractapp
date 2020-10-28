@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, TouchableHighlight, Alert } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Image, Text, TouchableHighlight } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import { Currency, getSymbol } from 'models/wallet'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,6 +27,7 @@ export const Receive = ({ route }: { route: any }) => {
             <View style={styles.btns}>
                 <View>
                     <TouchableHighlight
+                        testID="copyBtn"
                         onPress={() => {
                             Clipboard.setString(address);
                             showMessage({
@@ -44,6 +45,7 @@ export const Receive = ({ route }: { route: any }) => {
                 </View>
                 <View style={{ marginLeft: 30 }}>
                     <TouchableHighlight
+                        testID="shareBtn"
                         onPress={() => Share.open({
                             url: `My address for ${getSymbol(currency)}: ${address}`,
                             type: "text/plain"

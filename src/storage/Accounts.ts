@@ -1,12 +1,22 @@
+
 import { Account } from "models/account";
 import { Currency } from "models/wallet";
-import React, { createContext, useReducer } from "react";
+import React, { Dispatch, createContext, useReducer } from "react";
 
 export enum Action {
   ADD_ACCOUNT,
   UPDATE_BALANCE
 }
-export const initialState = { accounts: new Map<Currency, Account>() }
+
+type State = {
+  accounts: Map<Currency, Account>,
+  dispatch: Dispatch<any>
+};
+
+export const initialState: State = {
+  accounts: new Map<Currency, Account>()
+}
+
 export const Context = React.createContext(initialState)
 export function reducer(prevState: any, action: any) {
   let copy = Object.assign({}, prevState);
@@ -15,13 +25,11 @@ export function reducer(prevState: any, action: any) {
     case Action.ADD_ACCOUNT:
       copy.accounts.set(action.account.currency, action.account)
       return {
-        ...prevState,
         accounts: copy.accounts,
       };
     case Action.UPDATE_BALANCE:
       copy.accounts.get(action.currency).balance = action.balance
       return {
-        ...prevState,
         accounts: copy.accounts,
       };
   }

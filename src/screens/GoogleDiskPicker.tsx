@@ -77,7 +77,6 @@ export const GoogleDiskPicker = ({ navigation }: { navigation: any }) => {
             <Text style={styles.title}>Select file</Text>
             <FlatList
                 data={items}
-                ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
                 renderItem={
                     (item) =>
                         <DiskItemView

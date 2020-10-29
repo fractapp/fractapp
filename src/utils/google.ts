@@ -83,8 +83,7 @@ export async function getItems(path: string): Promise<Array<DiskItem>> {
 export async function getFileBackup(id: string): Promise<FileBackup> {
     const rs = await GDrive.files.get(id, { alt: "media" })
     const rsBody = await rs.json()
-
-    if (!(rsBody instanceof FileBackup)) {
+    if (rsBody.algorithm == undefined || rsBody.seed == undefined) {
         throw ("Invalid file")
     }
     return rsBody

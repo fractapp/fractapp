@@ -23,7 +23,6 @@ exports[`Test deep dir 1`] = `
     Select file
   </Text>
   <RCTScrollView
-    ItemSeparatorComponent={[Function]}
     collapsable={false}
     data={
       Array [
@@ -140,16 +139,6 @@ exports[`Test deep dir 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#cccccc",
-              "height": 1,
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         onLayout={[Function]}
@@ -215,16 +204,6 @@ exports[`Test deep dir 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#cccccc",
-              "height": 1,
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         onLayout={[Function]}
@@ -338,7 +317,6 @@ exports[`Test root dir 1`] = `
     Select file
   </Text>
   <RCTScrollView
-    ItemSeparatorComponent={[Function]}
     collapsable={false}
     data={
       Array [
@@ -465,16 +443,6 @@ exports[`Test root dir 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#cccccc",
-              "height": 1,
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         onLayout={[Function]}
@@ -540,16 +508,6 @@ exports[`Test root dir 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#cccccc",
-              "height": 1,
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         onLayout={[Function]}
@@ -615,16 +573,6 @@ exports[`Test root dir 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#cccccc",
-              "height": 1,
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         onLayout={[Function]}
@@ -690,16 +638,6 @@ exports[`Test root dir 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "backgroundColor": "#cccccc",
-              "height": 1,
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         onLayout={[Function]}

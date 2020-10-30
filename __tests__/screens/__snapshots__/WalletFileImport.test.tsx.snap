@@ -49,11 +49,12 @@ exports[`Test positive 1`] = `
         "fontFamily": "Roboto-Regular",
         "fontSize": 15,
         "marginTop": 40,
+        "textAlign": "center",
         "width": "90%",
       }
     }
   >
-    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+    Enter the password to decrypt your wallet.
   </Text>
   <View
     style={

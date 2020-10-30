@@ -26,8 +26,8 @@ export const ImportWallet = ({ navigation }: { navigation: any }) => {
             if (status == "never_ask_again") {
                 dialogContext.dispatch(
                     Dialog.open(
-                        "Setting",
-                        "Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.",
+                        "Open settings",
+                        "If you want to import a file then open the application settings and give it access to the storage.",
                         () => dialogContext.dispatch(Dialog.close())
                     )
                 )

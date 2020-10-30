@@ -38,7 +38,7 @@ it('Test save click copy', () => {
   fireEvent.press(component.getByText('Copy'));
   expect(Clipboard.setString).toBeCalledWith(seed);
   expect(showMessage).toBeCalledWith({
-    message: "Seed copied (не забудте удалить из буфера обмена)",
+    message: "Seed is copied. Don't forget to remove it from your clipboard!",
     type: "info",
     icon: "info"
   });

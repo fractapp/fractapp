@@ -46,14 +46,18 @@ export const WalletFileBackup = ({ route }: { route: any }) => {
             switch (type) {
                 case backupUtil.BackupType.File:
                     dialogContext.dispatch(
-                        Dialog.open("Success save file", `Save your wallet in a safe place. File: ${info.fileName}`, signIn)
+                        Dialog.open(
+                            "Success save wallet",
+                            `If you lose access to file then you will not be able to restore access to the wallet. File "${info.fileName}" saved in "Downloads" directory`,
+                            signIn
+                        )
                     )
                     break
                 case backupUtil.BackupType.GoogleDrive:
                     dialogContext.dispatch(
                         Dialog.open(
-                            "Success google drive",
-                            `Save your wallet in a safe place. Folder: ${backupUtil.GoogleDriveFolder}. File: ${info.fileName}`,
+                            "Success save wallet",
+                            `If you lose access to file then you will not be able to restore access to the wallet. File "${info.fileName}" saved in "${backupUtil.GoogleDriveFolder}" directory`,
                             signIn
                         )
                     )

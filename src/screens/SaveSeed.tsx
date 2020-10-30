@@ -23,7 +23,7 @@ export const SaveSeed = ({ navigation, route }: { navigation: any, route: any })
             <Text style={styles.copy} onPress={() => {
                 Clipboard.setString(seed.join(" "));
                 showMessage({
-                    message: "Seed copied (не забудте удалить из буфера обмена)",
+                    message: "Seed is copied. Don't forget to remove it from your clipboard!",
                     type: "info",
                     icon: "info"
                 })

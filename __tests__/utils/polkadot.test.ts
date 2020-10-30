@@ -21,7 +21,7 @@ it('Test get instance polkadot', async () => {
 
     const api = await Api.getInstance(Currency.Polkadot)
     expect(api).toStrictEqual(
-        new Api(await ApiPromise.create(), Currency.Polkadot, "https://explorer-31.polkascan.io/polkadot", new BN(12))
+        new Api(await ApiPromise.create(), Currency.Polkadot, "https://explorer-31.polkascan.io/polkadot", new BN(10))
     )
 });
 
@@ -31,15 +31,15 @@ it('Test get instance kusams', async () => {
 
     const api = await Api.getInstance(Currency.Kusama)
     expect(api).toStrictEqual(
-        new Api(await ApiPromise.create(), Currency.Kusama, "https://explorer-31.polkascan.io/kusama", new BN(10))
+        new Api(await ApiPromise.create(), Currency.Kusama, "https://explorer-31.polkascan.io/kusama", new BN(12))
     )
 });
 
 it('Test get instance convertFromPlanck', async () => {
     const api = await Api.getInstance(Currency.Kusama)
-    expect(api.convertFromPlanck(new BN("100000000000"))).toBe(10)
-    expect(api.convertFromPlanck(new BN("1000000000"))).toBe(0.1)
-    expect(api.convertFromPlanck(new BN("250000000000"))).toBe(25)
+    expect(api.convertFromPlanck(new BN("10000000000000"))).toBe(10)
+    expect(api.convertFromPlanck(new BN("100000000000"))).toBe(0.1)
+    expect(api.convertFromPlanck(new BN("25000000000000"))).toBe(25)
 });
 
 it('Test get instance getTransactions', async () => {

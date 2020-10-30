@@ -30,12 +30,12 @@ export class Api {
           case Currency.Polkadot:
             apiUrl = "wss://rpc.polkadot.io"
             explorerApiUrl = "https://explorer-31.polkascan.io/polkadot"
-            decimals = new BN(12)
+            decimals = new BN(10)
             break;
           case Currency.Kusama:
             apiUrl = "wss://kusama-rpc.polkadot.io"
             explorerApiUrl = "https://explorer-31.polkascan.io/kusama"
-            decimals = new BN(10);
+            decimals = new BN(12);
             break;
           default:
             throw ("Invalid currency")

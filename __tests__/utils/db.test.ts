@@ -2,7 +2,7 @@ import SecureStorage from 'react-native-sensitive-info'
 import { Keyring } from '@polkadot/api';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 import { Currency } from 'models/wallet';
-import { createAccounts, currentAccountsStore } from 'utils/db';
+import db from 'utils/db';
 import { Account } from 'models/account';
 
 jest.mock('react-native-sensitive-info', () => ({
@@ -46,10 +46,10 @@ it('Test creact accounts', async () => {
         })
 
     const seed = "seed"
-    await createAccounts(seed)
+    await db.createAccounts(seed)
 
-    expect(SecureStorage.setItem).toBeCalledWith(`account_${polkadotAddress}`, JSON.stringify(polkadot), currentAccountsStore);
-    expect(SecureStorage.setItem).toBeCalledWith(`account_${kusamatAddress}`, JSON.stringify(kusama), currentAccountsStore);
-    expect(SecureStorage.setItem).toBeCalledWith("accounts", JSON.stringify([polkadotAddress, kusamatAddress]), currentAccountsStore);
-    expect(SecureStorage.setItem).toBeCalledWith("seed", seed, currentAccountsStore);
+    expect(SecureStorage.setItem).toBeCalledWith(`account_${polkadotAddress}`, JSON.stringify(polkadot), db.currentAccountsStore);
+    expect(SecureStorage.setItem).toBeCalledWith(`account_${kusamatAddress}`, JSON.stringify(kusama), db.currentAccountsStore);
+    expect(SecureStorage.setItem).toBeCalledWith("accounts", JSON.stringify([polkadotAddress, kusamatAddress]), db.currentAccountsStore);
+    expect(SecureStorage.setItem).toBeCalledWith("seed", seed, db.currentAccountsStore);
 });

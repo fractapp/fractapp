@@ -1,6 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
+/**
+ * Button with words from bip39
+ * @category Components
+ */
 export const SeedButton = ({ prefix, text, onPress }: { prefix: string, text: string, onPress: () => void }) => {
     return (
         <TouchableOpacity activeOpacity={1} style={styles.button} onPress={onPress}>
@@ -19,7 +23,7 @@ const styles = StyleSheet.create({
 
         paddingLeft: 10,
         paddingRight: 10,
-        
+
         borderColor: "#888888",
         borderWidth: 0.5,
         backgroundColor: "white",

@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { SplashScreen } from 'components';
+import { SplashScreen } from 'screens/SplashScreen';
 
 it('Test positive', () => {
   const tree = renderer

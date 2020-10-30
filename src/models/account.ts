@@ -1,5 +1,8 @@
 import { Currency } from "./wallet";
 
+/**
+ * @category Models
+ */
 export class Account {
     name: string;
     address: string;

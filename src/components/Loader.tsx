@@ -1,6 +1,10 @@
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
+/**
+ * Basic loader
+ * @category Components
+ */
 export const Loader = () => {
     return (
         <View style={{ flex: 1, justifyContent: "center" }}>

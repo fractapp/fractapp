@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text, PermissionsAndroid } from 'react-native';
 import { WhiteButton, Img } from 'components';
 import { mnemonicGenerate } from '@polkadot/util-crypto';
-import { BackupType } from 'utils/backup'
-import { signIn, signOut } from 'utils/google';
-import * as Dialog from 'storage/Dialog'
+import backupUtil from 'utils/backup';
+import googleUtil from 'utils/google';
+import Dialog from 'storage/Dialog'
 
 export const SaveWallet = ({ navigation }: { navigation: any }) => {
     const seed = mnemonicGenerate().split(" ")
@@ -38,14 +38,14 @@ export const SaveWallet = ({ navigation }: { navigation: any }) => {
         }
 
         if (isGaranted)
-            navigation.navigate("WalletFileBackup", { seed: seed, type: BackupType.File })
+            navigation.navigate("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.File })
 
     }
 
-    const backupGoogleDisk = async () => {
-        await signOut()
-        await signIn()
-        navigation.navigate("WalletFileBackup", { seed: seed, type: BackupType.GoogleDisk })
+    const backupGoogleDrive = async () => {
+        await googleUtil.signOut()
+        await googleUtil.signIn()
+        navigation.navigate("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.GoogleDrive })
     }
 
     return (
@@ -71,10 +71,10 @@ export const SaveWallet = ({ navigation }: { navigation: any }) => {
                 {
                     <View style={{ marginTop: 20, width: "90%" }} >
                         <WhiteButton
-                            text={"Google disk"}
-                            img={Img.GoogleDisk}
+                            text={"Google drive"}
+                            img={Img.GoogleDrive}
                             height={50}
-                            onPress={backupGoogleDisk}
+                            onPress={backupGoogleDrive}
                         />
                     </View>
                 }

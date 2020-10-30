@@ -4,6 +4,10 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { BlueButton } from "components"
 import PopDialog, { DialogContent } from 'react-native-popup-dialog';
 
+/**
+ * Popup dialog component with 1 button  
+ * @category Components
+ */
 export const Dialog = ({ title, text, visible, onPress }: { title: string, text: string, visible: boolean, onPress: () => void }) => {
     return (
         <PopDialog

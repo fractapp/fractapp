@@ -1,9 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { color } from 'react-native-reanimated';
 import { Currency } from '../models/wallet'
 
+/**
+ * Bar with currency share in wallets
+ * @category Components
+ */
 export const StatisticsBar = ({ distribution }: { distribution: Map<Currency, number> }) => {
     const defaultColor = "#CCCCCC"
     let total = 0;

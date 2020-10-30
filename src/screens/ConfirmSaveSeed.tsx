@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { BlueButton, SeedButton, Loader } from 'components';
-import { createAccounts } from 'utils/db'
-import * as Auth from 'storage/Auth'
+import db from 'utils/db'
+import Auth from 'storage/Auth'
 
 export const ConfirmSaveSeed = ({ route }: { route: any }) => {
     const seed = route.params.seed
@@ -23,7 +23,7 @@ export const ConfirmSaveSeed = ({ route }: { route: any }) => {
         if (!isSaveSeed)
             return
 
-        createAccounts(seed.join(" ")).then(async () => {
+        db.createAccounts(seed.join(" ")).then(async () => {
             authContext.dispatch(Auth.signIn());
             setLoading(false)
         })

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ConfirmSaveSeed } from 'screens/ConfirmSaveSeed';
 import renderer from 'react-test-renderer';
-import * as AuthStore from 'storage/Auth'
+import AuthStore from 'storage/Auth'
 
 jest.mock('utils/polkadot', () => { })
 jest.mock('react', () => ({

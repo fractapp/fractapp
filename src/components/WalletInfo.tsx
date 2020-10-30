@@ -2,6 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import { getLogo, getSymbol, Wallet } from 'models/wallet';
 
+/**
+ * Component with wallet information 
+ * @category Components
+ */
 export const WalletInfo = ({ wallet, onPress }: { wallet: Wallet, onPress: () => void }) => {
     const symbol = getSymbol(wallet.currency)
     return (

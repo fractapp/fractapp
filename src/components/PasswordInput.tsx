@@ -1,12 +1,15 @@
 import React from 'react';
-import ReactNative, { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
-
+/**
+ * Text input for password
+ * @category Components
+ */
 export const PasswordInput = ({ placeholder, defaultValue = "", width = "100%", onChangeText }:
     { placeholder: string, defaultValue?: string, width?: string, onChangeText: (text: string) => void }) => {
 
     return (
-        <ReactNative.TextInput
+        <TextInput
             style={[styles.input, { width: width }]}
             onChangeText={onChangeText}
             placeholder={placeholder}

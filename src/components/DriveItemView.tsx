@@ -3,10 +3,14 @@ import { StyleSheet, View, Text } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { DiskItem } from 'models/google'
+import { DriveItem } from 'models/google'
 import { Type } from 'models/google'
 
-export const DiskItemView = ({ item, onPress }: { item: DiskItem, onPress: () => void }) => (
+/**
+ * Drive item component for google drive
+ * @category Components
+ */
+export const DriveItemView = ({ item, onPress }: { item: DriveItem, onPress: () => void }) => (
     <TouchableOpacity style={styles.item} onPress={onPress}>
         <View style={{ flexDirection: "row" }}>
             {

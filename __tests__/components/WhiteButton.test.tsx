@@ -16,9 +16,9 @@ it('Test height=40 && text="Text #2" && width=50 && img=default', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test img=GoogleDisk', () => {
+it('Test img=GoogleDrive', () => {
   const tree = renderer
-    .create(<WhiteButton text="Text" height={40} img={Img.GoogleDisk} onPress={()=>console.log("click")} />)
+    .create(<WhiteButton text="Text" height={40} img={Img.GoogleDrive} onPress={()=>console.log("click")} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -198,7 +198,7 @@ exports[`Test positive 1`] = `
         <Image
           source={
             Object {
-              "testUri": "../../../assets/img/google-disk.png",
+              "testUri": "../../../assets/img/google-drive.png",
             }
           }
           style={
@@ -225,7 +225,7 @@ exports[`Test positive 1`] = `
             }
           }
         >
-          Google disk
+          Google drive
         </Text>
       </View>
     </View>

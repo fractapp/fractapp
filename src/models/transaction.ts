@@ -1,12 +1,18 @@
-import { ImageSourcePropType } from "react-native";
 import { Currency } from "./wallet";
 
+/**
+ * Transaction type
+ * @category Models
+ */
 export enum TxType {
     None = 0,
     Sent,
     Received
 }
 
+/**
+ * @category Models
+ */
 export class Transaction {
     id: string;
     member: string;

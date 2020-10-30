@@ -1,11 +1,11 @@
-import { open, close, Action, reducer, initialState } from 'storage/Dialog'
+import Dialog from 'storage/Dialog'
 
 it('Test open', async () => {
     const title = "title"
     const text = "text"
     const onPress = () => { }
-    expect(open(title, text, onPress)).toStrictEqual({
-        type: Action.OPEN,
+    expect(Dialog.open(title, text, onPress)).toStrictEqual({
+        type: Dialog.Action.OPEN,
         title: title,
         text: text,
         onPress: onPress
@@ -13,8 +13,8 @@ it('Test open', async () => {
 });
 
 it('Test close', async () => {
-    expect(close()).toStrictEqual({
-        type: Action.CLOSE
+    expect(Dialog.close()).toStrictEqual({
+        type: Dialog.Action.CLOSE
     })
 });
 
@@ -22,9 +22,9 @@ it('Test reducer open', async () => {
     const title = "title"
     const text = "text"
     const onPress = () => { }
-    const ac = open(title, text, onPress)
+    const ac = Dialog.open(title, text, onPress)
 
-    expect(reducer(initialState, ac)).toStrictEqual({
+    expect(Dialog.reducer(Dialog.initialState, ac)).toStrictEqual({
         dialog: {
             visible: true,
             title: ac.title,
@@ -39,10 +39,10 @@ it('Test reducer close', async () => {
     const title = "title"
     const text = "text"
     const onPress = () => { }
-    const ac = open(title, text, onPress)
-    const prevState = reducer(initialState, ac)
+    const ac = Dialog.open(title, text, onPress)
+    const prevState = Dialog.reducer(Dialog.initialState, ac)
 
-    expect(reducer(prevState, close())).toStrictEqual({
+    expect(Dialog.reducer(prevState, Dialog.close())).toStrictEqual({
         dialog: {
             visible: false,
             title: ac.title,

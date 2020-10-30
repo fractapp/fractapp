@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest --verbose",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "doc": "typedoc --out docs ./src/components/index.tsx ./src/models ./src/storage ./src/utils --mode file --ignoreCompilerErrors "
   },
   "dependencies": {
     "@polkadot/api": "^2.0.1",

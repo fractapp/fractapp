@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { BlueButton } from 'components';
 import { mnemonicValidate } from '@polkadot/util-crypto';
 import { Loader } from 'components'
-import * as Auth from 'storage/Auth'
-import * as db from 'utils/db'
+import Auth from 'storage/Auth'
+import db from 'utils/db'
 
 export const ImportSeed = () => {
     const authContext = useContext(Auth.Context)

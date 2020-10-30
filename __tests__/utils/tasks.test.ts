@@ -1,10 +1,9 @@
-import BackgroundTimer from 'react-native-background-timer';
-import * as db from 'utils/db'
+import db from 'utils/db'
 import * as polkadot from 'utils/polkadot'
-import { createTask } from 'utils/tasks'
-import * as AccountsStore from 'storage/Accounts'
-import * as PricesStore from 'storage/Prices'
-import { Currency, getSymbol } from 'models/wallet';
+import tasks from 'utils/tasks'
+import AccountsStore from 'storage/Accounts'
+import PricesStore from 'storage/Prices'
+import { Currency } from 'models/wallet';
 import { Account } from 'models/account';
 
 global.fetch = jest.fn()
@@ -48,7 +47,7 @@ it('Test create task', async () => {
         })
     })
 
-    await createTask(accountDispatch, pricesDispatch)
+    await tasks.createTask(accountDispatch, pricesDispatch)
 
     expect(accountDispatch).toBeCalledWith({
         type: AccountsStore.Action.ADD_ACCOUNT,
@@ -77,5 +76,5 @@ it('Test create task throw', async () => {
         })
     })
 
-    expect(createTask(accountDispatch, priceDispatch)).rejects.toThrow('accounts not found')
+    expect(tasks.createTask(accountDispatch, priceDispatch)).rejects.toThrow('accounts not found')
 });

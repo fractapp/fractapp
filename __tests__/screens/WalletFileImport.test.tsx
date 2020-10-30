@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { WalletFileImport } from 'screens/WalletFileImport';
 import renderer from 'react-test-renderer';
-import * as AuthStore from 'storage/Auth'
+import AuthStore from 'storage/Auth'
 
 jest.mock('utils/db', () => ({
     createAccounts: async (seed: string) => { }

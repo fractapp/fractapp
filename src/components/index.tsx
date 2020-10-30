@@ -7,6 +7,5 @@ export { TransactionInfo } from './TransactionInfo';
 export { WalletInfo } from './WalletInfo';
 export { WalletDetailsInfo } from './WalletDetailsInfo';
 export { Dialog } from './Dialog'
-export { SplashScreen } from './SplashScreen'
 export { Loader } from './Loader'
-export { DiskItemView } from './DiskItemView'
+export { DriveItemView } from './DriveItemView'

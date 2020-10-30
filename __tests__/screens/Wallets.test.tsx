@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wallets } from 'screens/Wallets';
-import * as AccountsStore from 'storage/Accounts'
-import * as PricesStore from 'storage/Prices'
+import AccountsStore from 'storage/Accounts'
+import PricesStore from 'storage/Prices'
 import { Currency, Wallet } from 'models/wallet';
 import renderer from 'react-test-renderer';
 import { Account } from 'models/account';

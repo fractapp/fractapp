@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, BackHandler, Alert } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { DiskItem, BackItemId } from 'models/google'
+import { DriveItem, BackItemId } from 'models/google'
 import { FileBackup } from 'models/backup';
 import { Type } from 'models/google'
-import { Loader, DiskItemView } from 'components'
-import { getItems, getFileBackup } from 'utils/google'
+import { Loader, DriveItemView } from 'components'
+import googleUtil from 'utils/google'
 
-export const GoogleDiskPicker = ({ navigation }: { navigation: any }) => {
+export const GoogleDrivePicker = ({ navigation }: { navigation: any }) => {
     const [paths, setPaths] = useState<Array<string>>(new Array("root"))
-    const [items, setItems] = useState<Array<DiskItem>>()
+    const [items, setItems] = useState<Array<DriveItem>>()
     const [isLoading, setLoading] = useState<boolean>(true)
 
     const update = async () => {
         const last = paths[paths.length - 1]
 
-        const items = await getItems(last)
-        await setItems(paths.length > 1 ? [new DiskItem(BackItemId, "...", Type.Dir), ...items] : items)
+        const items = await googleUtil.getItems(last)
+        await setItems(paths.length > 1 ? [new DriveItem(BackItemId, "...", Type.Dir), ...items] : items)
     }
 
     const openJson = async (id: string) => {
         try {
             let file: FileBackup;
             try {
-                file = await getFileBackup(id)
+                file = await googleUtil.getFileBackup(id)
             } catch (err) {
                 Alert.alert("Error", "Invalid file")
                 console.log(err)
@@ -79,7 +79,7 @@ export const GoogleDiskPicker = ({ navigation }: { navigation: any }) => {
                 data={items}
                 renderItem={
                     (item) =>
-                        <DiskItemView
+                        <DriveItemView
                             item={item.item}
                             onPress={() => item.item.id != BackItemId ? open(item.item.id, item.item.type) : back()}
                         />

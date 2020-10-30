@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, ViewComponent, Alert } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { BlueButton, SeedButton } from 'components';
 import { showMessage } from "react-native-flash-message";
 import Clipboard from '@react-native-community/clipboard';

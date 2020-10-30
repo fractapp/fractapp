@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { BlueButton, PasswordInput, Loader } from 'components';
-import { createAccounts } from 'utils/db'
-import { getSeed } from 'utils/backup'
+import db from 'utils/db'
+import backupUtil from 'utils/backup';
 import { FileBackup } from 'models/backup';
-import * as Auth from 'storage/Auth'
+import Auth from 'storage/Auth'
 
 export const WalletFileImport = ({ route }: { route: any }) => {
     const authContext = useContext(Auth.Context)
@@ -27,14 +27,14 @@ export const WalletFileImport = ({ route }: { route: any }) => {
         (async () => {
             let seed = ""
             try {
-                seed = await getSeed(file, password)
+                seed = await backupUtil.getSeed(file, password)
             } catch (e) {
                 console.log(e)
                 Alert.alert("Invalid password")
                 return
             }
 
-            await createAccounts(seed)
+            await db.createAccounts(seed)
             authContext.dispatch(Auth.signIn());
         })()
 
@@ -47,7 +47,7 @@ export const WalletFileImport = ({ route }: { route: any }) => {
     return (
         <View style={{ flexDirection: "column", flex: 1, alignItems: "center", marginTop: 40 }}>
             <Text style={styles.title}>Wallet decryption</Text>
-            <Text style={styles.description}>Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.</Text>
+            <Text style={styles.description}>Enter the password to decrypt your wallet.</Text>
 
             <View style={styles.newPassword}>
                 <PasswordInput
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
         color: "#2AB2E2",
     },
     description: {
+        textAlign: 'center',
         width: '90%',
         marginTop: 40,
         fontSize: 15,

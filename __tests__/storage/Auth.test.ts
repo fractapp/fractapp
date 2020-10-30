@@ -1,21 +1,21 @@
-import { signIn, signOut, Action, reducer, initialState } from 'storage/Auth'
+import Auth from 'storage/Auth'
 
 it('Test sigIn', async () => {
-    expect(signIn()).toStrictEqual({
-        type: Action.SIGN_IN
+    expect(Auth.signIn()).toStrictEqual({
+        type: Auth.Action.SIGN_IN
     })
 });
 
 it('Test signOut', async () => {
-    expect(signOut()).toStrictEqual({
-        type: Action.SIGN_OUT
+    expect(Auth.signOut()).toStrictEqual({
+        type: Auth.Action.SIGN_OUT
     })
 });
 
 it('Test reducer signIn', async () => {
-    expect(reducer(initialState, signIn())?.isSign).toStrictEqual(true)
+    expect(Auth.reducer(Auth.initialState, Auth.signIn())?.isSign).toStrictEqual(true)
 });
 
 it('Test reducer signOut', async () => {
-    expect(reducer(initialState, signOut())?.isSign).toStrictEqual(false)
+    expect(Auth.reducer(Auth.initialState, Auth.signOut())?.isSign).toStrictEqual(false)
 });

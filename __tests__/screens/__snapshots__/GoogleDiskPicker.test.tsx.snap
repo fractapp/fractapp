@@ -26,17 +26,17 @@ exports[`Test deep dir 1`] = `
     collapsable={false}
     data={
       Array [
-        DiskItem {
+        DriveItem {
           "id": "dir#3",
           "title": "dir#3",
           "type": 0,
         },
-        DiskItem {
+        DriveItem {
           "id": "json#1",
           "title": "json#1",
           "type": 1,
         },
-        DiskItem {
+        DriveItem {
           "id": "json#2",
           "title": "json#2",
           "type": 1,
@@ -320,27 +320,27 @@ exports[`Test root dir 1`] = `
     collapsable={false}
     data={
       Array [
-        DiskItem {
+        DriveItem {
           "id": "dir#1",
           "title": "dir#1",
           "type": 0,
         },
-        DiskItem {
+        DriveItem {
           "id": "dir#2",
           "title": "dir#2",
           "type": 0,
         },
-        DiskItem {
+        DriveItem {
           "id": "dir#3",
           "title": "dir#3",
           "type": 0,
         },
-        DiskItem {
+        DriveItem {
           "id": "json#1",
           "title": "json#1",
           "type": 1,
         },
-        DiskItem {
+        DriveItem {
           "id": "json#2",
           "title": "json#2",
           "type": 1,

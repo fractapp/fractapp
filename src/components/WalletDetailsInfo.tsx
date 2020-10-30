@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import { getLogo, getSymbol, Wallet } from 'models/wallet'
 
+/**
+ * Component with wallet information for details screen
+ * @category Components
+ */
 export const WalletDetailsInfo = ({ wallet }: { wallet: Wallet }) => {
     return (
         <View style={styles.accountInfo}>

@@ -3,19 +3,26 @@ import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+/**
+ * Image type
+ * @category Components
+ */
 export enum Img {
     None,
-    GoogleDisk,
+    GoogleDrive,
     File,
     Key,
     Copy
 }
 
+/**
+ * @category Components
+ */
 export const WhiteButton = ({ text, height, onPress, img = Img.None, width = "100%" }: { text: string, height: number, img?: Img, width?: string, onPress: () => void }) => {
     let imageView: any
     switch (img) {
-        case Img.GoogleDisk:
-            imageView = <Image source={require("assets/img/google-disk.png")} style={[styles.img, { width: 30, height: 30 }]} />
+        case Img.GoogleDrive:
+            imageView = <Image source={require("assets/img/google-drive.png")} style={[styles.img, { width: 30, height: 30 }]} />
             break;
         case Img.File:
             imageView = <MaterialIcons name="folder-open" size={30} color="#888888" style={styles.img} />

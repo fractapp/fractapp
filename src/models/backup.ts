@@ -1,3 +1,7 @@
+/**
+ * File backup model
+ * @category Models
+ */
 export class FileBackup {
     seed: string;
     algorithm: string;

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { mnemonicValidate } from '@polkadot/util-crypto';
 import { ImportSeed } from 'screens/ImportSeed';
 import renderer from 'react-test-renderer';
-import * as AuthStore from 'storage/Auth'
+import AuthStore from 'storage/Auth'
 
 jest.mock('react-native-crypto', () => { })
 jest.mock('utils/db', () => ({

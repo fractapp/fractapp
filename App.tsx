@@ -12,17 +12,17 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import {
   Wallets, Start, SettingWallet, ImportWallet, SaveWallet,
   ConfirmSaveSeed, WalletFileBackup, SaveSeed, WalletDetails,
-  ImportSeed, WalletFileImport, GoogleDiskPicker,
-  Receive, Milestone, TransactionDetails
+  ImportSeed, WalletFileImport, GoogleDrivePicker,
+  Receive, Milestone, TransactionDetails, SplashScreen
 } from 'screens'
-import { Dialog, SplashScreen } from 'components'
-import * as db from 'utils/db'
-import * as tasks from 'utils/tasks'
-import * as AuthStore from 'storage/Auth'
-import * as DialogStore from 'storage/Dialog'
-import * as AccountsStore from 'storage/Accounts'
-import * as PricesStore from 'storage/Prices'
-import { Currency, getSymbol } from "models/wallet";
+import { Dialog } from 'components'
+import db from 'utils/db'
+import tasks from 'utils/tasks'
+import AuthStore from 'storage/Auth'
+import DialogStore from 'storage/Dialog'
+import AccountsStore from 'storage/Accounts'
+import PricesStore from 'storage/Prices'
+import { getSymbol } from "models/wallet";
 import changeNavigationBarColor, { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
 
 const Tab = createBottomTabNavigator();
@@ -96,7 +96,7 @@ export default function App() {
                       <RootStack.Screen options={{ headerShown: false }} name="ConfirmSaveSeed" component={ConfirmSaveSeed} />
                       <RootStack.Screen options={{ headerShown: false }} name="ImportSeed" component={ImportSeed} />
                       <RootStack.Screen options={{ headerShown: false }} name="WalletFileImport" component={WalletFileImport} />
-                      <RootStack.Screen options={{ headerShown: false }} name="GoogleDiskPicker" component={GoogleDiskPicker} />
+                      <RootStack.Screen options={{ headerShown: false }} name="GoogleDrivePicker" component={GoogleDrivePicker} />
                     </>
                     :
                     <>

@@ -1,4 +1,4 @@
-import { signOut, signIn, safeSave, getItems, getFileBackup } from 'utils/google';
+import googleUtil from 'utils/google'
 import { GoogleSignin } from '@react-native-community/google-signin';
 import GDrive from "react-native-google-drive-api-wrapper";
 import { FileBackup } from 'models/backup';
@@ -31,7 +31,7 @@ jest.mock('react-native-google-drive-api-wrapper', () => ({
 it('Test signOut isSigned=false', async () => {
     GoogleSignin.isSignedIn.mockReturnValueOnce(false)
 
-    await signOut()
+    await googleUtil.signOut()
     expect(GoogleSignin.getTokens).not.toBeCalled()
 });
 
@@ -41,7 +41,7 @@ it('Test signOut isSigned=true', async () => {
     const accessToken = "accessToken"
     GoogleSignin.getTokens.mockReturnValueOnce({ accessToken: accessToken })
 
-    await signOut()
+    await googleUtil.signOut()
     expect(GoogleSignin.clearCachedAccessToken).toBeCalledWith(accessToken)
     expect(GoogleSignin.signOut).toBeCalled()
 });
@@ -57,7 +57,7 @@ it('Test safeSave fieldId != undefined', async () => {
         .mockReturnValueOnce(fieldIdDir)
         .mockReturnValueOnce(fieldId)
 
-    const isSuccess = await safeSave(dir, fileName, file)
+    const isSuccess = await googleUtil.safeSave(dir, fileName, file)
     expect(isSuccess).toBe(true)
 
     expect(GDrive.files.safeCreateFolder).toBeCalledWith({
@@ -81,7 +81,7 @@ it('Test safeSave fieldId == undefined', async () => {
     GDrive.files.createFileMultipart
         .mockReturnValueOnce({ status: 200 })
 
-    const isSuccess = await safeSave(dir, fileName, file)
+    const isSuccess = await googleUtil.safeSave(dir, fileName, file)
     expect(isSuccess).toBe(true)
 
     expect(GDrive.files.safeCreateFolder).toBeCalledWith({
@@ -113,7 +113,7 @@ it('Test safeSave fieldId == undefined && status != 200', async () => {
     GDrive.files.createFileMultipart
         .mockReturnValueOnce({ status: 404 })
 
-    const isSuccess = await safeSave(dir, fileName, file)
+    const isSuccess = await googleUtil.safeSave(dir, fileName, file)
     expect(isSuccess).toBe(false)
 
     expect(GDrive.files.safeCreateFolder).toBeCalledWith({
@@ -138,7 +138,7 @@ it('Test signIn user!=null&&isSigned=true', async () => {
     const accessToken = "accessToken"
     GoogleSignin.getTokens.mockReturnValueOnce({ accessToken: accessToken })
 
-    await signIn()
+    await googleUtil.signIn()
     expect(GDrive.setAccessToken).toBeCalledWith(accessToken)
     expect(GDrive.init).toBeCalled()
     expect(GoogleSignin.signIn).not.toBeCalledWith()
@@ -151,7 +151,7 @@ it('Test signIn user=null&&isSigned=false', async () => {
     const accessToken = "accessToken"
     GoogleSignin.getTokens.mockReturnValueOnce({ accessToken: accessToken })
 
-    await signIn()
+    await googleUtil.signIn()
     expect(GDrive.setAccessToken).toBeCalledWith(accessToken)
     expect(GDrive.init).toBeCalled()
     expect(GoogleSignin.signIn).toBeCalled()
@@ -179,7 +179,7 @@ it('Test getItems', async () => {
         })
     })
 
-    const items = await getItems(path)
+    const items = await googleUtil.getItems(path)
     for (let i = 0; i < items.length; i++) {
         expect(items[i].id).toBe(files[i].id)
         expect(items[i].title).toBe(files[i].name)
@@ -194,7 +194,7 @@ it('Test getFileBackup', async () => {
     const eFile = new FileBackup("seed", "algorithm")
     GDrive.files.get.mockReturnValueOnce({ json: () => eFile })
 
-    const file = await getFileBackup(id)
+    const file = await googleUtil.getFileBackup(id)
 
     expect(GDrive.files.get).toBeCalledWith(id, { alt: "media" })
     expect(file.seed).toBe(eFile.seed)
@@ -206,5 +206,5 @@ it('Test getFileBackup throw', async () => {
     const eFile = { a: "invalidFile" }
     GDrive.files.get.mockReturnValueOnce({ json: () => eFile })
 
-    expect(getFileBackup(id)).rejects.toThrow('invalid file')
+    expect(googleUtil.getFileBackup(id)).rejects.toThrow('invalid file')
 });

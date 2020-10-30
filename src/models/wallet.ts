@@ -1,10 +1,17 @@
 import { ImageSourcePropType } from "react-native";
 
+/**
+ * @category Models
+ */
 export enum Currency {
     Polkadot = 0,
     Kusama
 }
 
+/**
+ * get logo for wallet
+ * @category Models
+ */
 export function getLogo(currency: Currency) {
     let logo: ImageSourcePropType
     switch (currency) {
@@ -19,6 +26,11 @@ export function getLogo(currency: Currency) {
     }
     return logo
 }
+
+/**
+ * get symbol for wallet
+ * @category Models
+ */
 export function getSymbol(currency: Currency) {
     let symbol = ""
     switch (currency) {
@@ -34,6 +46,9 @@ export function getSymbol(currency: Currency) {
     return symbol
 }
 
+/**
+ * @category Models
+ */
 export class Wallet {
     name: string;
     address: string;

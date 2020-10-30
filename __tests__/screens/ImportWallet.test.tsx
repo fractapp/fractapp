@@ -3,10 +3,10 @@ import { PermissionsAndroid } from 'react-native'
 import { render, fireEvent } from '@testing-library/react-native';
 import { ImportWallet } from 'screens/ImportWallet';
 import renderer from 'react-test-renderer';
-import * as DialogStore from 'storage/Dialog'
-import { signIn, signOut } from 'utils/google'
+import DialogStore from 'storage/Dialog'
+import googleUtil from 'utils/google'
 import DocumentPicker from 'react-native-document-picker';
-import { getFile } from 'utils/backup';
+import backupUtil from 'utils/backup';
 import { FileBackup } from 'models/backup';
 
 jest.mock('react-native', () => {
@@ -49,7 +49,7 @@ it('Test positive', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test click google disk', async () => {
+it('Test click google drive', async () => {
   const mockFn = jest.fn()
   const component = render(
     <DialogStore.Context.Provider value={{
@@ -63,10 +63,10 @@ it('Test click google disk', async () => {
     </DialogStore.Context.Provider>
   )
 
-  await fireEvent.press(component.getByText('Google disk'));
-  expect(signOut).toBeCalled()
-  expect(signIn).toBeCalled()
-  expect(mockFn).toBeCalledWith("GoogleDiskPicker")
+  await fireEvent.press(component.getByText('Google drive'));
+  expect(googleUtil.signOut).toBeCalled()
+  expect(googleUtil.signIn).toBeCalled()
+  expect(mockFn).toBeCalledWith("GoogleDrivePicker")
 });
 
 it('Test click enter seed', () => {
@@ -97,7 +97,7 @@ it('Test click from file isGaranted=false', async () => {
   })
 
   const file = new FileBackup("seed", "algorithm")
-  getFile.mockReturnValueOnce(file)
+  backupUtil.getFile.mockReturnValueOnce(file)
   const component = render(
     <DialogStore.Context.Provider value={{
       dialog: {
@@ -115,7 +115,7 @@ it('Test click from file isGaranted=false', async () => {
 
   expect(PermissionsAndroid.requestMultiple).toBeCalledWith(["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"])
   expect(DocumentPicker.pick).not.toBeCalled()
-  expect(getFile).not.toBeCalled()
+  expect(backupUtil.getFile).not.toBeCalled()
   expect(mockNavFn).not.toBeCalledWith("WalletFileImport", { file: file })
 });
 
@@ -129,7 +129,7 @@ it('Test click from file isGaranted=false && open dialog', async () => {
   })
 
   const file = new FileBackup("seed", "algorithm")
-  getFile.mockReturnValueOnce(file)
+  backupUtil.getFile.mockReturnValueOnce(file)
   const component = render(
     <DialogStore.Context.Provider value={{
       dialog: {
@@ -148,7 +148,7 @@ it('Test click from file isGaranted=false && open dialog', async () => {
   expect(PermissionsAndroid.requestMultiple).toBeCalledWith(["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"])
   expect(mockDispatchFn).toBeCalled()
   expect(DocumentPicker.pick).not.toBeCalled()
-  expect(getFile).not.toBeCalled()
+  expect(backupUtil.getFile).not.toBeCalled()
   expect(mockNavFn).not.toBeCalledWith("WalletFileImport", { file: file })
 });
 
@@ -162,7 +162,7 @@ it('Test click from file isGaranted=true', async () => {
   })
 
   const file = new FileBackup("seed", "algorithm")
-  getFile.mockReturnValueOnce(file)
+  backupUtil.getFile.mockReturnValueOnce(file)
   DocumentPicker.pick.mockReturnValueOnce({ uri: "" })
   
   const component = render(
@@ -182,6 +182,6 @@ it('Test click from file isGaranted=true', async () => {
 
   expect(PermissionsAndroid.requestMultiple).toBeCalledWith(["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"])
   expect(DocumentPicker.pick).toBeCalled()
-  expect(getFile).toBeCalled()
+  expect(backupUtil.getFile).toBeCalled()
   expect(mockNavFn).toBeCalledWith("WalletFileImport", { file: file })
 });

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { WalletFileBackup } from 'screens/WalletFileBackup';
 import renderer from 'react-test-renderer';
-import { BackupType, GoogleDiskFolder } from 'utils/backup'
-import * as AuthStore from 'storage/Auth'
-import * as DialogStore from 'storage/Dialog'
+import backupUtil from 'utils/backup';
+import AuthStore from 'storage/Auth'
+import DialogStore from 'storage/Dialog'
 
 jest.mock('utils/db', () => ({
     createAccounts: async (seed: string) => { }
@@ -24,7 +24,7 @@ useState.mockImplementation(init => [init, jest.fn()])
 
 const params = {
     seed: "staff select toddler junior robot own paper sniff glare drive stay census".split(" "),
-    type: BackupType.File,
+    type: backupUtil.BackupType.File,
 }
 
 it('Test empty password', () => {

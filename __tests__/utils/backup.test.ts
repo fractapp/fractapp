@@ -1,9 +1,9 @@
 import { FileBackup } from 'models/backup';
 import crypto from 'react-native-crypto';
 import { mnemonicValidate } from '@polkadot/util-crypto';
-import { encrypt, decrypt, getFile, getSeed, backup, BackupType, GoogleDiskFolder } from 'utils/backup';
+import backupUtil from 'utils/backup';
 import RNFS from 'react-native-fs';
-import { signIn, safeSave } from 'utils/google'
+import googleUtil from 'utils/google'
 
 jest.mock('react-native-fs', () => ({
     DownloadDirectoryPath: "mockDir",
@@ -43,7 +43,7 @@ it('Test encrypt', async () => {
     const seed = "seed"
     const password = "password"
     mockUpdate.mockReturnValueOnce(encryptedSeed)
-    const file = await encrypt(seed, password)
+    const file = await backupUtil.encrypt(seed, password)
 
     expect(crypto.createCipher).toBeCalledWith(algorithm, password)
     expect(mockUpdate).toBeCalledWith(seed, 'utf-8', 'hex')
@@ -56,7 +56,7 @@ it('Test decrypt', async () => {
     const seed = "seed"
     const password = "password"
     mockUpdate.mockReturnValueOnce(seed)
-    const decryptedSeed = await decrypt(new FileBackup(encryptedSeed, algorithm), password)
+    const decryptedSeed = await backupUtil.decrypt(new FileBackup(encryptedSeed, algorithm), password)
 
     expect(crypto.createDecipher).toBeCalledWith(algorithm, password)
     expect(mockUpdate).toBeCalledWith(seed, 'utf-8', 'hex')
@@ -70,7 +70,7 @@ it('Test get seed', async () => {
 
     mockUpdate.mockReturnValueOnce(seed)
     mnemonicValidate.mockReturnValueOnce(true)
-    const decryptedSeed = await getSeed(new FileBackup(encryptedSeed, algorithm), password)
+    const decryptedSeed = await backupUtil.getSeed(new FileBackup(encryptedSeed, algorithm), password)
 
     expect(decryptedSeed).toBe(seed)
 });
@@ -83,7 +83,7 @@ it('Test get invalid seed', async () => {
     mockUpdate.mockReturnValueOnce(seed)
     mnemonicValidate.mockReturnValueOnce(false)
     expect(mnemonicValidate).toBeCalled()
-    expect(getSeed(new FileBackup(encryptedSeed, algorithm), password)).rejects.toThrow('invalid password')
+    expect(backupUtil.getSeed(new FileBackup(encryptedSeed, algorithm), password)).rejects.toThrow('invalid password')
 });
 
 it('Test get file', async () => {
@@ -91,7 +91,7 @@ it('Test get file', async () => {
     const fileJson = JSON.stringify(new FileBackup(seed, algorithm))
 
     RNFS.readFile.mockReturnValueOnce(fileJson)
-    const file = await getFile("filename.json")
+    const file = await backupUtil.getFile("filename.json")
 
     expect(file.algorithm).toBe(algorithm)
     expect(file.seed).toBe(seed)
@@ -104,7 +104,7 @@ it('Test backup file', async () => {
     const password = "password"
 
     mockUpdate.mockReturnValueOnce(encryptedSeed)
-    const file = await backup(seed, password, BackupType.File)
+    const file = await backupUtil.backup(seed, password, backupUtil.BackupType.File)
     const fileName = `fractapp-${mockHash}.json`
     expect(RNFS.writeFile).toBeCalledWith(
         `${RNFS.DownloadDirectoryPath}/${fileName}`,
@@ -123,7 +123,7 @@ it('Test backup file throw', async () => {
 
     mockUpdate.mockReturnValueOnce(encryptedSeed)
     RNFS.writeFile.mockImplementation(() => { throw ("error") })
-    const file = await backup(seed, password, BackupType.File)
+    const file = await backupUtil.backup(seed, password, backupUtil.BackupType.File)
 
     expect(file.isSuccess).toBe(false)
 })
@@ -133,17 +133,17 @@ it('Test backup google file', async () => {
     const seed = "seed"
     const password = "password"
 
-    safeSave.mockReturnValueOnce(true)
+    googleUtil.safeSave.mockReturnValueOnce(true)
     mockUpdate.mockReturnValueOnce(encryptedSeed)
-    const file = await backup(seed, password, BackupType.GoogleDisk)
+    const file = await backupUtil.backup(seed, password, backupUtil.BackupType.GoogleDrive)
     const fileName = `fractapp-${mockHash}.json`
-    expect(safeSave).toBeCalledWith(
-        GoogleDiskFolder,
+    expect(googleUtil.safeSave).toBeCalledWith(
+        backupUtil.GoogleDriveFolder,
         fileName,
         JSON.stringify(new FileBackup(encryptedSeed, algorithm))
     )
 
-    expect(signIn).toBeCalled()
+    expect(googleUtil.signIn).toBeCalled()
     expect(file.isSuccess).toBe(true)
 })
 
@@ -153,16 +153,16 @@ it('Test backup google file error', async () => {
     const seed = "seed"
     const password = "password"
 
-    safeSave.mockReturnValueOnce(false)
+    googleUtil.safeSave.mockReturnValueOnce(false)
     mockUpdate.mockReturnValueOnce(encryptedSeed)
-    const file = await backup(seed, password, BackupType.GoogleDisk)
+    const file = await backupUtil.backup(seed, password, backupUtil.BackupType.GoogleDrive)
     const fileName = `fractapp-${mockHash}.json`
-    expect(safeSave).toBeCalledWith(
-        GoogleDiskFolder,
+    expect(googleUtil.safeSave).toBeCalledWith(
+        backupUtil.GoogleDriveFolder,
         fileName,
         JSON.stringify(new FileBackup(encryptedSeed, algorithm))
     )
 
-    expect(signIn).toBeCalled()
+    expect(googleUtil.signIn).toBeCalled()
     expect(file.isSuccess).toBe(false)
 })

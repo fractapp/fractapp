@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { StyleSheet, View, Text, Alert, PermissionsAndroid } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import { WhiteButton, Img, } from 'components';
-import { getFile } from 'utils/backup'
+import backupUtil from 'utils/backup';
 import { FileBackup } from 'models/backup';
-import { signIn, signOut } from 'utils/google'
-import * as Dialog from 'storage/Dialog'
+import googleUtil from 'utils/google'
+import Dialog from 'storage/Dialog'
 
 export const ImportWallet = ({ navigation }: { navigation: any }) => {
     const dialogContext = useContext(Dialog.Context)
@@ -45,7 +45,7 @@ export const ImportWallet = ({ navigation }: { navigation: any }) => {
 
         let file: FileBackup;
         try {
-            file = await getFile(res.uri)
+            file = await backupUtil.getFile(res.uri)
         } catch (err) {
             Alert.alert("Error", "Invalid file")
             return
@@ -54,10 +54,10 @@ export const ImportWallet = ({ navigation }: { navigation: any }) => {
         navigation.navigate("WalletFileImport", { file: file })
     }
 
-    const openFileGoogleDiskPicker = async () => {
-        await signOut()
-        await signIn()
-        navigation.navigate("GoogleDiskPicker")
+    const openFileGoogleDrivePicker = async () => {
+        await googleUtil.signOut()
+        await googleUtil.signIn()
+        navigation.navigate("GoogleDrivePicker")
     }
 
     return (
@@ -82,10 +82,10 @@ export const ImportWallet = ({ navigation }: { navigation: any }) => {
                 {
                     <View style={{ marginTop: 20, width: "90%" }} >
                         <WhiteButton
-                            text={"Google disk"}
-                            img={Img.GoogleDisk}
+                            text={"Google drive"}
+                            img={Img.GoogleDrive}
                             height={50}
-                            onPress={() => openFileGoogleDiskPicker()}
+                            onPress={() => openFileGoogleDrivePicker()}
                         />
                     </View>
                 }

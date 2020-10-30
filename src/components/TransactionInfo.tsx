@@ -3,6 +3,10 @@ import { StyleSheet, View, Image, Text, TouchableHighlight, Alert } from 'react-
 import { Transaction, TxType } from '../models/transaction';
 import { getSymbol, getLogo } from '../models/wallet'
 
+/**
+ * Component with transaction information 
+ * @category Components
+ */
 export const TransactionInfo = ({ transaction, onPress }: { transaction: Transaction, onPress: () => void }) => {
     let prefix: string;
     let color: string;

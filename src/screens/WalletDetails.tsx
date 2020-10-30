@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { Transaction } from 'models/transaction';
 import { WalletDetailsInfo, TransactionInfo } from "components";
 import { Api } from "utils/polkadot"
-import * as dateUtils from 'utils/date'
+import dateUtils from 'utils/date'
 
 export const WalletDetails = ({ navigation, route }: { navigation: any, route: any }) => {
     const [transactions, setTransactions] = useState<Map<string, Transaction>>(new Map())

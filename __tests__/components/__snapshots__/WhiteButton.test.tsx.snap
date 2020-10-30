@@ -210,7 +210,7 @@ exports[`Test img=File 1`] = `
 </View>
 `;
 
-exports[`Test img=GoogleDisk 1`] = `
+exports[`Test img=GoogleDrive 1`] = `
 <View
   accessible={true}
   focusable={true}
@@ -238,7 +238,7 @@ exports[`Test img=GoogleDisk 1`] = `
   <Image
     source={
       Object {
-        "testUri": "../../../assets/img/google-disk.png",
+        "testUri": "../../../assets/img/google-drive.png",
       }
     }
     style={

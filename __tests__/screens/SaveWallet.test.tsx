@@ -3,11 +3,9 @@ import { PermissionsAndroid } from 'react-native'
 import { render, fireEvent } from '@testing-library/react-native';
 import { SaveWallet } from 'screens/SaveWallet';
 import renderer from 'react-test-renderer';
-import * as DialogStore from 'storage/Dialog'
-import { signIn, signOut } from 'utils/google'
-import DocumentPicker from 'react-native-document-picker';
-import { getFile, BackupType } from 'utils/backup';
-import { FileBackup } from 'models/backup';
+import DialogStore from 'storage/Dialog'
+import googleUtil from 'utils/google'
+import backupUtil from 'utils/backup';
 
 const seed = ["seed"]
 
@@ -54,7 +52,7 @@ it('Test positive', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test click google disk', async () => {
+it('Test click google drive', async () => {
   const mockFn = jest.fn()
   const component = render(
     <DialogStore.Context.Provider value={{
@@ -68,10 +66,10 @@ it('Test click google disk', async () => {
     </DialogStore.Context.Provider>
   )
 
-  await fireEvent.press(component.getByText('Google disk'));
-  expect(signOut).toBeCalled()
-  expect(signIn).toBeCalled()
-  expect(mockFn).toBeCalledWith("WalletFileBackup", { seed: seed, type: BackupType.GoogleDisk })
+  await fireEvent.press(component.getByText('Google drive'));
+  expect(googleUtil.signOut).toBeCalled()
+  expect(googleUtil.signIn).toBeCalled()
+  expect(mockFn).toBeCalledWith("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.GoogleDrive })
 });
 
 it('Test click enter seed', () => {
@@ -117,7 +115,7 @@ it('Test click encrypted file isGaranted=false', async () => {
   await fireEvent.press(component.getByText('Encrypted file'));
 
   expect(PermissionsAndroid.requestMultiple).toBeCalledWith(["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"])
-  expect(mockNavFn).not.toBeCalledWith("WalletFileBackup", { seed: seed, type: BackupType.File })
+  expect(mockNavFn).not.toBeCalledWith("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.File })
 });
 
 it('Test click encrypted file isGaranted=false && open dialog', async () => {
@@ -146,7 +144,7 @@ it('Test click encrypted file isGaranted=false && open dialog', async () => {
 
   expect(PermissionsAndroid.requestMultiple).toBeCalledWith(["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"])
   expect(mockDispatchFn).toBeCalled()
-  expect(mockNavFn).not.toBeCalledWith("WalletFileBackup", { seed: seed, type: BackupType.File })
+  expect(mockNavFn).not.toBeCalledWith("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.File })
 });
 
 it('Test click encrypted file isGaranted=true', async () => {
@@ -173,5 +171,5 @@ it('Test click encrypted file isGaranted=true', async () => {
   await fireEvent.press(component.getByText('Encrypted file'));
 
   expect(PermissionsAndroid.requestMultiple).toBeCalledWith(["WRITE_EXTERNAL_STORAGE", "READ_EXTERNAL_STORAGE"])
-  expect(mockNavFn).toBeCalledWith("WalletFileBackup", { seed: seed, type: BackupType.File })
+  expect(mockNavFn).toBeCalledWith("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.File })
 });

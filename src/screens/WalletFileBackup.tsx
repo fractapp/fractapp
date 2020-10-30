@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { BlueButton, PasswordInput, Loader } from 'components';
-import { createAccounts } from 'utils/db'
-import { backup, BackupType, GoogleDiskFolder } from 'utils/backup'
-import * as Auth from 'storage/Auth'
-import * as Dialog from 'storage/Dialog'
+import db from 'utils/db'
+import backupUtil from 'utils/backup';
+import Auth from 'storage/Auth'
+import Dialog from 'storage/Dialog'
 
 const minPasswordLength = 6
 
@@ -18,7 +18,7 @@ export const WalletFileBackup = ({ route }: { route: any }) => {
     const [isBackup, setBackup] = useState<boolean>(false)
 
     const seed: string = route.params.seed.join(" ")
-    const type: BackupType = route.params.type
+    const type: backupUtil.BackupType = route.params.type
 
     const startBackup = async () => {
         setLoading(true)
@@ -34,26 +34,26 @@ export const WalletFileBackup = ({ route }: { route: any }) => {
         if (!isBackup)
             return
 
-        backup(seed, password, type).then(async (info) => {
+        backupUtil.backup(seed, password, type).then(async (info) => {
             if (!info.isSuccess) {
                 setLoading(false)
                 return
             }
 
-            await createAccounts(seed)
+            await db.createAccounts(seed)
 
 
             switch (type) {
-                case BackupType.File:
+                case backupUtil.BackupType.File:
                     dialogContext.dispatch(
                         Dialog.open("Success save file", `Save your wallet in a safe place. File: ${info.fileName}`, signIn)
                     )
                     break
-                case BackupType.GoogleDisk:
+                case backupUtil.BackupType.GoogleDrive:
                     dialogContext.dispatch(
                         Dialog.open(
-                            "Success google disk",
-                            `Save your wallet in a safe place. Folder: ${GoogleDiskFolder}. File: ${info.fileName}`,
+                            "Success google drive",
+                            `Save your wallet in a safe place. Folder: ${backupUtil.GoogleDriveFolder}. File: ${info.fileName}`,
                             signIn
                         )
                     )

@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { StatisticsBar, WalletInfo } from 'components'
 import { Wallet, Currency } from 'models/wallet'
-import * as AccountsStore from 'storage/Accounts';
-import * as PricesStore from 'storage/Prices';
+import AccountsStore from 'storage/Accounts';
+import PricesStore from 'storage/Prices';
 
 export const Wallets = ({ navigation }: { navigation: any }) => {
     const accountContext = useContext(AccountsStore.Context)

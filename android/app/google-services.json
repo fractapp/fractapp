@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "13253481095",
+    "firebase_url": "https://fractapp-fbf84.firebaseio.com",
+    "project_id": "fractapp-fbf84",
+    "storage_bucket": "fractapp-fbf84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13253481095:android:f77efdf307f0e0c5e75e22",
+        "android_client_info": {
+          "package_name": "com.fractapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13253481095-n90ib3mmabvgdc8i3am9v3pqh3ka90ra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfys5lYgeVhtSC5bXb4fRU78eLVFhjWAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13253481095-n90ib3mmabvgdc8i3am9v3pqh3ka90ra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

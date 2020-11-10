@@ -5,7 +5,7 @@ import AccountsStore from 'storage/Accounts'
 import PricesStore from 'storage/Prices'
 import { getSymbol } from 'models/wallet';
 import { Account } from 'models/account';
-
+import messaging from '@react-native-firebase/messaging';
 
 /**
  * @namespace
@@ -37,6 +37,20 @@ namespace Task {
                 await updatePrice(pricesDispatch, account)
             }, 5 * min)
         }
+    }
+
+    const updateFirebaseToken = () => {
+        messaging()
+            .getToken()
+            .then(async token => {
+                await db.setFirebaseToken(token);
+                const tokenA = await db.getFirebaseToken()
+                console.log(tokenA)
+            });
+
+        messaging().onTokenRefresh(token => {
+            db.setFirebaseToken(token);
+        });
     }
 
     const updateBalance = async (api: polkadot.Api, accountDispatch: React.Dispatch<any>, account: Account) => {

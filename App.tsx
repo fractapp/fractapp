@@ -24,6 +24,7 @@ import AccountsStore from 'storage/Accounts'
 import PricesStore from 'storage/Prices'
 import { getSymbol } from "models/wallet";
 import changeNavigationBarColor, { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
+const crypto = require('crypto')
 
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
@@ -53,7 +54,6 @@ export default function App() {
   useEffect(() => {
     hideNavigationBar()
     setLoading(true);
-
     db.getSeed().then(async (seed) => {
       if (seed != undefined && seed != null) {
         authDispatch(AuthStore.signIn());

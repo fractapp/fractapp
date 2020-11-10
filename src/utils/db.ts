@@ -17,6 +17,8 @@ namespace DB {
     const accountsKey = "accounts"
     const accountInfoKey = (address: string) => `account_${address}`
 
+    const firebaseTokenKey = "firebase_token"
+
     export async function getSeed(): Promise<string | null> {
         return await SecureStorage.getItem(seedKey, currentAccountsStore);
     }
@@ -57,6 +59,14 @@ namespace DB {
 
     export async function removeSeed(): Promise<void> {
         await SecureStorage.deleteItem(seedKey, currentAccountsStore);
+    }
+
+    export async function getFirebaseToken(): Promise<string> {
+       return await SecureStorage.getItem(firebaseTokenKey, currentAccountsStore);
+    }
+
+    export async function setFirebaseToken(token: string): Promise<void> {
+        await SecureStorage.setItem(firebaseTokenKey, token, currentAccountsStore);
     }
 }
 

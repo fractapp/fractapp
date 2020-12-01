@@ -21,7 +21,7 @@
     "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.9.1",
-    "@react-navigation/native": "^5.7.5",
+    "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.9.2",
     "@testing-library/react-native": "^7.1.0",
     "babel-plugin-module-resolver": "^4.0.0",

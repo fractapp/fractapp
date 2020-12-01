@@ -9,3 +9,4 @@ export { WalletDetailsInfo } from './WalletDetailsInfo';
 export { Dialog } from './Dialog'
 export { Loader } from './Loader'
 export { DriveItemView } from './DriveItemView'
+export { PassCode } from './PassCode'

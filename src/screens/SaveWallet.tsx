@@ -2,50 +2,48 @@ import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text, PermissionsAndroid } from 'react-native';
 import { WhiteButton, Img } from 'components';
 import { mnemonicGenerate } from '@polkadot/util-crypto';
-import backupUtil from 'utils/backup';
-import googleUtil from 'utils/google';
+import Auth from 'storage/Auth'
 import Dialog from 'storage/Dialog'
+import Backup from 'utils/backup';
+import db from 'utils/db'
 
 export const SaveWallet = ({ navigation }: { navigation: any }) => {
     const seed = mnemonicGenerate().split(" ")
     const dialogContext = useContext(Dialog.Context)
 
+    const authContext = useContext(Auth.Context)
+
     const backupFile = async () => {
-        const statues = await PermissionsAndroid.requestMultiple(
-            [
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
-            ]
-        );
-        let isGaranted = true
-        for (let key in statues) {
-            const status = statues[key]
-            if (status == "granted") {
-                continue
-            }
-
-            if (status == "never_ask_again") {
-                dialogContext.dispatch(
-                    Dialog.open(
-                        "Open settings",
-                        "If you want to save a file then open the application settings and give it access to the storage.",
-                        () => dialogContext.dispatch(Dialog.close())
-                    )
+        await Backup.backupFile(
+            () => navigation.navigate("WalletFileBackup", {
+                seed: seed,
+                type: Backup.BackupType.File,
+                onSuccess: async () => {
+                    await dialogContext.dispatch(Dialog.close())
+                    authContext.dispatch(Auth.signIn())
+                }
+            }),
+            () => dialogContext.dispatch(
+                Dialog.open(
+                    "Open settings",
+                    "If you want to save a file then open the application settings and give it access to the storage.",
+                    () => dialogContext.dispatch(Dialog.close())
                 )
-            }
-
-            isGaranted = false
-        }
-
-        if (isGaranted)
-            navigation.navigate("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.File })
-
+            )
+        )
     }
 
     const backupGoogleDrive = async () => {
-        await googleUtil.signOut()
-        await googleUtil.signIn()
-        navigation.navigate("WalletFileBackup", { seed: seed, type: backupUtil.BackupType.GoogleDrive })
+        await Backup.backupGoogleDrive(
+            () => navigation.navigate("WalletFileBackup", {
+                seed: seed,
+                type: Backup.BackupType.GoogleDrive,
+                onSuccess: async () => {
+                    await dialogContext.dispatch(Dialog.close())
+                    authContext.dispatch(Auth.signIn())
+                }
+            })
+        )
     }
 
     return (
@@ -58,7 +56,13 @@ export const SaveWallet = ({ navigation }: { navigation: any }) => {
                     height={50}
                     img={Img.Copy}
                     width="90%"
-                    onPress={() => navigation.navigate("SaveSeed", { seed: seed })}
+                    onPress={() => navigation.navigate("SaveSeed", {
+                        seed: seed,
+                        onSuccess: async () => {
+                            await db.createAccounts(seed.join(" "))
+                            authContext.dispatch(Auth.signIn());
+                        }
+                    })}
                 />
                 <View style={{ marginTop: 20, width: "90%" }} >
                     <WhiteButton

@@ -1,6 +1,6 @@
 import "./shim.js";
 import React, { useState, useEffect, useReducer } from 'react';
-import { StyleSheet, StatusBar, View, Text, Alert } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,11 +12,11 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import {
   Wallets, Start, SettingWallet, ImportWallet, SaveWallet,
   ConfirmSaveSeed, WalletFileBackup, SaveSeed, WalletDetails,
-  ImportSeed, WalletFileImport, GoogleDrivePicker,
-  Receive, Milestone, TransactionDetails, SplashScreen
+  ImportSeed, WalletFileImport, GoogleDrivePicker, NewPassCode,
+  Receive, Milestone, TransactionDetails, SplashScreen, Profile,
+  Backup, VerifyPassCode, EditProfile
 } from 'screens'
-import { Dialog } from 'components'
-import db from 'utils/db'
+import { Dialog, PassCode } from 'components'
 import tasks from 'utils/tasks'
 import AuthStore from 'storage/Auth'
 import DialogStore from 'storage/Dialog'
@@ -24,7 +24,9 @@ import AccountsStore from 'storage/Accounts'
 import PricesStore from 'storage/Prices'
 import { getSymbol } from "models/wallet";
 import changeNavigationBarColor, { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
-const crypto = require('crypto')
+import PasscodeUtil from 'utils/passcode';
+import { showMessage } from "react-native-flash-message";
+import DB from 'utils/db'
 
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
@@ -37,7 +39,10 @@ export default function App() {
   const [dialogStore, diaglogDispatch] = useReducer(DialogStore.reducer, DialogStore.initialState);
   const [accountsStore, accountsDispatch] = useReducer(AccountsStore.reducer, AccountsStore.initialState);
   const [pricesStore, pricesDispatch] = useReducer(PricesStore.reducer, PricesStore.initialState);
+
   const [isLoading, setLoading] = useState<Boolean>(false)
+  const [isLocked, setLocked] = useState<Boolean>(false)
+  const [isBiometry, setBiometry] = useState<Boolean>(false)
 
   const Theme = {
     dark: false,
@@ -51,14 +56,28 @@ export default function App() {
     }
   };
 
+  const onSubmitPasscode = async (passcode: Array<number>) => {
+    let hash = await DB.getPasscodeHash()
+    if (hash == PasscodeUtil.hash(passcode.join(""), await DB.getSalt())) {
+      setLocked(false)
+    } else {
+      showMessage({
+        message: "Incorrect passcode",
+        type: "danger",
+        icon: "warning"
+      })
+    }
+  }
+
   useEffect(() => {
     hideNavigationBar()
     setLoading(true);
-    db.getSeed().then(async (seed) => {
-      if (seed != undefined && seed != null) {
+
+    DB.isSigned().then(async (isSigned) => {
+      if (isSigned) {
+        setLocked(await DB.isPasscode())
+        setBiometry(await DB.isBiometry())
         authDispatch(AuthStore.signIn());
-      }
-      if (authStore.isSign) {
         await tasks.createTask(accountsDispatch, pricesDispatch)
       }
 
@@ -79,102 +98,168 @@ export default function App() {
         <AuthStore.Context.Provider value={{ isSign: authStore.isSign, dispatch: authDispatch }}>
           <AccountsStore.Context.Provider value={{ accounts: accountsStore.accounts, dispatch: accountsDispatch }}>
             <PricesStore.Context.Provider value={{ prices: pricesStore.prices, dispatch: pricesDispatch }}>
-              <NavigationContainer theme={Theme} >
-                <RootStack.Navigator screenOptions={{
-                  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-                }}
-                >
+              {
+                !isLocked ?
+                  <NavigationContainer theme={Theme} >
+                    <RootStack.Navigator screenOptions={{
+                      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                    }}
+                    >
 
-                  {!authStore.isSign ?
-                    <>
-                      <RootStack.Screen options={{ headerShown: false }} name="Root" component={Start} />
-                      <RootStack.Screen options={{ headerShown: false }} name="SettingWallet" component={SettingWallet} />
-                      <RootStack.Screen options={{ headerShown: false }} name="ImportWallet" component={ImportWallet} />
-                      <RootStack.Screen options={{ headerShown: false }} name="SaveWallet" component={SaveWallet} />
-                      <RootStack.Screen options={{ headerShown: false }} name="WalletFileBackup" component={WalletFileBackup} />
-                      <RootStack.Screen options={{ headerShown: false }} name="SaveSeed" component={SaveSeed} />
+                      {!authStore.isSign ?
+                        <>
+                          <RootStack.Screen options={{ headerShown: false }} name="Root" component={Start} />
+                          <RootStack.Screen options={{ headerShown: false }} name="SettingWallet" component={SettingWallet} />
+                          <RootStack.Screen options={{ headerShown: false }} name="ImportWallet" component={ImportWallet} />
+                          <RootStack.Screen options={{ headerShown: false }} name="SaveWallet" component={SaveWallet} />
+                          <RootStack.Screen options={{ headerShown: false }} name="ImportSeed" component={ImportSeed} />
+                          <RootStack.Screen options={{ headerShown: false }} name="WalletFileImport" component={WalletFileImport} />
+                          <RootStack.Screen options={{ headerShown: false }} name="GoogleDrivePicker" component={GoogleDrivePicker} />
+                        </>
+                        :
+                        <>
+                          <RootStack.Screen options={{ headerShown: false }} name="Home" component={TabScreen} />
+                          <RootStack.Screen
+                            name="WalletDetails"
+                            component={WalletDetails}
+                            options={{
+                              title: "Details",
+                              headerTitleAlign: 'center',
+                              headerRightContainerStyle: {
+                                marginRight: 10,
+                              },
+                              headerStyle: {
+                                elevation: 0,
+                                shadowOpacity: 0,
+                                borderBottomWidth: 0,
+                              },
+                              cardShadowEnabled: true,
+                              headerTitleStyle: {
+                                fontSize: 18,
+                                textAlign: "center",
+                                fontFamily: "Roboto-Bold",
+                                color: "black"
+                              },
+                            }}
+                          />
+                          <RootStack.Screen
+                            name="TransactionDetails"
+                            component={TransactionDetails}
+                            options={{
+                              title: "Transaction",
+                              headerTitleAlign: 'center',
+                              headerRightContainerStyle: {
+                                marginRight: 10,
+                              },
+                              headerStyle: {
+                                elevation: 0,
+                                shadowOpacity: 0,
+                                borderBottomWidth: 0,
+                              },
+                              cardShadowEnabled: true,
+                              headerTitleStyle: {
+                                fontSize: 18,
+                                textAlign: "center",
+                                fontFamily: "Roboto-Bold",
+                                color: "black"
+                              },
+                            }}
+                          />
+                          <RootStack.Screen
+                            name="Receive"
+                            component={Receive}
+                            options={({ route }) => ({
+                              title: "Receive " + getSymbol(route.params.currency),
+                              headerTitleAlign: 'center',
+                              headerRightContainerStyle: {
+                                marginRight: 10,
+                              },
+                              headerStyle: {
+                                elevation: 0,
+                                shadowOpacity: 0,
+                                borderBottomWidth: 0,
+                              },
+                              cardShadowEnabled: true,
+                              headerTitleStyle: {
+                                fontSize: 18,
+                                textAlign: "center",
+                                fontFamily: "Roboto-Bold",
+                                color: "black"
+                              },
+                            })}
+                          />
+                          <RootStack.Screen
+                            name="Backup"
+                            component={Backup}
+                            options={{
+                              title: "Backup",
+                              headerTitleAlign: 'center',
+                              headerRightContainerStyle: {
+                                marginRight: 10,
+                              },
+                              headerStyle: {
+                                elevation: 0,
+                                shadowOpacity: 0,
+                                borderBottomWidth: 0,
+                              },
+                              cardShadowEnabled: true,
+                              headerTitleStyle: {
+                                fontSize: 18,
+                                textAlign: "center",
+                                fontFamily: "Roboto-Bold",
+                                color: "black"
+                              },
+                            }}
+                          />
+                          <RootStack.Screen
+                            name="EditProfile"
+                            component={EditProfile}
+                            options={{
+                              title: "Edit Profile",
+                              headerTitleAlign: 'center',
+                              headerRightContainerStyle: {
+                                marginRight: 10,
+                              },
+                              headerStyle: {
+                                elevation: 0,
+                                shadowOpacity: 0,
+                                borderBottomWidth: 0,
+                              },
+                              cardShadowEnabled: true,
+                              headerTitleStyle: {
+                                fontSize: 18,
+                                textAlign: "center",
+                                fontFamily: "Roboto-Bold",
+                                color: "black"
+                              },
+                            }}
+                          />
+                          <RootStack.Screen
+                            name="NewPassCode"
+                            component={NewPassCode}
+                            options={{
+                              headerShown: false
+                            }}
+                          />
+                          <RootStack.Screen
+                            name="VerifyPassCode"
+                            component={VerifyPassCode}
+                            options={{
+                              headerShown: false
+                            }}
+                          />
+
+                        </>
+                      }
+
                       <RootStack.Screen options={{ headerShown: false }} name="ConfirmSaveSeed" component={ConfirmSaveSeed} />
-                      <RootStack.Screen options={{ headerShown: false }} name="ImportSeed" component={ImportSeed} />
-                      <RootStack.Screen options={{ headerShown: false }} name="WalletFileImport" component={WalletFileImport} />
-                      <RootStack.Screen options={{ headerShown: false }} name="GoogleDrivePicker" component={GoogleDrivePicker} />
-                    </>
-                    :
-                    <>
-                      <RootStack.Screen options={{ headerShown: false }} name="Home" component={TabScreen} />
-                      <RootStack.Screen
-                        name="WalletDetails"
-                        component={WalletDetails}
-                        options={{
-                          title: "Details",
-                          headerTitleAlign: 'center',
-                          headerRightContainerStyle: {
-                            marginRight: 10,
-                          },
-                          headerStyle: {
-                            elevation: 0,
-                            shadowOpacity: 0,
-                            borderBottomWidth: 0,
-                          },
-                          cardShadowEnabled: true,
-                          headerTitleStyle: {
-                            fontSize: 18,
-                            textAlign: "center",
-                            fontFamily: "Roboto-Bold",
-                            color: "black"
-                          },
-                        }}
-                      />
-                      <RootStack.Screen
-                        name="TransactionDetails"
-                        component={TransactionDetails}
-                        options={{
-                          title: "Transaction",
-                          headerTitleAlign: 'center',
-                          headerRightContainerStyle: {
-                            marginRight: 10,
-                          },
-                          headerStyle: {
-                            elevation: 0,
-                            shadowOpacity: 0,
-                            borderBottomWidth: 0,
-                          },
-                          cardShadowEnabled: true,
-                          headerTitleStyle: {
-                            fontSize: 18,
-                            textAlign: "center",
-                            fontFamily: "Roboto-Bold",
-                            color: "black"
-                          },
-                        }}
-                      />
-                      <RootStack.Screen
-                        name="Receive"
-                        component={Receive}
-                        options={({ route }) => ({
-                          title: "Receive " + getSymbol(route.params.currency),
-                          headerTitleAlign: 'center',
-                          headerRightContainerStyle: {
-                            marginRight: 10,
-                          },
-                          headerStyle: {
-                            elevation: 0,
-                            shadowOpacity: 0,
-                            borderBottomWidth: 0,
-                          },
-                          cardShadowEnabled: true,
-                          headerTitleStyle: {
-                            fontSize: 18,
-                            textAlign: "center",
-                            fontFamily: "Roboto-Bold",
-                            color: "black"
-                          },
-                        })}
-                      />
-                    </>
-                  }
-                </RootStack.Navigator>
+                      <RootStack.Screen options={{ headerShown: false }} name="SaveSeed" component={SaveSeed} />
+                      <RootStack.Screen options={{ headerShown: false }} name="WalletFileBackup" component={WalletFileBackup} />
+                    </RootStack.Navigator>
 
-              </NavigationContainer>
+                  </NavigationContainer>
+                  : <PassCode isBiometry={isBiometry} isBiometryStart={isBiometry} description={"Enter passcode"} onSubmit={onSubmitPasscode} />
+              }
             </PricesStore.Context.Provider>
           </AccountsStore.Context.Provider>
         </AuthStore.Context.Provider>
@@ -217,7 +302,7 @@ const TabScreen = () => {
 
       <Tab.Screen name={MenuTabs.Wallet} component={Wallet} />
       <Tab.Screen name={MenuTabs.Chats} component={Chats} />
-      <Tab.Screen name={MenuTabs.Profile} component={Profile} />
+      <Tab.Screen name={MenuTabs.Profile} component={ProfileTab} />
     </Tab.Navigator>
   )
 }
@@ -276,11 +361,11 @@ const Chats = () => {
   </ChatStack.Navigator>)
 }
 
-const Profile = () => {
+const ProfileTab = () => {
   return (<ProfileStack.Navigator>
     <ProfileStack.Screen
-      name="Milestone 2"
-      component={Milestone}
+      name="Profile"
+      component={Profile}
       options={{
         headerTitleAlign: 'center',
         headerRightContainerStyle: {

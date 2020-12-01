@@ -11,7 +11,7 @@ export const Start = ({ navigation }: { navigation: any }) => {
             />
             <Text style={styles.welcomeText}>
                 Welcome to Fractapp
-                </Text>
+            </Text>
             <Text style={styles.description}>
                 Messenger with cryptocurrency wallet
                 </Text>

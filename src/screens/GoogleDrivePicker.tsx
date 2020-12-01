@@ -93,12 +93,6 @@ export const GoogleDrivePicker = ({ navigation }: { navigation: any }) => {
 
 
 const styles = StyleSheet.create({
-    dividingLine: {
-        alignSelf: 'center',
-        width: '100%',
-        height: 1,
-        backgroundColor: '#cccccc'
-    },
     title: {
         marginTop: 20,
         fontSize: 25,

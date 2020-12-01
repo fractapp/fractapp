@@ -1,4 +1,5 @@
 import crypto from 'react-native-crypto';
+import { PermissionsAndroid } from 'react-native';
 import { FileBackup } from 'models/backup'
 import RNFS from 'react-native-fs';
 import { mnemonicValidate } from '@polkadot/util-crypto';
@@ -92,6 +93,37 @@ namespace Backup {
             throw ("invalid password")
         }
         return seed
+    }
+
+
+    export const backupFile = async (garantedHendler: () => void, neverAskAgainHendler: () => void) => {
+        const statues = await PermissionsAndroid.requestMultiple(
+            [
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+            ]
+        );
+        let isGaranted = true
+        for (let key in statues) {
+            const status = statues[key]
+            if (status == "granted") {
+                continue
+            }
+
+            if (status == "never_ask_again")
+                neverAskAgainHendler()
+
+            isGaranted = false
+        }
+
+        if (isGaranted)
+            garantedHendler()
+    }
+
+    export const backupGoogleDrive = async (onSuccess: () => void) => {
+        await googleUtil.signOut()
+        await googleUtil.signIn()
+        onSuccess()
     }
 }
 

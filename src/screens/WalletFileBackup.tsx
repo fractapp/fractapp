@@ -3,13 +3,11 @@ import { StyleSheet, View, Text } from 'react-native';
 import { BlueButton, PasswordInput, Loader } from 'components';
 import db from 'utils/db'
 import backupUtil from 'utils/backup';
-import Auth from 'storage/Auth'
 import Dialog from 'storage/Dialog'
 
 const minPasswordLength = 6
 
 export const WalletFileBackup = ({ route }: { route: any }) => {
-    const authContext = useContext(Auth.Context)
     const dialogContext = useContext(Dialog.Context)
 
     const [password, setPassword] = useState<string>("")
@@ -19,15 +17,10 @@ export const WalletFileBackup = ({ route }: { route: any }) => {
 
     const seed: string = route.params.seed.join(" ")
     const type: backupUtil.BackupType = route.params.type
-
+    const onSuccess: () => void = route.params.onSuccess
     const startBackup = async () => {
         setLoading(true)
         setBackup(true)
-    }
-
-    const signIn = async () => {
-        await dialogContext.dispatch(Dialog.close())
-        authContext.dispatch(Auth.signIn())
     }
 
     useEffect(() => {
@@ -49,7 +42,7 @@ export const WalletFileBackup = ({ route }: { route: any }) => {
                         Dialog.open(
                             "Success save wallet",
                             `If you lose access to file then you will not be able to restore access to the wallet. File "${info.fileName}" saved in "Downloads" directory`,
-                            signIn
+                            onSuccess
                         )
                     )
                     break
@@ -58,7 +51,7 @@ export const WalletFileBackup = ({ route }: { route: any }) => {
                         Dialog.open(
                             "Success save wallet",
                             `If you lose access to file then you will not be able to restore access to the wallet. File "${info.fileName}" saved in "${backupUtil.GoogleDriveFolder}" directory`,
-                            signIn
+                            onSuccess
                         )
                     )
                     break

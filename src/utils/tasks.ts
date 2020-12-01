@@ -6,6 +6,7 @@ import PricesStore from 'storage/Prices'
 import { getSymbol } from 'models/wallet';
 import { Account } from 'models/account';
 import messaging from '@react-native-firebase/messaging';
+import NotificationApi from './notification';
 
 /**
  * @namespace
@@ -20,6 +21,7 @@ namespace Task {
         if (accountsAddress == null || accountsAddress.length == 0)
             throw ("accounts not found")
 
+        await updateFirebaseToken()
         for (let i = 0; i < accountsAddress?.length; i++) {
             const account = await db.getAccountInfo(accountsAddress[i])
             const api = await polkadot.Api.getInstance(account.currency)
@@ -39,18 +41,25 @@ namespace Task {
         }
     }
 
-    const updateFirebaseToken = () => {
-        messaging()
-            .getToken()
-            .then(async token => {
-                await db.setFirebaseToken(token);
-                const tokenA = await db.getFirebaseToken()
-                console.log(tokenA)
+    const updateFirebaseToken = async () => {
+        try {
+            let token = await db.getFirebaseToken()
+            if (token == null || true) {
+                token = await messaging().getToken()
+                const ok = await NotificationApi.setToken(token)
+                if (ok) {
+                    await db.setFirebaseToken(token)
+                }
+            }
+            messaging().onTokenRefresh(async (token: string) => {
+                const ok = await NotificationApi.setToken(token)
+                if (ok) {
+                    await db.setFirebaseToken(token)
+                }
             });
-
-        messaging().onTokenRefresh(token => {
-            db.setFirebaseToken(token);
-        });
+        } catch (e) {
+            console.log("update firebase token err: " + e)
+        }
     }
 
     const updateBalance = async (api: polkadot.Api, accountDispatch: React.Dispatch<any>, account: Account) => {

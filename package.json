@@ -22,7 +22,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.9.1",
     "@react-navigation/native": "^5.7.5",
-    "@react-navigation/stack": "^5.9.2",
+    "@react-navigation/stack": "^5.12.6",
     "@testing-library/react-native": "^7.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-rewrite-require": "^1.14.5",

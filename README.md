@@ -12,11 +12,6 @@ yarn install
 keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey1 -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-2. start dev server 
-```sh
-yarn start
-```
-
 3. start on android device or emulator
 ```sh
 yarn android

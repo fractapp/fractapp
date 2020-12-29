@@ -2,15 +2,15 @@
  * Back item id for drive item view
  * @category Models
  */
-export const BackItemId = "back"
+export const BackItemId = 'back';
 
 /**
  * Type Item for drive item view
  * @category Models
  */
 export enum Type {
-    Dir,
-    Json
+  Dir,
+  Json,
 }
 
 /**
@@ -18,13 +18,13 @@ export enum Type {
  * @category Models
  */
 export class DriveItem {
-    id: string
-    title: string
-    type: Type
+  id: string;
+  title: string;
+  type: Type;
 
-    constructor(id: string, title: string, type: Type) {
-        this.id = id
-        this.title = title
-        this.type = type
-    }
+  constructor(id: string, title: string, type: Type) {
+    this.id = id;
+    this.title = title;
+    this.type = type;
+  }
 }

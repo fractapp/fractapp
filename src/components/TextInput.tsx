@@ -1,11 +1,11 @@
 import React from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import ReactNative from 'react-native';
 
 /**
  * Text input for password
  * @category Components
  */
-export const PasswordInput = ({
+export const TextInput = ({
   placeholder,
   defaultValue = '',
   width = '100%',
@@ -17,20 +17,19 @@ export const PasswordInput = ({
   onChangeText: (text: string) => void;
 }) => {
   return (
-    <TextInput
+    <ReactNative.TextInput
       style={[styles.input, {width: width}]}
       onChangeText={onChangeText}
       placeholder={placeholder}
       placeholderTextColor={'#BFBDBD'}
-      autoCompleteType={'password'}
-      textContentType={'newPassword'}
-      secureTextEntry={true}
+      autoCompleteType={'name'}
+      secureTextEntry={false}
       defaultValue={defaultValue}
     />
   );
 };
 
-const styles = StyleSheet.create({
+const styles = ReactNative.StyleSheet.create({
   input: {
     borderColor: '#CCCCCC',
     borderBottomWidth: 1,

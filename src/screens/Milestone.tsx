@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, TouchableHighlight, ScrollView } from 'react-native';
+import React from 'react';
+import {View, Text} from 'react-native';
 
 export const Milestone = () => {
-    return (
-        <View style={{ flex: 1, width: "100%", justifyContent: 'center', alignContent: 'center' }}>
-            <Text style={{ alignSelf: 'center', fontSize: 35 }}>Soon</Text>
-        </View>
-    );
-}
+  return (
+    <View
+      style={{
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignContent: 'center',
+      }}>
+      <Text style={{alignSelf: 'center', fontSize: 35}}>Soon</Text>
+    </View>
+  );
+};

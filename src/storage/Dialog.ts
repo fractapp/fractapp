@@ -1,37 +1,37 @@
-import { createContext } from "react";
-import { Dispatch } from "react";
+import {createContext} from 'react';
+import {Dispatch} from 'react';
 
 /**
  * @namespace
-   * @category Context storage
-*/
+ * @category Context storage
+ */
 namespace DialogStore {
   export enum Action {
     OPEN,
-    CLOSE
+    CLOSE,
   }
 
   type DialogInfo = {
-    title: string,
-    text: string,
-    visible: boolean,
-    onPress?: () => void
-  }
+    title: string;
+    text: string;
+    visible: boolean;
+    onPress?: () => void;
+  };
 
   type State = {
-    dialog: DialogInfo
-    dispatch: Dispatch<any>
+    dialog: DialogInfo;
+    dispatch: Dispatch<any>;
   };
 
   export const initialState: State = {
     dialog: {
-      text: "",
-      title: "",
-      visible: false
-    }
-  }
+      text: '',
+      title: '',
+      visible: false,
+    },
+  };
 
-  export const Context = createContext(initialState)
+  export const Context = createContext(initialState);
   export function reducer(prevState: any, action: any) {
     switch (action.type) {
       case Action.OPEN:
@@ -40,30 +40,26 @@ namespace DialogStore {
             title: action.title,
             text: action.text,
             onPress: action.onPress,
-            visible: true
-          }
+            visible: true,
+          },
         };
       case Action.CLOSE:
         let newDialog = Object.assign({}, prevState).dialog;
-        newDialog.visible = false
+        newDialog.visible = false;
         return {
-          dialog: newDialog
+          dialog: newDialog,
         };
     }
   }
 
-  export const open = (title: string, text: string, onPress: () => void) => (
-    {
-      type: Action.OPEN,
-      title: title,
-      text: text,
-      onPress: onPress
-    }
-  )
-  export const close = () => (
-    {
-      type: Action.CLOSE
-    }
-  )
+  export const open = (title: string, text: string, onPress: () => void) => ({
+    type: Action.OPEN,
+    title: title,
+    text: text,
+    onPress: onPress,
+  });
+  export const close = () => ({
+    type: Action.CLOSE,
+  });
 }
-export default DialogStore
+export default DialogStore;

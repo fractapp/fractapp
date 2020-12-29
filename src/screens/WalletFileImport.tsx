@@ -1,96 +1,103 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
-import { BlueButton, PasswordInput, Loader } from 'components';
-import db from 'utils/db'
+import React, {useState, useContext, useEffect} from 'react';
+import {StyleSheet, View, Text, Alert} from 'react-native';
+import {BlueButton, PasswordInput, Loader} from 'components';
+import db from 'utils/db';
 import backupUtil from 'utils/backup';
-import { FileBackup } from 'models/backup';
-import Auth from 'storage/Auth'
+import {FileBackup} from 'models/backup';
+import Auth from 'storage/Auth';
 
-export const WalletFileImport = ({ route }: { route: any }) => {
-    const authContext = useContext(Auth.Context)
+export const WalletFileImport = ({route}: {route: any}) => {
+  const authContext = useContext(Auth.Context);
 
-    const [password, setPassword] = useState<string>("")
-    const [isLoading, setLoading] = useState<boolean>(false)
-    const [isImport, setImport] = useState<boolean>(false)
+  const [password, setPassword] = useState<string>('');
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isImport, setImport] = useState<boolean>(false);
 
-    const file: FileBackup = route.params.file
+  const file: FileBackup = route.params.file;
 
-    const startImport = async () => {
-        setLoading(true)
-        setImport(true)
+  const startImport = async () => {
+    setLoading(true);
+    setImport(true);
+  };
+
+  useEffect(() => {
+    if (!isImport) {
+      return;
     }
 
-    useEffect(() => {
-        if (!isImport)
-            return
+    (async () => {
+      let seed = '';
+      try {
+        seed = await backupUtil.getSeed(file, password);
+      } catch (e) {
+        console.log(e);
+        Alert.alert('Invalid password');
+        return;
+      }
 
-        (async () => {
-            let seed = ""
-            try {
-                seed = await backupUtil.getSeed(file, password)
-            } catch (e) {
-                console.log(e)
-                Alert.alert("Invalid password")
-                return
-            }
+      await db.createAccounts(seed);
+      authContext.dispatch(Auth.signIn());
+    })();
+  }, [isImport]);
 
-            await db.createAccounts(seed)
-            authContext.dispatch(Auth.signIn());
-        })()
+  if (isLoading) {
+    return <Loader />;
+  }
 
-    }, [isImport])
+  return (
+    <View
+      style={{
+        flexDirection: 'column',
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 40,
+      }}>
+      <Text style={styles.title}>Wallet decryption</Text>
+      <Text style={styles.description}>
+        Enter the password to decrypt your wallet.
+      </Text>
 
-    if (isLoading) {
-        return <Loader />
-    }
+      <View style={styles.newPassword}>
+        <PasswordInput
+          onChangeText={(value: string) => setPassword(value)}
+          placeholder={'Password'}
+        />
+      </View>
 
-    return (
-        <View style={{ flexDirection: "column", flex: 1, alignItems: "center", marginTop: 40 }}>
-            <Text style={styles.title}>Wallet decryption</Text>
-            <Text style={styles.description}>Enter the password to decrypt your wallet.</Text>
-
-            <View style={styles.newPassword}>
-                <PasswordInput
-                    onChangeText={(value: string) => setPassword(value)}
-                    placeholder={"Password"}
-                />
-            </View>
-
-            <View style={{ width: '80%', position: 'absolute', bottom: 40 }}>
-                <BlueButton text={"Decrypt"} height={50} onPress={startImport} />
-            </View>
-        </View>
-    );
-}
-
+      <View style={{width: '80%', position: 'absolute', bottom: 40}}>
+        <BlueButton text={'Decrypt'} height={50} onPress={startImport} />
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    title: {
-        marginTop: 80,
-        fontSize: 25,
-        fontFamily: "Roboto-Regular",
-        color: "#2AB2E2",
-    },
-    description: {
-        textAlign: 'center',
-        width: '90%',
-        marginTop: 40,
-        fontSize: 15,
-        fontFamily: "Roboto-Regular",
-        color: "#888888",
-    },
-    newPassword: {
-        marginTop: 30,
-        width: "90%"
-    },
-    confirmPassword: {
-        marginTop: 20,
-        width: "90%"
-    },
-    error: {
-        marginTop: 20,
-        color: "red",
-        fontFamily: "Roboto-Regular",
-        fontSize: 15
-    }
+  title: {
+    marginTop: 80,
+    fontSize: 25,
+    fontFamily: 'Roboto-Regular',
+    color: '#2AB2E2',
+  },
+  description: {
+    textAlign: 'center',
+    width: '90%',
+    marginTop: 40,
+    fontSize: 15,
+    fontFamily: 'Roboto-Regular',
+    color: '#888888',
+  },
+  newPassword: {
+    marginTop: 30,
+    width: '90%',
+  },
+  confirmPassword: {
+    marginTop: 20,
+    width: '90%',
+  },
+  error: {
+    marginTop: 20,
+    color: 'red',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 15,
+  },
 });

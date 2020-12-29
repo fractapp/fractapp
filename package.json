@@ -11,7 +11,7 @@
     "doc": "typedoc --out docs ./src/components/index.tsx ./src/models ./src/storage ./src/utils --mode file --ignoreCompilerErrors "
   },
   "dependencies": {
-    "@polkadot/api": "^2.0.1",
+    "@polkadot/api": "^2.7.1",
     "@polkadot/keyring": "^3.5.1",
     "@polkadot/types": "^2.0.1",
     "@polkadot/types-known": "^2.7.1",

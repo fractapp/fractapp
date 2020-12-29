@@ -9,7 +9,7 @@ yarn install
 
 2. create debug.keystore
 ```sh
-keytool -genkey -v -keystore android/app/debug1.keystore -storepass android -alias androiddebugkey1 -keypass android -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey1 -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 2. start dev server 

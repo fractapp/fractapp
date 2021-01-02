@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, Image, Text} from 'react-native';
 import {Transaction, TxType} from 'models/transaction';
-import {getLogo, getSymbol, Wallet} from 'models/wallet';
+import {getSymbol, Wallet} from 'models/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {WalletInfo} from 'components/';
+import {WalletInfo, WalletLogo} from 'components';
 
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;
@@ -12,7 +12,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
-        <Image source={getLogo(tx.currency)} style={styles.logo} />
+        <WalletLogo currency={tx.currency} size={80} />
         <Text style={styles.address}>{tx.member}</Text>
         <Text style={styles.value}>
           {tx.txType == TxType.Sent ? '-' : '+'}
@@ -63,18 +63,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo: {
-    width: 80,
-    height: 80,
-    borderRadius: 75,
-    overflow: 'hidden',
-  },
   address: {
     width: '80%',
     marginTop: 20,
     textAlign: 'center',
     fontSize: 16,
-    fontFamily: 'Roboto-Regular',
+    fontFamily: 'Roboto-Medium',
     color: 'black',
   },
   value: {

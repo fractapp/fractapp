@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test currenyc=kusams && txType=None && member length < 13 1`] = `
+exports[`Test currenyc=kusama && txType=None && member length < 13 1`] = `
 <View
   accessible={true}
   focusable={false}
@@ -91,9 +91,9 @@ exports[`Test currenyc=kusams && txType=None && member length < 13 1`] = `
                 ]
               }
             >
-              
+
               5
-               
+
               KSM
             </Text>
           </View>
@@ -209,9 +209,9 @@ exports[`Test currenyc=polkadot && txType=None && member length < 13 1`] = `
                 ]
               }
             >
-              
+
               10
-               
+
               DOT
             </Text>
           </View>
@@ -327,9 +327,9 @@ exports[`Test member length > 13 1`] = `
                 ]
               }
             >
-              
+
               10
-               
+
               DOT
             </Text>
           </View>
@@ -447,7 +447,7 @@ exports[`Test txType=Received 1`] = `
             >
               +
               10
-               
+
               DOT
             </Text>
           </View>
@@ -565,7 +565,7 @@ exports[`Test txType=Sent 1`] = `
             >
               -
               10
-               
+
               DOT
             </Text>
           </View>

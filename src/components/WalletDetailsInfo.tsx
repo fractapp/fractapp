@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
-import {getLogo, getSymbol, Wallet} from 'models/wallet';
+import {StyleSheet, View, Text} from 'react-native';
+import {getSymbol, Wallet} from 'models/wallet';
+import {WalletLogo} from 'components/WalletLogo';
 
 /**
  * Component with wallet information for details screen
@@ -10,10 +11,10 @@ export const WalletDetailsInfo = ({wallet}: {wallet: Wallet}) => {
   return (
     <View style={styles.accountInfo}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Image source={getLogo(wallet.currency)} style={styles.logo} />
+        <WalletLogo currency={wallet.currency} size={50} />
         <View
-          style={{flex: 1, flexDirection: 'column-reverse', marginLeft: 20}}>
-          <View style={{flexDirection: 'row', paddingTop: 5}}>
+          style={{flex: 1, flexDirection: 'column-reverse', marginLeft: 15}}>
+          <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'left'}]}>
                 {wallet.balance} {getSymbol(wallet.currency)}
@@ -46,15 +47,9 @@ const styles = StyleSheet.create({
     color: '#888888',
   },
   balance: {
-    fontSize: 18,
+    fontSize: 23,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: 'black',
-  },
-  logo: {
-    width: 60,
-    height: 60,
-    borderRadius: 75,
-    overflow: 'hidden',
   },
 });

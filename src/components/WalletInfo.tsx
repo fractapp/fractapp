@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native';
-import {getLogo, getSymbol, Wallet} from 'models/wallet';
+import {getSymbol, Wallet} from 'models/wallet';
+import {WalletLogo} from 'components/WalletLogo';
 
 /**
  * Component with wallet information
@@ -22,7 +23,7 @@ export const WalletInfo = ({
         underlayColor="#f8f9fb">
         <View style={styles.account}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <Image source={getLogo(wallet.currency)} style={styles.logo} />
+            <WalletLogo currency={wallet.currency} size={50} />
             <View
               style={{
                 flex: 1,
@@ -72,11 +73,5 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     lineHeight: 18,
     color: 'black',
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 75,
-    overflow: 'hidden',
   },
 });

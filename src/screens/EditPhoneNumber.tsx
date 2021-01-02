@@ -47,7 +47,7 @@ export const EditPhoneNumber = ({navigation}: {navigation: any}) => {
       return;
     }
 
-    const [code, err] = await BackendApi.sendSMS(number);
+    const [code, err] = await BackendApi.auth(number);
     switch (code) {
       case 400:
         dialogContext.dispatch(
@@ -154,14 +154,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   title: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: '#888888',
   },
   value: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',

@@ -30,7 +30,7 @@ it('Test get instance polkadot', async () => {
   );
 });
 
-it('Test get instance kusams', async () => {
+it('Test get instance kusama', async () => {
   Api.getInstance(Currency.Kusama);
   expect(WsProvider).toBeCalledWith('wss://kusama-rpc.polkadot.io');
 

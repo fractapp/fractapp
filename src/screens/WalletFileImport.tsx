@@ -32,6 +32,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
       } catch (e) {
         console.log(e);
         Alert.alert('Invalid password');
+        setLoading(false);
         return;
       }
 

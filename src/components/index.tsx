@@ -12,3 +12,4 @@ export {Loader} from './Loader';
 export {DriveItemView} from './DriveItemView';
 export {PassCode} from './PassCode';
 export {SuccessButton} from './SuccessButton';
+export {WalletLogo} from './WalletLogo';

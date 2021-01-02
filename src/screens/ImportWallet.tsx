@@ -47,6 +47,7 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
       file = await backupUtil.getFile(res.uri);
     } catch (err) {
       Alert.alert('Error', 'Invalid file');
+
       return;
     }
 

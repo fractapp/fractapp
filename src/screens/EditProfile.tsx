@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   value: {
     marginTop: 6,
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',

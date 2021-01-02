@@ -1,14 +1,8 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableHighlight,
-  Alert,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Text, TouchableHighlight} from 'react-native';
 import {Transaction, TxType} from '../models/transaction';
-import {getSymbol, getLogo} from '../models/wallet';
+import {getSymbol} from '../models/wallet';
+import {WalletLogo} from 'components/WalletLogo';
 
 /**
  * Component with transaction information
@@ -46,15 +40,14 @@ export const TransactionInfo = ({
       style={styles.transaction}>
       <View style={{width: '90%'}}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <Image source={getLogo(transaction.currency)} style={styles.logo} />
+          <WalletLogo currency={transaction.currency} size={50} />
           <View
             style={{
               flex: 1,
               flexDirection: 'column-reverse',
-              marginLeft: 20,
-              paddingTop: 5,
+              marginLeft: 15,
             }}>
-            <View style={{flexDirection: 'row', paddingTop: 5}}>
+            <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
                 <Text
                   style={[styles.balance, {textAlign: 'left', color: color}]}>
@@ -100,11 +93,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 75,
-    overflow: 'hidden',
   },
 });

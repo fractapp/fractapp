@@ -28,6 +28,14 @@ export function getLogo(currency: Currency) {
 }
 
 /**
+ * check logo without border
+ * @category Models
+ */
+export function withoutBorder(currency: Currency): boolean {
+  return currency == Currency.Polkadot || currency == Currency.Kusama;
+}
+
+/**
  * get symbol for wallet
  * @category Models
  */

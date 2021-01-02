@@ -1,6 +1,7 @@
 import './shim.js';
 import React, {useState, useEffect, useReducer} from 'react';
-import {StyleSheet, StatusBar, Text} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+import {StyleSheet, StatusBar, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -29,7 +30,6 @@ import {
   Receive,
   Milestone,
   TransactionDetails,
-  SplashScreen,
   Backup,
   VerifyPassCode,
   EditProfile,
@@ -52,7 +52,6 @@ import changeNavigationBarColor, {
 import PasscodeUtil from 'utils/passcode';
 import {showMessage} from 'react-native-flash-message';
 import DB from 'utils/db';
-import {SuccessButton} from 'components/SuccessButton';
 
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
@@ -78,7 +77,7 @@ export default function App() {
     PricesStore.initialState,
   );
 
-  const [isLoading, setLoading] = useState<Boolean>(false);
+  const [isLoading, setLoading] = useState<Boolean>(true);
   const [isSign, setSign] = useState<Boolean>(false);
   const [isLocked, setLocked] = useState<Boolean>(false);
   const [isBiometry, setBiometry] = useState<Boolean>(false);
@@ -116,7 +115,11 @@ export default function App() {
     console.log('start ' + new Date().toTimeString());
 
     hideNavigationBar();
+    if (!isLoading) {
+      SplashScreen.show();
+    }
     setLoading(true);
+
     DB.isSigned().then(async (isSigned) => {
       if (isSigned) {
         setLocked(await DB.isPasscode());
@@ -130,15 +133,15 @@ export default function App() {
       }
 
       showNavigationBar();
-      await changeNavigationBarColor('#ffffff', true, true);
       setLoading(false);
+      SplashScreen.hide();
 
       console.log('end ' + new Date().toTimeString());
     });
   }, [authStore.isSign]);
 
   if (isLoading) {
-    return <SplashScreen />;
+    return <View />;
   }
 
   return (

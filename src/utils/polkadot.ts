@@ -1,6 +1,7 @@
 import {Currency} from 'models/wallet';
 import BN from 'bn.js';
 import {Transaction, TxType} from 'models/transaction';
+import {POLKADOT_API, KUSAMA_API} from '@env';
 
 export class Api {
   private static instance: Map<Currency, Api>;
@@ -23,11 +24,11 @@ export class Api {
       let decimals = new BN(0);
       switch (currency) {
         case Currency.Polkadot:
-          explorerApiUrl = 'https://explorer-31.polkascan.io/polkadot';
+          explorerApiUrl = POLKADOT_API;
           decimals = new BN(10);
           break;
         case Currency.Kusama:
-          explorerApiUrl = 'https://explorer-31.polkascan.io/kusama';
+          explorerApiUrl = KUSAMA_API;
           decimals = new BN(12);
           break;
         default:

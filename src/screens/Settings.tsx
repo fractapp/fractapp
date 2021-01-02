@@ -77,12 +77,12 @@ export const Settings = ({navigation}: {navigation: any}) => {
     {
       img: require('assets/img/help.png'),
       title: 'Help',
-      onClick: '',
+      onClick: () => Linking.openURL('mailto:support@fractapp.com'),
     },
     {
       img: require('assets/img/about.png'),
       title: 'About us',
-      onClick: '',
+      onClick: () => Linking.openURL('https://fractapp.com'),
     },
   ];
 
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   menuTitle: {
     marginLeft: 10,
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: 'black',

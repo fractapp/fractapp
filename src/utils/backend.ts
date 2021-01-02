@@ -1,7 +1,8 @@
 import DB from './db';
-import {Keyring} from '@polkadot/api';
+import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'models/wallet';
+import {FRACTAPP_API} from '@env';
 /**
  * @namespace
  * @category Utils
@@ -11,7 +12,7 @@ namespace BackendApi {
     Polkadot = 0,
     Kusama,
   }
-  const apiUrl = 'http://192.168.0.101:9544';
+  const apiUrl = FRACTAPP_API;
   const signMsg = 'It is my firebase token for fractapp:';
   export const CodeLength = 6;
   export async function setToken(token: string): Promise<boolean> {
@@ -43,7 +44,7 @@ namespace BackendApi {
           network = Network.Kusama;
           break;
       }
-      const response = await fetch(`${apiUrl}/subscribe`, {
+      const response = await fetch(`${apiUrl}/notification/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ namespace BackendApi {
     return ok;
   }
 
-  export async function sendSMS(phone: string): Promise<[number, string]> {
+  export async function auth(phone: string): Promise<[number, string]> {
     const response = await fetch(`${apiUrl}/registration?number=${phone}`, {
       method: 'POST',
       headers: {

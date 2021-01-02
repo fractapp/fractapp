@@ -228,7 +228,7 @@ exports[`Test empty wallet 1`] = `
 </View>
 `;
 
-exports[`Test one currency Kusams 1`] = `
+exports[`Test one currency Kusama 1`] = `
 <View
   style={
     Object {

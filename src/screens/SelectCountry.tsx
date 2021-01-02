@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   textItem: {
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',

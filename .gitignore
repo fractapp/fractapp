@@ -84,3 +84,4 @@ fastlane/screenshots
 android/.project
 android/app/.project
 android/app/bin
+android/app/google-services.json

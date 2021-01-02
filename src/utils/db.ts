@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Keychain from 'react-native-keychain';
 import {base64Encode, randomAsU8a} from '@polkadot/util-crypto';
 import PasscodeUtil from 'utils/passcode';
-import {Keyring} from '@polkadot/api';
+import {Keyring} from '@polkadot/keyring';
 import {u8aToHex} from '@polkadot/util';
 import {Currency} from 'models/wallet';
 /**

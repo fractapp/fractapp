@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Kusams wallet 1`] = `
+exports[`Test Kusama wallet 1`] = `
 <View
   style={
     Object {
@@ -95,7 +95,7 @@ exports[`Test Kusams wallet 1`] = `
                 }
               >
                 20
-                 
+
                 KSM
               </Text>
             </View>
@@ -243,7 +243,7 @@ exports[`Test Polkadot wallet 1`] = `
                 }
               >
                 100
-                 
+
                 DOT
               </Text>
             </View>

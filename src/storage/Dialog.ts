@@ -20,7 +20,7 @@ namespace DialogStore {
 
   type State = {
     dialog: DialogInfo;
-    dispatch: Dispatch<any>;
+    dispatch?: Dispatch<any>;
   };
 
   export const initialState: State = {

@@ -12,7 +12,7 @@ namespace AuthStore {
 
   type State = {
     isSign: boolean;
-    dispatch: Dispatch<any>;
+    dispatch?: Dispatch<any>;
   };
 
   export const initialState: State = {isSign: false};

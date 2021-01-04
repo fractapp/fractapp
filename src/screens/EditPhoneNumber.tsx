@@ -17,23 +17,19 @@ import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 
-export const EditPhoneNumber = ({navigation}: {navigation: any}) => {
+export const EditPhoneNumber = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const dialogContext = useContext(Dialog.Context);
   const [countryCode, setCountryCode] = useState<string>('RU');
   const [number, setNumber] = useState<string>('7');
   const [countryCodeLength, setCountryCodeLength] = useState<number>(1);
-
   const [countryName, setCountryName] = useState<string>('Russian');
-
-  const onSelectCountry = (countryCode: string) => {
-    const numberCountryCode = getCountryCallingCode(countryCode);
-
-    setCountryCodeLength(numberCountryCode.length);
-    setCountryCode(countryCode);
-    setCountryName(en[countryCode]);
-
-    setNumber(numberCountryCode);
-  };
+  const selectedCountryCode = route.params?.selectedCountryCode;
 
   const onSuccess = async () => {
     if (!isValidPhoneNumber('+' + number)) {
@@ -73,14 +69,23 @@ export const EditPhoneNumber = ({navigation}: {navigation: any}) => {
   };
 
   useEffect(() => {
+    if (selectedCountryCode != null) {
+      const numberCountryCode = getCountryCallingCode(selectedCountryCode);
+
+      setCountryCodeLength(numberCountryCode.length);
+      setCountryCode(selectedCountryCode);
+      setCountryName(en[selectedCountryCode]);
+
+      setNumber(numberCountryCode);
+    }
+  }, [selectedCountryCode]);
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
-  }, [number]);
 
-  useEffect(() => {
     if (number.length < countryCodeLength) {
       setCountryCode('');
       setCountryName('Invalid phone number');
@@ -101,9 +106,7 @@ export const EditPhoneNumber = ({navigation}: {navigation: any}) => {
     <View style={styles.box}>
       <TouchableOpacity
         style={styles.countryInput}
-        onPress={() =>
-          navigation.navigate('SelectCountry', {onSelect: onSelectCountry})
-        }>
+        onPress={() => navigation.navigate('SelectCountry')}>
         <Text style={styles.title}>Country</Text>
         <Text style={[styles.value, {marginTop: 6}]}>{countryName}</Text>
       </TouchableOpacity>

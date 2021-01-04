@@ -22,3 +22,4 @@ export {EditProfile} from './EditProfile';
 export {EditPhoneNumber} from './EditPhoneNumber';
 export {SelectCountry} from './SelectCountry';
 export {ConfirmCode} from './ConfirmCode';
+export {Navigation} from './Navigation';

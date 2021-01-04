@@ -9,20 +9,13 @@ import {
 import en from 'react-phone-number-input/locale/en';
 import {getCountryCallingCode} from 'react-phone-number-input';
 
-export const SelectCountry = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
-  const renderItem = ({item}) => {
+export const SelectCountry = ({navigation}: {navigation: any}) => {
+  const renderItem = ({item}: {item: string}) => {
     return (
       <TouchableHighlight
         style={styles.item}
         onPress={() => {
-          route.params.onSelect(item);
-          navigation.goBack();
+          navigation.navigate('EditPhoneNumber', {selectedCountryCode: item});
         }}
         underlayColor={'#DADADA'}>
         <View style={{flexDirection: 'row'}}>
@@ -42,6 +35,7 @@ export const SelectCountry = ({
       </TouchableHighlight>
     );
   };
+
   return (
     <View style={styles.box}>
       <FlatList

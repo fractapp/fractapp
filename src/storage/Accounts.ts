@@ -14,10 +14,10 @@ namespace AccountsStore {
 
   type State = {
     accounts: Map<Currency, Account>;
-    dispatch: Dispatch<any>;
+    dispatch?: Dispatch<any>;
   };
 
-  export const initialState: {accounts: Map<Currency, Account>} = {
+  export const initialState: State = {
     accounts: new Map<Currency, Account>(),
   };
 

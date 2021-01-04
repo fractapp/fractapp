@@ -11,17 +11,15 @@ export const WalletFileImport = ({route}: {route: any}) => {
 
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [isImport, setImport] = useState<boolean>(false);
 
   const file: FileBackup = route.params.file;
 
   const startImport = async () => {
     setLoading(true);
-    setImport(true);
   };
 
   useEffect(() => {
-    if (!isImport) {
+    if (!isLoading) {
       return;
     }
 
@@ -39,7 +37,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
       await db.createAccounts(seed);
       authContext.dispatch(Auth.signIn());
     })();
-  }, [isImport]);
+  }, [isLoading]);
 
   if (isLoading) {
     return <Loader />;

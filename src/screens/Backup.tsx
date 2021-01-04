@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,9 +13,37 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
 import db from 'utils/db';
+import backupUtil from 'utils/backup';
 
-export const Backup = ({navigation}: {navigation: any}) => {
+export const Backup = ({navigation, route}: {navigation: any; route: any}) => {
   const dialogContext = useContext(Dialog.Context);
+
+  const onSuccess = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Home'}],
+    });
+    dialogContext.dispatch(Dialog.close());
+  };
+
+  useEffect(() => {
+    if (route.params?.isSuccess == null) {
+      return;
+    }
+
+    const dir =
+      route.params.type == BackupUtils.BackupType.File
+        ? 'Downloads'
+        : backupUtil.GoogleDriveFolder;
+
+    dialogContext.dispatch(
+      Dialog.open(
+        'Success save wallet',
+        `If you lose access to file then you will not be able to restore access to the wallet. File "${route.params?.fileName}.json" saved in "${dir}" directory`,
+        onSuccess,
+      ),
+    );
+  }, [route.params?.isSuccess]);
 
   const backupFile = async () => {
     const seed = await db.getSeed();
@@ -24,13 +52,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
         navigation.navigate('WalletFileBackup', {
           seed: seed?.split(' '),
           type: BackupUtils.BackupType.File,
-          onSuccess: () => {
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
-            }),
-              dialogContext.dispatch(Dialog.close());
-          },
+          callerScreen: 'Backup',
         }),
       () =>
         dialogContext.dispatch(
@@ -42,29 +64,21 @@ export const Backup = ({navigation}: {navigation: any}) => {
         ),
     );
   };
-
   const backupGoogleDrive = async () => {
     const seed = await db.getSeed();
     await BackupUtils.backupGoogleDrive(() =>
       navigation.navigate('WalletFileBackup', {
         seed: seed?.split(' '),
         type: BackupUtils.BackupType.GoogleDrive,
-        onSuccess: () => {
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'Home'}],
-          }),
-            dialogContext.dispatch(Dialog.close());
-        },
+        callerScreen: 'Backup',
       }),
     );
   };
-
   const backupSeed = async () => {
     const seed = await db.getSeed();
     navigation.navigate('SaveSeed', {
       seed: seed?.split(' '),
-      onSuccess: async () =>
+      onSuccess: () =>
         navigation.reset({
           index: 0,
           routes: [{name: 'Home'}],
@@ -72,7 +86,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
     });
   };
 
-  const MenuItems = [
+  const menuItems = [
     {
       img: (
         <Image
@@ -96,7 +110,6 @@ export const Backup = ({navigation}: {navigation: any}) => {
       onClick: () => backupSeed(),
     },
   ];
-
   const renderItem = ({item}: {item: any}) => (
     <TouchableOpacity style={styles.menuItem} onPress={item.onClick}>
       {item.img}
@@ -115,7 +128,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
           <FlatList
             style={styles.menu}
             ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
-            data={MenuItems}
+            data={menuItems}
             renderItem={renderItem}
             keyExtractor={(item) => item.title}
           />

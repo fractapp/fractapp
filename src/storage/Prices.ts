@@ -12,7 +12,7 @@ namespace PricesStore {
 
   type State = {
     prices: Map<Currency, number>;
-    dispatch: Dispatch<any>;
+    dispatch?: Dispatch<any>;
   };
 
   export const initialState: State = {

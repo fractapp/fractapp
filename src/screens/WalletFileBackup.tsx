@@ -7,25 +7,30 @@ import Dialog from 'storage/Dialog';
 
 const minPasswordLength = 6;
 
-export const WalletFileBackup = ({route}: {route: any}) => {
+export const WalletFileBackup = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const dialogContext = useContext(Dialog.Context);
 
   const [fileName, setFilename] = useState<string>(backupUtil.randomFilename());
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [isBackup, setBackup] = useState<boolean>(false);
 
   const seed: string = route.params.seed.join(' ');
   const type: backupUtil.BackupType = route.params.type;
-  const onSuccess: () => void = route.params.onSuccess;
+  const callerScreen: backupUtil.BackupType = route.params.callerScreen;
+
   const startBackup = async () => {
     setLoading(true);
-    setBackup(true);
   };
 
   useEffect(() => {
-    if (!isBackup) {
+    if (!isLoading) {
       return;
     }
 
@@ -36,29 +41,13 @@ export const WalletFileBackup = ({route}: {route: any}) => {
       }
 
       await db.createAccounts(seed);
-
-      switch (type) {
-        case backupUtil.BackupType.File:
-          dialogContext.dispatch(
-            Dialog.open(
-              'Success save wallet',
-              `If you lose access to file then you will not be able to restore access to the wallet. File "${fileName}.json" saved in "Downloads" directory`,
-              onSuccess,
-            ),
-          );
-          break;
-        case backupUtil.BackupType.GoogleDrive:
-          dialogContext.dispatch(
-            Dialog.open(
-              'Success save wallet',
-              `If you lose access to file then you will not be able to restore access to the wallet. File "${fileName}.json" saved in "${backupUtil.GoogleDriveFolder}" directory`,
-              onSuccess,
-            ),
-          );
-          break;
-      }
+      navigation.navigate(callerScreen, {
+        isSuccess: true,
+        type: type,
+        fileName: fileName,
+      });
     });
-  }, [isBackup]);
+  }, [isLoading]);
 
   const renderButtonOrError = () => {
     if (confirmPassword == '' || password == '') {

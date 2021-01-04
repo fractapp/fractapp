@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components';
 import {mnemonicGenerate} from '@polkadot/util-crypto';
@@ -6,12 +6,43 @@ import Auth from 'storage/Auth';
 import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
 import db from 'utils/db';
+import BackupUtils from 'utils/backup';
+import backupUtil from 'utils/backup';
 
-export const SaveWallet = ({navigation}: {navigation: any}) => {
+export const SaveWallet = ({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}) => {
   const seed = mnemonicGenerate().split(' ');
   const dialogContext = useContext(Dialog.Context);
-
   const authContext = useContext(Auth.Context);
+
+  const onSuccess = () => {
+    dialogContext.dispatch(Dialog.close());
+    authContext.dispatch(Auth.signIn());
+  };
+
+  useEffect(() => {
+    if (route.params?.isSuccess == null) {
+      return;
+    }
+
+    const dir =
+      route.params.type == BackupUtils.BackupType.File
+        ? 'Downloads'
+        : backupUtil.GoogleDriveFolder;
+
+    dialogContext.dispatch(
+      Dialog.open(
+        'Success save wallet',
+        `If you lose access to file then you will not be able to restore access to the wallet. File "${route.params?.fileName}.json" saved in "${dir}" directory`,
+        onSuccess,
+      ),
+    );
+  }, [route.params?.isSuccess]);
 
   const backupFile = async () => {
     await Backup.backupFile(
@@ -19,10 +50,7 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         navigation.navigate('WalletFileBackup', {
           seed: seed,
           type: Backup.BackupType.File,
-          onSuccess: async () => {
-            await dialogContext.dispatch(Dialog.close());
-            authContext.dispatch(Auth.signIn());
-          },
+          callerScreen: 'SaveWallet',
         }),
       () =>
         dialogContext.dispatch(
@@ -34,16 +62,12 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         ),
     );
   };
-
   const backupGoogleDrive = async () => {
     await Backup.backupGoogleDrive(() =>
       navigation.navigate('WalletFileBackup', {
         seed: seed,
         type: Backup.BackupType.GoogleDrive,
-        onSuccess: async () => {
-          await dialogContext.dispatch(Dialog.close());
-          authContext.dispatch(Auth.signIn());
-        },
+        callerScreen: 'SaveWallet',
       }),
     );
   };

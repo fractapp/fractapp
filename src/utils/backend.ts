@@ -34,7 +34,6 @@ namespace BackendApi {
 
       const time = Math.round(new Date().getTime() / 1000);
       const msg = signMsg + token + time;
-
       let network = Network.Polkadot;
       switch (accountInfo.currency) {
         case Currency.Polkadot:
@@ -55,7 +54,7 @@ namespace BackendApi {
           network: network,
           sign: u8aToHex(key.sign(stringToU8a(msg))),
           token: token,
-          time: time,
+          timestamp: time,
         }),
       });
 

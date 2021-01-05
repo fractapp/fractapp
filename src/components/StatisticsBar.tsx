@@ -36,8 +36,6 @@ export const StatisticsBar = ({
   };
 
   const renderDistribution = () => {
-    const distributionView = new Array();
-
     const end = {x: -1, y: 0};
     const colors = new Array<string>();
 

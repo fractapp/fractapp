@@ -89,7 +89,7 @@ namespace Task {
   async function updateFirebaseToken() {
     try {
       let token = await db.getFirebaseToken();
-      if (token == null || true) {
+      if (token == null) {
         token = await messaging().getToken();
         const ok = await BackendApi.setToken(token);
         if (ok) {

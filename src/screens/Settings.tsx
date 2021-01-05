@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
-  ScrollView,
   Text,
   FlatList,
   Image,
@@ -12,12 +11,12 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DB from 'utils/db';
 import Keychain from 'react-native-keychain';
+import AuthStore from 'storage/Auth';
 
 export const Settings = ({navigation}: {navigation: any}) => {
-  const [isPasscode, setExistPasscode] = useState<Boolean>(false);
-  const [isBiometry, setBiometry] = useState<Boolean>(false);
+  const authContext = useContext(AuthStore.Context);
 
-  const MenuItems = [
+  const menuItems = [
     {
       img: require('assets/img/edit-profile.png'),
       title: 'Edit profile',
@@ -30,39 +29,32 @@ export const Settings = ({navigation}: {navigation: any}) => {
     },
     {
       img: require('assets/img/safety.png'),
-      title: isPasscode ? 'Disable passcode' : 'Enable passcode',
+      title: authContext.auth.isPasscode
+        ? 'Disable passcode'
+        : 'Enable passcode',
       onClick: async () => {
-        if (isPasscode) {
+        if (authContext.auth.isPasscode) {
           navigation.navigate('VerifyPassCode', {
-            onSuccess: async () => {
-              await DB.disablePasscode();
-              await update();
-            },
-            isGoBack: true,
+            isDisablePasscode: true,
           });
         } else {
-          navigation.navigate('NewPassCode', {
-            onSuccess: async () => {
-              await update();
-            },
-          });
+          navigation.navigate('NewPassCode');
         }
       },
     },
     {
       img: require('assets/img/biometry-btn.png'),
-      title: isBiometry ? 'Disable biometry' : 'Enable biometry',
+      title: authContext.auth.isBiometry
+        ? 'Disable biometry'
+        : 'Enable biometry',
       onClick: async () => {
         navigation.navigate('VerifyPassCode', {
-          onSuccess: async (passcode: string) => {
-            await DB.disablePasscode();
-            await DB.enablePasscode(passcode, !isBiometry);
-            await update();
-          },
-          isGoBack: true,
+          isChangeBiometry: true,
         });
       },
-      isDisable: !isPasscode && Keychain.getSupportedBiometryType() != null,
+      isDisable:
+        !authContext.auth.isPasscode &&
+        Keychain.getSupportedBiometryType() != null,
     },
     {
       img: require('assets/img/twitter.png'),
@@ -85,16 +77,6 @@ export const Settings = ({navigation}: {navigation: any}) => {
       onClick: () => Linking.openURL('https://fractapp.com'),
     },
   ];
-
-  const update = async () => {
-    setExistPasscode(await DB.isPasscode());
-    setBiometry(await DB.isBiometry());
-  };
-
-  useEffect(() => {
-    update();
-  }, []);
-
   const renderItem = ({item}: {item: any}) => {
     if (item.isDisable) {
       return (
@@ -114,30 +96,26 @@ export const Settings = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.profile}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <View style={styles.account}>
-            <View style={styles.avatar}>
-              <MaterialCommunityIcons
-                name="account-circle-outline"
-                size={40}
-                color="#2AB2E2"
-              />
-            </View>
-            <View style={styles.name}>
-              <Text style={styles.nameText}>Elshan</Text>
-              <Text style={styles.nickText}>@cryptobadboy</Text>
-            </View>
-          </View>
-          <FlatList
-            style={styles.menu}
-            ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
-            data={MenuItems}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.title}
+      <View style={styles.account}>
+        <View style={styles.avatar}>
+          <MaterialCommunityIcons
+            name="account-circle-outline"
+            size={40}
+            color="#2AB2E2"
           />
         </View>
-      </ScrollView>
+        <View style={styles.name}>
+          <Text style={styles.nameText}>Elshan</Text>
+          <Text style={styles.nickText}>@cryptobadboy</Text>
+        </View>
+      </View>
+      <FlatList
+        style={styles.menu}
+        ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
+        data={menuItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.title}
+      />
     </View>
   );
 };
@@ -147,6 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   dividingLine: {
     alignSelf: 'center',
@@ -174,13 +153,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   nameText: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: 'black',
   },
   nickText: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: 'black',
@@ -205,7 +184,7 @@ const styles = StyleSheet.create({
   },
   disableMenuTitle: {
     marginLeft: 10,
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: '#888888',

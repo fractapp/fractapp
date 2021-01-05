@@ -18,31 +18,6 @@ export const SaveWallet = ({
 }) => {
   const seed = mnemonicGenerate().split(' ');
   const dialogContext = useContext(Dialog.Context);
-  const authContext = useContext(Auth.Context);
-
-  const onSuccess = () => {
-    dialogContext.dispatch(Dialog.close());
-    authContext.dispatch(Auth.signIn());
-  };
-
-  useEffect(() => {
-    if (route.params?.isSuccess == null) {
-      return;
-    }
-
-    const dir =
-      route.params.type == BackupUtils.BackupType.File
-        ? 'Downloads'
-        : backupUtil.GoogleDriveFolder;
-
-    dialogContext.dispatch(
-      Dialog.open(
-        'Success save wallet',
-        `If you lose access to file then you will not be able to restore access to the wallet. File "${route.params?.fileName}.json" saved in "${dir}" directory`,
-        onSuccess,
-      ),
-    );
-  }, [route.params?.isSuccess]);
 
   const backupFile = async () => {
     await Backup.backupFile(
@@ -50,7 +25,7 @@ export const SaveWallet = ({
         navigation.navigate('WalletFileBackup', {
           seed: seed,
           type: Backup.BackupType.File,
-          callerScreen: 'SaveWallet',
+          isNewAccount: true,
         }),
       () =>
         dialogContext.dispatch(
@@ -67,7 +42,7 @@ export const SaveWallet = ({
       navigation.navigate('WalletFileBackup', {
         seed: seed,
         type: Backup.BackupType.GoogleDrive,
-        callerScreen: 'SaveWallet',
+        isNewAccount: true,
       }),
     );
   };
@@ -94,10 +69,6 @@ export const SaveWallet = ({
           onPress={() =>
             navigation.navigate('SaveSeed', {
               seed: seed,
-              onSuccess: async () => {
-                await db.createAccounts(seed.join(' '));
-                authContext.dispatch(Auth.signIn());
-              },
             })
           }
         />

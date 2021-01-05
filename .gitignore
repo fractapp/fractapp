@@ -1,4 +1,5 @@
 yarn-error.log
+.env
 
 # typescript output directory
 dist/

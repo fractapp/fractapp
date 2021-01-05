@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import {
   StyleSheet,
   View,
-  ScrollView,
   Text,
   FlatList,
   Image,
@@ -13,37 +12,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
 import db from 'utils/db';
-import backupUtil from 'utils/backup';
 
-export const Backup = ({navigation, route}: {navigation: any; route: any}) => {
+export const Backup = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
-
-  const onSuccess = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Home'}],
-    });
-    dialogContext.dispatch(Dialog.close());
-  };
-
-  useEffect(() => {
-    if (route.params?.isSuccess == null) {
-      return;
-    }
-
-    const dir =
-      route.params.type == BackupUtils.BackupType.File
-        ? 'Downloads'
-        : backupUtil.GoogleDriveFolder;
-
-    dialogContext.dispatch(
-      Dialog.open(
-        'Success save wallet',
-        `If you lose access to file then you will not be able to restore access to the wallet. File "${route.params?.fileName}.json" saved in "${dir}" directory`,
-        onSuccess,
-      ),
-    );
-  }, [route.params?.isSuccess]);
 
   const backupFile = async () => {
     const seed = await db.getSeed();
@@ -52,7 +23,7 @@ export const Backup = ({navigation, route}: {navigation: any; route: any}) => {
         navigation.navigate('WalletFileBackup', {
           seed: seed?.split(' '),
           type: BackupUtils.BackupType.File,
-          callerScreen: 'Backup',
+          isNewAccount: true,
         }),
       () =>
         dialogContext.dispatch(
@@ -70,7 +41,7 @@ export const Backup = ({navigation, route}: {navigation: any; route: any}) => {
       navigation.navigate('WalletFileBackup', {
         seed: seed?.split(' '),
         type: BackupUtils.BackupType.GoogleDrive,
-        callerScreen: 'Backup',
+        isNewAccount: true,
       }),
     );
   };
@@ -78,11 +49,6 @@ export const Backup = ({navigation, route}: {navigation: any; route: any}) => {
     const seed = await db.getSeed();
     navigation.navigate('SaveSeed', {
       seed: seed?.split(' '),
-      onSuccess: () =>
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'Home'}],
-        }),
     });
   };
 
@@ -118,31 +84,28 @@ export const Backup = ({navigation, route}: {navigation: any; route: any}) => {
   );
 
   return (
-    <View style={styles.profile}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={styles.description}>
-            Save your wallet in a safe place. If you lose your wallet, you
-            cannot restore access to it.
-          </Text>
-          <FlatList
-            style={styles.menu}
-            ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
-            data={menuItems}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.title}
-          />
-        </View>
-      </ScrollView>
+    <View style={styles.box}>
+      <Text style={styles.description}>
+        Save your wallet in a safe place. If you lose your wallet, you cannot
+        restore access to it.
+      </Text>
+      <FlatList
+        style={styles.menu}
+        ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
+        data={menuItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.title}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  profile: {
+  box: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   dividingLine: {
     alignSelf: 'center',

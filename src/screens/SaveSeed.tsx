@@ -12,7 +12,6 @@ export const SaveSeed = ({
   route: any;
 }) => {
   const seed = route.params.seed;
-  const onSuccess: () => Promise<void> = route.params.onSuccess;
 
   let seedBtns = new Array<Element>();
   for (let index in seed) {
@@ -59,7 +58,7 @@ export const SaveSeed = ({
           onPress={() =>
             navigation.navigate('ConfirmSaveSeed', {
               seed: seed,
-              onSuccess: onSuccess,
+              isNewAccount: route.params.isNewAccount,
             })
           }
         />

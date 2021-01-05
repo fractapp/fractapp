@@ -24,10 +24,10 @@ namespace DB {
     isSigned: 'is_signed',
     isPasscode: 'is_passcode',
     isBiometry: 'is_biometry',
-  };
-  const SecureStorageKeys = {
     accounts: 'accounts',
     accountInfo: (address: string) => `account_${address}`,
+  };
+  const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
     seed: 'seed',
     salt: 'salt',
@@ -60,19 +60,19 @@ namespace DB {
   export async function setSigned(enabled: boolean) {
     await AsyncStorage.setItem(AsyncStorageKeys.isSigned, String(enabled));
   }
-  export async function isSigned(): Promise<Boolean> {
+  export async function isSigned(): Promise<boolean> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.isSigned);
     return result === 'true';
   }
 
-  export async function isPasscode(): Promise<Boolean> {
+  export async function isPasscode(): Promise<boolean> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.isPasscode);
     if (result == null) {
       return false;
     }
     return result === 'true';
   }
-  export async function isBiometry(): Promise<Boolean> {
+  export async function isBiometry(): Promise<boolean> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.isBiometry);
     if (result == null) {
       return false;
@@ -177,10 +177,13 @@ namespace DB {
   }
 
   export async function setAccounts(accounts: Array<string>) {
-    await setSecureItem(SecureStorageKeys.accounts, JSON.stringify(accounts));
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.accounts,
+      JSON.stringify(accounts),
+    );
   }
   export async function getAccounts(): Promise<Array<string> | null> {
-    const result = await getSecureItem(SecureStorageKeys.accounts);
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.accounts);
     if (result == null) {
       return null;
     }
@@ -188,15 +191,17 @@ namespace DB {
   }
 
   export async function setAccountInfo(account: Account) {
-    await setSecureItem(
-      SecureStorageKeys.accountInfo(account.address),
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.accountInfo(account.address),
       JSON.stringify(account),
     );
   }
   export async function getAccountInfo(
     address: string,
   ): Promise<Account | null> {
-    const result = await getSecureItem(SecureStorageKeys.accountInfo(address));
+    const result = await AsyncStorage.getItem(
+      AsyncStorageKeys.accountInfo(address),
+    );
     if (result == null) {
       return null;
     }

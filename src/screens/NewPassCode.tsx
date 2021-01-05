@@ -1,18 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components';
 import DB from 'utils/db';
+import Auth from 'storage/Auth';
+import AuthStore from 'storage/Auth';
 
-export const NewPassCode = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+export const NewPassCode = ({navigation}: {navigation: any}) => {
+  const authContext = useContext(Auth.Context);
+
   const [newPasscode, setNewPasscode] = useState<Array<number>>(new Array());
   const [description, setDescription] = useState<string>('Enter new passcode');
-  const onSuccess = route.params.onSuccess;
 
   const onSubmit = async (passcode: Array<number>) => {
     if (newPasscode.length == 0) {
@@ -29,8 +26,8 @@ export const NewPassCode = ({
 
       if (isEquals) {
         await DB.enablePasscode(passcode.join(''), false);
+        authContext.dispatch(AuthStore.setPasscode(true));
         navigation.goBack();
-        onSuccess();
       } else {
         showMessage({
           message: 'Passcode not equals',
@@ -40,7 +37,6 @@ export const NewPassCode = ({
       }
     }
   };
-  useEffect(() => {}, []);
 
   return (
     <PassCode

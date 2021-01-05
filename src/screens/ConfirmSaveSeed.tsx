@@ -1,33 +1,50 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {BlueButton, SeedButton, Loader} from 'components';
+import db from 'utils/db';
+import Auth from 'storage/Auth';
 
-export const ConfirmSaveSeed = ({route}: {route: any}) => {
+export const ConfirmSaveSeed = ({
+  navigation,
+  route,
+}: {
+  navigation;
+  route: any;
+}) => {
+  const authContext = useContext(Auth.Context);
+
   const seed = route.params.seed;
+  const isNewAccount = route.params.isNewAccount;
   const randomSeed = [...seed].sort(() => 0.5 - Math.random());
 
-  const onSuccess: () => Promise<void> = route.params.onSuccess;
   const [selectedPhrase, setSelectedPhrase] = useState(new Array<string>());
   const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(
     randomSeed,
   );
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [isSaveSeed, setSaveSeed] = useState<boolean>(false);
 
   const startSaveSeed = async () => {
     setLoading(true);
-    setSaveSeed(true);
   };
 
   useEffect(() => {
-    if (!isSaveSeed) {
-      return;
-    }
+    (async () => {
+      if (!isLoading) {
+        return;
+      }
 
-    onSuccess().then(async () => {
+      if (isNewAccount) {
+        await db.createAccounts(seed.join(' '));
+        await authContext.dispatch(Auth.signIn());
+      }
+
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
       setLoading(false);
-    });
-  }, [isSaveSeed]);
+    })();
+  }, [isLoading]);
 
   const selectPhrase = (
     index: number,
@@ -52,11 +69,11 @@ export const ConfirmSaveSeed = ({route}: {route: any}) => {
     setSourceState: React.Dispatch<React.SetStateAction<string[]>>,
     setDestinationState: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
-    var btns = new Array<Element>();
+    const buttons = new Array<Element>();
 
     for (let i = 0; i < source.length; i++) {
       let value = source[i];
-      btns.push(
+      buttons.push(
         <SeedButton
           key={i}
           text={value}
@@ -73,7 +90,7 @@ export const ConfirmSaveSeed = ({route}: {route: any}) => {
         />,
       );
     }
-    return btns;
+    return buttons;
   };
 
   const renderNoSelectedPhrase = () => {

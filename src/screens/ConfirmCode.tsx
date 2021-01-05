@@ -17,7 +17,6 @@ export const ConfirmCode = ({
   const phone = route.params.phone;
 
   const refs = new Array(2);
-  const onSuccess = async () => {};
 
   useEffect(() => {
     if (code.length < BackendApi.CodeLength) {
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 50,
     height: 50,
-    borderColor: '#DADADA',
+    borderColor: '#CCCCCC',
     borderWidth: 1,
     borderRadius: 13,
     fontSize: 20,

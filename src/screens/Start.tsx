@@ -24,8 +24,8 @@ export const Start = ({navigation}: {navigation: any}) => {
 const styles = StyleSheet.create({
   logo: {
     marginTop: 230,
-    width: 60,
-    height: 60,
+    width: 61,
+    height: 61,
     marginBottom: 10,
   },
   nextBtn: {

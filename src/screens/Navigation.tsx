@@ -31,7 +31,7 @@ import {getSymbol} from 'models/wallet';
 
 const RootStack = createStackNavigator();
 
-export const Navigation = (isWalletCreated: {isWalletCreated: boolean}) => {
+export const Navigation = ({isWalletCreated}: {isWalletCreated: boolean}) => {
   const Theme = {
     dark: false,
     colors: {
@@ -88,7 +88,7 @@ export const Navigation = (isWalletCreated: {isWalletCreated: boolean}) => {
   const getCreateWalletScreens = () => {
     return (
       <>
-        {getEmptyRouter('Root', Start)}
+        {getEmptyRouter('Home', Start)}
         {getEmptyRouter('SettingWallet', SettingWallet)}
         {getEmptyRouter('ImportWallet', ImportWallet)}
         {getEmptyRouter('SaveWallet', SaveWallet)}
@@ -142,7 +142,7 @@ export const Navigation = (isWalletCreated: {isWalletCreated: boolean}) => {
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
-        {!isWalletCreated ? getCreateWalletScreens() : getWalletExistScreens()}
+        {isWalletCreated ? getWalletExistScreens() : getCreateWalletScreens()}
 
         {commonScreens()}
       </RootStack.Navigator>

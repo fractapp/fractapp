@@ -4,6 +4,8 @@ import {BlueButton, TextInput, PasswordInput, Loader} from 'components';
 import db from 'utils/db';
 import backupUtil from 'utils/backup';
 import Dialog from 'storage/Dialog';
+import BackupUtils from 'utils/backup';
+import Auth from 'storage/Auth';
 
 const minPasswordLength = 6;
 
@@ -15,6 +17,7 @@ export const WalletFileBackup = ({
   route: any;
 }) => {
   const dialogContext = useContext(Dialog.Context);
+  const authContext = useContext(Auth.Context);
 
   const [fileName, setFilename] = useState<string>(backupUtil.randomFilename());
   const [password, setPassword] = useState<string>('');
@@ -23,7 +26,7 @@ export const WalletFileBackup = ({
 
   const seed: string = route.params.seed.join(' ');
   const type: backupUtil.BackupType = route.params.type;
-  const callerScreen: backupUtil.BackupType = route.params.callerScreen;
+  const isNewAccount: backupUtil.BackupType = route.params.isNewAccount;
 
   const startBackup = async () => {
     setLoading(true);
@@ -35,17 +38,32 @@ export const WalletFileBackup = ({
     }
 
     backupUtil.backup(seed, password, fileName, type).then(async (info) => {
-      if (!info.isSuccess) {
-        setLoading(false);
-        return;
-      }
+      setLoading(false);
 
       await db.createAccounts(seed);
-      navigation.navigate(callerScreen, {
-        isSuccess: true,
-        type: type,
-        fileName: fileName,
-      });
+      const dir =
+        route.params.type == BackupUtils.BackupType.File
+          ? 'Downloads'
+          : backupUtil.GoogleDriveFolder;
+
+      dialogContext.dispatch(
+        Dialog.open(
+          'Success save wallet',
+          `If you lose access to file then you will not be able to restore access to the wallet. File "${fileName}.json" saved in "${dir}" directory`,
+          async () => {
+            await dialogContext.dispatch(Dialog.close());
+
+            if (isNewAccount) {
+              await authContext.dispatch(Auth.signIn());
+            }
+
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            });
+          },
+        ),
+      );
     });
   }, [isLoading]);
 

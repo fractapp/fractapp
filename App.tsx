@@ -11,7 +11,7 @@ import DialogStore from 'storage/Dialog';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import {Navigation} from 'screens';
-import {
+import changeNavigationBarColor, {
   hideNavigationBar,
   showNavigationBar,
 } from 'react-native-navigation-bar-color';
@@ -74,8 +74,14 @@ export default function App() {
 
     DB.isSigned().then(async (isSigned) => {
       if (isSigned) {
-        setLocked(await DB.isPasscode());
-        setBiometry(await DB.isBiometry());
+        const isPasscode = await DB.isPasscode();
+        const isBiometry = await DB.isBiometry();
+
+        authDispatch(AuthStore.setPasscode(isPasscode));
+        authDispatch(AuthStore.setBiometry(isBiometry));
+
+        setLocked(isPasscode);
+        setBiometry(isBiometry);
 
         setWalletCreated(true);
         authDispatch(AuthStore.signIn());
@@ -85,6 +91,7 @@ export default function App() {
       }
 
       showNavigationBar();
+      changeNavigationBarColor('#FFFFFF', true, true);
       setLoading(false);
       SplashScreen.hide();
 
@@ -116,7 +123,7 @@ export default function App() {
       <DialogStore.Context.Provider
         value={{dialog: dialogStore.dialog, dispatch: dialogDispatch}}>
         <AuthStore.Context.Provider
-          value={{isSign: authStore.isSign, dispatch: authDispatch}}>
+          value={{auth: authStore, dispatch: authDispatch}}>
           <AccountsStore.Context.Provider
             value={{
               accounts: accountsStore.accounts,

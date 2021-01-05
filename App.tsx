@@ -18,6 +18,7 @@ import changeNavigationBarColor, {
 import PasscodeUtil from 'utils/passcode';
 import {showMessage} from 'react-native-flash-message';
 import DB from 'utils/db';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 export default function App() {
   const [authStore, authDispatch] = useReducer(
@@ -41,6 +42,8 @@ export default function App() {
   const [isWalletCreated, setWalletCreated] = useState<Boolean>(false);
   const [isLocked, setLocked] = useState<Boolean>(false);
   const [isBiometry, setBiometry] = useState<Boolean>(false);
+  const [isConnected, setConnected] = useState<Boolean>(true);
+  const netInfo = useNetInfo();
 
   const onSubmitPasscode = async (passcode: Array<number>) => {
     let hash = await DB.getPasscodeHash();
@@ -98,6 +101,29 @@ export default function App() {
       console.log('end ' + new Date().toTimeString());
     });
   }, [authStore.isSign]);
+
+  useEffect(() => {
+    if (netInfo.isConnected && !isConnected) {
+      showMessage({
+        message: 'Connection restored',
+        type: 'success',
+        icon: 'success',
+        position: 'top',
+      });
+    }
+    if (!netInfo.isConnected) {
+      showMessage({
+        message: 'Invalid connection',
+        type: 'danger',
+        icon: 'danger',
+        hideOnPress: false,
+        autoHide: false,
+        position: 'top',
+      });
+    }
+
+    setConnected(netInfo.isConnected);
+  }, [netInfo.isConnected]);
 
   if (
     dialogStore == undefined ||

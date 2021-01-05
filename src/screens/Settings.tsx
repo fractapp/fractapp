@@ -9,7 +9,6 @@ import {
   Linking,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import DB from 'utils/db';
 import Keychain from 'react-native-keychain';
 import AuthStore from 'storage/Auth';
 
@@ -65,6 +64,14 @@ export const Settings = ({navigation}: {navigation: any}) => {
       img: require('assets/img/telegram.png'),
       title: 'Telegram',
       onClick: () => Linking.openURL('https://t.me/fractapp'),
+    },
+    {
+      img: require('assets/img/faq.png'),
+      title: 'FAQ',
+      onClick: () =>
+        Linking.openURL(
+          'https://medium.com/fractapp/fractapp-faq-4e76810c0564',
+        ),
     },
     {
       img: require('assets/img/help.png'),

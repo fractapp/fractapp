@@ -5,7 +5,9 @@ import {base64Encode, randomAsU8a} from '@polkadot/util-crypto';
 import PasscodeUtil from 'utils/passcode';
 import {Keyring} from '@polkadot/keyring';
 import {u8aToHex} from '@polkadot/util';
-import {Currency} from 'models/wallet';
+import {Currency, getSymbol} from 'models/wallet';
+import {Transaction} from 'models/transaction';
+import {ChatInfo} from 'models/chatInfo';
 /**
  * @namespace
  * @category Utils
@@ -26,6 +28,8 @@ namespace DB {
     isBiometry: 'is_biometry',
     accounts: 'accounts',
     accountInfo: (address: string) => `account_${address}`,
+    transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
+    chats: 'chats',
   };
   const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
@@ -188,6 +192,51 @@ namespace DB {
       return null;
     }
     return JSON.parse(result);
+  }
+
+  export async function setChats(chats: Map<string, ChatInfo>) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.chats,
+      JSON.stringify([...chats]),
+    );
+  }
+
+  export async function getChats(): Promise<Map<string, ChatInfo> | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.chats);
+
+    if (result == null) {
+      return null;
+    }
+    return new Map<string, ChatInfo>(JSON.parse(result));
+  }
+
+  export async function addTxs(
+    currency: Currency,
+    txs: Map<string, Transaction>,
+  ) {
+    let newMap;
+    const old = await getTxs(currency);
+    if (old == null) {
+      newMap = txs;
+    } else {
+      newMap = new Map([...txs].concat([...old]));
+    }
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.transactions(currency),
+      JSON.stringify([...newMap]),
+    );
+  }
+  export async function getTxs(
+    currency: Currency,
+  ): Promise<Map<string, Transaction> | null> {
+    const result = await AsyncStorage.getItem(
+      AsyncStorageKeys.transactions(currency),
+    );
+
+    if (result == null) {
+      return null;
+    }
+    return new Map<string, Transaction>(JSON.parse(result));
   }
 
   export async function setAccountInfo(account: Account) {

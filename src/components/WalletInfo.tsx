@@ -38,7 +38,7 @@ export const WalletInfo = ({
                 </View>
                 <View style={{flex: 1}}>
                   <Text style={[styles.balance, {textAlign: 'right'}]}>
-                    {wallet.usdValue}$
+                    ${wallet.usdValue}
                   </Text>
                 </View>
               </View>

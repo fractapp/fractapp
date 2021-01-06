@@ -1,18 +1,21 @@
-import {Currency} from 'models/wallet';
+import {Currency, getSymbol} from 'models/wallet';
 import BN from 'bn.js';
-import {Transaction, TxType} from 'models/transaction';
-import {POLKADOT_API, KUSAMA_API} from '@env';
+import {Transaction, TxStatus, TxType} from 'models/transaction';
+import {KUSAMA_API, POLKADOT_API} from '@env';
+import MathUtils from 'utils/math';
 
 export class Api {
   private static instance: Map<Currency, Api>;
   private readonly explorerApiUrl: string;
   private readonly currency: Currency;
   private decimals: BN;
+  private readonly viewDecimals: number;
 
   public constructor(currency: Currency, explorerApiUrl: string, decimals: BN) {
     this.currency = currency;
     this.explorerApiUrl = explorerApiUrl;
     this.decimals = decimals;
+    this.viewDecimals = 3;
   }
 
   public static getInstance(currency: Currency): Api {
@@ -47,61 +50,61 @@ export class Api {
   }
 
   public async balance(address: string): Promise<number | null> {
-    let rs = await fetch(`${this.explorerApiUrl}/api/v1/account/${address}`);
+    let rs = await fetch(`${this.explorerApiUrl}/scan/search`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify({
+        key: address,
+      }),
+    });
     if (!rs.ok) {
       return null;
     }
     const result = await rs.json();
-    return this.convertFromPlanck(new BN(result.data.attributes.balance_free));
+
+    return MathUtils.floor(result.data.account.balance, this.viewDecimals);
   }
 
-  public async getTransactions(
+  public async getTransactionsWithoutUSDValue(
     address: string,
-    page: number = 1,
-    size: number = 10,
+    page: number = 0,
+    size: number = 25,
   ): Promise<Array<Transaction>> {
     let transactions = new Array<Transaction>();
 
     try {
-      let rs = await fetch(
-        `${this.explorerApiUrl}/api/v1/event?filter[address]=${address}&filter[search_index]=2&page[number]=${page}&page[size]=${size}`,
-      );
+      let rs = await fetch(`${this.explorerApiUrl}/scan/transfers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({
+          address: address,
+          page: page,
+          row: size,
+        }),
+      });
       if (!rs.ok) {
         return new Array();
       }
-
-      const transfers = (await rs.json()).data;
+      const data = (await rs.json()).data;
+      const transfers = data.transfers;
+      if (transfers.length == 0) {
+        return new Array<Transaction>();
+      }
       for (let i = 0; i < transfers.length; i++) {
-        const idx = `${transfers[i].attributes.block_id}-${transfers[i].attributes.extrinsic_idx}`;
+        const idx = transfers[i].extrinsic_index;
+
         let txType = 0;
         let member = '';
-        if (address == transfers[i].attributes.attributes[0].value) {
+        if (address == transfers[i].from) {
           txType = TxType.Sent;
-          member = transfers[i].attributes.attributes[1].value;
+          member = transfers[i].to;
         } else {
           txType = TxType.Received;
-          member = transfers[i].attributes.attributes[0].value;
-        }
-
-        rs = await fetch(
-          `${this.explorerApiUrl}/api/v1/extrinsic/${idx}?include=events`,
-        );
-        const jsRs = await rs.json();
-        const tx = jsRs.data;
-        const events = jsRs.included;
-        let fee = new BN(0);
-        for (let j = 0; j < events.length; j++) {
-          if (
-            events[j].attributes.module_id == 'treasury' &&
-            events[j].attributes.event_id == 'Deposit'
-          ) {
-            fee = fee.add(new BN(events[j].attributes.attributes[0].value));
-          } else if (
-            events[j].attributes.module_id == 'balances' &&
-            events[j].attributes.event_id == 'Deposit'
-          ) {
-            fee = fee.add(new BN(events[j].attributes.attributes[1].value));
-          }
+          member = transfers[i].from;
         }
 
         transactions.push(
@@ -110,11 +113,15 @@ export class Api {
             member,
             this.currency,
             txType,
-            new Date(tx.attributes.datetime),
-            this.convertFromPlanck(
-              new BN(transfers[i].attributes.attributes[2].value),
+            transfers[i].block_timestamp * 1000,
+            MathUtils.floor(transfers[i].amount, this.viewDecimals),
+            0,
+            MathUtils.floor(
+              this.convertFromPlanck(new BN(transfers[i].fee)),
+              this.viewDecimals,
             ),
-            this.convertFromPlanck(fee),
+            0,
+            transfers[i].success ? TxStatus.Success : TxStatus.Fail,
           ),
         );
       }
@@ -123,5 +130,39 @@ export class Api {
       return transactions;
     }
     return transactions;
+  }
+
+  public async updateUSDValueInTransaction(tx: Transaction): Promise<void> {
+    try {
+      let usdPrice = 0;
+
+      let priceRs = await fetch(`${this.explorerApiUrl}/open/price_converter`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          value: 1,
+          from: getSymbol(this.currency),
+          quote: 'USD',
+          time: tx.timestamp,
+        }),
+      });
+      if (!priceRs.ok) {
+        return;
+      }
+
+      const json = await priceRs.json();
+      usdPrice = json.data.price.price;
+
+      tx.usdValue = MathUtils.floorUsd(tx.value * usdPrice);
+      tx.usdFee = MathUtils.floorUsd(
+        this.convertFromPlanck(new BN(tx.fee)) * usdPrice,
+      );
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    return;
   }
 }

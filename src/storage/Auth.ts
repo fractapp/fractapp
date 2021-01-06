@@ -13,6 +13,7 @@ namespace AuthStore {
   }
 
   type State = {
+    notificationCount: number;
     isBiometry: boolean;
     isPasscode: boolean;
     isSign: boolean;
@@ -20,6 +21,7 @@ namespace AuthStore {
   };
 
   export const initialState: State = {
+    notificationCount: 0,
     isBiometry: false,
     isPasscode: false,
     isSign: false,

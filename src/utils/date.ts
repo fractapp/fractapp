@@ -56,6 +56,41 @@ namespace Date {
     return dateValue;
   }
 
+  /**
+   * convert date to string
+   */
+  export function toChatInfo(now: Date, date: Date): string {
+    let dateValue = '';
+    if (
+      now.getFullYear() == date.getFullYear() &&
+      now.getMonth() == date.getMonth() &&
+      now.getDay() == date.getDay()
+    ) {
+      let hours = String(date.getHours());
+      let minutes = String(date.getMinutes());
+      if (hours.length == 1) {
+        hours = '0' + hours;
+      }
+      if (minutes.length == 1) {
+        minutes = '0' + minutes;
+      }
+
+      dateValue = hours + ':' + minutes;
+    } else if (
+      now.getFullYear() == date.getFullYear() &&
+      now.getMonth() == date.getMonth() &&
+      now.getDay() - 1 == date.getDay()
+    ) {
+      dateValue = 'Yesterday';
+    } else if (now.getFullYear() == date.getFullYear()) {
+      dateValue = date.getDate() + ' ' + months[date.getMonth()];
+    } else {
+      dateValue = date.toLocaleDateString();
+    }
+
+    return dateValue;
+  }
+
   /*
     export function dateReviver(key: string, value: any): Date {
         var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;

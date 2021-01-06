@@ -19,6 +19,7 @@ import PasscodeUtil from 'utils/passcode';
 import {showMessage} from 'react-native-flash-message';
 import DB from 'utils/db';
 import {useNetInfo} from '@react-native-community/netinfo';
+import TransactionsStore from 'storage/Transactions';
 
 export default function App() {
   const [authStore, authDispatch] = useReducer(
@@ -36,6 +37,10 @@ export default function App() {
   const [pricesStore, pricesDispatch] = useReducer(
     PricesStore.reducer,
     PricesStore.initialState,
+  );
+  const [transactionsStore, transactionsDispatch] = useReducer(
+    TransactionsStore.reducer,
+    TransactionsStore.initialState,
   );
 
   const [isLoading, setLoading] = useState<Boolean>(true);
@@ -89,8 +94,12 @@ export default function App() {
         setWalletCreated(true);
         authDispatch(AuthStore.signIn());
 
-        await tasks.initAccounts(accountsDispatch);
-        await tasks.createTask(accountsDispatch, pricesDispatch);
+        await tasks.init(accountsDispatch, transactionsDispatch);
+        await tasks.createTask(
+          accountsDispatch,
+          pricesDispatch,
+          transactionsDispatch,
+        );
       }
 
       showNavigationBar();
@@ -127,9 +136,9 @@ export default function App() {
 
   if (
     dialogStore == undefined ||
-    authStore == undefined ||
     accountsStore == undefined ||
-    pricesStore == undefined
+    pricesStore == undefined ||
+    transactionsStore == null
   ) {
     Alert.alert('Please contact support: support@fractapp.com');
     return <View />;
@@ -155,19 +164,25 @@ export default function App() {
               accounts: accountsStore.accounts,
               dispatch: accountsDispatch,
             }}>
-            <PricesStore.Context.Provider
-              value={{prices: pricesStore.prices, dispatch: pricesDispatch}}>
-              {isLocked ? (
-                <PassCode
-                  isBiometry={isBiometry}
-                  isBiometryStart={isBiometry}
-                  description={'Enter passcode'}
-                  onSubmit={onSubmitPasscode}
-                />
-              ) : (
-                <Navigation isWalletCreated={isWalletCreated} />
-              )}
-            </PricesStore.Context.Provider>
+            <TransactionsStore.Context.Provider
+              value={{
+                transactions: transactionsStore.transactions,
+                dispatch: transactionsDispatch,
+              }}>
+              <PricesStore.Context.Provider
+                value={{prices: pricesStore.prices, dispatch: pricesDispatch}}>
+                {isLocked ? (
+                  <PassCode
+                    isBiometry={isBiometry}
+                    isBiometryStart={isBiometry}
+                    description={'Enter passcode'}
+                    onSubmit={onSubmitPasscode}
+                  />
+                ) : (
+                  <Navigation isWalletCreated={isWalletCreated} />
+                )}
+              </PricesStore.Context.Provider>
+            </TransactionsStore.Context.Provider>
           </AccountsStore.Context.Provider>
         </AuthStore.Context.Provider>
 

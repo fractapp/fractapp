@@ -10,6 +10,12 @@ export enum TxType {
   Received,
 }
 
+export enum TxStatus {
+  Pending = 0,
+  Success,
+  Fail,
+}
+
 /**
  * @category Models
  */
@@ -19,24 +25,33 @@ export class Transaction {
   currency: Currency;
   value: number;
   txType: TxType;
-  date: Date;
+  timestamp: number;
   fee: number;
+  usdValue: number;
+  usdFee: number;
+  status: TxStatus;
 
   constructor(
     id: string,
     member: string,
     currency: Currency,
     txType: TxType,
-    date: Date,
+    timestamp: number,
     value: number,
+    usdValue: number,
     fee: number,
+    usdFee: number,
+    status: TxStatus,
   ) {
     this.id = id;
     this.member = member;
     this.currency = currency;
     this.value = value;
     this.txType = txType;
-    this.date = date;
+    this.timestamp = timestamp;
     this.fee = fee;
+    this.usdValue = usdValue;
+    this.usdFee = usdFee;
+    this.status = status;
   }
 }

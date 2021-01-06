@@ -23,3 +23,4 @@ export {EditPhoneNumber} from './EditPhoneNumber';
 export {SelectCountry} from './SelectCountry';
 export {ConfirmCode} from './ConfirmCode';
 export {Navigation} from './Navigation';
+export {Chats} from './Chats';

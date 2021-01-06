@@ -13,7 +13,12 @@ export const WalletDetailsInfo = ({wallet}: {wallet: Wallet}) => {
       <View style={{flex: 1, flexDirection: 'row'}}>
         <WalletLogo currency={wallet.currency} size={50} />
         <View
-          style={{flex: 1, flexDirection: 'column-reverse', marginLeft: 15}}>
+          style={{
+            flex: 1,
+            alignSelf: 'center',
+            marginLeft: 15,
+          }}>
+          <Text style={styles.name}>{wallet.name}</Text>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'left'}]}>
@@ -22,11 +27,10 @@ export const WalletDetailsInfo = ({wallet}: {wallet: Wallet}) => {
             </View>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'right'}]}>
-                {wallet.usdValue} $
+                ${wallet.usdValue}
               </Text>
             </View>
           </View>
-          <Text style={styles.name}>{wallet.name}</Text>
         </View>
       </View>
     </View>

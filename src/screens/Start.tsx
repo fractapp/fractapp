@@ -8,7 +8,7 @@ export const Start = ({navigation}: {navigation: any}) => {
       <Image source={require('assets/img/logo.png')} style={styles.logo} />
       <Text style={styles.welcomeText}>Welcome to Fractapp</Text>
       <Text style={styles.description}>
-        Messenger with cryptocurrency wallet
+        Cryptocurrency wallet with social payments
       </Text>
       <View style={styles.nextBtn}>
         <BlueButton

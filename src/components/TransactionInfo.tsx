@@ -43,31 +43,34 @@ export const TransactionInfo = ({
           <WalletLogo currency={transaction.currency} size={50} />
           <View
             style={{
+              alignSelf: 'center',
               flex: 1,
-              flexDirection: 'column-reverse',
-              marginLeft: 15,
+              flexDirection: 'column',
+              marginLeft: 10,
             }}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{flex: 1}}>
-                <Text
-                  style={[styles.balance, {textAlign: 'left', color: color}]}>
-                  {prefix}
-                  {transaction.value} {getSymbol(transaction.currency)}
-                </Text>
-              </View>
-            </View>
             <Text numberOfLines={1} style={styles.member}>
               {transaction.member.length <= 10
                 ? `${transaction.member}`
                 : `${transaction.member.substring(
                     0,
-                    13,
+                    10,
                   )}...${transaction.member.substring(
-                    transaction.member.length - 13,
+                    transaction.member.length - 10,
                     transaction.member.length,
                   )}`}
             </Text>
+            <Text style={[styles.balance, {textAlign: 'left', color: color}]}>
+              {prefix}
+              {transaction.value} {getSymbol(transaction.currency)}
+            </Text>
           </View>
+          {transaction.usdValue != 0 ? (
+            <Text style={[styles.balance, {alignSelf: 'center', color: color}]}>
+              {prefix}${transaction.usdValue}
+            </Text>
+          ) : (
+            ''
+          )}
         </View>
       </View>
     </TouchableHighlight>
@@ -83,14 +86,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   member: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'black',
   },
   balance: {
-    fontSize: 17,
+    fontSize: 15,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
   },

@@ -14,3 +14,4 @@ export {PassCode} from './PassCode';
 export {SuccessButton} from './SuccessButton';
 export {WalletLogo} from './WalletLogo';
 export {TabMenu} from './TabMenu';
+export {ChatShortInfo} from './ChatShortInfo';

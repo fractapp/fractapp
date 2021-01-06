@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  View,
   ActivityIndicator,
-  Text,
-  TouchableHighlight,
   Alert,
   SectionList,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
 } from 'react-native';
 import {Wallet} from 'models/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Transaction} from 'models/transaction';
-import {WalletDetailsInfo, TransactionInfo} from 'components';
-import {Api} from 'utils/polkadot';
+import {TransactionInfo, WalletDetailsInfo} from 'components';
 import dateUtils from 'utils/date';
+import TransactionsStore from 'storage/Transactions';
 
 export const WalletDetails = ({
   navigation,
@@ -22,54 +22,19 @@ export const WalletDetails = ({
   navigation: any;
   route: any;
 }) => {
-  const [transactions, setTransactions] = useState<Map<string, Transaction>>(
-    new Map(),
-  );
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
-  const [lastPage, setLastPage] = useState<number>(0);
+  const transactionsContext = useContext(TransactionsStore.Context);
   const wallet: Wallet = route.params.wallet;
 
-  const startUpdateTxs = () => {
-    if (isLoading || isEnd) {
-      return;
-    }
-
-    setLoading(true);
-  };
-
-  const updateTxs = async (page: number = 1, size: number = 10) => {
-    const api = Api.getInstance(wallet.currency);
-    let txs = await api.getTransactions(wallet.address, page, size);
-    const updatedMap = new Map(transactions);
-    for (let i = 0; i < txs.length; i++) {
-      updatedMap.set(txs[i].id, txs[i]);
-    }
-
-    if (txs.length < size) {
-      setIsEnd(true);
-    }
-
-    setLastPage(page);
-    setTransactions(updatedMap);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (!isLoading) {
-      return;
-    }
-
-    updateTxs(lastPage + 1);
-  }, [isLoading]);
-
   const getDataWithSections = () => {
+    //TODO: maybe this will transfer to redux
     let sections = new Array();
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    for (let [id, tx] of transactions) {
-      let dateValue = dateUtils.toTitle(now, tx.date);
+    for (let [id, tx] of transactionsContext.transactions.get(
+      wallet.currency,
+    )) {
+      let dateValue = dateUtils.toTitle(now, new Date(tx.timestamp));
       if (!txsBySelections.has(dateValue)) {
         txsBySelections.set(dateValue, new Array<Transaction>());
       }
@@ -80,7 +45,9 @@ export const WalletDetails = ({
     for (const [key, value] of txsBySelections) {
       sections.push({
         title: key,
-        data: value,
+        data: value.sort(function (a, b) {
+          return a.timestamp < b.timestamp;
+        }),
       });
     }
     return sections;
@@ -128,14 +95,6 @@ export const WalletDetails = ({
             <View style={styles.dividingLine} />
           </View>
         )}
-        ListFooterComponent={
-          isLoading ? (
-            <View style={{marginTop: 10, marginBottom: 10}}>
-              <ActivityIndicator size={30} color="#2AB2E2" />
-            </View>
-          ) : null
-        }
-        onEndReachedThreshold={0.01}
         sections={getDataWithSections()}
         keyExtractor={(item, index) => item + index}
         renderItem={({item}) => (
@@ -150,7 +109,6 @@ export const WalletDetails = ({
             }
           />
         )}
-        onEndReached={startUpdateTxs}
         renderSectionHeader={({section: {title}}) => (
           <View style={{marginTop: 10}}>
             <Text style={styles.dateTitle}>{title}</Text>

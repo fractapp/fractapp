@@ -145,7 +145,7 @@ export class Api {
           value: 1,
           from: getSymbol(this.currency),
           quote: 'USD',
-          time: tx.timestamp,
+          time: tx.timestamp / 1000,
         }),
       });
       if (!priceRs.ok) {

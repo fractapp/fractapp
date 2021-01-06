@@ -173,22 +173,24 @@ namespace Task {
         isAtLeastOne = true;
         await api.updateUSDValueInTransaction(txs[i]);
 
-        const lastChatId = chats.get(txs[i].member).lastTxId;
         if (!chats?.has(txs[i].member)) {
           chats.set(
             txs[i].member,
             new ChatInfo(txs[i].member, txs[i].currency, txs[i].id, 0),
           );
-        } else if (
-          (txsMap.has(lastChatId) &&
-            txs[i].timestamp > txsMap.get(lastChatId).timestamp) ||
-          (dbTxs.has(lastChatId) &&
-            txs[i].timestamp > dbTxs.get(lastChatId).timestamp)
-        ) {
-          chats.set(
-            txs[i].member,
-            new ChatInfo(txs[i].member, txs[i].currency, txs[i].id, 0),
-          );
+        } else {
+          const lastChatId = chats.get(txs[i].member).lastTxId;
+          if (
+            (txsMap.has(lastChatId) &&
+              txs[i].timestamp > txsMap.get(lastChatId).timestamp) ||
+            (dbTxs.has(lastChatId) &&
+              txs[i].timestamp > dbTxs.get(lastChatId).timestamp)
+          ) {
+            chats.set(
+              txs[i].member,
+              new ChatInfo(txs[i].member, txs[i].currency, txs[i].id, 0),
+            );
+          }
         }
 
         transactionsDispatch(TransactionsStore.addTx(account.currency, txs[i]));

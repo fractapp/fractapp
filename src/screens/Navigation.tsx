@@ -25,13 +25,14 @@ import {
   EditPhoneNumber,
   SelectCountry,
   ConfirmCode,
+  Chat,
 } from 'screens';
 import {TabMenu} from 'components';
 import {getSymbol} from 'models/wallet';
 
 const RootStack = createStackNavigator();
 
-export const Navigation = ({isWalletCreated}: {isWalletCreated: boolean}) => {
+export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
   const Theme = {
     dark: false,
     colors: {
@@ -120,6 +121,7 @@ export const Navigation = ({isWalletCreated}: {isWalletCreated: boolean}) => {
           'Edit phone number',
           EditPhoneNumber,
         )}
+        {getRouterWithTitle('Chat', '', Chat)}
         {getRouterWithTitle('Receive', 'Receive ', Receive, (route) =>
           getSymbol(route.params.currency),
         )}
@@ -142,7 +144,7 @@ export const Navigation = ({isWalletCreated}: {isWalletCreated: boolean}) => {
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
-        {isWalletCreated ? getWalletExistScreens() : getCreateWalletScreens()}
+        {isInitialized ? getWalletExistScreens() : getCreateWalletScreens()}
 
         {commonScreens()}
       </RootStack.Navigator>

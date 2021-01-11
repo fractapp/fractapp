@@ -10,7 +10,7 @@ export const ConfirmCode = ({
   navigation: any;
   route: any;
 }) => {
-  const dialogContext = useContext(Dialog.Context);
+  //const dialogContext = useContext(Dialog.Context);
   const [code, setCode] = useState<string>('');
   const [editable, setEditable] = useState<boolean>(true);
 

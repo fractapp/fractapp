@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Wallets, Settings, Chats} from 'screens';
-import AuthStore from 'storage/Auth';
+import GlobalStore from 'storage/Global';
 
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
@@ -12,7 +12,7 @@ const ChatStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
 export const TabMenu = () => {
-  const authContext = useContext(AuthStore.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
   const MenuTabs = {
     Discovery: 'Discovery',
@@ -43,7 +43,10 @@ export const TabMenu = () => {
         name={MenuTabs.Chats}
         component={ChatsTab}
         options={{
-          tabBarBadge: authContext.notificationCount,
+          tabBarBadge:
+            globalContext.state.notificationCount == 0
+              ? undefined
+              : globalContext.state.notificationCount,
           tabBarBadgeStyle: {
             backgroundColor: '#FF3B30',
             color: 'white',

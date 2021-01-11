@@ -1,17 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {BlueButton, SeedButton, Loader} from 'components';
-import db from 'utils/db';
-import Auth from 'storage/Auth';
+import db from 'storage/DB';
+import GlobalStore from 'storage/Global';
 
 export const ConfirmSaveSeed = ({
   navigation,
   route,
 }: {
-  navigation;
+  navigation: any;
   route: any;
 }) => {
-  const authContext = useContext(Auth.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
   const seed = route.params.seed;
   const isNewAccount = route.params.isNewAccount;
@@ -35,7 +35,7 @@ export const ConfirmSaveSeed = ({
 
       if (isNewAccount) {
         await db.createAccounts(seed.join(' '));
-        await authContext.dispatch(Auth.signIn());
+        await globalContext.dispatch(GlobalStore.signIn());
       }
 
       navigation.reset({

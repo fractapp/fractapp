@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
-import {Currency, getSymbol} from 'models/wallet';
+import {getSymbol} from 'models/wallet';
 import {Transaction, TxType} from 'models/transaction';
-import dateUtils from 'utils/date';
+import dateUtils from 'utils/dateUtils';
 
 /**
  * @category Components
@@ -84,21 +84,21 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 15,
-    fontFamily: 'RobotoBold',
+    fontFamily: 'Roboto-Bold',
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'black',
   },
   msg: {
     fontSize: 15,
-    fontFamily: 'RobotoRegular',
+    fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: '#888888',
   },
   time: {
     fontSize: 13,
-    fontFamily: 'RobotoRegular',
+    fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: '#888888',
   },
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   notificationText: {
     fontSize: 13,
-    fontFamily: 'RobotoRegular',
+    fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: 'white',
   },

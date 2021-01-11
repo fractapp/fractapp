@@ -1,4 +1,4 @@
-import DB from './db';
+import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'models/wallet';

@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Keychain from 'react-native-keychain';
-import AuthStore from 'storage/Auth';
+import GlobalStore from 'storage/Global';
 
 export const Settings = ({navigation}: {navigation: any}) => {
-  const authContext = useContext(AuthStore.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
   const menuItems = [
     {
@@ -28,11 +28,11 @@ export const Settings = ({navigation}: {navigation: any}) => {
     },
     {
       img: require('assets/img/safety.png'),
-      title: authContext.auth.isPasscode
+      title: globalContext.state.isPasscode
         ? 'Disable passcode'
         : 'Enable passcode',
       onClick: async () => {
-        if (authContext.auth.isPasscode) {
+        if (globalContext.state.isPasscode) {
           navigation.navigate('VerifyPassCode', {
             isDisablePasscode: true,
           });
@@ -43,7 +43,7 @@ export const Settings = ({navigation}: {navigation: any}) => {
     },
     {
       img: require('assets/img/biometry-btn.png'),
-      title: authContext.auth.isBiometry
+      title: globalContext.state.isBiometry
         ? 'Disable biometry'
         : 'Enable biometry',
       onClick: async () => {
@@ -52,7 +52,7 @@ export const Settings = ({navigation}: {navigation: any}) => {
         });
       },
       isDisable:
-        !authContext.auth.isPasscode &&
+        !globalContext.state.isPasscode &&
         Keychain.getSupportedBiometryType() != null,
     },
     {

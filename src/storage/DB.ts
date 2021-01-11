@@ -10,7 +10,7 @@ import {Transaction} from 'models/transaction';
 import {ChatInfo} from 'models/chatInfo';
 /**
  * @namespace
- * @category Utils
+ * @category storage
  */
 
 namespace DB {
@@ -23,13 +23,16 @@ namespace DB {
   };
 
   const AsyncStorageKeys = {
-    isSigned: 'is_signed',
+    isSynced: 'is_synced',
+    isAuthed: 'is_authed',
     isPasscode: 'is_passcode',
     isBiometry: 'is_biometry',
     accounts: 'accounts',
     accountInfo: (address: string) => `account_${address}`,
     transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
-    chats: 'chats',
+    chatByAddress: (address: string) => `chat_${address}`,
+    chatsInfo: 'chats_info',
+    notificationCount: 'notification_count',
   };
   const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
@@ -61,12 +64,33 @@ namespace DB {
     return result.password;
   }
 
-  export async function setSigned(enabled: boolean) {
-    await AsyncStorage.setItem(AsyncStorageKeys.isSigned, String(enabled));
+  export async function setAuthed(enabled: boolean) {
+    await AsyncStorage.setItem(AsyncStorageKeys.isAuthed, String(enabled));
   }
-  export async function isSigned(): Promise<boolean> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.isSigned);
+  export async function isAuthed(): Promise<boolean> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.isAuthed);
     return result === 'true';
+  }
+
+  export async function setSynced(enabled: boolean) {
+    await AsyncStorage.setItem(AsyncStorageKeys.isSynced, String(enabled));
+  }
+  export async function isSynced(): Promise<boolean> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.isSynced);
+    return result === 'true';
+  }
+
+  export async function setNotificationCount(count: number) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.notificationCount,
+      String(count),
+    );
+  }
+  export async function getNotificationCount(): Promise<number> {
+    const result = await AsyncStorage.getItem(
+      AsyncStorageKeys.notificationCount,
+    );
+    return Number(result);
   }
 
   export async function isPasscode(): Promise<boolean> {
@@ -174,7 +198,6 @@ namespace DB {
     }
     await setAccounts(accounts);
     await setSecureItem(SecureStorageKeys.seed, seed);
-    await setSigned(true);
   }
   export async function getSeed(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.seed);
@@ -194,47 +217,61 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setChats(chats: Map<string, ChatInfo>) {
+  export async function setChatsInfo(chats: Map<string, ChatInfo>) {
     await AsyncStorage.setItem(
-      AsyncStorageKeys.chats,
+      AsyncStorageKeys.chatsInfo,
       JSON.stringify([...chats]),
     );
   }
-
-  export async function getChats(): Promise<Map<string, ChatInfo> | null> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.chats);
+  export async function getChatsInfo(): Promise<Map<string, ChatInfo>> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.chatsInfo);
 
     if (result == null) {
-      return null;
+      return new Map<string, ChatInfo>();
     }
     return new Map<string, ChatInfo>(JSON.parse(result));
   }
 
-  export async function addTxs(
-    currency: Currency,
-    txs: Map<string, Transaction>,
+  export async function setChat(
+    address: string,
+    chats: Map<string, Transaction>,
   ) {
-    let newMap;
-    const old = await getTxs(currency);
-    if (old == null) {
-      newMap = txs;
-    } else {
-      newMap = new Map([...txs].concat([...old]));
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.chatByAddress(address),
+      JSON.stringify([...chats]),
+    );
+  }
+  export async function getChat(
+    address: string,
+  ): Promise<Map<string, Transaction>> {
+    const result = await AsyncStorage.getItem(
+      AsyncStorageKeys.chatByAddress(address),
+    );
+
+    if (result == null) {
+      return new Map<string, Transaction>();
     }
+    return new Map<string, Transaction>(JSON.parse(result));
+  }
+
+  export async function addTxs(currency: Currency, tx: Transaction) {
+    const txs = await getTxs(currency);
+
+    txs.set(tx.id, tx);
     await AsyncStorage.setItem(
       AsyncStorageKeys.transactions(currency),
-      JSON.stringify([...newMap]),
+      JSON.stringify([...txs]),
     );
   }
   export async function getTxs(
     currency: Currency,
-  ): Promise<Map<string, Transaction> | null> {
+  ): Promise<Map<string, Transaction>> {
     const result = await AsyncStorage.getItem(
       AsyncStorageKeys.transactions(currency),
     );
 
     if (result == null) {
-      return null;
+      return new Map<string, Transaction>();
     }
     return new Map<string, Transaction>(JSON.parse(result));
   }

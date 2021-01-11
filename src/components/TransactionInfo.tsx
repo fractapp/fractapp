@@ -24,11 +24,11 @@ export const TransactionInfo = ({
       break;
     case TxType.Received:
       prefix = '+';
-      color = '#84D371';
+      color = '#67D44D';
       break;
     case TxType.Sent:
       prefix = '-';
-      color = '#F45252';
+      color = '#EA4335';
       break;
   }
 
@@ -69,7 +69,7 @@ export const TransactionInfo = ({
               {prefix}${transaction.usdValue}
             </Text>
           ) : (
-            ''
+            <View />
           )}
         </View>
       </View>

@@ -1,5 +1,5 @@
-import {createContext} from 'react';
-import {Dispatch} from 'react';
+import {createContext, Dispatch} from 'react';
+import {State} from 'storage/Global';
 
 /**
  * @namespace
@@ -11,44 +11,44 @@ namespace DialogStore {
     CLOSE,
   }
 
-  type DialogInfo = {
+  type State = {
     title: string;
     text: string;
     visible: boolean;
     onPress?: () => void;
   };
 
-  type State = {
-    dialog: DialogInfo;
-    dispatch?: Dispatch<any>;
-  };
-
   export const initialState: State = {
-    dialog: {
-      text: '',
-      title: '',
-      visible: false,
-    },
+    text: '',
+    title: '',
+    visible: false,
   };
 
-  export const Context = createContext(initialState);
-  export function reducer(prevState: any, action: any) {
+  export type ContextType = {
+    state: State;
+    dispatch: Dispatch<any>;
+  };
+
+  export const Context = createContext<ContextType>({
+    state: initialState,
+    dispatch: () => null,
+  });
+
+  export function reducer(prevState: State, action: any): State {
     switch (action.type) {
       case Action.OPEN:
         return {
-          dialog: {
-            title: action.title,
-            text: action.text,
-            onPress: action.onPress,
-            visible: true,
-          },
+          title: action.title,
+          text: action.text,
+          onPress: action.onPress,
+          visible: true,
         };
       case Action.CLOSE:
-        let newDialog = Object.assign({}, prevState).dialog;
+        let newDialog = Object.assign({}, prevState);
         newDialog.visible = false;
-        return {
-          dialog: newDialog,
-        };
+        return newDialog;
+      default:
+        return prevState;
     }
   }
 

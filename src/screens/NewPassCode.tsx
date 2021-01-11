@@ -1,12 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components';
-import DB from 'utils/db';
-import Auth from 'storage/Auth';
-import AuthStore from 'storage/Auth';
+import GlobalStore from 'storage/Global';
 
 export const NewPassCode = ({navigation}: {navigation: any}) => {
-  const authContext = useContext(Auth.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
   const [newPasscode, setNewPasscode] = useState<Array<number>>(new Array());
   const [description, setDescription] = useState<string>('Enter new passcode');
@@ -25,8 +23,7 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
       }
 
       if (isEquals) {
-        await DB.enablePasscode(passcode.join(''), false);
-        authContext.dispatch(AuthStore.setPasscode(true));
+        globalContext.dispatch(GlobalStore.enablePasscode(passcode.join('')));
         navigation.goBack();
       } else {
         showMessage({

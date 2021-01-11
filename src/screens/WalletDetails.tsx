@@ -12,7 +12,7 @@ import {Wallet} from 'models/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Transaction} from 'models/transaction';
 import {TransactionInfo, WalletDetailsInfo} from 'components';
-import dateUtils from 'utils/date';
+import dateUtils from 'utils/dateUtils';
 import TransactionsStore from 'storage/Transactions';
 
 export const WalletDetails = ({
@@ -31,9 +31,7 @@ export const WalletDetails = ({
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    for (let [id, tx] of transactionsContext.transactions.get(
-      wallet.currency,
-    )) {
+    for (let [id, tx] of transactionsContext.state.get(wallet.currency)) {
       let dateValue = dateUtils.toTitle(now, new Date(tx.timestamp));
       if (!txsBySelections.has(dateValue)) {
         txsBySelections.set(dateValue, new Array<Transaction>());

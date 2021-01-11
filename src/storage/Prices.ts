@@ -1,5 +1,5 @@
 import {Currency} from 'models/wallet';
-import React, {Dispatch} from 'react';
+import {createContext, Dispatch} from 'react';
 
 /**
  * @namespace
@@ -10,25 +10,33 @@ namespace PricesStore {
     UPDATE_PRICE,
   }
 
-  type State = {
-    prices: Map<Currency, number>;
-    dispatch?: Dispatch<any>;
+  export const initialState: Map<Currency, number> = new Map<
+    Currency,
+    number
+  >();
+
+  export type ContextType = {
+    state: Map<Currency, number>;
+    dispatch: Dispatch<any>;
   };
 
-  export const initialState: State = {
-    prices: new Map<Currency, number>(),
-  };
+  export const Context = createContext<ContextType>({
+    state: initialState,
+    dispatch: () => null,
+  });
 
-  export const Context = React.createContext(initialState);
-  export function reducer(prevState: any, action: any) {
-    let copy = Object.assign({}, prevState);
+  export function reducer(
+    prevState: Map<Currency, number>,
+    action: any,
+  ): Map<Currency, number> {
+    let copy = new Map(prevState);
 
     switch (action.type) {
       case Action.UPDATE_PRICE:
-        copy.prices.set(action.currency, action.price);
-        return {
-          prices: copy.prices,
-        };
+        copy.set(action.currency, action.price);
+        return copy;
+      default:
+        return prevState;
     }
   }
 

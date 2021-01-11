@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -11,7 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
-import db from 'utils/db';
+import db from 'storage/DB';
 
 export const Backup = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);

@@ -2,7 +2,7 @@
  * @namespace
  * @category Utils
  */
-namespace Date {
+namespace DateUtils {
   const months = [
     'January',
     'February',
@@ -85,12 +85,63 @@ namespace Date {
     } else if (now.getFullYear() == date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()];
     } else {
-      dateValue = date.toLocaleDateString();
+      dateValue = toFullDate(date);
     }
 
     return dateValue;
   }
 
+  /**
+   * convert date to string
+   */
+  export function toMsg(now: Date, date: Date): string {
+    let dateValue = '';
+    let time = '';
+
+    let hours = String(date.getHours());
+    let minutes = String(date.getMinutes());
+    if (hours.length == 1) {
+      hours = '0' + hours;
+    }
+    if (minutes.length == 1) {
+      minutes = '0' + minutes;
+    }
+    time = hours + ':' + minutes;
+
+    if (
+      now.getFullYear() == date.getFullYear() &&
+      now.getMonth() == date.getMonth() &&
+      now.getDay() == date.getDay()
+    ) {
+      dateValue = time;
+    } else if (
+      now.getFullYear() == date.getFullYear() &&
+      now.getMonth() == date.getMonth() &&
+      now.getDay() - 1 == date.getDay()
+    ) {
+      dateValue = date.getDate() + ' ' + months[date.getMonth()] + ' ' + time;
+    } else if (now.getFullYear() == date.getFullYear()) {
+      dateValue = date.getDate() + ' ' + months[date.getMonth()] + ' ' + time;
+    } else {
+      dateValue = toFullDate(date) + ' ' + time;
+    }
+
+    return dateValue;
+  }
+
+  export function toFullDate(date: Date): string {
+    let day = String(date.getDate());
+    if (day.length == 1) {
+      day = '0' + day;
+    }
+    let month = String(date.getMonth() + 1);
+    if (month.length == 1) {
+      month = '0' + month;
+    }
+    const year = String(date.getFullYear());
+
+    return day + '/' + month + '/' + year[2] + year[3];
+  }
   /*
     export function dateReviver(key: string, value: any): Date {
         var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
@@ -102,4 +153,4 @@ namespace Date {
     }*/
 }
 
-export default Date;
+export default DateUtils;

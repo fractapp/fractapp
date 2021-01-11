@@ -2,20 +2,10 @@ import React, {useContext, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components';
 import {mnemonicGenerate} from '@polkadot/util-crypto';
-import Auth from 'storage/Auth';
 import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
-import db from 'utils/db';
-import BackupUtils from 'utils/backup';
-import backupUtil from 'utils/backup';
 
-export const SaveWallet = ({
-  route,
-  navigation,
-}: {
-  route: any;
-  navigation: any;
-}) => {
+export const SaveWallet = ({navigation}: {navigation: any}) => {
   const seed = mnemonicGenerate().split(' ');
   const dialogContext = useContext(Dialog.Context);
 

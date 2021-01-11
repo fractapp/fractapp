@@ -1,6 +1,7 @@
 import {Account} from 'models/account';
 import {Currency} from 'models/wallet';
-import React, {Dispatch} from 'react';
+import {createContext, Dispatch} from 'react';
+import db from 'storage/DB';
 
 /**
  * @namespace
@@ -12,30 +13,37 @@ namespace AccountsStore {
     UPDATE_BALANCE,
   }
 
-  type State = {
-    accounts: Map<Currency, Account>;
-    dispatch?: Dispatch<any>;
+  export const initialState: Map<Currency, Account> = new Map<
+    Currency,
+    Account
+  >();
+
+  export type ContextType = {
+    state: Map<Currency, Account>;
+    dispatch: Dispatch<any>;
   };
 
-  export const initialState: State = {
-    accounts: new Map<Currency, Account>(),
-  };
+  export const Context = createContext<ContextType>({
+    state: initialState,
+    dispatch: () => null,
+  });
 
-  export const Context = React.createContext(initialState);
-  export function reducer(prevState: any, action: any) {
-    let copy = Object.assign({}, prevState);
-
+  export function reducer(
+    prevState: Map<Currency, Account>,
+    action: any,
+  ): Map<Currency, Account> {
+    let copy = new Map(prevState);
     switch (action.type) {
       case Action.ADD_ACCOUNT:
-        copy.accounts.set(action.account.currency, action.account);
-        return {
-          accounts: copy.accounts,
-        };
+        copy.set(action.account.currency, action.account);
+        return copy;
       case Action.UPDATE_BALANCE:
-        copy.accounts.get(action.currency).balance = action.balance;
-        return {
-          accounts: copy.accounts,
-        };
+        const account = copy.get(action.currency);
+        account.balance = action.balance;
+        db.setAccountInfo(account);
+        return copy;
+      default:
+        return prevState;
     }
   }
 

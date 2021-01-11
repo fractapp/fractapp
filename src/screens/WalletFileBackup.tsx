@@ -1,11 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {BlueButton, TextInput, PasswordInput, Loader} from 'components';
-import db from 'utils/db';
+import db from 'storage/DB';
 import backupUtil from 'utils/backup';
 import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
-import Auth from 'storage/Auth';
+import GlobalStore from 'storage/Global';
 
 const minPasswordLength = 6;
 
@@ -17,7 +17,7 @@ export const WalletFileBackup = ({
   route: any;
 }) => {
   const dialogContext = useContext(Dialog.Context);
-  const authContext = useContext(Auth.Context);
+  const authContext = useContext(GlobalStore.Context);
 
   const [fileName, setFilename] = useState<string>(backupUtil.randomFilename());
   const [password, setPassword] = useState<string>('');
@@ -37,7 +37,7 @@ export const WalletFileBackup = ({
       return;
     }
 
-    backupUtil.backup(seed, password, fileName, type).then(async (info) => {
+    backupUtil.backup(seed, password, fileName, type).then(async () => {
       setLoading(false);
 
       await db.createAccounts(seed);
@@ -54,7 +54,7 @@ export const WalletFileBackup = ({
             await dialogContext.dispatch(Dialog.close());
 
             if (isNewAccount) {
-              await authContext.dispatch(Auth.signIn());
+              await authContext.dispatch(GlobalStore.signIn());
             }
 
             navigation.reset({

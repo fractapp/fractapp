@@ -12,8 +12,8 @@ export const Wallets = ({navigation}: {navigation: any}) => {
   const renderAccounts = () => {
     const result = new Array();
     const wallets = new Array<Wallet>();
-    for (let [currency, account] of accountContext.accounts) {
-      let price = priceContext.prices.get(currency);
+    for (let [currency, account] of accountContext.state) {
+      let price = priceContext.state.get(currency);
       if (price == undefined) {
         price = 0;
       }
@@ -45,8 +45,8 @@ export const Wallets = ({navigation}: {navigation: any}) => {
 
   const distribution = () => {
     let distribution = new Map<Currency, number>();
-    for (let [currency, account] of accountContext.accounts) {
-      let price = priceContext.prices.get(currency);
+    for (let [currency, account] of accountContext.state) {
+      let price = priceContext.state.get(currency);
       if (price == undefined) {
         price = 0;
       }
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   accounts: {
-    marginTop: 40,
+    marginTop: 30,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

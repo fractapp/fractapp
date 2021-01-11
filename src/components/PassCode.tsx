@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import DB from 'utils/db';
+import DB from 'storage/DB';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 /**

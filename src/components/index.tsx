@@ -15,3 +15,4 @@ export {SuccessButton} from './SuccessButton';
 export {WalletLogo} from './WalletLogo';
 export {TabMenu} from './TabMenu';
 export {ChatShortInfo} from './ChatShortInfo';
+export {PaymentMsg} from './PaymentMsg';

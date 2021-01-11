@@ -116,13 +116,13 @@ namespace Backup {
     garantedHendler: () => void,
     neverAskAgainHendler: () => void,
   ) => {
-    const statues = await PermissionsAndroid.requestMultiple([
+    const statuses = await PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     ]);
     let isGaranted = true;
-    for (let key in statues) {
-      const status = statues[key];
+    for (let key in statuses) {
+      const status = statuses[key];
       if (status == 'granted') {
         continue;
       }

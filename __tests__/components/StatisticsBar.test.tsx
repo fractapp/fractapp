@@ -1,8 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {StatisticsBar} from 'components';
-import {Currency, Wallet} from 'models/wallet';
-import {Transaction, TxType} from 'models/transaction';
+import {Currency} from 'models/wallet';
 
 it('Test empty wallet', () => {
   const tree = renderer

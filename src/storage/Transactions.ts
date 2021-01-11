@@ -1,6 +1,7 @@
 import {Currency} from 'models/wallet';
-import React, {Dispatch} from 'react';
+import {createContext, Dispatch} from 'react';
 import {Transaction} from 'models/transaction';
+import DB from 'storage/DB';
 
 /**
  * @namespace
@@ -12,33 +13,39 @@ namespace TransactionsStore {
     SET_TXS,
   }
 
-  type State = {
-    transactions: Map<Currency, Map<string, Transaction>>;
-    dispatch?: Dispatch<any>;
+  export const initialState = new Map<Currency, Map<string, Transaction>>();
+
+  export type ContextType = {
+    state: Map<Currency, Map<string, Transaction>>;
+    dispatch: Dispatch<any>;
   };
 
-  export const initialState: State = {
-    transactions: new Map<Currency, Map<string, Transaction>>(),
-  };
+  export const Context = createContext<ContextType>({
+    state: initialState,
+    dispatch: () => null,
+  });
 
-  export const Context = React.createContext(initialState);
-  export function reducer(prevState: any, action: any) {
-    let copy = Object.assign({}, prevState);
-    let txsByCurrency = <Map<Currency, Map<string, Transaction>>>(
-      copy.transactions
-    );
+  export function reducer(
+    prevState: Map<Currency, Map<string, Transaction>>,
+    action: any,
+  ): Map<Currency, Map<string, Transaction>> {
+    let copy = new Map(prevState);
 
     switch (action.type) {
       case Action.SET_TXS:
-        txsByCurrency.set(action.currency, action.txs);
+        copy.set(action.currency, action.txs);
         return copy;
       case Action.ADD_TX:
-        if (!txsByCurrency.has(action.currency)) {
-          txsByCurrency.set(action.currency, new Map<string, Transaction>());
+        if (!copy.has(action.currency)) {
+          copy.set(action.currency, new Map<string, Transaction>());
         }
 
-        txsByCurrency.get(action.currency)?.set(action.tx.id, action.tx);
+        copy.get(action.currency)?.set(action.tx.id, action.tx);
+
+        DB.addTxs(action.currency, action.tx);
         return copy;
+      default:
+        return prevState;
     }
   }
 

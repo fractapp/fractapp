@@ -1,49 +1,36 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {FlatList, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {ChatShortInfo} from 'components';
-import DB from 'utils/db';
 import {ChatInfo} from 'models/chatInfo';
 import TransactionsStore from 'storage/Transactions';
+import ChatsStore from 'storage/Chats';
 
 export const Chats = ({navigation}: {navigation: any}) => {
-  const [chats, setChats] = useState(new Array<ChatInfo>());
+  const chatsContext = useContext(ChatsStore.Context);
   const transactionsContext = useContext(TransactionsStore.Context);
 
-  useEffect(() => {
-    DB.getChats().then((chats) => {
-      if (
-        chats == null ||
-        transactionsContext == null ||
-        transactionsContext.transactions == null ||
-        transactionsContext.transactions == undefined
-      ) {
-        return;
-      }
-
-      const chatsArray = Array.from(chats, ([key, value]) => value);
-
-      chatsArray.sort(function (a, b): boolean {
-        return (
-          transactionsContext.transactions.get(a.currency).get(a.lastTxId)
-            .timestamp <
-          transactionsContext.transactions.get(b.currency).get(b.lastTxId)
-            .timestamp
-        );
+  const getChats = () => {
+    return Array.from(chatsContext.state.chatsInfo.values())
+      .filter(
+        (value) =>
+          transactionsContext.state.has(value.currency) &&
+          transactionsContext.state.get(value.currency).has(value.lastTxId),
+      )
+      .sort(function (a, b) {
+        return a.timestamp < b.timestamp;
       });
-
-      setChats(chatsArray);
-    });
-  }, []);
-
+  };
   const renderItem = ({item}: {item: ChatInfo}) => {
-    const tx = transactionsContext.transactions
-      .get(item.currency)
-      .get(item.lastTxId);
+    const tx = transactionsContext.state.get(item.currency).get(item.lastTxId);
     return (
       <TouchableHighlight
-        onPress={() => navigation.navigate('Chat')}
+        onPress={() => navigation.navigate('Chat', {chatInfo: item})}
         underlayColor="#f8f9fb">
-        <ChatShortInfo address={item.address} notificationCount={0} tx={tx} />
+        <ChatShortInfo
+          address={item.address}
+          notificationCount={item.notificationCount}
+          tx={tx}
+        />
       </TouchableHighlight>
     );
   };
@@ -54,7 +41,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
         ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
         showsVerticalScrollIndicator={false}
         style={styles.list}
-        data={chats}
+        data={getChats()}
         renderItem={renderItem}
         keyExtractor={(item) => item.address}
       />

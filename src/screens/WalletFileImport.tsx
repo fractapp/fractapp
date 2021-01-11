@@ -1,13 +1,13 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text, Alert} from 'react-native';
 import {BlueButton, PasswordInput, Loader} from 'components';
-import db from 'utils/db';
+import db from 'storage/DB';
 import backupUtil from 'utils/backup';
 import {FileBackup} from 'models/backup';
-import Auth from 'storage/Auth';
+import GlobalStore from 'storage/Global';
 
 export const WalletFileImport = ({route}: {route: any}) => {
-  const authContext = useContext(Auth.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -35,7 +35,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
       }
 
       await db.createAccounts(seed);
-      authContext.dispatch(Auth.signIn());
+      globalContext.dispatch(GlobalStore.signIn());
     })();
   }, [isLoading]);
 

@@ -2,11 +2,11 @@ import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text, TextInput} from 'react-native';
 import {BlueButton, Loader} from 'components';
 import {mnemonicValidate} from '@polkadot/util-crypto';
-import Auth from 'storage/Auth';
-import db from 'utils/db';
+import GlobalStore from 'storage/Global';
+import db from 'storage/DB';
 
 export const ImportSeed = () => {
-  const authContext = useContext(Auth.Context);
+  const globalContext = useContext(GlobalStore.Context);
   const [seed, setSeed] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isSaveSeed, setSaveSeed] = useState<boolean>(false);
@@ -21,7 +21,7 @@ export const ImportSeed = () => {
       return;
     }
     db.createAccounts(seed).then(async () => {
-      authContext.dispatch(Auth.signIn());
+      globalContext.dispatch(GlobalStore.signIn());
       setLoading(false);
     });
   }, [isSaveSeed]);

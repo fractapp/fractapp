@@ -1,4 +1,4 @@
-import db from 'utils/db';
+import db from 'storage/DB';
 import * as polkadot from 'utils/polkadot';
 import tasks from 'utils/tasks';
 import AccountsStore from 'storage/Accounts';

@@ -15,10 +15,10 @@ export const TransactionDetails = ({route}: {route: any}) => {
       color = '#888888';
       break;
     case TxType.Received:
-      color = '#84D371';
+      color = '#67D44D';
       break;
     case TxType.Sent:
-      color = '#F45252';
+      color = '#EA4335';
       break;
   }
 
@@ -37,7 +37,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
             ({tx.value} {getSymbol(tx.currency)})
           </Text>
         ) : (
-          ''
+          <View />
         )}
         <View style={styles.status}>
           <MaterialIcons name="done" size={25} color="#888888" />

@@ -57,7 +57,7 @@ namespace Task {
     const isPasscode = await DB.isPasscode();
     const isAuthed = await DB.isAuthed();
     const isBiometry = await DB.isBiometry();
-    const isSynced = true; //TODO await DB.isSynced();
+    const isSynced = await DB.isSynced();
     const notificationCount = await DB.getNotificationCount();
 
     globalContext.dispatch(

@@ -31,7 +31,7 @@ export const ChatShortInfo = ({
         <WalletLogo currency={tx.currency} size={60} />
         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
           <View style={{height: 25, flexDirection: 'row'}}>
-            <View style={{flex: 4}}>
+            <View style={{flex: 3}}>
               <Text style={[styles.name, {textAlign: 'left'}]}>
                 {address.length <= 20
                   ? `${address}`

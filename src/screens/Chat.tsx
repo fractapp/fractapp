@@ -24,7 +24,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const chatsContext = useContext(ChatsStore.Context);
 
   const chatInfo = route.params.chatInfo;
-  const [notificationCount, setNotificationCount] = useState(notificationCount);
+  const [notificationCount, setNotificationCount] = useState(
+    chatInfo.notificationCount,
+  );
   const getWallet = (currency: Currency) => {
     let account = accountContext.state.get(currency);
     let price = priceContext.state.get(currency);
@@ -110,14 +112,16 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         marginRight: 20,
       },
     });
+  }, []);
 
+  useEffect(() => {
     if (chatInfo.notificationCount !== 0) {
-      chatsContext.dispatch(ChatsStore.resetNotification(chatInfo.address));
       globalContext.dispatch(
         GlobalStore.removeNotificationCount(notificationCount),
       );
+      chatsContext.dispatch(ChatsStore.resetNotification(chatInfo.address));
     }
-  }, []);
+  }, [chatInfo.notificationCount]);
 
   const onLayout = () => {
     if (notificationCount > 0) {

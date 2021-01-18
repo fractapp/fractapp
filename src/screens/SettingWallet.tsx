@@ -9,7 +9,6 @@ export const SettingWallet = ({navigation}: {navigation: any}) => {
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Setting wallet</Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>

@@ -26,6 +26,11 @@ import {
   SelectCountry,
   ConfirmCode,
   Chat,
+  Connecting,
+  EditEmail,
+  EditUsername,
+  EditName,
+  Search,
 } from 'screens';
 import {TabMenu} from 'components';
 import {getSymbol} from 'models/wallet';
@@ -105,7 +110,6 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('Home', TabMenu)}
         {getEmptyRouter('NewPassCode', NewPassCode)}
         {getEmptyRouter('VerifyPassCode', VerifyPassCode)}
-
         {getRouterWithTitle('WalletDetails', 'Details', WalletDetails)}
         {getRouterWithTitle(
           'TransactionDetails',
@@ -116,15 +120,16 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getRouterWithTitle('EditProfile', 'Edit Profile', EditProfile)}
         {getRouterWithTitle('ConfirmCode', 'Confirm code', ConfirmCode)}
         {getRouterWithTitle('SelectCountry', 'Select country', SelectCountry)}
-        {getRouterWithTitle(
-          'EditPhoneNumber',
-          'Edit phone number',
-          EditPhoneNumber,
-        )}
+        {getRouterWithTitle('EditPhoneNumber', 'Phone number', EditPhoneNumber)}
+        {getRouterWithTitle('EditEmail', 'Email', EditEmail)}
+        {getRouterWithTitle('EditUsername', 'Edit Username', EditUsername)}
+        {getRouterWithTitle('EditName', 'Edit Name', EditName)}
+        {getEmptyRouter('Search', Search)}
         {getRouterWithTitle('Chat', '', Chat)}
         {getRouterWithTitle('Receive', 'Receive ', Receive, (route) =>
           getSymbol(route.params.currency),
         )}
+        {getRouterWithTitle('Connecting', '', Connecting)}
       </>
     );
   };

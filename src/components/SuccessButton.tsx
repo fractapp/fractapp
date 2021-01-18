@@ -18,5 +18,3 @@ export const SuccessButton = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({});

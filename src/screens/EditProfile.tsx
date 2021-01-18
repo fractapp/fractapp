@@ -1,52 +1,96 @@
-import React from 'react';
-import {StyleSheet, View, Text, FlatList, TouchableOpacity} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import React, {useContext} from 'react';
+import {
+  ImageEditor,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
+import backend from 'utils/backend';
+import GlobalStore from 'storage/Global';
 export const EditProfile = ({navigation}: {navigation: any}) => {
+  const globalContext = useContext(GlobalStore.Context);
+
   const Inputs = [
     {
       title: 'Name',
-      value: 'Elshan Dzhafarov',
+      value: globalContext.state.profile.name,
+      placeholder: 'Write your name',
+      onClick: () => navigation.navigate('EditName'),
     },
     {
       title: 'Username',
-      value: 'CryptoBadBoy',
+      value: '@' + globalContext.state.profile.username,
+      placeholder: 'Write your username',
+      onClick: () => navigation.navigate('EditUsername'),
     },
     {
       title: 'Phone',
-      value: 'Write you phone',
+      value: globalContext.state.profile.phoneNumber,
+      placeholder: 'Write your phone',
       onClick: () => navigation.navigate('EditPhoneNumber'),
     },
     {
       title: 'Email',
-      value: 'Write your email',
-    },
-    {
-      title: 'Twitter',
-      value: 'Connect your twitter',
+      value: globalContext.state.profile.email,
+      placeholder: 'Write your email',
+      onClick: () => navigation.navigate('EditEmail'),
     },
   ];
 
+  const openFilePicker = async () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: true,
+      },
+      async (rs) => {
+        if (rs.base64 !== undefined) {
+          await backend.uploadAvatar(rs.base64, rs.type);
+          await globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
+        }
+      },
+    );
+  };
   const renderItem = (item: any) => {
     const input = item.item;
     return (
       <TouchableOpacity key={input.title} onPress={input.onClick}>
         <View style={styles.input}>
           <Text style={styles.title}>{input.title}</Text>
-          <Text style={styles.value}>{input.value}</Text>
+          {input.value !== '' ? (
+            <Text style={styles.value}>{input.value}</Text>
+          ) : (
+            <Text style={styles.placeholder}>{input.placeholder}</Text>
+          )}
         </View>
       </TouchableOpacity>
     );
   };
+
   return (
     <View style={styles.profile}>
-      <View style={styles.avatar}>
-        <MaterialCommunityIcons
-          name="account-circle-outline"
-          size={70}
-          color="#2AB2E2"
+      <TouchableOpacity onPress={openFilePicker}>
+        <Image
+          source={
+            globalContext.state.profile.avatarExt === ''
+              ? require('assets/img/default-avatar.png')
+              : {
+                  uri: backend.getImgUrl(
+                    globalContext.state.profile.id,
+                    globalContext.state.profile.avatarExt,
+                    globalContext.state.profile.lastUpdate,
+                  ),
+                }
+          }
+          style={styles.avatar}
+          width={120}
+          height={120}
         />
-      </View>
+      </TouchableOpacity>
       <View style={{width: '90%'}}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -68,14 +112,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 120,
     height: 120,
-    borderColor: '#CCCCCC',
-    borderWidth: 1,
     borderRadius: 60,
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
-    marginTop: 20,
+    marginTop: 30,
     paddingBottom: 5,
     borderColor: '#CCCCCC',
     borderBottomWidth: 1,
@@ -94,5 +136,13 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'black',
+  },
+  placeholder: {
+    marginTop: 6,
+    fontSize: 16,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: '#888888',
   },
 });

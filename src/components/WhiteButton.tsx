@@ -13,6 +13,10 @@ export enum Img {
   File,
   Key,
   Copy,
+
+  Phone,
+  Email,
+  Twitter,
 }
 
 /**
@@ -68,6 +72,30 @@ export const WhiteButton = ({
           size={27}
           color="#888888"
           style={styles.img}
+        />
+      );
+      break;
+    case Img.Phone:
+      imageView = (
+        <Image
+          source={require('assets/img/phone.png')}
+          style={[styles.img, {width: 30, height: 30}]}
+        />
+      );
+      break;
+    case Img.Email:
+      imageView = (
+        <Image
+          source={require('assets/img/mail.png')}
+          style={[styles.img, {width: 30, height: 30}]}
+        />
+      );
+      break;
+    case Img.Twitter:
+      imageView = (
+        <Image
+          source={require('assets/img/twitter-round.png')}
+          style={[styles.img, {width: 30, height: 30}]}
         />
       );
       break;

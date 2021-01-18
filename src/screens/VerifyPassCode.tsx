@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components';
 import DB from 'storage/DB';
@@ -14,24 +14,27 @@ export const VerifyPassCode = ({
 }) => {
   const globalContext = useContext(GlobalStore.Context);
 
-  const [isBiometry, setBiometry] = useState<Boolean>();
   const isDisablePasscode = route.params?.isDisablePasscode ?? false;
   const isChangeBiometry = route.params?.isChangeBiometry ?? false;
 
   const onSubmit = async (passcode: Array<number>) => {
     let hash = await DB.getPasscodeHash();
     if (
-      hash == PasscodeUtil.hash(passcode.join(''), (await DB.getSalt()) ?? '')
+      hash === PasscodeUtil.hash(passcode.join(''), (await DB.getSalt()) ?? '')
     ) {
       if (isDisablePasscode) {
         globalContext.dispatch(GlobalStore.disablePasscode());
       } else if (isChangeBiometry) {
-        const isBiometry = await DB.isBiometry();
+        await DB.disablePasscode();
+        await DB.enablePasscode(
+          passcode.join(''),
+          !globalContext.state.authInfo.isBiometry,
+        );
 
         globalContext.dispatch(
-          isBiometry
-            ? GlobalStore.enableBiometry(passcode.join(''))
-            : GlobalStore.disableBiometry(passcode.join('')),
+          globalContext.state.authInfo.isBiometry
+            ? GlobalStore.disableBiometry()
+            : GlobalStore.enableBiometry(),
         );
       }
 
@@ -45,15 +48,9 @@ export const VerifyPassCode = ({
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      setBiometry(await DB.isBiometry());
-    })();
-  }, []);
-
   return (
     <PassCode
-      isBiometry={isBiometry}
+      isBiometry={globalContext.state.authInfo.isBiometry}
       description={'Enter passcode'}
       onSubmit={onSubmit}
     />

@@ -35,7 +35,7 @@ export const ConfirmSaveSeed = ({
 
       if (isNewAccount) {
         await db.createAccounts(seed.join(' '));
-        await globalContext.dispatch(GlobalStore.signIn());
+        await globalContext.dispatch(GlobalStore.signInLocal());
       }
 
       navigation.reset({
@@ -139,7 +139,6 @@ export const ConfirmSaveSeed = ({
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Veryfy secret phrase</Text>
       <Text style={styles.description}>

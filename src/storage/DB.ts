@@ -8,6 +8,8 @@ import {u8aToHex} from '@polkadot/util';
 import {Currency, getSymbol} from 'models/wallet';
 import {Transaction} from 'models/transaction';
 import {ChatInfo} from 'models/chatInfo';
+import {AuthInfo} from 'models/authInfo';
+import {MyProfile} from 'models/myProfile';
 /**
  * @namespace
  * @category storage
@@ -23,19 +25,18 @@ namespace DB {
   };
 
   const AsyncStorageKeys = {
-    isSynced: 'is_synced',
-    isAuthed: 'is_authed',
-    isPasscode: 'is_passcode',
-    isBiometry: 'is_biometry',
+    profile: 'profile',
+    authInfo: 'auth_info',
+    notificationCount: 'notification_count',
     accounts: 'accounts',
     accountInfo: (address: string) => `account_${address}`,
     transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
     chatByAddress: (address: string) => `chat_${address}`,
     chatsInfo: 'chats_info',
-    notificationCount: 'notification_count',
   };
   const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
+    authJWT: 'auth_jwt',
     seed: 'seed',
     salt: 'salt',
     passcodeHash: 'passcode_hash',
@@ -57,27 +58,36 @@ namespace DB {
   }
   export async function getSecureItem(key: string): Promise<string | null> {
     const result = await Keychain.getInternetCredentials(key, secureOption);
-    if (result == false) {
+    if (result === false) {
       return null;
     }
 
     return result.password;
   }
 
-  export async function setAuthed(enabled: boolean) {
-    await AsyncStorage.setItem(AsyncStorageKeys.isAuthed, String(enabled));
+  export async function setAuthInfo(auth: AuthInfo) {
+    await AsyncStorage.setItem(AsyncStorageKeys.authInfo, JSON.stringify(auth));
   }
-  export async function isAuthed(): Promise<boolean> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.isAuthed);
-    return result === 'true';
+  export async function getAuthInfo(): Promise<AuthInfo | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.authInfo);
+    if (result == null) {
+      return null;
+    }
+    return JSON.parse(result);
   }
 
-  export async function setSynced(enabled: boolean) {
-    await AsyncStorage.setItem(AsyncStorageKeys.isSynced, String(enabled));
+  export async function setProfile(profile: MyProfile) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.profile,
+      JSON.stringify(profile),
+    );
   }
-  export async function isSynced(): Promise<boolean> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.isSynced);
-    return result === 'true';
+  export async function getProfile(): Promise<MyProfile | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.profile);
+    if (result == null) {
+      return null;
+    }
+    return JSON.parse(result);
   }
 
   export async function setNotificationCount(count: number) {
@@ -93,21 +103,6 @@ namespace DB {
     return Number(result);
   }
 
-  export async function isPasscode(): Promise<boolean> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.isPasscode);
-    if (result == null) {
-      return false;
-    }
-    return result === 'true';
-  }
-  export async function isBiometry(): Promise<boolean> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.isBiometry);
-    if (result == null) {
-      return false;
-    }
-    return result === 'true';
-  }
-
   export async function enablePasscode(passcode: string, isBiometry: boolean) {
     if (isBiometry) {
       const result = await Keychain.setInternetCredentials(
@@ -116,24 +111,47 @@ namespace DB {
         passcode,
         biometryOption,
       );
-      if (result == false) {
+      if (result === false) {
         throw 'invalid set passcode';
       }
     }
 
     const salt = base64Encode(randomAsU8a(32));
     const hash = PasscodeUtil.hash(passcode, salt);
+    let authInfo = await getAuthInfo();
+    if (authInfo == null) {
+      authInfo = new AuthInfo(false, false, false, false, false);
+    }
+
     try {
       await setSecureItem(SecureStorageKeys.salt, salt);
       await setSecureItem(SecureStorageKeys.passcodeHash, hash);
-      await AsyncStorage.setItem(AsyncStorageKeys.isPasscode, String(true));
-      await AsyncStorage.setItem(
-        AsyncStorageKeys.isBiometry,
-        String(isBiometry),
-      );
+      authInfo.isPasscode = true;
+      authInfo.isBiometry = isBiometry;
     } catch (e) {
       await disablePasscode();
     }
+
+    await setAuthInfo(authInfo);
+  }
+  export async function disablePasscode() {
+    let authInfo = await getAuthInfo();
+    if (authInfo == null) {
+      authInfo = new AuthInfo(false, false, false, false, false);
+    }
+    authInfo.isPasscode = false;
+    authInfo.isBiometry = false;
+
+    await setAuthInfo(authInfo);
+
+    await Keychain.resetInternetCredentials(
+      SecureStorageKeys.salt,
+      secureOption,
+    );
+    await Keychain.resetInternetCredentials(
+      SecureStorageKeys.passcodeHash,
+      secureOption,
+    );
   }
 
   export async function getSalt(): Promise<string | null> {
@@ -145,25 +163,13 @@ namespace DB {
   export async function getPasscode(): Promise<string> {
     const result = await Keychain.getInternetCredentials(
       PasscodeStorageKeys.passcode,
+      biometryOption,
     );
-    if (result == false) {
+    if (result === false) {
       throw 'value by passcode key not found';
     }
 
     return result.password;
-  }
-
-  export async function disablePasscode() {
-    await AsyncStorage.setItem(AsyncStorageKeys.isPasscode, String(false));
-    await AsyncStorage.setItem(AsyncStorageKeys.isBiometry, String(false));
-    await Keychain.resetInternetCredentials(
-      SecureStorageKeys.salt,
-      secureOption,
-    );
-    await Keychain.resetInternetCredentials(
-      SecureStorageKeys.passcodeHash,
-      secureOption,
-    );
   }
 
   export async function createAccounts(seed: string) {
@@ -299,6 +305,13 @@ namespace DB {
   }
   export async function getFirebaseToken(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.firebaseToken);
+  }
+
+  export async function setJWT(token: string) {
+    await setSecureItem(SecureStorageKeys.authJWT, token);
+  }
+  export async function getJWT(): Promise<string | null> {
+    return await getSecureItem(SecureStorageKeys.authJWT);
   }
 }
 

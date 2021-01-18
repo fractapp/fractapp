@@ -21,7 +21,7 @@ export const ImportSeed = () => {
       return;
     }
     db.createAccounts(seed).then(async () => {
-      globalContext.dispatch(GlobalStore.signIn());
+      globalContext.dispatch(GlobalStore.signInLocal());
       setLoading(false);
     });
   }, [isSaveSeed]);
@@ -52,7 +52,6 @@ export const ImportSeed = () => {
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Import secret phrase</Text>
       <Text style={styles.description}>

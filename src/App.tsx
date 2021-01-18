@@ -18,6 +18,8 @@ import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import ChatsStore from 'storage/Chats';
 import TransactionsStore from 'storage/Transactions';
+import {Loader} from 'components/Loader';
+import backend from 'utils/backend';
 
 export default function App() {
   const globalContext = useContext(GlobalStore.Context);
@@ -29,9 +31,19 @@ export default function App() {
 
   const [isLoading, setLoading] = useState<Boolean>(false);
   const [isLocked, setLocked] = useState<Boolean>(false);
+  const [isBiometry, setBiometry] = useState<Boolean>(false);
   const [isConnected, setConnected] = useState<Boolean>(true);
   const netInfo = useNetInfo();
 
+  const unlockWithBiometry = async () => {
+    const dbPasscode = await DB.getPasscode();
+    const passcodeArray = new Array<number>();
+    for (let i = 0; i < dbPasscode.length; i++) {
+      passcodeArray.push(Number(dbPasscode[i]));
+    }
+
+    await onSubmitPasscode(passcodeArray);
+  };
   const onSubmitPasscode = async (passcode: Array<number>) => {
     let hash = await DB.getPasscodeHash();
     let salt = await DB.getSalt();
@@ -51,6 +63,12 @@ export default function App() {
       });
     }
   };
+  const onLoaded = () => {
+    showNavigationBar();
+    setLoading(false);
+    changeNavigationBarColor('#FFFFFF', true, true);
+    SplashScreen.hide();
+  };
 
   useEffect(() => {
     if (isLoading) {
@@ -60,18 +78,19 @@ export default function App() {
     hideNavigationBar();
     setLoading(true);
 
-    DB.isAuthed().then((isAuthed) => {
-      if (!isAuthed) {
-        showNavigationBar();
-        setLoading(false);
-        changeNavigationBarColor('#FFFFFF', true, true);
-        SplashScreen.hide();
+    DB.getAuthInfo().then(async (authInfo) => {
+      if (authInfo == null || !authInfo.isAuthed) {
+        onLoaded();
 
         console.log('end ' + new Date().toTimeString());
+
         return;
       }
 
-      tasks.init(
+      setLocked(authInfo.isPasscode);
+      setBiometry(authInfo.isBiometry);
+
+      await tasks.init(
         globalContext,
         accountsContext,
         pricesContext,
@@ -79,30 +98,47 @@ export default function App() {
         transactionsContext,
       );
     });
-  }, [globalContext.state.isAuthed]);
+  }, [globalContext.state.authInfo.isAuthed]);
   useEffect(() => {
     if (!globalContext.state.isInitialized) {
       return;
     }
 
-    setLocked(globalContext.state.isPasscode);
-    tasks
-      .createTask(
-        globalContext.state.isSynced,
-        accountsContext,
-        pricesContext,
-        globalContext,
-        chatsContext,
-        transactionsContext,
-      )
-      .then(() => {
-        showNavigationBar();
-        setLoading(false);
-        changeNavigationBarColor('#FFFFFF', true, true);
-        SplashScreen.hide();
-        console.log('end ' + new Date().toTimeString());
-      });
+    tasks.createTask(
+      accountsContext,
+      pricesContext,
+      globalContext,
+      chatsContext,
+      transactionsContext,
+    );
+
+    tasks.initPrivateData(accountsContext).then(() => {
+      if (isBiometry) {
+        unlockWithBiometry()
+          .then(() => onLoaded())
+          .catch(onLoaded);
+      } else {
+        onLoaded();
+      }
+      console.log('end ' + new Date().toTimeString());
+    });
   }, [globalContext.state.isInitialized]);
+  useEffect(() => {
+    console.log(globalContext.state.isUpdatingProfile);
+    if (!globalContext.state.isUpdatingProfile) {
+      return;
+    }
+
+    backend.myProfile().then(([code, profile]) => {
+      console.log('update profile: ' + profile.lastUpdate);
+      if (code === 401) {
+        globalContext.dispatch(GlobalStore.signOutFractapp());
+      } else if (code === 200) {
+        globalContext.dispatch(GlobalStore.setProfile(profile));
+      }
+      globalContext.dispatch(GlobalStore.setUpdatingProfile(false));
+    });
+  }, [globalContext.state.isUpdatingProfile]);
   useEffect(() => {
     if (!globalContext.state.isInitialized) {
       return;
@@ -131,7 +167,7 @@ export default function App() {
   }, [netInfo.isConnected]);
 
   if (isLoading) {
-    return <View />;
+    return <Loader />;
   }
 
   return (
@@ -146,8 +182,7 @@ export default function App() {
       />
       {isLocked ? (
         <PassCode
-          isBiometry={globalContext.state.isBiometry}
-          isBiometryStart={globalContext.state.isBiometry}
+          isBiometry={isBiometry}
           description={'Enter passcode'}
           onSubmit={onSubmitPasscode}
         />

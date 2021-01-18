@@ -54,7 +54,7 @@ export const WalletFileBackup = ({
             await dialogContext.dispatch(Dialog.close());
 
             if (isNewAccount) {
-              await authContext.dispatch(GlobalStore.signIn());
+              await authContext.dispatch(GlobalStore.signInLocal());
             }
 
             navigation.reset({
@@ -101,7 +101,6 @@ export const WalletFileBackup = ({
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Wallet encryption</Text>
       <Text style={styles.description}>

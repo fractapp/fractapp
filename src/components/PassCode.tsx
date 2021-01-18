@@ -11,6 +11,7 @@ export const PassCode = ({
   isBiometryStart = false,
   description,
   onSubmit,
+  onPreSubmit,
 }: {
   isBiometry: boolean;
   isBiometryStart: boolean;
@@ -30,9 +31,9 @@ export const PassCode = ({
     setPasscode(passcodeArray);
   };
   const numpadClick = async (index: number) => {
-    if (index == 12) {
+    if (index === 12) {
       setPasscode(passcode.slice(0, passcode.length - 1));
-    } else if (index == 10) {
+    } else if (index === 10 && isBiometry) {
       unlockWithBiometry();
     } else if (passcode.length < PasscodeSize) {
       setPasscode([...passcode, index]);
@@ -115,7 +116,7 @@ export const PassCode = ({
   }, []);
 
   useEffect(() => {
-    if (passcode.length == PasscodeSize) {
+    if (passcode.length === PasscodeSize) {
       onSubmit(passcode);
       setPasscode(new Array());
     }

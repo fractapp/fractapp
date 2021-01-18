@@ -1,10 +1,12 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
   TouchableHighlight,
   TouchableOpacity,
   View,
+  Text,
+  TextInput,
 } from 'react-native';
 import {ChatShortInfo} from 'components';
 import {ChatInfo} from 'models/chatInfo';
@@ -12,21 +14,12 @@ import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export const Chats = ({navigation}: {navigation: any}) => {
+export const Search = ({navigation}: {navigation: any}) => {
   const chatsContext = useContext(ChatsStore.Context);
   const transactionsContext = useContext(TransactionsStore.Context);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-            <Ionicons name="add" size={32} color="#2AB2E2" />
-          </TouchableOpacity>
-        );
-      },
-    });
-  }, []);
+  const [searchString, setSearchString] = useState<string>();
+
   const getChats = () => {
     return Array.from(chatsContext.state.chatsInfo.values())
       .filter(
@@ -54,9 +47,35 @@ export const Chats = ({navigation}: {navigation: any}) => {
   };
 
   return (
-    <View style={styles.chats}>
+    <View style={styles.users}>
+      <View style={styles.searchBox}>
+        <Ionicons
+          name={'arrow-back'}
+          style={{paddingLeft: 10}}
+          size={25}
+          color={'#BFBDBD'}
+          onPress={() => navigation.goBack()}
+        />
+        <TextInput
+          style={[
+            styles.search,
+            {
+              width: '100%',
+            },
+          ]}
+          value={searchString}
+          onChangeText={(text) => {
+            setSearchString(text);
+          }}
+          placeholder={'Search'}
+          keyboardType={'default'}
+          placeholderTextColor={'#949499'}
+          autoCompleteType={'username'}
+          textContentType={'username'}
+          secureTextEntry={false}
+        />
+      </View>
       <FlatList
-        ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
         showsVerticalScrollIndicator={false}
         style={styles.list}
         data={getChats()}
@@ -68,19 +87,32 @@ export const Chats = ({navigation}: {navigation: any}) => {
 };
 
 const styles = StyleSheet.create({
-  chats: {
+  users: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
+  searchBox: {
+    marginTop: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '92%',
+    backgroundColor: '#E9E9E9',
+    borderRadius: 11,
+  },
+  search: {
+    marginLeft: 10,
+    padding: 0,
+    fontSize: 17,
+    height: 40,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: 'black',
+  },
   list: {
+    marginTop: 20,
     flex: 1,
     width: '100%',
-  },
-  dividingLine: {
-    marginLeft: 80,
-    width: '100%',
-    height: 1,
-    backgroundColor: '#ededed',
   },
 });

@@ -30,7 +30,6 @@ export const SaveSeed = ({
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Your secret phrase</Text>
       <Text style={styles.description}>

@@ -35,7 +35,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
       }
 
       await db.createAccounts(seed);
-      globalContext.dispatch(GlobalStore.signIn());
+      globalContext.dispatch(GlobalStore.signInLocal());
     })();
   }, [isLoading]);
 
@@ -49,7 +49,6 @@ export const WalletFileImport = ({route}: {route: any}) => {
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Wallet decryption</Text>
       <Text style={styles.description}>

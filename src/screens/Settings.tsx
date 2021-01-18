@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Keychain from 'react-native-keychain';
 import GlobalStore from 'storage/Global';
+import backend from 'utils/backend';
 
 export const Settings = ({navigation}: {navigation: any}) => {
   const globalContext = useContext(GlobalStore.Context);
@@ -19,7 +19,10 @@ export const Settings = ({navigation}: {navigation: any}) => {
     {
       img: require('assets/img/edit-profile.png'),
       title: 'Edit profile',
-      onClick: () => navigation.navigate('EditProfile'),
+      onClick: () =>
+        globalContext.state.isRegistered
+          ? navigation.navigate('EditProfile')
+          : navigation.navigate('Connecting'),
     },
     {
       img: require('assets/img/backup.png'),
@@ -28,11 +31,11 @@ export const Settings = ({navigation}: {navigation: any}) => {
     },
     {
       img: require('assets/img/safety.png'),
-      title: globalContext.state.isPasscode
+      title: globalContext.state.authInfo.isPasscode
         ? 'Disable passcode'
         : 'Enable passcode',
       onClick: async () => {
-        if (globalContext.state.isPasscode) {
+        if (globalContext.state.authInfo.isPasscode) {
           navigation.navigate('VerifyPassCode', {
             isDisablePasscode: true,
           });
@@ -43,7 +46,7 @@ export const Settings = ({navigation}: {navigation: any}) => {
     },
     {
       img: require('assets/img/biometry-btn.png'),
-      title: globalContext.state.isBiometry
+      title: globalContext.state.authInfo.isBiometry
         ? 'Disable biometry'
         : 'Enable biometry',
       onClick: async () => {
@@ -52,7 +55,7 @@ export const Settings = ({navigation}: {navigation: any}) => {
         });
       },
       isDisable:
-        !globalContext.state.isPasscode &&
+        !globalContext.state.authInfo.isPasscode &&
         Keychain.getSupportedBiometryType() != null,
     },
     {
@@ -100,22 +103,51 @@ export const Settings = ({navigation}: {navigation: any}) => {
       </TouchableOpacity>
     );
   };
-
   return (
     <View style={styles.profile}>
-      <View style={styles.account}>
+      <TouchableOpacity
+        style={styles.account}
+        onPress={() => {
+          globalContext.state.isRegistered
+            ? navigation.navigate('EditProfile')
+            : navigation.navigate('Connecting');
+        }}>
         <View style={styles.avatar}>
-          <MaterialCommunityIcons
-            name="account-circle-outline"
-            size={40}
-            color="#2AB2E2"
+          <Image
+            source={
+              globalContext.state.profile.avatarExt === ''
+                ? require('assets/img/default-avatar.png')
+                : {
+                    uri: backend.getImgUrl(
+                      globalContext.state.profile.id,
+                      globalContext.state.profile.avatarExt,
+                      globalContext.state.profile.lastUpdate,
+                    ),
+                  }
+            }
+            style={styles.avatar}
+            width={70}
+            height={70}
           />
         </View>
         <View style={styles.name}>
-          <Text style={styles.nameText}>Elshan</Text>
-          <Text style={styles.nickText}>@cryptobadboy</Text>
+          {globalContext.state.profile.username !== '' ? (
+            <Text style={[styles.nameText, {color: 'black'}]}>
+              {globalContext.state.profile.name}
+            </Text>
+          ) : (
+            <Text style={[styles.nameText, {color: '#888888'}]}>Name</Text>
+          )}
+
+          {globalContext.state.profile.username !== '' ? (
+            <Text style={[styles.nickText, {color: 'black'}]}>
+              @{globalContext.state.profile.username}
+            </Text>
+          ) : (
+            <Text style={[styles.nickText, {color: '#888888'}]}>Username</Text>
+          )}
         </View>
-      </View>
+      </TouchableOpacity>
       <FlatList
         style={styles.menu}
         ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
@@ -144,18 +176,14 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: '6%',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   avatar: {
+    borderRadius: 35,
     width: 70,
     height: 70,
-    borderColor: '#CCCCCC',
-    borderWidth: 1,
-    borderRadius: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   name: {
-    paddingTop: 10,
     paddingLeft: '4%',
     flexDirection: 'column',
   },
@@ -163,13 +191,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
-    color: 'black',
   },
   nickText: {
+    marginTop: 2,
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
-    color: 'black',
   },
   menu: {
     flex: 1,

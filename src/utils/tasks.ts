@@ -1,4 +1,3 @@
-import React from 'react';
 import BackgroundTimer from 'react-native-background-timer';
 import db from 'storage/DB';
 import * as polkadot from 'utils/polkadot';
@@ -14,6 +13,9 @@ import {ChatInfo} from 'models/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import DB from 'storage/DB';
+import {AuthInfo} from 'models/authInfo';
+import backend from './backend';
+import {MyProfile} from 'models/myProfile';
 
 /**
  * @namespace
@@ -32,8 +34,7 @@ namespace Task {
     transactionsContext: TransactionsStore.ContextType,
   ) {
     const accountsAddress = await db.getAccounts();
-
-    if (accountsAddress == null || accountsAddress.length == 0) {
+    if (accountsAddress == null || accountsAddress.length === 0) {
       throw 'accounts not found';
     }
 
@@ -54,81 +55,83 @@ namespace Task {
       );
     }
 
-    const isPasscode = await DB.isPasscode();
-    const isAuthed = await DB.isAuthed();
-    const isBiometry = await DB.isBiometry();
-    const isSynced = await DB.isSynced();
-    const notificationCount = await DB.getNotificationCount();
-
-    globalContext.dispatch(
-      GlobalStore.set(
-        notificationCount,
-        isBiometry,
-        isPasscode,
-        isAuthed,
-        isSynced,
-        true,
-      ),
-    );
-
     const chatInfo = await db.getChatsInfo();
     const allChats = new Map<string, Map<string, Transaction>>();
     for (let [key, value] of chatInfo) {
       allChats.set(key, await db.getChat(key));
       chatsContext.dispatch(ChatsStore.set(allChats, chatInfo));
     }
+
+    const authInfo = await DB.getAuthInfo();
+    const notificationCount = await DB.getNotificationCount();
+    const profile = await DB.getProfile();
+    const jwt = await backend.getJWT();
+    globalContext.dispatch(
+      GlobalStore.set(
+        profile != null ? profile : GlobalStore.initialState.profile,
+        notificationCount,
+        authInfo ?? GlobalStore.initialState.authInfo,
+        true,
+        jwt != null,
+        jwt != null,
+      ),
+    );
   }
 
   export async function createTask(
-    isSynced: boolean,
-    accountContext: AccountsStore.ContextType,
+    accountsContext: AccountsStore.ContextType,
     pricesContext: PricesStore.ContextType,
     globalContext: GlobalStore.ContextType,
     chatsContext: ChatsStore.ContextType,
     transactionsContext: TransactionsStore.ContextType,
   ) {
     console.log('start create task');
-    const accountsAddress = await db.getAccounts();
 
-    if (accountsAddress == null || accountsAddress.length == 0) {
+    if (accountsContext.state == null || accountsContext.state.size === 0) {
       throw 'accounts not found';
     }
 
     const tasks = new Array<Promise<void>>();
 
-    tasks.push(updateFirebaseToken());
-
-    tasks.push(updateBalances(accountContext));
-    tasks.push(updatePrices(pricesContext, accountContext));
+    tasks.push(updateBalances(accountsContext));
+    tasks.push(updatePrices(pricesContext, accountsContext));
 
     BackgroundTimer.setInterval(async () => {
-      await updatePrices(pricesContext, accountContext);
+      await updatePrices(pricesContext, accountsContext);
     }, 1 * min);
 
-    sync(
-      isSynced,
-      accountContext,
-      globalContext,
-      chatsContext,
-      transactionsContext,
-    );
+    sync(accountsContext, globalContext, chatsContext, transactionsContext);
     BackgroundTimer.setInterval(async () => {
-      await updateBalances(accountContext);
-      if (!globalContext.state.isSynced) {
+      await updateBalances(accountsContext);
+
+      if (!globalContext.state.authInfo.isSynced) {
         return;
       }
       await sync(
-        isSynced,
-        accountContext,
+        accountsContext,
         globalContext,
         chatsContext,
         transactionsContext,
       );
-    }, 5 * sec);
+    }, 10 * sec);
 
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
     }
+  }
+
+  export async function initPrivateData(
+    accountsContext: AccountsStore.ContextType,
+  ) {
+    console.log('init private data');
+
+    if (accountsContext.state == null || accountsContext.state.size === 0) {
+      throw 'accounts not found';
+    }
+
+    const uFirebase = updateFirebaseToken();
+    await backend.getJWT();
+    await uFirebase;
   }
 
   async function updateFirebaseToken() {
@@ -257,7 +260,6 @@ namespace Task {
   }
 
   async function sync(
-    isSynced: boolean,
     accountsContext: AccountsStore.ContextType,
     globalContext: GlobalStore.ContextType,
     chatsContext: ChatsStore.ContextType,
@@ -266,14 +268,14 @@ namespace Task {
     for (let [key, value] of accountsContext.state) {
       await syncByAccount(
         value,
-        isSynced,
+        globalContext.state.authInfo.isSynced,
         globalContext,
         chatsContext,
         transactionsContext,
       );
     }
 
-    if (!isSynced) {
+    if (!globalContext.state.authInfo.isSynced) {
       await globalContext.dispatch(GlobalStore.setSynced());
     }
   }

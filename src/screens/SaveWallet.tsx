@@ -43,7 +43,6 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         flexDirection: 'column',
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
       }}>
       <Text style={styles.title}>Save a wallet</Text>
       <Text style={styles.description}>

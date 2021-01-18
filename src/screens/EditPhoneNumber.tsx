@@ -16,6 +16,7 @@ import en from 'react-phone-number-input/locale/en';
 import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
+import GlobalStore from 'storage/Global';
 
 export const EditPhoneNumber = ({
   navigation,
@@ -25,10 +26,11 @@ export const EditPhoneNumber = ({
   route: any;
 }) => {
   const dialogContext = useContext(Dialog.Context);
-  const [countryCode, setCountryCode] = useState<string>('RU');
-  const [number, setNumber] = useState<string>('7');
+
+  const [countryCode, setCountryCode] = useState<string>('US');
+  const [number, setNumber] = useState<string>('1');
   const [countryCodeLength, setCountryCodeLength] = useState<number>(1);
-  const [countryName, setCountryName] = useState<string>('Russian');
+  const [countryName, setCountryName] = useState<string>('United States');
   const selectedCountryCode = route.params?.selectedCountryCode;
 
   const onSuccess = async () => {
@@ -43,31 +45,37 @@ export const EditPhoneNumber = ({
       return;
     }
 
-    const [code, err] = await BackendApi.auth(number);
-    switch (code) {
-      case 400:
-        dialogContext.dispatch(
-          Dialog.open('Server unavailable', 'Please try again: ' + err, () =>
-            dialogContext.dispatch(Dialog.close()),
-          ),
-        );
-        break;
-      case 404:
-        dialogContext.dispatch(
-          Dialog.open(
-            'Invalid phone number',
-            'Please validate and write number again',
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        );
-        break;
-      case 202:
-      case 200:
-        navigation.navigate('ConfirmCode', {phone: number});
-        break;
+    try {
+      BackendApi.sendCode(
+        number,
+        BackendApi.CodeType.Phone,
+        BackendApi.CheckType.Auth,
+      );
+    } catch (e) {
+      console.log(e);
     }
+
+    navigation.navigate('ConfirmCode', {
+      value: number,
+      type: BackendApi.CodeType.Phone,
+    });
   };
 
+  useEffect(() => {
+    let url = 'http://ip-api.com/json/';
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const countryCode = responseJson.countryCode;
+        const numberCountryCode = getCountryCallingCode(countryCode);
+        setCountryCodeLength(numberCountryCode.length);
+        setCountryCode(countryCode);
+        setCountryName(en[countryCode]);
+
+        setNumber(numberCountryCode);
+      })
+      .catch((error) => {});
+  }, []);
   useEffect(() => {
     if (selectedCountryCode != null) {
       const numberCountryCode = getCountryCallingCode(selectedCountryCode);
@@ -113,10 +121,19 @@ export const EditPhoneNumber = ({
       <View style={styles.phoneInput}>
         <Text style={styles.title}>Phone</Text>
         <View
-          style={{flexDirection: 'row', alignContent: 'center', marginTop: 0}}>
+          style={{
+            flexDirection: 'row',
+            alignContent: 'center',
+            marginTop: 0,
+          }}>
           <Text style={[styles.value, {alignSelf: 'center'}]}>+</Text>
           <TextInput
-            style={[styles.value, {width: '100%'}]}
+            style={[
+              styles.value,
+              {
+                width: '100%',
+              },
+            ]}
             value={number}
             onChangeText={(text) => {
               if (isValidPhoneNumber('+' + text)) {

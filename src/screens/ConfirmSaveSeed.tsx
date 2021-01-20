@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {BlueButton, SeedButton, Loader} from 'components';
+import {BlueButton, SeedButton, Loader} from 'components/index';
 import db from 'storage/DB';
 import GlobalStore from 'storage/Global';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {BlueButton} from 'components';
+import {BlueButton} from 'components/index';
 import PopDialog, {DialogContent} from 'react-native-popup-dialog';
 
 /**

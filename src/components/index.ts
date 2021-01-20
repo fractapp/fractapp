@@ -16,3 +16,7 @@ export {WalletLogo} from './WalletLogo';
 export {TabMenu} from './TabMenu';
 export {ChatShortInfo} from './ChatShortInfo';
 export {PaymentMsg} from './PaymentMsg';
+export {Contact} from './Contact';
+export {Receiver} from './Receiver';
+export {AmountInput} from './AmountInput';
+export {AmountValue} from './AmountValue';

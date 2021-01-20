@@ -1,5 +1,4 @@
 import {createContext, Dispatch} from 'react';
-import {State} from 'storage/Global';
 
 /**
  * @namespace

@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
-  Alert,
   FlatList,
   StyleSheet,
   View,
@@ -8,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {PaymentMsg} from 'components';
+import {PaymentMsg} from 'components/index';
 import {Transaction} from 'models/transaction';
 import {WalletLogo} from 'components/WalletLogo';
 import ChatsStore from 'storage/Chats';
@@ -16,22 +15,27 @@ import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import {Currency, Wallet} from 'models/wallet';
 import GlobalStore from 'storage/Global';
+import stringUtils from 'utils/string';
 
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
+  const flatListRef = useRef<FlatList>(null);
+
   const accountContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
 
   const chatInfo = route.params.chatInfo;
-  const [notificationCount, setNotificationCount] = useState(
-    chatInfo.notificationCount,
-  );
+  const avatar = route.params?.avatar;
+  const [notificationCount] = useState(chatInfo.notificationCount);
   const getWallet = (currency: Currency) => {
     let account = accountContext.state.get(currency);
     let price = priceContext.state.get(currency);
-    if (price == undefined) {
+    if (price === undefined) {
       price = 0;
+    }
+    if (account === undefined) {
+      throw 'invalid account';
     }
     return new Wallet(
       account.name,
@@ -43,14 +47,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   };
   const getTxs = () => {
     return Array.from(
-      chatsContext.state.chats.get(chatInfo.address).values(),
-    ).sort(function (a, b) {
-      return a.timestamp < b.timestamp;
-    });
+      chatsContext.state.chats.get(chatInfo.addressOrName)?.values() ?? [],
+    ).sort((a, b) => a.timestamp - b.timestamp);
   };
   const renderItem = ({item, index}: {item: Transaction; index: number}) => {
     let line;
-    if (notificationCount != 0 && index == notificationCount - 1) {
+    if (notificationCount !== 0 && index === notificationCount - 1) {
       line = (
         <View
           style={{
@@ -92,39 +94,39 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     );
   };
 
-  const flatListRef = useRef(null);
   useEffect(() => {
     navigation.setOptions({
-      title:
-        chatInfo.address.length <= 20
-          ? `${chatInfo.address}`
-          : `${chatInfo.address.substring(
-              0,
-              10,
-            )}...${chatInfo.address.substring(
-              chatInfo.address.length - 10,
-              chatInfo.address.length,
-            )}`,
+      title: stringUtils.formatNameOrAddress(chatInfo.addressOrName),
       headerRight: () => {
-        return <WalletLogo currency={chatInfo.currency} size={45} />;
+        return avatar == null ? (
+          <WalletLogo currency={chatInfo.currency} size={45} />
+        ) : (
+          <Image
+            source={avatar}
+            width={45}
+            height={45}
+            style={{width: 45, height: 45, borderRadius: 25}}
+          />
+        );
       },
       headerRightContainerStyle: {
         marginRight: 20,
       },
     });
   }, []);
-
   useEffect(() => {
     if (chatInfo.notificationCount !== 0) {
       globalContext.dispatch(
         GlobalStore.removeNotificationCount(notificationCount),
       );
-      chatsContext.dispatch(ChatsStore.resetNotification(chatInfo.address));
+      chatsContext.dispatch(
+        ChatsStore.resetNotification(chatInfo.addressOrName),
+      );
     }
   }, [chatInfo.notificationCount]);
 
   const onLayout = () => {
-    if (notificationCount > 0) {
+    if (notificationCount > 0 && flatListRef && flatListRef.current) {
       flatListRef.current.scrollToIndex({
         index: notificationCount - 1,
         viewPosition: 0.7,
@@ -146,7 +148,14 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       />
       <TouchableOpacity
         style={styles.sendBox}
-        onPress={() => Alert.alert('Milestone #2')}>
+        onPress={() =>
+          chatInfo.currency == null
+            ? navigation.navigate('SelectWallet')
+            : navigation.navigate('Send', {
+                receiver: chatInfo.addressOrName,
+                wallet: getWallet(chatInfo.currency),
+              })
+        }>
         <Image
           source={require('assets/img/send.png')}
           style={{width: 16, height: 25}}

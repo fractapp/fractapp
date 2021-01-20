@@ -53,10 +53,14 @@ namespace ChatsStore {
 
         const chat = copy.chats.get(action.member);
         chat?.set(action.tx.id, action.tx);
-        DB.setChat(action.member, chat);
+        DB.setChat(action.member, <Map<string, Transaction>>chat);
         return copy;
       case Action.RESET_NOTIFICATION:
         const chatInfo = copy.chatsInfo.get(action.member);
+        if (chatInfo === undefined) {
+          throw 'invalid chat info (reducer)';
+        }
+
         chatInfo.notificationCount = 0;
         DB.setChatsInfo(copy.chatsInfo);
         return copy;

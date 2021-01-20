@@ -6,6 +6,7 @@ import {
   Text,
   TouchableHighlight,
 } from 'react-native';
+// @ts-ignore
 import en from 'react-phone-number-input/locale/en';
 import {getCountryCallingCode} from 'react-phone-number-input';
 

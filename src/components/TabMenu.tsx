@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Wallets, Settings, Chats} from 'screens';
+import {Wallets, Settings, Chats} from 'screens/index';
 import GlobalStore from 'storage/Global';
 
 const Tab = createBottomTabNavigator();

@@ -2,6 +2,7 @@ import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'models/wallet';
+// @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
 import {MyProfile} from 'models/myProfile';
@@ -134,6 +135,7 @@ namespace BackendApi {
       }
 
       const msg = signAddressMsg + authPubKey + time;
+      // @ts-ignore
       accountsRq[accountInfo.currency] = {
         Address: accountInfo.address,
         PubKey: accountInfo.pubKey,
@@ -201,6 +203,19 @@ namespace BackendApi {
     });
 
     return response.status;
+  }
+
+  export async function search(value: string): Promise<Array<any>> {
+    value = value.toLowerCase();
+    if (value.length < 4) {
+      return [];
+    }
+    const response = await fetch(`${apiUrl}/profile/search?value=${value}`);
+
+    if (response.status !== 200) {
+      return [];
+    }
+    return await response.json();
   }
 
   export async function isUsernameFree(username: string): Promise<boolean> {

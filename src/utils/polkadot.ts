@@ -1,6 +1,7 @@
 import {Currency, getSymbol} from 'models/wallet';
 import BN from 'bn.js';
 import {Transaction, TxStatus, TxType} from 'models/transaction';
+// @ts-ignore
 import {KUSAMA_API, POLKADOT_API} from '@env';
 import MathUtils from 'utils/math';
 

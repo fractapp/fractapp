@@ -6,17 +6,18 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+// @ts-ignore
 import {
   formatPhoneNumberIntl,
   isValidPhoneNumber,
   parsePhoneNumber,
   getCountryCallingCode,
 } from 'react-phone-number-input';
+// @ts-ignore
 import en from 'react-phone-number-input/locale/en';
 import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
-import GlobalStore from 'storage/Global';
 
 export const EditPhoneNumber = ({
   navigation,
@@ -73,8 +74,7 @@ export const EditPhoneNumber = ({
         setCountryName(en[countryCode]);
 
         setNumber(numberCountryCode);
-      })
-      .catch((error) => {});
+      });
   }, []);
   useEffect(() => {
     if (selectedCountryCode != null) {
@@ -103,8 +103,12 @@ export const EditPhoneNumber = ({
       return;
     }
     if (isValidPhoneNumber('+' + number)) {
-      setCountryCode(parsePhoneNumber('+' + number).country);
-      setCountryName(en[parsePhoneNumber('+' + number).country]);
+      const info = parsePhoneNumber('+' + number);
+      if (info?.country == null) {
+        return;
+      }
+      setCountryCode(info.country);
+      setCountryName(en[info.country!]);
     } else {
       setCountryName('Invalid phone number');
     }

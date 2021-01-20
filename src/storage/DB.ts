@@ -25,6 +25,7 @@ namespace DB {
   };
 
   const AsyncStorageKeys = {
+    price: (currency: Currency) => `price_${currency}`,
     profile: 'profile',
     authInfo: 'auth_info',
     notificationCount: 'notification_count',
@@ -76,6 +77,17 @@ namespace DB {
     return JSON.parse(result);
   }
 
+  export async function setPrice(currency: Currency, value: number) {
+    await AsyncStorage.setItem(AsyncStorageKeys.price(currency), String(value));
+  }
+  export async function getPrice(currency: Currency): Promise<number> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.price(currency));
+    if (result == null) {
+      return 0;
+    }
+    return Number(result);
+  }
+
   export async function setProfile(profile: MyProfile) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.profile,
@@ -120,7 +132,7 @@ namespace DB {
     const hash = PasscodeUtil.hash(passcode, salt);
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
-      authInfo = new AuthInfo(false, false, false, false, false);
+      authInfo = new AuthInfo(false, false, false, false);
     }
 
     try {
@@ -137,7 +149,7 @@ namespace DB {
   export async function disablePasscode() {
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
-      authInfo = new AuthInfo(false, false, false, false, false);
+      authInfo = new AuthInfo(false, false, false, false);
     }
     authInfo.isPasscode = false;
     authInfo.isBiometry = false;

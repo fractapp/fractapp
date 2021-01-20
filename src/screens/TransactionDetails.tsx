@@ -3,7 +3,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import {Transaction, TxType} from 'models/transaction';
 import {getSymbol, Wallet} from 'models/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {WalletInfo, WalletLogo} from 'components';
+import {WalletInfo, WalletLogo} from 'components/index';
 
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ChatShortInfo} from 'components';
+import {ChatShortInfo} from 'components/index';
 import {ChatInfo} from 'models/chatInfo';
 import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
@@ -30,13 +30,13 @@ export const Chats = ({navigation}: {navigation: any}) => {
   const getChats = () => {
     return Array.from(chatsContext.state.chatsInfo.values())
       .filter(
-        (value) =>
+        (
+          value, //TODO: add users chats
+        ) =>
           transactionsContext.state.has(value.currency) &&
           transactionsContext.state.get(value.currency).has(value.lastTxId),
       )
-      .sort(function (a, b) {
-        return a.timestamp < b.timestamp;
-      });
+      .sort((a, b) => a.timestamp - b.timestamp);
   };
   const renderItem = ({item}: {item: ChatInfo}) => {
     const tx = transactionsContext.state.get(item.currency).get(item.lastTxId);
@@ -45,7 +45,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
         onPress={() => navigation.navigate('Chat', {chatInfo: item})}
         underlayColor="#f8f9fb">
         <ChatShortInfo
-          address={item.address}
+          address={item.addressOrName}
           notificationCount={item.notificationCount}
           tx={tx}
         />
@@ -61,7 +61,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
         style={styles.list}
         data={getChats()}
         renderItem={renderItem}
-        keyExtractor={(item) => item.address}
+        keyExtractor={(item) => item.addressOrName}
       />
     </View>
   );

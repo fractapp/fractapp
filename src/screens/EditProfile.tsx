@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {
-  ImageEditor,
   StyleSheet,
   View,
   Text,
@@ -8,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
 import GlobalStore from 'storage/Global';
 export const EditProfile = ({navigation}: {navigation: any}) => {
@@ -49,7 +48,7 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       },
       async (rs) => {
         if (rs.base64 !== undefined) {
-          await backend.uploadAvatar(rs.base64, rs.type);
+          await backend.uploadAvatar(rs.base64, rs.type!);
           await globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
         }
       },

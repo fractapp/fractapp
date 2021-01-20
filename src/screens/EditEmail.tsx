@@ -4,7 +4,6 @@ import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
-import GlobalStore from 'storage/Global';
 
 export const EditEmail = ({
   navigation,

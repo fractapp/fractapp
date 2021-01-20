@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
 import {getSymbol} from 'models/wallet';
 import {Transaction, TxType} from 'models/transaction';
-import dateUtils from 'utils/dateUtils';
+import stringUtils from 'utils/string';
 
 /**
  * @category Components
@@ -33,17 +33,12 @@ export const ChatShortInfo = ({
           <View style={{height: 25, flexDirection: 'row'}}>
             <View style={{flex: 3}}>
               <Text style={[styles.name, {textAlign: 'left'}]}>
-                {address.length <= 20
-                  ? `${address}`
-                  : `${address.substring(0, 12)}...${address.substring(
-                      address.length - 12,
-                      address.length,
-                    )}`}
+                {stringUtils.formatNameOrAddress(address)}
               </Text>
             </View>
             <View style={{flex: 1}}>
               <Text style={[styles.time, {textAlign: 'right'}]}>
-                {dateUtils.toChatInfo(now, new Date(tx.timestamp))}
+                {stringUtils.forChatInfo(now, new Date(tx.timestamp))}
               </Text>
             </View>
           </View>

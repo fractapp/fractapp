@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text, Alert} from 'react-native';
-import {BlueButton, PasswordInput, Loader} from 'components';
+import {BlueButton, PasswordInput, Loader} from 'components/index';
 import db from 'storage/DB';
 import backupUtil from 'utils/backup';
 import {FileBackup} from 'models/backup';

@@ -1,20 +1,20 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
-import {StatisticsBar, WalletInfo} from 'components/index';
-import {Wallet, Currency} from 'models/wallet';
+import {WalletInfo} from 'components/index';
+import {Wallet} from 'models/wallet';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 
-export const Wallets = ({navigation}: {navigation: any}) => {
+export const SelectWallet = ({navigation}: {navigation: any}) => {
   const accountContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
 
   const renderAccounts = () => {
-    const result = new Array();
+    const result = [];
     const wallets = new Array<Wallet>();
     for (let [currency, account] of accountContext.state) {
       let price = priceContext.state.get(currency);
-      if (price == undefined) {
+      if (price === undefined) {
         price = 0;
       }
 
@@ -34,33 +34,17 @@ export const Wallets = ({navigation}: {navigation: any}) => {
         <WalletInfo
           key={wallets[i].address}
           wallet={wallets[i]}
-          onPress={() =>
-            navigation.navigate('WalletDetails', {wallet: wallets[i]})
-          }
+          onPress={() => navigation.navigate('Send', {wallet: wallets[i]})}
         />,
       );
     }
     return result;
   };
 
-  const distribution = () => {
-    let distribution = new Map<Currency, number>();
-    for (let [currency, account] of accountContext.state) {
-      let price = priceContext.state.get(currency);
-      if (price == undefined) {
-        price = 0;
-      }
-
-      distribution.set(currency, account.balance * price);
-    }
-    return distribution;
-  };
-
   return (
     <View style={styles.wallet}>
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <StatisticsBar distribution={distribution()} />
           <View style={styles.accounts}>{renderAccounts()}</View>
         </View>
       </ScrollView>
@@ -75,7 +59,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   accounts: {
-    marginTop: 30,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

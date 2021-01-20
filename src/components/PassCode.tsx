@@ -11,10 +11,9 @@ export const PassCode = ({
   isBiometryStart = false,
   description,
   onSubmit,
-  onPreSubmit,
 }: {
   isBiometry: boolean;
-  isBiometryStart: boolean;
+  isBiometryStart?: boolean;
   description: string;
   onSubmit: (passcode: Array<number>) => void;
 }) => {

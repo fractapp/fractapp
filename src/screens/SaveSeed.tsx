@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {BlueButton, SeedButton} from 'components';
+import {BlueButton, SeedButton} from 'components/index';
 import {showMessage} from 'react-native-flash-message';
 import Clipboard from '@react-native-community/clipboard';
 
@@ -18,7 +18,7 @@ export const SaveSeed = ({
     seedBtns.push(
       <SeedButton
         key={seed[index]}
-        prefix={Number(index) + 1}
+        prefix={String(Number(index) + 1)}
         text={seed[index]}
       />,
     );

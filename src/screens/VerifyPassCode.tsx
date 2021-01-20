@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {showMessage} from 'react-native-flash-message';
-import {PassCode} from 'components';
+import {PassCode} from 'components/index';
 import DB from 'storage/DB';
 import PasscodeUtil from 'utils/passcode';
 import GlobalStore from 'storage/Global';

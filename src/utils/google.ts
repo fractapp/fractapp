@@ -1,5 +1,6 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
-import GDrive from 'react-native-google-drive-api-wrapper';
+// @ts-ignore
+import GDrive from 'react-native-google-drive-api-wrapper/GDrive';
 import {Type, DriveItem} from 'models/google';
 import {FileBackup} from 'models/backup';
 
@@ -52,7 +53,7 @@ namespace Google {
 
     const fieldIdDir = await GDrive.files.getId(dir, ['root']);
     const fieldId = await GDrive.files.getId(fileName, ['root', fieldIdDir]);
-    if (fieldId == undefined) {
+    if (fieldId === undefined) {
       const result = await GDrive.files.createFileMultipart(
         file,
         'application/json',
@@ -99,7 +100,7 @@ namespace Google {
   export async function getFileBackup(id: string): Promise<FileBackup> {
     const rs = await GDrive.files.get(id, {alt: 'media'});
     const rsBody = await rs.json();
-    if (rsBody.algorithm == undefined || rsBody.seed == undefined) {
+    if (rsBody.algorithm === undefined || rsBody.seed === undefined) {
       throw 'Invalid file';
     }
     return rsBody;

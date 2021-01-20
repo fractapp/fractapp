@@ -1,6 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {
-  ActivityIndicator,
   Alert,
   SectionList,
   StyleSheet,
@@ -11,8 +10,8 @@ import {
 import {Wallet} from 'models/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Transaction} from 'models/transaction';
-import {TransactionInfo, WalletDetailsInfo} from 'components';
-import dateUtils from 'utils/dateUtils';
+import {TransactionInfo, WalletDetailsInfo} from 'components/index';
+import stringUtils from 'utils/string';
 import TransactionsStore from 'storage/Transactions';
 
 export const WalletDetails = ({
@@ -27,12 +26,12 @@ export const WalletDetails = ({
 
   const getDataWithSections = () => {
     //TODO: maybe this will transfer to redux
-    let sections = new Array();
+    let sections = [];
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    for (let [id, tx] of transactionsContext.state.get(wallet.currency)) {
-      let dateValue = dateUtils.toTitle(now, new Date(tx.timestamp));
+    for (let tx of transactionsContext.state.get(wallet.currency)?.values()!) {
+      let dateValue = stringUtils.toTitle(now, new Date(tx.timestamp));
       if (!txsBySelections.has(dateValue)) {
         txsBySelections.set(dateValue, new Array<Transaction>());
       }
@@ -43,9 +42,7 @@ export const WalletDetails = ({
     for (const [key, value] of txsBySelections) {
       sections.push({
         title: key,
-        data: value.sort(function (a, b) {
-          return a.timestamp < b.timestamp;
-        }),
+        data: value.sort((a, b) => a.timestamp - b.timestamp),
       });
     }
     return sections;
@@ -94,7 +91,7 @@ export const WalletDetails = ({
           </View>
         )}
         sections={getDataWithSections()}
-        keyExtractor={(item, index) => item + index}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({item}) => (
           <TransactionInfo
             key={item.id}

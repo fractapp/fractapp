@@ -1,3 +1,4 @@
+// @ts-ignore
 import crypto from 'react-native-crypto';
 
 /**
@@ -6,9 +7,9 @@ import crypto from 'react-native-crypto';
  */
 namespace PasscodeUtil {
   export function hash(passcode: string, salt: string): string {
-    const hash = crypto.createHash('sha256');
-    hash.update(salt + passcode);
-    return hash.digest('base64');
+    const hashValue = crypto.createHash('sha256');
+    hashValue.update(salt + passcode);
+    return hashValue.digest('base64');
   }
 }
 

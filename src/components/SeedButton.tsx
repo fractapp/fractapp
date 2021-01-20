@@ -10,9 +10,9 @@ export const SeedButton = ({
   text,
   onPress,
 }: {
-  prefix: string;
+  prefix?: string;
   text: string;
-  onPress: () => void;
+  onPress?: () => void;
 }) => {
   return (
     <TouchableOpacity activeOpacity={1} style={styles.button} onPress={onPress}>

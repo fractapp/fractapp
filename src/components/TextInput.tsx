@@ -2,7 +2,7 @@ import React from 'react';
 import ReactNative from 'react-native';
 
 /**
- * Text input for password
+ * Text input
  * @category Components
  */
 export const TextInput = ({

@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {View, Alert, StatusBar} from 'react-native';
-import {Dialog, PassCode} from 'components';
+import {Dialog, PassCode} from 'components/index';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
 import DialogStore from 'storage/Dialog';
-import {Navigation} from 'screens';
+import {Navigation} from 'screens/index';
 import changeNavigationBarColor, {
   hideNavigationBar,
   showNavigationBar,
@@ -29,10 +29,10 @@ export default function App() {
   const chatsContext = useContext(ChatsStore.Context);
   const transactionsContext = useContext(TransactionsStore.Context);
 
-  const [isLoading, setLoading] = useState<Boolean>(false);
-  const [isLocked, setLocked] = useState<Boolean>(false);
-  const [isBiometry, setBiometry] = useState<Boolean>(false);
-  const [isConnected, setConnected] = useState<Boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLocked, setLocked] = useState<boolean>(false);
+  const [isBiometry, setBiometry] = useState<boolean>(false);
+  const [isConnected, setConnected] = useState<boolean>(true);
   const netInfo = useNetInfo();
 
   const unlockWithBiometry = async () => {
@@ -124,7 +124,6 @@ export default function App() {
     });
   }, [globalContext.state.isInitialized]);
   useEffect(() => {
-    console.log(globalContext.state.isUpdatingProfile);
     if (!globalContext.state.isUpdatingProfile) {
       return;
     }
@@ -191,7 +190,11 @@ export default function App() {
       )}
       <Dialog
         visible={dialogContext.state.visible}
-        onPress={dialogContext.state.onPress}
+        onPress={
+          dialogContext.state.onPress !== undefined
+            ? dialogContext.state.onPress
+            : () => console.log('invalid dialog onPress')
+        }
         title={dialogContext.state.title}
         text={dialogContext.state.text}
       />

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {WhiteButton} from 'components';
+import {WhiteButton} from 'components/index';
 
 export const SettingWallet = ({navigation}: {navigation: any}) => {
   return (

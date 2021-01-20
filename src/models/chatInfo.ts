@@ -4,20 +4,20 @@ import {Currency} from './wallet';
  * @category Models
  */
 export class ChatInfo {
-  address: string;
-  currency: Currency;
+  addressOrName: string;
   lastTxId: string;
   notificationCount: number;
   timestamp: number;
+  currency?: Currency;
 
   constructor(
-    address: string,
-    currency: Currency,
+    addressOrName: string,
     lastTxId: string,
     notificationCount: number,
     timestamp: number,
+    currency?: Currency,
   ) {
-    this.address = address;
+    this.addressOrName = addressOrName;
     this.currency = currency;
     this.lastTxId = lastTxId;
     this.notificationCount = notificationCount;

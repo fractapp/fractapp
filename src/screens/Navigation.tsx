@@ -31,8 +31,10 @@ import {
   EditUsername,
   EditName,
   Search,
-} from 'screens';
-import {TabMenu} from 'components';
+  SelectWallet,
+  Send,
+} from 'screens/index';
+import {TabMenu} from 'components/index';
 import {getSymbol} from 'models/wallet';
 
 const RootStack = createStackNavigator();
@@ -124,6 +126,8 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getRouterWithTitle('EditEmail', 'Email', EditEmail)}
         {getRouterWithTitle('EditUsername', 'Edit Username', EditUsername)}
         {getRouterWithTitle('EditName', 'Edit Name', EditName)}
+        {getRouterWithTitle('SelectWallet', 'Select Wallet', SelectWallet)}
+        {getRouterWithTitle('Send', 'Send', Send)}
         {getEmptyRouter('Search', Search)}
         {getRouterWithTitle('Chat', '', Chat)}
         {getRouterWithTitle('Receive', 'Receive ', Receive, (route) =>

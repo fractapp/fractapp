@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, Text, Alert, PermissionsAndroid} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
-import {WhiteButton, Img} from 'components';
+import {WhiteButton, Img} from 'components/index';
 import backupUtil from 'utils/backup';
 import {FileBackup} from 'models/backup';
 import googleUtil from 'utils/google';
@@ -15,26 +15,29 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     ]);
-    let isGaranted = true;
-    for (let key in statues) {
-      const status = statues[key];
-      if (status == 'granted') {
-        continue;
-      }
-      if (status == 'never_ask_again') {
-        dialogContext.dispatch(
-          Dialog.open(
-            'Open settings',
-            'If you want to import a file then open the application settings and give it access to the storage.',
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        );
-      }
 
-      isGaranted = false;
+    let isGranted =
+      statues[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] ===
+        'granted' &&
+      statues[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] ===
+        'granted';
+
+    if (
+      statues[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] ===
+        'never_ask_again' ||
+      statues[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] ===
+        'never_ask_again'
+    ) {
+      dialogContext.dispatch(
+        Dialog.open(
+          'Open settings',
+          'If you want to import a file then open the application settings and give it access to the storage.',
+          () => dialogContext.dispatch(Dialog.close()),
+        ),
+      );
     }
 
-    if (!isGaranted) {
+    if (!isGranted) {
       return;
     }
 

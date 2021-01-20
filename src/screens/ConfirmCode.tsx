@@ -30,12 +30,12 @@ export const ConfirmCode = ({
   const value = route.params.value;
   const type = route.params.type;
   const refs = new Array(
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
-    useRef(),
+    useRef<TextInput>(null),
+    useRef<TextInput>(null),
+    useRef<TextInput>(null),
+    useRef<TextInput>(null),
+    useRef<TextInput>(null),
+    useRef<TextInput>(null),
   );
 
   const tick = (time: number) => {
@@ -52,10 +52,14 @@ export const ConfirmCode = ({
   useEffect(() => {
     if (code.length === 1) {
       setBorderColor('#CCCCCC');
-      // styles.codeInput.borderWidth = 1;
     }
+
+    if (!refs[code.length] || !refs[code.length].current) {
+      throw 'invalid ref for confirm code ' + code.length;
+    }
+
     if (code.length < BackendApi.CodeLength) {
-      refs[code.length].current.focus();
+      refs[code.length]?.current?.focus();
     } else if (code.length === BackendApi.CodeLength) {
       Keyboard.dismiss();
 
@@ -156,7 +160,7 @@ export const ConfirmCode = ({
         ref={refs[0]}
         style={[styles.codeInput, {borderColor: borderColor}]}
         onFocus={() =>
-          code.length !== 0 ? refs[code.length].current.focus() : {}
+          code.length !== 0 ? refs[code.length]?.current?.focus() : {}
         }
         value={code.length !== 0 ? code[0] : ''}
         maxLength={1}
@@ -176,7 +180,7 @@ export const ConfirmCode = ({
           editable={editable}
           onFocus={() =>
             code.length !== i && code.length < BackendApi.CodeLength
-              ? refs[code.length].current.focus()
+              ? refs[code.length]?.current?.focus()
               : {}
           }
           maxLength={1}
@@ -185,7 +189,7 @@ export const ConfirmCode = ({
           keyboardType={'phone-pad'}
           blurOnSubmit={false}
           onKeyPress={({nativeEvent}) => {
-            if (nativeEvent.key == 'Backspace') {
+            if (nativeEvent.key === 'Backspace') {
               setCode(code.substring(0, code.length - 1));
             }
           }}

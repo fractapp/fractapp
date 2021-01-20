@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TouchableHighlight} from 'react-native';
 import {Transaction, TxType} from '../models/transaction';
 import {getSymbol} from '../models/wallet';
 import {WalletLogo} from 'components/WalletLogo';
+import stringUtils from 'utils/string';
 
 /**
  * Component with transaction information
@@ -49,15 +50,7 @@ export const TransactionInfo = ({
               marginLeft: 10,
             }}>
             <Text numberOfLines={1} style={styles.member}>
-              {transaction.member.length <= 10
-                ? `${transaction.member}`
-                : `${transaction.member.substring(
-                    0,
-                    10,
-                  )}...${transaction.member.substring(
-                    transaction.member.length - 10,
-                    transaction.member.length,
-                  )}`}
+              {stringUtils.formatNameOrAddress(transaction.member)}
             </Text>
             <Text style={[styles.balance, {textAlign: 'left', color: color}]}>
               {prefix}

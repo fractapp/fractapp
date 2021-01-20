@@ -29,7 +29,7 @@ export const EditName = ({
 
     if (
       regExp.test(name) ||
-      name.length < 3 ||
+      name.length < 4 ||
       name.length > 32 ||
       !(await backend.updateProfile(name, globalContext.state.profile.username))
     ) {
@@ -56,7 +56,7 @@ export const EditName = ({
     });
 
     setNameIsError(regExp.test(name));
-    if (name.length < 3 || name.length > 32) {
+    if (name.length < 4 || name.length > 32) {
       setNameIsError(true);
     }
   }, [name]);

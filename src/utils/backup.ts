@@ -1,3 +1,4 @@
+// @ts-ignore
 import crypto from 'react-native-crypto';
 import {PermissionsAndroid} from 'react-native';
 import {FileBackup} from 'models/backup';
@@ -122,6 +123,7 @@ namespace Backup {
     ]);
     let isGaranted = true;
     for (let key in statuses) {
+      // @ts-ignore
       const status = statuses[key];
       if (status == 'granted') {
         continue;

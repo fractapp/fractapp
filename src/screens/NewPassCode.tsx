@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {showMessage} from 'react-native-flash-message';
-import {PassCode} from 'components';
+import {PassCode} from 'components/index';
 import GlobalStore from 'storage/Global';
 
 export const NewPassCode = ({navigation}: {navigation: any}) => {

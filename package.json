@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest --verbose",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "doc": "typedoc --out docs ./src/components/index.tsx ./src/models ./src/storage ./src/utils --mode file --ignoreCompilerErrors "
+    "doc": "typedoc --out docs src/components/index.ts ./src/models ./src/storage ./src/utils --mode file --ignoreCompilerErrors "
   },
   "dependencies": {
     "@polkadot/api": "^2.7.1",
@@ -28,9 +28,11 @@
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.12.6",
     "@testing-library/react-native": "^7.1.0",
+    "@types/react-native-background-timer": "^2.0.0",
     "@types/react-native-popup-dialog": "^0.16.2",
     "@types/react-native-share": "^3.3.0",
     "@types/react-native-vector-icons": "^6.4.6",
+    "@types/react-phone-number-input": "^3.0.6",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-rewrite-require": "^1.14.5",
     "email-validator": "^2.0.4",
@@ -85,6 +87,9 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint"
+  },
+  "resolutions": {
+    "@types/react": "^17.0.0"
   },
   "jest": {
     "preset": "react-native",

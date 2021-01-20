@@ -3,7 +3,7 @@ import db from 'storage/DB';
 import * as polkadot from 'utils/polkadot';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import {Currency, getSymbol} from 'models/wallet';
+import {getSymbol} from 'models/wallet';
 import {Account} from 'models/account';
 import messaging from '@react-native-firebase/messaging';
 import BackendApi from './backend';
@@ -13,9 +13,7 @@ import {ChatInfo} from 'models/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import DB from 'storage/DB';
-import {AuthInfo} from 'models/authInfo';
 import backend from './backend';
-import {MyProfile} from 'models/myProfile';
 
 /**
  * @namespace
@@ -46,6 +44,9 @@ namespace Task {
       }
       accountContext.dispatch(AccountsStore.addAccount(account));
 
+      const price = await db.getPrice(account.currency);
+      pricesContext.dispatch(PricesStore.set(account.currency, price));
+
       const txs = await db.getTxs(account.currency);
       if (txs == null) {
         continue;
@@ -57,7 +58,7 @@ namespace Task {
 
     const chatInfo = await db.getChatsInfo();
     const allChats = new Map<string, Map<string, Transaction>>();
-    for (let [key, value] of chatInfo) {
+    for (let key of chatInfo.keys()) {
       allChats.set(key, await db.getChat(key));
       chatsContext.dispatch(ChatsStore.set(allChats, chatInfo));
     }
@@ -217,10 +218,10 @@ namespace Task {
         } else {
           chatInfo = new ChatInfo(
             txs[i].member,
-            txs[i].currency,
             txs[i].id,
             0,
             txs[i].timestamp,
+            txs[i].currency,
           );
         }
 
@@ -231,11 +232,11 @@ namespace Task {
 
         if (
           existedTxs.has(chatInfo.lastTxId) &&
-          txs[i].timestamp > existedTxs.get(chatInfo.lastTxId).timestamp
+          txs[i].timestamp > existedTxs.get(chatInfo.lastTxId)?.timestamp!
         ) {
           chatInfo.lastTxId = txs[i].id;
           chatInfo.currency = txs[i].currency;
-          chatInfo.address = txs[i].member;
+          chatInfo.addressOrName = txs[i].member;
           chatInfo.timestamp = txs[i].timestamp;
         }
 
@@ -265,7 +266,7 @@ namespace Task {
     chatsContext: ChatsStore.ContextType,
     transactionsContext: TransactionsStore.ContextType,
   ) {
-    for (let [key, value] of accountsContext.state) {
+    for (let value of accountsContext.state.values()) {
       await syncByAccount(
         value,
         globalContext.state.authInfo.isSynced,
@@ -281,7 +282,7 @@ namespace Task {
   }
 
   async function updateBalances(accountContext: AccountsStore.ContextType) {
-    for (let [key, value] of accountContext.state) {
+    for (let value of accountContext.state.values()) {
       const api = polkadot.Api.getInstance(value.currency);
 
       const balance = await api.balance(value.address);
@@ -298,7 +299,7 @@ namespace Task {
     pricesContext: PricesStore.ContextType,
     accountContext: AccountsStore.ContextType,
   ) {
-    for (let [key, value] of accountContext.state) {
+    for (let value of accountContext.state.values()) {
       const symbol = getSymbol(value.currency);
       const response = await fetch(
         `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`,

@@ -1,6 +1,6 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {WhiteButton, Img} from 'components';
+import {WhiteButton, Img} from 'components/index';
 import {mnemonicGenerate} from '@polkadot/util-crypto';
 import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';

@@ -39,6 +39,9 @@ namespace AccountsStore {
         return copy;
       case Action.UPDATE_BALANCE:
         const account = copy.get(action.currency);
+        if (account === undefined) {
+          return prevState;
+        }
         account.balance = action.balance;
         db.setAccountInfo(account);
         return copy;

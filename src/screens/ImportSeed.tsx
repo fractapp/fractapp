@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text, TextInput} from 'react-native';
-import {BlueButton, Loader} from 'components';
+import {BlueButton, Loader} from 'components/index';
 import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
 import db from 'storage/DB';

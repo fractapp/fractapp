@@ -2,7 +2,7 @@
  * @namespace
  * @category Utils
  */
-namespace DateUtils {
+namespace StringUtils {
   const months = [
     'January',
     'February',
@@ -59,7 +59,7 @@ namespace DateUtils {
   /**
    * convert date to string
    */
-  export function toChatInfo(now: Date, date: Date): string {
+  export function forChatInfo(now: Date, date: Date): string {
     let dateValue = '';
     if (
       now.getFullYear() == date.getFullYear() &&
@@ -142,15 +142,15 @@ namespace DateUtils {
 
     return day + '/' + month + '/' + year[2] + year[3];
   }
-  /*
-    export function dateReviver(key: string, value: any): Date {
-        var datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
-        if ({}.toString.call(value) === "[object String]" && datePattern.test(value)) {
-            return (new Date(value));
-        }
 
-        return (value);
-    }*/
+  export function formatNameOrAddress(value: string): string {
+    return value.length <= 32
+      ? `${value}`
+      : `${value.substring(0, 11)}...${value.substring(
+          value.length - 11,
+          value.length,
+        )}`;
+  }
 }
 
-export default DateUtils;
+export default StringUtils;

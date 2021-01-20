@@ -5,7 +5,7 @@ import {WalletLogo} from 'components/WalletLogo';
 import {getSymbol} from 'models/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Transaction, TxType} from 'models/transaction';
-import DateUtils from 'utils/dateUtils';
+import StringUtils from 'utils/string';
 
 /**
  * @category Components
@@ -56,7 +56,7 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
       <View style={[styles.cardRow, {marginTop: 10}]}>
         <Text
           style={[styles.dateText, {marginLeft: 3, alignSelf: 'flex-start'}]}>
-          {DateUtils.toMsg(now, new Date(tx.timestamp))}
+          {StringUtils.toMsg(now, new Date(tx.timestamp))}
         </Text>
 
         <View style={{flex: 1}}>

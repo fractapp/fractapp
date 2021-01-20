@@ -30,3 +30,5 @@ export {Connecting} from './Connecting';
 export {EditUsername} from './EditUsername';
 export {EditName} from './EditName';
 export {Search} from './Search';
+export {SelectWallet} from './SelectWallet';
+export {Send} from './Send';

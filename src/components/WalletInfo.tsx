@@ -12,7 +12,7 @@ export const WalletInfo = ({
   onPress,
 }: {
   wallet: Wallet;
-  onPress: () => void;
+  onPress?: () => void;
 }) => {
   const symbol = getSymbol(wallet.currency);
   return (

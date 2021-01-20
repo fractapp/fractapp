@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {BlueButton, TextInput, PasswordInput, Loader} from 'components';
+import {BlueButton, TextInput, PasswordInput, Loader} from 'components/index';
 import db from 'storage/DB';
 import backupUtil from 'utils/backup';
 import Dialog from 'storage/Dialog';

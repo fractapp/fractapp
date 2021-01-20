@@ -1,46 +1,64 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-  Text,
   TextInput,
+  TouchableHighlight,
+  View,
 } from 'react-native';
-import {ChatShortInfo} from 'components';
-import {ChatInfo} from 'models/chatInfo';
-import TransactionsStore from 'storage/Transactions';
-import ChatsStore from 'storage/Chats';
+import {Contact} from 'components/index';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import backend from 'utils/backend';
+import {ChatInfo} from 'models/chatInfo';
 
 export const Search = ({navigation}: {navigation: any}) => {
-  const chatsContext = useContext(ChatsStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
+  const [searchString, setSearchString] = useState<string>('');
+  const [users, setUsers] = useState<Array<any>>();
 
-  const [searchString, setSearchString] = useState<string>();
-
-  const getChats = () => {
-    return Array.from(chatsContext.state.chatsInfo.values())
-      .filter(
-        (value) =>
-          transactionsContext.state.has(value.currency) &&
-          transactionsContext.state.get(value.currency).has(value.lastTxId),
-      )
-      .sort(function (a, b) {
-        return a.timestamp < b.timestamp;
+  //TODO: add users without me
+  useEffect(() => {
+    setUsers([]);
+    if (searchString[0] === '@') {
+      backend.search(searchString.split('@')[1]).then((users) => {
+        setUsers(users);
       });
-  };
-  const renderItem = ({item}: {item: ChatInfo}) => {
-    const tx = transactionsContext.state.get(item.currency).get(item.lastTxId);
+    }
+  }, [searchString]);
+
+  const renderItem = ({item}: {item: any}) => {
     return (
       <TouchableHighlight
-        onPress={() => navigation.navigate('Chat', {chatInfo: item})}
+        onPress={() =>
+          navigation.navigate('Chat', {
+            chatInfo: new ChatInfo(item.name, '', 0, 0),
+            avatar:
+              item.avatarExt === ''
+                ? require('assets/img/default-avatar.png')
+                : {
+                    uri: backend.getImgUrl(
+                      item.id,
+                      item.avatarExt,
+                      item.lastUpdate,
+                    ),
+                  },
+          })
+        }
         underlayColor="#f8f9fb">
-        <ChatShortInfo
-          address={item.address}
-          notificationCount={item.notificationCount}
-          tx={tx}
+        <Contact
+          name={item.name}
+          img={
+            item.avatarExt === ''
+              ? require('assets/img/default-avatar.png')
+              : {
+                  uri: backend.getImgUrl(
+                    item.id,
+                    item.avatarExt,
+                    item.lastUpdate,
+                  ),
+                }
+          }
+          usernameOrPhoneNumber={'@' + item.username}
         />
       </TouchableHighlight>
     );
@@ -67,7 +85,7 @@ export const Search = ({navigation}: {navigation: any}) => {
           onChangeText={(text) => {
             setSearchString(text);
           }}
-          placeholder={'Search'}
+          placeholder={'Search by @username or email'}
           keyboardType={'default'}
           placeholderTextColor={'#949499'}
           autoCompleteType={'username'}
@@ -78,7 +96,7 @@ export const Search = ({navigation}: {navigation: any}) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         style={styles.list}
-        data={getChats()}
+        data={users}
         renderItem={renderItem}
         keyExtractor={(item) => item.address}
       />

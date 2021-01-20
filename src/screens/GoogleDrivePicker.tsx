@@ -4,7 +4,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {DriveItem, BackItemId} from 'models/google';
 import {FileBackup} from 'models/backup';
 import {Type} from 'models/google';
-import {Loader, DriveItemView} from 'components';
+import {Loader, DriveItemView} from 'components/index';
 import googleUtil from 'utils/google';
 
 export const GoogleDrivePicker = ({navigation}: {navigation: any}) => {

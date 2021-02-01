@@ -5,7 +5,13 @@ import {Wallet} from 'models/wallet';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 
-export const SelectWallet = ({navigation}: {navigation: any}) => {
+export const SelectWallet = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const accountContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
 
@@ -24,6 +30,7 @@ export const SelectWallet = ({navigation}: {navigation: any}) => {
           account.address,
           account.currency,
           account.balance,
+          account.planks,
           price,
         ),
       );
@@ -34,7 +41,12 @@ export const SelectWallet = ({navigation}: {navigation: any}) => {
         <WalletInfo
           key={wallets[i].address}
           wallet={wallets[i]}
-          onPress={() => navigation.navigate('Send', {wallet: wallets[i]})}
+          onPress={() =>
+            navigation.navigate('Send', {
+              wallet: wallets[i],
+              chatInfo: route.params.chatInfo,
+            })
+          }
         />,
       );
     }

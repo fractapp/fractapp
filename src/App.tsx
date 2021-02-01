@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import {View, Alert, StatusBar} from 'react-native';
+import {View, Alert, StatusBar, Dimensions} from 'react-native';
 import {Dialog, PassCode} from 'components/index';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
@@ -20,6 +20,7 @@ import ChatsStore from 'storage/Chats';
 import TransactionsStore from 'storage/Transactions';
 import {Loader} from 'components/Loader';
 import backend from 'utils/backend';
+import * as polkadot from 'utils/polkadot';
 
 export default function App() {
   const globalContext = useContext(GlobalStore.Context);
@@ -104,15 +105,27 @@ export default function App() {
       return;
     }
 
-    tasks.createTask(
-      accountsContext,
-      pricesContext,
-      globalContext,
-      chatsContext,
-      transactionsContext,
-    );
+    (async () => {
+      const wsTasks = [];
 
-    tasks.initPrivateData(accountsContext).then(() => {
+      const dataTask = tasks.initPrivateData(accountsContext);
+      for (let currency of accountsContext.state.keys()) {
+        wsTasks.push(polkadot.Api.getInstance(currency));
+      }
+      for (let task of wsTasks) {
+        await task;
+      }
+
+      tasks.createTask(
+        accountsContext,
+        pricesContext,
+        globalContext,
+        chatsContext,
+        transactionsContext,
+      );
+
+      await dataTask;
+
       if (isBiometry) {
         unlockWithBiometry()
           .then(() => onLoaded())
@@ -120,8 +133,9 @@ export default function App() {
       } else {
         onLoaded();
       }
+
       console.log('end ' + new Date().toTimeString());
-    });
+    })();
   }, [globalContext.state.isInitialized]);
   useEffect(() => {
     if (!globalContext.state.isUpdatingProfile) {
@@ -198,6 +212,19 @@ export default function App() {
         title={dialogContext.state.title}
         text={dialogContext.state.text}
       />
+      {globalContext.state.isLoadingShow && (
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'stretch',
+            position: 'absolute',
+            backgroundColor: 'white',
+            height: Dimensions.get('window').height,
+            width: '100%',
+          }}>
+          <Loader />
+        </View>
+      )}
     </View>
   );
 }

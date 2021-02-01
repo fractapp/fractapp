@@ -1,5 +1,6 @@
 import BackgroundTimer from 'react-native-background-timer';
 import db from 'storage/DB';
+import DB from 'storage/DB';
 import * as polkadot from 'utils/polkadot';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
@@ -7,13 +8,13 @@ import {getSymbol} from 'models/wallet';
 import {Account} from 'models/account';
 import messaging from '@react-native-firebase/messaging';
 import BackendApi from './backend';
+import backend from './backend';
 import {Transaction, TxStatus} from 'models/transaction';
 import TransactionsStore from 'storage/Transactions';
-import {ChatInfo} from 'models/chatInfo';
+import {ChatInfo, ChatType} from 'models/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
-import DB from 'storage/DB';
-import backend from './backend';
+import BN from 'bn.js';
 
 /**
  * @namespace
@@ -48,16 +49,15 @@ namespace Task {
       pricesContext.dispatch(PricesStore.set(account.currency, price));
 
       const txs = await db.getTxs(account.currency);
-      if (txs == null) {
-        continue;
-      }
+      const pendingTxs = await db.getPendingTxs(account.currency);
+      console.log('DB ' + JSON.stringify(pendingTxs));
       transactionsContext.dispatch(
-        TransactionsStore.setTxs(account.currency, txs),
+        TransactionsStore.setTxs(account.currency, txs, pendingTxs),
       );
     }
 
     const chatInfo = await db.getChatsInfo();
-    const allChats = new Map<string, Map<string, Transaction>>();
+    const allChats = new Map<string, Map<string, boolean>>();
     for (let key of chatInfo.keys()) {
       allChats.set(key, await db.getChat(key));
       chatsContext.dispatch(ChatsStore.set(allChats, chatInfo));
@@ -99,15 +99,18 @@ namespace Task {
 
     BackgroundTimer.setInterval(async () => {
       await updatePrices(pricesContext, accountsContext);
-    }, 1 * min);
+    }, min);
 
     sync(accountsContext, globalContext, chatsContext, transactionsContext);
+    checkPendingTxs(transactionsContext);
     BackgroundTimer.setInterval(async () => {
       await updateBalances(accountsContext);
 
       if (!globalContext.state.authInfo.isSynced) {
         return;
       }
+
+      await checkPendingTxs(transactionsContext);
       await sync(
         accountsContext,
         globalContext,
@@ -115,10 +118,63 @@ namespace Task {
         transactionsContext,
       );
     }, 10 * sec);
-
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
     }
+  }
+
+  export async function setTx(
+    globalContext: GlobalStore.ContextType,
+    chatsContext: ChatsStore.ContextType,
+    transactionsContext: TransactionsStore.ContextType,
+    tx: Transaction,
+    isNotify: boolean,
+  ): Promise<ChatInfo> {
+    transactionsContext.dispatch(TransactionsStore.setTx(tx.currency, tx));
+
+    let chatInfo;
+    if (chatsContext.state.chatsInfo.has(tx.member)) {
+      chatInfo = chatsContext.state.chatsInfo.get(tx.member)!;
+    } else {
+      chatInfo = new ChatInfo(
+        tx.member,
+        tx.member,
+        tx.id,
+        tx.currency,
+        0,
+        tx.timestamp,
+        ChatType.AddressOnly,
+        {
+          currency: tx.currency,
+          address: tx.member,
+        },
+      );
+    }
+
+    if (
+      tx.id !== chatInfo.lastTxId &&
+      tx.timestamp >
+        transactionsContext.state.transactions
+          .get(chatInfo.lastTxCurrency)
+          ?.get(chatInfo.lastTxId)?.timestamp!
+    ) {
+      chatInfo.lastTxId = tx.id;
+      chatInfo.lastTxCurrency = tx.currency;
+      chatInfo.timestamp = tx.timestamp;
+    }
+
+    if (isNotify) {
+      chatInfo.notificationCount++;
+    }
+
+    chatsContext.dispatch(ChatsStore.setChatInfo(tx.member, chatInfo));
+    chatsContext.dispatch(ChatsStore.addTxInChat(tx.member, tx.id));
+
+    if (isNotify) {
+      globalContext.dispatch(GlobalStore.addNotificationCount());
+    }
+
+    return chatInfo;
   }
 
   export async function initPrivateData(
@@ -132,6 +188,7 @@ namespace Task {
 
     const uFirebase = updateFirebaseToken();
     await backend.getJWT();
+
     await uFirebase;
   }
 
@@ -163,7 +220,7 @@ namespace Task {
     chatsContext: ChatsStore.ContextType,
     transactionsContext: TransactionsStore.ContextType,
   ) {
-    const api = polkadot.Api.getInstance(account.currency);
+    const api = await polkadot.Api.getInstance(account.currency);
 
     let size = 25;
     let txCount = 0;
@@ -171,9 +228,9 @@ namespace Task {
 
     let isExistInDB = false;
 
-    let chatsInfo = chatsContext.state.chatsInfo;
-
-    let existedTxs = transactionsContext.state.get(account.currency);
+    let existedTxs = transactionsContext.state.transactions.get(
+      account.currency,
+    );
     if (existedTxs === undefined) {
       existedTxs = new Map<string, Transaction>();
     }
@@ -184,6 +241,7 @@ namespace Task {
         page,
         size,
       );
+
       if (txs.length === 0) {
         break;
       }
@@ -199,56 +257,13 @@ namespace Task {
         }
 
         await api.updateUSDValueInTransaction(txs[i]);
-        transactionsContext.dispatch(
-          TransactionsStore.addTx(account.currency, txs[i]),
+        await setTx(
+          globalContext,
+          chatsContext,
+          transactionsContext,
+          txs[i],
+          isSynced,
         );
-
-        let chatTxs = chatsContext.state.chats.get(txs[i].member);
-        if (chatTxs === undefined) {
-          chatTxs = new Map<string, Transaction>();
-        }
-
-        if (chatTxs.has(txs[i].id)) {
-          continue;
-        }
-
-        let chatInfo;
-        if (chatsInfo?.has(txs[i].member)) {
-          chatInfo = chatsContext.state.chatsInfo.get(txs[i].member);
-        } else {
-          chatInfo = new ChatInfo(
-            txs[i].member,
-            txs[i].id,
-            0,
-            txs[i].timestamp,
-            txs[i].currency,
-          );
-        }
-
-        if (chatInfo == undefined) {
-          console.log('warn: chat info is undefined');
-          continue;
-        }
-
-        if (
-          existedTxs.has(chatInfo.lastTxId) &&
-          txs[i].timestamp > existedTxs.get(chatInfo.lastTxId)?.timestamp!
-        ) {
-          chatInfo.lastTxId = txs[i].id;
-          chatInfo.currency = txs[i].currency;
-          chatInfo.addressOrName = txs[i].member;
-          chatInfo.timestamp = txs[i].timestamp;
-        }
-
-        if (isSynced) {
-          chatInfo.notificationCount++;
-        }
-
-        chatsContext.dispatch(ChatsStore.setChatInfo(txs[i].member, chatInfo));
-        chatsContext.dispatch(ChatsStore.addTxInChat(txs[i].member, txs[i]));
-        if (isSynced) {
-          globalContext.dispatch(GlobalStore.addNotificationCount());
-        }
       }
 
       txCount = txs.length;
@@ -281,15 +296,53 @@ namespace Task {
     }
   }
 
+  async function checkPendingTxs(
+    transactionsContext: TransactionsStore.ContextType,
+  ) {
+    for (let [currency, value] of transactionsContext.state
+      .pendingTransactions) {
+      for (let i = 0; i < value.length; i++) {
+        const api = await polkadot.Api.getInstance(currency);
+
+        const status = await api.getTxStatus(value[i]);
+        if (status == null) {
+          continue;
+        }
+        let tx = transactionsContext.state.transactions
+          ?.get(currency)
+          ?.get(value[i])!;
+
+        tx.status = status!;
+        transactionsContext.dispatch(TransactionsStore.setTx(currency, tx));
+        transactionsContext.dispatch(
+          TransactionsStore.removePendingTx(currency, i),
+        );
+      }
+    }
+  }
+
   async function updateBalances(accountContext: AccountsStore.ContextType) {
     for (let value of accountContext.state.values()) {
-      const api = polkadot.Api.getInstance(value.currency);
+      const api = await polkadot.Api.getInstance(value.currency);
 
       const balance = await api.balance(value.address);
-      if (value.balance != balance && balance != null) {
-        value.balance = balance;
+      if (!balance) {
+        continue;
+      }
+
+      const balanceValue = balance[0];
+      const planks = balance[1];
+
+      if (value.planks === '' || new BN(value.planks).cmp(planks) !== 0) {
+        value.balance = balanceValue;
+        value.planks = planks.toString(10);
+
         accountContext.dispatch(
-          AccountsStore.updateBalance(value.currency, value.balance),
+          AccountsStore.updateBalance(
+            value.currency,
+            value.balance,
+            value.planks,
+          ),
         );
       }
     }

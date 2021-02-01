@@ -1,48 +1,84 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {Transaction, TxType} from 'models/transaction';
+import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {Transaction, TxStatus, TxType} from 'models/transaction';
 import {getSymbol, Wallet} from 'models/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {WalletInfo, WalletLogo} from 'components/index';
+import StringUtils from 'utils/string';
+import MathUtils from 'utils/math';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Clipboard from '@react-native-community/clipboard';
+import {showMessage} from 'react-native-flash-message';
 
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;
   const wallet: Wallet = route.params.wallet;
 
-  let color: string;
-  switch (tx.txType) {
-    case TxType.None:
-      color = '#888888';
-      break;
-    case TxType.Received:
-      color = '#67D44D';
-      break;
-    case TxType.Sent:
-      color = '#EA4335';
-      break;
-  }
+  const renderStatus = () => {
+    switch (tx.status) {
+      case TxStatus.Success:
+        return (
+          <View style={styles.status}>
+            <MaterialIcons name="done" size={25} color="#67D44D" />
+            <Text style={styles.statusText}>Success</Text>
+          </View>
+        );
+      case TxStatus.Pending:
+        return (
+          <View style={styles.status}>
+            <MaterialIcons name="schedule" size={25} color="#F39B34" />
+            <Text style={styles.statusText}>Pending</Text>
+          </View>
+        );
+      case TxStatus.Fail:
+        return (
+          <View style={styles.status}>
+            <MaterialCommunityIcons name="close" size={25} color="#EA4335" />
+            <Text style={styles.statusText}>Failed</Text>
+          </View>
+        );
+    }
+  };
+  const amountColor = () => {
+    if (tx.status === TxStatus.Fail || tx.txType === TxType.None) {
+      return '#888888';
+    }
+    if (tx.txType === TxType.Sent) {
+      return '#EA4335';
+    } else if (tx.txType === TxType.Received) {
+      return '#67D44D';
+    }
+  };
 
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
         <WalletLogo currency={tx.currency} size={80} />
-        <Text style={styles.address}>{tx.member}</Text>
-        <Text style={[styles.value, {color: color}]}>
-          {tx.usdValue != 0
-            ? '$' + tx.usdValue
+        <Text
+          onPress={() => {
+            Clipboard.setString(tx.member);
+            showMessage({
+              message: 'Copied',
+              type: 'info',
+              icon: 'info',
+            });
+          }}
+          style={styles.address}>
+          {tx.member}
+        </Text>
+        <Text style={[styles.value, {color: amountColor()}]}>
+          {tx.usdValue !== 0
+            ? '$' + MathUtils.floorUsd(tx.usdValue)
             : `${tx.value} ${getSymbol(tx.currency)}`}
         </Text>
-        {tx.usdValue != 0 ? (
+        {tx.usdValue !== 0 ? (
           <Text style={styles.subValue}>
             ({tx.value} {getSymbol(tx.currency)})
           </Text>
         ) : (
           <View />
         )}
-        <View style={styles.status}>
-          <MaterialIcons name="done" size={25} color="#888888" />
-          <Text style={styles.statusText}>Success</Text>
-        </View>
+        {renderStatus()}
       </View>
 
       <View style={{width: '100%', marginTop: 30}}>
@@ -56,15 +92,18 @@ export const TransactionDetails = ({route}: {route: any}) => {
         <View style={{flex: 1}}>
           <Text style={[styles.title, {marginBottom: 5}]}>Date</Text>
           <Text style={styles.dateAndFee}>
-            {new Date(tx.timestamp).toLocaleDateString()}{' '}
-            {new Date(tx.timestamp).toLocaleTimeString()}
+            {StringUtils.fromFullDate(new Date(tx.timestamp)) +
+              ' ' +
+              StringUtils.fromTime(new Date(tx.timestamp))}
           </Text>
         </View>
         <View style={{flex: 1, alignItems: 'flex-end'}}>
           <View>
             <Text style={[styles.title, {marginBottom: 5}]}>Fee</Text>
-            {tx.usdFee == 0 ? (
-              <Text style={styles.dateAndFee}>{tx.fee} DOT</Text>
+            {tx.usdFee === 0 ? (
+              <Text style={styles.dateAndFee}>
+                {tx.fee} {getSymbol(wallet.currency)}
+              </Text>
             ) : (
               <Text style={styles.dateAndFee}>${tx.usdFee}</Text>
             )}
@@ -123,7 +162,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     alignSelf: 'flex-start',
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: 'Roboto-Regular',
     color: '#888888',
   },
@@ -131,7 +170,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     alignSelf: 'flex-start',
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: 'Roboto-Regular',
     color: 'black',
   },

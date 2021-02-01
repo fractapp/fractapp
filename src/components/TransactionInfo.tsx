@@ -1,9 +1,17 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableHighlight} from 'react-native';
-import {Transaction, TxType} from '../models/transaction';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
+import {Transaction, TxStatus, TxType} from '../models/transaction';
 import {getSymbol} from '../models/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 import stringUtils from 'utils/string';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 /**
  * Component with transaction information
@@ -33,6 +41,24 @@ export const TransactionInfo = ({
       break;
   }
 
+  const renderStatus = () => {
+    switch (transaction.status) {
+      case TxStatus.Pending:
+        return (
+          <View style={styles.status}>
+            <MaterialIcons name="schedule" size={23} color="#F39B34" />
+          </View>
+        );
+      case TxStatus.Fail:
+        return (
+          <View
+            style={[styles.status, {borderColor: '#EA4335', borderWidth: 1}]}>
+            <MaterialCommunityIcons name="close" size={20} color="#EA4335" />
+          </View>
+        );
+    }
+  };
+
   return (
     <TouchableHighlight
       onPress={onPress}
@@ -42,6 +68,7 @@ export const TransactionInfo = ({
       <View style={{width: '90%'}}>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <WalletLogo currency={transaction.currency} size={50} />
+          {renderStatus()}
           <View
             style={{
               alignSelf: 'center',
@@ -57,7 +84,7 @@ export const TransactionInfo = ({
               {transaction.value} {getSymbol(transaction.currency)}
             </Text>
           </View>
-          {transaction.usdValue != 0 ? (
+          {transaction.usdValue !== 0 ? (
             <Text style={[styles.balance, {alignSelf: 'center', color: color}]}>
               {prefix}${transaction.usdValue}
             </Text>
@@ -75,6 +102,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  status: {
+    width: 23,
+    height: 23,
+    borderRadius: 23,
+    backgroundColor: 'white',
+    position: 'absolute',
+    left: 30,
+    bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,38 +1,189 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Wallet} from 'models/wallet';
-import { WalletInfo, Receiver, BlueButton, AmountValue, AmountInput } from "components/index";
-import {ReceiverType} from 'components/Receiver';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {AmountInput, SuccessButton} from 'components/index';
+import {getSymbol, Wallet} from 'models/wallet';
+import PricesStore from 'storage/Prices';
+import {Api} from 'utils/polkadot';
+import MathUtils from 'utils/math';
+import Dialog from 'storage/Dialog';
+import BN from 'bn.js';
 
-export const Send = ({navigation, route}: {navigation: any; route: any}) => {
+export const EnterAmount = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
+  const [isUSDMode, setUSDMode] = useState<boolean>(
+    route.params?.isUSDMode ?? true,
+  );
+  const routeValue = route.params?.value ?? 0;
+  const [value, setValue] = useState<number>(
+    routeValue === 0 ? '' : routeValue,
+  );
+  const [alternativeValue, setAlternativeValue] = useState<number>(0);
+
+  const [usdFee, setUsdFee] = useState<number>(0);
+  const [plankFee, setPlankFee] = useState<BN>(new BN(0));
+
+  const priceContext = useContext(PricesStore.Context);
+  const dialogContext = useContext(Dialog.Context);
+
   const wallet: Wallet = route.params.wallet;
+  const callerScreen: Wallet = route.params.callerScreen;
   const receiver: string = route.params.receiver;
-  const avatar: any = route.params?.avatar;
+
+  const onSuccess = async () => {
+    if (value <= 0 || alternativeValue <= 0) {
+      navigation.navigate('Send', {
+        isUSDMode: isUSDMode,
+        value: value,
+      });
+    }
+
+    const currencyValue = isUSDMode ? alternativeValue : value;
+    Api.getInstance(wallet.currency).then(async (api) => {
+      const planksValue = api.convertToPlanck(String(currencyValue));
+      if (new BN(wallet.planks).cmp(planksValue.add(plankFee)) < 0) {
+        dialogContext.dispatch(
+          Dialog.open('Not enough balance', '', () =>
+            dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
+
+      const receiverBalance = (await api.balance(receiver))!;
+      if (
+        receiverBalance[1].add(planksValue).cmp(await api.minTransfer()) < 0
+      ) {
+        dialogContext.dispatch(
+          Dialog.open(
+            'Minimum transfer',
+            `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
+              await api.minTransfer(),
+            )} ${getSymbol(wallet.currency)}`,
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
+
+      const balanceAfterBalance = new BN(wallet.planks)
+        .sub(planksValue)
+        .sub(plankFee);
+
+      if (
+        balanceAfterBalance.cmp(await api.minTransfer()) < 0 &&
+        balanceAfterBalance.cmp(new BN(0)) !== 0
+      ) {
+        dialogContext.dispatch(
+          Dialog.open(
+            'Balance',
+            `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
+              await api.minTransfer(),
+            )} ${getSymbol(
+              wallet.currency,
+            )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
+              new BN(wallet.planks).sub(plankFee),
+            )}`,
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
+
+      navigation.navigate(callerScreen, {
+        isUSDMode: isUSDMode,
+        value: value,
+      });
+    });
+  };
+
+  useEffect(() => {
+    if (value <= 0) {
+      return;
+    }
+    const price = priceContext.state?.get(wallet.currency) ?? 0;
+
+    Api.getInstance(wallet.currency).then(async (api) => {
+      if (isUSDMode) {
+        const currencyValue = MathUtils.round(value / price, api.viewDecimals);
+        setAlternativeValue(currencyValue);
+      } else {
+        const usdValue = MathUtils.roundUsd(value * price);
+        setAlternativeValue(usdValue);
+      }
+    });
+  }, [value, isUSDMode]);
+
+  useEffect(() => {
+    if (value <= 0 || alternativeValue <= 0) {
+      return;
+    }
+
+    const price = priceContext.state?.get(wallet.currency) ?? 0;
+    const currencyValue = isUSDMode ? alternativeValue : value;
+
+    Api.getInstance(wallet.currency).then(async (api) => {
+      const info = await api
+        .getSubstrateApi()
+        .tx.balances.transferKeepAlive(
+          receiver,
+          api.convertToPlanck(String(currencyValue)),
+        )
+        .paymentInfo(wallet.address);
+
+      if (currencyValue <= 0) {
+        setUsdFee(0);
+        return;
+      }
+
+      setPlankFee(info.partialFee);
+      setUsdFee(
+        MathUtils.roundUsd(
+          api.convertFromPlanckWithViewDecimals(info.partialFee) * price,
+        ),
+      );
+    });
+  }, [alternativeValue]);
+
+  useEffect(() => {
+    if (value <= 0 || alternativeValue <= 0) {
+      return;
+    }
+
+    navigation.setOptions({
+      headerRight: () => {
+        return <SuccessButton size={35} onPress={onSuccess} />;
+      },
+    });
+  }, [alternativeValue, usdFee]);
 
   return (
     <View style={styles.chats}>
-      <View style={{width: '100%', marginTop: 10, alignItems: 'center'}}>
-        <AmountInput  />
-      </View>
+      <AmountInput
+        width={'95%'}
+        onChangeText={(text, isUSDMode) => {
+          const value = parseFloat(text);
+          setValue(isNaN(value) ? 0 : value);
+          setUSDMode(isUSDMode);
+        }}
+        value={String(value)}
+        usdMode={isUSDMode}
+        alternativeValue={alternativeValue}
+        fee={usdFee}
+        currency={wallet.currency}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   chats: {
-    marginTop: 10,
+    marginTop: 15,
     alignItems: 'center',
     flex: 1,
-  },
-  list: {
-    flex: 1,
-    width: '100%',
-  },
-  dividingLine: {
-    marginLeft: 80,
-    width: '100%',
-    height: 1,
-    backgroundColor: '#ededed',
   },
 });

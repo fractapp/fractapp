@@ -22,6 +22,7 @@ namespace GlobalStore {
     ENABLE_BIOMETRY,
     DISABLE_BIOMETRY,
     SET_SYNCED,
+    SET_LOADING,
   }
 
   export type State = {
@@ -31,6 +32,7 @@ namespace GlobalStore {
     notificationCount: number;
     authInfo: AuthInfo;
     isInitialized: boolean;
+    isLoadingShow: boolean;
   };
 
   export type ContextType = {
@@ -45,6 +47,7 @@ namespace GlobalStore {
     authInfo: new AuthInfo(false, false, false, false),
     isInitialized: false,
     isRegistered: false,
+    isLoadingShow: false,
   };
   export const Context = createContext<ContextType>({
     state: initialState,
@@ -62,6 +65,7 @@ namespace GlobalStore {
           authInfo: action.authInfo,
           isInitialized: action.isInitialized,
           isRegistered: action.isRegistered,
+          isLoadingShow: false,
         };
       case Action.SET_PROFILE:
         copy.profile = action.profile;
@@ -113,6 +117,9 @@ namespace GlobalStore {
         break;
       case Action.DISABLE_BIOMETRY:
         copy.authInfo.isBiometry = false;
+        break;
+      case Action.SET_LOADING:
+        copy.isLoadingShow = action.isLoadingShow;
         break;
       default:
         return prevState;
@@ -177,6 +184,10 @@ namespace GlobalStore {
   });
   export const disableBiometry = () => ({
     type: Action.DISABLE_BIOMETRY,
+  });
+  export const setLoading = (isLoadingShow: boolean) => ({
+    type: Action.SET_LOADING,
+    isLoadingShow: isLoadingShow,
   });
 }
 export default GlobalStore;

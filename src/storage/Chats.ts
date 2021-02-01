@@ -1,5 +1,4 @@
 import {createContext, Dispatch} from 'react';
-import {Transaction} from 'models/transaction';
 import DB from 'storage/DB';
 import {ChatInfo} from 'models/chatInfo';
 
@@ -16,11 +15,11 @@ namespace ChatsStore {
   }
 
   export type State = {
-    chats: Map<string, Map<string, Transaction>>;
+    chats: Map<string, Map<string, boolean>>;
     chatsInfo: Map<string, ChatInfo>;
   };
   export const initialState = {
-    chats: new Map<string, Map<string, Transaction>>(),
+    chats: new Map<string, Map<string, boolean>>(),
     chatsInfo: new Map<string, ChatInfo>(),
   };
 
@@ -48,12 +47,12 @@ namespace ChatsStore {
         return copy;
       case Action.ADD_TX_IN_CHAT:
         if (!copy.chats.has(action.member)) {
-          copy.chats.set(action.member, new Map<string, Transaction>());
+          copy.chats.set(action.member, new Map<string, boolean>());
         }
 
-        const chat = copy.chats.get(action.member);
-        chat?.set(action.tx.id, action.tx);
-        DB.setChat(action.member, <Map<string, Transaction>>chat);
+        const chat = copy.chats.get(action.member)!;
+        chat.set(action.id, true);
+        DB.setChat(action.member, chat);
         return copy;
       case Action.RESET_NOTIFICATION:
         const chatInfo = copy.chatsInfo.get(action.member);
@@ -70,7 +69,7 @@ namespace ChatsStore {
   }
 
   export const set = (
-    chats: Map<string, Map<string, Transaction>>,
+    chats: Map<string, Map<string, boolean>>,
     chatsInfo: Map<string, ChatInfo>,
   ) => ({
     type: Action.SET,
@@ -83,10 +82,10 @@ namespace ChatsStore {
     member: member,
     chatInfo: chatInfo,
   });
-  export const addTxInChat = (member: string, tx: Transaction) => ({
+  export const addTxInChat = (member: string, id: string) => ({
     type: Action.ADD_TX_IN_CHAT,
     member: member,
-    tx: tx,
+    id: id,
   });
   export const resetNotification = (member: string) => ({
     type: Action.RESET_NOTIFICATION,

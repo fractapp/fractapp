@@ -9,6 +9,7 @@ export class Account {
   pubKey: string;
   currency: Currency;
   balance: number;
+  planks: string;
 
   constructor(
     name: string,
@@ -16,15 +17,13 @@ export class Account {
     pubKey: string,
     currency: Currency,
     balance: number,
+    planks: string,
   ) {
     this.name = name;
     this.address = address;
     this.pubKey = pubKey;
     this.currency = currency;
     this.balance = balance;
-  }
-
-  static parse(json: string): Account {
-    return JSON.parse(json);
+    this.planks = planks;
   }
 }

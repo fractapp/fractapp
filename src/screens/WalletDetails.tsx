@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {
-  Alert,
   SectionList,
   StyleSheet,
   Text,
@@ -25,12 +24,19 @@ export const WalletDetails = ({
   const wallet: Wallet = route.params.wallet;
 
   const getDataWithSections = () => {
-    //TODO: maybe this will transfer to redux
     let sections = [];
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    for (let tx of transactionsContext.state.get(wallet.currency)?.values()!) {
+    //TODO: refactoring
+    const txs = new Array<Transaction>();
+    for (let tx of transactionsContext.state.transactions
+      .get(wallet.currency)
+      ?.values()!) {
+      txs.push(tx);
+    }
+
+    for (let tx of txs.sort((a, b) => b.timestamp - a.timestamp)) {
       let dateValue = stringUtils.toTitle(now, new Date(tx.timestamp));
       if (!txsBySelections.has(dateValue)) {
         txsBySelections.set(dateValue, new Array<Transaction>());
@@ -42,7 +48,7 @@ export const WalletDetails = ({
     for (const [key, value] of txsBySelections) {
       sections.push({
         title: key,
-        data: value.sort((a, b) => a.timestamp - b.timestamp),
+        data: value,
       });
     }
     return sections;
@@ -57,7 +63,11 @@ export const WalletDetails = ({
             <View style={styles.btns}>
               <View>
                 <TouchableHighlight
-                  onPress={() => Alert.alert('Milestone 3.1 (Chat)')}
+                  onPress={() =>
+                    navigation.navigate('SendWithEnterAddress', {
+                      wallet: wallet,
+                    })
+                  }
                   underlayColor="#f8f9fb"
                   style={styles.btn}>
                   <MaterialCommunityIcons

@@ -223,7 +223,6 @@ namespace BackendApi {
       `${apiUrl}/profile/username?username=${username}`,
     );
 
-    console.log(response.status);
     return response.status === 404;
   }
 
@@ -251,8 +250,6 @@ namespace BackendApi {
     const response = await fetch(
       `${apiUrl}/profile/username?username=${username}`,
     );
-
-    console.log(response.status);
 
     return response.status;
   }

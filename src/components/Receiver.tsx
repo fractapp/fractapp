@@ -1,32 +1,43 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native';
-import {Currency, getSymbol, Wallet} from 'models/wallet';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import {Currency} from 'models/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 
 /**
  * @category Components
  */
 export enum ReceiverType {
-  Standard,
-  Fractapp,
+  Address,
+  User,
 }
+
+/**
+ * @category Components
+ */
 export const Receiver = ({
-  currency,
   nameOrAddress,
   type,
+  currency = undefined,
+  avatar = null,
 }: {
-  currency: Currency;
   nameOrAddress: string;
   type: ReceiverType;
+  currency?: Currency;
+  avatar?: any;
 }) => {
   return (
     <View style={{width: '100%', alignContent: 'center'}}>
       <View style={styles.account}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          {type === ReceiverType.Standard ? (
-            <WalletLogo currency={currency} size={50} />
+          {type === ReceiverType.Address ? (
+            <WalletLogo currency={currency!} size={50} />
           ) : (
-            <WalletLogo currency={currency} size={50} />
+            <Image
+              source={avatar}
+              width={50}
+              height={50}
+              style={{width: 50, height: 50, borderRadius: 25}}
+            />
           )}
           <View
             style={{

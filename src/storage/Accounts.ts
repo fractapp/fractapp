@@ -43,6 +43,7 @@ namespace AccountsStore {
           return prevState;
         }
         account.balance = action.balance;
+        account.planks = action.planks;
         db.setAccountInfo(account);
         return copy;
       default:
@@ -50,10 +51,15 @@ namespace AccountsStore {
     }
   }
 
-  export const updateBalance = (currency: Currency, balance: number) => ({
+  export const updateBalance = (
+    currency: Currency,
+    balance: number,
+    planks: string,
+  ) => ({
     type: Action.UPDATE_BALANCE,
     balance: balance,
     currency: currency,
+    planks: planks,
   });
   export const addAccount = (account: Account) => ({
     type: Action.ADD_ACCOUNT,

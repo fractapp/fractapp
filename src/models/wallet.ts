@@ -61,6 +61,7 @@ export class Wallet {
   name: string;
   address: string;
   balance: number;
+  planks: string;
   currency: Currency;
   usdValue: number;
 
@@ -69,11 +70,13 @@ export class Wallet {
     address: string,
     currency: Currency,
     balance: number,
+    planks: string,
     price: number,
   ) {
     this.name = name;
     this.address = address;
     this.balance = balance;
+    this.planks = planks;
     this.currency = currency;
 
     this.usdValue = +(balance * price).toFixed(2);

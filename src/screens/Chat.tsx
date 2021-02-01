@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
+  Image,
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
-  Image,
+  View,
 } from 'react-native';
 import {PaymentMsg} from 'components/index';
 import {Transaction} from 'models/transaction';
@@ -16,6 +16,9 @@ import PricesStore from 'storage/Prices';
 import {Currency, Wallet} from 'models/wallet';
 import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
+import {ChatInfo, ChatType, DefaultDetails, UserDetails} from 'models/chatInfo';
+import backend from 'utils/backend';
+import TransactionsStore from 'storage/Transactions';
 
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const flatListRef = useRef<FlatList>(null);
@@ -24,10 +27,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const priceContext = useContext(PricesStore.Context);
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
+  const transactionsContext = useContext(TransactionsStore.Context);
 
-  const chatInfo = route.params.chatInfo;
-  const avatar = route.params?.avatar;
+  const chatInfo: ChatInfo = route.params.chatInfo;
+
   const [notificationCount] = useState(chatInfo.notificationCount);
+
   const getWallet = (currency: Currency) => {
     let account = accountContext.state.get(currency);
     let price = priceContext.state.get(currency);
@@ -42,13 +47,23 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       account.address,
       account.currency,
       account.balance,
+      account.planks,
       price,
     );
   };
+
   const getTxs = () => {
-    return Array.from(
-      chatsContext.state.chats.get(chatInfo.addressOrName)?.values() ?? [],
-    ).sort((a, b) => a.timestamp - b.timestamp);
+    const txs = new Array<Transaction>();
+    const ids = chatsContext.state.chats.get(chatInfo.id)?.keys()!;
+
+    for (let id of ids) {
+      txs.push(
+        transactionsContext.state.transactions
+          ?.get((chatInfo.details as DefaultDetails).currency)
+          ?.get(id)!,
+      );
+    }
+    return txs.sort((a, b) => b.timestamp - a.timestamp);
   };
   const renderItem = ({item, index}: {item: Transaction; index: number}) => {
     let line;
@@ -78,6 +93,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         </View>
       );
     }
+
     return (
       <>
         <TouchableOpacity
@@ -96,13 +112,26 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: stringUtils.formatNameOrAddress(chatInfo.addressOrName),
+      title: stringUtils.formatNameOrAddress(chatInfo.name),
       headerRight: () => {
-        return avatar == null ? (
-          <WalletLogo currency={chatInfo.currency} size={45} />
+        return chatInfo.type == ChatType.AddressOnly ? (
+          <WalletLogo
+            currency={(chatInfo.details as DefaultDetails).currency}
+            size={45}
+          />
         ) : (
           <Image
-            source={avatar}
+            source={
+              (chatInfo.details as UserDetails).avatarExt === ''
+                ? require('assets/img/default-avatar.png')
+                : {
+                    uri: backend.getImgUrl(
+                      (chatInfo.details as UserDetails).id,
+                      (chatInfo.details as UserDetails).avatarExt,
+                      (chatInfo.details as UserDetails).lastUpdate,
+                    ),
+                  }
+            }
             width={45}
             height={45}
             style={{width: 45, height: 45, borderRadius: 25}}
@@ -119,9 +148,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       globalContext.dispatch(
         GlobalStore.removeNotificationCount(notificationCount),
       );
-      chatsContext.dispatch(
-        ChatsStore.resetNotification(chatInfo.addressOrName),
-      );
+      chatsContext.dispatch(ChatsStore.resetNotification(chatInfo.id));
     }
   }, [chatInfo.notificationCount]);
 
@@ -133,6 +160,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       });
     }
   };
+
   return (
     <View style={styles.chat} onLayout={() => onLayout()}>
       <FlatList
@@ -149,11 +177,15 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       <TouchableOpacity
         style={styles.sendBox}
         onPress={() =>
-          chatInfo.currency == null
-            ? navigation.navigate('SelectWallet')
+          chatInfo.type === ChatType.Chat
+            ? navigation.navigate('SelectWallet', {
+                chatInfo: chatInfo,
+              })
             : navigation.navigate('Send', {
-                receiver: chatInfo.addressOrName,
-                wallet: getWallet(chatInfo.currency),
+                chatInfo: chatInfo,
+                wallet: getWallet(
+                  (chatInfo.details as DefaultDetails).currency,
+                ),
               })
         }>
         <Image

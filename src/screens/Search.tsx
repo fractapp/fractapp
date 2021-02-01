@@ -10,7 +10,8 @@ import {Contact} from 'components/index';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import backend from 'utils/backend';
-import {ChatInfo} from 'models/chatInfo';
+import {ChatInfo, ChatType} from 'models/chatInfo';
+import {Currency} from 'models/wallet';
 
 export const Search = ({navigation}: {navigation: any}) => {
   const [searchString, setSearchString] = useState<string>('');
@@ -31,17 +32,25 @@ export const Search = ({navigation}: {navigation: any}) => {
       <TouchableHighlight
         onPress={() =>
           navigation.navigate('Chat', {
-            chatInfo: new ChatInfo(item.name, '', 0, 0),
-            avatar:
-              item.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      item.id,
-                      item.avatarExt,
-                      item.lastUpdate,
-                    ),
-                  },
+            chatInfo: new ChatInfo(
+              item.username,
+              item.name,
+              '',
+              0,
+              0,
+              0,
+              ChatType.Chat,
+              {
+                username: item.username,
+                addresses: new Map<Currency, string>([
+                  [Currency.Polkadot, item.addresses[Currency.Polkadot]],
+                  [Currency.Kusama, item.addresses[Currency.Kusama]],
+                ]),
+                avatarExt: item.avatarExt,
+                id: item.id,
+                lastUpdate: item.lastUpdate,
+              },
+            ),
           })
         }
         underlayColor="#f8f9fb">

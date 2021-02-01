@@ -1,6 +1,6 @@
 import './shim.js';
 import React, {useReducer} from 'react';
-import {StyleSheet, StatusBar, View, Alert} from 'react-native';
+import {StyleSheet, View, Alert} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
 import GlobalStore from 'storage/Global';

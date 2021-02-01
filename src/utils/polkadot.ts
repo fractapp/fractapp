@@ -2,55 +2,127 @@ import {Currency, getSymbol} from 'models/wallet';
 import BN from 'bn.js';
 import {Transaction, TxStatus, TxType} from 'models/transaction';
 // @ts-ignore
-import {KUSAMA_API, POLKADOT_API} from '@env';
+import {
+  KUSAMA_SUBSCAN_API,
+  KUSAMA_WSS_API,
+  POLKADOT_SUBSCAN_API,
+  POLKADOT_WSS_API,
+} from '@env';
 import MathUtils from 'utils/math';
+import {ApiPromise, WsProvider} from '@polkadot/api';
+import DB from 'storage/DB';
+import {Keyring} from '@polkadot/keyring';
 
 export class Api {
   private static instance: Map<Currency, Api>;
   private readonly explorerApiUrl: string;
   private readonly currency: Currency;
-  private decimals: BN;
-  private readonly viewDecimals: number;
+  private readonly decimals: number;
+  public readonly viewDecimals: number;
+  private readonly substrateApi: ApiPromise;
 
-  public constructor(currency: Currency, explorerApiUrl: string, decimals: BN) {
+  public constructor(
+    apiSubstrate: ApiPromise,
+    currency: Currency,
+    explorerApiUrl: string,
+    decimals: number,
+  ) {
     this.currency = currency;
     this.explorerApiUrl = explorerApiUrl;
     this.decimals = decimals;
     this.viewDecimals = 3;
+    this.substrateApi = apiSubstrate;
   }
 
-  public static getInstance(currency: Currency): Api {
+  public static getInstance(currency: Currency): Promise<Api> {
     if (this.instance == null) {
       this.instance = new Map<Currency, Api>();
     }
-    if (!this.instance.has(currency)) {
-      let explorerApiUrl = '';
-      let decimals = new BN(0);
-      switch (currency) {
-        case Currency.Polkadot:
-          explorerApiUrl = POLKADOT_API;
-          decimals = new BN(10);
-          break;
-        case Currency.Kusama:
-          explorerApiUrl = KUSAMA_API;
-          decimals = new BN(12);
-          break;
-        default:
-          throw 'Invalid currency';
+    return (async () => {
+      if (!this.instance.has(currency)) {
+        let explorerApiUrl = '';
+        let decimals = 0;
+        let apiUrl = '';
+        switch (currency) {
+          case Currency.Polkadot:
+            explorerApiUrl = POLKADOT_SUBSCAN_API;
+            apiUrl = POLKADOT_WSS_API;
+            decimals = 10;
+            break;
+          case Currency.Kusama:
+            explorerApiUrl = KUSAMA_SUBSCAN_API;
+            apiUrl = KUSAMA_WSS_API;
+            decimals = 12;
+            break;
+          default:
+            throw 'Invalid currency';
+        }
+
+        const provider = new WsProvider(apiUrl);
+        const apiSubstrate = await ApiPromise.create({provider});
+        this.instance.set(
+          currency,
+          new Api(apiSubstrate, currency, explorerApiUrl, decimals),
+        );
       }
-      this.instance.set(currency, new Api(currency, explorerApiUrl, decimals));
-    }
-    return <Api>this.instance.get(currency);
+
+      return <Api>this.instance.get(currency);
+    })();
   }
 
-  public convertFromPlanck(plancks: BN): number {
+  public getSubstrateApi(): ApiPromise {
+    return this.substrateApi;
+  }
+
+  public convertFromPlanckWithViewDecimals(planck: BN): number {
     return (
-      plancks.mul(new BN(1000)).div(new BN(10).pow(this.decimals)).toNumber() /
-      1000
+      planck
+        .mul(new BN(1000))
+        .div(new BN(10).pow(new BN(this.decimals)))
+        .toNumber() / Math.pow(10, this.viewDecimals)
     );
   }
+  public convertFromPlanckString(planck: BN): string {
+    let value = planck.toString(10);
 
-  public async balance(address: string): Promise<number | null> {
+    const length = value.length;
+    if (length < this.decimals) {
+      for (let i = 0; i < this.decimals - length; i++) {
+        value = '0' + value;
+      }
+    }
+
+    value =
+      value.substr(0, value.length - this.decimals) +
+      '.' +
+      value.substr(value.length - this.decimals);
+
+    if (value.startsWith('.')) {
+      value = '0' + value;
+    }
+
+    return value;
+  }
+
+  public convertToPlanck(number: string): BN {
+    const decimals = String(number).split('.');
+    let planks = decimals[0] + (decimals.length === 2 ? decimals[1] : '');
+    if (decimals.length === 2 && decimals[1].length < this.decimals) {
+      for (let i = 0; i < this.decimals - decimals[1].length; i++) {
+        planks += '0';
+      }
+    } else if (decimals.length === 1) {
+      for (let i = 0; i < this.decimals; i++) {
+        planks += '0';
+      }
+    }
+
+    return new BN(planks);
+  }
+
+  public async balance(
+    address: string,
+  ): Promise<[value: number, plankValue: BN] | null> {
     let rs = await fetch(`${this.explorerApiUrl}/scan/search`, {
       method: 'POST',
       headers: {
@@ -60,14 +132,47 @@ export class Api {
         key: address,
       }),
     });
+
     if (!rs.ok) {
       return null;
     }
     const result = await rs.json();
 
-    return MathUtils.floor(result.data.account.balance, this.viewDecimals);
+    if (result.data === undefined && result.message === 'Success') {
+      return [0, new BN(0)];
+    }
+
+    return [
+      MathUtils.floor(result.data.account.balance, this.viewDecimals),
+      this.convertToPlanck(result.data.account.balance),
+    ];
   }
 
+  public async getTxStatus(hash: string): Promise<TxStatus | null> {
+    let rs = await fetch(`${this.explorerApiUrl}/scan/extrinsic`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hash: hash,
+      }),
+    });
+
+    if (!rs.ok) {
+      return null;
+    }
+    const result = await rs.json();
+    if (result.data === undefined) {
+      return null;
+    }
+
+    if (result.data.success === null || result.data.success == undefined) {
+      return null;
+    }
+
+    return result.data.success ? TxStatus.Success : TxStatus.Fail;
+  }
   public async getTransactionsWithoutUSDValue(
     address: string,
     page: number = 0,
@@ -88,19 +193,21 @@ export class Api {
         }),
       });
       if (!rs.ok) {
-        return new Array();
+        return [];
       }
+
       const data = (await rs.json()).data;
+
       const transfers = data.transfers;
-      if (transfers.length == 0) {
+      if (transfers == null || transfers.length === 0) {
         return new Array<Transaction>();
       }
       for (let i = 0; i < transfers.length; i++) {
-        const idx = transfers[i].extrinsic_index;
+        const id = transfers[i].hash;
 
         let txType = 0;
         let member = '';
-        if (address == transfers[i].from) {
+        if (address === transfers[i].from) {
           txType = TxType.Sent;
           member = transfers[i].to;
         } else {
@@ -110,7 +217,7 @@ export class Api {
 
         transactions.push(
           new Transaction(
-            idx,
+            id,
             member,
             this.currency,
             txType,
@@ -118,7 +225,7 @@ export class Api {
             MathUtils.floor(transfers[i].amount, this.viewDecimals),
             0,
             MathUtils.floor(
-              this.convertFromPlanck(new BN(transfers[i].fee)),
+              this.convertFromPlanckWithViewDecimals(new BN(transfers[i].fee)),
               this.viewDecimals,
             ),
             0,
@@ -157,13 +264,43 @@ export class Api {
       usdPrice = json.data.price.price;
 
       tx.usdValue = MathUtils.floorUsd(tx.value * usdPrice);
-      tx.usdFee = MathUtils.floorUsd(
-        this.convertFromPlanck(new BN(tx.fee)) * usdPrice,
-      );
+      tx.usdFee = MathUtils.floorUsd(tx.fee * usdPrice);
     } catch (e) {
       console.log(e);
       return;
     }
     return;
+  }
+
+  public async send(receive: string, value: BN): Promise<string> {
+    const seed = (await DB.getSeed())!;
+
+    let key;
+    switch (this.currency) {
+      case Currency.Polkadot:
+        key = new Keyring({type: 'sr25519'}).addFromUri(seed);
+        break;
+      case Currency.Kusama:
+        key = new Keyring({
+          type: 'sr25519',
+          ss58Format: 2,
+        }).addFromUri(seed);
+        break;
+    }
+
+    const tx = await this.substrateApi.tx.balances.transferKeepAlive(
+      receive,
+      value,
+    );
+    return (await tx.signAndSend(key)).toHex();
+  }
+
+  public async minTransfer(): Promise<BN> {
+    switch (this.currency) {
+      case Currency.Polkadot:
+        return this.convertToPlanck('1');
+      case Currency.Kusama:
+        return this.convertToPlanck('0.002');
+    }
   }
 }

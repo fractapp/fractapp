@@ -31,18 +31,18 @@ namespace StringUtils {
   export function toTitle(now: Date, date: Date): string {
     let dateValue = '';
     if (
-      now.getFullYear() == date.getFullYear() &&
-      now.getMonth() == date.getMonth() &&
-      now.getDay() == date.getDay()
+      now.getFullYear() === date.getFullYear() &&
+      now.getMonth() === date.getMonth() &&
+      now.getDate() === date.getDate()
     ) {
       dateValue = 'Today';
     } else if (
-      now.getFullYear() == date.getFullYear() &&
-      now.getMonth() == date.getMonth() &&
-      now.getDay() - 1 == date.getDay()
+      now.getFullYear() === date.getFullYear() &&
+      now.getMonth() === date.getMonth() &&
+      now.getDate() - 1 === date.getDate()
     ) {
       dateValue = 'Yesterday';
-    } else if (now.getFullYear() == date.getFullYear()) {
+    } else if (now.getFullYear() === date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()];
     } else {
       dateValue =
@@ -64,7 +64,7 @@ namespace StringUtils {
     if (
       now.getFullYear() == date.getFullYear() &&
       now.getMonth() == date.getMonth() &&
-      now.getDay() == date.getDay()
+      now.getDate() == date.getDate()
     ) {
       let hours = String(date.getHours());
       let minutes = String(date.getMinutes());
@@ -79,13 +79,13 @@ namespace StringUtils {
     } else if (
       now.getFullYear() == date.getFullYear() &&
       now.getMonth() == date.getMonth() &&
-      now.getDay() - 1 == date.getDay()
+      now.getDate() - 1 == date.getDate()
     ) {
       dateValue = 'Yesterday';
     } else if (now.getFullYear() == date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()];
     } else {
-      dateValue = toFullDate(date);
+      dateValue = fromFullDate(date);
     }
 
     return dateValue;
@@ -96,40 +96,30 @@ namespace StringUtils {
    */
   export function toMsg(now: Date, date: Date): string {
     let dateValue = '';
-    let time = '';
-
-    let hours = String(date.getHours());
-    let minutes = String(date.getMinutes());
-    if (hours.length == 1) {
-      hours = '0' + hours;
-    }
-    if (minutes.length == 1) {
-      minutes = '0' + minutes;
-    }
-    time = hours + ':' + minutes;
+    const time = fromTime(date);
 
     if (
       now.getFullYear() == date.getFullYear() &&
       now.getMonth() == date.getMonth() &&
-      now.getDay() == date.getDay()
+      now.getDate() == date.getDate()
     ) {
       dateValue = time;
     } else if (
       now.getFullYear() == date.getFullYear() &&
       now.getMonth() == date.getMonth() &&
-      now.getDay() - 1 == date.getDay()
+      now.getDate() - 1 == date.getDate()
     ) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()] + ' ' + time;
     } else if (now.getFullYear() == date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()] + ' ' + time;
     } else {
-      dateValue = toFullDate(date) + ' ' + time;
+      dateValue = fromFullDate(date) + ' ' + time;
     }
 
     return dateValue;
   }
 
-  export function toFullDate(date: Date): string {
+  export function fromFullDate(date: Date): string {
     let day = String(date.getDate());
     if (day.length == 1) {
       day = '0' + day;
@@ -141,6 +131,19 @@ namespace StringUtils {
     const year = String(date.getFullYear());
 
     return day + '/' + month + '/' + year[2] + year[3];
+  }
+
+  export function fromTime(date: Date): string {
+    let hours = String(date.getHours());
+    let minutes = String(date.getMinutes());
+    if (hours.length == 1) {
+      hours = '0' + hours;
+    }
+    if (minutes.length == 1) {
+      minutes = '0' + minutes;
+    }
+
+    return hours + ':' + minutes;
   }
 
   export function formatNameOrAddress(value: string): string {

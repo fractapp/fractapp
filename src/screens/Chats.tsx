@@ -33,19 +33,23 @@ export const Chats = ({navigation}: {navigation: any}) => {
         (
           value, //TODO: add users chats
         ) =>
-          transactionsContext.state.has(value.currency) &&
-          transactionsContext.state.get(value.currency).has(value.lastTxId),
+          transactionsContext.state.transactions.has(value.lastTxCurrency) &&
+          transactionsContext.state.transactions
+            ?.get(value.lastTxCurrency)!
+            .has(value.lastTxId),
       )
-      .sort((a, b) => a.timestamp - b.timestamp);
+      .sort((a, b) => b.timestamp - a.timestamp);
   };
   const renderItem = ({item}: {item: ChatInfo}) => {
-    const tx = transactionsContext.state.get(item.currency).get(item.lastTxId);
+    const tx = transactionsContext.state.transactions
+      .get(item.lastTxCurrency)!
+      .get(item.lastTxId)!;
     return (
       <TouchableHighlight
         onPress={() => navigation.navigate('Chat', {chatInfo: item})}
         underlayColor="#f8f9fb">
         <ChatShortInfo
-          address={item.addressOrName}
+          name={item.name}
           notificationCount={item.notificationCount}
           tx={tx}
         />
@@ -61,7 +65,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
         style={styles.list}
         data={getChats()}
         renderItem={renderItem}
-        keyExtractor={(item) => item.addressOrName}
+        keyExtractor={(item, index) => String(index)}
       />
     </View>
   );

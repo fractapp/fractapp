@@ -1,26 +1,62 @@
-import {Currency} from './wallet';
+/**
+ * @category Models
+ */
+import {Currency} from 'models/wallet';
+
+export enum ChatType {
+  AddressOnly,
+  Chat,
+}
+
+/**
+ * @category Models
+ */
+export type UserDetails = {
+  id: string;
+  lastUpdate: number;
+  avatarExt: string;
+  username: string;
+  addresses: Map<Currency, string>;
+};
+
+/**
+ * @category Models
+ */
+export type DefaultDetails = {
+  currency: Currency;
+  address: string;
+};
 
 /**
  * @category Models
  */
 export class ChatInfo {
-  addressOrName: string;
+  id: string;
+  name: string;
   lastTxId: string;
+  lastTxCurrency: Currency;
   notificationCount: number;
   timestamp: number;
-  currency?: Currency;
+  type: ChatType;
+  details: UserDetails | DefaultDetails;
 
   constructor(
-    addressOrName: string,
+    id: string,
+    name: string,
     lastTxId: string,
+    lastTxCurrency: Currency,
     notificationCount: number,
     timestamp: number,
-    currency?: Currency,
+    type: ChatType,
+    details: UserDetails | DefaultDetails,
   ) {
-    this.addressOrName = addressOrName;
-    this.currency = currency;
+    this.id = id;
+    this.name = name;
     this.lastTxId = lastTxId;
+    this.lastTxCurrency = lastTxCurrency;
     this.notificationCount = notificationCount;
     this.timestamp = timestamp;
+    this.type = type;
+    this.details = details;
   }
 }

@@ -10,6 +10,7 @@ import {Transaction} from 'models/transaction';
 import {ChatInfo} from 'models/chatInfo';
 import {AuthInfo} from 'models/authInfo';
 import {MyProfile} from 'models/myProfile';
+import BN from 'bn.js';
 /**
  * @namespace
  * @category storage
@@ -32,6 +33,8 @@ namespace DB {
     accounts: 'accounts',
     accountInfo: (address: string) => `account_${address}`,
     transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
+    pendingTransactions: (currency: Currency) =>
+      `pending_transactions_${getSymbol(currency)}`,
     chatByAddress: (address: string) => `chat_${address}`,
     chatsInfo: 'chats_info',
   };
@@ -199,6 +202,7 @@ namespace DB {
         u8aToHex(polkadotWallet.publicKey),
         Currency.Polkadot,
         0,
+        new BN(0).toString(10),
       ),
       new Account(
         'Kusama wallet',
@@ -206,6 +210,7 @@ namespace DB {
         u8aToHex(kusamaWallet.publicKey),
         Currency.Kusama,
         0,
+        new BN(0).toString(10),
       ),
     );
     let accounts = new Array<string>();
@@ -250,10 +255,7 @@ namespace DB {
     return new Map<string, ChatInfo>(JSON.parse(result));
   }
 
-  export async function setChat(
-    address: string,
-    chats: Map<string, Transaction>,
-  ) {
+  export async function setChat(address: string, chats: Map<string, boolean>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.chatByAddress(address),
       JSON.stringify([...chats]),
@@ -261,18 +263,18 @@ namespace DB {
   }
   export async function getChat(
     address: string,
-  ): Promise<Map<string, Transaction>> {
+  ): Promise<Map<string, boolean>> {
     const result = await AsyncStorage.getItem(
       AsyncStorageKeys.chatByAddress(address),
     );
 
     if (result == null) {
-      return new Map<string, Transaction>();
+      return new Map<string, boolean>();
     }
-    return new Map<string, Transaction>(JSON.parse(result));
+    return new Map<string, boolean>(JSON.parse(result));
   }
 
-  export async function addTxs(currency: Currency, tx: Transaction) {
+  export async function setTx(currency: Currency, tx: Transaction) {
     const txs = await getTxs(currency);
 
     txs.set(tx.id, tx);
@@ -294,6 +296,26 @@ namespace DB {
     return new Map<string, Transaction>(JSON.parse(result));
   }
 
+  export async function setPendingTxs(currency: Currency, txs: Array<string>) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.pendingTransactions(currency),
+      JSON.stringify(txs),
+    );
+  }
+  export async function getPendingTxs(
+    currency: Currency,
+  ): Promise<Array<string>> {
+    const result = await AsyncStorage.getItem(
+      AsyncStorageKeys.pendingTransactions(currency),
+    );
+
+    if (result == null) {
+      return [];
+    }
+
+    return JSON.parse(result);
+  }
+
   export async function setAccountInfo(account: Account) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.accountInfo(account.address),
@@ -309,7 +331,7 @@ namespace DB {
     if (result == null) {
       return null;
     }
-    return Account.parse(result);
+    return JSON.parse(result);
   }
 
   export async function setFirebaseToken(token: string) {

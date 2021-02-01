@@ -33,6 +33,8 @@ import {
   Search,
   SelectWallet,
   Send,
+  EnterAmount,
+  SendWithEnterAddress,
 } from 'screens/index';
 import {TabMenu} from 'components/index';
 import {getSymbol} from 'models/wallet';
@@ -128,6 +130,12 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getRouterWithTitle('EditName', 'Edit Name', EditName)}
         {getRouterWithTitle('SelectWallet', 'Select Wallet', SelectWallet)}
         {getRouterWithTitle('Send', 'Send', Send)}
+        {getRouterWithTitle(
+          'SendWithEnterAddress',
+          'Send',
+          SendWithEnterAddress,
+        )}
+        {getRouterWithTitle('EnterAmount', 'Enter Amount', EnterAmount)}
         {getEmptyRouter('Search', Search)}
         {getRouterWithTitle('Chat', '', Chat)}
         {getRouterWithTitle('Receive', 'Receive ', Receive, (route) =>

@@ -3,9 +3,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WalletLogo} from 'components/WalletLogo';
 import {getSymbol} from 'models/wallet';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Transaction, TxType} from 'models/transaction';
+import {Transaction, TxStatus, TxType} from 'models/transaction';
 import StringUtils from 'utils/string';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MathUtils from 'utils/math';
 
 /**
  * @category Components
@@ -13,6 +14,47 @@ import StringUtils from 'utils/string';
 export const PaymentMsg = ({tx}: {tx: Transaction}) => {
   const now = new Date();
 
+  const renderStatus = () => {
+    switch (tx.status) {
+      case TxStatus.Success:
+        return (
+          <MaterialIcons
+            name="done"
+            size={20}
+            color="#67D44D"
+            style={styles.status}
+          />
+        );
+      case TxStatus.Pending:
+        return (
+          <MaterialIcons
+            name="schedule"
+            size={20}
+            color="#F39B34"
+            style={styles.status}
+          />
+        );
+      case TxStatus.Fail:
+        return (
+          <MaterialCommunityIcons
+            name="close"
+            size={20}
+            color="#EA4335"
+            style={styles.status}
+          />
+        );
+    }
+  };
+  const amountColor = () => {
+    if (tx.status === TxStatus.Fail || tx.txType === TxType.None) {
+      return '#888888';
+    }
+    if (tx.txType === TxType.Sent) {
+      return '#EA4335';
+    } else if (tx.txType === TxType.Received) {
+      return '#67D44D';
+    }
+  };
   return (
     <View
       style={[
@@ -35,18 +77,14 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
       </View>
       <View style={styles.cardRow}>
         <WalletLogo currency={tx.currency} size={45} />
-        <Text
-          style={[
-            styles.usdText,
-            {color: tx.txType == TxType.Sent ? '#EA4335' : '#67D44D'},
-          ]}>
-          {tx.usdValue != 0
-            ? `$${tx.usdValue.toFixed(2)}`
+        <Text style={[styles.usdText, {color: amountColor()}]}>
+          {tx.usdValue !== 0
+            ? `$${MathUtils.floorUsd(tx.usdValue)}`
             : `${tx.value} ${getSymbol(tx.currency)}`}
         </Text>
       </View>
 
-      {tx.usdValue != 0 ? (
+      {tx.usdValue !== 0 ? (
         <Text style={[styles.tokenText]}>
           {tx.value} {getSymbol(tx.currency)}
         </Text>
@@ -59,14 +97,7 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
           {StringUtils.toMsg(now, new Date(tx.timestamp))}
         </Text>
 
-        <View style={{flex: 1}}>
-          <MaterialIcons
-            name="done"
-            size={20}
-            color="#67D44D"
-            style={{marginLeft: 3, alignSelf: 'flex-end'}}
-          />
-        </View>
+        <View style={{flex: 1}}>{renderStatus()}</View>
       </View>
     </View>
   );
@@ -89,6 +120,10 @@ const styles = StyleSheet.create({
   cardRow: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  status: {
+    marginLeft: 3,
+    alignSelf: 'flex-end',
   },
   msgText: {
     marginLeft: 3,

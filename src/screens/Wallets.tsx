@@ -14,7 +14,7 @@ export const Wallets = ({navigation}: {navigation: any}) => {
     const wallets = new Array<Wallet>();
     for (let [currency, account] of accountContext.state) {
       let price = priceContext.state.get(currency);
-      if (price == undefined) {
+      if (price === undefined) {
         price = 0;
       }
 
@@ -24,6 +24,7 @@ export const Wallets = ({navigation}: {navigation: any}) => {
           account.address,
           account.currency,
           account.balance,
+          account.planks,
           price,
         ),
       );

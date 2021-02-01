@@ -9,11 +9,11 @@ import stringUtils from 'utils/string';
  * @category Components
  */
 export const ChatShortInfo = ({
-  address,
+  name,
   notificationCount,
   tx,
 }: {
-  address: string;
+  name: string;
   notificationCount: number;
   tx: Transaction;
 }) => {
@@ -33,7 +33,7 @@ export const ChatShortInfo = ({
           <View style={{height: 25, flexDirection: 'row'}}>
             <View style={{flex: 3}}>
               <Text style={[styles.name, {textAlign: 'left'}]}>
-                {stringUtils.formatNameOrAddress(address)}
+                {stringUtils.formatNameOrAddress(name)}
               </Text>
             </View>
             <View style={{flex: 1}}>
@@ -45,7 +45,7 @@ export const ChatShortInfo = ({
           <View style={{height: 25, flexDirection: 'row'}}>
             <View style={{flex: 8}}>
               <Text style={[styles.msg, {textAlign: 'left'}]}>
-                {tx.txType == TxType.Sent
+                {tx.txType === TxType.Sent
                   ? `Sent -$${tx.usdValue} (${tx.value} ${getSymbol(
                       tx.currency,
                     )})`
@@ -56,7 +56,7 @@ export const ChatShortInfo = ({
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <View style={styles.notification}>
-                {notificationCount != 0 ? (
+                {notificationCount !== 0 ? (
                   <Text style={[styles.notificationText]}>
                     {notificationCount}
                   </Text>

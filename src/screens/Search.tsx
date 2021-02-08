@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -6,53 +6,141 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import {Contact} from 'components/index';
+import {Contact, SendBy} from 'components/index';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import backend from 'utils/backend';
 import {ChatInfo, ChatType} from 'models/chatInfo';
-import {Currency} from 'models/wallet';
+import GlobalStore from 'storage/Global';
+import {PermissionsAndroid} from 'react-native';
+import Contacts from 'react-native-contacts';
+import Dialog from 'storage/Dialog';
+import DialogStore from 'storage/Dialog';
+import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
+import {UserProfile} from 'models/profile';
+import {Wallet} from 'models/wallet';
 
-export const Search = ({navigation}: {navigation: any}) => {
+export const Search = ({navigation, route}: {navigation: any; route: any}) => {
+  const wallet: Wallet = route.params?.wallet;
+  const isEditable: Wallet = route.params?.isEditable;
+
+  const globalContext = useContext(GlobalStore.Context);
+  const dialogContext = useContext(DialogStore.Context);
   const [searchString, setSearchString] = useState<string>('');
-  const [users, setUsers] = useState<Array<any>>();
+  const [users, setUsers] = useState<Array<UserProfile>>();
 
-  //TODO: add users without me
   useEffect(() => {
-    setUsers([]);
-    if (searchString[0] === '@') {
-      backend.search(searchString.split('@')[1]).then((users) => {
-        setUsers(users);
-      });
+    getMyMatchContacts();
+    if (!globalContext.state.isRegistered) {
+      return;
+    }
+
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+    ).then(async (status) => {
+      if (status === 'never_ask_again') {
+        dialogContext.dispatch(
+          Dialog.open(
+            'Open settings',
+            'If you want to find users by your contacts then open the application settings and give it access to read your contacts .',
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
+      if (status !== 'granted') {
+        return;
+      }
+
+      const contacts = await Contacts.getAll();
+
+      const backendContacts = await backend.myContacts();
+      if (backendContacts === undefined) {
+        return;
+      }
+
+      const mapBackendContacts = new Map<string, boolean>();
+      for (let v of backendContacts) {
+        mapBackendContacts.set(v, true);
+      }
+
+      const validContacts = new Map<string, boolean>();
+      for (let contact of contacts) {
+        if (contact.phoneNumbers.length === 0) {
+          continue;
+        }
+
+        for (let c of contact.phoneNumbers) {
+          if (!isValidPhoneNumber(c.number)) {
+            continue;
+          }
+          const number = parsePhoneNumber(c.number)?.number;
+          if (number === undefined) {
+            continue;
+          }
+          if (mapBackendContacts.has(number)) {
+            continue;
+          }
+          validContacts.set(number, true);
+        }
+      }
+
+      let result = Array.from(validContacts, ([number]) => number);
+      if (result.length > 0) {
+        await backend.updateContacts(result);
+        await getMyMatchContacts();
+      }
+    });
+  }, []);
+
+  const getMyMatchContacts = async () => {
+    let contacts = await backend.myMatchContacts();
+    contacts = contacts.filter(
+      (user) => user.id !== globalContext.state.profile.id,
+    );
+    setUsers(contacts);
+    globalContext.dispatch(GlobalStore.setContacts(contacts));
+  };
+
+  useEffect(() => {
+    if (searchString.length === 0) {
+      setUsers(globalContext.state.contacts);
+    } else {
+      if (searchString[0] === '@') {
+        backend.search(searchString.split('@')[1], false).then((users) => {
+          setUsers(
+            users.filter((user) => user.id !== globalContext.state.profile.id),
+          );
+        });
+      } else {
+        backend.search(searchString, true).then((users) => {
+          setUsers(
+            users.filter((user) => user.id !== globalContext.state.profile.id),
+          );
+        });
+      }
     }
   }, [searchString]);
 
   const renderItem = ({item}: {item: any}) => {
     return (
       <TouchableHighlight
-        onPress={() =>
+        onPress={() => {
+          globalContext.dispatch(GlobalStore.setUser(item));
+
           navigation.navigate('Chat', {
             chatInfo: new ChatInfo(
-              item.username,
+              item.id,
               item.name,
               '',
               0,
               0,
               0,
               ChatType.Chat,
-              {
-                username: item.username,
-                addresses: new Map<Currency, string>([
-                  [Currency.Polkadot, item.addresses[Currency.Polkadot]],
-                  [Currency.Kusama, item.addresses[Currency.Kusama]],
-                ]),
-                avatarExt: item.avatarExt,
-                id: item.id,
-                lastUpdate: item.lastUpdate,
-              },
+              null,
             ),
-          })
-        }
+          });
+        }}
         underlayColor="#f8f9fb">
         <Contact
           name={item.name}
@@ -103,11 +191,29 @@ export const Search = ({navigation}: {navigation: any}) => {
         />
       </View>
       <FlatList
+        ListHeaderComponent={
+          <TouchableHighlight
+            onPress={() => {
+              if (wallet == null) {
+                navigation.navigate('SelectWallet', {
+                  isEditable: isEditable,
+                });
+              } else {
+                navigation.navigate('Send', {isEditable: true, wallet: wallet});
+              }
+            }}
+            underlayColor="#f8f9fb">
+            <SendBy
+              title={'Send by address'}
+              img={require('assets/img/address.png')}
+            />
+          </TouchableHighlight>
+        }
         showsVerticalScrollIndicator={false}
         style={styles.list}
         data={users}
         renderItem={renderItem}
-        keyExtractor={(item) => item.address}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );

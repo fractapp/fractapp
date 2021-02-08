@@ -21,7 +21,8 @@ export enum TxStatus {
  */
 export class Transaction {
   id: string;
-  member: string;
+  userId: string | null;
+  address: string;
   currency: Currency;
   value: number;
   txType: TxType;
@@ -33,7 +34,8 @@ export class Transaction {
 
   constructor(
     id: string,
-    member: string,
+    userId: string | null,
+    address: string,
     currency: Currency,
     txType: TxType,
     timestamp: number,
@@ -44,7 +46,8 @@ export class Transaction {
     status: TxStatus,
   ) {
     this.id = id;
-    this.member = member;
+    this.userId = userId;
+    this.address = address;
     this.currency = currency;
     this.value = value;
     this.txType = txType;

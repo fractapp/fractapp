@@ -1,6 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import {View, Alert, StatusBar, Dimensions} from 'react-native';
+import {
+  View,
+  Alert,
+  StatusBar,
+  Dimensions,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import {Dialog, PassCode} from 'components/index';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
@@ -180,7 +187,22 @@ export default function App() {
   }, [netInfo.isConnected]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View>
+          <Image
+            source={require('assets/img/logo.png')}
+            style={{width: 80, height: 80, marginBottom: 20}}
+          />
+          <ActivityIndicator testID="loader" size={30} color="#2AB2E2" />
+        </View>
+      </View>
+    );
   }
 
   return (
@@ -206,7 +228,7 @@ export default function App() {
         visible={dialogContext.state.visible}
         onPress={
           dialogContext.state.onPress !== undefined
-            ? dialogContext.state.onPress
+            ? dialogContext.state.onPress!
             : () => console.log('invalid dialog onPress')
         }
         title={dialogContext.state.title}

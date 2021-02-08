@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -11,9 +11,29 @@ import {
 import Keychain from 'react-native-keychain';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
+import {CommonActions} from '@react-navigation/native';
 
-export const Settings = ({navigation}: {navigation: any}) => {
+export const Settings = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const globalContext = useContext(GlobalStore.Context);
+  const isSuccessUnlock = route.params?.isSuccessUnlock ?? false;
+  const action = route.params?.action ?? '';
+
+  useEffect(() => {
+    if (!isSuccessUnlock) {
+      return;
+    }
+    navigation.navigate(action);
+    navigation.dispatch({
+      ...CommonActions.setParams({isSuccessUnlock: false}),
+      source: route.key,
+    });
+  }, [isSuccessUnlock]);
 
   const menuItems = [
     {
@@ -27,7 +47,18 @@ export const Settings = ({navigation}: {navigation: any}) => {
     {
       img: require('assets/img/backup.png'),
       title: 'Backup',
-      onClick: () => navigation.navigate('Backup'),
+      onClick: async () => {
+        if (globalContext.state.authInfo.isPasscode) {
+          navigation.navigate('VerifyPassCode', {
+            isVerify: true,
+            returnScreen: route.name,
+            action: 'Backup',
+            screenKey: route.key,
+          });
+        } else {
+          navigation.navigate('Backup');
+        }
+      },
     },
     {
       img: require('assets/img/safety.png'),

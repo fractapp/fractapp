@@ -10,7 +10,7 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
   const [description, setDescription] = useState<string>('Enter new passcode');
 
   const onSubmit = async (passcode: Array<number>) => {
-    if (newPasscode.length == 0) {
+    if (newPasscode.length === 0) {
       setNewPasscode(passcode);
       setDescription('Confirm new passcode');
     } else {

@@ -11,17 +11,6 @@ export enum ChatType {
 /**
  * @category Models
  */
-export type UserDetails = {
-  id: string;
-  lastUpdate: number;
-  avatarExt: string;
-  username: string;
-  addresses: Map<Currency, string>;
-};
-
-/**
- * @category Models
- */
 export type DefaultDetails = {
   currency: Currency;
   address: string;
@@ -38,7 +27,7 @@ export class ChatInfo {
   notificationCount: number;
   timestamp: number;
   type: ChatType;
-  details: UserDetails | DefaultDetails;
+  details: DefaultDetails | null;
 
   constructor(
     id: string,
@@ -48,7 +37,7 @@ export class ChatInfo {
     notificationCount: number,
     timestamp: number,
     type: ChatType,
-    details: UserDetails | DefaultDetails,
+    details: DefaultDetails | null,
   ) {
     this.id = id;
     this.name = name;

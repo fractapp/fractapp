@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {Transaction, TxStatus, TxType} from 'models/transaction';
 import {getSymbol, Wallet} from 'models/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -9,9 +9,12 @@ import MathUtils from 'utils/math';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
+import {UserProfile} from 'models/profile';
+import backend from 'utils/backend';
 
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;
+  const user: UserProfile = route.params?.user;
   const wallet: Wallet = route.params.wallet;
 
   const renderStatus = () => {
@@ -53,10 +56,31 @@ export const TransactionDetails = ({route}: {route: any}) => {
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
-        <WalletLogo currency={tx.currency} size={80} />
+        {user != null ? (
+          <Image
+            source={
+              user.avatarExt === ''
+                ? require('assets/img/default-avatar.png')
+                : {
+                    uri: backend.getImgUrl(
+                      user.id,
+                      user.avatarExt,
+                      user.lastUpdate,
+                    ),
+                  }
+            }
+            width={80}
+            height={80}
+            style={{width: 80, height: 80, borderRadius: 45}}
+          />
+        ) : (
+          <WalletLogo currency={tx.currency} size={80} />
+        )}
         <Text
           onPress={() => {
-            Clipboard.setString(tx.member);
+            Clipboard.setString(
+              user != null ? '@' + user.username : tx.address,
+            );
             showMessage({
               message: 'Copied',
               type: 'info',
@@ -64,7 +88,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
             });
           }}
           style={styles.address}>
-          {tx.member}
+          {user != null ? user.name : tx.address}
         </Text>
         <Text style={[styles.value, {color: amountColor()}]}>
           {tx.usdValue !== 0

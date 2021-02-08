@@ -16,7 +16,7 @@ import PricesStore from 'storage/Prices';
 import {Currency, Wallet} from 'models/wallet';
 import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
-import {ChatInfo, ChatType, DefaultDetails, UserDetails} from 'models/chatInfo';
+import {ChatInfo, ChatType, DefaultDetails} from 'models/chatInfo';
 import backend from 'utils/backend';
 import TransactionsStore from 'storage/Transactions';
 
@@ -54,14 +54,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const getTxs = () => {
     const txs = new Array<Transaction>();
-    const ids = chatsContext.state.chats.get(chatInfo.id)?.keys()!;
+    if (!chatsContext.state.chats.has(chatInfo.id)) {
+      return txs;
+    }
+    const ids = chatsContext.state.chats.get(chatInfo.id)!;
 
-    for (let id of ids) {
-      txs.push(
-        transactionsContext.state.transactions
-          ?.get((chatInfo.details as DefaultDetails).currency)
-          ?.get(id)!,
-      );
+    for (let [id, currency] of ids) {
+      txs.push(transactionsContext.state.transactions?.get(currency)?.get(id)!);
     }
     return txs.sort((a, b) => b.timestamp - a.timestamp);
   };
@@ -101,6 +100,11 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
             navigation.navigate('TransactionDetails', {
               transaction: item,
               wallet: getWallet(item.currency),
+              user:
+                item.userId != null &&
+                globalContext.state.users.has(item.userId)
+                  ? globalContext.state.users.get(item.userId)!
+                  : null,
             })
           }>
           <PaymentMsg tx={item} />
@@ -114,7 +118,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     navigation.setOptions({
       title: stringUtils.formatNameOrAddress(chatInfo.name),
       headerRight: () => {
-        return chatInfo.type == ChatType.AddressOnly ? (
+        return chatInfo.type === ChatType.AddressOnly ? (
           <WalletLogo
             currency={(chatInfo.details as DefaultDetails).currency}
             size={45}
@@ -122,13 +126,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         ) : (
           <Image
             source={
-              (chatInfo.details as UserDetails).avatarExt === ''
+              globalContext.state.users.get(chatInfo.id)!.avatarExt === ''
                 ? require('assets/img/default-avatar.png')
                 : {
                     uri: backend.getImgUrl(
-                      (chatInfo.details as UserDetails).id,
-                      (chatInfo.details as UserDetails).avatarExt,
-                      (chatInfo.details as UserDetails).lastUpdate,
+                      globalContext.state.users.get(chatInfo.id)!.id,
+                      globalContext.state.users.get(chatInfo.id)!.avatarExt,
+                      globalContext.state.users.get(chatInfo.id)!.lastUpdate,
                     ),
                   }
             }
@@ -182,6 +186,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
                 chatInfo: chatInfo,
               })
             : navigation.navigate('Send', {
+                isEditable: false,
                 chatInfo: chatInfo,
                 wallet: getWallet(
                   (chatInfo.details as DefaultDetails).currency,

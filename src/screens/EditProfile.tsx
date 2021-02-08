@@ -30,13 +30,19 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       title: 'Phone',
       value: globalContext.state.profile.phoneNumber,
       placeholder: 'Write your phone',
-      onClick: () => navigation.navigate('EditPhoneNumber'),
+      onClick: () =>
+        globalContext.state.profile.phoneNumber !== ''
+          ? null
+          : navigation.navigate('EditPhoneNumber'),
     },
     {
       title: 'Email',
       value: globalContext.state.profile.email,
       placeholder: 'Write your email',
-      onClick: () => navigation.navigate('EditEmail'),
+      onClick: () =>
+        globalContext.state.profile.email !== ''
+          ? null
+          : navigation.navigate('EditEmail'),
     },
   ];
 
@@ -45,11 +51,17 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       {
         mediaType: 'photo',
         includeBase64: true,
+        maxWidth: 400,
+        maxHeight: 400,
       },
       async (rs) => {
         if (rs.base64 !== undefined) {
+          globalContext.dispatch(GlobalStore.setLoading(true));
+
           await backend.uploadAvatar(rs.base64, rs.type!);
           await globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
+
+          globalContext.dispatch(GlobalStore.setLoading(false));
         }
       },
     );

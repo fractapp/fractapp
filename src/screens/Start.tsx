@@ -10,11 +10,12 @@ export const Start = ({navigation}: {navigation: any}) => {
       <Text style={styles.description}>
         Cryptocurrency wallet with social payments
       </Text>
+
       <View style={styles.nextBtn}>
         <BlueButton
           text={'Start'}
           height={50}
-          onPress={() => navigation.navigate('SettingWallet')}
+          onPress={() => navigation.navigate('Legal')}
         />
       </View>
     </View>

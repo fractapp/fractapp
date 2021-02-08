@@ -11,6 +11,8 @@ import {ChatInfo} from 'models/chatInfo';
 import {AuthInfo} from 'models/authInfo';
 import {MyProfile} from 'models/myProfile';
 import BN from 'bn.js';
+import {UserProfile} from 'models/profile';
+import {Use} from 'react-native-svg';
 /**
  * @namespace
  * @category storage
@@ -31,6 +33,8 @@ namespace DB {
     authInfo: 'auth_info',
     notificationCount: 'notification_count',
     accounts: 'accounts',
+    contacts: 'contacts',
+    users: 'users',
     accountInfo: (address: string) => `account_${address}`,
     transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
     pendingTransactions: (currency: Currency) =>
@@ -255,7 +259,7 @@ namespace DB {
     return new Map<string, ChatInfo>(JSON.parse(result));
   }
 
-  export async function setChat(address: string, chats: Map<string, boolean>) {
+  export async function setChat(address: string, chats: Map<string, Currency>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.chatByAddress(address),
       JSON.stringify([...chats]),
@@ -296,12 +300,46 @@ namespace DB {
     return new Map<string, Transaction>(JSON.parse(result));
   }
 
+  export async function setContacts(contacts: Array<UserProfile>) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.contacts,
+      JSON.stringify(contacts),
+    );
+  }
+
+  export async function getContacts(): Promise<Array<UserProfile>> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.contacts);
+
+    if (result == null) {
+      return [];
+    }
+
+    return JSON.parse(result);
+  }
+
+  export async function setUsers(users: Map<string, UserProfile>) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.users,
+      JSON.stringify([...users]),
+    );
+  }
+
+  export async function getUsers(): Promise<Map<string, UserProfile>> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.users);
+
+    if (result == null) {
+      return new Map<string, UserProfile>();
+    }
+    return new Map<string, UserProfile>(JSON.parse(result));
+  }
+
   export async function setPendingTxs(currency: Currency, txs: Array<string>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.pendingTransactions(currency),
       JSON.stringify(txs),
     );
   }
+
   export async function getPendingTxs(
     currency: Currency,
   ): Promise<Array<string>> {

@@ -1,9 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
 import {getSymbol} from 'models/wallet';
 import {Transaction, TxType} from 'models/transaction';
 import stringUtils from 'utils/string';
+import {UserProfile} from 'models/profile';
+import backend from 'utils/backend';
 
 /**
  * @category Components
@@ -12,10 +14,12 @@ export const ChatShortInfo = ({
   name,
   notificationCount,
   tx,
+  user,
 }: {
   name: string;
   notificationCount: number;
   tx: Transaction;
+  user: UserProfile | null;
 }) => {
   const now = new Date();
   return (
@@ -28,7 +32,27 @@ export const ChatShortInfo = ({
           marginLeft: '4%',
           marginRight: '3%',
         }}>
-        <WalletLogo currency={tx.currency} size={60} />
+        {user != null ? (
+          <Image
+            source={
+              user.avatarExt === ''
+                ? require('assets/img/default-avatar.png')
+                : {
+                    uri: backend.getImgUrl(
+                      user.id,
+                      user.avatarExt,
+                      user.lastUpdate,
+                    ),
+                  }
+            }
+            width={60}
+            height={60}
+            style={{width: 60, height: 60, borderRadius: 30}}
+          />
+        ) : (
+          <WalletLogo currency={tx.currency} size={60} />
+        )}
+
         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
           <View style={{height: 25, flexDirection: 'row'}}>
             <View style={{flex: 3}}>

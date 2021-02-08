@@ -21,3 +21,4 @@ export {Receiver} from './Receiver';
 export {AmountInput} from './AmountInput';
 export {AmountValue} from './AmountValue';
 export {ReceiverWithEnterAddress} from './ReceiverWithEnterAddress';
+export {SendBy} from './SendBy';

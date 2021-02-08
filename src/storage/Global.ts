@@ -2,6 +2,7 @@ import {createContext, Dispatch} from 'react';
 import DB from 'storage/DB';
 import {AuthInfo} from 'models/authInfo';
 import {MyProfile} from 'models/myProfile';
+import {UserProfile} from 'models/profile';
 
 /**
  * @namespace
@@ -23,10 +24,14 @@ namespace GlobalStore {
     DISABLE_BIOMETRY,
     SET_SYNCED,
     SET_LOADING,
+    SET_CONTACTS,
+    SET_USER,
   }
 
   export type State = {
     profile: MyProfile;
+    contacts: Array<UserProfile>;
+    users: Map<string, UserProfile>;
     isRegistered: boolean;
     isUpdatingProfile: boolean;
     notificationCount: number;
@@ -43,6 +48,8 @@ namespace GlobalStore {
   export const initialState: State = {
     isUpdatingProfile: false,
     profile: new MyProfile('', '', '', '', '', false, '', 0),
+    contacts: [],
+    users: new Map<string, UserProfile>(),
     notificationCount: 0,
     authInfo: new AuthInfo(false, false, false, false),
     isInitialized: false,
@@ -66,6 +73,8 @@ namespace GlobalStore {
           isInitialized: action.isInitialized,
           isRegistered: action.isRegistered,
           isLoadingShow: false,
+          contacts: action.contacts,
+          users: action.users,
         };
       case Action.SET_PROFILE:
         copy.profile = action.profile;
@@ -121,6 +130,14 @@ namespace GlobalStore {
       case Action.SET_LOADING:
         copy.isLoadingShow = action.isLoadingShow;
         break;
+      case Action.SET_CONTACTS:
+        copy.contacts = action.contacts;
+        DB.setContacts(action.contacts);
+        break;
+      case Action.SET_USER:
+        copy.users.set(action.user.id, action.user);
+        DB.setUsers(copy.users);
+        break;
       default:
         return prevState;
     }
@@ -135,6 +152,8 @@ namespace GlobalStore {
     isInitialized: boolean,
     isRegistered: boolean,
     isUpdatingProfile: boolean,
+    contacts: Array<UserProfile>,
+    users: Map<string, UserProfile>,
   ) => ({
     type: Action.SET,
     profile: profile,
@@ -143,6 +162,8 @@ namespace GlobalStore {
     isInitialized: isInitialized,
     isRegistered: isRegistered,
     isUpdatingProfile: isUpdatingProfile,
+    contacts: contacts,
+    users: users,
   });
 
   export const setProfile = (profile: MyProfile) => ({
@@ -188,6 +209,14 @@ namespace GlobalStore {
   export const setLoading = (isLoadingShow: boolean) => ({
     type: Action.SET_LOADING,
     isLoadingShow: isLoadingShow,
+  });
+  export const setContacts = (contacts: Array<UserProfile>) => ({
+    type: Action.SET_CONTACTS,
+    contacts: contacts,
+  });
+  export const setUser = (user: UserProfile) => ({
+    type: Action.SET_USER,
+    user: user,
   });
 }
 export default GlobalStore;

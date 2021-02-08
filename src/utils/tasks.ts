@@ -15,6 +15,7 @@ import {ChatInfo, ChatType} from 'models/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
+import {UserProfile} from 'models/profile';
 
 /**
  * @namespace
@@ -23,7 +24,7 @@ import BN from 'bn.js';
 namespace Task {
   const sec = 1000;
   const min = 60 * sec;
-  const maxSyncTxs = 1000;
+  const maxSyncTxs = 100;
 
   export async function init(
     globalContext: GlobalStore.ContextType,
@@ -66,6 +67,8 @@ namespace Task {
     const authInfo = await DB.getAuthInfo();
     const notificationCount = await DB.getNotificationCount();
     const profile = await DB.getProfile();
+    const contacts = await DB.getContacts();
+    const users = await DB.getUsers();
     const jwt = await backend.getJWT();
     globalContext.dispatch(
       GlobalStore.set(
@@ -75,6 +78,8 @@ namespace Task {
         true,
         jwt != null,
         jwt != null,
+        contacts,
+        users,
       ),
     );
   }
@@ -103,6 +108,7 @@ namespace Task {
 
     sync(accountsContext, globalContext, chatsContext, transactionsContext);
     checkPendingTxs(transactionsContext);
+
     BackgroundTimer.setInterval(async () => {
       await updateBalances(accountsContext);
 
@@ -118,6 +124,12 @@ namespace Task {
         transactionsContext,
       );
     }, 10 * sec);
+
+    updateUsersList(globalContext);
+    BackgroundTimer.setInterval(async () => {
+      await updateUsersList(globalContext);
+    }, 20 * min);
+
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
     }
@@ -130,24 +142,39 @@ namespace Task {
     tx: Transaction,
     isNotify: boolean,
   ): Promise<ChatInfo> {
+    let p = null;
+    try {
+      p = await backend.getUserByAddress(tx.address);
+    } catch (e) {}
+
+    let member = tx.address;
+    if (p != null) {
+      tx.userId = p.id;
+      member = tx.userId;
+
+      globalContext.dispatch(GlobalStore.setUser(p));
+    }
+
     transactionsContext.dispatch(TransactionsStore.setTx(tx.currency, tx));
 
     let chatInfo;
-    if (chatsContext.state.chatsInfo.has(tx.member)) {
-      chatInfo = chatsContext.state.chatsInfo.get(tx.member)!;
+    if (chatsContext.state.chatsInfo.has(member)) {
+      chatInfo = chatsContext.state.chatsInfo.get(member)!;
     } else {
       chatInfo = new ChatInfo(
-        tx.member,
-        tx.member,
+        member,
+        p == null ? tx.address : p.name,
         tx.id,
         tx.currency,
         0,
         tx.timestamp,
-        ChatType.AddressOnly,
-        {
-          currency: tx.currency,
-          address: tx.member,
-        },
+        p == null ? ChatType.AddressOnly : ChatType.Chat,
+        p == null
+          ? {
+              currency: tx.currency,
+              address: tx.address,
+            }
+          : null,
       );
     }
 
@@ -167,8 +194,10 @@ namespace Task {
       chatInfo.notificationCount++;
     }
 
-    chatsContext.dispatch(ChatsStore.setChatInfo(tx.member, chatInfo));
-    chatsContext.dispatch(ChatsStore.addTxInChat(tx.member, tx.id));
+    chatsContext.dispatch(ChatsStore.setChatInfo(chatInfo.id, chatInfo));
+    chatsContext.dispatch(
+      ChatsStore.addTxInChat(chatInfo.id, tx.id, tx.currency),
+    );
 
     if (isNotify) {
       globalContext.dispatch(GlobalStore.addNotificationCount());
@@ -202,6 +231,7 @@ namespace Task {
           await db.setFirebaseToken(token);
         }
       }
+
       messaging().onTokenRefresh(async (token: string) => {
         const ok = await BackendApi.setToken(token);
         if (ok) {
@@ -318,6 +348,17 @@ namespace Task {
           TransactionsStore.removePendingTx(currency, i),
         );
       }
+    }
+  }
+
+  async function updateUsersList(globalContext: GlobalStore.ContextType) {
+    for (let id of globalContext.state.users.keys()) {
+      const user = await backend.getUserById(id);
+      if (user == null) {
+        continue;
+      }
+
+      globalContext.dispatch(GlobalStore.setUser(user));
     }
   }
 

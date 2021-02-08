@@ -38,11 +38,11 @@ export const ConfirmSaveSeed = ({
         await globalContext.dispatch(GlobalStore.signInLocal());
       }
 
+      setLoading(false);
       navigation.reset({
         index: 0,
         routes: [{name: 'Home'}],
       });
-      setLoading(false);
     })();
   }, [isLoading]);
 

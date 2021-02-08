@@ -218,6 +218,7 @@ export class Api {
         transactions.push(
           new Transaction(
             id,
+            null,
             member,
             this.currency,
             txType,

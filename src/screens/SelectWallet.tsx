@@ -43,8 +43,9 @@ export const SelectWallet = ({
           wallet={wallets[i]}
           onPress={() =>
             navigation.navigate('Send', {
+              isEditable: route.params?.isEditable ?? false,
               wallet: wallets[i],
-              chatInfo: route.params.chatInfo,
+              chatInfo: route.params?.chatInfo,
             })
           }
         />,

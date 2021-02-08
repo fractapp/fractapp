@@ -29,21 +29,33 @@ export const EditUsername = ({
       return;
     }
 
+    globalContext.dispatch(GlobalStore.setLoading(true));
     if (
       regExp.test(username) ||
       !(await backend.isUsernameFree(username)) ||
       !(await backend.updateProfile(globalContext.state.profile.name, username))
     ) {
-      dialogContext.dispatch(
-        Dialog.open(
-          'Invalid username',
-          'Please validate and write username again',
-          () => dialogContext.dispatch(Dialog.close()),
-        ),
-      );
+      if (!(await backend.isUsernameFree(username))) {
+        dialogContext.dispatch(
+          Dialog.open('Username is exist', 'Please write new username', () =>
+            dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+      } else {
+        dialogContext.dispatch(
+          Dialog.open(
+            'Invalid username',
+            'Please validate and write username again',
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+      }
+
+      globalContext.dispatch(GlobalStore.setLoading(false));
       return;
     }
 
+    globalContext.dispatch(GlobalStore.setLoading(false));
     globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
     navigation.goBack();
   };

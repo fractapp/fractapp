@@ -1,17 +1,13 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableHighlight, Image} from 'react-native';
 import {Transaction, TxStatus, TxType} from '../models/transaction';
 import {getSymbol} from '../models/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 import stringUtils from 'utils/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {UserProfile} from 'models/profile';
+import backend from 'utils/backend';
 
 /**
  * Component with transaction information
@@ -19,9 +15,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
  */
 export const TransactionInfo = ({
   transaction,
+  user,
   onPress,
 }: {
   transaction: Transaction;
+  user: UserProfile | null;
   onPress: () => void;
 }) => {
   let prefix: string;
@@ -67,7 +65,26 @@ export const TransactionInfo = ({
       style={styles.transaction}>
       <View style={{width: '90%'}}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <WalletLogo currency={transaction.currency} size={50} />
+          {user != null ? (
+            <Image
+              source={
+                user.avatarExt === ''
+                  ? require('assets/img/default-avatar.png')
+                  : {
+                      uri: backend.getImgUrl(
+                        user.id,
+                        user.avatarExt,
+                        user.lastUpdate,
+                      ),
+                    }
+              }
+              width={50}
+              height={50}
+              style={{width: 50, height: 50, borderRadius: 25}}
+            />
+          ) : (
+            <WalletLogo currency={transaction.currency} size={50} />
+          )}
           {renderStatus()}
           <View
             style={{
@@ -77,7 +94,9 @@ export const TransactionInfo = ({
               marginLeft: 10,
             }}>
             <Text numberOfLines={1} style={styles.member}>
-              {stringUtils.formatNameOrAddress(transaction.member)}
+              {stringUtils.formatNameOrAddress(
+                user != null ? user.name : transaction.address,
+              )}
             </Text>
             <Text style={[styles.balance, {textAlign: 'left', color: color}]}>
               {prefix}

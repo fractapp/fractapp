@@ -7,14 +7,16 @@ import {
   View,
 } from 'react-native';
 import {ChatShortInfo} from 'components/index';
-import {ChatInfo} from 'models/chatInfo';
+import {ChatInfo, ChatType} from 'models/chatInfo';
 import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import GlobalStore from 'storage/Global';
 
 export const Chats = ({navigation}: {navigation: any}) => {
   const chatsContext = useContext(ChatsStore.Context);
   const transactionsContext = useContext(TransactionsStore.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
   useEffect(() => {
     navigation.setOptions({
@@ -30,9 +32,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
   const getChats = () => {
     return Array.from(chatsContext.state.chatsInfo.values())
       .filter(
-        (
-          value, //TODO: add users chats
-        ) =>
+        (value) =>
           transactionsContext.state.transactions.has(value.lastTxCurrency) &&
           transactionsContext.state.transactions
             ?.get(value.lastTxCurrency)!
@@ -44,6 +44,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
     const tx = transactionsContext.state.transactions
       .get(item.lastTxCurrency)!
       .get(item.lastTxId)!;
+
     return (
       <TouchableHighlight
         onPress={() => navigation.navigate('Chat', {chatInfo: item})}
@@ -52,6 +53,11 @@ export const Chats = ({navigation}: {navigation: any}) => {
           name={item.name}
           notificationCount={item.notificationCount}
           tx={tx}
+          user={
+            item.type === ChatType.Chat
+              ? globalContext.state.users.get(item.id)!
+              : null
+          }
         />
       </TouchableHighlight>
     );

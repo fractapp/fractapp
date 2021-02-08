@@ -54,11 +54,11 @@ export const ConfirmCode = ({
       setBorderColor('#CCCCCC');
     }
 
-    if (!refs[code.length] || !refs[code.length].current) {
-      throw 'invalid ref for confirm code ' + code.length;
-    }
-
     if (code.length < BackendApi.CodeLength) {
+      if (!refs[code.length] || !refs[code.length].current) {
+        throw 'invalid ref for confirm code ' + code.length;
+      }
+
       refs[code.length]?.current?.focus();
     } else if (code.length === BackendApi.CodeLength) {
       Keyboard.dismiss();
@@ -68,18 +68,30 @@ export const ConfirmCode = ({
         setBorderColor('#2AB2E2');
 
         try {
+          globalContext.dispatch(GlobalStore.setLoading(true));
+
           const rsCode = await backend.auth(value, code, type);
 
           switch (rsCode) {
             case 400:
               dialogContext.dispatch(
-                Dialog.open('Server unavailable', '', () =>
+                Dialog.open('Service unavailable', '', () =>
                   dialogContext.dispatch(Dialog.close()),
                 ),
               );
 
               setCode('');
               setBorderColor('#EA4335');
+              break;
+            case 403:
+              navigation.goBack();
+              dialogContext.dispatch(
+                Dialog.open(
+                  'The account is registered to a different address',
+                  '',
+                  () => dialogContext.dispatch(Dialog.close()),
+                ),
+              );
               break;
             case 404:
               setCode('');
@@ -101,9 +113,11 @@ export const ConfirmCode = ({
           console.log(e);
           setCode('');
           setBorderColor('#EA4335');
+          globalContext.dispatch(GlobalStore.setLoading(false));
         }
 
         setEditable(true);
+        globalContext.dispatch(GlobalStore.setLoading(false));
       })();
     }
   }, [code]);
@@ -124,7 +138,7 @@ export const ConfirmCode = ({
     switch (rsCode) {
       case 400:
         dialogContext.dispatch(
-          Dialog.open('Server unavailable', 'Please try again: ' + err, () =>
+          Dialog.open('Service unavailable', 'Please try again: ' + err, () =>
             dialogContext.dispatch(Dialog.close()),
           ),
         );
@@ -179,7 +193,9 @@ export const ConfirmCode = ({
           style={[styles.codeInput, {borderColor: borderColor}]}
           editable={editable}
           onFocus={() =>
-            code.length !== i && code.length < BackendApi.CodeLength
+            code.length !== i &&
+            code.length < BackendApi.CodeLength &&
+            code.length !== 6
               ? refs[code.length]?.current?.focus()
               : {}
           }

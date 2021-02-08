@@ -19,6 +19,7 @@ export const EnterAmount = ({
     route.params?.isUSDMode ?? true,
   );
   const routeValue = route.params?.value ?? 0;
+
   const [value, setValue] = useState<number>(
     routeValue === 0 ? '' : routeValue,
   );
@@ -31,7 +32,6 @@ export const EnterAmount = ({
   const dialogContext = useContext(Dialog.Context);
 
   const wallet: Wallet = route.params.wallet;
-  const callerScreen: Wallet = route.params.callerScreen;
   const receiver: string = route.params.receiver;
 
   const onSuccess = async () => {
@@ -94,7 +94,7 @@ export const EnterAmount = ({
         return;
       }
 
-      navigation.navigate(callerScreen, {
+      navigation.navigate('Send', {
         isUSDMode: isUSDMode,
         value: value,
       });
@@ -105,16 +105,14 @@ export const EnterAmount = ({
     if (value <= 0) {
       return;
     }
-    const price = priceContext.state?.get(wallet.currency) ?? 0;
 
-    Api.getInstance(wallet.currency).then(async (api) => {
-      if (isUSDMode) {
-        const currencyValue = MathUtils.round(value / price, api.viewDecimals);
-        setAlternativeValue(currencyValue);
-      } else {
-        const usdValue = MathUtils.roundUsd(value * price);
-        setAlternativeValue(usdValue);
-      }
+    MathUtils.calculateValue(
+      priceContext,
+      wallet.currency,
+      value,
+      isUSDMode,
+    ).then((aValue) => {
+      setAlternativeValue(aValue);
     });
   }, [value, isUSDMode]);
 
@@ -123,29 +121,16 @@ export const EnterAmount = ({
       return;
     }
 
-    const price = priceContext.state?.get(wallet.currency) ?? 0;
     const currencyValue = isUSDMode ? alternativeValue : value;
 
-    Api.getInstance(wallet.currency).then(async (api) => {
-      const info = await api
-        .getSubstrateApi()
-        .tx.balances.transferKeepAlive(
-          receiver,
-          api.convertToPlanck(String(currencyValue)),
-        )
-        .paymentInfo(wallet.address);
-
-      if (currencyValue <= 0) {
-        setUsdFee(0);
-        return;
-      }
-
-      setPlankFee(info.partialFee);
-      setUsdFee(
-        MathUtils.roundUsd(
-          api.convertFromPlanckWithViewDecimals(info.partialFee) * price,
-        ),
-      );
+    MathUtils.calculateTxInfo(
+      priceContext,
+      wallet.currency,
+      currencyValue,
+      receiver,
+    ).then((info) => {
+      setPlankFee(info.fee);
+      setUsdFee(info.usdFee);
     });
   }, [alternativeValue]);
 
@@ -165,10 +150,10 @@ export const EnterAmount = ({
     <View style={styles.chats}>
       <AmountInput
         width={'95%'}
-        onChangeText={(text, isUSDMode) => {
-          const value = parseFloat(text);
-          setValue(isNaN(value) ? 0 : value);
-          setUSDMode(isUSDMode);
+        onChangeText={(text, mode) => {
+          const v = parseFloat(text);
+          setValue(isNaN(v) ? 0 : v);
+          setUSDMode(mode);
         }}
         value={String(value)}
         usdMode={isUSDMode}

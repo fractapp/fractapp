@@ -12,6 +12,7 @@ import {Transaction} from 'models/transaction';
 import {TransactionInfo, WalletDetailsInfo} from 'components/index';
 import stringUtils from 'utils/string';
 import TransactionsStore from 'storage/Transactions';
+import GlobalStore from 'storage/Global';
 
 export const WalletDetails = ({
   navigation,
@@ -20,6 +21,7 @@ export const WalletDetails = ({
   navigation: any;
   route: any;
 }) => {
+  const globalContext = useContext(GlobalStore.Context);
   const transactionsContext = useContext(TransactionsStore.Context);
   const wallet: Wallet = route.params.wallet;
 
@@ -64,7 +66,8 @@ export const WalletDetails = ({
               <View>
                 <TouchableHighlight
                   onPress={() =>
-                    navigation.navigate('SendWithEnterAddress', {
+                    navigation.navigate('Search', {
+                      isEditable: true,
                       wallet: wallet,
                     })
                   }
@@ -106,10 +109,20 @@ export const WalletDetails = ({
           <TransactionInfo
             key={item.id}
             transaction={item}
+            user={
+              item.userId != null && globalContext.state.users.has(item.userId)
+                ? globalContext.state.users.get(item.userId)!
+                : null
+            }
             onPress={() =>
               navigation.navigate('TransactionDetails', {
                 transaction: item,
                 wallet: wallet,
+                user:
+                  item.userId != null &&
+                  globalContext.state.users.has(item.userId)
+                    ? globalContext.state.users.get(item.userId)
+                    : null,
               })
             }
           />

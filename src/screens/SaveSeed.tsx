@@ -13,7 +13,7 @@ export const SaveSeed = ({
 }) => {
   const seed = route.params.seed;
 
-  let seedBtns = new Array<Element>();
+  let seedBtns = [];
   for (let index in seed) {
     seedBtns.push(
       <SeedButton

@@ -22,7 +22,7 @@ export const SplashScreen = () => {
           justifyContent: 'center',
         }}>
         <Image
-          source={require('assets/img/logo-splash.png')}
+          source={require('assets/img/logo-white.png')}
           style={styles.logo}
         />
       </LinearGradient>

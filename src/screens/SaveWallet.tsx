@@ -58,6 +58,7 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
           onPress={() =>
             navigation.navigate('SaveSeed', {
               seed: seed,
+              isNewAccount: true,
             })
           }
         />

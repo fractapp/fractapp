@@ -1,6 +1,7 @@
 import {createContext, Dispatch} from 'react';
 import DB from 'storage/DB';
 import {ChatInfo} from 'models/chatInfo';
+import {Currency} from 'models/wallet';
 
 /**
  * @namespace
@@ -15,11 +16,11 @@ namespace ChatsStore {
   }
 
   export type State = {
-    chats: Map<string, Map<string, boolean>>;
+    chats: Map<string, Map<string, Currency>>;
     chatsInfo: Map<string, ChatInfo>;
   };
   export const initialState = {
-    chats: new Map<string, Map<string, boolean>>(),
+    chats: new Map<string, Map<string, Currency>>(),
     chatsInfo: new Map<string, ChatInfo>(),
   };
 
@@ -47,11 +48,11 @@ namespace ChatsStore {
         return copy;
       case Action.ADD_TX_IN_CHAT:
         if (!copy.chats.has(action.member)) {
-          copy.chats.set(action.member, new Map<string, boolean>());
+          copy.chats.set(action.member, new Map<string, Currency>());
         }
 
         const chat = copy.chats.get(action.member)!;
-        chat.set(action.id, true);
+        chat.set(action.id, action.currency);
         DB.setChat(action.member, chat);
         return copy;
       case Action.RESET_NOTIFICATION:
@@ -82,10 +83,15 @@ namespace ChatsStore {
     member: member,
     chatInfo: chatInfo,
   });
-  export const addTxInChat = (member: string, id: string) => ({
+  export const addTxInChat = (
+    member: string,
+    id: string,
+    currency: Currency,
+  ) => ({
     type: Action.ADD_TX_IN_CHAT,
     member: member,
     id: id,
+    currency: currency,
   });
   export const resetNotification = (member: string) => ({
     type: Action.RESET_NOTIFICATION,

@@ -26,7 +26,7 @@ export const WalletFileBackup = ({
 
   const seed: string = route.params.seed.join(' ');
   const type: backupUtil.BackupType = route.params.type;
-  const isNewAccount: backupUtil.BackupType = route.params.isNewAccount;
+  const isNewAccount: boolean = route.params.isNewAccount;
 
   const startBackup = async () => {
     setLoading(true);

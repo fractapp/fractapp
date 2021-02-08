@@ -23,7 +23,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
         navigation.navigate('WalletFileBackup', {
           seed: seed?.split(' '),
           type: BackupUtils.BackupType.File,
-          isNewAccount: true,
+          isNewAccount: false,
         }),
       () =>
         dialogContext.dispatch(
@@ -41,7 +41,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
       navigation.navigate('WalletFileBackup', {
         seed: seed?.split(' '),
         type: BackupUtils.BackupType.GoogleDrive,
-        isNewAccount: true,
+        isNewAccount: false,
       }),
     );
   };
@@ -49,6 +49,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
     const seed = await db.getSeed();
     navigation.navigate('SaveSeed', {
       seed: seed?.split(' '),
+      isNewAccount: false,
     });
   };
 

@@ -34,7 +34,7 @@ import {
   SelectWallet,
   Send,
   EnterAmount,
-  SendWithEnterAddress,
+  Legal,
 } from 'screens/index';
 import {TabMenu} from 'components/index';
 import {getSymbol} from 'models/wallet';
@@ -105,6 +105,7 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('ImportSeed', ImportSeed)}
         {getEmptyRouter('WalletFileImport', WalletFileImport)}
         {getEmptyRouter('GoogleDrivePicker', GoogleDrivePicker)}
+        {getEmptyRouter('Legal', Legal)}
       </>
     );
   };
@@ -130,11 +131,6 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getRouterWithTitle('EditName', 'Edit Name', EditName)}
         {getRouterWithTitle('SelectWallet', 'Select Wallet', SelectWallet)}
         {getRouterWithTitle('Send', 'Send', Send)}
-        {getRouterWithTitle(
-          'SendWithEnterAddress',
-          'Send',
-          SendWithEnterAddress,
-        )}
         {getRouterWithTitle('EnterAmount', 'Enter Amount', EnterAmount)}
         {getEmptyRouter('Search', Search)}
         {getRouterWithTitle('Chat', '', Chat)}

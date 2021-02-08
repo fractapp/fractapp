@@ -6,6 +6,8 @@ import {Currency} from 'models/wallet';
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
 import {MyProfile} from 'models/myProfile';
+import {UserProfile} from 'models/profile';
+import {Use} from 'react-native-svg';
 
 /**
  * @namespace
@@ -24,6 +26,11 @@ namespace BackendApi {
     Phone = 0,
     Email,
   }
+
+  const cacheTimeout = 36000000; // 10 minutes
+
+  let userByAddressCache = new Map<string, UserProfile>();
+  let timeForCache = new Map<string, number>();
 
   const apiUrl = FRACTAPP_API;
   const signTokenMsg = 'It is my firebase token for fractapp:';
@@ -167,6 +174,58 @@ namespace BackendApi {
     return response.status;
   }
 
+  export async function myMatchContacts(): Promise<Array<UserProfile>> {
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/profile/matchContacts`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+    });
+
+    let json = [];
+    if (response.status === 200) {
+      json = await response.json();
+    }
+
+    return json;
+  }
+
+  export async function myContacts(): Promise<Array<string> | undefined> {
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/profile/contacts`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+    });
+
+    let json;
+    if (response.status === 200) {
+      json = await response.json();
+    }
+
+    return json;
+  }
+
+  export async function updateContacts(
+    contacts: Array<string>,
+  ): Promise<boolean> {
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/profile/uploadContacts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+      body: JSON.stringify(contacts),
+    });
+
+    return response.status === 200;
+  }
+
   export async function myProfile(): Promise<[number, MyProfile]> {
     const jwt = await DB.getJWT();
     const response = await fetch(`${apiUrl}/profile/my`, {
@@ -205,16 +264,61 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function search(value: string): Promise<Array<any>> {
+  export async function search(
+    value: string,
+    isEmail: boolean,
+  ): Promise<Array<UserProfile>> {
     value = value.toLowerCase();
     if (value.length < 4) {
       return [];
     }
-    const response = await fetch(`${apiUrl}/profile/search?value=${value}`);
+    const response = await fetch(
+      `${apiUrl}/profile/search?value=${value}${isEmail ? '&type=email' : ''}`,
+    );
 
     if (response.status !== 200) {
       return [];
     }
+    return await response.json();
+  }
+
+  export async function getUserById(id: string): Promise<UserProfile | null> {
+    const response = await fetch(`${apiUrl}/profile/info?id=${id}`);
+
+    if (response.status !== 200) {
+      return null;
+    }
+
+    const data: UserProfile = await response.json();
+    return data;
+  }
+
+  export async function getUserByAddress(
+    address: string,
+  ): Promise<UserProfile | null> {
+    if (
+      timeForCache.has(address) &&
+      timeForCache.get(address)! >= new Date().getTime()
+    ) {
+      return userByAddressCache.get(address)!;
+    }
+
+    const response = await fetch(`${apiUrl}/profile/info?address=${address}`);
+
+    if (response.status !== 200) {
+      return null;
+    }
+    const data: UserProfile = await response.json();
+
+    const polkadot = data.addresses[Currency.Polkadot];
+    const kusama = data.addresses[Currency.Kusama];
+
+    timeForCache.set(polkadot, new Date().getTime() + cacheTimeout);
+    userByAddressCache.set(polkadot, data);
+
+    timeForCache.set(kusama, new Date().getTime() + cacheTimeout);
+    userByAddressCache.set(kusama, data);
+
     return await response.json();
   }
 

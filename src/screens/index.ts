@@ -33,4 +33,4 @@ export {Search} from './Search';
 export {SelectWallet} from './SelectWallet';
 export {Send} from './Send';
 export {EnterAmount} from './EnterAmount';
-export {SendWithEnterAddress} from './SendWithEnterAddress';
+export {Legal} from './Legal';

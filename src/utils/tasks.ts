@@ -355,6 +355,7 @@ namespace Task {
     for (let id of globalContext.state.users.keys()) {
       const user = await backend.getUserById(id);
       if (user == null) {
+        globalContext.dispatch(GlobalStore.deleteUser(id));
         continue;
       }
 

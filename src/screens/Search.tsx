@@ -22,7 +22,6 @@ import {Wallet} from 'models/wallet';
 
 export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const wallet: Wallet = route.params?.wallet;
-  const isEditable: Wallet = route.params?.isEditable;
 
   const globalContext = useContext(GlobalStore.Context);
   const dialogContext = useContext(DialogStore.Context);
@@ -99,12 +98,25 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
       (user) => user.id !== globalContext.state.profile.id,
     );
     setUsers(contacts);
-    globalContext.dispatch(GlobalStore.setContacts(contacts));
+    const ids = new Array<string>();
+    for (let user of contacts) {
+      globalContext.dispatch(GlobalStore.setUser(user));
+      ids.push(user.id);
+    }
+
+    globalContext.dispatch(GlobalStore.setContacts(ids));
   };
 
   useEffect(() => {
     if (searchString.length === 0) {
-      setUsers(globalContext.state.contacts);
+      const contacts = new Array<UserProfile>();
+      for (let id of globalContext.state.contacts) {
+        if (!globalContext.state.users.has(id)) {
+          continue;
+        }
+        contacts.push(globalContext.state.users.get(id)!);
+      }
+      setUsers(contacts);
     } else {
       if (searchString[0] === '@') {
         backend.search(searchString.split('@')[1], false).then((users) => {
@@ -196,7 +208,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
             onPress={() => {
               if (wallet == null) {
                 navigation.navigate('SelectWallet', {
-                  isEditable: isEditable,
+                  isEditable: true,
                 });
               } else {
                 navigation.navigate('Send', {isEditable: true, wallet: wallet});

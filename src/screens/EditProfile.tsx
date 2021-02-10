@@ -22,7 +22,9 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
     },
     {
       title: 'Username',
-      value: '@' + globalContext.state.profile.username,
+      value: !globalContext.state.profile.username
+        ? ''
+        : '@' + globalContext.state.profile.username,
       placeholder: 'Write your username',
       onClick: () => navigation.navigate('EditUsername'),
     },

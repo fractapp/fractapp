@@ -67,7 +67,6 @@ export const WalletDetails = ({
                 <TouchableHighlight
                   onPress={() =>
                     navigation.navigate('Search', {
-                      isEditable: true,
                       wallet: wallet,
                     })
                   }

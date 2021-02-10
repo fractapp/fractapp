@@ -2,12 +2,12 @@ import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'models/wallet';
+
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
 import {MyProfile} from 'models/myProfile';
 import {UserProfile} from 'models/profile';
-import {Use} from 'react-native-svg';
 
 /**
  * @namespace

@@ -1,19 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
-import * as EmailValidator from 'email-validator';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
 
-export const EditUsername = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+export const EditUsername = ({navigation}: {navigation: any}) => {
   const regExp = new RegExp('[^A-Za-z0-9_-]');
   const globalContext = useContext(GlobalStore.Context);
   const dialogContext = useContext(Dialog.Context);
@@ -32,8 +24,11 @@ export const EditUsername = ({
     globalContext.dispatch(GlobalStore.setLoading(true));
     if (
       regExp.test(username) ||
-      !(await backend.isUsernameFree(username)) ||
-      !(await backend.updateProfile(globalContext.state.profile.name, username))
+      !(await backend.isUsernameFree(username.toLowerCase())) ||
+      !(await backend.updateProfile(
+        globalContext.state.profile.name,
+        username.toLowerCase(),
+      ))
     ) {
       if (!(await backend.isUsernameFree(username))) {
         dialogContext.dispatch(

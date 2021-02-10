@@ -26,11 +26,12 @@ namespace GlobalStore {
     SET_LOADING,
     SET_CONTACTS,
     SET_USER,
+    DELETE_USER,
   }
 
   export type State = {
     profile: MyProfile;
-    contacts: Array<UserProfile>;
+    contacts: Array<string>;
     users: Map<string, UserProfile>;
     isRegistered: boolean;
     isUpdatingProfile: boolean;
@@ -138,6 +139,9 @@ namespace GlobalStore {
         copy.users.set(action.user.id, action.user);
         DB.setUsers(copy.users);
         break;
+      case Action.DELETE_USER:
+        copy.users.delete(action.id);
+        DB.setUsers(copy.users);
       default:
         return prevState;
     }
@@ -210,13 +214,17 @@ namespace GlobalStore {
     type: Action.SET_LOADING,
     isLoadingShow: isLoadingShow,
   });
-  export const setContacts = (contacts: Array<UserProfile>) => ({
+  export const setContacts = (contacts: Array<string>) => ({
     type: Action.SET_CONTACTS,
     contacts: contacts,
   });
   export const setUser = (user: UserProfile) => ({
     type: Action.SET_USER,
     user: user,
+  });
+  export const deleteUser = (id: string) => ({
+    type: Action.DELETE_USER,
+    id: id,
   });
 }
 export default GlobalStore;

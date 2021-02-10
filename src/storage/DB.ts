@@ -12,7 +12,6 @@ import {AuthInfo} from 'models/authInfo';
 import {MyProfile} from 'models/myProfile';
 import BN from 'bn.js';
 import {UserProfile} from 'models/profile';
-import {Use} from 'react-native-svg';
 /**
  * @namespace
  * @category storage

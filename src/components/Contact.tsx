@@ -26,13 +26,21 @@ export const Contact = ({
         <Image source={img} style={styles.logo} />
         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
           <View style={{height: 23, flexDirection: 'row'}}>
-            <Text style={[styles.name, {textAlign: 'left'}]}>{name}</Text>
-          </View>
-          <View style={{height: 23, flexDirection: 'row'}}>
-            <Text style={[styles.username, {textAlign: 'left'}]}>
-              {usernameOrPhoneNumber}
+            <Text style={[styles.name, {textAlign: 'left'}]}>
+              {name.trim() === '' ? usernameOrPhoneNumber : name}
             </Text>
           </View>
+          {name.trim() !== '' ? (
+            <View style={{height: 23, flexDirection: 'row'}}>
+              <Text style={[styles.username, {textAlign: 'left'}]}>
+                {usernameOrPhoneNumber.trim() === ''
+                  ? '-'
+                  : usernameOrPhoneNumber}
+              </Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
       </View>
     </View>

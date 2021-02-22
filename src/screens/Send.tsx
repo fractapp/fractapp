@@ -52,29 +52,35 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
   const [isWrite, setIsWrite] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isEditable) {
-      setReceiver('');
-      return;
-    }
-
-    if (chatInfo.type === ChatType.Chat) {
-      globalContext.dispatch(GlobalStore.setLoading(true));
-      const details = globalContext.state.users.get(chatInfo.id)!;
-      backend
-        .getUserById(details.id)
-        .then((p) => {
-          if (p == null) {
+    globalContext.dispatch(GlobalStore.setLoading(true));
+    Api.getInstance(wallet.currency).then((api) =>
+      api
+        .getSubstrateApi()
+        .then(async () => {
+          if (isEditable) {
+            setReceiver('');
             globalContext.dispatch(GlobalStore.setLoading(false));
-            dialogContext.dispatch(
-              Dialog.open('Service unavailable', '', () => {
-                dialogContext.dispatch(DialogStore.close());
-              }),
-            );
-            navigation.goBack();
             return;
-          } else {
-            setReceiver(p.addresses[wallet.currency]);
-            globalContext.dispatch(GlobalStore.setUser(p));
+          }
+
+          if (chatInfo.type === ChatType.Chat) {
+            const details = globalContext.state.users.get(chatInfo.id)!;
+            const p = await backend.getUserById(details.id);
+            if (p == null) {
+              globalContext.dispatch(GlobalStore.setLoading(false));
+              dialogContext.dispatch(
+                Dialog.open('Service unavailable', '', () => {
+                  dialogContext.dispatch(DialogStore.close());
+                }),
+              );
+              navigation.goBack();
+              return;
+            } else {
+              setReceiver(p.addresses[wallet.currency]);
+              globalContext.dispatch(GlobalStore.setUser(p));
+            }
+          } else if (chatInfo.type === ChatType.AddressOnly) {
+            setReceiver(chatInfo.details!.address);
           }
 
           setTimeout(
@@ -91,10 +97,8 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             }),
           );
           navigation.goBack();
-        });
-    } else if (chatInfo.type === ChatType.AddressOnly) {
-      setReceiver(chatInfo.details!.address);
-    }
+        }),
+    );
   }, []);
   useEffect(() => {
     if (value <= 0 || receiver === '' || !isValidReceiver) {
@@ -149,13 +153,10 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
     const api = await Api.getInstance(wallet.currency);
     const currencyValue = isUSDMode ? alternativeValue : value;
+    const substrateApi = await api.getSubstrateApi();
 
-    const info = await api
-      .getSubstrateApi()
-      .tx.balances.transferKeepAlive(
-        receiver,
-        api.convertToPlanck(String(currencyValue)),
-      )
+    const info = await substrateApi.tx.balances
+      .transferKeepAlive(receiver, api.convertToPlanck(String(currencyValue)))
       .paymentInfo(wallet.address);
 
     const planksValue = api.convertToPlanck(String(currencyValue));

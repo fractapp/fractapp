@@ -4,7 +4,7 @@ import DB from 'storage/DB';
 import * as polkadot from 'utils/polkadot';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import {getSymbol} from 'models/wallet';
+import {Currency, getSymbol} from 'models/wallet';
 import {Account} from 'models/account';
 import messaging from '@react-native-firebase/messaging';
 import BackendApi from './backend';
@@ -27,56 +27,61 @@ namespace Task {
 
   export async function init(
     globalContext: GlobalStore.ContextType,
-    accountContext: AccountsStore.ContextType,
+    accountsContext: AccountsStore.ContextType,
     pricesContext: PricesStore.ContextType,
     chatsContext: ChatsStore.ContextType,
     transactionsContext: TransactionsStore.ContextType,
   ) {
+    const accounts = new Map<Currency, Account>();
+    const totalTxs = new Map<Currency, Map<string, Transaction>>();
+    const totalPendingTxs = new Map<Currency, Array<string>>();
+
     const accountsAddress = await db.getAccounts();
     if (accountsAddress == null || accountsAddress.length === 0) {
       throw 'accounts not found';
     }
-
     for (let i = 0; i < accountsAddress?.length; i++) {
       const account = await db.getAccountInfo(accountsAddress[i]);
 
       if (account == null) {
         continue;
       }
-      accountContext.dispatch(AccountsStore.addAccount(account));
+      accounts.set(account.currency, account);
 
       const price = await db.getPrice(account.currency);
       pricesContext.dispatch(PricesStore.set(account.currency, price));
 
       const txs = await db.getTxs(account.currency);
+      totalTxs.set(account.currency, txs);
+
       const pendingTxs = await db.getPendingTxs(account.currency);
-      console.log('DB ' + JSON.stringify(pendingTxs));
-      transactionsContext.dispatch(
-        TransactionsStore.setTxs(account.currency, txs, pendingTxs),
-      );
+      totalPendingTxs.set(account.currency, pendingTxs);
     }
+    accountsContext.dispatch(AccountsStore.set(accounts));
+    transactionsContext.dispatch(
+      TransactionsStore.setTxs(totalTxs, totalPendingTxs),
+    );
 
     const chatInfo = await db.getChatsInfo();
     const allChats = new Map<string, Map<string, boolean>>();
     for (let key of chatInfo.keys()) {
       allChats.set(key, await db.getChat(key));
-      chatsContext.dispatch(ChatsStore.set(allChats, chatInfo));
     }
+    chatsContext.dispatch(ChatsStore.set(allChats, chatInfo));
 
     const authInfo = await DB.getAuthInfo();
     const notificationCount = await DB.getNotificationCount();
     const profile = await DB.getProfile();
     const contacts = await DB.getContacts();
     const users = await DB.getUsers();
-    const jwt = await backend.getJWT();
+
     globalContext.dispatch(
       GlobalStore.set(
         profile != null ? profile : GlobalStore.initialState.profile,
         notificationCount,
         authInfo ?? GlobalStore.initialState.authInfo,
-        true,
-        jwt != null,
-        jwt != null,
+        profile != null,
+        profile != null,
         contacts,
         users,
       ),
@@ -92,7 +97,10 @@ namespace Task {
   ) {
     console.log('start create task');
 
-    if (accountsContext.state == null || accountsContext.state.size === 0) {
+    if (
+      accountsContext.state.accounts == null ||
+      accountsContext.state.accounts.size === 0
+    ) {
       throw 'accounts not found';
     }
 
@@ -132,6 +140,8 @@ namespace Task {
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
     }
+
+    console.log('end create task');
   }
 
   export async function setTx(
@@ -211,7 +221,10 @@ namespace Task {
   ) {
     console.log('init private data');
 
-    if (accountsContext.state == null || accountsContext.state.size === 0) {
+    if (
+      accountsContext.state == null ||
+      accountsContext.state.accounts.size === 0
+    ) {
       throw 'accounts not found';
     }
 
@@ -286,7 +299,9 @@ namespace Task {
           break;
         }
 
-        await api.updateUSDValueInTransaction(txs[i]);
+        if (isSynced) {
+          await api.updateUSDValueInTransaction(txs[i]);
+        }
         await setTx(
           globalContext,
           chatsContext,
@@ -311,7 +326,7 @@ namespace Task {
     chatsContext: ChatsStore.ContextType,
     transactionsContext: TransactionsStore.ContextType,
   ) {
-    for (let value of accountsContext.state.values()) {
+    for (let value of accountsContext.state.accounts.values()) {
       await syncByAccount(
         value,
         globalContext.state.authInfo.isSynced,
@@ -363,8 +378,8 @@ namespace Task {
     }
   }
 
-  async function updateBalances(accountContext: AccountsStore.ContextType) {
-    for (let value of accountContext.state.values()) {
+  async function updateBalances(accountsContext: AccountsStore.ContextType) {
+    for (let value of accountsContext.state.accounts.values()) {
       const api = await polkadot.Api.getInstance(value.currency);
 
       const balance = await api.balance(value.address);
@@ -379,7 +394,7 @@ namespace Task {
         value.balance = balanceValue;
         value.planks = planks.toString(10);
 
-        accountContext.dispatch(
+        accountsContext.dispatch(
           AccountsStore.updateBalance(
             value.currency,
             value.balance,
@@ -392,9 +407,9 @@ namespace Task {
 
   async function updatePrices(
     pricesContext: PricesStore.ContextType,
-    accountContext: AccountsStore.ContextType,
+    accountsContext: AccountsStore.ContextType,
   ) {
-    for (let value of accountContext.state.values()) {
+    for (let value of accountsContext.state.accounts.values()) {
       const symbol = getSymbol(value.currency);
       const response = await fetch(
         `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`,

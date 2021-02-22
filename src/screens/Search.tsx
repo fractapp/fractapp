@@ -54,15 +54,11 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
       const contacts = await Contacts.getAll();
 
       const backendContacts = await backend.myContacts();
-      if (backendContacts === undefined) {
-        return;
-      }
 
       const mapBackendContacts = new Map<string, boolean>();
       for (let v of backendContacts) {
         mapBackendContacts.set(v, true);
       }
-
       const validContacts = new Map<string, boolean>();
       for (let contact of contacts) {
         if (contact.phoneNumbers.length === 0) {
@@ -94,6 +90,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
 
   const getMyMatchContacts = async () => {
     let contacts = await backend.myMatchContacts();
+
     contacts = contacts.filter(
       (user) => user.id !== globalContext.state.profile.id,
     );

@@ -18,10 +18,12 @@ namespace ChatsStore {
   export type State = {
     chats: Map<string, Map<string, Currency>>;
     chatsInfo: Map<string, ChatInfo>;
+    isInitialized: boolean;
   };
   export const initialState = {
     chats: new Map<string, Map<string, Currency>>(),
     chatsInfo: new Map<string, ChatInfo>(),
+    isInitialized: false,
   };
 
   export type ContextType = {
@@ -35,11 +37,12 @@ namespace ChatsStore {
   });
 
   export function reducer(prevState: State, action: any): State {
-    let copy = Object.assign({}, prevState);
+    let copy: State = Object.assign({}, prevState);
     switch (action.type) {
       case Action.SET:
         copy.chats = action.chats;
         copy.chatsInfo = action.chatsInfo;
+        copy.isInitialized = true;
         return copy;
       case Action.SET_CHAT_INFO:
         copy.chatsInfo.set(action.member, action.chatInfo);

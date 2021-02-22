@@ -27,7 +27,6 @@ import ChatsStore from 'storage/Chats';
 import TransactionsStore from 'storage/Transactions';
 import {Loader} from 'components/Loader';
 import backend from 'utils/backend';
-import * as polkadot from 'utils/polkadot';
 
 export default function App() {
   const globalContext = useContext(GlobalStore.Context);
@@ -98,6 +97,7 @@ export default function App() {
       setLocked(authInfo.isPasscode);
       setBiometry(authInfo.isBiometry);
 
+      console.log('init pub data');
       await tasks.init(
         globalContext,
         accountsContext,
@@ -105,23 +105,21 @@ export default function App() {
         chatsContext,
         transactionsContext,
       );
+      console.log('end pub data');
     });
   }, [globalContext.state.authInfo.isAuthed]);
+
   useEffect(() => {
-    if (!globalContext.state.isInitialized) {
+    if (
+      !globalContext.state.isInitialized ||
+      !accountsContext.state.isInitialized ||
+      !transactionsContext.state.isInitialized ||
+      !chatsContext.state.isInitialized
+    ) {
       return;
     }
-
     (async () => {
-      const wsTasks = [];
-
-      const dataTask = tasks.initPrivateData(accountsContext);
-      for (let currency of accountsContext.state.keys()) {
-        wsTasks.push(polkadot.Api.getInstance(currency));
-      }
-      for (let task of wsTasks) {
-        await task;
-      }
+      tasks.initPrivateData(accountsContext);
 
       tasks.createTask(
         accountsContext,
@@ -130,8 +128,6 @@ export default function App() {
         chatsContext,
         transactionsContext,
       );
-
-      await dataTask;
 
       if (isBiometry) {
         unlockWithBiometry()
@@ -143,9 +139,21 @@ export default function App() {
 
       console.log('end ' + new Date().toTimeString());
     })();
-  }, [globalContext.state.isInitialized]);
+  }, [
+    globalContext.state.isInitialized,
+    accountsContext.state.isInitialized,
+    transactionsContext.state.isInitialized,
+    chatsContext.state.isInitialized,
+  ]);
+
   useEffect(() => {
-    if (!globalContext.state.isUpdatingProfile) {
+    if (
+      !globalContext.state.isUpdatingProfile ||
+      !globalContext.state.isInitialized ||
+      !accountsContext.state.isInitialized ||
+      !transactionsContext.state.isInitialized ||
+      !chatsContext.state.isInitialized
+    ) {
       return;
     }
 
@@ -158,7 +166,13 @@ export default function App() {
       }
       globalContext.dispatch(GlobalStore.setUpdatingProfile(false));
     });
-  }, [globalContext.state.isUpdatingProfile]);
+  }, [
+    globalContext.state.isUpdatingProfile,
+    globalContext.state.isInitialized,
+    accountsContext.state.isInitialized,
+    transactionsContext.state.isInitialized,
+    chatsContext.state.isInitialized,
+  ]);
   useEffect(() => {
     if (!globalContext.state.isInitialized) {
       return;

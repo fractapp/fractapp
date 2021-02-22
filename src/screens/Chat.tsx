@@ -23,7 +23,7 @@ import TransactionsStore from 'storage/Transactions';
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const flatListRef = useRef<FlatList>(null);
 
-  const accountContext = useContext(AccountsStore.Context);
+  const accountsContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
@@ -34,7 +34,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const [notificationCount] = useState(chatInfo.notificationCount);
 
   const getWallet = (currency: Currency) => {
-    let account = accountContext.state.get(currency);
+    let account = accountsContext.state.accounts.get(currency);
     let price = priceContext.state.get(currency);
     if (price === undefined) {
       price = 0;

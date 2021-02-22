@@ -71,7 +71,6 @@ export const ConfirmCode = ({
           globalContext.dispatch(GlobalStore.setLoading(true));
 
           const rsCode = await backend.auth(value, code, type);
-
           switch (rsCode) {
             case 400:
               dialogContext.dispatch(
@@ -231,7 +230,7 @@ export const ConfirmCode = ({
       <View style={{flexDirection: 'row', alignContent: 'center'}}>
         {renderTextInputs()}
       </View>
-      {lockTime === 0 ? (
+      {lockTime <= 0 ? (
         <TouchableOpacity onPress={onResend}>
           <Text style={styles.resend}>Resend</Text>
         </TouchableOpacity>

@@ -19,10 +19,11 @@ export class Api {
   private readonly currency: Currency;
   private readonly decimals: number;
   public readonly viewDecimals: number;
-  private readonly substrateApi: ApiPromise;
+  private readonly substrateApiUrl: string;
+  private substrateApi: ApiPromise | null;
 
   public constructor(
-    apiSubstrate: ApiPromise,
+    substrateApiUrl: string,
     currency: Currency,
     explorerApiUrl: string,
     decimals: number,
@@ -31,7 +32,8 @@ export class Api {
     this.explorerApiUrl = explorerApiUrl;
     this.decimals = decimals;
     this.viewDecimals = 3;
-    this.substrateApi = apiSubstrate;
+    this.substrateApiUrl = substrateApiUrl;
+    this.substrateApi = null;
   }
 
   public static getInstance(currency: Currency): Promise<Api> {
@@ -58,11 +60,9 @@ export class Api {
             throw 'Invalid currency';
         }
 
-        const provider = new WsProvider(apiUrl);
-        const apiSubstrate = await ApiPromise.create({provider});
         this.instance.set(
           currency,
-          new Api(apiSubstrate, currency, explorerApiUrl, decimals),
+          new Api(apiUrl, currency, explorerApiUrl, decimals),
         );
       }
 
@@ -70,8 +70,12 @@ export class Api {
     })();
   }
 
-  public getSubstrateApi(): ApiPromise {
-    return this.substrateApi;
+  public async getSubstrateApi(): Promise<ApiPromise> {
+    if (this.substrateApi == null) {
+      const provider = new WsProvider(this.substrateApiUrl);
+      this.substrateApi = await ApiPromise.create({provider});
+    }
+    return <ApiPromise>this.substrateApi;
   }
 
   public convertFromPlanckWithViewDecimals(planck: BN): number {
@@ -215,24 +219,22 @@ export class Api {
           member = transfers[i].from;
         }
 
-        transactions.push(
-          new Transaction(
-            id,
-            null,
-            member,
-            this.currency,
-            txType,
-            transfers[i].block_timestamp * 1000,
-            MathUtils.floor(transfers[i].amount, this.viewDecimals),
-            0,
-            MathUtils.floor(
-              this.convertFromPlanckWithViewDecimals(new BN(transfers[i].fee)),
-              this.viewDecimals,
-            ),
-            0,
-            transfers[i].success ? TxStatus.Success : TxStatus.Fail,
+        transactions.push({
+          id: id,
+          userId: null,
+          address: member,
+          currency: this.currency,
+          txType: txType,
+          timestamp: transfers[i].block_timestamp * 1000,
+          value: MathUtils.floor(transfers[i].amount, this.viewDecimals),
+          usdValue: 0,
+          fee: MathUtils.floor(
+            this.convertFromPlanckWithViewDecimals(new BN(transfers[i].fee)),
+            this.viewDecimals,
           ),
-        );
+          usdFee: 0,
+          status: transfers[i].success ? TxStatus.Success : TxStatus.Fail,
+        });
       }
     } catch (e) {
       console.log(e);
@@ -289,10 +291,8 @@ export class Api {
         break;
     }
 
-    const tx = await this.substrateApi.tx.balances.transferKeepAlive(
-      receive,
-      value,
-    );
+    const substrateApi = await this.getSubstrateApi();
+    const tx = await substrateApi.tx.balances.transferKeepAlive(receive, value);
     return (await tx.signAndSend(key)).toHex();
   }
 

@@ -9,17 +9,22 @@ import db from 'storage/DB';
  */
 namespace AccountsStore {
   export enum Action {
-    ADD_ACCOUNT,
+    SET,
     UPDATE_BALANCE,
   }
 
-  export const initialState: Map<Currency, Account> = new Map<
-    Currency,
-    Account
-  >();
+  export type State = {
+    accounts: Map<Currency, Account>;
+    isInitialized: boolean;
+  };
+
+  export const initialState: State = {
+    accounts: new Map<Currency, Account>(),
+    isInitialized: false,
+  };
 
   export type ContextType = {
-    state: Map<Currency, Account>;
+    state: State;
     dispatch: Dispatch<any>;
   };
 
@@ -28,17 +33,15 @@ namespace AccountsStore {
     dispatch: () => null,
   });
 
-  export function reducer(
-    prevState: Map<Currency, Account>,
-    action: any,
-  ): Map<Currency, Account> {
-    let copy = new Map(prevState);
+  export function reducer(prevState: State, action: any): State {
+    let copy: State = Object.assign({}, prevState);
     switch (action.type) {
-      case Action.ADD_ACCOUNT:
-        copy.set(action.account.currency, action.account);
+      case Action.SET:
+        copy.accounts = action.accounts;
+        copy.isInitialized = true;
         return copy;
       case Action.UPDATE_BALANCE:
-        const account = copy.get(action.currency);
+        const account = copy.accounts.get(action.currency);
         if (account === undefined) {
           return prevState;
         }
@@ -61,9 +64,9 @@ namespace AccountsStore {
     currency: currency,
     planks: planks,
   });
-  export const addAccount = (account: Account) => ({
-    type: Action.ADD_ACCOUNT,
-    account: account,
+  export const set = (accounts: Map<Currency, Account>) => ({
+    type: Action.SET,
+    accounts: accounts,
   });
 }
 export default AccountsStore;

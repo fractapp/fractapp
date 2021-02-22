@@ -50,12 +50,9 @@ namespace MathUtils {
     const api = await Api.getInstance(currency);
     const price = priceContext.state?.get(currency) ?? 0;
 
-    const info = await api
-      .getSubstrateApi()
-      .tx.balances.transferKeepAlive(
-        receiver,
-        api.convertToPlanck(String(currencyValue)),
-      )
+    const substrateApi = await api.getSubstrateApi();
+    const info = await substrateApi.tx.balances
+      .transferKeepAlive(receiver, api.convertToPlanck(String(currencyValue)))
       .paymentInfo(receiver);
 
     return {

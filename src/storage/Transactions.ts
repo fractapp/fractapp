@@ -18,11 +18,13 @@ namespace TransactionsStore {
   export type State = {
     transactions: Map<Currency, Map<string, Transaction>>;
     pendingTransactions: Map<Currency, Array<string>>;
+    isInitialized: boolean;
   };
 
   export const initialState: State = {
     transactions: new Map<Currency, Map<string, Transaction>>(),
     pendingTransactions: new Map<Currency, Array<string>>(),
+    isInitialized: false,
   };
 
   export type ContextType = {
@@ -36,12 +38,13 @@ namespace TransactionsStore {
   });
 
   export function reducer(prevState: State, action: any): State {
-    let copy = Object.assign({}, prevState);
+    let copy: State = Object.assign({}, prevState);
 
     switch (action.type) {
       case Action.SET_TXS:
-        copy.transactions.set(action.currency, action.txs);
-        copy.pendingTransactions.set(action.currency, action.pendingTxs);
+        copy.transactions = action.txs;
+        copy.pendingTransactions = action.pendingTxs;
+        copy.isInitialized = true;
         return copy;
       case Action.SET_TX:
         if (!copy.transactions.has(action.currency)) {
@@ -95,14 +98,12 @@ namespace TransactionsStore {
     currency: currency,
   });
   export const setTxs = (
-    currency: Currency,
-    txs: Map<string, Transaction>,
-    pendingTxs: Array<string>,
+    txs: Map<Currency, Map<string, Transaction>>,
+    pendingTxs: Map<Currency, Array<string>>,
   ) => ({
     type: Action.SET_TXS,
     txs: txs,
     pendingTxs: pendingTxs,
-    currency: currency,
   });
 }
 export default TransactionsStore;

@@ -12,13 +12,13 @@ export const SelectWallet = ({
   navigation: any;
   route: any;
 }) => {
-  const accountContext = useContext(AccountsStore.Context);
+  const accountsContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
 
   const renderAccounts = () => {
     const result = [];
     const wallets = new Array<Wallet>();
-    for (let [currency, account] of accountContext.state) {
+    for (let [currency, account] of accountsContext.state.accounts) {
       let price = priceContext.state.get(currency);
       if (price === undefined) {
         price = 0;

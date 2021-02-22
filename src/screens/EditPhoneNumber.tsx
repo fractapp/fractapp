@@ -18,6 +18,7 @@ import en from 'react-phone-number-input/locale/en';
 import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
+import backend from 'utils/backend';
 
 export const EditPhoneNumber = ({
   navigation,
@@ -63,18 +64,14 @@ export const EditPhoneNumber = ({
   };
 
   useEffect(() => {
-    let url = 'http://ip-api.com/json/';
-    fetch(url)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        const countryCode = responseJson.countryCode;
-        const numberCountryCode = getCountryCallingCode(countryCode);
-        setCountryCodeLength(numberCountryCode.length);
-        setCountryCode(countryCode);
-        setCountryName(en[countryCode]);
+    backend.getLocal().then((countryCode) => {
+      const numberCountryCode = getCountryCallingCode(countryCode);
+      setCountryCodeLength(numberCountryCode.length);
+      setCountryCode(countryCode);
+      setCountryName(en[countryCode]);
 
-        setNumber(numberCountryCode);
-      });
+      setNumber(numberCountryCode);
+    });
   }, []);
   useEffect(() => {
     if (selectedCountryCode != null) {

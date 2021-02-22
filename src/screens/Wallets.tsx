@@ -6,13 +6,13 @@ import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 
 export const Wallets = ({navigation}: {navigation: any}) => {
-  const accountContext = useContext(AccountsStore.Context);
+  const accountsContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
 
   const renderAccounts = () => {
     const result = new Array();
     const wallets = new Array<Wallet>();
-    for (let [currency, account] of accountContext.state) {
+    for (let [currency, account] of accountsContext.state.accounts) {
       let price = priceContext.state.get(currency);
       if (price === undefined) {
         price = 0;
@@ -46,7 +46,8 @@ export const Wallets = ({navigation}: {navigation: any}) => {
 
   const distribution = () => {
     let distribution = new Map<Currency, number>();
-    for (let [currency, account] of accountContext.state) {
+
+    for (let [currency, account] of accountsContext.state.accounts) {
       let price = priceContext.state.get(currency);
       if (price == undefined) {
         price = 0;

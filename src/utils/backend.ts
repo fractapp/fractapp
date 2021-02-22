@@ -169,8 +169,10 @@ namespace BackendApi {
       body: JSON.stringify(rq),
     });
 
-    const json = await response.json();
-    await DB.setJWT(json.token);
+    if (response.ok) {
+      const json = await response.json();
+      await DB.setJWT(json.token);
+    }
     return response.status;
   }
 
@@ -188,11 +190,14 @@ namespace BackendApi {
     if (response.status === 200) {
       json = await response.json();
     }
+    if (json == null) {
+      return [];
+    }
 
     return json;
   }
 
-  export async function myContacts(): Promise<Array<string> | undefined> {
+  export async function myContacts(): Promise<Array<string>> {
     const jwt = await DB.getJWT();
     const response = await fetch(`${apiUrl}/profile/contacts`, {
       method: 'GET',
@@ -205,6 +210,9 @@ namespace BackendApi {
     let json;
     if (response.status === 200) {
       json = await response.json();
+    }
+    if (json == null) {
+      return [];
     }
 
     return json;
@@ -356,6 +364,13 @@ namespace BackendApi {
     );
 
     return response.status;
+  }
+
+  export async function getLocal(): Promise<string> {
+    let url = 'http://ip-api.com/json/';
+    const response = await fetch(url);
+    const json = await response.json();
+    return json.countryCode;
   }
 
   export function getImgUrl(

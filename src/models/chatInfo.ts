@@ -19,7 +19,7 @@ export type DefaultDetails = {
 /**
  * @category Models
  */
-export class ChatInfo {
+export type ChatInfo = {
   id: string;
   name: string;
   lastTxId: string;
@@ -28,24 +28,4 @@ export class ChatInfo {
   timestamp: number;
   type: ChatType;
   details: DefaultDetails | null;
-
-  constructor(
-    id: string,
-    name: string,
-    lastTxId: string,
-    lastTxCurrency: Currency,
-    notificationCount: number,
-    timestamp: number,
-    type: ChatType,
-    details: DefaultDetails | null,
-  ) {
-    this.id = id;
-    this.name = name;
-    this.lastTxId = lastTxId;
-    this.lastTxCurrency = lastTxCurrency;
-    this.notificationCount = notificationCount;
-    this.timestamp = timestamp;
-    this.type = type;
-    this.details = details;
-  }
-}
+};

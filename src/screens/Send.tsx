@@ -207,25 +207,26 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
     const id = await api.send(receiver, v);
     const usdValue = isUSDMode ? value : alternativeValue;
 
-    const tx = new Transaction(
-      id,
-      null,
-      receiver,
-      wallet.currency,
-      TxType.Sent,
-      Math.round(new Date().getTime()),
-      MathUtils.floor(
+    const tx: Transaction = {
+      id: id,
+      userId: null,
+      address: receiver,
+      currency: wallet.currency,
+      txType: TxType.Sent,
+      timestamp: Math.round(new Date().getTime()),
+      value: MathUtils.floor(
         api.convertFromPlanckWithViewDecimals(v),
         api.viewDecimals,
       ),
-      usdValue,
-      MathUtils.floor(
+      usdValue: usdValue,
+      fee: MathUtils.floor(
         api.convertFromPlanckWithViewDecimals(planksFee),
         api.viewDecimals,
       ),
-      usdFee,
-      TxStatus.Pending,
-    );
+      usdFee: usdFee,
+      status: TxStatus.Pending,
+    };
+
     transactionContext.dispatch(
       TransactionsStore.addPendingTx(wallet.currency, tx.id),
     );

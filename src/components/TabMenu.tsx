@@ -3,7 +3,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Wallets, Settings, Chats} from 'screens/index';
+import {Wallets} from 'screens/Wallets';
+import {Settings} from 'screens/Settings';
+import {Chats} from 'screens/Chats';
 import GlobalStore from 'storage/Global';
 
 const Tab = createBottomTabNavigator();
@@ -44,7 +46,7 @@ export const TabMenu = () => {
         component={ChatsTab}
         options={{
           tabBarBadge:
-            globalContext.state.notificationCount == 0
+            globalContext.state.notificationCount === 0
               ? undefined
               : globalContext.state.notificationCount,
           tabBarBadgeStyle: {

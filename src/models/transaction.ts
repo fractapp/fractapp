@@ -1,4 +1,4 @@
-import {Currency} from './wallet';
+import {Currency} from 'models/wallet';
 
 /**
  * Transaction type
@@ -19,42 +19,16 @@ export enum TxStatus {
 /**
  * @category Models
  */
-export class Transaction {
+export type Transaction = {
   id: string;
   userId: string | null;
   address: string;
   currency: Currency;
-  value: number;
   txType: TxType;
   timestamp: number;
-  fee: number;
+  value: number;
   usdValue: number;
+  fee: number;
   usdFee: number;
   status: TxStatus;
-
-  constructor(
-    id: string,
-    userId: string | null,
-    address: string,
-    currency: Currency,
-    txType: TxType,
-    timestamp: number,
-    value: number,
-    usdValue: number,
-    fee: number,
-    usdFee: number,
-    status: TxStatus,
-  ) {
-    this.id = id;
-    this.userId = userId;
-    this.address = address;
-    this.currency = currency;
-    this.value = value;
-    this.txType = txType;
-    this.timestamp = timestamp;
-    this.fee = fee;
-    this.usdValue = usdValue;
-    this.usdFee = usdFee;
-    this.status = status;
-  }
-}
+};

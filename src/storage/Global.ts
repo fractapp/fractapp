@@ -48,11 +48,25 @@ namespace GlobalStore {
 
   export const initialState: State = {
     isUpdatingProfile: false,
-    profile: new MyProfile('', '', '', '', '', false, '', 0),
+    profile: {
+      id: '',
+      name: '',
+      username: '',
+      phoneNumber: '',
+      email: '',
+      isMigratory: false,
+      avatarExt: '',
+      lastUpdate: 0,
+    },
     contacts: [],
     users: new Map<string, UserProfile>(),
     notificationCount: 0,
-    authInfo: new AuthInfo(false, false, false, false),
+    authInfo: {
+      isSynced: false,
+      isAuthed: false,
+      isPasscode: false,
+      isBiometry: false,
+    },
     isInitialized: false,
     isRegistered: false,
     isLoadingShow: false,

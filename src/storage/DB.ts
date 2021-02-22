@@ -138,7 +138,12 @@ namespace DB {
     const hash = PasscodeUtil.hash(passcode, salt);
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
-      authInfo = new AuthInfo(false, false, false, false);
+      authInfo = {
+        isSynced: false,
+        isAuthed: false,
+        isPasscode: false,
+        isBiometry: false,
+      };
     }
 
     try {
@@ -155,7 +160,12 @@ namespace DB {
   export async function disablePasscode() {
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
-      authInfo = new AuthInfo(false, false, false, false);
+      authInfo = {
+        isSynced: false,
+        isAuthed: false,
+        isPasscode: false,
+        isBiometry: false,
+      };
     }
     authInfo.isPasscode = false;
     authInfo.isBiometry = false;
@@ -199,22 +209,22 @@ namespace DB {
       seed,
     );
     let accountsInfo = new Array<Account>(
-      new Account(
-        'Polkadot wallet',
-        polkadotWallet.address,
-        u8aToHex(polkadotWallet.publicKey),
-        Currency.Polkadot,
-        0,
-        new BN(0).toString(10),
-      ),
-      new Account(
-        'Kusama wallet',
-        kusamaWallet.address,
-        u8aToHex(kusamaWallet.publicKey),
-        Currency.Kusama,
-        0,
-        new BN(0).toString(10),
-      ),
+      {
+        name: 'Polkadot wallet',
+        address: polkadotWallet.address,
+        pubKey: u8aToHex(polkadotWallet.publicKey),
+        currency: Currency.Polkadot,
+        balance: 0,
+        planks: new BN(0).toString(10),
+      },
+      {
+        name: 'Kusama wallet',
+        address: kusamaWallet.address,
+        pubKey: u8aToHex(kusamaWallet.publicKey),
+        currency: Currency.Kusama,
+        balance: 0,
+        planks: new BN(0).toString(10),
+      },
     );
     let accounts = new Array<string>();
     for (let i = 0; i < accountsInfo.length; i++) {

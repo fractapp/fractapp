@@ -92,7 +92,11 @@ namespace Google {
           continue;
       }
 
-      result.push(new DriveItem(file.id, file.name, itemType));
+      result.push({
+        id: file.id,
+        title: file.name,
+        type: itemType,
+      });
     }
     return result;
   }

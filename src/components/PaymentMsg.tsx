@@ -60,19 +60,19 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
       style={[
         styles.message,
         {
-          alignSelf: tx.txType == TxType.Sent ? 'flex-end' : 'flex-start',
+          alignSelf: tx.txType === TxType.Sent ? 'flex-end' : 'flex-start',
         },
       ]}>
       <View style={[styles.cardRow, {marginBottom: 5}]}>
         <MaterialCommunityIcons
           name={
-            tx.txType == TxType.Sent ? 'upload-outline' : 'download-outline'
+            tx.txType === TxType.Sent ? 'upload-outline' : 'download-outline'
           }
           size={20}
           color="#888888"
         />
         <Text style={styles.msgText}>
-          {tx.txType == TxType.Sent ? 'You sent' : 'You received'}
+          {tx.txType === TxType.Sent ? 'You sent' : 'You received'}
         </Text>
       </View>
       <View style={styles.cardRow}>

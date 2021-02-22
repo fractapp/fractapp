@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableHighlight, Image} from 'react-native';
-import {Transaction, TxStatus, TxType} from '../models/transaction';
-import {getSymbol} from '../models/wallet';
+import {Transaction, TxStatus, TxType} from 'models/transaction';
+import {getSymbol} from 'models/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 import stringUtils from 'utils/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

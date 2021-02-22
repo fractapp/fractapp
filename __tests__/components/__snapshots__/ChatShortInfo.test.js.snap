@@ -1,0 +1,526 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test one 1`] = `
+<View
+  style={
+    Object {
+      "height": 80,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "marginLeft": "4%",
+        "marginRight": "3%",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/kusama.png",
+        }
+      }
+      style={
+        Object {
+          "borderColor": "black",
+          "borderRadius": 30,
+          "borderWidth": 0.8,
+          "height": 60,
+          "overflow": "hidden",
+          "width": 60,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column",
+          "marginLeft": 10,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 25,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 3,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Bold",
+                  "fontSize": 15,
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            name
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#888888",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 13,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            12/02/20
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 25,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#888888",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 15,
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            Received +$0 (10 KSM)
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "#C4C4C4",
+                "borderRadius": 20,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "white",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 13,
+                    "fontStyle": "normal",
+                  },
+                ]
+              }
+            >
+              10
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test three 1`] = `
+<View
+  style={
+    Object {
+      "height": 80,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "marginLeft": "4%",
+        "marginRight": "3%",
+      }
+    }
+  >
+    <Image
+      height={60}
+      source={
+        Object {
+          "testUri": "../../../assets/img/default-avatar.png",
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 30,
+          "height": 60,
+          "width": 60,
+        }
+      }
+      width={60}
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column",
+          "marginLeft": 10,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 25,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 3,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Bold",
+                  "fontSize": 15,
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            name
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#888888",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 13,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            12/02/20
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 25,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#888888",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 15,
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            Received +$0 (10 KSM)
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "#C4C4C4",
+                "borderRadius": 20,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "white",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 13,
+                    "fontStyle": "normal",
+                  },
+                ]
+              }
+            >
+              10
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test two 1`] = `
+<View
+  style={
+    Object {
+      "height": 80,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "marginLeft": "4%",
+        "marginRight": "3%",
+      }
+    }
+  >
+    <Image
+      height={60}
+      source={
+        Object {
+          "uri": undefined,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 30,
+          "height": 60,
+          "width": 60,
+        }
+      }
+      width={60}
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column",
+          "marginLeft": 10,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 25,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 3,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Bold",
+                  "fontSize": 15,
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            name
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#888888",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 13,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            12/02/20
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 25,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#888888",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 15,
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            Sent -$0 (10 DOT)
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "#C4C4C4",
+                "borderRadius": 20,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+              }
+            }
+          >
+            <View />
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

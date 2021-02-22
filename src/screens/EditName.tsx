@@ -1,19 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
-import * as EmailValidator from 'email-validator';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
 
-export const EditName = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+export const EditName = ({navigation}: {navigation: any}) => {
   const regExp = new RegExp('[^A-Za-z0-9_-\\s]');
   const globalContext = useContext(GlobalStore.Context);
   const dialogContext = useContext(Dialog.Context);

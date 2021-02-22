@@ -1,8 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {DriveItem} from 'models/google';
 import {Type} from 'models/google';
 
@@ -19,7 +18,7 @@ export const DriveItemView = ({
 }) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>
     <View style={{flexDirection: 'row'}}>
-      {item.type == Type.Dir ? (
+      {item.type === Type.Dir ? (
         <Feather name="folder" size={30} color={'#888888'} />
       ) : (
         <AntDesign name="file1" size={30} color={'#888888'} />

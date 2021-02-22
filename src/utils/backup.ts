@@ -31,7 +31,10 @@ namespace Backup {
 
   export function encrypt(seed: string, password: string): FileBackup {
     const cipher = crypto.createCipher(algorithm, password);
-    return new FileBackup(cipher.update(seed, 'utf-8', 'hex'), algorithm);
+    return {
+      seed: cipher.update(seed, 'utf-8', 'hex'),
+      algorithm: algorithm,
+    };
   }
 
   export function decrypt(file: FileBackup, password: string): string {
@@ -55,20 +58,13 @@ namespace Backup {
     const fileNameWithType = fileName + '.json';
     switch (type) {
       case BackupType.File:
-        // const path = Platform.OS == "ios" ? RNFS.DocumentDirectoryPath : `${RNFS.DownloadDirectoryPath}`
         const path = RNFS.DownloadDirectoryPath;
         const filePath = `${path}/${fileNameWithType}`;
 
         try {
           await RNFS.writeFile(filePath, json, 'utf8');
-          /* if (Platform.OS == "ios") {
-                         await Share.open({ url: `file://${filePath}` })
-                         await RNFS.unlink(filePath)
-                     }*/
         } catch (e) {
           console.log(e);
-          /* if (Platform.OS == "ios")
-                         await RNFS.unlink(filePath)*/
           return {isSuccess: false};
         }
 
@@ -125,11 +121,11 @@ namespace Backup {
     for (let key in statuses) {
       // @ts-ignore
       const status = statuses[key];
-      if (status == 'granted') {
+      if (status === 'granted') {
         continue;
       }
 
-      if (status == 'never_ask_again') {
+      if (status === 'never_ask_again') {
         neverAskAgainHendler();
       }
 

@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test one 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 17,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        }
+      }
+    />
+    <TextInput
+      allowFontScaling={true}
+      autoFocus={true}
+      keyboardType="decimal-pad"
+      onChangeText={[Function]}
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {
+            "marginBottom": 8,
+            "marginTop": 8,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+        ]
+      }
+      textAlign="center"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <Text
+      style={
+        Object {
+          "color": "#888888",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 17,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        }
+      }
+    >
+       DOT
+    </Text>
+  </View>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "height": 30,
+        "opacity": 1,
+        "position": "absolute",
+        "right": 20,
+        "top": 8,
+        "width": 30,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/change.png",
+        }
+      }
+      style={
+        Object {
+          "height": 30,
+          "width": 30,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "borderBottomWidth": 1,
+          "borderColor": "#DADADA",
+        },
+        Object {
+          "width": "100%",
+        },
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+              "marginTop": 7,
+            },
+          ]
+        }
+      >
+        Fee $
+        1000
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "marginTop": 7,
+          }
+        }
+      >
+        $123
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test two 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "width": "90%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 17,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        }
+      }
+    >
+      $
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      autoFocus={true}
+      keyboardType="decimal-pad"
+      onChangeText={[Function]}
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {
+            "marginBottom": 8,
+            "marginTop": 8,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+        ]
+      }
+      textAlign="center"
+      underlineColorAndroid="transparent"
+      value="100"
+    />
+    <Text
+      style={
+        Object {
+          "color": "#888888",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 17,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        }
+      }
+    />
+  </View>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "height": 30,
+        "opacity": 1,
+        "position": "absolute",
+        "right": 20,
+        "top": 8,
+        "width": 30,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/change.png",
+        }
+      }
+      style={
+        Object {
+          "height": 30,
+          "width": 30,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "borderBottomWidth": 1,
+          "borderColor": "#DADADA",
+        },
+        Object {
+          "width": "90%",
+        },
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+              "marginTop": 7,
+            },
+          ]
+        }
+      >
+        Fee $
+        100
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "marginTop": 7,
+          }
+        }
+      >
+        555 KSM
+      </Text>
+    </View>
+  </View>
+</View>
+`;

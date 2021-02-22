@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, BackHandler, Alert} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {
+  StyleSheet,
+  View,
+  Text,
+  BackHandler,
+  Alert,
+  FlatList,
+} from 'react-native';
 import {DriveItem, BackItemId} from 'models/google';
 import {FileBackup} from 'models/backup';
 import {Type} from 'models/google';
@@ -18,7 +24,14 @@ export const GoogleDrivePicker = ({navigation}: {navigation: any}) => {
     const items = await googleUtil.getItems(last);
     await setItems(
       paths.length > 1
-        ? [new DriveItem(BackItemId, '...', Type.Dir), ...items]
+        ? [
+            {
+              id: BackItemId,
+              title: '...',
+              type: Type.Dir,
+            },
+            ...items,
+          ]
         : items,
     );
   };

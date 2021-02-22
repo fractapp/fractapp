@@ -15,7 +15,6 @@ import {ChatInfo, ChatType} from 'models/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
-import {UserProfile} from 'models/profile';
 
 /**
  * @namespace
@@ -157,25 +156,26 @@ namespace Task {
 
     transactionsContext.dispatch(TransactionsStore.setTx(tx.currency, tx));
 
-    let chatInfo;
+    let chatInfo: ChatInfo;
     if (chatsContext.state.chatsInfo.has(member)) {
       chatInfo = chatsContext.state.chatsInfo.get(member)!;
     } else {
-      chatInfo = new ChatInfo(
-        member,
-        p == null ? tx.address : p.name,
-        tx.id,
-        tx.currency,
-        0,
-        tx.timestamp,
-        p == null ? ChatType.AddressOnly : ChatType.Chat,
-        p == null
-          ? {
-              currency: tx.currency,
-              address: tx.address,
-            }
-          : null,
-      );
+      chatInfo = {
+        id: member,
+        name: p == null ? tx.address : p.name,
+        lastTxId: tx.id,
+        lastTxCurrency: tx.currency,
+        notificationCount: 0,
+        timestamp: tx.timestamp,
+        type: p == null ? ChatType.AddressOnly : ChatType.Chat,
+        details:
+          p == null
+            ? {
+                currency: tx.currency,
+                address: tx.address,
+              }
+            : null,
+      };
     }
 
     if (

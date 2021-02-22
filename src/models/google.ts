@@ -17,14 +17,8 @@ export enum Type {
  * Drive item (foler/file) for google drive
  * @category Models
  */
-export class DriveItem {
+export type DriveItem = {
   id: string;
   title: string;
   type: Type;
-
-  constructor(id: string, title: string, type: Type) {
-    this.id = id;
-    this.title = title;
-    this.type = type;
-  }
-}
+};

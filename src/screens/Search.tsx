@@ -10,7 +10,7 @@ import {Contact, SendBy} from 'components/index';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import backend from 'utils/backend';
-import {ChatInfo, ChatType} from 'models/chatInfo';
+import {ChatType} from 'models/chatInfo';
 import GlobalStore from 'storage/Global';
 import {PermissionsAndroid} from 'react-native';
 import Contacts from 'react-native-contacts';
@@ -141,16 +141,16 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           globalContext.dispatch(GlobalStore.setUser(item));
 
           navigation.navigate('Chat', {
-            chatInfo: new ChatInfo(
-              item.id,
-              item.name,
-              '',
-              0,
-              0,
-              0,
-              ChatType.Chat,
-              null,
-            ),
+            chatInfo: {
+              id: item.id,
+              name: item.name,
+              lastTxId: '',
+              lastTxCurrency: 0,
+              notificationCount: 0,
+              timestamp: 0,
+              type: ChatType.Chat,
+              details: null,
+            },
           });
         }}
         underlayColor="#f8f9fb">

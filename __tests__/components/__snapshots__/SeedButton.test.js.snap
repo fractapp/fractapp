@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test prefix="1." text="word#1" 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "#888888",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "flexDirection": "row",
+      "height": 30,
+      "justifyContent": "center",
+      "margin": 3,
+      "opacity": 1,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#CCCCCC",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    1.
+     
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    word#1
+  </Text>
+</View>
+`;
+
+exports[`Test prefix=empty text="word#2" 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "#888888",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "flexDirection": "row",
+      "height": 30,
+      "justifyContent": "center",
+      "margin": 3,
+      "opacity": 1,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#CCCCCC",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    
+     
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    word#2
+  </Text>
+</View>
+`;

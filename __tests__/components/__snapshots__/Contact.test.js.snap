@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test one 1`] = `
+<View
+  style={
+    Object {
+      "height": 80,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "marginLeft": "5%",
+        "marginRight": "3%",
+      }
+    }
+  >
+    <Image
+      source={null}
+      style={
+        Object {
+          "borderRadius": 30,
+          "height": 60,
+          "width": 60,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column",
+          "marginLeft": 10,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 23,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "black",
+                "fontFamily": "Roboto-Regukar",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "textAlign": "left",
+              },
+            ]
+          }
+        >
+          contact
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 23,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#888888",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "textAlign": "left",
+              },
+            ]
+          }
+        >
+          username
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test two 1`] = `
+<View
+  style={
+    Object {
+      "height": 80,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "marginLeft": "5%",
+        "marginRight": "3%",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/default-avatar.png",
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 30,
+          "height": 60,
+          "width": 60,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "column",
+          "marginLeft": 10,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 23,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "black",
+                "fontFamily": "Roboto-Regukar",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "textAlign": "left",
+              },
+            ]
+          }
+        >
+          contactTwo
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "height": 23,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#888888",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "textAlign": "left",
+              },
+            ]
+          }
+        >
+          phoneNumber
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

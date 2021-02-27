@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Linking, StyleSheet, Text, View} from 'react-native';
-import {BlueButton, WhiteButton} from 'components/index';
+import {BlueButton} from 'components/BlueButton';
+import {WhiteButton} from 'components/WhiteButton';
 import CheckBox from '@react-native-community/checkbox';
 
 export const Legal = ({navigation}: {navigation: any}) => {

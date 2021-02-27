@@ -10,15 +10,15 @@ import {Contact, SendBy} from 'components/index';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import backend from 'utils/backend';
-import {ChatType} from 'models/chatInfo';
+import {ChatType} from 'types/chatInfo';
 import GlobalStore from 'storage/Global';
 import {PermissionsAndroid} from 'react-native';
 import Contacts from 'react-native-contacts';
 import Dialog from 'storage/Dialog';
 import DialogStore from 'storage/Dialog';
 import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
-import {UserProfile} from 'models/profile';
-import {Wallet} from 'models/wallet';
+import {UserProfile} from 'types/profile';
+import {Wallet} from 'types/wallet';
 
 export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const wallet: Wallet = route.params?.wallet;

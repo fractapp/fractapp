@@ -1,4 +1,4 @@
-import {Currency} from 'models/wallet';
+import {Currency} from 'types/wallet';
 import {createContext, Dispatch} from 'react';
 import DB from 'storage/DB';
 

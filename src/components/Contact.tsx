@@ -33,9 +33,7 @@ export const Contact = ({
           {name.trim() !== '' ? (
             <View style={{height: 23, flexDirection: 'row'}}>
               <Text style={[styles.username, {textAlign: 'left'}]}>
-                {usernameOrPhoneNumber.trim() === ''
-                  ? '-'
-                  : usernameOrPhoneNumber}
+                {usernameOrPhoneNumber}
               </Text>
             </View>
           ) : (

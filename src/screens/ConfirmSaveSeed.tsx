@@ -1,7 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {BlueButton, SeedButton, Loader} from 'components/index';
-import db from 'storage/DB';
+import {BlueButton} from 'components/BlueButton';
+import {SeedButton} from 'components/SeedButton';
+import {Loader} from 'components/Loader';
+import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 
 export const ConfirmSaveSeed = ({
@@ -34,7 +36,7 @@ export const ConfirmSaveSeed = ({
       }
 
       if (isNewAccount) {
-        await db.createAccounts(seed.join(' '));
+        await DB.createAccounts(seed.join(' '));
         await globalContext.dispatch(GlobalStore.signInLocal());
       }
 

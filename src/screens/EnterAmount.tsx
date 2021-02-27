@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {AmountInput, SuccessButton} from 'components/index';
-import {getSymbol, Wallet} from 'models/wallet';
+import {getSymbol, Wallet} from 'types/wallet';
 import PricesStore from 'storage/Prices';
 import {Api} from 'utils/polkadot';
 import MathUtils from 'utils/math';
@@ -56,7 +56,9 @@ export const EnterAmount = ({
 
       const receiverBalance = (await api.balance(receiver))!;
       if (
-        receiverBalance[1].add(planksValue).cmp(await api.minTransfer()) < 0
+        receiverBalance.plankValue
+          .add(planksValue)
+          .cmp(await api.minTransfer()) < 0
       ) {
         dialogContext.dispatch(
           Dialog.open(

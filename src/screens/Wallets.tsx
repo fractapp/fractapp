@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
-import {StatisticsBar, WalletInfo} from 'components/index';
-import {Wallet, Currency} from 'models/wallet';
+import {StatisticsBar} from 'components/StatisticsBar';
+import {WalletInfo} from 'components/WalletInfo';
+import {Wallet, Currency} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 

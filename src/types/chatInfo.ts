@@ -1,7 +1,7 @@
 /**
  * @category Models
  */
-import {Currency} from 'models/wallet';
+import {Currency} from './/wallet';
 
 export enum ChatType {
   AddressOnly,

@@ -6,10 +6,11 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import {Wallet} from 'models/wallet';
+import {Wallet} from 'types/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Transaction} from 'models/transaction';
-import {TransactionInfo, WalletDetailsInfo} from 'components/index';
+import {Transaction} from 'types/transaction';
+import {TransactionInfo} from 'components/TransactionInfo';
+import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
 import stringUtils from 'utils/string';
 import TransactionsStore from 'storage/Transactions';
 import GlobalStore from 'storage/Global';

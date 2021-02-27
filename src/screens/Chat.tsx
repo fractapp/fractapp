@@ -8,15 +8,15 @@ import {
   View,
 } from 'react-native';
 import {PaymentMsg} from 'components/index';
-import {Transaction} from 'models/transaction';
+import {Transaction} from 'types/transaction';
 import {WalletLogo} from 'components/WalletLogo';
 import ChatsStore from 'storage/Chats';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import {Currency, Wallet} from 'models/wallet';
+import {Currency, Wallet} from 'types/wallet';
 import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
-import {ChatInfo, ChatType, DefaultDetails} from 'models/chatInfo';
+import {ChatInfo, ChatType, DefaultDetails} from 'types/chatInfo';
 import backend from 'utils/backend';
 import TransactionsStore from 'storage/Transactions';
 

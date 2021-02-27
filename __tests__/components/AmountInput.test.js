@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {AmountInput} from 'components/AmountInput';
-import {Currency} from 'models/wallet';
+import {Currency} from '../../src/types/wallet';
 
 it('Test one', () => {
   const tree = renderer

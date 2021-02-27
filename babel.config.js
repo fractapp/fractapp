@@ -27,7 +27,7 @@ module.exports = {
         alias: {
           api: './src/api',
           components: './src/components',
-          models: './src/models',
+          types: './src/types',
           screens: './src/screens',
           assets: './assets',
           utils: './src/utils',

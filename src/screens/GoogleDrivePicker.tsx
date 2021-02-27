@@ -7,10 +7,11 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
-import {DriveItem, BackItemId} from 'models/google';
-import {FileBackup} from 'models/backup';
-import {Type} from 'models/google';
-import {Loader, DriveItemView} from 'components/index';
+import {DriveItem, BackItemId} from 'types/google';
+import {FileBackup} from 'types/backup';
+import {Type} from 'types/google';
+import {Loader} from 'components/Loader';
+import {DriveItemView} from 'components/DriveItemView';
 import googleUtil from 'utils/google';
 
 export const GoogleDrivePicker = ({navigation}: {navigation: any}) => {

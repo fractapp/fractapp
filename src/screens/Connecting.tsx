@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {WhiteButton, Img} from 'components/index';
+import {WhiteButton, Img} from 'components/WhiteButton';
 
 export const Connecting = ({navigation}: {navigation: any}) => {
   return (

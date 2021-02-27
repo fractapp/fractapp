@@ -1,6 +1,6 @@
-import {Currency} from 'models/wallet';
+import {Currency} from 'types/wallet';
 import {createContext, Dispatch} from 'react';
-import {Transaction} from 'models/transaction';
+import {Transaction} from 'types/transaction';
 import DB from 'storage/DB';
 
 /**
@@ -9,7 +9,7 @@ import DB from 'storage/DB';
  */
 namespace TransactionsStore {
   export enum Action {
-    SET_TXS,
+    SET,
     SET_TX,
     ADD_PENDING_TXS,
     REMOVE_PENDING_TXS,
@@ -41,7 +41,7 @@ namespace TransactionsStore {
     let copy: State = Object.assign({}, prevState);
 
     switch (action.type) {
-      case Action.SET_TXS:
+      case Action.SET:
         copy.transactions = action.txs;
         copy.pendingTransactions = action.pendingTxs;
         copy.isInitialized = true;
@@ -82,6 +82,14 @@ namespace TransactionsStore {
     }
   }
 
+  export const set = (
+    txs: Map<Currency, Map<string, Transaction>>,
+    pendingTxs: Map<Currency, Array<string>>,
+  ) => ({
+    type: Action.SET,
+    txs: txs,
+    pendingTxs: pendingTxs,
+  });
   export const setTx = (currency: Currency, tx: Transaction) => ({
     type: Action.SET_TX,
     tx: tx,
@@ -96,14 +104,6 @@ namespace TransactionsStore {
     type: Action.REMOVE_PENDING_TXS,
     index: index,
     currency: currency,
-  });
-  export const setTxs = (
-    txs: Map<Currency, Map<string, Transaction>>,
-    pendingTxs: Map<Currency, Array<string>>,
-  ) => ({
-    type: Action.SET_TXS,
-    txs: txs,
-    pendingTxs: pendingTxs,
   });
 }
 export default TransactionsStore;

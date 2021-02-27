@@ -1,17 +1,15 @@
 import BackgroundTimer from 'react-native-background-timer';
-import db from 'storage/DB';
 import DB from 'storage/DB';
 import * as polkadot from 'utils/polkadot';
+import backend from 'utils/backend';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import {Currency, getSymbol} from 'models/wallet';
-import {Account} from 'models/account';
+import {Currency, getSymbol} from 'types/wallet';
+import {Account} from 'types/account';
 import messaging from '@react-native-firebase/messaging';
-import BackendApi from './backend';
-import backend from './backend';
-import {Transaction, TxStatus} from 'models/transaction';
+import {Transaction, TxStatus} from 'types/transaction';
 import TransactionsStore from 'storage/Transactions';
-import {ChatInfo, ChatType} from 'models/chatInfo';
+import {ChatInfo, ChatType} from 'types/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
@@ -36,38 +34,38 @@ namespace Task {
     const totalTxs = new Map<Currency, Map<string, Transaction>>();
     const totalPendingTxs = new Map<Currency, Array<string>>();
 
-    const accountsAddress = await db.getAccounts();
+    const accountsAddress = await DB.getAccounts();
     if (accountsAddress == null || accountsAddress.length === 0) {
       throw 'accounts not found';
     }
     for (let i = 0; i < accountsAddress?.length; i++) {
-      const account = await db.getAccountInfo(accountsAddress[i]);
+      const account = await DB.getAccountInfo(accountsAddress[i]);
 
       if (account == null) {
         continue;
       }
       accounts.set(account.currency, account);
 
-      const price = await db.getPrice(account.currency);
+      const price = await DB.getPrice(account.currency);
       pricesContext.dispatch(PricesStore.set(account.currency, price));
 
-      const txs = await db.getTxs(account.currency);
+      const txs = await DB.getTxs(account.currency);
       totalTxs.set(account.currency, txs);
 
-      const pendingTxs = await db.getPendingTxs(account.currency);
+      const pendingTxs = await DB.getPendingTxs(account.currency);
       totalPendingTxs.set(account.currency, pendingTxs);
     }
     accountsContext.dispatch(AccountsStore.set(accounts));
     transactionsContext.dispatch(
-      TransactionsStore.setTxs(totalTxs, totalPendingTxs),
+      TransactionsStore.set(totalTxs, totalPendingTxs),
     );
 
-    const chatInfo = await db.getChatsInfo();
-    const allChats = new Map<string, Map<string, boolean>>();
-    for (let key of chatInfo.keys()) {
-      allChats.set(key, await db.getChat(key));
+    const chatsInfo = await DB.getChatsInfo();
+    const allChats = new Map<string, Map<string, Currency>>();
+    for (let key of chatsInfo.keys()) {
+      allChats.set(key, await DB.getChat(key));
     }
-    chatsContext.dispatch(ChatsStore.set(allChats, chatInfo));
+    chatsContext.dispatch(ChatsStore.set(allChats, chatsInfo));
 
     const authInfo = await DB.getAuthInfo();
     const notificationCount = await DB.getNotificationCount();
@@ -216,17 +214,8 @@ namespace Task {
     return chatInfo;
   }
 
-  export async function initPrivateData(
-    accountsContext: AccountsStore.ContextType,
-  ) {
+  export async function initPrivateData() {
     console.log('init private data');
-
-    if (
-      accountsContext.state == null ||
-      accountsContext.state.accounts.size === 0
-    ) {
-      throw 'accounts not found';
-    }
 
     const uFirebase = updateFirebaseToken();
     await backend.getJWT();
@@ -234,21 +223,21 @@ namespace Task {
     await uFirebase;
   }
 
-  async function updateFirebaseToken() {
+  export async function updateFirebaseToken() {
     try {
-      let token = await db.getFirebaseToken();
+      let token = await DB.getFirebaseToken();
       if (token == null) {
         token = await messaging().getToken();
-        const ok = await BackendApi.setToken(token);
+        const ok = await backend.setToken(token);
         if (ok) {
-          await db.setFirebaseToken(token);
+          await DB.setFirebaseToken(token);
         }
       }
 
       messaging().onTokenRefresh(async (token: string) => {
-        const ok = await BackendApi.setToken(token);
+        const ok = await backend.setToken(token);
         if (ok) {
-          await db.setFirebaseToken(token);
+          await DB.setFirebaseToken(token);
         }
       });
     } catch (e) {
@@ -256,7 +245,7 @@ namespace Task {
     }
   }
 
-  async function syncByAccount(
+  export async function syncByAccount(
     account: Account,
     isSynced: boolean,
     globalContext: GlobalStore.ContextType,
@@ -320,7 +309,7 @@ namespace Task {
     } while (txCount === size && !isExistInDB);
   }
 
-  async function sync(
+  export async function sync(
     accountsContext: AccountsStore.ContextType,
     globalContext: GlobalStore.ContextType,
     chatsContext: ChatsStore.ContextType,
@@ -341,7 +330,7 @@ namespace Task {
     }
   }
 
-  async function checkPendingTxs(
+  export async function checkPendingTxs(
     transactionsContext: TransactionsStore.ContextType,
   ) {
     for (let [currency, value] of transactionsContext.state
@@ -366,7 +355,9 @@ namespace Task {
     }
   }
 
-  async function updateUsersList(globalContext: GlobalStore.ContextType) {
+  export async function updateUsersList(
+    globalContext: GlobalStore.ContextType,
+  ) {
     for (let id of globalContext.state.users.keys()) {
       const user = await backend.getUserById(id);
       if (user == null) {
@@ -378,7 +369,9 @@ namespace Task {
     }
   }
 
-  async function updateBalances(accountsContext: AccountsStore.ContextType) {
+  export async function updateBalances(
+    accountsContext: AccountsStore.ContextType,
+  ) {
     for (let value of accountsContext.state.accounts.values()) {
       const api = await polkadot.Api.getInstance(value.currency);
 
@@ -387,8 +380,8 @@ namespace Task {
         continue;
       }
 
-      const balanceValue = balance[0];
-      const planks = balance[1];
+      const balanceValue = balance.value;
+      const planks = balance.plankValue;
 
       if (value.planks === '' || new BN(value.planks).cmp(planks) !== 0) {
         value.balance = balanceValue;
@@ -405,7 +398,7 @@ namespace Task {
     }
   }
 
-  async function updatePrices(
+  export async function updatePrices(
     pricesContext: PricesStore.ContextType,
     accountsContext: AccountsStore.ContextType,
   ) {

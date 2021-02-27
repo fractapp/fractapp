@@ -1,13 +1,13 @@
 import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
-import {Currency} from 'models/wallet';
+import {Currency} from 'types/wallet';
 
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
-import {MyProfile} from 'models/myProfile';
-import {UserProfile} from 'models/profile';
+import {MyProfile} from 'types/myProfile';
+import {UserProfile} from 'types/profile';
 
 /**
  * @namespace
@@ -18,7 +18,7 @@ namespace BackendApi {
     Auth = 0,
     Change,
   }
-  enum Network {
+  export enum Network {
     Polkadot = 0,
     Kusama,
   }
@@ -115,6 +115,7 @@ namespace BackendApi {
 
     return [response.status, await response.text()];
   }
+
   export async function auth(
     value: string,
     code: string,

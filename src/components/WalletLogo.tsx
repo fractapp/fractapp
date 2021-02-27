@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
-import {Currency, getLogo, withoutBorder} from 'models/wallet';
+import {Currency, getLogo, withoutBorder} from 'types/wallet';
 
 /**
  * @category Components

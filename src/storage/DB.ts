@@ -1,17 +1,17 @@
-import {Account} from 'models/account';
+import {Account} from 'types/account';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Keychain from 'react-native-keychain';
 import {base64Encode, randomAsU8a} from '@polkadot/util-crypto';
 import PasscodeUtil from 'utils/passcode';
 import {Keyring} from '@polkadot/keyring';
 import {u8aToHex} from '@polkadot/util';
-import {Currency, getSymbol} from 'models/wallet';
-import {Transaction} from 'models/transaction';
-import {ChatInfo} from 'models/chatInfo';
-import {AuthInfo} from 'models/authInfo';
-import {MyProfile} from 'models/myProfile';
+import {Currency, getSymbol} from 'types/wallet';
+import {Transaction} from 'types/transaction';
+import {ChatInfo} from 'types/chatInfo';
+import {AuthInfo} from 'types/authInfo';
+import {MyProfile} from 'types/myProfile';
 import BN from 'bn.js';
-import {UserProfile} from 'models/profile';
+import {UserProfile} from 'types/profile';
 /**
  * @namespace
  * @category storage
@@ -38,7 +38,7 @@ namespace DB {
     transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
     pendingTransactions: (currency: Currency) =>
       `pending_transactions_${getSymbol(currency)}`,
-    chatByAddress: (address: string) => `chat_${address}`,
+    chatByChatId: (chatId: string) => `chat_${chatId}`,
     chatsInfo: 'chats_info',
   };
   const SecureStorageKeys = {
@@ -268,23 +268,23 @@ namespace DB {
     return new Map<string, ChatInfo>(JSON.parse(result));
   }
 
-  export async function setChat(address: string, chats: Map<string, Currency>) {
+  export async function setChat(chatId: string, chats: Map<string, Currency>) {
     await AsyncStorage.setItem(
-      AsyncStorageKeys.chatByAddress(address),
+      AsyncStorageKeys.chatByChatId(chatId),
       JSON.stringify([...chats]),
     );
   }
   export async function getChat(
-    address: string,
-  ): Promise<Map<string, boolean>> {
+    chatId: string,
+  ): Promise<Map<string, Currency>> {
     const result = await AsyncStorage.getItem(
-      AsyncStorageKeys.chatByAddress(address),
+      AsyncStorageKeys.chatByChatId(chatId),
     );
 
     if (result == null) {
-      return new Map<string, boolean>();
+      return new Map<string, Currency>();
     }
-    return new Map<string, boolean>(JSON.parse(result));
+    return new Map<string, Currency>(JSON.parse(result));
   }
 
   export async function setTx(currency: Currency, tx: Transaction) {

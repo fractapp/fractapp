@@ -26,3 +26,15 @@ it('Test two', () => {
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
+it('Test three', () => {
+  const tree = renderer
+    .create(
+      <Contact
+        name={''}
+        img={require('assets/img/default-avatar.png')}
+        usernameOrPhoneNumber={'phoneNumber'}
+      />,
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});

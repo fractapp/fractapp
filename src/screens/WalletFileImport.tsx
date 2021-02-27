@@ -1,9 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text, Alert} from 'react-native';
-import {BlueButton, PasswordInput, Loader} from 'components/index';
-import db from 'storage/DB';
+import {BlueButton} from 'components/BlueButton';
+import {PasswordInput} from 'components/PasswordInput';
+import {Loader} from 'components/Loader';
+import DB from 'storage/DB';
 import backupUtil from 'utils/backup';
-import {FileBackup} from 'models/backup';
+import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
 
 export const WalletFileImport = ({route}: {route: any}) => {
@@ -34,7 +36,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
         return;
       }
 
-      await db.createAccounts(seed);
+      await DB.createAccounts(seed);
       globalContext.dispatch(GlobalStore.signInLocal());
     })();
   }, [isLoading]);

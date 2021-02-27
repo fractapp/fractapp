@@ -1,10 +1,10 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
-import {getSymbol} from 'models/wallet';
-import {Transaction, TxType} from 'models/transaction';
+import {getSymbol} from 'types/wallet';
+import {Transaction, TxType} from 'types/transaction';
 import stringUtils from 'utils/string';
-import {UserProfile} from 'models/profile';
+import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
 
 /**

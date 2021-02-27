@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableHighlight, Image} from 'react-native';
-import {Transaction, TxStatus, TxType} from 'models/transaction';
-import {getSymbol} from 'models/wallet';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
+import {getSymbol} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 import stringUtils from 'utils/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {UserProfile} from 'models/profile';
+import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
 
 /**

@@ -1,5 +1,5 @@
-import {Account} from 'models/account';
-import {Currency} from 'models/wallet';
+import {Account} from 'types/account';
+import {Currency} from 'types/wallet';
 import {createContext, Dispatch} from 'react';
 import db from 'storage/DB';
 

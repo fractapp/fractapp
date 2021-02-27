@@ -1,7 +1,7 @@
 // @ts-ignore
 import crypto from 'react-native-crypto';
 import {PermissionsAndroid} from 'react-native';
-import {FileBackup} from 'models/backup';
+import {FileBackup} from 'types/backup';
 import RNFS from 'react-native-fs';
 import {mnemonicValidate, randomAsHex} from '@polkadot/util-crypto';
 import googleUtil from 'utils/google';
@@ -110,30 +110,31 @@ namespace Backup {
   }
 
   export const backupFile = async (
-    garantedHendler: () => void,
-    neverAskAgainHendler: () => void,
+    grantedHandler: () => void,
+    neverAskAgainHandler: () => void,
   ) => {
     const statuses = await PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     ]);
-    let isGaranted = true;
-    for (let key in statuses) {
-      // @ts-ignore
-      const status = statuses[key];
-      if (status === 'granted') {
-        continue;
-      }
 
-      if (status === 'never_ask_again') {
-        neverAskAgainHendler();
-      }
+    let isGranted =
+      statuses[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] ===
+        'granted' &&
+      statuses[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] ===
+        'granted';
 
-      isGaranted = false;
+    if (
+      statuses[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] ===
+        'never_ask_again' ||
+      statuses[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] ===
+        'never_ask_again'
+    ) {
+      neverAskAgainHandler();
     }
 
-    if (isGaranted) {
-      garantedHendler();
+    if (isGranted) {
+      grantedHandler();
     }
   };
 

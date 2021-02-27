@@ -1,0 +1,625 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test deep dir 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 20,
+      }
+    }
+  >
+    Select file
+  </Text>
+  <RCTScrollView
+    data={
+      Array [
+        Object {
+          "id": "dir#1",
+          "title": "dir#1",
+          "type": 0,
+        },
+        Object {
+          "id": "json#1",
+          "title": "json#1",
+          "type": 1,
+        },
+        Object {
+          "id": "json#2",
+          "title": "json#2",
+          "type": 1,
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    stickyHeaderIndices={Array []}
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "Feather",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              dir#1
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "anticon",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              json#1
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "anticon",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              json#2
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
+
+exports[`Test loader 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <ActivityIndicator
+    animating={true}
+    color="#2AB2E2"
+    hidesWhenStopped={true}
+    size={80}
+    testID="loader"
+  />
+</View>
+`;
+
+exports[`Test root dir 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 20,
+      }
+    }
+  >
+    Select file
+  </Text>
+  <RCTScrollView
+    data={
+      Array [
+        Object {
+          "id": "dir#1",
+          "title": "dir#1",
+          "type": 0,
+        },
+        Object {
+          "id": "dir#2",
+          "title": "dir#2",
+          "type": 0,
+        },
+        Object {
+          "id": "json#3",
+          "title": "json#3",
+          "type": 1,
+        },
+        Object {
+          "id": "json#4",
+          "title": "json#4",
+          "type": 1,
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    stickyHeaderIndices={Array []}
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "Feather",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              dir#1
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "Feather",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              dir#2
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "anticon",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              json#3
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "height": 50,
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#888888",
+                    "fontSize": 30,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "anticon",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 20,
+                  "marginLeft": 10,
+                }
+              }
+            >
+              json#4
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

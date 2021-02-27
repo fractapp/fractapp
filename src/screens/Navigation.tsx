@@ -37,7 +37,7 @@ import {
   Legal,
 } from 'screens/index';
 import {TabMenu} from 'components/index';
-import {getSymbol} from 'models/wallet';
+import {getSymbol} from 'types/wallet';
 
 const RootStack = createStackNavigator();
 

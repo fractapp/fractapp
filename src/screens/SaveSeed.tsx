@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {BlueButton, SeedButton} from 'components/index';
+import {SeedButton} from 'components/SeedButton';
+import {BlueButton} from 'components/BlueButton';
 import {showMessage} from 'react-native-flash-message';
 import Clipboard from '@react-native-community/clipboard';
 

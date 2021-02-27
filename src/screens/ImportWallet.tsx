@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, Alert, PermissionsAndroid} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {WhiteButton, Img} from 'components/index';
 import backupUtil from 'utils/backup';
-import {FileBackup} from 'models/backup';
+import {FileBackup} from 'types/backup';
 import googleUtil from 'utils/google';
 import Dialog from 'storage/Dialog';
 

@@ -1,8 +1,8 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
 // @ts-ignore
 import GDrive from 'react-native-google-drive-api-wrapper/GDrive';
-import {Type, DriveItem} from 'models/google';
-import {FileBackup} from 'models/backup';
+import {Type, DriveItem} from 'types/google';
+import {FileBackup} from 'types/backup';
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive'],
@@ -63,7 +63,7 @@ namespace Google {
         },
         false,
       );
-      if (result.status != 200) {
+      if (result.status !== 200) {
         return false;
       }
     }

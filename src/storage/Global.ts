@@ -1,8 +1,8 @@
 import {createContext, Dispatch} from 'react';
 import DB from 'storage/DB';
-import {AuthInfo} from 'models/authInfo';
-import {MyProfile} from 'models/myProfile';
-import {UserProfile} from 'models/profile';
+import {AuthInfo} from 'types/authInfo';
+import {MyProfile} from 'types/myProfile';
+import {UserProfile} from 'types/profile';
 
 /**
  * @namespace

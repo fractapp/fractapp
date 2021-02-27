@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Image, Text, TouchableHighlight} from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
-import {Currency, getSymbol} from 'models/wallet';
+import {Currency, getSymbol} from 'types/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import QRCode from 'react-native-qrcode-svg';
 import Share from 'react-native-share';

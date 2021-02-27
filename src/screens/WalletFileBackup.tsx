@@ -1,7 +1,10 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {BlueButton, TextInput, PasswordInput, Loader} from 'components/index';
-import db from 'storage/DB';
+import {BlueButton} from 'components/BlueButton';
+import {TextInput} from 'components/TextInput';
+import {PasswordInput} from 'components/PasswordInput';
+import {Loader} from 'components/Loader';
+import DB from 'storage/DB';
 import backupUtil from 'utils/backup';
 import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
@@ -40,7 +43,7 @@ export const WalletFileBackup = ({
     backupUtil.backup(seed, password, fileName, type).then(async () => {
       setLoading(false);
 
-      await db.createAccounts(seed);
+      await DB.createAccounts(seed);
       const dir =
         route.params.type == BackupUtils.BackupType.File
           ? 'Downloads'

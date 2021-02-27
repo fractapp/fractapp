@@ -7,5 +7,10 @@ export type UserProfile = {
   username: string;
   avatarExt: string;
   lastUpdate: number;
-  addresses: any;
+  addresses: {
+    0: string;
+    1: string;
+  };
 };
+
+//TODO: addresses to Currency name

@@ -1,4 +1,4 @@
-import {Currency} from 'models/wallet';
+import {Currency} from './/wallet';
 
 /**
  * Transaction type

@@ -1,21 +1,22 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {Transaction, TxStatus, TxType} from 'models/transaction';
-import {getSymbol, Wallet} from 'models/wallet';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
+import {getSymbol, Wallet} from 'types/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {WalletInfo, WalletLogo} from 'components/index';
+import {WalletInfo} from 'components/WalletInfo';
+import {WalletLogo} from 'components/WalletLogo';
 import StringUtils from 'utils/string';
 import MathUtils from 'utils/math';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
-import {UserProfile} from 'models/profile';
+import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
 
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;
-  const user: UserProfile = route.params?.user;
   const wallet: Wallet = route.params.wallet;
+  const user: UserProfile = route.params?.user;
 
   const renderStatus = () => {
     switch (tx.status) {
@@ -100,7 +101,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
             ({tx.value} {getSymbol(tx.currency)})
           </Text>
         ) : (
-          <View />
+          <></>
         )}
         {renderStatus()}
       </View>

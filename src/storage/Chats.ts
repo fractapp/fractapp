@@ -1,7 +1,7 @@
 import {createContext, Dispatch} from 'react';
 import DB from 'storage/DB';
-import {ChatInfo} from 'models/chatInfo';
-import {Currency} from 'models/wallet';
+import {ChatInfo} from 'types/chatInfo';
+import {Currency} from 'types/wallet';
 
 /**
  * @namespace
@@ -45,21 +45,21 @@ namespace ChatsStore {
         copy.isInitialized = true;
         return copy;
       case Action.SET_CHAT_INFO:
-        copy.chatsInfo.set(action.member, action.chatInfo);
+        copy.chatsInfo.set(action.id, action.chatInfo);
 
         DB.setChatsInfo(copy.chatsInfo);
         return copy;
       case Action.ADD_TX_IN_CHAT:
-        if (!copy.chats.has(action.member)) {
-          copy.chats.set(action.member, new Map<string, Currency>());
+        if (!copy.chats.has(action.chatId)) {
+          copy.chats.set(action.chatId, new Map<string, Currency>());
         }
 
-        const chat = copy.chats.get(action.member)!;
-        chat.set(action.id, action.currency);
-        DB.setChat(action.member, chat);
+        const chat = copy.chats.get(action.chatId)!;
+        chat.set(action.txId, action.currency);
+        DB.setChat(action.chatId, chat);
         return copy;
       case Action.RESET_NOTIFICATION:
-        const chatInfo = copy.chatsInfo.get(action.member);
+        const chatInfo = copy.chatsInfo.get(action.chatId);
         if (chatInfo === undefined) {
           throw 'invalid chat info (reducer)';
         }
@@ -73,32 +73,32 @@ namespace ChatsStore {
   }
 
   export const set = (
-    chats: Map<string, Map<string, boolean>>,
-    chatsInfo: Map<string, ChatInfo>,
+    chats: Map<string, Map<string, Currency>>, // chatId : txId : Currency
+    chatsInfo: Map<string, ChatInfo>, // chatId : ChatInfo
   ) => ({
     type: Action.SET,
     chats: chats,
     chatsInfo: chatsInfo,
   });
 
-  export const setChatInfo = (member: string, chatInfo: ChatInfo) => ({
+  export const setChatInfo = (id: string, chatInfo: ChatInfo) => ({
     type: Action.SET_CHAT_INFO,
-    member: member,
+    id: id,
     chatInfo: chatInfo,
   });
   export const addTxInChat = (
-    member: string,
-    id: string,
+    chatId: string,
+    txId: string,
     currency: Currency,
   ) => ({
     type: Action.ADD_TX_IN_CHAT,
-    member: member,
-    id: id,
+    chatId: chatId,
+    txId: txId,
     currency: currency,
   });
-  export const resetNotification = (member: string) => ({
+  export const resetNotification = (chatId: string) => ({
     type: Action.RESET_NOTIFICATION,
-    member: member,
+    chatId: chatId,
   });
 }
 export default ChatsStore;

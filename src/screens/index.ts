@@ -12,7 +12,6 @@ export {ImportSeed} from './ImportSeed';
 export {WalletFileImport} from './WalletFileImport';
 export {GoogleDrivePicker} from './GoogleDrivePicker';
 export {Receive} from './Receive';
-export {Milestone} from './Milestone';
 export {TransactionDetails} from './TransactionDetails';
 export {SplashScreen} from './SplashScreen';
 export {Backup} from './Backup';

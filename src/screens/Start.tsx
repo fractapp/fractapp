@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {BlueButton} from 'components/index';
+import {BlueButton} from 'components/BlueButton';
 
 export const Start = ({navigation}: {navigation: any}) => {
   return (

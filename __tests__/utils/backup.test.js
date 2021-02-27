@@ -1,9 +1,19 @@
 import crypto from 'react-native-crypto';
-import {mnemonicValidate} from '@polkadot/util-crypto';
+import {mnemonicValidate, randomAsHex} from '@polkadot/util-crypto';
 import backupUtil from 'utils/backup';
 import RNFS from 'react-native-fs';
 import googleUtil from 'utils/google';
+import {PermissionsAndroid} from 'react-native';
 
+jest.mock('react-native', () => ({
+  PermissionsAndroid: {
+    PERMISSIONS: {
+      WRITE_EXTERNAL_STORAGE: 'WRITE_EXTERNAL_STORAGE',
+      READ_EXTERNAL_STORAGE: 'READ_EXTERNAL_STORAGE',
+    },
+    requestMultiple: jest.fn(),
+  },
+}));
 jest.mock('react-native-fs', () => ({
   DownloadDirectoryPath: 'mockDir',
   readFile: jest.fn(),
@@ -12,10 +22,12 @@ jest.mock('react-native-fs', () => ({
 jest.mock('react-native-share', () => {});
 jest.mock('@polkadot/util-crypto', () => ({
   mnemonicValidate: jest.fn(),
+  randomAsHex: jest.fn(),
 }));
 jest.mock('utils/google', () => ({
   signIn: jest.fn(),
   safeSave: jest.fn(),
+  signOut: jest.fn(),
 }));
 
 const algorithm = 'aes-128-ctr';
@@ -218,4 +230,46 @@ it('Test backup google file error', async () => {
 
   expect(googleUtil.signIn).toBeCalled();
   expect(file.isSuccess).toBe(false);
+});
+
+it('Test random filename', async () => {
+  randomAsHex.mockReturnValueOnce('0xff00ff00');
+  const first = backupUtil.randomFilename();
+  expect(randomAsHex).toBeCalledWith(6);
+  expect(first).toBe('fractapp-0xff00ff00');
+});
+
+it('Test backup google drive', async () => {
+  const onSuccess = jest.fn();
+
+  await backupUtil.backupGoogleDrive(onSuccess);
+  expect(onSuccess).toBeCalled();
+  expect(googleUtil.signOut).toBeCalled();
+  expect(googleUtil.signIn).toBeCalled();
+});
+
+it('Test backupFile granted', async () => {
+  const grantedHandler = jest.fn();
+  const neverAskAgainHandler = jest.fn();
+  PermissionsAndroid.requestMultiple.mockReturnValueOnce({
+    WRITE_EXTERNAL_STORAGE: 'granted',
+    READ_EXTERNAL_STORAGE: 'granted',
+  });
+
+  await backupUtil.backupFile(grantedHandler, neverAskAgainHandler);
+  expect(grantedHandler).toBeCalled();
+  expect(neverAskAgainHandler).not.toBeCalled();
+});
+
+it('Test backupFile never_ask_again', async () => {
+  const grantedHandler = jest.fn();
+  const neverAskAgainHandler = jest.fn();
+  PermissionsAndroid.requestMultiple.mockReturnValueOnce({
+    WRITE_EXTERNAL_STORAGE: 'never_ask_again',
+    READ_EXTERNAL_STORAGE: 'never_ask_again',
+  });
+
+  await backupUtil.backupFile(grantedHandler, neverAskAgainHandler);
+  expect(neverAskAgainHandler).toBeCalled();
+  expect(grantedHandler).not.toBeCalled();
 });

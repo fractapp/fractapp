@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Currency, getSymbol} from 'models/wallet';
+import {Currency, getSymbol} from 'types/wallet';
 
 /**
  * Text input for amount

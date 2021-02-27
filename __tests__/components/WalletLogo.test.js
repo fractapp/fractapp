@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {WalletLogo} from 'components/WalletLogo';
-import {Currency, withoutBorder} from 'models/wallet';
+import {Currency, withoutBorder} from '../../src/types/wallet';
 
-jest.mock('models/wallet', () => ({
-  ...jest.requireActual('models/wallet'),
+jest.mock('types/wallet', () => ({
+  ...jest.requireActual('types/wallet'),
   withoutBorder: jest.fn(),
 }));
 

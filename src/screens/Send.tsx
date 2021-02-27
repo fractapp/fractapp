@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Currency, getSymbol, Wallet} from 'models/wallet';
+import {Currency, getSymbol, Wallet} from 'types/wallet';
 import {
   AmountValue,
   BlueButton,
@@ -13,9 +13,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Api} from 'utils/polkadot';
 import MathUtils from 'utils/math';
 import PricesStore from 'storage/Prices';
-import {ChatInfo, ChatType} from 'models/chatInfo';
+import {ChatInfo, ChatType} from 'types/chatInfo';
 import backend from 'utils/backend';
-import {Transaction, TxStatus, TxType} from 'models/transaction';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
 import TransactionsStore from 'storage/Transactions';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
@@ -162,7 +162,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
     const planksValue = api.convertToPlanck(String(currencyValue));
 
     if (
-      (await api.balance(receiver))![1]
+      (await api.balance(receiver))!.plankValue
         .add(planksValue)
         .cmp(await api.minTransfer()) < 0
     ) {

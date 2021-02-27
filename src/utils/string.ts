@@ -62,27 +62,27 @@ namespace StringUtils {
   export function forChatInfo(now: Date, date: Date): string {
     let dateValue = '';
     if (
-      now.getFullYear() == date.getFullYear() &&
-      now.getMonth() == date.getMonth() &&
-      now.getDate() == date.getDate()
+      now.getFullYear() === date.getFullYear() &&
+      now.getMonth() === date.getMonth() &&
+      now.getDate() === date.getDate()
     ) {
       let hours = String(date.getHours());
       let minutes = String(date.getMinutes());
-      if (hours.length == 1) {
+      if (hours.length === 1) {
         hours = '0' + hours;
       }
-      if (minutes.length == 1) {
+      if (minutes.length === 1) {
         minutes = '0' + minutes;
       }
 
       dateValue = hours + ':' + minutes;
     } else if (
-      now.getFullYear() == date.getFullYear() &&
-      now.getMonth() == date.getMonth() &&
-      now.getDate() - 1 == date.getDate()
+      now.getFullYear() === date.getFullYear() &&
+      now.getMonth() === date.getMonth() &&
+      now.getDate() - 1 === date.getDate()
     ) {
       dateValue = 'Yesterday';
-    } else if (now.getFullYear() == date.getFullYear()) {
+    } else if (now.getFullYear() === date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()];
     } else {
       dateValue = fromFullDate(date);
@@ -99,18 +99,18 @@ namespace StringUtils {
     const time = fromTime(date);
 
     if (
-      now.getFullYear() == date.getFullYear() &&
-      now.getMonth() == date.getMonth() &&
-      now.getDate() == date.getDate()
+      now.getFullYear() === date.getFullYear() &&
+      now.getMonth() === date.getMonth() &&
+      now.getDate() === date.getDate()
     ) {
       dateValue = time;
     } else if (
-      now.getFullYear() == date.getFullYear() &&
-      now.getMonth() == date.getMonth() &&
-      now.getDate() - 1 == date.getDate()
+      now.getFullYear() === date.getFullYear() &&
+      now.getMonth() === date.getMonth() &&
+      now.getDate() - 1 === date.getDate()
     ) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()] + ' ' + time;
-    } else if (now.getFullYear() == date.getFullYear()) {
+    } else if (now.getFullYear() === date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()] + ' ' + time;
     } else {
       dateValue = fromFullDate(date) + ' ' + time;
@@ -121,11 +121,11 @@ namespace StringUtils {
 
   export function fromFullDate(date: Date): string {
     let day = String(date.getDate());
-    if (day.length == 1) {
+    if (day.length === 1) {
       day = '0' + day;
     }
     let month = String(date.getMonth() + 1);
-    if (month.length == 1) {
+    if (month.length === 1) {
       month = '0' + month;
     }
     const year = String(date.getFullYear());
@@ -136,10 +136,10 @@ namespace StringUtils {
   export function fromTime(date: Date): string {
     let hours = String(date.getHours());
     let minutes = String(date.getMinutes());
-    if (hours.length == 1) {
+    if (hours.length === 1) {
       hours = '0' + hours;
     }
-    if (minutes.length == 1) {
+    if (minutes.length === 1) {
       minutes = '0' + minutes;
     }
 

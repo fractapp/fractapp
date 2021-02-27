@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Currency} from '../models/wallet';
+import {Currency} from 'types/wallet';
 
 /**
  * Bar with currency share in wallets

@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test addNotificationCount 1`] = `
+Object {
+  "type": 6,
+}
+`;
+
+exports[`Test deleteUser 1`] = `
+Object {
+  "id": "id",
+  "type": 16,
+}
+`;
+
+exports[`Test disableBiometry 1`] = `
+Object {
+  "type": 11,
+}
+`;
+
+exports[`Test disablePasscode 1`] = `
+Object {
+  "type": 9,
+}
+`;
+
+exports[`Test enableBiometry 1`] = `
+Object {
+  "type": 10,
+}
+`;
+
+exports[`Test enablePasscode 1`] = `
+Object {
+  "passcode": "111111",
+  "type": 8,
+}
+`;
+
+exports[`Test removeNotificationCount 1`] = `
+Object {
+  "type": 7,
+  "value": 10,
+}
+`;
+
+exports[`Test setContacts 1`] = `
+Object {
+  "contacts": Array [
+    "contact#1",
+    "contact#2",
+  ],
+  "type": 14,
+}
+`;
+
+exports[`Test setLoading 1`] = `
+Object {
+  "isLoadingShow": true,
+  "type": 13,
+}
+`;
+
+exports[`Test setSynced 1`] = `
+Object {
+  "type": 12,
+}
+`;
+
+exports[`Test setUpdatingProfile 1`] = `
+Object {
+  "isUpdatingProfile": true,
+  "type": 4,
+}
+`;
+
+exports[`Test signInFractapp 1`] = `
+Object {
+  "type": 3,
+}
+`;
+
+exports[`Test signInLocal 1`] = `
+Object {
+  "type": 2,
+}
+`;
+
+exports[`Test signOutFractapp 1`] = `
+Object {
+  "type": 5,
+}
+`;

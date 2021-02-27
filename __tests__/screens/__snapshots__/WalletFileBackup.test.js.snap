@@ -1,0 +1,756 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test empty password 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Wallet encryption
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+  </Text>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="name"
+      defaultValue="fractapp-0xff00ff00"
+      onChangeText={[Function]}
+      placeholder="File name"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue=""
+      onChangeText={[Function]}
+      placeholder="Password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue=""
+      onChangeText={[Function]}
+      placeholder="Confirm password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;
+
+exports[`Test loading 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Wallet encryption
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+  </Text>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="name"
+      defaultValue="fractapp-0xff00ff00"
+      onChangeText={[Function]}
+      placeholder="File name"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue=""
+      onChangeText={[Function]}
+      placeholder="Password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue={true}
+      onChangeText={[Function]}
+      placeholder="Confirm password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;
+
+exports[`Test minimum password length 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Wallet encryption
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+  </Text>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="name"
+      defaultValue="123"
+      onChangeText={[Function]}
+      placeholder="File name"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue="123"
+      onChangeText={[Function]}
+      placeholder="Password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue=""
+      onChangeText={[Function]}
+      placeholder="Confirm password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;
+
+exports[`Test password do not match 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Wallet encryption
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+  </Text>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="name"
+      defaultValue="123123"
+      onChangeText={[Function]}
+      placeholder="File name"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue="222222"
+      onChangeText={[Function]}
+      placeholder="Password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue=""
+      onChangeText={[Function]}
+      placeholder="Confirm password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;
+
+exports[`Test success password 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Wallet encryption
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "width": "90%",
+      }
+    }
+  >
+    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+  </Text>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="name"
+      defaultValue="123123"
+      onChangeText={[Function]}
+      placeholder="File name"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue="123123"
+      onChangeText={[Function]}
+      placeholder="Password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+        "width": "90%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="password"
+      defaultValue=""
+      onChangeText={[Function]}
+      placeholder="Confirm password"
+      placeholderTextColor="#BFBDBD"
+      rejectResponderTermination={true}
+      secureTextEntry={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#CCCCCC",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="newPassword"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;

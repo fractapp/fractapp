@@ -1,6 +1,6 @@
-import {Currency, getSymbol} from 'models/wallet';
+import {Currency, getSymbol} from 'types/wallet';
 import BN from 'bn.js';
-import {Transaction, TxStatus, TxType} from 'models/transaction';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
 // @ts-ignore
 import {
   KUSAMA_SUBSCAN_API,
@@ -107,7 +107,6 @@ export class Api {
 
     return value;
   }
-
   public convertToPlanck(number: string): BN {
     const decimals = String(number).split('.');
     let planks = decimals[0] + (decimals.length === 2 ? decimals[1] : '');
@@ -126,7 +125,10 @@ export class Api {
 
   public async balance(
     address: string,
-  ): Promise<[value: number, plankValue: BN] | null> {
+  ): Promise<{
+    value: number;
+    plankValue: BN;
+  } | null> {
     let rs = await fetch(`${this.explorerApiUrl}/scan/search`, {
       method: 'POST',
       headers: {
@@ -143,13 +145,16 @@ export class Api {
     const result = await rs.json();
 
     if (result.data === undefined && result.message === 'Success') {
-      return [0, new BN(0)];
+      return {
+        value: 0,
+        plankValue: new BN(0),
+      };
     }
 
-    return [
-      MathUtils.floor(result.data.account.balance, this.viewDecimals),
-      this.convertToPlanck(result.data.account.balance),
-    ];
+    return {
+      value: MathUtils.floor(result.data.account.balance, this.viewDecimals),
+      plankValue: this.convertToPlanck(result.data.account.balance),
+    };
   }
 
   public async getTxStatus(hash: string): Promise<TxStatus | null> {
@@ -171,7 +176,7 @@ export class Api {
       return null;
     }
 
-    if (result.data.success === null || result.data.success == undefined) {
+    if (result.data.success === null || result.data.success === undefined) {
       return null;
     }
 
@@ -206,6 +211,7 @@ export class Api {
       if (transfers == null || transfers.length === 0) {
         return new Array<Transaction>();
       }
+
       for (let i = 0; i < transfers.length; i++) {
         const id = transfers[i].hash;
 
@@ -228,10 +234,7 @@ export class Api {
           timestamp: transfers[i].block_timestamp * 1000,
           value: MathUtils.floor(transfers[i].amount, this.viewDecimals),
           usdValue: 0,
-          fee: MathUtils.floor(
-            this.convertFromPlanckWithViewDecimals(new BN(transfers[i].fee)),
-            this.viewDecimals,
-          ),
+          fee: this.convertFromPlanckWithViewDecimals(new BN(transfers[i].fee)),
           usdFee: 0,
           status: transfers[i].success ? TxStatus.Success : TxStatus.Fail,
         });

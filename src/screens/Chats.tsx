@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import {ChatShortInfo} from 'components/index';
-import {ChatInfo, ChatType} from 'models/chatInfo';
+import {ChatInfo, ChatType} from 'types/chatInfo';
 import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
 import Ionicons from 'react-native-vector-icons/Ionicons';

@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {DriveItem} from 'models/google';
-import {Type} from 'models/google';
+import {DriveItem} from 'types/google';
+import {Type} from 'types/google';
 
 /**
  * Drive item component for google drive

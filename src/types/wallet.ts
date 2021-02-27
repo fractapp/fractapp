@@ -32,7 +32,7 @@ export function getLogo(currency: Currency) {
  * @category Models
  */
 export function withoutBorder(currency: Currency): boolean {
-  return currency === Currency.Polkadot || currency == Currency.Kusama;
+  return currency === Currency.Polkadot || currency === Currency.Kusama;
 }
 
 /**

@@ -16,6 +16,7 @@ exports[`Test one 1`] = `
       "opacity": 1,
     }
   }
+  testID="successBtn"
 >
   <Text
     allowFontScaling={false}
@@ -56,6 +57,7 @@ exports[`Test two 1`] = `
       "opacity": 1,
     }
   }
+  testID="successBtn"
 >
   <Text
     allowFontScaling={false}

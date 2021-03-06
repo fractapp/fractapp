@@ -38,10 +38,785 @@ Object {
 }
 `;
 
+exports[`Test reducer addNotificationCount 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 1,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer addNotificationCount 2`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 2,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer deleteUser 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {
+    "idOne" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  },
+}
+`;
+
+exports[`Test reducer deleteUser 2`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {
+    "idOne" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+    "idTwo" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idTwo",
+      "lastUpdate": 123123,
+      "name": "nameTwo",
+      "username": "username",
+    },
+  },
+}
+`;
+
+exports[`Test reducer deleteUser 3`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {
+    "idTwo" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idTwo",
+      "lastUpdate": 123123,
+      "name": "nameTwo",
+      "username": "username",
+    },
+  },
+}
+`;
+
+exports[`Test reducer disableBiometry 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer disablePasscode 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer enableBiometry 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": true,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer enablePasscode 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": true,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer removeNotificationCount 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 1,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer removeNotificationCount 2`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 2,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer removeNotificationCount 3`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer set 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": true,
+    "isBiometry": true,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [
+    Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+    Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  ],
+  "isInitialized": true,
+  "isLoadingShow": false,
+  "isRegistered": true,
+  "isUpdatingProfile": false,
+  "notificationCount": 10,
+  "profile": Object {
+    "avatarExt": "png",
+    "email": "email@email.com",
+    "id": "id",
+    "isMigratory": false,
+    "lastUpdate": 123123,
+    "name": "name",
+    "phoneNumber": "+123123123",
+    "username": "username",
+  },
+  "users": Map {
+    "idOne" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  },
+}
+`;
+
+exports[`Test reducer setContacts 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [
+    "contact#1",
+    "contact#2",
+  ],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer setLoading 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": true,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer setProfile 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "png",
+    "email": "email@email.com",
+    "id": "id",
+    "isMigratory": false,
+    "lastUpdate": 123123,
+    "name": "name",
+    "phoneNumber": "+123123123",
+    "username": "username",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer setSynced 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": true,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer setUpdatingProfile 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": true,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer setUser 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {
+    "id" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "id",
+      "lastUpdate": 123123,
+      "name": "name",
+      "username": "username",
+    },
+  },
+}
+`;
+
+exports[`Test reducer signInFractapp 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": true,
+  "isUpdatingProfile": true,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer signInLocal 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": true,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
+exports[`Test reducer signOutFractapp 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": false,
+    "isBiometry": false,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [],
+  "isInitialized": false,
+  "isLoadingShow": false,
+  "isRegistered": false,
+  "isUpdatingProfile": false,
+  "notificationCount": 0,
+  "profile": Object {
+    "avatarExt": "",
+    "email": "",
+    "id": "",
+    "isMigratory": false,
+    "lastUpdate": 0,
+    "name": "",
+    "phoneNumber": "",
+    "username": "",
+  },
+  "users": Map {},
+}
+`;
+
 exports[`Test removeNotificationCount 1`] = `
 Object {
   "type": 7,
   "value": 10,
+}
+`;
+
+exports[`Test set 1`] = `
+Object {
+  "authInfo": Object {
+    "isAuthed": true,
+    "isBiometry": true,
+    "isPasscode": false,
+    "isSynced": false,
+  },
+  "contacts": Array [
+    Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+    Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  ],
+  "isRegistered": true,
+  "isUpdatingProfile": false,
+  "notificationCount": 10,
+  "profile": Object {
+    "avatarExt": "png",
+    "email": "email@email.com",
+    "id": "id",
+    "isMigratory": false,
+    "lastUpdate": 123123,
+    "name": "name",
+    "phoneNumber": "+123123123",
+    "username": "username",
+  },
+  "type": 0,
+  "users": Map {
+    "idOne" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  },
 }
 `;
 
@@ -62,6 +837,22 @@ Object {
 }
 `;
 
+exports[`Test setProfile 1`] = `
+Object {
+  "profile": Object {
+    "avatarExt": "png",
+    "email": "email@email.com",
+    "id": "id",
+    "isMigratory": false,
+    "lastUpdate": 123123,
+    "name": "name",
+    "phoneNumber": "+123123123",
+    "username": "username",
+  },
+  "type": 1,
+}
+`;
+
 exports[`Test setSynced 1`] = `
 Object {
   "type": 12,
@@ -72,6 +863,23 @@ exports[`Test setUpdatingProfile 1`] = `
 Object {
   "isUpdatingProfile": true,
   "type": 4,
+}
+`;
+
+exports[`Test setUser 1`] = `
+Object {
+  "type": 15,
+  "user": Object {
+    "addresses": Object {
+      "0": "addressOne",
+      "1": "addressTwo",
+    },
+    "avatarExt": "jpg",
+    "id": "id",
+    "lastUpdate": 123123,
+    "name": "name",
+    "username": "username",
+  },
 }
 `;
 

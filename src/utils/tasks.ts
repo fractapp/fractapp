@@ -36,7 +36,7 @@ namespace Task {
 
     const accountsAddress = await DB.getAccounts();
     if (accountsAddress == null || accountsAddress.length === 0) {
-      throw 'accounts not found';
+      throw new Error('accounts not found');
     }
     for (let i = 0; i < accountsAddress?.length; i++) {
       const account = await DB.getAccountInfo(accountsAddress[i]);
@@ -99,7 +99,7 @@ namespace Task {
       accountsContext.state.accounts == null ||
       accountsContext.state.accounts.size === 0
     ) {
-      throw 'accounts not found';
+      throw new Error('accounts not found');
     }
 
     const tasks = new Array<Promise<void>>();

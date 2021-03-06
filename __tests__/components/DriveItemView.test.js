@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {DriveItemView} from 'components/DriveItemView';
-import {DriveItem, Type} from '../../src/types/google';
+import {DriveItem, Type} from 'types/google';
 
 it('Test id=1 && title="Title #1" type=Dir', () => {
   const tree = renderer

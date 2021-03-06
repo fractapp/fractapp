@@ -5,13 +5,7 @@ import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
 
-export const EditEmail = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+export const EditEmail = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
 
   const [email, setEmail] = useState<string>('');

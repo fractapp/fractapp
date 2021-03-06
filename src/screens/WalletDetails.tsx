@@ -33,6 +33,11 @@ export const WalletDetails = ({
     let txsBySelections = new Map<string, Array<Transaction>>();
     //TODO: refactoring
     const txs = new Array<Transaction>();
+
+    if (!transactionsContext.state.transactions.has(wallet.currency)) {
+      return [];
+    }
+
     for (let tx of transactionsContext.state.transactions
       .get(wallet.currency)
       ?.values()!) {
@@ -66,6 +71,7 @@ export const WalletDetails = ({
             <View style={styles.btns}>
               <View>
                 <TouchableHighlight
+                  testID={'sendBtn'}
                   onPress={() =>
                     navigation.navigate('Search', {
                       wallet: wallet,
@@ -83,6 +89,7 @@ export const WalletDetails = ({
               </View>
               <View style={{marginLeft: 30}}>
                 <TouchableHighlight
+                  testID={'receiveBtn'}
                   onPress={() =>
                     navigation.navigate('Receive', {
                       address: wallet.address,

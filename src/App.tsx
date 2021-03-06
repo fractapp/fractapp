@@ -119,7 +119,7 @@ export default function App() {
       return;
     }
     (async () => {
-      tasks.initPrivateData(accountsContext);
+      tasks.initPrivateData();
 
       tasks.createTask(
         accountsContext,

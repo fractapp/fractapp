@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#E9E9E9",
+        "borderRadius": 11,
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "92%",
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      onPress={[Function]}
+      style={
+        Array [
+          Object {
+            "color": "#BFBDBD",
+            "fontSize": 25,
+          },
+          Object {
+            "paddingLeft": 10,
+          },
+          Object {
+            "fontFamily": "Ionicons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="username"
+      keyboardType="default"
+      onChangeText={[Function]}
+      placeholder="Search by @username or email"
+      placeholderTextColor="#949499"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+            "marginLeft": 10,
+            "padding": 0,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="username"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+  </View>
+  <RCTScrollView
+    ListHeaderComponent={
+      <ForwardRef
+        onPress={[Function]}
+        underlayColor="#f8f9fb"
+      >
+        <SendBy
+          img={
+            Object {
+              "testUri": "../../../assets/img/address.png",
+            }
+          }
+          title="Send by address"
+        />
+      </ForwardRef>
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsVerticalScrollIndicator={false}
+    stickyHeaderIndices={Array []}
+    style={
+      Object {
+        "flex": 1,
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/address.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "black",
+                        "fontFamily": "Roboto-Regukar",
+                        "fontSize": 16,
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {
+                        "textAlign": "left",
+                      },
+                    ]
+                  }
+                >
+                  Send by address
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {WhiteButton, Img} from 'components/index';
+import {WhiteButton, Img} from 'components/WhiteButton';
 import {mnemonicGenerate} from '@polkadot/util-crypto';
 import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
@@ -10,7 +10,7 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
 
   const backupFile = async () => {
-    await Backup.backupFile(
+    await Backup.checkPermissions(
       () =>
         navigation.navigate('WalletFileBackup', {
           seed: seed,

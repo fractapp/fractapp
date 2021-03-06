@@ -1,8 +1,8 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
-import {Currency} from '../../src/types/wallet';
+import {Currency} from 'types/wallet';
 import {Api} from 'utils/polkadot';
 import BN from 'bn.js';
-import {TxStatus, TxType} from '../../src/types/transaction';
+import {TxStatus, TxType} from 'types/transaction';
 import {
   KUSAMA_SUBSCAN_API,
   KUSAMA_WSS_API,
@@ -46,9 +46,7 @@ it('Test get instance kusama', async () => {
 });
 
 it('Test get instance throw', async () => {
-  return Api.getInstance(123123).catch((e) =>
-    expect(e).toMatch('Invalid currency'),
-  );
+  await expect(Api.getInstance(123123)).rejects.toThrow('Invalid currency');
 });
 
 it('Test getSubstrateApi', async () => {

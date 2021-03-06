@@ -1,32 +1,32 @@
-import {Account} from 'types/account';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Keychain from 'react-native-keychain';
 import {base64Encode, randomAsU8a} from '@polkadot/util-crypto';
 import PasscodeUtil from 'utils/passcode';
 import {Keyring} from '@polkadot/keyring';
 import {u8aToHex} from '@polkadot/util';
+import {Account} from 'types/account';
 import {Currency, getSymbol} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import {ChatInfo} from 'types/chatInfo';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
-import BN from 'bn.js';
 import {UserProfile} from 'types/profile';
+import BN from 'bn.js';
 /**
  * @namespace
  * @category storage
  */
 
 namespace DB {
-  const secureOption = {
+  export const secureOption = {
     service: 'com.fractapp',
   };
-  const biometryOption = {
+  export const biometryOption = {
     service: 'com.fractapp',
     accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
   };
 
-  const AsyncStorageKeys = {
+  export const AsyncStorageKeys = {
     price: (currency: Currency) => `price_${currency}`,
     profile: 'profile',
     authInfo: 'auth_info',
@@ -41,14 +41,14 @@ namespace DB {
     chatByChatId: (chatId: string) => `chat_${chatId}`,
     chatsInfo: 'chats_info',
   };
-  const SecureStorageKeys = {
+  export const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
     authJWT: 'auth_jwt',
     seed: 'seed',
     salt: 'salt',
     passcodeHash: 'passcode_hash',
   };
-  const PasscodeStorageKeys = {
+  export const PasscodeStorageKeys = {
     passcode: 'passcode',
   };
 
@@ -59,8 +59,8 @@ namespace DB {
       value,
       secureOption,
     );
-    if (result == false) {
-      throw `invalid set ${key}`;
+    if (result === false) {
+      throw new Error(`invalid set ${key}`);
     }
   }
   export async function getSecureItem(key: string): Promise<string | null> {
@@ -130,7 +130,7 @@ namespace DB {
         biometryOption,
       );
       if (result === false) {
-        throw 'invalid set passcode';
+        throw new Error('invalid set passcode');
       }
     }
 
@@ -194,7 +194,7 @@ namespace DB {
       biometryOption,
     );
     if (result === false) {
-      throw 'value by passcode key not found';
+      throw new Error('value by passcode key not found');
     }
 
     return result.password;
@@ -315,7 +315,6 @@ namespace DB {
       JSON.stringify(contacts),
     );
   }
-
   export async function getContacts(): Promise<Array<UserProfile>> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.contacts);
 

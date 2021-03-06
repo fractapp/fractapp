@@ -71,10 +71,11 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
       setUsernameExist(true);
       return;
     }
-    backend.isUsernameFree(username).then((exist) => {
-      setUsernameExist(!exist);
+    (async () => {
+      const isUsernameFree = await backend.isUsernameFree(username);
+      setUsernameExist(!isUsernameFree);
       return;
-    });
+    })();
   }, [username]);
 
   return (

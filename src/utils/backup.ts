@@ -104,12 +104,12 @@ namespace Backup {
   ): Promise<string> {
     const seed = decrypt(file, password);
     if (!mnemonicValidate(seed)) {
-      throw 'invalid password';
+      throw new Error('invalid password');
     }
     return seed;
   }
 
-  export const backupFile = async (
+  export const checkPermissions = async (
     grantedHandler: () => void,
     neverAskAgainHandler: () => void,
   ) => {

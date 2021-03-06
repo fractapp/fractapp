@@ -27,8 +27,8 @@ export const EditName = ({navigation}: {navigation: any}) => {
     ) {
       dialogContext.dispatch(
         Dialog.open(
-          'Invalid username',
-          'Please validate and write username again',
+          'Invalid name',
+          'Please validate and write name again',
           () => dialogContext.dispatch(Dialog.close()),
         ),
       );

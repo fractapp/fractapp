@@ -61,7 +61,7 @@ namespace ChatsStore {
       case Action.RESET_NOTIFICATION:
         const chatInfo = copy.chatsInfo.get(action.chatId);
         if (chatInfo === undefined) {
-          throw 'invalid chat info (reducer)';
+          throw new Error('invalid chat info (reducer)');
         }
 
         chatInfo.notificationCount = 0;

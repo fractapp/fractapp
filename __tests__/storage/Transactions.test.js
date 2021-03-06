@@ -125,20 +125,18 @@ it('Test reducer addPendingTx', async () => {
 });
 it('Test reducer removePendingTx', async () => {
   let state = initState();
-  expect(
-    Transactions.reducer(
-      state,
-      Transactions.addPendingTx(Currency.Kusama, 'txHashOne'),
-    ),
-  ).toMatchSnapshot();
+  state = Transactions.reducer(
+    state,
+    Transactions.addPendingTx(Currency.Kusama, 'txHashOne'),
+  );
+  expect(state).toMatchSnapshot();
   expect(DB.setPendingTxs).toBeCalledWith(Currency.Kusama, ['txHashOne']);
 
-  expect(
-    Transactions.reducer(
-      state,
-      Transactions.addPendingTx(Currency.Kusama, 'txHashTwo'),
-    ),
-  ).toMatchSnapshot();
+  state = Transactions.reducer(
+    state,
+    Transactions.addPendingTx(Currency.Kusama, 'txHashTwo'),
+  );
+  expect(state).toMatchSnapshot();
   expect(DB.setPendingTxs).toBeCalledWith(Currency.Kusama, [
     'txHashOne',
     'txHashTwo',

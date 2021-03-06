@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import {StyleSheet, View, Text, Alert, PermissionsAndroid} from 'react-native';
+import {StyleSheet, View, Text, Alert} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
-import {WhiteButton, Img} from 'components/index';
-import backupUtil from 'utils/backup';
+import {WhiteButton, Img} from 'components/WhiteButton';
+import backup from 'utils/backup';
 import {FileBackup} from 'types/backup';
 import googleUtil from 'utils/google';
 import Dialog from 'storage/Dialog';
@@ -11,50 +11,32 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
 
   const openFilePicker = async () => {
-    const statues = await PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    ]);
+    await backup.checkPermissions(
+      async () => {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.allFiles],
+        });
 
-    let isGranted =
-      statues[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] ===
-        'granted' &&
-      statues[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] ===
-        'granted';
+        let file: FileBackup;
+        try {
+          file = await backup.getFile(res.uri);
+        } catch (err) {
+          Alert.alert('Error', 'Invalid file');
 
-    if (
-      statues[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] ===
-        'never_ask_again' ||
-      statues[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] ===
-        'never_ask_again'
-    ) {
-      dialogContext.dispatch(
-        Dialog.open(
-          'Open settings',
-          'If you want to import a file then open the application settings and give it access to the storage.',
-          () => dialogContext.dispatch(Dialog.close()),
+          return;
+        }
+
+        navigation.navigate('WalletFileImport', {file: file});
+      },
+      () =>
+        dialogContext.dispatch(
+          Dialog.open(
+            'Open settings',
+            'If you want to import a file then open the application settings and give it access to the storage.',
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
         ),
-      );
-    }
-
-    if (!isGranted) {
-      return;
-    }
-
-    const res = await DocumentPicker.pick({
-      type: [DocumentPicker.types.allFiles],
-    });
-
-    let file: FileBackup;
-    try {
-      file = await backupUtil.getFile(res.uri);
-    } catch (err) {
-      Alert.alert('Error', 'Invalid file');
-
-      return;
-    }
-
-    navigation.navigate('WalletFileImport', {file: file});
+    );
   };
 
   const openFileGoogleDrivePicker = async () => {

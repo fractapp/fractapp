@@ -105,7 +105,7 @@ namespace Google {
     const rs = await GDrive.files.get(id, {alt: 'media'});
     const rsBody = await rs.json();
     if (rsBody.algorithm === undefined || rsBody.seed === undefined) {
-      throw 'Invalid file';
+      throw new Error('Invalid file');
     }
     return rsBody;
   }

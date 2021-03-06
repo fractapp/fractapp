@@ -7,10 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import BackendApi from 'utils/backend';
-import backend from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
+import BackendApi from 'utils/backend';
 
 export const ConfirmCode = ({
   navigation,
@@ -27,16 +26,16 @@ export const ConfirmCode = ({
   const [lockTime, setLockTime] = useState<number>(60);
   const [borderColor, setBorderColor] = useState<string>('#CCCCCC');
 
-  const value = route.params.value;
-  const type = route.params.type;
-  const refs = new Array(
+  const value: string = route.params.value;
+  const type: BackendApi.CodeType = route.params.type;
+  const refs = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
     useRef<TextInput>(null),
     useRef<TextInput>(null),
     useRef<TextInput>(null),
     useRef<TextInput>(null),
-  );
+  ];
 
   const tick = (time: number) => {
     time--;
@@ -49,6 +48,7 @@ export const ConfirmCode = ({
   useEffect(() => {
     setTimeout(() => tick(lockTime), 1000);
   }, []);
+
   useEffect(() => {
     if (code.length === 1) {
       setBorderColor('#CCCCCC');
@@ -56,7 +56,7 @@ export const ConfirmCode = ({
 
     if (code.length < BackendApi.CodeLength) {
       if (!refs[code.length] || !refs[code.length].current) {
-        throw 'invalid ref for confirm code ' + code.length;
+        throw new Error('invalid ref for confirm code ' + code.length);
       }
 
       refs[code.length]?.current?.focus();
@@ -70,7 +70,7 @@ export const ConfirmCode = ({
         try {
           globalContext.dispatch(GlobalStore.setLoading(true));
 
-          const rsCode = await backend.auth(value, code, type);
+          const rsCode = await BackendApi.auth(value, code, type);
           switch (rsCode) {
             case 400:
               dialogContext.dispatch(
@@ -91,6 +91,8 @@ export const ConfirmCode = ({
                   () => dialogContext.dispatch(Dialog.close()),
                 ),
               );
+              setCode('');
+              setBorderColor('#EA4335');
               break;
             case 404:
               setCode('');
@@ -109,10 +111,8 @@ export const ConfirmCode = ({
               break;
           }
         } catch (e) {
-          console.log(e);
           setCode('');
           setBorderColor('#EA4335');
-          globalContext.dispatch(GlobalStore.setLoading(false));
         }
 
         setEditable(true);
@@ -122,14 +122,10 @@ export const ConfirmCode = ({
   }, [code]);
 
   const onResend = async () => {
-    if (lockTime !== 0) {
-      return;
-    }
-
     setLockTime(60);
     setTimeout(() => tick(60), 1000);
 
-    const [rsCode, err] = await BackendApi.sendCode(
+    const rsCode = await BackendApi.sendCode(
       value,
       type,
       BackendApi.CheckType.Auth,
@@ -137,7 +133,7 @@ export const ConfirmCode = ({
     switch (rsCode) {
       case 400:
         dialogContext.dispatch(
-          Dialog.open('Service unavailable', 'Please try again: ' + err, () =>
+          Dialog.open('Service unavailable', 'Please try again', () =>
             dialogContext.dispatch(Dialog.close()),
           ),
         );

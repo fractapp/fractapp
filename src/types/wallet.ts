@@ -22,7 +22,7 @@ export function getLogo(currency: Currency) {
       logo = require('assets/img/kusama.png');
       break;
     default:
-      throw 'invalid currency';
+      throw new Error('invalid currency');
   }
   return logo;
 }
@@ -49,7 +49,7 @@ export function getSymbol(currency: Currency) {
       symbol = 'KSM';
       break;
     default:
-      throw 'invalid currency';
+      throw new Error('invalid currency');
   }
   return symbol;
 }

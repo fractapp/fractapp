@@ -30,7 +30,6 @@ export const WalletFileImport = ({route}: {route: any}) => {
       try {
         seed = await backupUtil.getSeed(file, password);
       } catch (e) {
-        console.log(e);
         Alert.alert('Invalid password');
         setLoading(false);
         return;

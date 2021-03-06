@@ -256,7 +256,7 @@ it('Test backupFile granted', async () => {
     READ_EXTERNAL_STORAGE: 'granted',
   });
 
-  await backupUtil.backupFile(grantedHandler, neverAskAgainHandler);
+  await backupUtil.checkPermissions(grantedHandler, neverAskAgainHandler);
   expect(grantedHandler).toBeCalled();
   expect(neverAskAgainHandler).not.toBeCalled();
 });
@@ -269,7 +269,7 @@ it('Test backupFile never_ask_again', async () => {
     READ_EXTERNAL_STORAGE: 'never_ask_again',
   });
 
-  await backupUtil.backupFile(grantedHandler, neverAskAgainHandler);
+  await backupUtil.checkPermissions(grantedHandler, neverAskAgainHandler);
   expect(neverAskAgainHandler).toBeCalled();
   expect(grantedHandler).not.toBeCalled();
 });

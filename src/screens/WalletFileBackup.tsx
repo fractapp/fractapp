@@ -5,9 +5,8 @@ import {TextInput} from 'components/TextInput';
 import {PasswordInput} from 'components/PasswordInput';
 import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
-import backupUtil from 'utils/backup';
+import backupUtils from 'utils/backup';
 import Dialog from 'storage/Dialog';
-import BackupUtils from 'utils/backup';
 import GlobalStore from 'storage/Global';
 
 const minPasswordLength = 6;
@@ -20,15 +19,17 @@ export const WalletFileBackup = ({
   route: any;
 }) => {
   const dialogContext = useContext(Dialog.Context);
-  const authContext = useContext(GlobalStore.Context);
+  const globalContext = useContext(GlobalStore.Context);
 
-  const [fileName, setFilename] = useState<string>(backupUtil.randomFilename());
+  const [fileName, setFilename] = useState<string>(
+    backupUtils.randomFilename(),
+  );
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const seed: string = route.params.seed.join(' ');
-  const type: backupUtil.BackupType = route.params.type;
+  const type: backupUtils.BackupType = route.params.type;
   const isNewAccount: boolean = route.params.isNewAccount;
 
   const startBackup = async () => {
@@ -40,14 +41,15 @@ export const WalletFileBackup = ({
       return;
     }
 
-    backupUtil.backup(seed, password, fileName, type).then(async () => {
+    (async () => {
+      await backupUtils.backup(seed, password, fileName, type);
       setLoading(false);
 
       await DB.createAccounts(seed);
       const dir =
-        route.params.type == BackupUtils.BackupType.File
+        route.params.type === backupUtils.BackupType.File
           ? 'Downloads'
-          : backupUtil.GoogleDriveFolder;
+          : backupUtils.GoogleDriveFolder;
 
       dialogContext.dispatch(
         Dialog.open(
@@ -57,7 +59,7 @@ export const WalletFileBackup = ({
             await dialogContext.dispatch(Dialog.close());
 
             if (isNewAccount) {
-              await authContext.dispatch(GlobalStore.signInLocal());
+              await globalContext.dispatch(GlobalStore.signInLocal());
             }
 
             navigation.reset({
@@ -67,23 +69,23 @@ export const WalletFileBackup = ({
           },
         ),
       );
-    });
+    })();
   }, [isLoading]);
 
   const renderButtonOrError = () => {
-    if (confirmPassword == '' || password == '') {
+    if (confirmPassword === '' || password === '') {
       return null;
     } else if (
       password.length < minPasswordLength &&
-      password != '' &&
-      confirmPassword != ''
+      password !== '' &&
+      confirmPassword !== ''
     ) {
       return (
         <Text style={styles.error}>
           Minimum password length is 6 characters
         </Text>
       );
-    } else if (password != confirmPassword) {
+    } else if (password !== confirmPassword) {
       return <Text style={styles.error}>Password do not match</Text>;
     }
 

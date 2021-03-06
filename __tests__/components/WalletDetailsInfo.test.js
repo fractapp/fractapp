@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
-import {Currency, Wallet} from '../../src/types/wallet';
+import {Currency, Wallet} from 'types/wallet';
 
 it('Test Polkadot wallet', () => {
   const tree = renderer

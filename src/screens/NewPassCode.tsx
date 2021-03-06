@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {showMessage} from 'react-native-flash-message';
-import {PassCode} from 'components/index';
+import {PassCode} from 'components/PassCode';
 import GlobalStore from 'storage/Global';
 
 export const NewPassCode = ({navigation}: {navigation: any}) => {
@@ -16,7 +16,7 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
     } else {
       let isEquals = true;
       for (let i = 0; i < passcode.length; i++) {
-        if (newPasscode[i] != passcode[i]) {
+        if (newPasscode[i] !== passcode[i]) {
           isEquals = false;
           break;
         }

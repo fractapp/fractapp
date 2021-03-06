@@ -57,7 +57,7 @@ export class Api {
             decimals = 12;
             break;
           default:
-            throw 'Invalid currency';
+            throw new Error('Invalid currency');
         }
 
         this.instance.set(

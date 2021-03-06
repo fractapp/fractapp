@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {Receiver, ReceiverType} from 'components/Receiver';
-import {Currency} from '../../src/types/wallet';
+import {Currency} from 'types/wallet';
 
 it('Test one', () => {
   const tree = renderer

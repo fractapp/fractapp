@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {PaymentMsg} from 'components/PaymentMsg';
-import {Currency} from '../../src/types/wallet';
-import {TxStatus, TxType} from '../../src/types/transaction';
+import {Currency} from 'types/wallet';
+import {TxStatus, TxType} from 'types/transaction';
 
 jest.mock('utils/polkadot', () => {});
 

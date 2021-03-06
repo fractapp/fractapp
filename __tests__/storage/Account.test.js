@@ -1,7 +1,6 @@
 import {Currency} from 'types/wallet';
 import Accounts from 'storage/Accounts';
 import DB from 'storage/DB';
-import Dialog from 'storage/Dialog';
 
 jest.mock('storage/DB', () => ({
   setAccountInfo: jest.fn(),

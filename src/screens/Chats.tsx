@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ChatShortInfo} from 'components/index';
+import {ChatShortInfo} from 'components/ChatShortInfo';
 import {ChatInfo, ChatType} from 'types/chatInfo';
 import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import GlobalStore from 'storage/Global';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export const Chats = ({navigation}: {navigation: any}) => {
   const chatsContext = useContext(ChatsStore.Context);
@@ -30,7 +30,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
     });
   }, []);
   const getChats = () => {
-    return Array.from(chatsContext.state.chatsInfo.values())
+    const chats = Array.from(chatsContext.state.chatsInfo.values())
       .filter(
         (value) =>
           transactionsContext.state.transactions.has(value.lastTxCurrency) &&
@@ -39,6 +39,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
             .has(value.lastTxId),
       )
       .sort((a, b) => b.timestamp - a.timestamp);
+    return chats;
   };
   const renderItem = ({item}: {item: ChatInfo}) => {
     const tx = transactionsContext.state.transactions

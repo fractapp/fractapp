@@ -1,5 +1,5 @@
 import mathUtils from 'utils/math';
-import {Currency} from '../../src/types/wallet';
+import {Currency} from 'types/wallet';
 import BN from 'bn.js';
 
 jest.mock('utils/polkadot', () => {

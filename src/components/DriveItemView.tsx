@@ -16,7 +16,10 @@ export const DriveItemView = ({
   item: DriveItem;
   onPress: () => void;
 }) => (
-  <TouchableOpacity style={styles.item} onPress={onPress}>
+  <TouchableOpacity
+    testID={'driveItemBtn'}
+    style={styles.item}
+    onPress={onPress}>
     <View style={{flexDirection: 'row'}}>
       {item.type === Type.Dir ? (
         <Feather name="folder" size={30} color={'#888888'} />

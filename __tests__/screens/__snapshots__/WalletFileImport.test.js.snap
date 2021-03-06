@@ -141,3 +141,9 @@ exports[`Test positive 1`] = `
   </View>
 </View>
 `;
+
+exports[`Test useEffect 1`] = `
+Object {
+  "type": 2,
+}
+`;

@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {Legal} from 'screens/Legal';
 import renderer from 'react-test-renderer';
 import {fireEvent, render} from '@testing-library/react-native';
-import {SaveSeed} from 'screens/SaveSeed';
-import {Currency} from 'types/wallet';
 import {Linking} from 'react-native';
 
 jest.mock('react', () => ({
@@ -52,4 +50,20 @@ it('Test click next', () => {
 
   fireEvent.press(component.getByText('Next'));
   expect(mockNav).toBeCalledWith('SettingWallet');
+});
+
+it('Test click checkbox', () => {
+  let toggleCheckBox = false;
+  const setToggleCheckBox = jest.fn((v) => (toggleCheckBox = v));
+
+  useState.mockImplementationOnce(() => [toggleCheckBox, setToggleCheckBox]);
+  const mockNav = jest.fn();
+  const component = render(<Legal navigation={{navigate: mockNav}} />);
+
+  fireEvent.press(
+    component.getByText(
+      'I have read, understood, and agree with the Terms & Conditions and Privacy Policy',
+    ),
+  );
+  expect(setToggleCheckBox).toBeCalledWith(true);
 });

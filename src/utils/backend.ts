@@ -100,7 +100,7 @@ namespace BackendApi {
     value: string,
     type: CodeType,
     checkType: CheckType,
-  ): Promise<[number, string]> {
+  ): Promise<number> {
     const response = await fetch(`${apiUrl}/auth/sendCode`, {
       method: 'POST',
       headers: {
@@ -113,7 +113,7 @@ namespace BackendApi {
       }),
     });
 
-    return [response.status, await response.text()];
+    return response.status;
   }
 
   export async function auth(

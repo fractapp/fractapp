@@ -1,0 +1,754 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+      "width": "100%",
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingLeft": "6%",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "borderRadius": 35,
+          "height": 70,
+          "width": 70,
+        }
+      }
+    >
+      <Image
+        height={70}
+        source={
+          Object {
+            "testUri": "../../../assets/img/default-avatar.png",
+          }
+        }
+        style={
+          Object {
+            "borderRadius": 35,
+            "height": 70,
+            "width": 70,
+          }
+        }
+        width={70}
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "column",
+          "paddingLeft": "4%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 16,
+              "fontStyle": "normal",
+            },
+            Object {
+              "color": "#888888",
+            },
+          ]
+        }
+      >
+        Name
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 16,
+              "fontStyle": "normal",
+              "marginTop": 2,
+            },
+            Object {
+              "color": "#888888",
+            },
+          ]
+        }
+      >
+        Username
+      </Text>
+    </View>
+  </View>
+  <RCTScrollView
+    ItemSeparatorComponent={[Function]}
+    data={
+      Array [
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/edit-profile.png",
+          },
+          "onClick": [Function],
+          "title": "Edit profile",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/backup.png",
+          },
+          "onClick": [Function],
+          "title": "Backup",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/safety.png",
+          },
+          "onClick": [Function],
+          "title": "Enable passcode",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/biometry-btn.png",
+          },
+          "isDisable": false,
+          "onClick": [Function],
+          "title": "Enable biometry",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/twitter.png",
+          },
+          "onClick": [Function],
+          "title": "Twitter",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/telegram.png",
+          },
+          "onClick": [Function],
+          "title": "Telegram",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/faq.png",
+          },
+          "onClick": [Function],
+          "title": "FAQ",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/help.png",
+          },
+          "onClick": [Function],
+          "title": "Help",
+        },
+        Object {
+          "img": Object {
+            "testUri": "../../../assets/img/about.png",
+          },
+          "onClick": [Function],
+          "title": "About us",
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    stickyHeaderIndices={Array []}
+    style={
+      Object {
+        "flex": 1,
+        "marginTop": 25,
+        "width": "88%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/edit-profile.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Edit profile
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/backup.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Backup
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/safety.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Enable passcode
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/biometry-btn.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Enable biometry
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/twitter.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Twitter
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/telegram.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Telegram
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/faq.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            FAQ
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/help.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            Help
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignSelf": "center",
+              "borderBottomColor": "#DADADA",
+              "borderBottomWidth": 1,
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "opacity": 1,
+              "paddingBottom": 10,
+              "paddingTop": 10,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../assets/img/about.png",
+              }
+            }
+            style={
+              Object {
+                "height": 32,
+                "width": 32,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "black",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 16,
+                "fontStyle": "normal",
+                "marginLeft": 10,
+              }
+            }
+          >
+            About us
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

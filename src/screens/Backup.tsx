@@ -18,7 +18,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
 
   const backupFile = async () => {
     const seed = await db.getSeed();
-    await BackupUtils.backupFile(
+    await BackupUtils.checkPermissions(
       () =>
         navigation.navigate('WalletFileBackup', {
           seed: seed?.split(' '),
@@ -61,12 +61,12 @@ export const Backup = ({navigation}: {navigation: any}) => {
           style={{width: 32, height: 32}}
         />
       ),
-      title: 'Google disk',
+      title: 'Google drive',
       onClick: () => backupGoogleDrive(),
     },
     {
       img: <MaterialIcons name="folder-open" size={32} color="#888888" />,
-      title: 'File to phone',
+      title: 'Encrypted file',
       onClick: () => backupFile(),
     },
     {

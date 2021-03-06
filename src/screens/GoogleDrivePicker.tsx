@@ -38,23 +38,18 @@ export const GoogleDrivePicker = ({navigation}: {navigation: any}) => {
   };
 
   const openJson = async (id: string) => {
+    let file: FileBackup;
     try {
-      let file: FileBackup;
-      try {
-        file = await googleUtil.getFileBackup(id);
-      } catch (err) {
-        Alert.alert('Error', 'Invalid file');
-        console.log(err);
-        return;
-      }
-      navigation.navigate('WalletFileImport', {file: file});
+      file = await googleUtil.getFileBackup(id);
     } catch (err) {
-      console.log(err);
+      Alert.alert('Error', 'Invalid file');
+      return;
     }
+    navigation.navigate('WalletFileImport', {file: file});
   };
 
   const open = (path: string, type: Type) => {
-    if (type == Type.Json) {
+    if (type === Type.Json) {
       openJson(path);
       return;
     }
@@ -101,7 +96,7 @@ export const GoogleDrivePicker = ({navigation}: {navigation: any}) => {
           <DriveItemView
             item={item.item}
             onPress={() =>
-              item.item.id != BackItemId
+              item.item.id !== BackItemId
                 ? open(item.item.id, item.item.type)
                 : back()
             }

@@ -64,25 +64,32 @@ export const EditPhoneNumber = ({
   };
 
   useEffect(() => {
-    backend.getLocal().then((countryCode) => {
-      const numberCountryCode = getCountryCallingCode(countryCode);
+    if (selectedCountryCode != null) {
+      return;
+    }
+
+    (async () => {
+      const local = await backend.getLocal();
+      const numberCountryCode = getCountryCallingCode(local);
       setCountryCodeLength(numberCountryCode.length);
-      setCountryCode(countryCode);
-      setCountryName(en[countryCode]);
+      setCountryCode(local);
+      setCountryName(en[local]);
 
       setNumber(numberCountryCode);
-    });
+    })();
   }, []);
   useEffect(() => {
-    if (selectedCountryCode != null) {
-      const numberCountryCode = getCountryCallingCode(selectedCountryCode);
-
-      setCountryCodeLength(numberCountryCode.length);
-      setCountryCode(selectedCountryCode);
-      setCountryName(en[selectedCountryCode]);
-
-      setNumber(numberCountryCode);
+    if (selectedCountryCode == null) {
+      return;
     }
+
+    const numberCountryCode = getCountryCallingCode(selectedCountryCode);
+
+    setCountryCodeLength(numberCountryCode.length);
+    setCountryCode(selectedCountryCode);
+    setCountryName(en[selectedCountryCode]);
+
+    setNumber(numberCountryCode);
   }, [selectedCountryCode]);
   useEffect(() => {
     navigation.setOptions({
@@ -96,7 +103,7 @@ export const EditPhoneNumber = ({
       setCountryName('Invalid phone number');
     }
 
-    if (countryCode != '') {
+    if (countryCode !== '') {
       return;
     }
     if (isValidPhoneNumber('+' + number)) {
@@ -114,6 +121,7 @@ export const EditPhoneNumber = ({
   return (
     <View style={styles.box}>
       <TouchableOpacity
+        testID={'selectCountryBtn'}
         style={styles.countryInput}
         onPress={() => navigation.navigate('SelectCountry')}>
         <Text style={styles.title}>Country</Text>

@@ -18,6 +18,7 @@ exports[`Test id=1 && title="Title #1" type=Dir 1`] = `
       "opacity": 1,
     }
   }
+  testID="driveItemBtn"
 >
   <View
     style={
@@ -80,6 +81,7 @@ exports[`Test id=2 && title="Title #2" type=Json 1`] = `
       "opacity": 1,
     }
   }
+  testID="driveItemBtn"
 >
   <View
     style={
@@ -142,6 +144,7 @@ exports[`Test title length > 25 1`] = `
       "opacity": 1,
     }
   }
+  testID="driveItemBtn"
 >
   <View
     style={

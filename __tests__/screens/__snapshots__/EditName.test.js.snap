@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test click success with invalid name 1`] = `
+Object {
+  "onPress": [Function],
+  "text": "Please validate and write name again",
+  "title": "Invalid name",
+  "type": 0,
+}
+`;
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "borderBottomWidth": 1,
+          "marginTop": 20,
+          "width": "85%",
+        },
+        Object {
+          "borderColor": "#CCCCCC",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignContent": "center",
+          "flexDirection": "row",
+          "marginTop": 0,
+        }
+      }
+    >
+      <TextInput
+        allowFontScaling={true}
+        autoCompleteType="username"
+        keyboardType="default"
+        onChangeText={[Function]}
+        placeholder="Enter name"
+        placeholderTextColor="#BFBDBD"
+        rejectResponderTermination={true}
+        secureTextEntry={false}
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 16,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {
+              "width": "100%",
+            },
+          ]
+        }
+        textContentType="username"
+        underlineColorAndroid="transparent"
+        value="name"
+      />
+    </View>
+  </View>
+</View>
+`;

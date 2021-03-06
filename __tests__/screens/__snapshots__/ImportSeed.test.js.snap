@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#2AB2E2",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 25,
+        "marginTop": 80,
+      }
+    }
+  >
+    Import secret phrase
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 40,
+        "textAlign": "center",
+        "width": "90%",
+      }
+    }
+  >
+    Import your secret phrase. (12 or 14 words)
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCorrect={false}
+    multiline={true}
+    onChangeText={[Function]}
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "borderColor": "#888888",
+        "borderRadius": 10,
+        "borderWidth": 0.5,
+        "color": "black",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "height": 150,
+        "marginTop": 30,
+        "padding": 20,
+        "textAlignVertical": "top",
+        "width": "90%",
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+</View>
+`;

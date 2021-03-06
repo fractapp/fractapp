@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {AmountInput, SuccessButton} from 'components/index';
+import {AmountInput} from 'components/AmountInput';
+import {SuccessButton} from 'components/SuccessButton';
 import {getSymbol, Wallet} from 'types/wallet';
 import PricesStore from 'storage/Prices';
 import {Api} from 'utils/polkadot';

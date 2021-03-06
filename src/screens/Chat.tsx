@@ -7,18 +7,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {PaymentMsg} from 'components/index';
-import {Transaction} from 'types/transaction';
+import {PaymentMsg} from 'components/PaymentMsg';
 import {WalletLogo} from 'components/WalletLogo';
+import {Transaction} from 'types/transaction';
+import {Currency, Wallet} from 'types/wallet';
+import {ChatInfo, ChatType, DefaultDetails} from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import {Currency, Wallet} from 'types/wallet';
 import GlobalStore from 'storage/Global';
-import stringUtils from 'utils/string';
-import {ChatInfo, ChatType, DefaultDetails} from 'types/chatInfo';
-import backend from 'utils/backend';
 import TransactionsStore from 'storage/Transactions';
+import stringUtils from 'utils/string';
+import backend from 'utils/backend';
 
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const flatListRef = useRef<FlatList>(null);
@@ -35,12 +35,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const getWallet = (currency: Currency) => {
     let account = accountsContext.state.accounts.get(currency);
-    let price = priceContext.state.get(currency);
-    if (price === undefined) {
-      price = 0;
+    let price = 0;
+    if (priceContext.state.has(currency)) {
+      price = priceContext.state.get(currency)!;
     }
     if (account === undefined) {
-      throw 'invalid account';
+      throw new Error('invalid account');
     }
     return new Wallet(
       account.name,

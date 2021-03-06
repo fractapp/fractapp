@@ -5,20 +5,20 @@ import {
   TextInput,
   TouchableHighlight,
   View,
+  PermissionsAndroid,
 } from 'react-native';
-import {Contact, SendBy} from 'components/index';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import backend from 'utils/backend';
-import {ChatType} from 'types/chatInfo';
-import GlobalStore from 'storage/Global';
-import {PermissionsAndroid} from 'react-native';
 import Contacts from 'react-native-contacts';
+import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Contact} from 'components/Contact';
+import {SendBy} from 'components/SendBy';
+import backend from 'utils/backend';
+import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import DialogStore from 'storage/Dialog';
-import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
 import {UserProfile} from 'types/profile';
 import {Wallet} from 'types/wallet';
+import {ChatType} from 'types/chatInfo';
 
 export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const wallet: Wallet = route.params?.wallet;

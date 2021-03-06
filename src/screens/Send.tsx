@@ -1,29 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Currency, getSymbol, Wallet} from 'types/wallet';
-import {
-  AmountValue,
-  BlueButton,
-  Receiver,
-  ReceiverWithEnterAddress,
-  WalletInfo,
-} from 'components/index';
-import {ReceiverType} from 'components/Receiver';
+import {AmountValue} from 'components/AmountValue';
+import {BlueButton} from 'components/BlueButton';
+import {Receiver, ReceiverType} from 'components/Receiver';
+import {ReceiverWithEnterAddress} from 'components/ReceiverWithEnterAddress';
+import {WalletInfo} from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Api} from 'utils/polkadot';
 import MathUtils from 'utils/math';
-import PricesStore from 'storage/Prices';
-import {ChatInfo, ChatType} from 'types/chatInfo';
 import backend from 'utils/backend';
-import {Transaction, TxStatus, TxType} from 'types/transaction';
-import TransactionsStore from 'storage/Transactions';
 import tasks from 'utils/tasks';
+import {ChatInfo, ChatType} from 'types/chatInfo';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
+import {Currency, getSymbol, Wallet} from 'types/wallet';
+import TransactionsStore from 'storage/Transactions';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
-import BN from 'bn.js';
-import Dialog from 'storage/Dialog';
+import PricesStore from 'storage/Prices';
 import DialogStore from 'storage/Dialog';
 import {checkAddress} from '@polkadot/util-crypto';
+import BN from 'bn.js';
 
 export const Send = ({navigation, route}: {navigation: any; route: any}) => {
   const globalContext = useContext(GlobalStore.Context);
@@ -33,10 +29,10 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
   const dialogContext = useContext(DialogStore.Context);
 
   const isEditable: boolean = route.params.isEditable;
-  const isUSDMode: boolean = route.params?.isUSDMode ?? true;
-
   const wallet: Wallet = route.params.wallet;
+
   const chatInfo: ChatInfo = route.params?.chatInfo;
+  const isUSDMode: boolean = route.params?.isUSDMode ?? true;
 
   const value: number = route.params?.value ?? 0;
   const [usdFee, setUsdFee] = useState<number>(0);
@@ -69,7 +65,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             if (p == null) {
               globalContext.dispatch(GlobalStore.setLoading(false));
               dialogContext.dispatch(
-                Dialog.open('Service unavailable', '', () => {
+                DialogStore.open('Service unavailable', '', () => {
                   dialogContext.dispatch(DialogStore.close());
                 }),
               );
@@ -92,7 +88,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
           console.log('Err: ' + e);
           globalContext.dispatch(GlobalStore.setLoading(false));
           dialogContext.dispatch(
-            Dialog.open('Service unavailable', '', () => {
+            DialogStore.open('Service unavailable', '', () => {
               dialogContext.dispatch(DialogStore.close());
             }),
           );
@@ -143,8 +139,8 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
     if (!isValidReceiver) {
       dialogContext.dispatch(
-        Dialog.open('Please enter a valid address first', '', () =>
-          dialogContext.dispatch(Dialog.close()),
+        DialogStore.open('Please enter a valid address first', '', () =>
+          dialogContext.dispatch(DialogStore.close()),
         ),
       );
       globalContext.dispatch(GlobalStore.setLoading(false));
@@ -167,12 +163,12 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
         .cmp(await api.minTransfer()) < 0
     ) {
       dialogContext.dispatch(
-        Dialog.open(
+        DialogStore.open(
           'Minimum transfer',
           `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
             await api.minTransfer(),
           )} ${getSymbol(wallet.currency)}`,
-          () => dialogContext.dispatch(Dialog.close()),
+          () => dialogContext.dispatch(DialogStore.close()),
         ),
       );
       globalContext.dispatch(GlobalStore.setLoading(false));
@@ -188,7 +184,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       balanceAfterBalance.cmp(new BN(0)) !== 0
     ) {
       dialogContext.dispatch(
-        Dialog.open(
+        DialogStore.open(
           'Balance',
           `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
             await api.minTransfer(),
@@ -197,7 +193,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
           )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
             new BN(wallet.planks).sub(info.partialFee),
           )}`,
-          () => dialogContext.dispatch(Dialog.close()),
+          () => dialogContext.dispatch(DialogStore.close()),
         ),
       );
       globalContext.dispatch(GlobalStore.setLoading(false));
@@ -318,8 +314,10 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
           onPress={() =>
             !isValidReceiver
               ? dialogContext.dispatch(
-                  Dialog.open('Please enter a valid address first', '', () =>
-                    dialogContext.dispatch(Dialog.close()),
+                  DialogStore.open(
+                    'Please enter a valid address first',
+                    '',
+                    () => dialogContext.dispatch(DialogStore.close()),
                   ),
                 )
               : navigation.navigate('EnterAmount', {

@@ -14,9 +14,9 @@ export const Wallets = ({navigation}: {navigation: any}) => {
     const result = new Array();
     const wallets = new Array<Wallet>();
     for (let [currency, account] of accountsContext.state.accounts) {
-      let price = priceContext.state.get(currency);
-      if (price === undefined) {
-        price = 0;
+      let price = 0;
+      if (priceContext.state.has(currency)) {
+        price = priceContext.state.get(currency)!;
       }
 
       wallets.push(
@@ -49,9 +49,9 @@ export const Wallets = ({navigation}: {navigation: any}) => {
     let distribution = new Map<Currency, number>();
 
     for (let [currency, account] of accountsContext.state.accounts) {
-      let price = priceContext.state.get(currency);
-      if (price == undefined) {
-        price = 0;
+      let price = 0;
+      if (priceContext.state.has(currency)) {
+        price = priceContext.state.get(currency)!;
       }
 
       distribution.set(currency, account.balance * price);

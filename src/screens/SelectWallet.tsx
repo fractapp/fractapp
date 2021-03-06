@@ -19,9 +19,9 @@ export const SelectWallet = ({
     const result = [];
     const wallets = new Array<Wallet>();
     for (let [currency, account] of accountsContext.state.accounts) {
-      let price = priceContext.state.get(currency);
-      if (price === undefined) {
-        price = 0;
+      let price = 0;
+      if (priceContext.state.has(currency)) {
+        price = priceContext.state.get(currency)!;
       }
 
       wallets.push(

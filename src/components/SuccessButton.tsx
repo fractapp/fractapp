@@ -13,7 +13,7 @@ export const SuccessButton = ({
   onPress: () => void;
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity testID={'successBtn'} onPress={onPress}>
       <Ionicons name="checkmark" size={size} color="#888888" />
     </TouchableOpacity>
   );

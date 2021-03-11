@@ -25,7 +25,7 @@ jest.mock('utils/backend', () => ({
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view', () => {
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   globalState.profile = {
     id: 'id',
     name: 'name',
@@ -41,7 +41,7 @@ it('Test view', () => {
     dispatch: jest.fn(),
   });
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -59,7 +59,7 @@ it('Test click success', async () => {
   const goBack = jest.fn();
   const setOptions = jest.fn();
 
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   globalState.profile = {
     id: 'id',
     name: 'name',
@@ -75,7 +75,7 @@ it('Test click success', async () => {
     dispatch: globalMock,
   });
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogMock,
   });
 
@@ -114,7 +114,7 @@ it('Test click success with invalid name', async () => {
   const goBack = jest.fn();
   const setOptions = jest.fn();
 
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   globalState.profile = {
     id: 'id',
     name: 'name',
@@ -130,7 +130,7 @@ it('Test click success with invalid name', async () => {
     dispatch: globalMock,
   });
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogMock,
   });
 
@@ -166,7 +166,7 @@ it('Test click success with name is not free', async () => {
   const goBack = jest.fn();
   const setOptions = jest.fn();
 
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   globalState.profile = {
     id: 'id',
     name: 'name',
@@ -182,7 +182,7 @@ it('Test click success with name is not free', async () => {
     dispatch: globalMock,
   });
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogMock,
   });
 

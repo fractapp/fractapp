@@ -104,7 +104,7 @@ it('Test reducer update balance', async () => {
 
 it('Test default', async () => {
   expect(
-    Accounts.reducer(Accounts.initialState, {
+    Accounts.reducer(Accounts.initialState(), {
       type: 9999,
     }),
   ).toStrictEqual(initState());

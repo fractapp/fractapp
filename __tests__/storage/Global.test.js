@@ -424,7 +424,7 @@ it('Test reducer deleteUser', async () => {
 
 it('Test default', async () => {
   expect(
-    GlobalStore.reducer(GlobalStore.initialState, {
+    GlobalStore.reducer(GlobalStore.initialState(), {
       type: 9999,
     }),
   ).toStrictEqual(initState());

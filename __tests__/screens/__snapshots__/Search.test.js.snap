@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test view 1`] = `
+exports[`Test view (empty) 1`] = `
 <View
   style={
     Object {
@@ -195,6 +195,850 @@ exports[`Test view 1`] = `
                 >
                   Send by address
                 </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#E9E9E9",
+        "borderRadius": 11,
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "92%",
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      onPress={[Function]}
+      style={
+        Array [
+          Object {
+            "color": "#BFBDBD",
+            "fontSize": 25,
+          },
+          Object {
+            "paddingLeft": 10,
+          },
+          Object {
+            "fontFamily": "Ionicons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+    <TextInput
+      allowFontScaling={true}
+      autoCompleteType="username"
+      keyboardType="default"
+      onChangeText={[Function]}
+      placeholder="Search by @username or email"
+      placeholderTextColor="#949499"
+      rejectResponderTermination={true}
+      secureTextEntry={false}
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 40,
+            "marginLeft": 10,
+            "padding": 0,
+          },
+          Object {
+            "width": "100%",
+          },
+        ]
+      }
+      textContentType="username"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+  </View>
+  <RCTScrollView
+    ListHeaderComponent={
+      <ForwardRef
+        onPress={[Function]}
+        underlayColor="#f8f9fb"
+      >
+        <SendBy
+          img={
+            Object {
+              "testUri": "../../../assets/img/address.png",
+            }
+          }
+          title="Send by address"
+        />
+      </ForwardRef>
+    }
+    data={
+      Array [
+        Object {
+          "addresses": Object {
+            "0": "addressDOT0",
+            "1": "addressKSM0",
+          },
+          "avatarExt": "png",
+          "id": "id0",
+          "lastUpdate": 123123,
+          "name": "name0",
+          "username": "username0",
+        },
+        Object {
+          "addresses": Object {
+            "0": "addressDOT1",
+            "1": "addressKSM1",
+          },
+          "avatarExt": "",
+          "id": "id1",
+          "lastUpdate": 123123,
+          "name": "name1",
+          "username": "username1",
+        },
+        Object {
+          "addresses": Object {
+            "0": "addressDOT2",
+            "1": "addressKSM2",
+          },
+          "avatarExt": "",
+          "id": "id2",
+          "lastUpdate": 123123,
+          "name": "name2",
+          "username": "username2",
+        },
+        Object {
+          "addresses": Object {
+            "0": "addressDOT3",
+            "1": "addressKSM3",
+          },
+          "avatarExt": "",
+          "id": "id3",
+          "lastUpdate": 123123,
+          "name": "name3",
+          "username": "username3",
+        },
+        Object {
+          "addresses": Object {
+            "0": "addressDOT4",
+            "1": "addressKSM4",
+          },
+          "avatarExt": "",
+          "id": "id4",
+          "lastUpdate": 123123,
+          "name": "name4",
+          "username": "username4",
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsVerticalScrollIndicator={false}
+    stickyHeaderIndices={Array []}
+    style={
+      Object {
+        "flex": 1,
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/address.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "black",
+                        "fontFamily": "Roboto-Regukar",
+                        "fontSize": 16,
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {
+                        "textAlign": "left",
+                      },
+                    ]
+                  }
+                >
+                  Send by address
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "uri": "uri",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                    "flexDirection": "column",
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Regukar",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    name0
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#888888",
+                          "fontFamily": "Roboto-Regular",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    @username0
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/default-avatar.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                    "flexDirection": "column",
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Regukar",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    name1
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#888888",
+                          "fontFamily": "Roboto-Regular",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    @username1
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/default-avatar.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                    "flexDirection": "column",
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Regukar",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    name2
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#888888",
+                          "fontFamily": "Roboto-Regular",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    @username2
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/default-avatar.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                    "flexDirection": "column",
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Regukar",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    name3
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#888888",
+                          "fontFamily": "Roboto-Regular",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    @username3
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "height": 80,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "marginLeft": "5%",
+                  "marginRight": "3%",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/default-avatar.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderRadius": 30,
+                    "height": 60,
+                    "width": 60,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                    "flexDirection": "column",
+                    "marginLeft": 10,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Regukar",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    name4
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "height": 23,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#888888",
+                          "fontFamily": "Roboto-Regular",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    @username4
+                  </Text>
+                </View>
               </View>
             </View>
           </View>

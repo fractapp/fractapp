@@ -24,10 +24,10 @@ useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view with empty state', () => {
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState,
+    state: TransactionsStore.initialState(),
   });
 
   const tree = renderer
@@ -87,7 +87,7 @@ it('Test view with txs', () => {
       },
     ],
   ]);
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
     id: 'id',
     name: 'name',
@@ -135,10 +135,10 @@ it('Test view with txs', () => {
 
 it('Test view click send', () => {
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState,
+    state: TransactionsStore.initialState(),
   });
 
   const wallet = new Wallet(
@@ -171,10 +171,10 @@ it('Test view click send', () => {
 
 it('Test view click receive', () => {
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState,
+    state: TransactionsStore.initialState(),
   });
 
   const wallet = new Wallet(
@@ -241,7 +241,7 @@ it('Test view click txs', () => {
       },
     ],
   ]);
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
     id: 'id',
     name: 'name',

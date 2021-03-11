@@ -40,11 +40,11 @@ const createContexts = () => {
   const dialogDispatch = jest.fn();
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogDispatch,
   });
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: globalDispatch,
   });
 

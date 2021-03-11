@@ -23,13 +23,13 @@ useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view empty', () => {
   useContext.mockReturnValueOnce({
-    state: ChatsStore.initialState,
+    state: ChatsStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState,
+    state: TransactionsStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
   });
   const tree = renderer
     .create(
@@ -44,7 +44,7 @@ it('Test view empty', () => {
 });
 
 it('Test view with chats', () => {
-  const chats = ChatsStore.initialState;
+  const chats = ChatsStore.initialState();
   chats.chatsInfo.set('chatOne', {
     id: 'chatOne',
     name: 'address#1',
@@ -71,7 +71,7 @@ it('Test view with chats', () => {
     state: chats,
   });
 
-  const txs = TransactionsStore.initialState;
+  const txs = TransactionsStore.initialState();
   txs.transactions.set(
     Currency.Polkadot,
     new Map([
@@ -118,7 +118,7 @@ it('Test view with chats', () => {
     state: txs,
   });
 
-  const global = GlobalStore.initialState;
+  const global = GlobalStore.initialState();
   global.users.set('userId', {
     id: 'userId',
     name: 'name',

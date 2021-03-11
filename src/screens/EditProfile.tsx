@@ -57,14 +57,15 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
         maxHeight: 400,
       },
       async (rs) => {
-        if (rs.base64 !== undefined) {
-          globalContext.dispatch(GlobalStore.setLoading(true));
-
-          await backend.uploadAvatar(rs.base64, rs.type!);
-          await globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
-
-          globalContext.dispatch(GlobalStore.setLoading(false));
+        if (rs.base64 == undefined) {
+          return;
         }
+        globalContext.dispatch(GlobalStore.setLoading(true));
+
+        await backend.uploadAvatar(rs.base64, rs.type!);
+        await globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
+
+        globalContext.dispatch(GlobalStore.setLoading(false));
       },
     );
   };
@@ -86,7 +87,7 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.profile}>
-      <TouchableOpacity onPress={openFilePicker}>
+      <TouchableOpacity testID={'editAvatarBtn'} onPress={openFilePicker}>
         <Image
           source={
             globalContext.state.profile.avatarExt === ''

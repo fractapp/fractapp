@@ -12,10 +12,8 @@ namespace PricesStore {
     UPDATE_PRICE,
   }
 
-  export const initialState: Map<Currency, number> = new Map<
-    Currency,
-    number
-  >();
+  export const initialState = (): Map<Currency, number> =>
+    new Map<Currency, number>();
 
   export type ContextType = {
     state: Map<Currency, number>;
@@ -23,7 +21,7 @@ namespace PricesStore {
   };
 
   export const Context = createContext<ContextType>({
-    state: initialState,
+    state: initialState(),
     dispatch: () => null,
   });
 

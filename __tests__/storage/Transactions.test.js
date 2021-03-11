@@ -153,7 +153,7 @@ it('Test reducer removePendingTx', async () => {
 
 it('Test default', async () => {
   expect(
-    Transactions.reducer(Transactions.initialState, {
+    Transactions.reducer(Transactions.initialState(), {
       type: 9999,
     }),
   ).toStrictEqual(initState());

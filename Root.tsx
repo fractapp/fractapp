@@ -14,27 +14,27 @@ import App from './src/App';
 export default function Root() {
   const [globalStore, globalDispatch] = useReducer(
     GlobalStore.reducer,
-    GlobalStore.initialState,
+    GlobalStore.initialState(),
   );
   const [dialogStore, dialogDispatch] = useReducer(
     DialogStore.reducer,
-    DialogStore.initialState,
+    DialogStore.initialState(),
   );
   const [accountsStore, accountsDispatch] = useReducer(
     AccountsStore.reducer,
-    AccountsStore.initialState,
+    AccountsStore.initialState(),
   );
   const [pricesStore, pricesDispatch] = useReducer(
     PricesStore.reducer,
-    PricesStore.initialState,
+    PricesStore.initialState(),
   );
   const [chatsStore, chatsDispatch] = useReducer(
     ChatsStore.reducer,
-    ChatsStore.initialState,
+    ChatsStore.initialState(),
   );
   const [transactionsStore, transactionsDispatch] = useReducer(
     TransactionsStore.reducer,
-    TransactionsStore.initialState,
+    TransactionsStore.initialState(),
   );
 
   if (

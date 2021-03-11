@@ -24,7 +24,7 @@ it('Test reducer open', async () => {
   const onPress = () => {};
   const ac = Dialog.open(title, text, onPress);
 
-  expect(Dialog.reducer(Dialog.initialState, ac)).toStrictEqual({
+  expect(Dialog.reducer(Dialog.initialState(), ac)).toStrictEqual({
     visible: true,
     title: ac.title,
     text: ac.text,
@@ -37,7 +37,7 @@ it('Test reducer close', async () => {
   const text = 'text';
   const onPress = () => {};
   const ac = Dialog.open(title, text, onPress);
-  const prevState = Dialog.reducer(Dialog.initialState, ac);
+  const prevState = Dialog.reducer(Dialog.initialState(), ac);
 
   expect(Dialog.reducer(prevState, Dialog.close())).toStrictEqual({
     visible: false,
@@ -49,8 +49,8 @@ it('Test reducer close', async () => {
 
 it('Test default', async () => {
   expect(
-    Dialog.reducer(Dialog.initialState, {
+    Dialog.reducer(Dialog.initialState(), {
       type: 9999,
     }),
-  ).toStrictEqual(Dialog.initialState);
+  ).toStrictEqual(Dialog.initialState());
 });

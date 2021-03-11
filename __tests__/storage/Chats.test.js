@@ -198,7 +198,7 @@ it('Test reducer resetNotification', async () => {
 
 it('Test default', async () => {
   expect(
-    ChatsStore.reducer(ChatsStore.initialState, {
+    ChatsStore.reducer(ChatsStore.initialState(), {
       type: 9999,
     }),
   ).toStrictEqual(initState());

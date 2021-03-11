@@ -17,11 +17,11 @@ namespace DialogStore {
     onPress?: () => void;
   };
 
-  export const initialState: State = {
+  export const initialState = (): State => ({
     text: '',
     title: '',
     visible: false,
-  };
+  });
 
   export type ContextType = {
     state: State;
@@ -29,7 +29,7 @@ namespace DialogStore {
   };
 
   export const Context = createContext<ContextType>({
-    state: initialState,
+    state: initialState(),
     dispatch: () => null,
   });
 

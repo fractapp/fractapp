@@ -20,11 +20,11 @@ namespace ChatsStore {
     chatsInfo: Map<string, ChatInfo>;
     isInitialized: boolean;
   };
-  export const initialState = {
+  export const initialState = (): State => ({
     chats: new Map<string, Map<string, Currency>>(),
     chatsInfo: new Map<string, ChatInfo>(),
     isInitialized: false,
-  };
+  });
 
   export type ContextType = {
     state: State;
@@ -32,7 +32,7 @@ namespace ChatsStore {
   };
 
   export const Context = createContext<ContextType>({
-    state: initialState,
+    state: initialState(),
     dispatch: () => null,
   });
 

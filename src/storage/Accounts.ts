@@ -18,10 +18,10 @@ namespace AccountsStore {
     isInitialized: boolean;
   };
 
-  export const initialState: State = {
+  export const initialState = (): State => ({
     accounts: new Map<Currency, Account>(),
     isInitialized: false,
-  };
+  });
 
   export type ContextType = {
     state: State;
@@ -29,7 +29,7 @@ namespace AccountsStore {
   };
 
   export const Context = createContext<ContextType>({
-    state: initialState,
+    state: initialState(),
     dispatch: () => null,
   });
 

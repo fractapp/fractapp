@@ -16,24 +16,22 @@ export const EnterAmount = ({
   navigation: any;
   route: any;
 }) => {
+  const priceContext = useContext(PricesStore.Context);
+  const dialogContext = useContext(Dialog.Context);
+
+  const routeValue = route.params?.value ?? 0;
+  const wallet: Wallet = route.params.wallet;
+  const receiver: string = route.params.receiver;
+
   const [isUSDMode, setUSDMode] = useState<boolean>(
     route.params?.isUSDMode ?? true,
   );
-  const routeValue = route.params?.value ?? 0;
-
   const [value, setValue] = useState<number>(
     routeValue === 0 ? '' : routeValue,
   );
   const [alternativeValue, setAlternativeValue] = useState<number>(0);
-
   const [usdFee, setUsdFee] = useState<number>(0);
   const [plankFee, setPlankFee] = useState<BN>(new BN(0));
-
-  const priceContext = useContext(PricesStore.Context);
-  const dialogContext = useContext(Dialog.Context);
-
-  const wallet: Wallet = route.params.wallet;
-  const receiver: string = route.params.receiver;
 
   const onSuccess = async () => {
     if (value <= 0 || alternativeValue <= 0) {
@@ -44,63 +42,61 @@ export const EnterAmount = ({
     }
 
     const currencyValue = isUSDMode ? alternativeValue : value;
-    Api.getInstance(wallet.currency).then(async (api) => {
-      const planksValue = api.convertToPlanck(String(currencyValue));
-      if (new BN(wallet.planks).cmp(planksValue.add(plankFee)) < 0) {
-        dialogContext.dispatch(
-          Dialog.open('Not enough balance', '', () =>
-            dialogContext.dispatch(Dialog.close()),
-          ),
-        );
-        return;
-      }
+    const api = await Api.getInstance(wallet.currency);
+    const planksValue = api.convertToPlanck(String(currencyValue));
+    if (new BN(wallet.planks).cmp(planksValue.add(plankFee)) < 0) {
+      dialogContext.dispatch(
+        Dialog.open('Not enough balance', '', () =>
+          dialogContext.dispatch(Dialog.close()),
+        ),
+      );
+      return;
+    }
 
-      const receiverBalance = (await api.balance(receiver))!;
-      if (
-        receiverBalance.plankValue
-          .add(planksValue)
-          .cmp(await api.minTransfer()) < 0
-      ) {
-        dialogContext.dispatch(
-          Dialog.open(
-            'Minimum transfer',
-            `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
-              await api.minTransfer(),
-            )} ${getSymbol(wallet.currency)}`,
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        );
-        return;
-      }
+    const receiverBalance = (await api.balance(receiver))!;
+    if (
+      receiverBalance.plankValue.add(planksValue).cmp(await api.minTransfer()) <
+      0
+    ) {
+      dialogContext.dispatch(
+        Dialog.open(
+          'Minimum transfer',
+          `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
+            await api.minTransfer(),
+          )} ${getSymbol(wallet.currency)}`,
+          () => dialogContext.dispatch(Dialog.close()),
+        ),
+      );
+      return;
+    }
 
-      const balanceAfterBalance = new BN(wallet.planks)
-        .sub(planksValue)
-        .sub(plankFee);
+    const balanceAfterBalance = new BN(wallet.planks)
+      .sub(planksValue)
+      .sub(plankFee);
 
-      if (
-        balanceAfterBalance.cmp(await api.minTransfer()) < 0 &&
-        balanceAfterBalance.cmp(new BN(0)) !== 0
-      ) {
-        dialogContext.dispatch(
-          Dialog.open(
-            'Balance',
-            `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
-              await api.minTransfer(),
-            )} ${getSymbol(
-              wallet.currency,
-            )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
-              new BN(wallet.planks).sub(plankFee),
-            )}`,
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        );
-        return;
-      }
+    if (
+      balanceAfterBalance.cmp(await api.minTransfer()) < 0 &&
+      balanceAfterBalance.cmp(new BN(0)) !== 0
+    ) {
+      dialogContext.dispatch(
+        Dialog.open(
+          'Balance',
+          `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
+            await api.minTransfer(),
+          )} ${getSymbol(
+            wallet.currency,
+          )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
+            new BN(wallet.planks).sub(plankFee),
+          )}`,
+          () => dialogContext.dispatch(Dialog.close()),
+        ),
+      );
+      return;
+    }
 
-      navigation.navigate('Send', {
-        isUSDMode: isUSDMode,
-        value: value,
-      });
+    navigation.navigate('Send', {
+      isUSDMode: isUSDMode,
+      value: value,
     });
   };
 
@@ -109,14 +105,15 @@ export const EnterAmount = ({
       return;
     }
 
-    MathUtils.calculateValue(
-      priceContext,
-      wallet.currency,
-      value,
-      isUSDMode,
-    ).then((aValue) => {
+    (async () => {
+      const aValue = await MathUtils.calculateValue(
+        priceContext,
+        wallet.currency,
+        value,
+        isUSDMode,
+      );
       setAlternativeValue(aValue);
-    });
+    })();
   }, [value, isUSDMode]);
 
   useEffect(() => {
@@ -126,15 +123,16 @@ export const EnterAmount = ({
 
     const currencyValue = isUSDMode ? alternativeValue : value;
 
-    MathUtils.calculateTxInfo(
-      priceContext,
-      wallet.currency,
-      currencyValue,
-      receiver,
-    ).then((info) => {
+    (async () => {
+      const info = await MathUtils.calculateTxInfo(
+        priceContext,
+        wallet.currency,
+        currencyValue,
+        receiver,
+      );
       setPlankFee(info.fee);
       setUsdFee(info.usdFee);
-    });
+    })();
   }, [alternativeValue]);
 
   useEffect(() => {

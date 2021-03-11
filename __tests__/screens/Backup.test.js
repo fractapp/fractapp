@@ -30,7 +30,7 @@ jest.mock('react-native-crypto', () => ({}));
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 useContext.mockReturnValue({
-  state: GlobalStore.initialState,
+  state: GlobalStore.initialState(),
   dispatch: jest.fn(),
 });
 
@@ -59,7 +59,7 @@ it('Test backup file', async () => {
 
   const dispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: dispatch,
   });
 

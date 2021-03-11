@@ -23,7 +23,7 @@ useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test positive', () => {
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -39,7 +39,7 @@ it('Test loading', () => {
     .mockImplementationOnce(() => [true, jest.fn()]);
 
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -57,7 +57,7 @@ it('Test useEffect', async () => {
 
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: globalDispatch,
   });
 
@@ -91,7 +91,7 @@ it('Test useEffect throw', async () => {
 
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: globalDispatch,
   });
 
@@ -123,7 +123,7 @@ it('Test click Decrypt', () => {
     .mockImplementationOnce(() => [false, setLoading]);
 
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 

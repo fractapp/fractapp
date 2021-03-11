@@ -75,9 +75,9 @@ namespace Task {
 
     globalContext.dispatch(
       GlobalStore.set(
-        profile != null ? profile : GlobalStore.initialState.profile,
+        profile != null ? profile : GlobalStore.initialState().profile,
         notificationCount,
-        authInfo ?? GlobalStore.initialState.authInfo,
+        authInfo ?? GlobalStore.initialState().authInfo,
         profile != null,
         profile != null,
         contacts,

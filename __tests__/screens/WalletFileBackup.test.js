@@ -47,11 +47,11 @@ const params = {
 
 it('Test empty password', () => {
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -69,12 +69,12 @@ it('Test loading', () => {
     .mockImplementationOnce((init) => [true, jest.fn()]);
 
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
 
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -91,12 +91,12 @@ it('Test minimum password length', () => {
     .mockImplementationOnce((init) => ['123', jest.fn()]);
 
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
 
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -113,12 +113,12 @@ it('Test password do not match', () => {
     .mockImplementationOnce((init) => ['123111', jest.fn()]);
 
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
 
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -135,12 +135,12 @@ it('Test success password', () => {
     .mockImplementationOnce((init) => ['123123', jest.fn()]);
 
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
 
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -162,13 +162,13 @@ it('Test click encrypt', () => {
 
   const dialogDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogDispatch,
   });
 
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: globalDispatch,
   });
 
@@ -192,13 +192,13 @@ it('Test backup', async () => {
 
   const dialogDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogDispatch,
   });
 
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: globalDispatch,
   });
 

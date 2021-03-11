@@ -1,5 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test backup google drive: GoogleDrivePicker 1`] = `undefined`;
+
+exports[`Test from file 1`] = `"WalletFileImport"`;
+
+exports[`Test from file 2`] = `
+Object {
+  "file": Object {
+    "algorithm": "algorithm",
+    "seed": "seed",
+  },
+}
+`;
+
+exports[`Test from file 3`] = `
+Object {
+  "onPress": [Function],
+  "text": "If you want to import a file then open the application settings and give it access to the storage.",
+  "title": "Open settings",
+  "type": 0,
+}
+`;
+
+exports[`Test from file 4`] = `
+Object {
+  "type": 1,
+}
+`;
+
+exports[`Test seed 1`] = `"ImportSeed"`;
+
 exports[`Test view 1`] = `
 <View
   style={

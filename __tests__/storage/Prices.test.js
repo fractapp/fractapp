@@ -30,7 +30,7 @@ it('Test reducer update balance', async () => {
 
 it('Test default', async () => {
   expect(
-    Prices.reducer(Prices.initialState, {
+    Prices.reducer(Prices.initialState(), {
       type: 9999,
     }),
   ).toStrictEqual(initState());

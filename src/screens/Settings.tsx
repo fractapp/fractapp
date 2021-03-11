@@ -86,8 +86,9 @@ export const Settings = ({
         });
       },
       isDisable:
-        !globalContext.state.authInfo.isPasscode &&
-        Keychain.getSupportedBiometryType() != null,
+        (Keychain.getSupportedBiometryType() != null &&
+          !globalContext.state.authInfo.isPasscode) ||
+        Keychain.getSupportedBiometryType() == null,
     },
     {
       img: require('assets/img/twitter.png'),
@@ -138,6 +139,7 @@ export const Settings = ({
     <View style={styles.profile}>
       <TouchableOpacity
         style={styles.account}
+        testID={'avatarBtn'}
         onPress={() => {
           globalContext.state.isRegistered
             ? navigation.navigate('EditProfile')

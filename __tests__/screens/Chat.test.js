@@ -28,23 +28,23 @@ useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view with empty txs', () => {
   useContext.mockReturnValueOnce({
-    state: AccountsStore.initialState,
+    state: AccountsStore.initialState(),
     dispatch: jest.fn(),
   });
   useContext.mockReturnValueOnce({
-    state: PricesStore.initialState,
+    state: PricesStore.initialState(),
     dispatch: jest.fn(),
   });
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
   useContext.mockReturnValueOnce({
-    state: ChatsStore.initialState,
+    state: ChatsStore.initialState(),
     dispatch: jest.fn(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState,
+    state: TransactionsStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -76,7 +76,7 @@ it('Test view with empty txs', () => {
 });
 
 it('Test view with txs (ChatType == Address)', () => {
-  const accountsStore = AccountsStore.initialState;
+  const accountsStore = AccountsStore.initialState();
   accountsStore.accounts = new Map([
     [
       Currency.Polkadot,
@@ -96,11 +96,11 @@ it('Test view with txs (ChatType == Address)', () => {
   });
 
   useContext.mockReturnValueOnce({
-    state: PricesStore.initialState,
+    state: PricesStore.initialState(),
     dispatch: jest.fn(),
   });
 
-  const globalState = GlobalStore.initialState;
+  const globalState = GlobalStore.initialState();
   useContext.mockReturnValueOnce({
     state: globalState,
     dispatch: jest.fn(),
@@ -141,7 +141,7 @@ it('Test view with txs (ChatType == Address)', () => {
     ],
   ]);
 
-  const chatsState = ChatsStore.initialState;
+  const chatsState = ChatsStore.initialState();
   chatsState.chats.set(
     'idChatInfo',
     new Map([

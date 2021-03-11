@@ -25,18 +25,20 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
 
   const globalContext = useContext(GlobalStore.Context);
   const dialogContext = useContext(DialogStore.Context);
+
   const [searchString, setSearchString] = useState<string>('');
   const [users, setUsers] = useState<Array<UserProfile>>();
 
   useEffect(() => {
-    getMyMatchContacts();
     if (!globalContext.state.isRegistered) {
       return;
     }
+    getMyMatchContacts();
 
-    PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-    ).then(async (status) => {
+    (async () => {
+      const status = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      );
       if (status === 'never_ask_again') {
         dialogContext.dispatch(
           Dialog.open(
@@ -85,7 +87,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
         await backend.updateContacts(result);
         await getMyMatchContacts();
       }
-    });
+    })();
   }, []);
 
   const getMyMatchContacts = async () => {

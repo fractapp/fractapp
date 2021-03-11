@@ -15,12 +15,12 @@ export const VerifyPassCode = ({
 }) => {
   const globalContext = useContext(GlobalStore.Context);
 
-  const isVerify = route.params?.isVerify ?? false;
+  const isVerify = route.params?.isVerify ?? false; //TODO: change to type
+  const isDisablePasscode = route.params?.isDisablePasscode ?? false; //TODO: change to type
+  const isChangeBiometry = route.params?.isChangeBiometry ?? false; //TODO: change to type
+
   const action = route.params?.action ?? '';
   const screenKey = route.params?.screenKey ?? '';
-
-  const isDisablePasscode = route.params?.isDisablePasscode ?? false;
-  const isChangeBiometry = route.params?.isChangeBiometry ?? false;
 
   const onSubmit = async (passcode: Array<number>) => {
     globalContext.dispatch(GlobalStore.setLoading(true));

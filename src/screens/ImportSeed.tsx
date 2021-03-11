@@ -4,7 +4,7 @@ import {BlueButton} from 'components/BlueButton';
 import {Loader} from 'components/Loader';
 import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
-import db from 'storage/DB';
+import DB from 'storage/DB';
 
 export const ImportSeed = () => {
   const globalContext = useContext(GlobalStore.Context);
@@ -21,10 +21,12 @@ export const ImportSeed = () => {
     if (!isSaveSeed) {
       return;
     }
-    db.createAccounts(seed).then(async () => {
+
+    (async () => {
+      await DB.createAccounts(seed);
       globalContext.dispatch(GlobalStore.signInLocal());
       setLoading(false);
-    });
+    })();
   }, [isSaveSeed]);
 
   const renderButtonOrError = () => {

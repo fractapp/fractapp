@@ -46,7 +46,7 @@ namespace GlobalStore {
     dispatch: Dispatch<any>;
   };
 
-  export const initialState: State = {
+  export const initialState = (): State => ({
     isUpdatingProfile: false,
     profile: {
       id: '',
@@ -70,9 +70,9 @@ namespace GlobalStore {
     isInitialized: false,
     isRegistered: false,
     isLoadingShow: false,
-  };
+  });
   export const Context = createContext<ContextType>({
-    state: initialState,
+    state: initialState(),
     dispatch: () => null,
   });
   export function reducer(prevState: State, action: any): State {
@@ -107,7 +107,7 @@ namespace GlobalStore {
         copy.isUpdatingProfile = action.isUpdatingProfile;
         break;
       case Action.SIGN_OUT_FRACTAPP:
-        copy.profile = GlobalStore.initialState.profile;
+        copy.profile = GlobalStore.initialState().profile;
         copy.isRegistered = false;
         break;
       case Action.ADD_NOTIFICATION:

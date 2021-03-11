@@ -31,7 +31,7 @@ useState.mockImplementation((init) => [init, jest.fn()]);
 it('Test view', () => {
   const dialogMock = jest.fn();
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogMock,
   });
 
@@ -47,7 +47,7 @@ it('Test click success', () => {
   const setOptions = jest.fn();
 
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogMock,
   });
   const email = 'test@email.com';
@@ -77,7 +77,7 @@ it('Test click success with invalid email', () => {
   const setOptions = jest.fn();
 
   useContext.mockReturnValueOnce({
-    state: DialogStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dialogMock,
   });
   const email = 'invalidEmail';

@@ -6,6 +6,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import GlobalStore from 'storage/Global';
 import {mnemonicGenerate} from '@polkadot/util-crypto';
+import DialogStore from 'storage/Dialog';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -56,7 +57,7 @@ it('Test backup file', async () => {
 
   const dispatch = jest.fn();
   useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState,
+    state: DialogStore.initialState(),
     dispatch: dispatch,
   });
 

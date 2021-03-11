@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "marginTop": 15,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "width": "95%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        $
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        autoFocus={true}
+        keyboardType="decimal-pad"
+        onChangeText={[Function]}
+        placeholderTextColor="#BFBDBD"
+        rejectResponderTermination={true}
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {
+              "marginBottom": 8,
+              "marginTop": 8,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+            },
+          ]
+        }
+        textAlign="center"
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      />
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "height": 30,
+          "opacity": 1,
+          "position": "absolute",
+          "right": 20,
+          "top": 8,
+          "width": 30,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/change.png",
+          }
+        }
+        style={
+          Object {
+            "height": 30,
+            "width": 30,
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#DADADA",
+          },
+          Object {
+            "width": "95%",
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "width": "95%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "width": "50%",
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "width": "50%",
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

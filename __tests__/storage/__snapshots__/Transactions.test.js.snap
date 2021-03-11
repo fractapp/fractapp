@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test addPendingTx 1`] = `
+Object {
+  "currency": 1,
+  "hash": "txHash",
+  "type": 2,
+}
+`;
+
+exports[`Test reducer addPendingTx 1`] = `
+Object {
+  "isInitialized": false,
+  "pendingTransactions": Map {
+    1 => Array [
+      "txHash",
+    ],
+  },
+  "transactions": Map {},
+}
+`;
+
+exports[`Test reducer removePendingTx 1`] = `
+Object {
+  "isInitialized": false,
+  "pendingTransactions": Map {
+    1 => Array [
+      "txHashOne",
+    ],
+  },
+  "transactions": Map {},
+}
+`;
+
+exports[`Test reducer removePendingTx 2`] = `
+Object {
+  "isInitialized": false,
+  "pendingTransactions": Map {
+    1 => Array [
+      "txHashOne",
+      "txHashTwo",
+    ],
+  },
+  "transactions": Map {},
+}
+`;
+
+exports[`Test reducer removePendingTx 3`] = `
+Object {
+  "isInitialized": false,
+  "pendingTransactions": Map {
+    1 => Array [
+      "txHashOne",
+    ],
+  },
+  "transactions": Map {},
+}
+`;
+
+exports[`Test reducer set 1`] = `
+Object {
+  "isInitialized": true,
+  "pendingTransactions": Map {
+    0 => Array [
+      "txOne",
+      "txTwo",
+    ],
+  },
+  "transactions": Map {
+    0 => Map {
+      "txIdOne" => Object {
+        "address": "address#1",
+        "currency": 0,
+        "fee": 10,
+        "id": "txIdOne",
+        "status": 1,
+        "timestamp": 1607720400000,
+        "txType": 0,
+        "usdFee": 10,
+        "usdValue": 10,
+        "userId": "userId",
+        "value": 10,
+      },
+    },
+  },
+}
+`;
+
+exports[`Test reducer setTx 1`] = `
+Object {
+  "isInitialized": false,
+  "pendingTransactions": Map {},
+  "transactions": Map {
+    1 => Map {
+      "txIdOne" => Object {
+        "address": "address#1",
+        "currency": 1,
+        "fee": 10,
+        "id": "txIdOne",
+        "status": 1,
+        "timestamp": 1607720400000,
+        "txType": 2,
+        "usdFee": 10,
+        "usdValue": 10,
+        "userId": "userId",
+        "value": 10,
+      },
+    },
+  },
+}
+`;
+
+exports[`Test removePendingTx 1`] = `
+Object {
+  "currency": 1,
+  "index": 10,
+  "type": 3,
+}
+`;
+
+exports[`Test set 1`] = `
+Object {
+  "pendingTxs": Map {
+    0 => Array [
+      "txOne",
+      "txTwo",
+    ],
+  },
+  "txs": Map {
+    0 => Map {
+      "txIdOne" => Object {
+        "address": "address#1",
+        "currency": 0,
+        "fee": 10,
+        "id": "txIdOne",
+        "status": 1,
+        "timestamp": 1607720400000,
+        "txType": 0,
+        "usdFee": 10,
+        "usdValue": 10,
+        "userId": "userId",
+        "value": 10,
+      },
+    },
+  },
+  "type": 0,
+}
+`;
+
+exports[`Test setTx 1`] = `
+Object {
+  "currency": 1,
+  "tx": Object {
+    "address": "address#1",
+    "currency": 1,
+    "fee": 10,
+    "id": "txIdOne",
+    "status": 1,
+    "timestamp": 1607720400000,
+    "txType": 2,
+    "usdFee": 10,
+    "usdValue": 10,
+    "userId": "userId",
+    "value": 10,
+  },
+  "type": 1,
+}
+`;

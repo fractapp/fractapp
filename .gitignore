@@ -1,4 +1,5 @@
 yarn-error.log
+.env
 
 # typescript output directory
 dist/
@@ -84,3 +85,4 @@ fastlane/screenshots
 android/.project
 android/app/.project
 android/app/bin
+android/app/google-services.json

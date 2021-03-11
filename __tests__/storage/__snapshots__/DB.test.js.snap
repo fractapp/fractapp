@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test AsyncStorageKeys 1`] = `
+Object {
+  "accountInfo": [Function],
+  "accounts": "accounts",
+  "authInfo": "auth_info",
+  "chatByChatId": [Function],
+  "chatsInfo": "chats_info",
+  "contacts": "contacts",
+  "notificationCount": "notification_count",
+  "pendingTransactions": [Function],
+  "price": [Function],
+  "profile": "profile",
+  "transactions": [Function],
+  "users": "users",
+}
+`;
+
+exports[`Test PasscodeStorageKeys 1`] = `
+Object {
+  "passcode": "passcode",
+}
+`;
+
+exports[`Test SecureStorageKeys 1`] = `
+Object {
+  "authJWT": "auth_jwt",
+  "firebaseToken": "firebase_token",
+  "passcodeHash": "passcode_hash",
+  "salt": "salt",
+  "seed": "seed",
+}
+`;
+
+exports[`Test biometryOption 1`] = `
+Object {
+  "accessControl": 0,
+  "service": "com.fractapp",
+}
+`;
+
+exports[`Test secureOption 1`] = `
+Object {
+  "service": "com.fractapp",
+}
+`;

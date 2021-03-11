@@ -1,0 +1,805 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test view with empty txs 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <RCTScrollView
+    ListHeaderComponent={
+      <Component
+        style={
+          Object {
+            "marginBottom": 90,
+          }
+        }
+      />
+    }
+    data={Array []}
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    invertStickyHeaders={true}
+    inverted={true}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    scrollToOverflowEnabled={true}
+    stickyHeaderIndices={Array []}
+    style={
+      Array [
+        Object {
+          "transform": Array [
+            Object {
+              "scaleY": -1,
+            },
+          ],
+        },
+        Object {
+          "width": "100%",
+        },
+      ]
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={
+          Object {
+            "transform": Array [
+              Object {
+                "scaleY": -1,
+              },
+            ],
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "marginBottom": 90,
+            }
+          }
+        />
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#2AB2E2",
+        "borderRadius": 50,
+        "bottom": 10,
+        "height": 60,
+        "justifyContent": "center",
+        "opacity": 1,
+        "position": "absolute",
+        "right": 10,
+        "width": 60,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/send.png",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 16,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test view with txs (ChatType == Address) 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <RCTScrollView
+    ListHeaderComponent={
+      <Component
+        style={
+          Object {
+            "marginBottom": 90,
+          }
+        }
+      />
+    }
+    data={
+      Array [
+        Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 10,
+          "id": "2",
+          "status": 1,
+          "timestamp": 1583960400000,
+          "txType": 1,
+          "usdFee": 10,
+          "usdValue": 10,
+          "userId": null,
+          "value": 10,
+        },
+        Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 12,
+          "id": "1",
+          "status": 2,
+          "timestamp": 1581454800000,
+          "txType": 1,
+          "usdFee": 12,
+          "usdValue": 12,
+          "userId": null,
+          "value": 12,
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    invertStickyHeaders={true}
+    inverted={true}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    scrollToOverflowEnabled={true}
+    stickyHeaderIndices={Array []}
+    style={
+      Array [
+        Object {
+          "transform": Array [
+            Object {
+              "scaleY": -1,
+            },
+          ],
+        },
+        Object {
+          "width": "100%",
+        },
+      ]
+    }
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={
+          Object {
+            "transform": Array [
+              Object {
+                "scaleY": -1,
+              },
+            ],
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "marginBottom": 90,
+            }
+          }
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "column-reverse",
+            },
+            Object {
+              "transform": Array [
+                Object {
+                  "scaleY": -1,
+                },
+              ],
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#DADADA",
+                  "borderRadius": 10,
+                  "borderWidth": 1,
+                  "justifyContent": "center",
+                  "marginBottom": 5,
+                  "marginLeft": 20,
+                  "marginRight": 20,
+                  "marginTop": 5,
+                  "minWidth": "48%",
+                  "padding": 10,
+                  "paddingRight": 10,
+                },
+                Object {
+                  "alignSelf": "flex-end",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                  },
+                  Object {
+                    "marginBottom": 5,
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "#888888",
+                      "fontSize": 20,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "Material Design Icons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                󰸇
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#888888",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginLeft": 3,
+                  }
+                }
+              >
+                You sent
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/dot.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderColor": "black",
+                    "borderRadius": 22.5,
+                    "borderWidth": 0.8,
+                    "height": 45,
+                    "overflow": "hidden",
+                    "width": 45,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 35,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                      "marginLeft": 10,
+                    },
+                    Object {
+                      "color": "#EA4335",
+                    },
+                  ]
+                }
+              >
+                $0.123
+              </Text>
+            </View>
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 18,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginLeft": 60,
+                  },
+                ]
+              }
+            >
+              10
+               
+              DOT
+            </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                  },
+                  Object {
+                    "marginTop": 10,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#888888",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 13,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {
+                      "alignSelf": "flex-start",
+                      "marginLeft": 3,
+                    },
+                  ]
+                }
+              >
+                12/03/20 00:00
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#67D44D",
+                        "fontSize": 20,
+                      },
+                      Object {
+                        "alignSelf": "flex-end",
+                        "marginLeft": 3,
+                      },
+                      Object {
+                        "fontFamily": "Material Icons",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {},
+                    ]
+                  }
+                >
+                  
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginBottom": 10,
+              "marginTop": 10,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderBottomWidth": 1,
+                  "borderColor": "#2AB2E2",
+                  "height": 1,
+                  "width": "27%",
+                },
+                Object {
+                  "left": 20,
+                  "position": "absolute",
+                },
+              ]
+            }
+          />
+          <Text
+            style={
+              Object {
+                "color": "#2AB2E2",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              }
+            }
+          >
+            Unread messages
+          </Text>
+          <View
+            style={
+              Array [
+                Object {
+                  "borderBottomWidth": 1,
+                  "borderColor": "#2AB2E2",
+                  "height": 1,
+                  "width": "27%",
+                },
+                Object {
+                  "position": "absolute",
+                  "right": 20,
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "column-reverse",
+            },
+            Object {
+              "transform": Array [
+                Object {
+                  "scaleY": -1,
+                },
+              ],
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#DADADA",
+                  "borderRadius": 10,
+                  "borderWidth": 1,
+                  "justifyContent": "center",
+                  "marginBottom": 5,
+                  "marginLeft": 20,
+                  "marginRight": 20,
+                  "marginTop": 5,
+                  "minWidth": "48%",
+                  "padding": 10,
+                  "paddingRight": 10,
+                },
+                Object {
+                  "alignSelf": "flex-end",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                  },
+                  Object {
+                    "marginBottom": 5,
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "#888888",
+                      "fontSize": 20,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "Material Design Icons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                󰸇
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#888888",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginLeft": 3,
+                  }
+                }
+              >
+                You sent
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../assets/img/dot.png",
+                  }
+                }
+                style={
+                  Object {
+                    "borderColor": "black",
+                    "borderRadius": 22.5,
+                    "borderWidth": 0.8,
+                    "height": 45,
+                    "overflow": "hidden",
+                    "width": 45,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 35,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                      "marginLeft": 10,
+                    },
+                    Object {
+                      "color": "#888888",
+                    },
+                  ]
+                }
+              >
+                $0.123
+              </Text>
+            </View>
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 18,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginLeft": 60,
+                  },
+                ]
+              }
+            >
+              12
+               
+              DOT
+            </Text>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                  },
+                  Object {
+                    "marginTop": 10,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#888888",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 13,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {
+                      "alignSelf": "flex-start",
+                      "marginLeft": 3,
+                    },
+                  ]
+                }
+              >
+                12/02/20 00:00
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#EA4335",
+                        "fontSize": 20,
+                      },
+                      Object {
+                        "alignSelf": "flex-end",
+                        "marginLeft": 3,
+                      },
+                      Object {
+                        "fontFamily": "Material Design Icons",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {},
+                    ]
+                  }
+                >
+                  󰅖
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#2AB2E2",
+        "borderRadius": 50,
+        "bottom": 10,
+        "height": 60,
+        "justifyContent": "center",
+        "opacity": 1,
+        "position": "absolute",
+        "right": 10,
+        "width": 60,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/send.png",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 16,
+        }
+      }
+    />
+  </View>
+</View>
+`;

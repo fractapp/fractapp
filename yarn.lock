@@ -1416,10 +1416,10 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/messaging@^10.5.1":
-  version "10.6.4"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-10.6.4.tgz#694403d801f6ce4763aa846e732be5fc6ba7a9a9"
-  integrity sha512-Yx0azyf/s9aEDGm0w5RS+ozkFE4BWo8icj/Vnx3uhObb6T5L1nPpnFj/7mOz55yGpiF6VZ14kGSq9TzbsTFLaw==
+"@react-native-firebase/messaging@^10.8.0":
+  version "10.8.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-10.8.1.tgz#da9e0db91645e70e7853e5b91c06771fffbea8bb"
+  integrity sha512-DVgibb4XERG+5TQQiHKJ1qF+5cbpfiKGRFze9WcbE+FxSYwNMIzyt6u3l7WMBLz6wXcqAq3zLRo6SBbSt37uDw==
 
 "@react-navigation/bottom-tabs@^5.11.1":
   version "5.11.7"

@@ -7290,10 +7290,10 @@ react-native-document-picker@^4.2.0:
   resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-4.3.0.tgz#bac53d066ee3014c9b78b39c0c84dc9b974f0d04"
   integrity sha512-ygcY0ijlVuhxzdWnhqd917yMUFT9FF0b4CM81LWoY4/bpQYz5PGUdRAdh25kS0VA+cEUYNL2iI7OpHXq00epPA==
 
-react-native-dotenv@^2.4.3:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.5.1.tgz#2869f92f015d629eecd8a8586bc6b70160132bf2"
-  integrity sha512-39no3YJviNJwC+hqILHLWGjcCMc8qpSMlJF+SzkLIH0dvnL2ZHxzC5+CRmKN54dCEjpBL0qUp7ZXI9JPhptgUg==
+react-native-dotenv@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.5.3.tgz#ec70186d2b1491b0519647c53bf91f34395377a3"
+  integrity sha512-Fibw5q6vy91aRwol7yO6U9Om+EyE7Vs4pO70AYGRkDuMkaQ4EIyYw9mmiPcKo6VFCwlpE8y1AZImxoKREFASXA==
   dependencies:
     dotenv "^8.0.0"
 

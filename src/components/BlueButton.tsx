@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 /**
+ * Blue style button
  * @category Components
  */
 export const BlueButton = ({

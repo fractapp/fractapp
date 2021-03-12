@@ -13,6 +13,10 @@ import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+/**
+ * Chat list screen
+ * @category Screens
+ */
 export const Chats = ({navigation}: {navigation: any}) => {
   const chatsContext = useContext(ChatsStore.Context);
   const transactionsContext = useContext(TransactionsStore.Context);

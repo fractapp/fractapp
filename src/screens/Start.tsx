@@ -2,6 +2,10 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 
+/**
+ * Start screen for new users
+ * @category Screens
+ */
 export const Start = ({navigation}: {navigation: any}) => {
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>

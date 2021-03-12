@@ -9,6 +9,10 @@ import MathUtils from 'utils/math';
 import Dialog from 'storage/Dialog';
 import BN from 'bn.js';
 
+/**
+ * Screen with the input of the amount to be sent
+ * @category Screens
+ */
 export const EnterAmount = ({
   navigation,
   route,

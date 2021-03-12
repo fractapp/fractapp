@@ -9,7 +9,7 @@ import {
 import {Currency, getSymbol} from 'types/wallet';
 
 /**
- * Text input for amount
+ * View with amount value
  * @category Components
  */
 export const AmountValue = ({

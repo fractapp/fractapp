@@ -3,6 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /**
+ * Button for success action
  * @category Components
  */
 export const SuccessButton = ({

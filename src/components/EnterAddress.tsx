@@ -4,9 +4,10 @@ import {Currency} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 
 /**
+ * Input for address
  * @category Components
  */
-export const ReceiverWithEnterAddress = ({
+export const EnterAddress = ({
   value,
   isValid,
   currency,

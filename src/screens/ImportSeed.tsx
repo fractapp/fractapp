@@ -6,6 +6,10 @@ import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
 import DB from 'storage/DB';
 
+/**
+ * Import seed screen
+ * @category Screens
+ */
 export const ImportSeed = () => {
   const globalContext = useContext(GlobalStore.Context);
   const [seed, setSeed] = useState<string>('');

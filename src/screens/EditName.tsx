@@ -5,6 +5,10 @@ import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
 
+/**
+ * Screen with editing name in fractapp
+ * @category Screens
+ */
 export const EditName = ({navigation}: {navigation: any}) => {
   const regExp = new RegExp('[^A-Za-z0-9_-\\s]');
   const globalContext = useContext(GlobalStore.Context);

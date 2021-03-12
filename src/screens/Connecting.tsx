@@ -2,6 +2,10 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components/WhiteButton';
 
+/**
+ * Screen with connecting to fractapp
+ * @category Screens
+ */
 export const Connecting = ({navigation}: {navigation: any}) => {
   return (
     <View

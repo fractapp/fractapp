@@ -9,6 +9,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MathUtils from 'utils/math';
 
 /**
+ * Payment message in chat
  * @category Components
  */
 export const PaymentMsg = ({tx}: {tx: Transaction}) => {

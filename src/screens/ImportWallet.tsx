@@ -7,6 +7,10 @@ import {FileBackup} from 'types/backup';
 import googleUtil from 'utils/google';
 import Dialog from 'storage/Dialog';
 
+/**
+ * Import wallet screen
+ * @category Screens
+ */
 export const ImportWallet = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
 

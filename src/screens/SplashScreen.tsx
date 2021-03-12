@@ -3,6 +3,10 @@ import {StyleSheet, StatusBar, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
+/**
+ * Splash screen
+ * @category Screens
+ */
 export const SplashScreen = () => {
   return (
     <SafeAreaProvider style={{flex: 1}}>

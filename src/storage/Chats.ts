@@ -5,7 +5,7 @@ import {Currency} from 'types/wallet';
 
 /**
  * @namespace
- * @category Context storage
+ * @category Storage
  */
 namespace ChatsStore {
   export enum Action {

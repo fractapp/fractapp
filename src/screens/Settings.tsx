@@ -13,6 +13,10 @@ import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
 import {CommonActions} from '@react-navigation/native';
 
+/**
+ * Settings screen
+ * @category Screens
+ */
 export const Settings = ({
   navigation,
   route,

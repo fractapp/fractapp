@@ -11,6 +11,10 @@ import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import BackendApi from 'utils/backend';
 
+/**
+ * Confirm code screen
+ * @category Screens
+ */
 export const ConfirmCode = ({
   navigation,
   route,

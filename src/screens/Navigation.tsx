@@ -36,11 +36,19 @@ import {
   EnterAmount,
   Legal,
 } from 'screens/index';
-import {TabMenu} from 'components/index';
+import {TabMenu} from 'components/TabMenu';
 import {getSymbol} from 'types/wallet';
 
+/**
+ * Main navigation stack
+ * @category Screens
+ */
 const RootStack = createStackNavigator();
 
+/**
+ * Navigation screen
+ * @category Screens
+ */
 export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
   const Theme = {
     dark: false,

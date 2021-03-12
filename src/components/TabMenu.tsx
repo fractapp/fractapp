@@ -8,18 +8,41 @@ import {Settings} from 'screens/Settings';
 import {Chats} from 'screens/Chats';
 import GlobalStore from 'storage/Global';
 
+/**
+ * All Tab Navigator
+ * @category Components
+ */
 const Tab = createBottomTabNavigator();
+
+/**
+ * Wallet Tab Stack
+ * @category Components
+ */
 const WalletStack = createStackNavigator();
-const ChatStack = createStackNavigator();
+
+/**
+ * Chats Tab Stack
+ * @category Components
+ */
+const ChatsStack = createStackNavigator();
+
+/**
+ * Profile Tab Stack
+ * @category Components
+ */
 const ProfileStack = createStackNavigator();
 
+/**
+ * Menu with tabs
+ * @category Components
+ */
 export const TabMenu = () => {
   const globalContext = useContext(GlobalStore.Context);
 
   const MenuTabs = {
     Discovery: 'Discovery',
     Chats: 'Chats',
-    Wallet: 'Wallet',
+    Wallet: 'WalletTab',
     Profile: 'Profile',
   };
   return (
@@ -40,7 +63,7 @@ export const TabMenu = () => {
           }
         },
       })}>
-      <Tab.Screen name={MenuTabs.Wallet} component={Wallet} />
+      <Tab.Screen name={MenuTabs.Wallet} component={WalletTab} />
       <Tab.Screen
         name={MenuTabs.Chats}
         component={ChatsTab}
@@ -59,12 +82,16 @@ export const TabMenu = () => {
           },
         }}
       />
-      <Tab.Screen name={MenuTabs.Profile} component={Profile} />
+      <Tab.Screen name={MenuTabs.Profile} component={ProfileTab} />
     </Tab.Navigator>
   );
 };
 
-const Wallet = () => {
+/**
+ * Wallet Tab
+ * @category Components
+ */
+const WalletTab = () => {
   return (
     <WalletStack.Navigator>
       <WalletStack.Screen
@@ -92,9 +119,14 @@ const Wallet = () => {
     </WalletStack.Navigator>
   );
 };
+
+/**
+ * Chats Tab
+ * @category Components
+ */
 const ChatsTab = () => {
   return (
-    <ChatStack.Navigator>
+    <ChatsStack.Navigator>
       <WalletStack.Screen
         name="Chats"
         component={Chats}
@@ -117,10 +149,15 @@ const ChatsTab = () => {
           },
         }}
       />
-    </ChatStack.Navigator>
+    </ChatsStack.Navigator>
   );
 };
-const Profile = () => {
+
+/**
+ * Profile Tab
+ * @category Components
+ */
+const ProfileTab = () => {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen

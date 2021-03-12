@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest --verbose",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "doc": "typedoc --out docs src/components/index.ts src/types ./src/storage ./src/utils --mode file --ignoreCompilerErrors "
+    "doc": "typedoc --out docs src/components src/screens src/storage src/types src/utils --mode file --ignoreCompilerErrors "
   },
   "dependencies": {
     "@polkadot/api": "^3.8.1",

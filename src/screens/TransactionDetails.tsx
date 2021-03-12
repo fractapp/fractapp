@@ -13,6 +13,10 @@ import {showMessage} from 'react-native-flash-message';
 import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
 
+/**
+ * Screen with transaction details
+ * @category Screens
+ */
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;
   const wallet: Wallet = route.params.wallet;

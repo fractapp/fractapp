@@ -8,11 +8,12 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import {Dialog, PassCode} from 'components/index';
+import {Dialog} from 'components/Dialog';
+import {PassCode} from 'components/PassCode';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
 import DialogStore from 'storage/Dialog';
-import {Navigation} from 'screens/index';
+import {Navigation} from 'screens/Navigation';
 import changeNavigationBarColor, {
   hideNavigationBar,
   showNavigationBar,

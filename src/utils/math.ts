@@ -1,12 +1,12 @@
-/**
- * @namespace
- * @category Utils
- */
 import BN from 'bn.js';
 import {Currency} from 'types/wallet';
 import {Api} from 'utils/polkadot';
 import PricesStore from 'storage/Prices';
 
+/**
+ * @namespace
+ * @category Utils
+ */
 namespace MathUtils {
   type CalculateTxFeeInfo = {
     usdFee: number;

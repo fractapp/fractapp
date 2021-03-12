@@ -10,6 +10,11 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
 import GlobalStore from 'storage/Global';
+
+/**
+ * Screen with editing profile in fractapp
+ * @category Screens
+ */
 export const EditProfile = ({navigation}: {navigation: any}) => {
   const globalContext = useContext(GlobalStore.Context);
 

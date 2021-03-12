@@ -13,6 +13,10 @@ import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
 import db from 'storage/DB';
 
+/**
+ * Backup screen
+ * @category Screens
+ */
 export const Backup = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
 

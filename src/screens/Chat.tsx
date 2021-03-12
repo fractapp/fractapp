@@ -20,6 +20,10 @@ import TransactionsStore from 'storage/Transactions';
 import stringUtils from 'utils/string';
 import backend from 'utils/backend';
 
+/**
+ * Chat screen
+ * @category Screens
+ */
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const flatListRef = useRef<FlatList>(null);
 

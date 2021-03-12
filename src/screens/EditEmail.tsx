@@ -5,6 +5,10 @@ import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
 
+/**
+ * Screen with editing email in fractapp
+ * @category Screens
+ */
 export const EditEmail = ({navigation}: {navigation: any}) => {
   const dialogContext = useContext(Dialog.Context);
 

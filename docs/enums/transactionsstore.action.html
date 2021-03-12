@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/authstore.html">AuthStore</a>
+					<a href="../modules/transactionsstore.html">TransactionsStore</a>
 				</li>
 				<li>
-					<a href="authstore.action.html">Action</a>
+					<a href="transactionsstore.action.html">Action</a>
 				</li>
 			</ul>
 			<h1>Enumeration Action</h1>
@@ -76,8 +76,10 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="authstore.action.html#sign_in" class="tsd-kind-icon">SIGN_<wbr>IN</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="authstore.action.html#sign_out" class="tsd-kind-icon">SIGN_<wbr>OUT</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="transactionsstore.action.html#add_pending_txs" class="tsd-kind-icon">ADD_<wbr>PENDING_<wbr>TXS</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="transactionsstore.action.html#remove_pending_txs" class="tsd-kind-icon">REMOVE_<wbr>PENDING_<wbr>TXS</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="transactionsstore.action.html#set" class="tsd-kind-icon">SET</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="transactionsstore.action.html#set_tx" class="tsd-kind-icon">SET_<wbr>TX</a></li>
 							</ul>
 						</section>
 					</div>
@@ -86,22 +88,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="sign_in" class="tsd-anchor"></a>
-					<h3>SIGN_<wbr>IN</h3>
-					<div class="tsd-signature tsd-kind-icon">SIGN_<wbr>IN<span class="tsd-signature-symbol">:</span></div>
+					<a name="add_pending_txs" class="tsd-anchor"></a>
+					<h3>ADD_<wbr>PENDING_<wbr>TXS</h3>
+					<div class="tsd-signature tsd-kind-icon">ADD_<wbr>PENDING_<wbr>TXS<span class="tsd-signature-symbol">:</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/storage/Auth.ts#L9">src/storage/Auth.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/storage/Transactions.ts#L14">src/storage/Transactions.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="sign_out" class="tsd-anchor"></a>
-					<h3>SIGN_<wbr>OUT</h3>
-					<div class="tsd-signature tsd-kind-icon">SIGN_<wbr>OUT<span class="tsd-signature-symbol">:</span></div>
+					<a name="remove_pending_txs" class="tsd-anchor"></a>
+					<h3>REMOVE_<wbr>PENDING_<wbr>TXS</h3>
+					<div class="tsd-signature tsd-kind-icon">REMOVE_<wbr>PENDING_<wbr>TXS<span class="tsd-signature-symbol">:</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/storage/Auth.ts#L10">src/storage/Auth.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/storage/Transactions.ts#L15">src/storage/Transactions.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="set" class="tsd-anchor"></a>
+					<h3>SET</h3>
+					<div class="tsd-signature tsd-kind-icon">SET<span class="tsd-signature-symbol">:</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/storage/Transactions.ts#L12">src/storage/Transactions.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="set_tx" class="tsd-anchor"></a>
+					<h3>SET_<wbr>TX</h3>
+					<div class="tsd-signature tsd-kind-icon">SET_<wbr>TX<span class="tsd-signature-symbol">:</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/storage/Transactions.ts#L13">src/storage/Transactions.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -116,29 +138,41 @@
 					<li class=" tsd-kind-namespace">
 						<a href="../modules/accountsstore.html">Accounts<wbr>Store</a>
 					</li>
-					<li class="current tsd-kind-namespace">
-						<a href="../modules/authstore.html">Auth<wbr>Store</a>
+					<li class=" tsd-kind-namespace">
+						<a href="../modules/backendapi.html">Backend<wbr>Api</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="../modules/backup.html">Backup</a>
+						<a href="../modules/chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="../modules/db.html">DB</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="../modules/date.html">Date</a>
+						<a href="../modules/dialogstore.html">Dialog<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="../modules/dialogstore.html">Dialog<wbr>Store</a>
+						<a href="../modules/globalstore.html">Global<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="../modules/google.html">Google</a>
 					</li>
 					<li class=" tsd-kind-namespace">
+						<a href="../modules/mathutils.html">Math<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="../modules/passcodeutil.html">Passcode<wbr>Util</a>
+					</li>
+					<li class=" tsd-kind-namespace">
 						<a href="../modules/pricesstore.html">Prices<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
+						<a href="../modules/stringutils.html">String<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-namespace">
 						<a href="../modules/task.html">Task</a>
+					</li>
+					<li class="current tsd-kind-namespace">
+						<a href="../modules/transactionsstore.html">Transactions<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
@@ -147,35 +181,50 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum tsd-parent-kind-namespace">
-						<a href="authstore.action.html" class="tsd-kind-icon">Action</a>
+						<a href="transactionsstore.action.html" class="tsd-kind-icon">Action</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="authstore.action.html#sign_in" class="tsd-kind-icon">SIGN_<wbr>IN</a>
+								<a href="transactionsstore.action.html#add_pending_txs" class="tsd-kind-icon">ADD_<wbr>PENDING_<wbr>TXS</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="authstore.action.html#sign_out" class="tsd-kind-icon">SIGN_<wbr>OUT</a>
+								<a href="transactionsstore.action.html#remove_pending_txs" class="tsd-kind-icon">REMOVE_<wbr>PENDING_<wbr>TXS</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="transactionsstore.action.html#set" class="tsd-kind-icon">SET</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="transactionsstore.action.html#set_tx" class="tsd-kind-icon">SET_<wbr>TX</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
-						<a href="../modules/authstore.html#state" class="tsd-kind-icon">State</a>
+						<a href="../modules/transactionsstore.html#contexttype" class="tsd-kind-icon">Context<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
+						<a href="../modules/transactionsstore.html#state-1" class="tsd-kind-icon">State</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
-						<a href="../modules/authstore.html#context" class="tsd-kind-icon">Context</a>
+						<a href="../modules/transactionsstore.html#context" class="tsd-kind-icon">Context</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="../modules/authstore.html#reducer" class="tsd-kind-icon">reducer</a>
+						<a href="../modules/transactionsstore.html#addpendingtx" class="tsd-kind-icon">add<wbr>Pending<wbr>Tx</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="../modules/authstore.html#signin" class="tsd-kind-icon">sign<wbr>In</a>
+						<a href="../modules/transactionsstore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="../modules/authstore.html#signout" class="tsd-kind-icon">sign<wbr>Out</a>
+						<a href="../modules/transactionsstore.html#reducer" class="tsd-kind-icon">reducer</a>
 					</li>
-					<li class=" tsd-kind-object-literal tsd-parent-kind-namespace">
-						<a href="../modules/authstore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="../modules/transactionsstore.html#removependingtx" class="tsd-kind-icon">remove<wbr>Pending<wbr>Tx</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="../modules/transactionsstore.html#set" class="tsd-kind-icon">set</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="../modules/transactionsstore.html#settx" class="tsd-kind-icon">set<wbr>Tx</a>
 					</li>
 				</ul>
 			</nav>

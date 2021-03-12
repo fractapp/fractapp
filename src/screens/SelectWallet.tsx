@@ -5,6 +5,10 @@ import {Wallet} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 
+/**
+ * Select wallet screen
+ * @category Screens
+ */
 export const SelectWallet = ({
   navigation,
   route,

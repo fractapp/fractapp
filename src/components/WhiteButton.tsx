@@ -20,6 +20,7 @@ export enum Img {
 }
 
 /**
+ * White style button
  * @category Components
  */
 export const WhiteButton = ({

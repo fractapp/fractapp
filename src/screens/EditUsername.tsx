@@ -5,6 +5,10 @@ import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
 
+/**
+ * Screen with editing username in fractapp
+ * @category Screens
+ */
 export const EditUsername = ({navigation}: {navigation: any}) => {
   const regExp = new RegExp('[^A-Za-z0-9_-]');
   const globalContext = useContext(GlobalStore.Context);

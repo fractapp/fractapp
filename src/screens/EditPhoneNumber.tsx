@@ -20,6 +20,10 @@ import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import backend from 'utils/backend';
 
+/**
+ * Screen with editing phone number in fractapp
+ * @category Screens
+ */
 export const EditPhoneNumber = ({
   navigation,
   route,

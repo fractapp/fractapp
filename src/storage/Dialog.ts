@@ -2,7 +2,7 @@ import {createContext, Dispatch} from 'react';
 
 /**
  * @namespace
- * @category Context storage
+ * @category Storage
  */
 namespace DialogStore {
   export enum Action {

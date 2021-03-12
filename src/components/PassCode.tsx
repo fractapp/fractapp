@@ -3,7 +3,7 @@ import DB from 'storage/DB';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 /**
- * Pass Code component
+ * Input for write passcode
  * @category Components
  */
 export const PassCode = ({

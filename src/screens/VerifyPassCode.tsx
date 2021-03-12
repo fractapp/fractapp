@@ -6,6 +6,10 @@ import PasscodeUtil from 'utils/passcode';
 import GlobalStore from 'storage/Global';
 import {CommonActions} from '@react-navigation/native';
 
+/**
+ * Passcode verification screen
+ * @category Screens
+ */
 export const VerifyPassCode = ({
   navigation,
   route,

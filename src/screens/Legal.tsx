@@ -4,6 +4,10 @@ import {BlueButton} from 'components/BlueButton';
 import {WhiteButton} from 'components/WhiteButton';
 import CheckBox from '@react-native-community/checkbox';
 
+/**
+ * Screen with legal information
+ * @category Screens
+ */
 export const Legal = ({navigation}: {navigation: any}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 

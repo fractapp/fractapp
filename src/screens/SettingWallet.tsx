@@ -2,6 +2,10 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton} from 'components/WhiteButton';
 
+/**
+ * First setting for wallet
+ * @category Screens
+ */
 export const SettingWallet = ({navigation}: {navigation: any}) => {
   return (
     <View

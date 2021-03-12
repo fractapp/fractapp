@@ -6,7 +6,7 @@ import {UserProfile} from 'types/profile';
 
 /**
  * @namespace
- * @category Context storage
+ * @category Storage
  */
 namespace GlobalStore {
   export enum Action {

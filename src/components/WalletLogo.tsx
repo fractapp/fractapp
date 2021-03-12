@@ -3,6 +3,7 @@ import {Image} from 'react-native';
 import {Currency, getLogo, withoutBorder} from 'types/wallet';
 
 /**
+ * Wallet Logo
  * @category Components
  */
 export const WalletLogo = ({

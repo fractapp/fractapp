@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
 /**
+ * User's contact in fractapp
  * @category Components
  */
 export const Contact = ({

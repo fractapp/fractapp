@@ -84,13 +84,15 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="api.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="api.html#apipromise" class="tsd-kind-icon">api<wbr>Promise</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="api.html#currency" class="tsd-kind-icon">currency</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="api.html#decimals" class="tsd-kind-icon">decimals</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="api.html#explorerapiurl" class="tsd-kind-icon">explorer<wbr>Api<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="api.html#substrateapi" class="tsd-kind-icon">substrate<wbr>Api</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="api.html#substrateapiurl" class="tsd-kind-icon">substrate<wbr>Api<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="api.html#viewdecimals" class="tsd-kind-icon">view<wbr>Decimals</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="api.html#instance" class="tsd-kind-icon">instance</a></li>
 							</ul>
 						</section>
@@ -98,8 +100,15 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#balance" class="tsd-kind-icon">balance</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#convertfromplanck" class="tsd-kind-icon">convert<wbr>From<wbr>Planck</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#gettransactions" class="tsd-kind-icon">get<wbr>Transactions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#convertfromplanckstring" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#convertfromplanckwithviewdecimals" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>With<wbr>View<wbr>Decimals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#converttoplanck" class="tsd-kind-icon">convert<wbr>ToPlanck</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#getsubstrateapi" class="tsd-kind-icon">get<wbr>Substrate<wbr>Api</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#gettransactionswithoutusdvalue" class="tsd-kind-icon">get<wbr>Transactions<wbr>WithoutUSDValue</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#gettxstatus" class="tsd-kind-icon">get<wbr>TxStatus</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#mintransfer" class="tsd-kind-icon">min<wbr>Transfer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#send" class="tsd-kind-icon">send</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="api.html#updateusdvalueintransaction" class="tsd-kind-icon">updateUSDValue<wbr>InTransaction</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="api.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a></li>
 							</ul>
 						</section>
@@ -112,19 +121,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Api<span class="tsd-signature-symbol">(</span>apiPromise<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ApiPromise</span>, currency<span class="tsd-signature-symbol">: </span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a>, explorerApiUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="api.html" class="tsd-signature-type">Api</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Api<span class="tsd-signature-symbol">(</span>substrateApiUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, currency<span class="tsd-signature-symbol">: </span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a>, explorerApiUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="api.html" class="tsd-signature-type">Api</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L11">src/utils/polkadot.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L23">src/utils/polkadot.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>apiPromise: <span class="tsd-signature-type">ApiPromise</span></h5>
+									<h5>substrateApiUrl: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>currency: <a href="../enums/currency.html" class="tsd-signature-type">Currency</a></h5>
@@ -133,7 +142,7 @@
 									<h5>explorerApiUrl: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>decimals: <span class="tsd-signature-type">BN</span></h5>
+									<h5>decimals: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="api.html" class="tsd-signature-type">Api</a></h4>
@@ -141,45 +150,65 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="apipromise" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> api<wbr>Promise</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Promise<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ApiPromise</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L9">src/utils/polkadot.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="currency" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> currency</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> currency</h3>
 					<div class="tsd-signature tsd-kind-icon">currency<span class="tsd-signature-symbol">:</span> <a href="../enums/currency.html" class="tsd-signature-type">Currency</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L10">src/utils/polkadot.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L19">src/utils/polkadot.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="decimals" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> decimals</h3>
-					<div class="tsd-signature tsd-kind-icon">decimals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BN</span></div>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> decimals</h3>
+					<div class="tsd-signature tsd-kind-icon">decimals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L11">src/utils/polkadot.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L20">src/utils/polkadot.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="explorerapiurl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> explorer<wbr>Api<wbr>Url</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> explorer<wbr>Api<wbr>Url</h3>
 					<div class="tsd-signature tsd-kind-icon">explorer<wbr>Api<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L8">src/utils/polkadot.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L18">src/utils/polkadot.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="substrateapi" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> substrate<wbr>Api</h3>
+					<div class="tsd-signature tsd-kind-icon">substrate<wbr>Api<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ApiPromise</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L23">src/utils/polkadot.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="substrateapiurl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> substrate<wbr>Api<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">substrate<wbr>Api<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L22">src/utils/polkadot.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="viewdecimals" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> view<wbr>Decimals</h3>
+					<div class="tsd-signature tsd-kind-icon">view<wbr>Decimals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L21">src/utils/polkadot.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,7 +218,7 @@
 					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a><span class="tsd-signature-symbol">, </span><a href="api.html" class="tsd-signature-type">Api</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L7">src/utils/polkadot.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L17">src/utils/polkadot.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,13 +229,13 @@
 					<a name="balance" class="tsd-anchor"></a>
 					<h3>balance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">balance<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">balance<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>plankValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L55">src/utils/polkadot.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L126">src/utils/polkadot.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,27 +244,50 @@
 									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>plankValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="convertfromplanck" class="tsd-anchor"></a>
-					<h3>convert<wbr>From<wbr>Planck</h3>
+					<a name="convertfromplanckstring" class="tsd-anchor"></a>
+					<h3>convert<wbr>From<wbr>Planck<wbr>String</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<wbr>Planck<span class="tsd-signature-symbol">(</span>plancks<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>String<span class="tsd-signature-symbol">(</span>planck<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L51">src/utils/polkadot.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L89">src/utils/polkadot.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>plancks: <span class="tsd-signature-type">BN</span></h5>
+									<h5>planck: <span class="tsd-signature-type">BN</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="convertfromplanckwithviewdecimals" class="tsd-anchor"></a>
+					<h3>convert<wbr>From<wbr>Planck<wbr>With<wbr>View<wbr>Decimals</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>With<wbr>View<wbr>Decimals<span class="tsd-signature-symbol">(</span>planck<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L81">src/utils/polkadot.ts:81</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planck: <span class="tsd-signature-type">BN</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -243,16 +295,56 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="gettransactions" class="tsd-anchor"></a>
-					<h3>get<wbr>Transactions</h3>
+					<a name="converttoplanck" class="tsd-anchor"></a>
+					<h3>convert<wbr>ToPlanck</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Transactions<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, page<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="transaction.html" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>ToPlanck<span class="tsd-signature-symbol">(</span>number<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L60">src/utils/polkadot.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L110">src/utils/polkadot.ts:110</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>number: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BN</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getsubstrateapi" class="tsd-anchor"></a>
+					<h3>get<wbr>Substrate<wbr>Api</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Substrate<wbr>Api<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ApiPromise</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L73">src/utils/polkadot.ts:73</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ApiPromise</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettransactionswithoutusdvalue" class="tsd-anchor"></a>
+					<h3>get<wbr>Transactions<wbr>WithoutUSDValue</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Transactions<wbr>WithoutUSDValue<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, page<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, size<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#transaction" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L185">src/utils/polkadot.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -261,13 +353,102 @@
 									<h5>address: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> page: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> page: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> size: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 10</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> size: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 25</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="transaction.html" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#transaction" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettxstatus" class="tsd-anchor"></a>
+					<h3>get<wbr>TxStatus</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>TxStatus<span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/txstatus.html" class="tsd-signature-type">TxStatus</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L160">src/utils/polkadot.ts:160</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hash: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../enums/txstatus.html" class="tsd-signature-type">TxStatus</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="mintransfer" class="tsd-anchor"></a>
+					<h3>min<wbr>Transfer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">min<wbr>Transfer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L302">src/utils/polkadot.ts:302</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="send" class="tsd-anchor"></a>
+					<h3>send</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>receive<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L281">src/utils/polkadot.ts:281</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>receive: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">BN</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updateusdvalueintransaction" class="tsd-anchor"></a>
+					<h3>updateUSDValue<wbr>InTransaction</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">updateUSDValue<wbr>InTransaction<span class="tsd-signature-symbol">(</span>tx<span class="tsd-signature-symbol">: </span><a href="../globals.html#transaction" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L249">src/utils/polkadot.ts:249</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tx: <a href="../globals.html#transaction" class="tsd-signature-type">Transaction</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -281,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/4d36872/src/utils/polkadot.ts#L20">src/utils/polkadot.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/77ffacb/src/utils/polkadot.ts#L39">src/utils/polkadot.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,21 +487,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/currency.html" class="tsd-kind-icon">Currency</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/img.html" class="tsd-kind-icon">Img</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/txtype.html" class="tsd-kind-icon">Tx<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/type.html" class="tsd-kind-icon">Type</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="account.html" class="tsd-kind-icon">Account</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -328,9 +494,6 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="api.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="api.html#apipromise" class="tsd-kind-icon">api<wbr>Promise</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="api.html#currency" class="tsd-kind-icon">currency</a>
@@ -341,6 +504,15 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="api.html#explorerapiurl" class="tsd-kind-icon">explorer<wbr>Api<wbr>Url</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="api.html#substrateapi" class="tsd-kind-icon">substrate<wbr>Api</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="api.html#substrateapiurl" class="tsd-kind-icon">substrate<wbr>Api<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="api.html#viewdecimals" class="tsd-kind-icon">view<wbr>Decimals</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="api.html#instance" class="tsd-kind-icon">instance</a>
 							</li>
@@ -348,10 +520,31 @@
 								<a href="api.html#balance" class="tsd-kind-icon">balance</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="api.html#convertfromplanck" class="tsd-kind-icon">convert<wbr>From<wbr>Planck</a>
+								<a href="api.html#convertfromplanckstring" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="api.html#gettransactions" class="tsd-kind-icon">get<wbr>Transactions</a>
+								<a href="api.html#convertfromplanckwithviewdecimals" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>With<wbr>View<wbr>Decimals</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#converttoplanck" class="tsd-kind-icon">convert<wbr>ToPlanck</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#getsubstrateapi" class="tsd-kind-icon">get<wbr>Substrate<wbr>Api</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#gettransactionswithoutusdvalue" class="tsd-kind-icon">get<wbr>Transactions<wbr>WithoutUSDValue</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#gettxstatus" class="tsd-kind-icon">get<wbr>TxStatus</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#mintransfer" class="tsd-kind-icon">min<wbr>Transfer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#send" class="tsd-kind-icon">send</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="api.html#updateusdvalueintransaction" class="tsd-kind-icon">updateUSDValue<wbr>InTransaction</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="api.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a>
@@ -360,63 +553,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="driveitem.html" class="tsd-kind-icon">Drive<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="filebackup.html" class="tsd-kind-icon">File<wbr>Backup</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="transaction.html" class="tsd-kind-icon">Transaction</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="wallet.html" class="tsd-kind-icon">Wallet</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#backitemid" class="tsd-kind-icon">Back<wbr>Item<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="../globals.html#styles" class="tsd-kind-icon">styles</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#bluebutton" class="tsd-kind-icon">Blue<wbr>Button</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#dialog" class="tsd-kind-icon">Dialog</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#driveitemview" class="tsd-kind-icon">Drive<wbr>Item<wbr>View</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#loader" class="tsd-kind-icon">Loader</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#passwordinput" class="tsd-kind-icon">Password<wbr>Input</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#seedbutton" class="tsd-kind-icon">Seed<wbr>Button</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#statisticsbar" class="tsd-kind-icon">Statistics<wbr>Bar</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#transactioninfo" class="tsd-kind-icon">Transaction<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#walletdetailsinfo" class="tsd-kind-icon">Wallet<wbr>Details<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#walletinfo" class="tsd-kind-icon">Wallet<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#whitebutton" class="tsd-kind-icon">White<wbr>Button</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#getlogo" class="tsd-kind-icon">get<wbr>Logo</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#getsymbol" class="tsd-kind-icon">get<wbr>Symbol</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

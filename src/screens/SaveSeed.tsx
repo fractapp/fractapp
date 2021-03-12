@@ -5,6 +5,10 @@ import {BlueButton} from 'components/BlueButton';
 import {showMessage} from 'react-native-flash-message';
 import Clipboard from '@react-native-community/clipboard';
 
+/**
+ * Save seed screen
+ * @category Screens
+ */
 export const SaveSeed = ({
   navigation,
   route,

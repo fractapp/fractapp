@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {AmountValue} from 'components/AmountValue';
 import {BlueButton} from 'components/BlueButton';
 import {Receiver, ReceiverType} from 'components/Receiver';
-import {ReceiverWithEnterAddress} from 'components/ReceiverWithEnterAddress';
+import {EnterAddress} from 'components/EnterAddress';
 import {WalletInfo} from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Api} from 'utils/polkadot';
@@ -21,6 +21,10 @@ import DialogStore from 'storage/Dialog';
 import {checkAddress} from '@polkadot/util-crypto';
 import BN from 'bn.js';
 
+/**
+ * Screen with sending funds
+ * @category Screens
+ */
 export const Send = ({navigation, route}: {navigation: any; route: any}) => {
   const globalContext = useContext(GlobalStore.Context);
   const priceContext = useContext(PricesStore.Context);
@@ -282,7 +286,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       }
     } else {
       return (
-        <ReceiverWithEnterAddress
+        <EnterAddress
           isValid={isValidReceiver}
           value={receiver}
           onChangeText={(text) => {

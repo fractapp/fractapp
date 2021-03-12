@@ -11,6 +11,10 @@ import GlobalStore from 'storage/Global';
 
 const minPasswordLength = 6;
 
+/**
+ * Wallet file backup screen
+ * @category Screens
+ */
 export const WalletFileBackup = ({
   navigation,
   route,

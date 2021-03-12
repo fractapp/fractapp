@@ -10,6 +10,10 @@ import {
 import en from 'react-phone-number-input/locale/en';
 import {getCountryCallingCode} from 'react-phone-number-input';
 
+/**
+ * Screen with selecting country for phone number
+ * @category Screens
+ */
 export const SelectCountry = ({navigation}: {navigation: any}) => {
   const renderItem = ({item}: {item: string}) => {
     return (

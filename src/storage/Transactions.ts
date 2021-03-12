@@ -5,7 +5,7 @@ import DB from 'storage/DB';
 
 /**
  * @namespace
- * @category Context storage
+ * @category Storage
  */
 namespace TransactionsStore {
   export enum Action {

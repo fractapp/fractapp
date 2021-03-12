@@ -4,6 +4,7 @@ import {Currency} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 
 /**
+ * Component with receiver information
  * @category Components
  */
 export enum ReceiverType {

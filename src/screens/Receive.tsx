@@ -7,6 +7,10 @@ import QRCode from 'react-native-qrcode-svg';
 import Share from 'react-native-share';
 import {showMessage} from 'react-native-flash-message';
 
+/**
+ * Screen with receiver information and qr code
+ * @category Screens
+ */
 export const Receive = ({route}: {route: any}) => {
   const address: string = route.params.address;
   const currency: Currency = route.params.currency;

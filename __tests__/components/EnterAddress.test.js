@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {ReceiverWithEnterAddress} from 'components/ReceiverWithEnterAddress';
+import {EnterAddress} from 'components/EnterAddress';
 import {Currency} from 'types/wallet';
 
 it('Test one', () => {
   const tree = renderer
     .create(
-      <ReceiverWithEnterAddress
+      <EnterAddress
         value={'value'}
         isValid={true}
         currency={Currency.Polkadot}
@@ -20,7 +20,7 @@ it('Test one', () => {
 it('Test two', () => {
   const tree = renderer
     .create(
-      <ReceiverWithEnterAddress
+      <EnterAddress
         value={'1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE'}
         isValid={false}
         currency={Currency.Kusama}
@@ -34,7 +34,7 @@ it('Test two', () => {
 it('Test three', () => {
   const tree = renderer
     .create(
-      <ReceiverWithEnterAddress
+      <EnterAddress
         value={''}
         isValid={false}
         currency={Currency.Kusama}

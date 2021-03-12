@@ -5,7 +5,7 @@ import db from 'storage/DB';
 
 /**
  * @namespace
- * @category Context storage
+ * @category Storage
  */
 namespace AccountsStore {
   export enum Action {

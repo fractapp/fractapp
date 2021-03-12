@@ -5,6 +5,10 @@ import {mnemonicGenerate} from '@polkadot/util-crypto';
 import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
 
+/**
+ * Save wallet screen
+ * @category Screens
+ */
 export const SaveWallet = ({navigation}: {navigation: any}) => {
   const seed = mnemonicGenerate().split(' ');
   const dialogContext = useContext(Dialog.Context);

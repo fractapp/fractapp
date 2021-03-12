@@ -14,7 +14,7 @@ import {UserProfile} from 'types/profile';
 import BN from 'bn.js';
 /**
  * @namespace
- * @category storage
+ * @category Storage
  */
 
 namespace DB {

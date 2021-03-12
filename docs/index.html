@@ -64,6 +64,35 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<a href="#only-android-version" id="only-android-version" style="color: inherit; text-decoration: none;">
+					<h2>Only android version</h2>
+				</a>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<ol>
+					<li>Install yarn packages<pre><code class="language-sh">yarn install</code></pre>
+					</li>
+				</ol>
+				<ol start="2">
+					<li><p>Create debug.keystore</p>
+						<pre><code class="language-sh">keytool -genkey -v -keystore android/app/debug.keystore -storepass android -<span class="hljs-built_in">alias</span> androiddebugkey1 -keypass android -keyalg RSA -keysize 2048 -validity 10000</code></pre>
+					</li>
+					<li><p>Configure .env</p>
+						<pre><code class="language-sh">FRACTAPP_API - fractapp server url
+POLKADOT_SUBSCAN_API - polkadot subscan url
+KUSAMA_SUBSCAN_API - kusama subscan url
+POLKADOT_WSS_API - polkadot node websocket url
+KUSAMA_WSS_API - kusama node websocket url</code></pre>
+					</li>
+					<li><p>Start on android device or emulator</p>
+						<pre><code class="language-sh">yarn android</code></pre>
+					</li>
+				</ol>
+				<a href="#tests" id="tests" style="color: inherit; text-decoration: none;">
+					<h2>Tests</h2>
+				</a>
+				<pre><code class="language-sh">yarn <span class="hljs-built_in">test</span> --coverage</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -76,38 +105,59 @@
 						<a href="modules/accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/authstore.html">Auth<wbr>Store</a>
+						<a href="modules/backendapi.html">Backend<wbr>Api</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/backup.html">Backup</a>
+						<a href="modules/chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="modules/db.html">DB</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/date.html">Date</a>
+						<a href="modules/dialogstore.html">Dialog<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/dialogstore.html">Dialog<wbr>Store</a>
+						<a href="modules/globalstore.html">Global<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="modules/google.html">Google</a>
 					</li>
 					<li class=" tsd-kind-namespace">
+						<a href="modules/mathutils.html">Math<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="modules/passcodeutil.html">Passcode<wbr>Util</a>
+					</li>
+					<li class=" tsd-kind-namespace">
 						<a href="modules/pricesstore.html">Prices<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
+						<a href="modules/stringutils.html">String<wbr>Utils</a>
+					</li>
+					<li class=" tsd-kind-namespace">
 						<a href="modules/task.html">Task</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="modules/transactionsstore.html">Transactions<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum">
+						<a href="enums/chattype.html" class="tsd-kind-icon">Chat<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/currency.html" class="tsd-kind-icon">Currency</a>
 					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
+					<li class=" tsd-kind-enum">
 						<a href="enums/img.html" class="tsd-kind-icon">Img</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/receivertype.html" class="tsd-kind-icon">Receiver<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/txstatus.html" class="tsd-kind-icon">Tx<wbr>Status</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/txtype.html" class="tsd-kind-icon">Tx<wbr>Type</a>
@@ -116,60 +166,273 @@
 						<a href="enums/type.html" class="tsd-kind-icon">Type</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/account.html" class="tsd-kind-icon">Account</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="classes/api.html" class="tsd-kind-icon">Api</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/driveitem.html" class="tsd-kind-icon">Drive<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/filebackup.html" class="tsd-kind-icon">File<wbr>Backup</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/transaction.html" class="tsd-kind-icon">Transaction</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/wallet.html" class="tsd-kind-icon">Wallet</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/cameraoptions.html" class="tsd-kind-icon">Camera<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/imagelibraryoptions.html" class="tsd-kind-icon">Image<wbr>Library<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/imagepickerresponse.html" class="tsd-kind-icon">Image<wbr>Picker<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#account" class="tsd-kind-icon">Account</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#androidvideooptions" class="tsd-kind-icon">Android<wbr>Video<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#authinfo" class="tsd-kind-icon">Auth<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#callback" class="tsd-kind-icon">Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#chatinfo" class="tsd-kind-icon">Chat<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#defaultdetails" class="tsd-kind-icon">Default<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#driveitem" class="tsd-kind-icon">Drive<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#errorcode" class="tsd-kind-icon">Error<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filebackup" class="tsd-kind-icon">File<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#mediatype" class="tsd-kind-icon">Media<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#myprofile" class="tsd-kind-icon">My<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#photoquality" class="tsd-kind-icon">Photo<wbr>Quality</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transaction" class="tsd-kind-icon">Transaction</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userprofile" class="tsd-kind-icon">User<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#iosvideooptions" class="tsd-kind-icon">iOSVideo<wbr>Options</a>
+					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#backitemid" class="tsd-kind-icon">Back<wbr>Item<wbr>Id</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#chatsstack" class="tsd-kind-icon">Chats<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#profilestack" class="tsd-kind-icon">Profile<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#rootstack" class="tsd-kind-icon">Root<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#tab" class="tsd-kind-icon">Tab</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#walletstack" class="tsd-kind-icon">Wallet<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#minpasswordlength" class="tsd-kind-icon">min<wbr>Password<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#styles" class="tsd-kind-icon">styles</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#amountinput" class="tsd-kind-icon">Amount<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#amountvalue" class="tsd-kind-icon">Amount<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#backup" class="tsd-kind-icon">Backup</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#bluebutton" class="tsd-kind-icon">Blue<wbr>Button</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#chat" class="tsd-kind-icon">Chat</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#chatshortinfo" class="tsd-kind-icon">Chat<wbr>Short<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#chats" class="tsd-kind-icon">Chats</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#chatstab" class="tsd-kind-icon">Chats<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#confirmcode" class="tsd-kind-icon">Confirm<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#confirmsaveseed" class="tsd-kind-icon">Confirm<wbr>Save<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#connecting" class="tsd-kind-icon">Connecting</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#contact" class="tsd-kind-icon">Contact</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#dialog" class="tsd-kind-icon">Dialog</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#driveitemview" class="tsd-kind-icon">Drive<wbr>Item<wbr>View</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#editemail" class="tsd-kind-icon">Edit<wbr>Email</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#editname" class="tsd-kind-icon">Edit<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#editphonenumber" class="tsd-kind-icon">Edit<wbr>Phone<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#editprofile" class="tsd-kind-icon">Edit<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#editusername" class="tsd-kind-icon">Edit<wbr>Username</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#enteraddress" class="tsd-kind-icon">Enter<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#enteramount" class="tsd-kind-icon">Enter<wbr>Amount</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#googledrivepicker" class="tsd-kind-icon">Google<wbr>Drive<wbr>Picker</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#importseed" class="tsd-kind-icon">Import<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#importwallet" class="tsd-kind-icon">Import<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#legal" class="tsd-kind-icon">Legal</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#loader" class="tsd-kind-icon">Loader</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#navigation" class="tsd-kind-icon">Navigation</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#newpasscode" class="tsd-kind-icon">New<wbr>Pass<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#passcode" class="tsd-kind-icon">Pass<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#passwordinput" class="tsd-kind-icon">Password<wbr>Input</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#paymentmsg" class="tsd-kind-icon">Payment<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#profiletab" class="tsd-kind-icon">Profile<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#receive" class="tsd-kind-icon">Receive</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#receiver" class="tsd-kind-icon">Receiver</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#saveseed" class="tsd-kind-icon">Save<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#savewallet" class="tsd-kind-icon">Save<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#search" class="tsd-kind-icon">Search</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#seedbutton" class="tsd-kind-icon">Seed<wbr>Button</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#selectcountry" class="tsd-kind-icon">Select<wbr>Country</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#selectwallet" class="tsd-kind-icon">Select<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#send" class="tsd-kind-icon">Send</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sendby" class="tsd-kind-icon">Send<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#settingwallet" class="tsd-kind-icon">Setting<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#settings" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#splashscreen" class="tsd-kind-icon">Splash<wbr>Screen</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#start" class="tsd-kind-icon">Start</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#statisticsbar" class="tsd-kind-icon">Statistics<wbr>Bar</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#successbutton" class="tsd-kind-icon">Success<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#tabmenu" class="tsd-kind-icon">Tab<wbr>Menu</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#textinput" class="tsd-kind-icon">Text<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#transactiondetails" class="tsd-kind-icon">Transaction<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#transactioninfo" class="tsd-kind-icon">Transaction<wbr>Info</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#verifypasscode" class="tsd-kind-icon">Verify<wbr>Pass<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#walletdetails" class="tsd-kind-icon">Wallet<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#walletdetailsinfo" class="tsd-kind-icon">Wallet<wbr>Details<wbr>Info</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#walletfilebackup" class="tsd-kind-icon">Wallet<wbr>File<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#walletfileimport" class="tsd-kind-icon">Wallet<wbr>File<wbr>Import</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#walletinfo" class="tsd-kind-icon">Wallet<wbr>Info</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
+					<li class=" tsd-kind-function">
+						<a href="globals.html#walletlogo" class="tsd-kind-icon">Wallet<wbr>Logo</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#wallettab" class="tsd-kind-icon">Wallet<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#wallets" class="tsd-kind-icon">Wallets</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#whitebutton" class="tsd-kind-icon">White<wbr>Button</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -177,6 +440,18 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getsymbol" class="tsd-kind-icon">get<wbr>Symbol</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#launchcamera" class="tsd-kind-icon">launch<wbr>Camera</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#launchimagelibrary" class="tsd-kind-icon">launch<wbr>Image<wbr>Library</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#withoutborder" class="tsd-kind-icon">without<wbr>Border</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-external">
+						<a href="globals.html#default_options" class="tsd-kind-icon">DEFAULT_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

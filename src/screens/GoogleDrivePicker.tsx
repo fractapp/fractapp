@@ -14,6 +14,10 @@ import {Loader} from 'components/Loader';
 import {DriveItemView} from 'components/DriveItemView';
 import googleUtil from 'utils/google';
 
+/**
+ * Screen with google drive folders/files
+ * @category Screens
+ */
 export const GoogleDrivePicker = ({navigation}: {navigation: any}) => {
   const [paths, setPaths] = useState<Array<string>>(new Array('root'));
   const [items, setItems] = useState<Array<DriveItem>>();

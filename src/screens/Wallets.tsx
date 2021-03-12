@@ -6,6 +6,10 @@ import {Wallet, Currency} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 
+/**
+ * Screen with all wallets
+ * @category Screens
+ */
 export const Wallets = ({navigation}: {navigation: any}) => {
   const accountsContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);

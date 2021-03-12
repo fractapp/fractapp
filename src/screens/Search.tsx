@@ -20,6 +20,10 @@ import {UserProfile} from 'types/profile';
 import {Wallet} from 'types/wallet';
 import {ChatType} from 'types/chatInfo';
 
+/**
+ * Users search screen
+ * @category Screens
+ */
 export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const wallet: Wallet = route.params?.wallet;
 

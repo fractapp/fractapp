@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
 /**
+ * Button with "Send by {email/address/phone}" in contacts menu
  * @category Components
  */
 export const SendBy = ({title, img}: {title: string; img: any}) => {

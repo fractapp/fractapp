@@ -8,6 +8,7 @@ import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
 
 /**
+ * Short chat information
  * @category Components
  */
 export const ChatShortInfo = ({

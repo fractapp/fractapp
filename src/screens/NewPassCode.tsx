@@ -3,6 +3,10 @@ import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components/PassCode';
 import GlobalStore from 'storage/Global';
 
+/**
+ * Screen with entering new passcode
+ * @category Screens
+ */
 export const NewPassCode = ({navigation}: {navigation: any}) => {
   const globalContext = useContext(GlobalStore.Context);
 

@@ -6,6 +6,10 @@ import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 
+/**
+ * Confirm save seed phrase screen
+ * @category Screens
+ */
 export const ConfirmSaveSeed = ({
   navigation,
   route,

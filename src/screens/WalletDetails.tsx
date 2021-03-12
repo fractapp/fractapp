@@ -15,6 +15,10 @@ import stringUtils from 'utils/string';
 import TransactionsStore from 'storage/Transactions';
 import GlobalStore from 'storage/Global';
 
+/**
+ * Screen with wallet details
+ * @category Screens
+ */
 export const WalletDetails = ({
   navigation,
   route,

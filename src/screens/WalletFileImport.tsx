@@ -8,6 +8,10 @@ import backupUtil from 'utils/backup';
 import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
 
+/**
+ * Wallet file import screen
+ * @category Screens
+ */
 export const WalletFileImport = ({route}: {route: any}) => {
   const globalContext = useContext(GlobalStore.Context);
 

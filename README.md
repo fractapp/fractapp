@@ -2,11 +2,15 @@
 
 ## Getting Started
 
+0. Setup ANDROID SDK and React Native (not expo)
+   
+    https://reactnative.dev/docs/environment-setup
+   
+
 1. Install yarn packages
 ```sh
 yarn install
 ```
-
 
 2. Create debug.keystore
 ```sh
@@ -29,6 +33,12 @@ yarn android
 
 ## Tests
 
+Start tests with coverage info
 ```sh
 yarn test --coverage
+```
+
+Start tests with update snapshot
+```sh
+yarn test --coverage --u
 ```

@@ -2,17 +2,19 @@
 
 ## Getting Started
 
-0. Setup ANDROID SDK and React Native (not expo)
+1. Setup ANDROID SDK and React Native (not expo)
    
     https://reactnative.dev/docs/environment-setup
    
 
-1. Install yarn packages
-```sh
-yarn install
+2. Setup firebase (If you want to receive notifications)
+   https://firebase.google.com/docs/android/setup
+```
+Path for google-services.json:
+android/app/google-services.json
 ```
 
-2. Create debug.keystore
+3. Create debug.keystore
 ```sh
 keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey1 -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
@@ -26,7 +28,12 @@ POLKADOT_WSS_API - polkadot node websocket url
 KUSAMA_WSS_API - kusama node websocket url
 ```
 
-3. Start on android device or emulator
+5. Install yarn packages
+```sh
+yarn install
+```
+
+6. Start on android device or emulator
 ```sh
 yarn android
 ```

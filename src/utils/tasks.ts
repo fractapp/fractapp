@@ -21,7 +21,7 @@ import BN from 'bn.js';
 namespace Task {
   const sec = 1000;
   const min = 60 * sec;
-  const maxSyncTxs = 100;
+  const maxSyncTxs = 10;
 
   export async function init(
     globalContext: GlobalStore.ContextType,

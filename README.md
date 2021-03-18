@@ -19,7 +19,7 @@ android/app/google-services.json
 keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey1 -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-4. Configure .env
+4. Configure .env (example in .env-temp)
 ```sh
 FRACTAPP_API - fractapp server url
 POLKADOT_SUBSCAN_API - polkadot subscan url

@@ -42,7 +42,7 @@ export const TabMenu = () => {
   const MenuTabs = {
     Discovery: 'Discovery',
     Chats: 'Chats',
-    Wallet: 'WalletTab',
+    Wallet: 'Wallet',
     Profile: 'Profile',
   };
   return (

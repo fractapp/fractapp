@@ -309,6 +309,7 @@ namespace BackendApi {
       timeForCache.has(address) &&
       timeForCache.get(address)! >= new Date().getTime()
     ) {
+      console.log('user get from cache: ' + address);
       return userByAddressCache.get(address)!;
     }
 
@@ -328,7 +329,7 @@ namespace BackendApi {
     timeForCache.set(kusama, new Date().getTime() + cacheTimeout);
     userByAddressCache.set(kusama, data);
 
-    return await response.json();
+    return data;
   }
 
   export async function isUsernameFree(username: string): Promise<boolean> {

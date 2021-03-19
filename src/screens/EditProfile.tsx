@@ -17,7 +17,6 @@ import GlobalStore from 'storage/Global';
  */
 export const EditProfile = ({navigation}: {navigation: any}) => {
   const globalContext = useContext(GlobalStore.Context);
-
   const Inputs = [
     {
       title: 'Name',
@@ -38,7 +37,8 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       value: globalContext.state.profile.phoneNumber,
       placeholder: 'Write your phone',
       onClick: () =>
-        globalContext.state.profile.phoneNumber !== ''
+        globalContext.state.profile.phoneNumber !== '' &&
+        globalContext.state.profile.phoneNumber !== undefined
           ? null
           : navigation.navigate('EditPhoneNumber'),
     },
@@ -47,7 +47,8 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       value: globalContext.state.profile.email,
       placeholder: 'Write your email',
       onClick: () =>
-        globalContext.state.profile.email !== ''
+        globalContext.state.profile.email !== '' &&
+        globalContext.state.profile.email !== undefined
           ? null
           : navigation.navigate('EditEmail'),
     },
@@ -80,7 +81,7 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       <TouchableOpacity key={input.title} onPress={input.onClick}>
         <View style={styles.input}>
           <Text style={styles.title}>{input.title}</Text>
-          {input.value !== '' ? (
+          {input.value !== '' && input.value !== undefined ? (
             <Text style={styles.value}>{input.value}</Text>
           ) : (
             <Text style={styles.placeholder}>{input.placeholder}</Text>

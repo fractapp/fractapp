@@ -152,7 +152,9 @@ namespace Task {
     let p = null;
     try {
       p = await backend.getUserByAddress(tx.address);
-    } catch (e) {}
+    } catch (e) {
+      console.log('user not found: ' + e);
+    }
 
     let member = tx.address;
     if (p != null) {
@@ -161,7 +163,6 @@ namespace Task {
 
       globalContext.dispatch(GlobalStore.setUser(p));
     }
-
     transactionsContext.dispatch(TransactionsStore.setTx(tx.currency, tx));
 
     let chatInfo: ChatInfo;
@@ -288,9 +289,8 @@ namespace Task {
           break;
         }
 
-        if (isSynced) {
-          await api.updateUSDValueInTransaction(txs[i]);
-        }
+        await api.updateUSDValueInTransaction(txs[i]);
+
         await setTx(
           globalContext,
           chatsContext,

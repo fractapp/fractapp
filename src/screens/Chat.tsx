@@ -35,7 +35,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const chatInfo: ChatInfo = route.params.chatInfo;
 
-  const [notificationCount] = useState(chatInfo.notificationCount);
+  const [notificationCount, setNotificationCount] = useState(
+    chatInfo.notificationCount,
+  );
 
   const getWallet = (currency: Currency) => {
     let account = accountsContext.state.accounts.get(currency);
@@ -66,7 +68,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     for (let [id, currency] of ids) {
       txs.push(transactionsContext.state.transactions?.get(currency)?.get(id)!);
     }
-    return txs.sort((a, b) => b.timestamp - a.timestamp);
+    const result = txs.sort((a, b) => b.timestamp - a.timestamp);
+    if (result.length < notificationCount) {
+      //TODO
+      setNotificationCount(result.length);
+    }
+    return result;
   };
   const renderItem = ({item, index}: {item: Transaction; index: number}) => {
     let line;

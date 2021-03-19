@@ -88,7 +88,7 @@ exports[`Test view 1`] = `
     data={
       Array [
         Object {
-          "img": <Component
+          "img": <Image
             source={
               Object {
                 "testUri": "../../../assets/img/google-drive.png",

@@ -117,7 +117,8 @@ namespace GlobalStore {
         break;
       case Action.REMOVE_NOTIFICATION:
         if (copy.notificationCount - action.value < 0) {
-          return prevState;
+          DB.setNotificationCount(0);
+          break;
         }
         copy.notificationCount -= action.value;
         DB.setNotificationCount(copy.notificationCount);

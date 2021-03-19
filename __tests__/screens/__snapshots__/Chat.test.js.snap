@@ -13,7 +13,7 @@ exports[`Test view with empty txs 1`] = `
 >
   <RCTScrollView
     ListHeaderComponent={
-      <Component
+      <View
         style={
           Object {
             "marginBottom": 90,
@@ -139,7 +139,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
 >
   <RCTScrollView
     ListHeaderComponent={
-      <Component
+      <View
         style={
           Object {
             "marginBottom": 90,

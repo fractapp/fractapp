@@ -159,17 +159,9 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
         underlayColor="#f8f9fb">
         <Contact
           name={item.name}
-          img={
-            item.avatarExt === ''
-              ? require('assets/img/default-avatar.png')
-              : {
-                  uri: backend.getImgUrl(
-                    item.id,
-                    item.avatarExt,
-                    item.lastUpdate,
-                  ),
-                }
-          }
+          img={{
+            uri: backend.getImgUrl(item.id, item.avatarExt, item.lastUpdate),
+          }}
           usernameOrPhoneNumber={'@' + item.username}
         />
       </TouchableHighlight>

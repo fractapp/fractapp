@@ -35,23 +35,15 @@ export const ChatShortInfo = ({
         }}>
         {user != null ? (
           <Image
-            source={
-              user.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      user.id,
-                      user.avatarExt,
-                      user.lastUpdate,
-                    ),
-                  }
-            }
-            width={60}
-            height={60}
-            style={{width: 60, height: 60, borderRadius: 30}}
+            source={{
+              uri: backend.getImgUrl(user.id, user.avatarExt, user.lastUpdate),
+            }}
+            width={55}
+            height={55}
+            style={{width: 55, height: 55, borderRadius: 30}}
           />
         ) : (
-          <WalletLogo currency={tx.currency} size={60} />
+          <WalletLogo currency={tx.currency} size={55} />
         )}
 
         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
@@ -67,7 +59,7 @@ export const ChatShortInfo = ({
               </Text>
             </View>
           </View>
-          <View style={{height: 25, flexDirection: 'row'}}>
+          <View style={{height: 23, flexDirection: 'row'}}>
             <View style={{flex: 8}}>
               <Text style={[styles.msg, {textAlign: 'left'}]}>
                 {tx.txType === TxType.Sent
@@ -99,7 +91,7 @@ export const ChatShortInfo = ({
 
 const styles = StyleSheet.create({
   account: {
-    height: 80,
+    height: 75,
     width: '100%',
   },
   name: {
@@ -110,14 +102,14 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   msg: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: '#888888',
   },
   time: {
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: '#888888',
@@ -129,7 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   notificationText: {
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     color: 'white',

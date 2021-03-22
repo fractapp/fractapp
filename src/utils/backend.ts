@@ -380,7 +380,7 @@ namespace BackendApi {
     ex: string,
     lastUpdate: number,
   ): string {
-    return `${apiUrl}/${id}.${ex}` + '#' + lastUpdate;
+    return `${apiUrl}/profile/avatar/${id}` + '#' + lastUpdate;
   }
 
   function createAuthPubKeyHeaderWithKeyAndTime(

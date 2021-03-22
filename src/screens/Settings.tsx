@@ -151,17 +151,13 @@ export const Settings = ({
         }}>
         <View style={styles.avatar}>
           <Image
-            source={
-              globalContext.state.profile.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      globalContext.state.profile.id,
-                      globalContext.state.profile.avatarExt,
-                      globalContext.state.profile.lastUpdate,
-                    ),
-                  }
-            }
+            source={{
+              uri: backend.getImgUrl(
+                globalContext.state.profile.id,
+                globalContext.state.profile.avatarExt,
+                globalContext.state.profile.lastUpdate,
+              ),
+            }}
             style={styles.avatar}
             width={70}
             height={70}
@@ -207,7 +203,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: '#DADADA',
+    borderBottomColor: '#f5f5f5',
   },
   account: {
     width: '100%',

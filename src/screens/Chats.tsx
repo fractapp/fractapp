@@ -96,6 +96,6 @@ const styles = StyleSheet.create({
     marginLeft: 80,
     width: '100%',
     height: 1,
-    backgroundColor: '#ededed',
+    backgroundColor: '#f5f5f5',
   },
 });

@@ -95,17 +95,13 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
     <View style={styles.profile}>
       <TouchableOpacity testID={'editAvatarBtn'} onPress={openFilePicker}>
         <Image
-          source={
-            globalContext.state.profile.avatarExt === ''
-              ? require('assets/img/default-avatar.png')
-              : {
-                  uri: backend.getImgUrl(
-                    globalContext.state.profile.id,
-                    globalContext.state.profile.avatarExt,
-                    globalContext.state.profile.lastUpdate,
-                  ),
-                }
-          }
+          source={{
+            uri: backend.getImgUrl(
+              globalContext.state.profile.id,
+              globalContext.state.profile.avatarExt,
+              globalContext.state.profile.lastUpdate,
+            ),
+          }}
           style={styles.avatar}
           width={120}
           height={120}

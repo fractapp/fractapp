@@ -77,7 +77,7 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
         </Text>
       </View>
       <View style={styles.cardRow}>
-        <WalletLogo currency={tx.currency} size={45} />
+        <WalletLogo currency={tx.currency} size={40} />
         <Text style={[styles.usdText, {color: amountColor()}]}>
           {tx.usdValue !== 0
             ? `$${MathUtils.floorUsd(tx.usdValue)}`
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     padding: 10,
-    paddingRight: 10,
     marginTop: 5,
     marginBottom: 5,
   },
@@ -128,37 +127,30 @@ const styles = StyleSheet.create({
   },
   msgText: {
     marginLeft: 3,
-    fontSize: 15,
+    fontSize: 13,
     color: '#888888',
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
   },
   usdText: {
-    marginLeft: 10,
-    fontSize: 35,
+    marginLeft: 8,
+    fontSize: 30,
     color: 'black',
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
   },
   tokenText: {
-    marginLeft: 60,
-    fontSize: 18,
+    marginLeft: 55,
+    fontSize: 15,
     color: 'black',
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
   },
-  statusText: {
-    fontSize: 15,
-    color: '#888888',
-    fontFamily: 'Roboto-Regular',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-  },
   dateText: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#888888',
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',

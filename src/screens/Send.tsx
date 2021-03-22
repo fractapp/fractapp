@@ -270,17 +270,13 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
           <Receiver
             nameOrAddress={chatInfo.name}
             type={ReceiverType.User}
-            avatar={
-              globalContext.state.users.get(chatInfo.id)!.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      globalContext.state.users.get(chatInfo.id)!.id,
-                      globalContext.state.users.get(chatInfo.id)!.avatarExt,
-                      globalContext.state.users.get(chatInfo.id)!.lastUpdate,
-                    ),
-                  }
-            }
+            avatar={{
+              uri: backend.getImgUrl(
+                globalContext.state.users.get(chatInfo.id)!.id,
+                globalContext.state.users.get(chatInfo.id)!.avatarExt,
+                globalContext.state.users.get(chatInfo.id)!.lastUpdate,
+              ),
+            }}
           />
         );
       }

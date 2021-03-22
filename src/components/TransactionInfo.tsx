@@ -67,17 +67,13 @@ export const TransactionInfo = ({
         <View style={{flex: 1, flexDirection: 'row'}}>
           {user != null ? (
             <Image
-              source={
-                user.avatarExt === ''
-                  ? require('assets/img/default-avatar.png')
-                  : {
-                      uri: backend.getImgUrl(
-                        user.id,
-                        user.avatarExt,
-                        user.lastUpdate,
-                      ),
-                    }
-              }
+              source={{
+                uri: backend.getImgUrl(
+                  user.id,
+                  user.avatarExt,
+                  user.lastUpdate,
+                ),
+              }}
               width={50}
               height={50}
               style={{width: 50, height: 50, borderRadius: 25}}

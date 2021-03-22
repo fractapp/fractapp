@@ -63,17 +63,9 @@ export const TransactionDetails = ({route}: {route: any}) => {
       <View style={styles.info}>
         {user != null ? (
           <Image
-            source={
-              user.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      user.id,
-                      user.avatarExt,
-                      user.lastUpdate,
-                    ),
-                  }
-            }
+            source={{
+              uri: backend.getImgUrl(user.id, user.avatarExt, user.lastUpdate),
+            }}
             width={80}
             height={80}
             style={{width: 80, height: 80, borderRadius: 45}}

@@ -2069,7 +2069,7 @@ exports[`Test tx details with user 1`] = `
       height={80}
       source={
         Object {
-          "testUri": "../../../assets/img/default-avatar.png",
+          "uri": "http://127.0.0.1/1.png",
         }
       }
       style={

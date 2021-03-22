@@ -38,6 +38,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const [notificationCount, setNotificationCount] = useState(
     chatInfo.notificationCount,
   );
+  const [txs, setTxs] = useState<Array<Transaction>>([]);
 
   const getWallet = (currency: Currency) => {
     let account = accountsContext.state.accounts.get(currency);
@@ -58,10 +59,10 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     );
   };
 
-  const getTxs = () => {
+  useEffect(() => {
     const txs = new Array<Transaction>();
     if (!chatsContext.state.chats.has(chatInfo.id)) {
-      return txs;
+      return;
     }
     const ids = chatsContext.state.chats.get(chatInfo.id)!;
 
@@ -73,8 +74,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       //TODO
       setNotificationCount(result.length);
     }
-    return result;
-  };
+    setTxs(result);
+  }, [chatsContext.state.chats]);
+
   const renderItem = ({item, index}: {item: Transaction; index: number}) => {
     let line;
     if (notificationCount !== 0 && index === notificationCount - 1) {
@@ -136,17 +138,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           />
         ) : (
           <Image
-            source={
-              globalContext.state.users.get(chatInfo.id)!.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      globalContext.state.users.get(chatInfo.id)!.id,
-                      globalContext.state.users.get(chatInfo.id)!.avatarExt,
-                      globalContext.state.users.get(chatInfo.id)!.lastUpdate,
-                    ),
-                  }
-            }
+            source={{
+              uri: backend.getImgUrl(
+                globalContext.state.users.get(chatInfo.id)!.id,
+                globalContext.state.users.get(chatInfo.id)!.avatarExt,
+                globalContext.state.users.get(chatInfo.id)!.lastUpdate,
+              ),
+            }}
             width={45}
             height={45}
             style={{width: 45, height: 45, borderRadius: 25}}
@@ -184,7 +182,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         ref={flatListRef}
         scrollToOverflowEnabled={true}
         initialNumToRender={notificationCount < 10 ? 10 : notificationCount}
-        data={getTxs()}
+        data={txs}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: 90}} />}

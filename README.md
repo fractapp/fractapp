@@ -15,7 +15,7 @@ keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alia
 
 4. Get SHA1 key for next step (it will be needed for setup google drive and firebase)
 ```
-   keytool -list -v -keystore android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
+keytool -list -v -keystore android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
 ```
 
 5. Setup Google Drive api (If you want to use save/import seed with Google Drive) 
@@ -29,7 +29,7 @@ keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alia
 
 6. Setup firebase. The instruction is [below](https://github.com/fractapp/fractapp#setup-firebase)
 
-If you want to receive notifications without install fractapp-server and setup firebase then use apk file from [release](https://github.com/fractapp/fractapp/releases). Otherwise, you need to run [fractapp-server](https://github.com/fractapp/fractapp-server). 
+   If you want to receive notifications without install fractapp-server and setup firebase then use apk file from [release](https://github.com/fractapp/fractapp/releases). Otherwise, you need to run [fractapp-server](https://github.com/fractapp/fractapp-server). 
 
 
 7. Configure .env (example in .env-temp)
@@ -59,7 +59,7 @@ yarn android
 4. Set "com.fractapp" in the "Android package name" input
 5. Get SHA1 and set this in the "Debug signing certificate SHA-1" input
 ```
-   keytool -list -v -keystore android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
+keytool -list -v -keystore android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android
 ```
 6. Copy google-services.json to android/app/google-services.json
 7. Skip other steps

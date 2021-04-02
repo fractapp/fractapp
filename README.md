@@ -6,7 +6,7 @@
    
     https://reactnative.dev/docs/environment-setup
     
-2. Install the [emulator](https://developer.android.com/studio/run/managing-avds) or (connect a device)[https://reactnative.dev/docs/running-on-device]
+2. Install the [emulator](https://developer.android.com/studio/run/managing-avds) or [connect a device](https://reactnative.dev/docs/running-on-device)
     
 3. Create debug.keystore
 ```sh

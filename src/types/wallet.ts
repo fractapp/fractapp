@@ -1,11 +1,12 @@
 import {ImageSourcePropType} from 'react-native';
+import {Network} from 'types/account';
 
 /**
  * @category Models
  */
 export enum Currency {
-  Polkadot = 0,
-  Kusama,
+  DOT = 0,
+  KSM,
 }
 
 /**
@@ -15,10 +16,10 @@ export enum Currency {
 export function getLogo(currency: Currency) {
   let logo: ImageSourcePropType;
   switch (currency) {
-    case Currency.Polkadot:
+    case Currency.DOT:
       logo = require('assets/img/dot.png');
       break;
-    case Currency.Kusama:
+    case Currency.KSM:
       logo = require('assets/img/kusama.png');
       break;
     default:
@@ -32,7 +33,7 @@ export function getLogo(currency: Currency) {
  * @category Models
  */
 export function withoutBorder(currency: Currency): boolean {
-  return currency === Currency.Polkadot || currency === Currency.Kusama;
+  return currency === Currency.DOT || currency === Currency.KSM;
 }
 
 /**
@@ -42,10 +43,10 @@ export function withoutBorder(currency: Currency): boolean {
 export function getSymbol(currency: Currency) {
   let symbol = '';
   switch (currency) {
-    case Currency.Polkadot:
+    case Currency.DOT:
       symbol = 'DOT';
       break;
-    case Currency.Kusama:
+    case Currency.KSM:
       symbol = 'KSM';
       break;
     default:
@@ -63,12 +64,14 @@ export class Wallet {
   balance: number;
   planks: string;
   currency: Currency;
+  network: Network;
   usdValue: number;
 
   constructor(
     name: string,
     address: string,
     currency: Currency,
+    network: Network,
     balance: number,
     planks: string,
     price: number,
@@ -78,7 +81,7 @@ export class Wallet {
     this.balance = balance;
     this.planks = planks;
     this.currency = currency;
-
+    this.network = network;
     this.usdValue = +(balance * price).toFixed(2);
   }
 }

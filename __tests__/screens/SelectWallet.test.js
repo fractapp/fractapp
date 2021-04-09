@@ -25,12 +25,12 @@ it('Test 0 wallets without price', () => {
 it('Test 1 wallets without price', () => {
   const accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'Polkadot wallet',
         address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '10000000',
       },
@@ -52,23 +52,23 @@ it('Test 1 wallets without price', () => {
 it('Test 2 wallets without price', () => {
   const accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'Polkadot wallet',
         address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '10000000',
       },
     ],
     [
-      Currency.Kusama,
+      Currency.KSM,
       {
         name: 'Kusama wallet',
         address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Kusama,
+        currency: Currency.KSM,
         balance: 20000,
         planks: '20000000',
       },
@@ -90,18 +90,18 @@ it('Test 2 wallets without price', () => {
 it('Test 1 wallets with price', () => {
   const accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'Polkadot wallet',
         address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '10000000',
       },
     ],
   ]);
-  const prices = new Map([[Currency.Polkadot, 100]]);
+  const prices = new Map([[Currency.DOT, 100]]);
 
   const tree = renderer
     .create(
@@ -118,23 +118,23 @@ it('Test 1 wallets with price', () => {
 it('Test 2 wallets with price', () => {
   const accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'Polkadot wallet',
         address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '10000000',
       },
     ],
     [
-      Currency.Kusama,
+      Currency.KSM,
       {
         name: 'Kusama wallet',
         address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Kusama,
+        currency: Currency.KSM,
         balance: 20000,
         planks: '20000000',
       },
@@ -142,8 +142,8 @@ it('Test 2 wallets with price', () => {
   ]);
 
   const prices = new Map([
-    [Currency.Polkadot, 100],
-    [Currency.Kusama, 200],
+    [Currency.DOT, 100],
+    [Currency.KSM, 200],
   ]);
 
   const tree = renderer
@@ -161,23 +161,23 @@ it('Test 2 wallets with price', () => {
 it('Test click start (idEditable=true)', () => {
   const accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'Polkadot wallet',
         address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '10000000',
       },
     ],
     [
-      Currency.Kusama,
+      Currency.KSM,
       {
         name: 'Kusama wallet',
         address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Kusama,
+        currency: Currency.KSM,
         balance: 20000,
         planks: '20000000',
       },
@@ -185,8 +185,8 @@ it('Test click start (idEditable=true)', () => {
   ]);
 
   const prices = new Map([
-    [Currency.Polkadot, 100],
-    [Currency.Kusama, 200],
+    [Currency.DOT, 100],
+    [Currency.KSM, 200],
   ]);
 
   const mockFn = jest.fn();
@@ -203,13 +203,13 @@ it('Test click start (idEditable=true)', () => {
     </AccountsStore.Context.Provider>,
   );
 
-  fireEvent.press(component.getByText(accounts.get(Currency.Polkadot)?.name));
+  fireEvent.press(component.getByText(accounts.get(Currency.DOT)?.name));
   expect(mockFn).toBeCalledWith('Send', {
     isEditable: route.params.isEditable,
     wallet: new Wallet(
       'Polkadot wallet',
       '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
-      Currency.Polkadot,
+      Currency.DOT,
       10000,
       '10000000',
       100,
@@ -221,23 +221,23 @@ it('Test click start (idEditable=true)', () => {
 it('Test click start (idEditable=null)', () => {
   const accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'Polkadot wallet',
         address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '10000000',
       },
     ],
     [
-      Currency.Kusama,
+      Currency.KSM,
       {
         name: 'Kusama wallet',
         address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
         pubKey: '0x0000000000000000000',
-        currency: Currency.Kusama,
+        currency: Currency.KSM,
         balance: 20000,
         planks: '20000000',
       },
@@ -245,8 +245,8 @@ it('Test click start (idEditable=null)', () => {
   ]);
 
   const prices = new Map([
-    [Currency.Polkadot, 100],
-    [Currency.Kusama, 200],
+    [Currency.DOT, 100],
+    [Currency.KSM, 200],
   ]);
 
   const mockFn = jest.fn();
@@ -261,13 +261,13 @@ it('Test click start (idEditable=null)', () => {
     </AccountsStore.Context.Provider>,
   );
 
-  fireEvent.press(component.getByText(accounts.get(Currency.Polkadot)?.name));
+  fireEvent.press(component.getByText(accounts.get(Currency.DOT)?.name));
   expect(mockFn).toBeCalledWith('Send', {
     isEditable: false,
     wallet: new Wallet(
       'Polkadot wallet',
       '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
-      Currency.Polkadot,
+      Currency.DOT,
       10000,
       '10000000',
       100,

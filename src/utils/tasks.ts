@@ -1,18 +1,18 @@
 import BackgroundTimer from 'react-native-background-timer';
 import DB from 'storage/DB';
-import * as polkadot from 'utils/polkadot';
 import backend from 'utils/backend';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import {Currency, getSymbol} from 'types/wallet';
+import {Currency} from 'types/wallet';
 import {Account} from 'types/account';
-import messaging from '@react-native-firebase/messaging';
 import {Transaction, TxStatus} from 'types/transaction';
 import TransactionsStore from 'storage/Transactions';
 import {ChatInfo, ChatType} from 'types/chatInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
+import {Adaptors} from 'adaptors/adaptor';
+import math from 'utils/math';
 
 /**
  * @namespace
@@ -21,7 +21,6 @@ import BN from 'bn.js';
 namespace Task {
   const sec = 1000;
   const min = 60 * sec;
-  const maxSyncTxs = 10;
 
   export async function init(
     globalContext: GlobalStore.ContextType,
@@ -72,6 +71,7 @@ namespace Task {
     const profile = await DB.getProfile();
     const contacts = await DB.getContacts();
     const users = await DB.getUsers();
+    const urls = await DB.getSubstrateUrls();
 
     globalContext.dispatch(
       GlobalStore.set(
@@ -82,8 +82,10 @@ namespace Task {
         profile != null,
         contacts,
         users,
+        urls,
       ),
     );
+    Adaptors.init(globalContext);
   }
 
   export async function createTask(
@@ -104,18 +106,18 @@ namespace Task {
 
     const tasks = new Array<Promise<void>>();
 
-    tasks.push(updateBalances(accountsContext));
-    tasks.push(updatePrices(pricesContext, accountsContext));
+    tasks.push(updateBalances(globalContext, accountsContext));
+    tasks.push(updateServerInfo(globalContext, pricesContext));
 
     BackgroundTimer.setInterval(async () => {
-      await updatePrices(pricesContext, accountsContext);
+      await updateServerInfo(globalContext, pricesContext);
     }, min);
 
     sync(accountsContext, globalContext, chatsContext, transactionsContext);
     checkPendingTxs(transactionsContext);
 
     BackgroundTimer.setInterval(async () => {
-      await updateBalances(accountsContext);
+      await updateBalances(globalContext, accountsContext);
 
       if (!globalContext.state.authInfo.isSynced) {
         return;
@@ -217,33 +219,7 @@ namespace Task {
 
   export async function initPrivateData() {
     console.log('init private data');
-
-    const uFirebase = updateFirebaseToken();
     await backend.getJWT();
-
-    await uFirebase;
-  }
-
-  export async function updateFirebaseToken() {
-    try {
-      let token = await DB.getFirebaseToken();
-      if (token == null) {
-        token = await messaging().getToken();
-        const ok = await backend.setToken(token);
-        if (ok) {
-          await DB.setFirebaseToken(token);
-        }
-      }
-
-      messaging().onTokenRefresh(async (token: string) => {
-        const ok = await backend.setToken(token);
-        if (ok) {
-          await DB.setFirebaseToken(token);
-        }
-      });
-    } catch (e) {
-      console.log('update firebase token err: ' + e);
-    }
   }
 
   export async function syncByAccount(
@@ -253,14 +229,6 @@ namespace Task {
     chatsContext: ChatsStore.ContextType,
     transactionsContext: TransactionsStore.ContextType,
   ) {
-    const api = await polkadot.Api.getInstance(account.currency);
-
-    let size = 25;
-    let txCount = 0;
-    let page = 0;
-
-    let isExistInDB = false;
-
     let existedTxs = transactionsContext.state.transactions.get(
       account.currency,
     );
@@ -268,45 +236,33 @@ namespace Task {
       existedTxs = new Map<string, Transaction>();
     }
 
-    do {
-      let txs = await api.getTransactionsWithoutUSDValue(
-        account.address,
-        page,
-        size,
+    let txs = await backend.getTransactions(
+      account.address,
+      account.network,
+      account.currency,
+    );
+
+    if (txs.length === 0) {
+      return;
+    }
+
+    for (let i = 0; i < txs.length; i++) {
+      if (txs[i].status === TxStatus.Fail) {
+        continue;
+      }
+
+      if (existedTxs.has(txs[i].id) && isSynced) {
+        return;
+      }
+
+      await setTx(
+        globalContext,
+        chatsContext,
+        transactionsContext,
+        txs[i],
+        isSynced,
       );
-
-      if (txs.length === 0) {
-        break;
-      }
-
-      for (let i = 0; i < txs.length; i++) {
-        if (txs[i].status === TxStatus.Fail) {
-          continue;
-        }
-
-        if (existedTxs.has(txs[i].id) && isSynced) {
-          isExistInDB = true;
-          break;
-        }
-
-        await api.updateUSDValueInTransaction(txs[i]);
-
-        await setTx(
-          globalContext,
-          chatsContext,
-          transactionsContext,
-          txs[i],
-          isSynced,
-        );
-      }
-
-      txCount = txs.length;
-      page++;
-
-      if (existedTxs.size > maxSyncTxs && !isSynced) {
-        break;
-      }
-    } while (txCount === size && !isExistInDB);
+    }
   }
 
   export async function sync(
@@ -336,9 +292,7 @@ namespace Task {
     for (let [currency, value] of transactionsContext.state
       .pendingTransactions) {
       for (let i = 0; i < value.length; i++) {
-        const api = await polkadot.Api.getInstance(currency);
-
-        const status = await api.getTxStatus(value[i]);
+        const status = await backend.getTxStatus(value[i]);
         if (status == null) {
           continue;
         }
@@ -370,50 +324,52 @@ namespace Task {
   }
 
   export async function updateBalances(
+    globalContext: GlobalStore.ContextType,
     accountsContext: AccountsStore.ContextType,
   ) {
-    for (let value of accountsContext.state.accounts.values()) {
-      const api = await polkadot.Api.getInstance(value.currency);
-
-      const balance = await api.balance(value.address);
-      if (!balance) {
+    for (let account of accountsContext.state.accounts.values()) {
+      const api = Adaptors.get(account.network);
+      const planks = await api.balance(account.address);
+      if (planks == null) {
         continue;
       }
 
-      const balanceValue = balance.value;
-      const planks = balance.plankValue;
-
-      if (value.planks === '' || new BN(value.planks).cmp(planks) !== 0) {
-        value.balance = balanceValue;
-        value.planks = planks.toString(10);
+      const viewBalance = math.convertFromPlanckToViewDecimals(
+        planks,
+        api.decimals,
+        api.viewDecimals,
+      );
+      if (new BN(account.planks).cmp(planks) !== 0) {
+        account.balance = viewBalance;
+        account.planks = planks.toString();
 
         accountsContext.dispatch(
           AccountsStore.updateBalance(
-            value.currency,
-            value.balance,
-            value.planks,
+            account.currency,
+            account.balance,
+            account.planks,
           ),
         );
       }
     }
   }
 
-  export async function updatePrices(
+  export async function updateServerInfo(
+    globalContext: GlobalStore.ContextType,
     pricesContext: PricesStore.ContextType,
-    accountsContext: AccountsStore.ContextType,
   ) {
-    for (let value of accountsContext.state.accounts.values()) {
-      const symbol = getSymbol(value.currency);
-      const response = await fetch(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`,
-      );
-      if (!response.ok) {
-        return;
-      }
+    const info = await backend.getInfo();
+    if (info == null) {
+      return;
+    }
 
-      const data = await response.json();
+    for (let url of info.substrateUrls) {
+      globalContext.dispatch(GlobalStore.setSubstrateUrl(url.network, url.url));
+    }
+
+    for (let priceInfo of info.prices) {
       pricesContext.dispatch(
-        PricesStore.updatePrice(value.currency, data.price),
+        PricesStore.updatePrice(priceInfo.currency, priceInfo.value),
       );
     }
   }

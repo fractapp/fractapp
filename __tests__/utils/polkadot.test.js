@@ -28,20 +28,20 @@ jest.mock('@polkadot/util-crypto', () => ({}));
 jest.mock('react-native-crypto', () => ({}));
 
 it('Test get instance polkadot', async () => {
-  await Api.getInstance(Currency.Polkadot);
+  await Api.getInstance(Currency.DOT);
 
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   expect(api).toStrictEqual(
-    new Api(POLKADOT_WSS_API, Currency.Polkadot, POLKADOT_SUBSCAN_API, 10),
+    new Api(POLKADOT_WSS_API, Currency.DOT, POLKADOT_SUBSCAN_API, 10),
   );
 });
 
 it('Test get instance kusama', async () => {
-  await Api.getInstance(Currency.Kusama);
+  await Api.getInstance(Currency.KSM);
 
-  const api = await Api.getInstance(Currency.Kusama);
+  const api = await Api.getInstance(Currency.KSM);
   expect(api).toStrictEqual(
-    new Api(KUSAMA_WSS_API, Currency.Kusama, KUSAMA_SUBSCAN_API, 12),
+    new Api(KUSAMA_WSS_API, Currency.KSM, KUSAMA_SUBSCAN_API, 12),
   );
 });
 
@@ -50,26 +50,24 @@ it('Test get instance throw', async () => {
 });
 
 it('Test getSubstrateApi', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   await api.getSubstrateApi();
   expect(WsProvider).toBeCalledWith(POLKADOT_WSS_API);
 });
 
 it('Test convertFromPlanckWithViewDecimals', async () => {
-  const api = await Api.getInstance(Currency.Kusama);
-  expect(api.convertFromPlanckWithViewDecimals(new BN('10000000000000'))).toBe(
+  const api = await Api.getInstance(Currency.KSM);
+  expect(api.convertFromPlanckToViewDecimals(new BN('10000000000000'))).toBe(
     10,
   );
-  expect(api.convertFromPlanckWithViewDecimals(new BN('100000000000'))).toBe(
-    0.1,
-  );
-  expect(api.convertFromPlanckWithViewDecimals(new BN('25000000000000'))).toBe(
+  expect(api.convertFromPlanckToViewDecimals(new BN('100000000000'))).toBe(0.1);
+  expect(api.convertFromPlanckToViewDecimals(new BN('25000000000000'))).toBe(
     25,
   );
 });
 
 it('Test convertFromPlanckString', async () => {
-  const api = await Api.getInstance(Currency.Kusama);
+  const api = await Api.getInstance(Currency.KSM);
   expect(api.convertFromPlanckString(new BN('10000000000001'))).toBe(
     '10.000000000001',
   );
@@ -83,7 +81,7 @@ it('Test convertFromPlanckString', async () => {
 });
 
 it('Test convertToPlanck', async () => {
-  const api = await Api.getInstance(Currency.Kusama);
+  const api = await Api.getInstance(Currency.KSM);
   expect(api.convertToPlanck(10).toString()).toBe(
     new BN('10000000000000').toString(),
   );
@@ -96,21 +94,21 @@ it('Test convertToPlanck', async () => {
 });
 
 it('Test minTransfer polkadot', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   expect((await api.minTransfer()).toString()).toBe(
     new BN('10000000000').toString(),
   );
 });
 
 it('Test minTransfer kusama', async () => {
-  const api = await Api.getInstance(Currency.Kusama);
+  const api = await Api.getInstance(Currency.KSM);
   expect((await api.minTransfer()).toString()).toBe(
     new BN('2000000000').toString(),
   );
 });
 
 it('Test balance', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   fetch.mockReturnValueOnce({
     ok: true,
     json: () => ({
@@ -128,7 +126,7 @@ it('Test balance', async () => {
 });
 
 it('Test balance (invalid)', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   fetch.mockReturnValueOnce({
     ok: true,
     json: () => ({
@@ -143,7 +141,7 @@ it('Test balance (invalid)', async () => {
 });
 
 it('Test getTxStatus=true', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   fetch.mockReturnValueOnce({
     ok: true,
     json: () => ({
@@ -158,7 +156,7 @@ it('Test getTxStatus=true', async () => {
 });
 
 it('Test getTxStatus=false', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   fetch.mockReturnValueOnce({
     ok: true,
     json: () => ({
@@ -173,7 +171,7 @@ it('Test getTxStatus=false', async () => {
 });
 
 it('Test getTxStatus (invalid)', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   fetch.mockReturnValueOnce({
     ok: true,
     json: () => ({
@@ -188,7 +186,7 @@ it('Test getTxStatus (invalid)', async () => {
 });
 
 it('Test getTransactionsWithoutUSDValue', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
   const owner = 'owner';
   const member = 'member';
   const transfers = [
@@ -226,7 +224,7 @@ it('Test getTransactionsWithoutUSDValue', async () => {
     id: transfers[0].hash,
     userId: null,
     address: transfers[0].to,
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     txType: TxType.Sent,
     timestamp: transfers[0].block_timestamp * 1000,
     value: 10000.123,
@@ -239,7 +237,7 @@ it('Test getTransactionsWithoutUSDValue', async () => {
     id: transfers[1].hash,
     userId: null,
     address: transfers[1].from,
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     txType: TxType.Received,
     timestamp: transfers[1].block_timestamp * 1000,
     value: 5.123,
@@ -251,7 +249,7 @@ it('Test getTransactionsWithoutUSDValue', async () => {
 });
 
 it('Test updateUSDValueInTransaction', async () => {
-  const api = await Api.getInstance(Currency.Polkadot);
+  const api = await Api.getInstance(Currency.DOT);
 
   fetch.mockReturnValueOnce({
     ok: true,
@@ -268,7 +266,7 @@ it('Test updateUSDValueInTransaction', async () => {
     id: 'hash',
     userId: null,
     address: 'address',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     txType: TxType.Sent,
     timestamp: new Date().getTime(),
     value: 10000.123,

@@ -4,7 +4,7 @@ import {base64Encode, randomAsU8a} from '@polkadot/util-crypto';
 import PasscodeUtil from 'utils/passcode';
 import {Keyring} from '@polkadot/keyring';
 import {u8aToHex} from '@polkadot/util';
-import {Account} from 'types/account';
+import {Account, Network} from 'types/account';
 import {Currency, getSymbol} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import {ChatInfo} from 'types/chatInfo';
@@ -12,6 +12,7 @@ import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
 import BN from 'bn.js';
+
 /**
  * @namespace
  * @category Storage
@@ -34,6 +35,7 @@ namespace DB {
     accounts: 'accounts',
     contacts: 'contacts',
     users: 'users',
+    urls: 'urls',
     accountInfo: (address: string) => `account_${address}`,
     transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
     pendingTransactions: (currency: Currency) =>
@@ -213,17 +215,19 @@ namespace DB {
         name: 'Polkadot wallet',
         address: polkadotWallet.address,
         pubKey: u8aToHex(polkadotWallet.publicKey),
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 0,
-        planks: new BN(0).toString(10),
+        planks: new BN(0).toString(),
+        network: Network.Polkadot,
       },
       {
         name: 'Kusama wallet',
         address: kusamaWallet.address,
         pubKey: u8aToHex(kusamaWallet.publicKey),
-        currency: Currency.Kusama,
+        currency: Currency.KSM,
         balance: 0,
-        planks: new BN(0).toString(10),
+        planks: new BN(0).toString(),
+        network: Network.Kusama,
       },
     );
     let accounts = new Array<string>();
@@ -339,6 +343,23 @@ namespace DB {
       return new Map<string, UserProfile>();
     }
     return new Map<string, UserProfile>(JSON.parse(result));
+  }
+
+  export async function setSubstrateUrls(urls: Map<Network, string>) {
+    await AsyncStorage.setItem(
+      AsyncStorageKeys.users,
+      JSON.stringify([...urls]),
+    );
+  }
+
+  export async function getSubstrateUrls(): Promise<Map<Network, string>> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.urls);
+
+    if (result == null) {
+      return new Map<Network, string>();
+    }
+
+    return new Map<Network, string>(JSON.parse(result));
   }
 
   export async function setPendingTxs(currency: Currency, txs: Array<string>) {

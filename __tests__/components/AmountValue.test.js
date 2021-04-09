@@ -9,7 +9,7 @@ it('Test one', () => {
       <AmountValue
         alternativeValue={555}
         fee={100}
-        currency={Currency.Polkadot}
+        currency={Currency.DOT}
         isUSDMode={true}
         value={100}
       />,
@@ -24,7 +24,7 @@ it('Test two', () => {
       <AmountValue
         alternativeValue={111}
         fee={11}
-        currency={Currency.Kusama}
+        currency={Currency.KSM}
         isUSDMode={false}
         value={100}
         width={'90%'}
@@ -41,7 +41,7 @@ it('Test three', () => {
       <AmountValue
         alternativeValue={111}
         fee={11}
-        currency={Currency.Kusama}
+        currency={Currency.KSM}
         isUSDMode={false}
         value={0}
         width={'90%'}

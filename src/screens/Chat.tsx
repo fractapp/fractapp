@@ -53,6 +53,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       account.name,
       account.address,
       account.currency,
+      account.network,
       account.balance,
       account.planks,
       price,
@@ -141,7 +142,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
             source={{
               uri: backend.getImgUrl(
                 globalContext.state.users.get(chatInfo.id)!.id,
-                globalContext.state.users.get(chatInfo.id)!.avatarExt,
                 globalContext.state.users.get(chatInfo.id)!.lastUpdate,
               ),
             }}

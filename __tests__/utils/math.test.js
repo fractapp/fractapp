@@ -43,11 +43,11 @@ it('Test round', async () => {
 });
 
 it('Test calculateValue with isUsdMode = true', async () => {
-  const v = await mathUtils.calculateValue(
+  const v = await mathUtils.calculateAlternativeValue(
     {
-      state: new Map([[Currency.Polkadot, 125]]),
+      state: new Map([[Currency.DOT, 125]]),
     },
-    Currency.Polkadot,
+    Currency.DOT,
     152.143,
     true,
   );
@@ -55,11 +55,11 @@ it('Test calculateValue with isUsdMode = true', async () => {
 });
 
 it('Test calculateValue with isUsdMode = false', async () => {
-  const v = await mathUtils.calculateValue(
+  const v = await mathUtils.calculateAlternativeValue(
     {
-      state: new Map([[Currency.Polkadot, 125]]),
+      state: new Map([[Currency.DOT, 125]]),
     },
-    Currency.Polkadot,
+    Currency.DOT,
     152.143,
     false,
   );
@@ -69,9 +69,9 @@ it('Test calculateValue with isUsdMode = false', async () => {
 it('Test calculateTxInfo', async () => {
   const v = await mathUtils.calculateTxInfo(
     {
-      state: new Map([[Currency.Polkadot, 125]]),
+      state: new Map([[Currency.DOT, 125]]),
     },
-    Currency.Polkadot,
+    Currency.DOT,
     152.143,
     'receiver',
   );
@@ -80,11 +80,11 @@ it('Test calculateTxInfo', async () => {
 });
 
 it('Test calculateValue without price', async () => {
-  const v = await mathUtils.calculateValue(
+  const v = await mathUtils.calculateAlternativeValue(
     {
       state: new Map(),
     },
-    Currency.Polkadot,
+    Currency.DOT,
     152.143,
     false,
   );
@@ -96,7 +96,7 @@ it('Test calculateTxInfo without price', async () => {
     {
       state: new Map(),
     },
-    Currency.Polkadot,
+    Currency.DOT,
     152.143,
     'receiver',
   );

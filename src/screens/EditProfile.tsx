@@ -98,7 +98,6 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
           source={{
             uri: backend.getImgUrl(
               globalContext.state.profile.id,
-              globalContext.state.profile.avatarExt,
               globalContext.state.profile.lastUpdate,
             ),
           }}

@@ -6,7 +6,6 @@ import {Receiver, ReceiverType} from 'components/Receiver';
 import {EnterAddress} from 'components/EnterAddress';
 import {WalletInfo} from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Api} from 'utils/polkadot';
 import MathUtils from 'utils/math';
 import backend from 'utils/backend';
 import tasks from 'utils/tasks';
@@ -20,6 +19,9 @@ import PricesStore from 'storage/Prices';
 import DialogStore from 'storage/Dialog';
 import {checkAddress} from '@polkadot/util-crypto';
 import BN from 'bn.js';
+import {Adaptors} from 'adaptors/adaptor';
+import math from 'utils/math';
+import Dialog from 'storage/Dialog';
 
 /**
  * Screen with sending funds
@@ -53,65 +55,65 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
   useEffect(() => {
     globalContext.dispatch(GlobalStore.setLoading(true));
-    Api.getInstance(wallet.currency).then((api) =>
-      api
-        .getSubstrateApi()
-        .then(async () => {
-          if (isEditable) {
-            setReceiver('');
-            globalContext.dispatch(GlobalStore.setLoading(false));
-            return;
-          }
-
-          if (chatInfo.type === ChatType.Chat) {
-            const details = globalContext.state.users.get(chatInfo.id)!;
-            const p = await backend.getUserById(details.id);
-            if (p == null) {
-              globalContext.dispatch(GlobalStore.setLoading(false));
-              dialogContext.dispatch(
-                DialogStore.open('Service unavailable', '', () => {
-                  dialogContext.dispatch(DialogStore.close());
-                }),
-              );
-              navigation.goBack();
-              return;
-            } else {
-              setReceiver(p.addresses[wallet.currency]);
-              globalContext.dispatch(GlobalStore.setUser(p));
-            }
-          } else if (chatInfo.type === ChatType.AddressOnly) {
-            setReceiver(chatInfo.details!.address);
-          }
-
-          setTimeout(
-            () => globalContext.dispatch(GlobalStore.setLoading(false)),
-            500,
-          );
-        })
-        .catch((e) => {
-          console.log('Err: ' + e);
+    const api = Adaptors.get(wallet.network);
+    api
+      .init()
+      .then(async () => {
+        if (isEditable) {
+          setReceiver('');
           globalContext.dispatch(GlobalStore.setLoading(false));
-          dialogContext.dispatch(
-            DialogStore.open('Service unavailable', '', () => {
-              dialogContext.dispatch(DialogStore.close());
-            }),
-          );
-          navigation.goBack();
-        }),
-    );
+          return;
+        }
+
+        if (chatInfo.type === ChatType.Chat) {
+          const details = globalContext.state.users.get(chatInfo.id)!;
+          const p = await backend.getUserById(details.id);
+          if (p == null) {
+            globalContext.dispatch(GlobalStore.setLoading(false));
+            dialogContext.dispatch(
+              DialogStore.open('Service unavailable', '', () => {
+                dialogContext.dispatch(DialogStore.close());
+              }),
+            );
+            navigation.goBack();
+            return;
+          } else {
+            setReceiver(p.addresses[wallet.currency]);
+            globalContext.dispatch(GlobalStore.setUser(p));
+          }
+        } else if (chatInfo.type === ChatType.AddressOnly) {
+          setReceiver(chatInfo.details!.address);
+        }
+
+        setTimeout(
+          () => globalContext.dispatch(GlobalStore.setLoading(false)),
+          500,
+        );
+      })
+      .catch((e: Error) => {
+        console.log('Err: ' + e);
+        globalContext.dispatch(GlobalStore.setLoading(false));
+        dialogContext.dispatch(
+          DialogStore.open('Service unavailable', '', () => {
+            dialogContext.dispatch(DialogStore.close());
+          }),
+        );
+        navigation.goBack();
+      });
   }, []);
   useEffect(() => {
     if (value <= 0 || receiver === '' || !isValidReceiver) {
       return;
     }
 
-    MathUtils.calculateValue(
-      priceContext,
-      wallet.currency,
-      value,
-      isUSDMode,
-    ).then(async (aValue) => {
-      const api = await Api.getInstance(wallet.currency);
+    (async () => {
+      const api = Adaptors.get(wallet.network);
+      const aValue = await MathUtils.calculateAlternativeValue(
+        priceContext.state.get(wallet.currency) ?? 0,
+        api.viewDecimals,
+        value,
+        isUSDMode,
+      );
       const currencyValue = isUSDMode ? aValue : value;
       const usdValue = isUSDMode ? value : aValue;
 
@@ -120,22 +122,32 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
         return;
       }
 
-      const info = await MathUtils.calculateTxInfo(
-        priceContext,
-        wallet.currency,
-        currencyValue,
-        receiver,
+      const fee = await api.calculateFee(currencyValue, receiver);
+      const usdFee = await MathUtils.calculateAlternativeValue(
+        priceContext.state.get(wallet.currency) ?? 0,
+        api.viewDecimals,
+        math.convertFromPlanckToViewDecimals(
+          fee,
+          api.decimals,
+          api.viewDecimals,
+        ),
+        false,
       );
 
       setAlternativeValue(aValue);
-      setPlanksFee(info.fee);
-      setUsdFee(info.usdFee);
+      setPlanksFee(fee);
+      setUsdFee(usdFee);
 
-      setTotalUsd(info.usdFee + usdValue);
+      setTotalUsd(usdFee + usdValue);
       setTotalCurrency(
-        currencyValue + api.convertFromPlanckWithViewDecimals(info.fee),
+        currencyValue +
+          math.convertFromPlanckToViewDecimals(
+            fee,
+            api.decimals,
+            api.viewDecimals,
+          ), //TODO
       );
-    });
+    })();
   }, [value, isUSDMode, receiver]);
 
   const send = async () => {
@@ -151,57 +163,28 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       return;
     }
 
-    const api = await Api.getInstance(wallet.currency);
+    const api = Adaptors.get(wallet.network);
     const currencyValue = isUSDMode ? alternativeValue : value;
-    const substrateApi = await api.getSubstrateApi();
+    const planksValue = math.convertToPlanck(
+      String(currencyValue),
+      api.decimals,
+    );
 
-    const info = await substrateApi.tx.balances
-      .transferKeepAlive(receiver, api.convertToPlanck(String(currencyValue)))
-      .paymentInfo(wallet.address);
+    const transferValidation = await api.isValidTransfer(
+      wallet.address,
+      receiver,
+      planksValue,
+      planksFee,
+    );
 
-    const planksValue = api.convertToPlanck(String(currencyValue));
-
-    if (
-      (await api.balance(receiver))!.plankValue
-        .add(planksValue)
-        .cmp(await api.minTransfer()) < 0
-    ) {
+    if (!transferValidation.isOk) {
       dialogContext.dispatch(
-        DialogStore.open(
-          'Minimum transfer',
-          `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
-            await api.minTransfer(),
-          )} ${getSymbol(wallet.currency)}`,
-          () => dialogContext.dispatch(DialogStore.close()),
+        Dialog.open(
+          transferValidation.errorTitle,
+          transferValidation.errorMsg,
+          () => dialogContext.dispatch(Dialog.close()),
         ),
       );
-      globalContext.dispatch(GlobalStore.setLoading(false));
-      return;
-    }
-
-    const balanceAfterBalance = new BN(wallet.planks)
-      .sub(planksValue)
-      .sub(info.partialFee);
-
-    if (
-      balanceAfterBalance.cmp(await api.minTransfer()) < 0 &&
-      balanceAfterBalance.cmp(new BN(0)) !== 0
-    ) {
-      dialogContext.dispatch(
-        DialogStore.open(
-          'Balance',
-          `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
-            await api.minTransfer(),
-          )} ${getSymbol(
-            wallet.currency,
-          )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
-            new BN(wallet.planks).sub(info.partialFee),
-          )}`,
-          () => dialogContext.dispatch(DialogStore.close()),
-        ),
-      );
-      globalContext.dispatch(GlobalStore.setLoading(false));
-      return;
     }
 
     const v = planksValue.add(planksFee);
@@ -215,15 +198,21 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       currency: wallet.currency,
       txType: TxType.Sent,
       timestamp: Math.round(new Date().getTime()),
-      value: MathUtils.floor(
-        api.convertFromPlanckWithViewDecimals(v),
+
+      value: math.convertFromPlanckToViewDecimals(
+        v,
+        api.decimals,
         api.viewDecimals,
       ),
+      planckValue: v.toString(),
       usdValue: usdValue,
-      fee: MathUtils.floor(
-        api.convertFromPlanckWithViewDecimals(planksFee),
+
+      fee: math.convertFromPlanckToViewDecimals(
+        planksFee,
+        api.decimals,
         api.viewDecimals,
       ),
+      planckFee: planksFee.toString(),
       usdFee: usdFee,
       status: TxStatus.Pending,
     };
@@ -273,7 +262,6 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             avatar={{
               uri: backend.getImgUrl(
                 globalContext.state.users.get(chatInfo.id)!.id,
-                globalContext.state.users.get(chatInfo.id)!.avatarExt,
                 globalContext.state.users.get(chatInfo.id)!.lastUpdate,
               ),
             }}
@@ -289,7 +277,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             setReceiver(text);
             const result = checkAddress(
               text,
-              wallet.currency === Currency.Polkadot ? 0 : 2,
+              wallet.currency === Currency.DOT ? 0 : 2,
             );
             setIsValidReceiver(result[0]);
           }}

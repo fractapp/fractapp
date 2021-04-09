@@ -73,7 +73,7 @@ export const EditPhoneNumber = ({
     }
 
     (async () => {
-      const local = await backend.getLocal();
+      const local = await backend.getLocalByIp();
       const numberCountryCode = getCountryCallingCode(local);
       setCountryCodeLength(numberCountryCode.length);
       setCountryCode(local);

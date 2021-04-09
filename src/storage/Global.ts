@@ -3,6 +3,7 @@ import DB from 'storage/DB';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
+import {Network} from 'types/account';
 
 /**
  * @namespace
@@ -27,6 +28,7 @@ namespace GlobalStore {
     SET_CONTACTS,
     SET_USER,
     DELETE_USER,
+    SET_SUBSTRATE_URL,
   }
 
   export type State = {
@@ -39,6 +41,7 @@ namespace GlobalStore {
     authInfo: AuthInfo;
     isInitialized: boolean;
     isLoadingShow: boolean;
+    urls: Map<Network, string>;
   };
 
   export type ContextType = {
@@ -70,6 +73,7 @@ namespace GlobalStore {
     isInitialized: false,
     isRegistered: false,
     isLoadingShow: false,
+    urls: new Map<Network, string>(),
   });
   export const Context = createContext<ContextType>({
     state: initialState(),
@@ -90,6 +94,7 @@ namespace GlobalStore {
           isLoadingShow: false,
           contacts: action.contacts,
           users: action.users,
+          urls: action.urls,
         };
       case Action.SET_PROFILE:
         copy.profile = action.profile;
@@ -157,6 +162,9 @@ namespace GlobalStore {
       case Action.DELETE_USER:
         copy.users.delete(action.id);
         DB.setUsers(copy.users);
+      case Action.SET_SUBSTRATE_URL:
+        copy.urls.set(action.network, action.url);
+        DB.setSubstrateUrls(copy.urls);
       default:
         return prevState;
     }
@@ -172,6 +180,7 @@ namespace GlobalStore {
     isUpdatingProfile: boolean,
     contacts: Array<UserProfile>,
     users: Map<string, UserProfile>,
+    urls: Map<Network, string>,
   ) => ({
     type: Action.SET,
     profile: profile,
@@ -181,6 +190,7 @@ namespace GlobalStore {
     isUpdatingProfile: isUpdatingProfile,
     contacts: contacts,
     users: users,
+    urls: urls,
   });
 
   export const setProfile = (profile: MyProfile) => ({
@@ -238,6 +248,11 @@ namespace GlobalStore {
   export const deleteUser = (id: string) => ({
     type: Action.DELETE_USER,
     id: id,
+  });
+  export const setSubstrateUrl = (network: Network, url: string) => ({
+    type: Action.SET_SUBSTRATE_URL,
+    url: url,
+    network: network,
   });
 }
 export default GlobalStore;

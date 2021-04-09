@@ -28,6 +28,7 @@ export const Wallets = ({navigation}: {navigation: any}) => {
           account.name,
           account.address,
           account.currency,
+          account.network,
           account.balance,
           account.planks,
           price,

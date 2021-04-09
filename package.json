@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest --verbose",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "doc": "typedoc --out docs src/components src/screens src/storage src/types src/utils --mode file --ignoreCompilerErrors "
+    "doc": "typedoc --out docs src/components src/screens src/storage src/types src/utils src/adaptors --mode file --ignoreCompilerErrors "
   },
   "dependencies": {
     "@polkadot/api": "^3.8.1",
@@ -18,14 +18,14 @@
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.9",
-    "@react-native-firebase/app": "^10.5.0",
-    "@react-native-firebase/messaging": "^10.8.0",
+    "@react-native-community/push-notification-ios": "^1.8.0",
     "@react-navigation/bottom-tabs": "^5.11.1",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.12.6",
     "@testing-library/react-native": "^7.1.0",
     "@types/react-native-background-timer": "^2.0.0",
     "@types/react-native-popup-dialog": "^0.16.2",
+    "@types/react-native-push-notification": "^7.2.0",
     "@types/react-native-share": "^3.3.0",
     "@types/react-native-vector-icons": "^6.4.6",
     "@types/react-phone-number-input": "^3.0.6",
@@ -51,6 +51,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-navigation-bar-color": "^2.0.1",
     "react-native-popup-dialog": "^0.18.3",
+    "react-native-push-notification": "^7.2.3",
     "react-native-qrcode-svg": "^6.0.6",
     "react-native-randombytes": "^3.5.3",
     "react-native-reanimated": "^1.13.2",

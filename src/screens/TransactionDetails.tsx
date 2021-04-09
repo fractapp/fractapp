@@ -64,7 +64,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
         {user != null ? (
           <Image
             source={{
-              uri: backend.getImgUrl(user.id, user.avatarExt, user.lastUpdate),
+              uri: backend.getImgUrl(user.id, user.lastUpdate),
             }}
             width={80}
             height={80}
@@ -89,7 +89,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
         </Text>
         <Text style={[styles.value, {color: amountColor()}]}>
           {tx.usdValue !== 0
-            ? '$' + MathUtils.floorUsd(tx.usdValue)
+            ? '$' + tx.usdValue
             : `${tx.value} ${getSymbol(tx.currency)}`}
         </Text>
         {tx.usdValue !== 0 ? (

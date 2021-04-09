@@ -21,7 +21,7 @@ it('Test two', () => {
       <Receiver
         nameOrAddress={'1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE'}
         type={ReceiverType.Address}
-        currency={Currency.Polkadot}
+        currency={Currency.DOT}
       />,
     )
     .toJSON();

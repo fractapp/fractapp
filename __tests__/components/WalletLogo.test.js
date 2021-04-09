@@ -11,7 +11,7 @@ jest.mock('types/wallet', () => ({
 it('Test with borders', () => {
   withoutBorder.mockImplementationOnce(() => false);
   const tree = renderer
-    .create(<WalletLogo size={20} currency={Currency.Polkadot} />)
+    .create(<WalletLogo size={20} currency={Currency.DOT} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -19,7 +19,7 @@ it('Test with borders', () => {
 it('Test without borders', () => {
   withoutBorder.mockImplementationOnce(() => true);
   const tree = renderer
-    .create(<WalletLogo size={10} currency={Currency.Kusama} />)
+    .create(<WalletLogo size={10} currency={Currency.KSM} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

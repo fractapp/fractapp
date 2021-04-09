@@ -19,7 +19,7 @@ jest.mock('utils/backend', () => ({
 it('Test view with empty number', async () => {
   useState.mockImplementation((init) => [init, jest.fn()]);
 
-  BackendApi.getLocal.mockReturnValueOnce('AD');
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
   const tree = renderer
     .create(
       <EditPhoneNumber
@@ -44,7 +44,7 @@ it('Test useEffect with empty number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocal.mockReturnValueOnce('AD');
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -71,7 +71,7 @@ it('Test useEffect with selectedCountryCode', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocal.mockReturnValueOnce('AG');
+  BackendApi.getLocalByIp.mockReturnValueOnce('AG');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -98,7 +98,7 @@ it('Test useEffect with number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocal.mockReturnValueOnce('');
+  BackendApi.getLocalByIp.mockReturnValueOnce('');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -123,7 +123,7 @@ it('Test useEffect with invalid number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocal.mockReturnValueOnce('');
+  BackendApi.getLocalByIp.mockReturnValueOnce('');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -148,7 +148,7 @@ it('Test click selectCountry', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocal.mockReturnValueOnce('');
+  BackendApi.getLocalByIp.mockReturnValueOnce('');
   const component = await render(
     <EditPhoneNumber
       navigation={{navigate: navigate, setOptions: jest.fn()}}

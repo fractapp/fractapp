@@ -6,7 +6,6 @@ import {getSymbol} from 'types/wallet';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import StringUtils from 'utils/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MathUtils from 'utils/math';
 
 /**
  * Payment message in chat
@@ -80,7 +79,7 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
         <WalletLogo currency={tx.currency} size={40} />
         <Text style={[styles.usdText, {color: amountColor()}]}>
           {tx.usdValue !== 0
-            ? `$${MathUtils.floorUsd(tx.usdValue)}`
+            ? `$${tx.usdValue}`
             : `${tx.value} ${getSymbol(tx.currency)}`}
         </Text>
       </View>

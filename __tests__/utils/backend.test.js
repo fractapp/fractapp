@@ -31,7 +31,7 @@ it('Test setToken', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubKey',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     balance: 1000,
     planks: '10000000',
   };
@@ -78,7 +78,7 @@ it('Test auth', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubKey',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     balance: 1000,
     planks: '10000000',
   };

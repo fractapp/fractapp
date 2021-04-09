@@ -12,16 +12,14 @@ it('Test empty wallet', () => {
 
 it('Test one currency Polkadot', () => {
   const tree = renderer
-    .create(
-      <StatisticsBar distribution={new Map([[Currency.Polkadot, 100]])} />,
-    )
+    .create(<StatisticsBar distribution={new Map([[Currency.DOT, 100]])} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it('Test one currency Kusama', () => {
   const tree = renderer
-    .create(<StatisticsBar distribution={new Map([[Currency.Kusama, 100]])} />)
+    .create(<StatisticsBar distribution={new Map([[Currency.KSM, 100]])} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -32,8 +30,8 @@ it('Test two currency 50/50', () => {
       <StatisticsBar
         distribution={
           new Map([
-            [Currency.Kusama, 100],
-            [Currency.Polkadot, 100],
+            [Currency.KSM, 100],
+            [Currency.DOT, 100],
           ])
         }
       />,
@@ -48,8 +46,8 @@ it('Test two currency 10/90', () => {
       <StatisticsBar
         distribution={
           new Map([
-            [Currency.Polkadot, 10],
-            [Currency.Kusama, 90],
+            [Currency.DOT, 10],
+            [Currency.KSM, 90],
           ])
         }
       />,

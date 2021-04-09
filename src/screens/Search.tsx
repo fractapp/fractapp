@@ -160,7 +160,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
         <Contact
           name={item.name}
           img={{
-            uri: backend.getImgUrl(item.id, item.avatarExt, item.lastUpdate),
+            uri: backend.getImgUrl(item.id, item.lastUpdate),
           }}
           usernameOrPhoneNumber={'@' + item.username}
         />

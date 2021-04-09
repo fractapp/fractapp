@@ -26,9 +26,14 @@ export type Transaction = {
   currency: Currency;
   txType: TxType;
   timestamp: number;
+
   value: number;
+  planckValue: string;
   usdValue: number;
+
   fee: number;
+  planckFee: string;
   usdFee: number;
+
   status: TxStatus;
 };

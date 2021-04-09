@@ -2,12 +2,19 @@ import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'types/wallet';
+import {Network} from 'types/account';
 
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
+import BN from 'bn.js';
+import MathUtils from 'utils/math';
+import {ServerInfo} from 'types/serverInfo';
+import {Adaptors} from 'adaptors/adaptor';
+import math from 'utils/math';
 
 /**
  * @namespace
@@ -17,10 +24,6 @@ namespace BackendApi {
   export enum CheckType {
     Auth = 0,
     Change,
-  }
-  export enum Network {
-    Polkadot = 0,
-    Kusama,
   }
   export enum CodeType {
     Phone = 0,
@@ -66,10 +69,10 @@ namespace BackendApi {
       const msg = signTokenMsg + token + time;
       let network = Network.Polkadot;
       switch (accountInfo.currency) {
-        case Currency.Polkadot:
+        case Currency.DOT:
           network = Network.Polkadot;
           break;
-        case Currency.Kusama:
+        case Currency.KSM:
           network = Network.Kusama;
           break;
       }
@@ -175,6 +178,30 @@ namespace BackendApi {
       await DB.setJWT(json.token);
     }
     return response.status;
+  }
+
+  function createAuthPubKeyHeaderWithKeyAndTime(
+    rq: any,
+    key: KeyringPair,
+    time: number,
+  ): string {
+    const msg = authMsg + JSON.stringify(rq) + time;
+    return u8aToHex(key.sign(stringToU8a(msg)));
+  }
+
+  export async function getInfo(): Promise<ServerInfo | null> {
+    const response = await fetch(`${apiUrl}/info/total`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      return await response.json();
+    } else {
+      return null;
+    }
   }
 
   export async function myMatchContacts(): Promise<Array<UserProfile>> {
@@ -320,8 +347,8 @@ namespace BackendApi {
     }
     const data: UserProfile = await response.json();
 
-    const polkadot = data.addresses[Currency.Polkadot];
-    const kusama = data.addresses[Currency.Kusama];
+    const polkadot = data.addresses[Currency.DOT];
+    const kusama = data.addresses[Currency.KSM];
 
     timeForCache.set(polkadot, new Date().getTime() + cacheTimeout);
     userByAddressCache.set(polkadot, data);
@@ -368,28 +395,130 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function getLocal(): Promise<string> {
+  export async function getLocalByIp(): Promise<string> {
     let url = 'http://ip-api.com/json/';
     const response = await fetch(url);
     const json = await response.json();
     return json.countryCode;
   }
 
-  export function getImgUrl(
-    id: string,
-    ex: string,
-    lastUpdate: number,
-  ): string {
-    return `${apiUrl}/profile/avatar/${id}` + '#' + lastUpdate;
+  export async function getTransactions(
+    address: string,
+    network: Network,
+    currency: Currency,
+  ): Promise<Array<Transaction>> {
+    let transactions = new Array<Transaction>();
+    const api = Adaptors.get(network);
+
+    try {
+      let rs = await fetch(
+        `${apiUrl}/profile/transactions?address=${address}&currency=${currency}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      if (!rs.ok) {
+        return [];
+      }
+      const data = await rs.json();
+      if (data == null || data.length === 0) {
+        return new Array<Transaction>();
+      }
+
+      for (let i = 0; i < data.length; i++) {
+        const tx = data[i];
+
+        let txType = 0;
+        let member = '';
+
+        let userId = null;
+        if (address === tx.from) {
+          txType = TxType.Sent;
+          member = tx.to;
+          if (tx.userTo !== '') {
+            userId = tx.userTo;
+          }
+        } else {
+          txType = TxType.Received;
+          member = tx.from;
+          if (tx.userFrom !== '') {
+            userId = tx.userFrom;
+          }
+        }
+        transactions.push({
+          id: tx.id,
+          userId: userId,
+          address: member,
+          currency: currency,
+          txType: txType,
+          timestamp: tx.timestamp,
+
+          value: math.convertFromPlanckToViewDecimals(
+            new BN(tx.value, 10),
+            api.decimals,
+            api.viewDecimals,
+          ),
+          planckValue: tx.value,
+          usdValue: MathUtils.floorUsd(tx.usdValue),
+
+          fee: math.convertFromPlanckToViewDecimals(
+            new BN(tx.fee, 10),
+            api.decimals,
+            api.viewDecimals,
+          ),
+          planckFee: tx.fee,
+          usdFee: MathUtils.floorUsd(tx.usdFee),
+          status: tx.Status,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      return transactions;
+    }
+    return transactions;
   }
 
-  function createAuthPubKeyHeaderWithKeyAndTime(
-    rq: any,
-    key: KeyringPair,
-    time: number,
-  ): string {
-    const msg = authMsg + JSON.stringify(rq) + time;
-    return u8aToHex(key.sign(stringToU8a(msg)));
+  export async function getTxStatus(hash: string): Promise<TxStatus | null> {
+    let rs = await fetch(`${apiUrl}/profile/transaction/status?hash=${hash}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!rs.ok) {
+      return null;
+    }
+
+    const data = await rs.json();
+    return data.status;
+  }
+
+  export async function substrateBalance(
+    address: string,
+    currency: Currency,
+  ): Promise<BN | null> {
+    let rs = await fetch(
+      `${apiUrl}/profile/substrate/balance?address=${address}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    if (!rs.ok) {
+      return null;
+    }
+
+    const balance = await rs.json();
+    return new BN(balance.value);
+  }
+
+  export function getImgUrl(id: string, lastUpdate: number): string {
+    return `${apiUrl}/profile/avatar/${id}` + '#' + lastUpdate;
   }
 }
 export default BackendApi;

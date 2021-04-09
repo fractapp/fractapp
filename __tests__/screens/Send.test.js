@@ -33,7 +33,7 @@ it('Test view', () => {
             wallet: new Wallet(
               'Wallet Polkadot',
               'address#1',
-              Currency.Polkadot,
+              Currency.DOT,
               100,
               '1000000000000',
               10,

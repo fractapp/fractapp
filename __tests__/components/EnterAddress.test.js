@@ -9,7 +9,7 @@ it('Test one', () => {
       <EnterAddress
         value={'value'}
         isValid={true}
-        currency={Currency.Polkadot}
+        currency={Currency.DOT}
         onOk={() => {}}
         onChangeText={(text) => {}}
       />,
@@ -23,7 +23,7 @@ it('Test two', () => {
       <EnterAddress
         value={'1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE'}
         isValid={false}
-        currency={Currency.Kusama}
+        currency={Currency.KSM}
         onOk={() => {}}
         onChangeText={(text) => {}}
       />,
@@ -37,7 +37,7 @@ it('Test three', () => {
       <EnterAddress
         value={''}
         isValid={false}
-        currency={Currency.Kusama}
+        currency={Currency.KSM}
         onOk={() => {}}
         onChangeText={(text) => {}}
       />,

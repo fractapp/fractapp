@@ -2,12 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
-import {getSymbol, Wallet} from 'types/wallet';
+import {Wallet} from 'types/wallet';
 import PricesStore from 'storage/Prices';
-import {Api} from 'utils/polkadot';
 import MathUtils from 'utils/math';
 import Dialog from 'storage/Dialog';
 import BN from 'bn.js';
+import math from 'utils/math';
+import {Adaptors} from 'src/adaptors/adaptor';
 
 /**
  * Screen with the input of the amount to be sent
@@ -34,6 +35,7 @@ export const EnterAmount = ({
     routeValue === 0 ? '' : routeValue,
   );
   const [alternativeValue, setAlternativeValue] = useState<number>(0);
+
   const [usdFee, setUsdFee] = useState<number>(0);
   const [plankFee, setPlankFee] = useState<BN>(new BN(0));
 
@@ -46,8 +48,11 @@ export const EnterAmount = ({
     }
 
     const currencyValue = isUSDMode ? alternativeValue : value;
-    const api = await Api.getInstance(wallet.currency);
-    const planksValue = api.convertToPlanck(String(currencyValue));
+    const api = Adaptors.get(wallet.network);
+    const planksValue = math.convertToPlanck(
+      String(currencyValue),
+      api.decimals,
+    );
     if (new BN(wallet.planks).cmp(planksValue.add(plankFee)) < 0) {
       dialogContext.dispatch(
         Dialog.open('Not enough balance', '', () =>
@@ -56,46 +61,21 @@ export const EnterAmount = ({
       );
       return;
     }
+    const transferValidation = await api.isValidTransfer(
+      wallet.address,
+      receiver,
+      planksValue,
+      plankFee,
+    );
 
-    const receiverBalance = (await api.balance(receiver))!;
-    if (
-      receiverBalance.plankValue.add(planksValue).cmp(await api.minTransfer()) <
-      0
-    ) {
+    if (!transferValidation.isOk) {
       dialogContext.dispatch(
         Dialog.open(
-          'Minimum transfer',
-          `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
-            await api.minTransfer(),
-          )} ${getSymbol(wallet.currency)}`,
+          transferValidation.errorTitle,
+          transferValidation.errorMsg,
           () => dialogContext.dispatch(Dialog.close()),
         ),
       );
-      return;
-    }
-
-    const balanceAfterBalance = new BN(wallet.planks)
-      .sub(planksValue)
-      .sub(plankFee);
-
-    if (
-      balanceAfterBalance.cmp(await api.minTransfer()) < 0 &&
-      balanceAfterBalance.cmp(new BN(0)) !== 0
-    ) {
-      dialogContext.dispatch(
-        Dialog.open(
-          'Balance',
-          `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
-            await api.minTransfer(),
-          )} ${getSymbol(
-            wallet.currency,
-          )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
-            new BN(wallet.planks).sub(plankFee),
-          )}`,
-          () => dialogContext.dispatch(Dialog.close()),
-        ),
-      );
-      return;
     }
 
     navigation.navigate('Send', {
@@ -110,9 +90,10 @@ export const EnterAmount = ({
     }
 
     (async () => {
-      const aValue = await MathUtils.calculateValue(
-        priceContext,
-        wallet.currency,
+      const api = Adaptors.get(wallet.network);
+      const aValue = await MathUtils.calculateAlternativeValue(
+        priceContext.state.get(wallet.currency) ?? 0,
+        api.viewDecimals,
         value,
         isUSDMode,
       );
@@ -128,14 +109,20 @@ export const EnterAmount = ({
     const currencyValue = isUSDMode ? alternativeValue : value;
 
     (async () => {
-      const info = await MathUtils.calculateTxInfo(
-        priceContext,
-        wallet.currency,
-        currencyValue,
-        receiver,
+      const api = Adaptors.get(wallet.network);
+      const fee = await api.calculateFee(currencyValue, receiver);
+      const usdFee = await MathUtils.calculateAlternativeValue(
+        priceContext.state.get(wallet.currency) ?? 0,
+        api.viewDecimals,
+        math.convertFromPlanckToViewDecimals(
+          fee,
+          api.decimals,
+          api.viewDecimals,
+        ),
+        false,
       );
-      setPlankFee(info.fee);
-      setUsdFee(info.usdFee);
+      setPlankFee(fee);
+      setUsdFee(usdFee);
     })();
   }, [alternativeValue]);
 

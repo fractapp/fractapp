@@ -36,7 +36,7 @@ export const ChatShortInfo = ({
         {user != null ? (
           <Image
             source={{
-              uri: backend.getImgUrl(user.id, user.avatarExt, user.lastUpdate),
+              uri: backend.getImgUrl(user.id, user.lastUpdate),
             }}
             width={55}
             height={55}

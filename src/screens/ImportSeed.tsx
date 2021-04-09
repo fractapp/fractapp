@@ -61,9 +61,7 @@ export const ImportSeed = () => {
         alignItems: 'center',
       }}>
       <Text style={styles.title}>Import secret phrase</Text>
-      <Text style={styles.description}>
-        Import your secret phrase. (12 or 14 words)
-      </Text>
+      <Text style={styles.description}>Import your secret phrase</Text>
       <TextInput
         autoCorrect={false}
         multiline={true}

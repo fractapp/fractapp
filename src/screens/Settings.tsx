@@ -154,7 +154,6 @@ export const Settings = ({
             source={{
               uri: backend.getImgUrl(
                 globalContext.state.profile.id,
-                globalContext.state.profile.avatarExt,
                 globalContext.state.profile.lastUpdate,
               ),
             }}

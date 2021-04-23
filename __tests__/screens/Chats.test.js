@@ -65,7 +65,7 @@ it('Test view with chats', () => {
     lastTxCurrency: Currency.KSM,
     notificationCount: 12,
     timestamp: 222111,
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
   });
   useContext.mockReturnValueOnce({
     state: chats,

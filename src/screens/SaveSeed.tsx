@@ -1,5 +1,12 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  NativeModules,
+  BackHandler,
+  Image,
+} from 'react-native';
 import {SeedButton} from 'components/SeedButton';
 import {BlueButton} from 'components/BlueButton';
 import {showMessage} from 'react-native-flash-message';
@@ -29,6 +36,17 @@ export const SaveSeed = ({
     );
   }
 
+  useEffect(() => {
+    NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
+      console.log(result),
+    );
+
+    return () =>
+      NativeModules.PreventScreenshotModule.allow().then((result: string) =>
+        console.log(result),
+      );
+  }, []);
+
   return (
     <View
       style={{
@@ -38,7 +56,7 @@ export const SaveSeed = ({
       }}>
       <Text style={styles.title}>Your secret phrase</Text>
       <Text style={styles.description}>
-        Write or copy these words in the correct order and keep in a safe place.
+        Write these 12 word down, or copy them to your password manager.
       </Text>
       <View style={styles.seed}>{seedBtns}</View>
 
@@ -47,14 +65,14 @@ export const SaveSeed = ({
         onPress={() => {
           Clipboard.setString(seed.join(' '));
           showMessage({
-            message:
-              "Seed is copied. Don't forget to remove it from your clipboard!",
+            message: 'Copied to Clipboard',
             type: 'info',
             icon: 'info',
           });
         }}>
         Copy
       </Text>
+
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
         <BlueButton
           text={'Next'}
@@ -66,6 +84,20 @@ export const SaveSeed = ({
             })
           }
         />
+      </View>
+
+      <View style={styles.infoBox}>
+        <Image
+          source={require('assets/img/info.png')}
+          style={{
+            width: 35,
+            height: 35,
+          }}
+        />
+        <Text style={styles.infoMsg}>
+          These 12 words are the keys to your wallet. Back up in a safe place.
+          Do not share this with anyone.
+        </Text>
       </View>
     </View>
   );
@@ -79,6 +111,24 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     width: '90%',
     marginTop: 40,
+  },
+  infoBox: {
+    position: 'absolute',
+    bottom: 120,
+    padding: 20,
+    width: '85%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F4FCFF',
+    borderRadius: 10,
+  },
+  infoMsg: {
+    marginTop: 20,
+    width: '90%',
+    fontSize: 13,
+    textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
+    color: '#2AB2E2',
   },
   copy: {
     alignSelf: 'flex-end',

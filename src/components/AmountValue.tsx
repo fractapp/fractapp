@@ -21,7 +21,7 @@ export const AmountValue = ({
   width = '100%',
   onPress,
 }: {
-  value: number;
+  value: string;
   alternativeValue: number;
   fee: number;
   currency: Currency;
@@ -38,14 +38,14 @@ export const AmountValue = ({
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Text style={styles.value}>{isUSDMode && value !== 0 && '$'}</Text>
+        <Text style={styles.value}>{isUSDMode && value !== '' && '$'}</Text>
         <TextInput
           style={[
             styles.value,
             {
-              color: value === 0 ? '#BFBDBD' : 'black',
-              width: value === 0 ? width : 'auto',
-              alignSelf: value === 0 ? 'flex-start' : 'center',
+              color: value === '' ? '#BFBDBD' : 'black',
+              width: value === '' ? width : 'auto',
+              alignSelf: value === '' ? 'flex-start' : 'center',
               paddingLeft: 0,
               paddingRight: 0,
               paddingBottom: 0,
@@ -55,11 +55,11 @@ export const AmountValue = ({
             },
           ]}
           editable={false}
-          value={value === 0 ? 'Enter amount' : String(value)}
+          value={value === '' ? 'Enter amount' : String(value)}
           keyboardType={'decimal-pad'}
         />
         <Text style={styles.valueCurrency}>
-          {!isUSDMode && value !== 0 && ' ' + getSymbol(currency)}
+          {!isUSDMode && value !== '' && ' ' + getSymbol(currency)}
         </Text>
       </View>
 

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {SeedButton} from 'components/SeedButton';
 import {Loader} from 'components/Loader';
@@ -45,6 +45,7 @@ export const ConfirmSaveSeed = ({
       }
 
       setLoading(false);
+
       navigation.reset({
         index: 0,
         routes: [{name: 'Home'}],
@@ -117,12 +118,12 @@ export const ConfirmSaveSeed = ({
   };
 
   const renderButtonOrError = () => {
-    if (selectedPhrase.length != seed.length) {
+    if (selectedPhrase.length !== seed.length) {
       return null;
     }
 
     for (let i = 0; i < seed.length; i++) {
-      if (selectedPhrase[i] == seed[i]) {
+      if (selectedPhrase[i] === seed[i]) {
         continue;
       }
 
@@ -130,7 +131,7 @@ export const ConfirmSaveSeed = ({
     }
     return (
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Next'} height={50} onPress={startSaveSeed} />
+        <BlueButton text={'Confirm'} height={50} onPress={startSaveSeed} />
       </View>
     );
   };

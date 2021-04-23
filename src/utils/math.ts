@@ -23,31 +23,53 @@ namespace MathUtils {
     return round(value, USDDecimals);
   }
 
-  export async function calculateAlternativeValue(
-    price: number,
+  export function calculateUsdValue(
+    value: BN,
     decimals: number,
-    value: number,
-    isUSDMode: boolean,
-  ): Promise<number> {
-    return isUSDMode
-      ? MathUtils.round(value / price, decimals)
-      : MathUtils.roundUsd(value * price);
+    price: number,
+  ): number {
+    const d = new BN(10).pow(new BN(decimals));
+    const ud = new BN(10).pow(new BN(USDDecimals));
+    return roundUsd(
+      value.mul(ud).mul(new BN(price)).div(d).toNumber() / ud.toNumber(), //TODO: add price cent
+    );
+  }
+
+  export function calculatePlanksValue(
+    usdValue: number,
+    decimals: number,
+    price: number,
+  ): BN {
+    const d = new BN(10).pow(new BN(decimals));
+    const ud = new BN(10).pow(new BN(USDDecimals));
+    return new BN(usdValue * ud.toNumber())
+      .mul(d)
+      .div(new BN(price * ud.toNumber()));
   }
 
   export function convertFromPlanckToViewDecimals(
     planck: BN,
     decimals: number,
     viewDecimals: number,
+    isRound?: boolean,
   ): number {
-    return (
-      planck
-        .mul(new BN(1000))
-        .div(new BN(10).pow(new BN(decimals)))
-        .toNumber() / Math.pow(10, viewDecimals)
-    );
+    const d = new BN(10).pow(new BN(decimals));
+    const viewD = new BN(10).pow(new BN(viewDecimals));
+
+    const preV = planck.mul(viewD).div(d);
+    let v = preV;
+
+    if (isRound) {
+      const rem = preV.mod(viewD);
+      if (rem.cmp(new BN(0)) > 0) {
+        v = v.add(new BN(1));
+      }
+    }
+
+    return round(v.toNumber() / viewD.toNumber(), viewDecimals);
   }
 
-  export function convertFromPlanckString(
+  export function convertFromPlanckToString(
     planck: BN,
     decimals: number,
   ): string {

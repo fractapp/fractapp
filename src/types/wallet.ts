@@ -1,5 +1,6 @@
 import {ImageSourcePropType} from 'react-native';
 import {Network} from 'types/account';
+import math from 'utils/math';
 
 /**
  * @category Models
@@ -82,6 +83,6 @@ export class Wallet {
     this.planks = planks;
     this.currency = currency;
     this.network = network;
-    this.usdValue = +(balance * price).toFixed(2);
+    this.usdValue = math.roundUsd(balance * price);
   }
 }

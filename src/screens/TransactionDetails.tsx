@@ -6,7 +6,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {WalletInfo} from 'components/WalletInfo';
 import {WalletLogo} from 'components/WalletLogo';
 import StringUtils from 'utils/string';
-import MathUtils from 'utils/math';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
@@ -75,9 +74,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
         )}
         <Text
           onPress={() => {
-            Clipboard.setString(
-              user != null ? '@' + user.username : tx.address,
-            );
+            Clipboard.setString(user != null ? user.username : tx.address);
             showMessage({
               message: 'Copied',
               type: 'info',
@@ -85,7 +82,11 @@ export const TransactionDetails = ({route}: {route: any}) => {
             });
           }}
           style={styles.address}>
-          {user != null ? user.name : tx.address}
+          {user != null
+            ? user.name !== undefined && user.name !== ''
+              ? user.name
+              : user.username
+            : tx.address}
         </Text>
         <Text style={[styles.value, {color: amountColor()}]}>
           {tx.usdValue !== 0
@@ -104,7 +105,9 @@ export const TransactionDetails = ({route}: {route: any}) => {
 
       <View style={{width: '100%', marginTop: 30}}>
         <Text style={[styles.title, {marginBottom: 10}]}>
-          Write-off account
+          {tx.txType === TxType.Sent
+            ? 'Write-off account'
+            : 'Receiving account'}
         </Text>
         <WalletInfo wallet={wallet} />
       </View>
@@ -119,16 +122,18 @@ export const TransactionDetails = ({route}: {route: any}) => {
           </Text>
         </View>
         <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <View>
-            <Text style={[styles.title, {marginBottom: 5}]}>Fee</Text>
-            {tx.usdFee === 0 ? (
-              <Text style={styles.dateAndFee}>
-                {tx.fee} {getSymbol(wallet.currency)}
-              </Text>
-            ) : (
-              <Text style={styles.dateAndFee}>${tx.usdFee}</Text>
-            )}
-          </View>
+          {tx.txType === TxType.Sent && (
+            <View>
+              <Text style={[styles.title, {marginBottom: 5}]}>Fee</Text>
+              {tx.usdFee === 0 ? (
+                <Text style={styles.dateAndFee}>
+                  {tx.fee} {getSymbol(wallet.currency)}
+                </Text>
+              ) : (
+                <Text style={styles.dateAndFee}>${tx.usdFee}</Text>
+              )}
+            </View>
+          )}
         </View>
       </View>
     </View>

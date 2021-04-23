@@ -9,7 +9,7 @@ export enum ErrorCode {
   None,
   ServiceUnavailable,
   MinBalance,
-  InvalidAmount,
+  NeedFullBalance,
 }
 export type TransferValidation = {
   isOk: boolean;
@@ -25,7 +25,7 @@ export interface IAdaptor {
 
   init(): Promise<void>;
   balance(address: string): Promise<BN>;
-  calculateFee(currencyValue: number, receiver: string): Promise<BN>;
+  calculateFee(value: BN, receiver: string): Promise<BN>;
   send(receiver: string, value: BN): Promise<string>;
   isValidTransfer(
     sender: string,
@@ -36,7 +36,10 @@ export interface IAdaptor {
 }
 
 export class Adaptors {
-  private static adaptors: Map<Network, IAdaptor>;
+  private static adaptors: Map<Network, IAdaptor> = new Map<
+    Network,
+    IAdaptor
+  >();
   public static init(globalContext: GlobalStore.ContextType) {
     let polkadotUrl = '';
     if (globalContext.state.urls.has(Network.Polkadot)) {

@@ -5,13 +5,12 @@ import PasscodeUtil from 'utils/passcode';
 import {Keyring} from '@polkadot/keyring';
 import {u8aToHex} from '@polkadot/util';
 import {Account, Network} from 'types/account';
-import {Currency, getSymbol} from 'types/wallet';
-import {Transaction} from 'types/transaction';
-import {ChatInfo} from 'types/chatInfo';
+import {Currency} from 'types/wallet';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
 import BN from 'bn.js';
+import ChatsStore from 'storage/Chats';
 
 /**
  * @namespace
@@ -31,17 +30,12 @@ namespace DB {
     price: (currency: Currency) => `price_${currency}`,
     profile: 'profile',
     authInfo: 'auth_info',
-    notificationCount: 'notification_count',
     accounts: 'accounts',
     contacts: 'contacts',
     users: 'users',
     urls: 'urls',
     accountInfo: (address: string) => `account_${address}`,
-    transactions: (currency: Currency) => `transactions_${getSymbol(currency)}`,
-    pendingTransactions: (currency: Currency) =>
-      `pending_transactions_${getSymbol(currency)}`,
-    chatByChatId: (chatId: string) => `chat_${chatId}`,
-    chatsInfo: 'chats_info',
+    chatsStorage: 'chatsStorage',
   };
   export const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
@@ -108,19 +102,6 @@ namespace DB {
       return null;
     }
     return JSON.parse(result);
-  }
-
-  export async function setNotificationCount(count: number) {
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.notificationCount,
-      String(count),
-    );
-  }
-  export async function getNotificationCount(): Promise<number> {
-    const result = await AsyncStorage.getItem(
-      AsyncStorageKeys.notificationCount,
-    );
-    return Number(result);
   }
 
   export async function enablePasscode(passcode: string, isBiometry: boolean) {
@@ -257,60 +238,39 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setChatsInfo(chats: Map<string, ChatInfo>) {
+  export async function setChatsState(state: ChatsStore.State) {
+    const mapReplacer = (key: any, value: any) => {
+      if (value instanceof Map) {
+        return {
+          dataType: 'Map',
+          value: Array.from(value.entries()), // or with spread: value: [...value]
+        };
+      } else {
+        return value;
+      }
+    };
+
     await AsyncStorage.setItem(
-      AsyncStorageKeys.chatsInfo,
-      JSON.stringify([...chats]),
+      AsyncStorageKeys.chatsStorage,
+      JSON.stringify(state, mapReplacer),
     );
   }
-  export async function getChatsInfo(): Promise<Map<string, ChatInfo>> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.chatsInfo);
+  export async function getChatsState(): Promise<ChatsStore.State> {
+    const mapReviver = (key: any, value: any) => {
+      if (typeof value === 'object' && value !== null) {
+        if (value.dataType === 'Map') {
+          return new Map(value.value);
+        }
+      }
+      return value;
+    };
+
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.chatsStorage);
 
     if (result == null) {
-      return new Map<string, ChatInfo>();
+      return ChatsStore.initialState();
     }
-    return new Map<string, ChatInfo>(JSON.parse(result));
-  }
-
-  export async function setChat(chatId: string, chats: Map<string, Currency>) {
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.chatByChatId(chatId),
-      JSON.stringify([...chats]),
-    );
-  }
-  export async function getChat(
-    chatId: string,
-  ): Promise<Map<string, Currency>> {
-    const result = await AsyncStorage.getItem(
-      AsyncStorageKeys.chatByChatId(chatId),
-    );
-
-    if (result == null) {
-      return new Map<string, Currency>();
-    }
-    return new Map<string, Currency>(JSON.parse(result));
-  }
-
-  export async function setTx(currency: Currency, tx: Transaction) {
-    const txs = await getTxs(currency);
-
-    txs.set(tx.id, tx);
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.transactions(currency),
-      JSON.stringify([...txs]),
-    );
-  }
-  export async function getTxs(
-    currency: Currency,
-  ): Promise<Map<string, Transaction>> {
-    const result = await AsyncStorage.getItem(
-      AsyncStorageKeys.transactions(currency),
-    );
-
-    if (result == null) {
-      return new Map<string, Transaction>();
-    }
-    return new Map<string, Transaction>(JSON.parse(result));
+    return JSON.parse(result, mapReviver);
   }
 
   export async function setContacts(contacts: Array<UserProfile>) {
@@ -347,7 +307,7 @@ namespace DB {
 
   export async function setSubstrateUrls(urls: Map<Network, string>) {
     await AsyncStorage.setItem(
-      AsyncStorageKeys.users,
+      AsyncStorageKeys.urls,
       JSON.stringify([...urls]),
     );
   }
@@ -360,27 +320,6 @@ namespace DB {
     }
 
     return new Map<Network, string>(JSON.parse(result));
-  }
-
-  export async function setPendingTxs(currency: Currency, txs: Array<string>) {
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.pendingTransactions(currency),
-      JSON.stringify(txs),
-    );
-  }
-
-  export async function getPendingTxs(
-    currency: Currency,
-  ): Promise<Array<string>> {
-    const result = await AsyncStorage.getItem(
-      AsyncStorageKeys.pendingTransactions(currency),
-    );
-
-    if (result == null) {
-      return [];
-    }
-
-    return JSON.parse(result);
   }
 
   export async function setAccountInfo(account: Account) {

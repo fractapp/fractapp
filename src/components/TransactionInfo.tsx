@@ -87,7 +87,11 @@ export const TransactionInfo = ({
             }}>
             <Text numberOfLines={1} style={styles.member}>
               {stringUtils.formatNameOrAddress(
-                user != null ? user.name : transaction.address,
+                user != null
+                  ? user.name !== undefined && user.name !== ''
+                    ? user.name
+                    : user.username
+                  : transaction.address,
               )}
             </Text>
             <Text style={[styles.balance, {textAlign: 'left', color: color}]}>

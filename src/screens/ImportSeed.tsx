@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TextInput, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {Loader} from 'components/Loader';
 import {mnemonicValidate} from '@polkadot/util-crypto';
@@ -21,6 +21,16 @@ export const ImportSeed = () => {
     setSaveSeed(true);
   };
 
+  useEffect(() => {
+    NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
+      console.log(result),
+    );
+
+    return () =>
+      NativeModules.PreventScreenshotModule.allow().then((result: string) =>
+        console.log(result),
+      );
+  }, []);
   useEffect(() => {
     if (!isSaveSeed) {
       return;

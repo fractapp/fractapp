@@ -18,7 +18,7 @@ export const EditName = ({navigation}: {navigation: any}) => {
   const [isErrorName, setNameIsError] = useState<boolean>(false);
 
   const onSuccess = async () => {
-    if (name === globalContext.state.profile.name) {
+    if (name === globalContext.state.profile.name || name === '') {
       navigation.goBack();
       return;
     }
@@ -52,7 +52,7 @@ export const EditName = ({navigation}: {navigation: any}) => {
     });
 
     setNameIsError(regExp.test(name));
-    if (name.length < 4 || name.length > 32) {
+    if (name !== '' && (name.length < 4 || name.length > 32)) {
       setNameIsError(true);
     }
   }, [name]);

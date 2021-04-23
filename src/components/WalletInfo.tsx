@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import {getSymbol, Wallet} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
 

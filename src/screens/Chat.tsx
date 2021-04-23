@@ -16,7 +16,6 @@ import ChatsStore from 'storage/Chats';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
-import TransactionsStore from 'storage/Transactions';
 import stringUtils from 'utils/string';
 import backend from 'utils/backend';
 
@@ -31,13 +30,10 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const priceContext = useContext(PricesStore.Context);
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
 
   const chatInfo: ChatInfo = route.params.chatInfo;
 
-  const [notificationCount, setNotificationCount] = useState(
-    chatInfo.notificationCount,
-  );
+  const [notificationCount] = useState(chatInfo.notificationCount);
   const [txs, setTxs] = useState<Array<Transaction>>([]);
 
   const getWallet = (currency: Currency) => {
@@ -67,14 +63,14 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     }
     const ids = chatsContext.state.chats.get(chatInfo.id)!;
 
-    for (let [id, currency] of ids) {
-      txs.push(transactionsContext.state.transactions?.get(currency)?.get(id)!);
+    for (let [id, info] of ids.infoById) {
+      txs.push(
+        chatsContext.state.transactions
+          ?.get(info.currency)
+          ?.transactionById.get(id)!,
+      );
     }
     const result = txs.sort((a, b) => b.timestamp - a.timestamp);
-    if (result.length < notificationCount) {
-      //TODO
-      setNotificationCount(result.length);
-    }
     setTxs(result);
   }, [chatsContext.state.chats]);
 
@@ -158,10 +154,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   }, []);
   useEffect(() => {
     if (chatInfo.notificationCount !== 0) {
-      globalContext.dispatch(
-        GlobalStore.removeNotificationCount(notificationCount),
-      );
-      chatsContext.dispatch(ChatsStore.resetNotification(chatInfo.id));
+      chatsContext.dispatch(ChatsStore.removeNotification(chatInfo.id));
     }
   }, [chatInfo.notificationCount]);
 
@@ -190,7 +183,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       <TouchableOpacity
         style={styles.sendBox}
         onPress={() =>
-          chatInfo.type === ChatType.Chat
+          chatInfo.type === ChatType.WithUser
             ? navigation.navigate('SelectWallet', {
                 chatInfo: chatInfo,
               })

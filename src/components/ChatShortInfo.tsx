@@ -62,13 +62,10 @@ export const ChatShortInfo = ({
           <View style={{height: 23, flexDirection: 'row'}}>
             <View style={{flex: 8}}>
               <Text style={[styles.msg, {textAlign: 'left'}]}>
-                {tx.txType === TxType.Sent
-                  ? `Sent -$${tx.usdValue} (${tx.value} ${getSymbol(
-                      tx.currency,
-                    )})`
-                  : `Received +$${tx.usdValue} (${tx.value} ${getSymbol(
-                      tx.currency,
-                    )})`}
+                {tx.txType === TxType.Sent ? 'Sent -' : 'Received +'}
+                {tx.usdValue !== 0
+                  ? `$${tx.usdValue} (${tx.value} ${getSymbol(tx.currency)})`
+                  : `${tx.value} ${getSymbol(tx.currency)}`}
               </Text>
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  NativeModules,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -65,19 +66,19 @@ export const Backup = ({navigation}: {navigation: any}) => {
           style={{width: 32, height: 32}}
         />
       ),
-      title: 'Google drive',
+      title: 'On Google Drive',
       onClick: () => backupGoogleDrive(),
     },
     {
       img: <MaterialIcons name="folder-open" size={32} color="#888888" />,
-      title: 'Encrypted file',
+      title: 'To encrypted file',
       onClick: () => backupFile(),
     },
     {
       img: (
         <MaterialCommunityIcons name="content-copy" size={32} color="#888888" />
       ),
-      title: 'Backup seed',
+      title: 'Back up manually',
       onClick: () => backupSeed(),
     },
   ];

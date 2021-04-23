@@ -1,14 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, View, Text, Keyboard} from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
-import {Wallet} from 'types/wallet';
-import PricesStore from 'storage/Prices';
-import MathUtils from 'utils/math';
-import Dialog from 'storage/Dialog';
+import {getSymbol, Wallet} from 'types/wallet';
 import BN from 'bn.js';
-import math from 'utils/math';
-import {Adaptors} from 'src/adaptors/adaptor';
 
 /**
  * Screen with the input of the amount to be sent
@@ -21,138 +16,121 @@ export const EnterAmount = ({
   navigation: any;
   route: any;
 }) => {
-  const priceContext = useContext(PricesStore.Context);
-  const dialogContext = useContext(Dialog.Context);
+  const defaultValue = route.params?.value ?? '';
 
-  const routeValue = route.params?.value ?? 0;
   const wallet: Wallet = route.params.wallet;
   const receiver: string = route.params.receiver;
 
   const [isUSDMode, setUSDMode] = useState<boolean>(
     route.params?.isUSDMode ?? true,
   );
-  const [value, setValue] = useState<number>(
-    routeValue === 0 ? '' : routeValue,
-  );
+  const [value, setValue] = useState<string>('0');
+  const [usdValue, setUsdValue] = useState<number>(0);
   const [alternativeValue, setAlternativeValue] = useState<number>(0);
-
   const [usdFee, setUsdFee] = useState<number>(0);
-  const [plankFee, setPlankFee] = useState<BN>(new BN(0));
+  const [planksValue, setPlanksValue] = useState<string>('');
+  const [planksFee, setPlanksFee] = useState<string>('');
+  const [isValid, setValid] = useState<boolean>(true);
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  console.log(isKeyboardVisible);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const onSuccess = async () => {
-    if (value <= 0 || alternativeValue <= 0) {
-      navigation.navigate('Send', {
-        isUSDMode: isUSDMode,
-        value: value,
-      });
-    }
-
-    const currencyValue = isUSDMode ? alternativeValue : value;
-    const api = Adaptors.get(wallet.network);
-    const planksValue = math.convertToPlanck(
-      String(currencyValue),
-      api.decimals,
-    );
-    if (new BN(wallet.planks).cmp(planksValue.add(plankFee)) < 0) {
-      dialogContext.dispatch(
-        Dialog.open('Not enough balance', '', () =>
-          dialogContext.dispatch(Dialog.close()),
-        ),
-      );
-      return;
-    }
-    const transferValidation = await api.isValidTransfer(
-      wallet.address,
-      receiver,
-      planksValue,
-      plankFee,
-    );
-
-    if (!transferValidation.isOk) {
-      dialogContext.dispatch(
-        Dialog.open(
-          transferValidation.errorTitle,
-          transferValidation.errorMsg,
-          () => dialogContext.dispatch(Dialog.close()),
-        ),
-      );
-    }
-
     navigation.navigate('Send', {
       isUSDMode: isUSDMode,
       value: value,
+      usdValue: usdValue,
+      alternativeValue: alternativeValue,
+      usdFee: usdFee,
+      planksValue: planksValue,
+      planksFee: planksFee,
     });
   };
 
-  useEffect(() => {
-    if (value <= 0) {
-      return;
-    }
-
-    (async () => {
-      const api = Adaptors.get(wallet.network);
-      const aValue = await MathUtils.calculateAlternativeValue(
-        priceContext.state.get(wallet.currency) ?? 0,
-        api.viewDecimals,
-        value,
-        isUSDMode,
-      );
-      setAlternativeValue(aValue);
-    })();
-  }, [value, isUSDMode]);
-
-  useEffect(() => {
-    if (value <= 0 || alternativeValue <= 0) {
-      return;
-    }
-
-    const currencyValue = isUSDMode ? alternativeValue : value;
-
-    (async () => {
-      const api = Adaptors.get(wallet.network);
-      const fee = await api.calculateFee(currencyValue, receiver);
-      const usdFee = await MathUtils.calculateAlternativeValue(
-        priceContext.state.get(wallet.currency) ?? 0,
-        api.viewDecimals,
-        math.convertFromPlanckToViewDecimals(
-          fee,
-          api.decimals,
-          api.viewDecimals,
-        ),
-        false,
-      );
-      setPlankFee(fee);
-      setUsdFee(usdFee);
-    })();
-  }, [alternativeValue]);
+  const onChangeValues = (
+    value: string,
+    usdValue: number,
+    alternativeValue: number,
+    planksValue: BN,
+    planksFee: BN,
+    usdFee: number,
+    usdMode: boolean,
+    isValid: boolean,
+  ) => {
+    setValue(value);
+    setUsdValue(usdValue);
+    setAlternativeValue(alternativeValue);
+    setPlanksValue(planksValue.toString());
+    setPlanksFee(planksFee.toString());
+    setUsdFee(usdFee);
+    setUSDMode(usdMode);
+    setValid(isValid);
+  };
 
   useEffect(() => {
-    if (value <= 0 || alternativeValue <= 0) {
-      return;
-    }
-
     navigation.setOptions({
       headerRight: () => {
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
-  }, [alternativeValue, usdFee]);
-
+  }, [value, alternativeValue, usdFee, isUSDMode]);
   return (
     <View style={styles.chats}>
       <AmountInput
         width={'95%'}
-        onChangeText={(text, mode) => {
-          const v = parseFloat(text);
-          setValue(isNaN(v) ? 0 : v);
-          setUSDMode(mode);
-        }}
-        value={String(value)}
+        wallet={wallet}
+        receiver={receiver}
         usdMode={isUSDMode}
-        alternativeValue={alternativeValue}
-        fee={usdFee}
-        currency={wallet.currency}
+        onChangeValues={onChangeValues}
+        defaultValue={defaultValue}
       />
+      <View
+        style={[
+          styles.balance,
+          isKeyboardVisible
+            ? {
+                bottom: 350,
+              }
+            : {
+                bottom: 60,
+              },
+          isValid
+            ? {
+                borderColor: '#2AB2E2',
+              }
+            : {
+                borderColor: '#EA4335',
+              },
+        ]}>
+        <View style={{width: '50%', alignItems: 'flex-start'}}>
+          <Text style={styles.balanceText}>Your balance</Text>
+        </View>
+        <View style={{width: '50%', alignItems: 'flex-end'}}>
+          <Text style={styles.balanceText}>{`$${wallet.usdValue} (${
+            wallet.balance
+          } ${getSymbol(wallet.currency)})`}</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -162,5 +140,23 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
     flex: 1,
+  },
+  balance: {
+    padding: 12,
+    position: 'absolute',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '90%',
+  },
+  balanceText: {
+    fontSize: 17,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: 'black',
   },
 });

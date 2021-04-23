@@ -286,7 +286,7 @@ it('Test setChatsInfo', async () => {
         lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: {
           currency: Currency.DOT,
           address: 'address',
@@ -312,7 +312,7 @@ it('Test getChatsInfo positive', async () => {
         lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: {
           currency: Currency.DOT,
           address: 'address',

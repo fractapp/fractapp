@@ -25,7 +25,7 @@ it('Test set', async () => {
         lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: null,
       },
     ],
@@ -46,7 +46,7 @@ it('Test setChatInfo', async () => {
     lastTxCurrency: Currency.DOT,
     notificationCount: 10,
     timestamp: new Date().getTime(),
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
     details: null,
   };
 
@@ -85,7 +85,7 @@ it('Test reducer set', async () => {
         lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: null,
       },
     ],
@@ -108,7 +108,7 @@ it('Test reducer setChatInfo', async () => {
     lastTxCurrency: Currency.DOT,
     notificationCount: 10,
     timestamp: new Date().getTime(),
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
     details: null,
   };
 
@@ -122,7 +122,7 @@ it('Test reducer setChatInfo', async () => {
         lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: null,
       },
     ],
@@ -163,7 +163,7 @@ it('Test reducer resetNotification', async () => {
     lastTxCurrency: Currency.DOT,
     notificationCount: 10,
     timestamp: new Date().getTime(),
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
     details: null,
   };
 
@@ -185,7 +185,7 @@ it('Test reducer resetNotification', async () => {
           lastTxCurrency: Currency.DOT,
           notificationCount: 0,
           timestamp: chatInfo.timestamp,
-          type: ChatType.Chat,
+          type: ChatType.WithUser,
           details: null,
         },
       ],

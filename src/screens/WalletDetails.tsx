@@ -12,8 +12,8 @@ import {Transaction} from 'types/transaction';
 import {TransactionInfo} from 'components/TransactionInfo';
 import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
 import stringUtils from 'utils/string';
-import TransactionsStore from 'storage/Transactions';
 import GlobalStore from 'storage/Global';
+import ChatsStore from 'storage/Chats';
 
 /**
  * Screen with wallet details
@@ -27,7 +27,7 @@ export const WalletDetails = ({
   route: any;
 }) => {
   const globalContext = useContext(GlobalStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
+  const chatsContext = useContext(ChatsStore.Context);
   const wallet: Wallet = route.params.wallet;
 
   const getDataWithSections = () => {
@@ -38,13 +38,13 @@ export const WalletDetails = ({
     //TODO: refactoring
     const txs = new Array<Transaction>();
 
-    if (!transactionsContext.state.transactions.has(wallet.currency)) {
+    if (!chatsContext.state.transactions.has(wallet.currency)) {
       return [];
     }
 
-    for (let tx of transactionsContext.state.transactions
+    for (let tx of chatsContext.state.transactions
       .get(wallet.currency)
-      ?.values()!) {
+      ?.transactionById.values()!) {
       txs.push(tx);
     }
 

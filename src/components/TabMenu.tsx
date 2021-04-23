@@ -7,6 +7,7 @@ import {Wallets} from 'screens/Wallets';
 import {Settings} from 'screens/Settings';
 import {Chats} from 'screens/Chats';
 import GlobalStore from 'storage/Global';
+import ChatsStore from 'storage/Chats';
 
 /**
  * All Tab Navigator
@@ -37,7 +38,7 @@ const ProfileStack = createStackNavigator();
  * @category Components
  */
 export const TabMenu = () => {
-  const globalContext = useContext(GlobalStore.Context);
+  const chatsContext = useContext(ChatsStore.Context);
 
   const MenuTabs = {
     Discovery: 'Discovery',
@@ -69,9 +70,9 @@ export const TabMenu = () => {
         component={ChatsTab}
         options={{
           tabBarBadge:
-            globalContext.state.notificationCount === 0
+            chatsContext.state.totalNotifications === 0
               ? undefined
-              : globalContext.state.notificationCount,
+              : chatsContext.state.totalNotifications,
           tabBarBadgeStyle: {
             backgroundColor: '#FF3B30',
             color: 'white',

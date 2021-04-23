@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {TextInput} from 'components/TextInput';
 import {PasswordInput} from 'components/PasswordInput';
@@ -34,45 +34,71 @@ export const WalletFileBackup = ({
 
   const seed: string = route.params.seed.join(' ');
   const type: backupUtils.BackupType = route.params.type;
-  const isNewAccount: boolean = route.params.isNewAccount;
 
   const startBackup = async () => {
     setLoading(true);
   };
 
   useEffect(() => {
+    NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
+      console.log(result),
+    );
+
+    return () =>
+      NativeModules.PreventScreenshotModule.allow().then((result: string) =>
+        console.log(result),
+      );
+  }, []);
+  useEffect(() => {
     if (!isLoading) {
       return;
     }
 
     (async () => {
-      await backupUtils.backup(seed, password, fileName, type);
+      const res = await backupUtils.backup(
+        seed,
+        password,
+        fileName.trim(),
+        type,
+      );
       setLoading(false);
 
-      await DB.createAccounts(seed);
-      const dir =
-        route.params.type === backupUtils.BackupType.File
-          ? 'Downloads'
-          : backupUtils.GoogleDriveFolder;
+      if (res.isError) {
+        return;
+      }
 
-      dialogContext.dispatch(
-        Dialog.open(
-          'Success save wallet',
-          `If you lose access to file then you will not be able to restore access to the wallet. File "${fileName}.json" saved in "${dir}" directory`,
-          async () => {
-            await dialogContext.dispatch(Dialog.close());
+      if (res.isExist) {
+        dialogContext.dispatch(
+          Dialog.open('File exists', 'Please enter a different file name', () =>
+            dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
 
-            if (isNewAccount) {
-              await globalContext.dispatch(GlobalStore.signInLocal());
-            }
+      if (!globalContext.state.authInfo.isAuthed) {
+        console.log('create account');
+        await DB.createAccounts(seed);
+        globalContext.dispatch(GlobalStore.signInLocal());
+      }
 
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
-            });
-          },
-        ),
-      );
+      if (type === backupUtils.BackupType.File) {
+        dialogContext.dispatch(
+          Dialog.open(
+            'Success save wallet',
+            `If you lose access to file then you will not be able to restore access to the wallet. File "${fileName.trim()}.json" saved in "${
+              backupUtils.FSDriveFolder
+            }" directory`,
+            async () => {
+              dialogContext.dispatch(Dialog.close());
+            },
+          ),
+        );
+      }
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
     })();
   }, [isLoading]);
 
@@ -95,7 +121,7 @@ export const WalletFileBackup = ({
 
     return (
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Encrypt'} height={50} onPress={startBackup} />
+        <BlueButton text={'Confirm'} height={50} onPress={startBackup} />
       </View>
     );
   };

@@ -13,4 +13,4 @@ export type UserProfile = {
   };
 };
 
-//TODO: addresses to Currency name
+//TODO: "addresses" to currency enum

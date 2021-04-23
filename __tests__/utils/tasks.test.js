@@ -106,7 +106,7 @@ it('Test init', async () => {
         lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: {
           currency: Currency.DOT,
           address: 'address',

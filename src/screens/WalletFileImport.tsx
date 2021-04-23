@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, Alert} from 'react-native';
+import {StyleSheet, View, Text, Alert, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {PasswordInput} from 'components/PasswordInput';
 import {Loader} from 'components/Loader';
@@ -23,6 +23,19 @@ export const WalletFileImport = ({route}: {route: any}) => {
   const startImport = async () => {
     setLoading(true);
   };
+
+  useEffect(() => {
+    globalContext.dispatch(GlobalStore.setLoading(false));
+
+    NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
+      console.log(result),
+    );
+
+    return () =>
+      NativeModules.PreventScreenshotModule.allow().then((result: string) =>
+        console.log(result),
+      );
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -68,7 +81,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
       </View>
 
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Decrypt'} height={50} onPress={startImport} />
+        <BlueButton text={'Restore'} height={50} onPress={startImport} />
       </View>
     </View>
   );

@@ -21,16 +21,17 @@ export class SubstrateAdaptor implements IAdaptor {
   public constructor(url: string, network: Network) {
     this.url = url;
     this.network = network;
-    this.viewDecimals = 3;
     this.substrateApi = null;
 
     switch (this.network) {
       case Network.Polkadot:
+        this.viewDecimals = 3;
         this.decimals = 10;
         this.minTransfer = math.convertToPlanck('1', this.decimals);
         this.currency = Currency.DOT;
         break;
       case Network.Kusama:
+        this.viewDecimals = 4;
         this.decimals = 12;
         this.minTransfer = math.convertToPlanck('0.002', this.decimals);
         this.currency = Currency.KSM;
@@ -46,17 +47,11 @@ export class SubstrateAdaptor implements IAdaptor {
     return (await backend.substrateBalance(address, this.currency))!;
   }
 
-  public async calculateFee(
-    currencyValue: number,
-    receiver: string,
-  ): Promise<BN> {
+  public async calculateFee(value: BN, receiver: string): Promise<BN> {
     const api = await this.getSubstrateApi();
 
     const info = await api.tx.balances
-      .transfer(
-        receiver,
-        math.convertToPlanck(String(currencyValue), this.decimals),
-      )
+      .transfer(receiver, value)
       .paymentInfo(receiver);
 
     return info.partialFee.toBn();
@@ -75,7 +70,6 @@ export class SubstrateAdaptor implements IAdaptor {
           type: 'sr25519',
           ss58Format: 2,
         }).addFromUri(seed);
-        break;
     }
 
     const substrateApi = await this.getSubstrateApi();
@@ -91,10 +85,7 @@ export class SubstrateAdaptor implements IAdaptor {
     fee: BN,
   ): Promise<TransferValidation> {
     const balanceReceiver = await this.balance(receiver);
-    if (
-      balanceReceiver ??
-      (new BN(0) < this.minTransfer && value < this.minTransfer)
-    ) {
+    if (new BN(balanceReceiver).add(value).cmp(this.minTransfer) < 0) {
       return {
         isOk: false,
         errorCode: ErrorCode.MinBalance,
@@ -123,9 +114,10 @@ export class SubstrateAdaptor implements IAdaptor {
       balanceAfterBalance.cmp(new BN(0)) !== 0
     ) {
       //TODO: refactoring error text
+      const v = math.convertFromPlanckToString(value.sub(fee), this.decimals);
       return {
         isOk: false,
-        errorCode: ErrorCode.InvalidAmount,
+        errorCode: ErrorCode.NeedFullBalance,
         errorTitle: 'Amount',
         errorMsg: `After the transfer, more than ${math.convertFromPlanckToViewDecimals(
           this.minTransfer,
@@ -133,10 +125,7 @@ export class SubstrateAdaptor implements IAdaptor {
           this.viewDecimals,
         )} ${getSymbol(
           this.currency,
-        )} should remain on the balance or transfer the entire remaining balance. Valid amount: ${math.convertFromPlanckString(
-          value.sub(fee),
-          this.decimals,
-        )}`,
+        )} should remain on the balance or transfer the entire remaining balance. Valid amount: ${v}`,
       };
     }
 

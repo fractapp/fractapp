@@ -50,40 +50,39 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
       }}>
       <Text style={styles.title}>Save a wallet</Text>
       <Text style={styles.description}>
-        Save your wallet in a safe place. If you lose your wallet, you cannot
-        restore access to it.
+        Save your wallet keys in a safe place. If you lose your wallet keys, you
+        cannot restore access to it. Do not share this with anyone.
       </Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 30}}>
-        <WhiteButton
-          text={'Backup seed'}
-          height={50}
-          img={Img.Copy}
-          width="90%"
-          onPress={() =>
-            navigation.navigate('SaveSeed', {
-              seed: seed,
-              isNewAccount: true,
-            })
-          }
-        />
+        <View style={{width: '90%'}}>
+          <WhiteButton
+            text={'On Google Drive'}
+            img={Img.GoogleDrive}
+            height={50}
+            onPress={backupGoogleDrive}
+          />
+        </View>
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={'Encrypted file'}
+            text={'To encrypted file'}
             img={Img.File}
             height={50}
             onPress={backupFile}
           />
         </View>
-        {
-          <View style={{marginTop: 20, width: '90%'}}>
-            <WhiteButton
-              text={'Google drive'}
-              img={Img.GoogleDrive}
-              height={50}
-              onPress={backupGoogleDrive}
-            />
-          </View>
-        }
+        <View style={{marginTop: 20, width: '90%'}}>
+          <WhiteButton
+            text={'Back up manually'}
+            height={50}
+            img={Img.Copy}
+            onPress={() =>
+              navigation.navigate('SaveSeed', {
+                seed: seed,
+                isNewAccount: true,
+              })
+            }
+          />
+        </View>
       </View>
     </View>
   );

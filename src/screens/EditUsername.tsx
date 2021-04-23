@@ -20,7 +20,10 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
   const [isExist, setUsernameExist] = useState<boolean>(false);
 
   const onSuccess = async () => {
-    if (username.toLowerCase() === globalContext.state.profile.username) {
+    if (
+      username.toLowerCase() === globalContext.state.profile.username ||
+      username === ''
+    ) {
       navigation.goBack();
       return;
     }
@@ -65,6 +68,11 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
+
+    if (username === '') {
+      setUsernameExist(false);
+      return;
+    }
 
     if (username.toLowerCase() === globalContext.state.profile.username) {
       setUsernameExist(false);

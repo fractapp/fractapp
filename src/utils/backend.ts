@@ -32,7 +32,7 @@ namespace BackendApi {
 
   const cacheTimeout = 36000000; // 10 minutes
 
-  let userByAddressCache = new Map<string, UserProfile>();
+  let userById = new Map<string, UserProfile>();
   let timeForCache = new Map<string, number>();
 
   const apiUrl = FRACTAPP_API;
@@ -300,17 +300,12 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function search(
-    value: string,
-    isEmail: boolean,
-  ): Promise<Array<UserProfile>> {
+  export async function search(value: string): Promise<Array<UserProfile>> {
     value = value.toLowerCase();
     if (value.length < 4) {
       return [];
     }
-    const response = await fetch(
-      `${apiUrl}/profile/search?value=${value}${isEmail ? '&type=email' : ''}`,
-    );
+    const response = await fetch(`${apiUrl}/profile/search?value=${value}`);
 
     if (response.status !== 200) {
       return [];
@@ -318,43 +313,26 @@ namespace BackendApi {
     return await response.json();
   }
 
-  export async function getUserById(id: string): Promise<UserProfile | null> {
-    const response = await fetch(`${apiUrl}/profile/info?id=${id}`);
-
-    if (response.status !== 200) {
-      return null;
+  export async function getUserById(
+    id: string,
+  ): Promise<UserProfile | null | undefined> {
+    if (timeForCache.has(id) && timeForCache.get(id)! >= new Date().getTime()) {
+      console.log('user get from cache: ' + id);
+      return userById.get(id)!;
     }
 
-    const data: UserProfile = await response.json();
-    return data;
-  }
+    const response = await fetch(`${apiUrl}/profile/userInfo?id=${id}`);
 
-  export async function getUserByAddress(
-    address: string,
-  ): Promise<UserProfile | null> {
-    if (
-      timeForCache.has(address) &&
-      timeForCache.get(address)! >= new Date().getTime()
-    ) {
-      console.log('user get from cache: ' + address);
-      return userByAddressCache.get(address)!;
-    }
-
-    const response = await fetch(`${apiUrl}/profile/info?address=${address}`);
-
-    if (response.status !== 200) {
+    console.log('get user status: ' + response.status);
+    if (response.status === 404) {
+      return undefined;
+    } else if (response.status !== 200) {
       return null;
     }
     const data: UserProfile = await response.json();
 
-    const polkadot = data.addresses[Currency.DOT];
-    const kusama = data.addresses[Currency.KSM];
-
-    timeForCache.set(polkadot, new Date().getTime() + cacheTimeout);
-    userByAddressCache.set(polkadot, data);
-
-    timeForCache.set(kusama, new Date().getTime() + cacheTimeout);
-    userByAddressCache.set(kusama, data);
+    timeForCache.set(id, new Date().getTime() + cacheTimeout);
+    userById.set(id, data);
 
     return data;
   }
@@ -410,74 +388,71 @@ namespace BackendApi {
     let transactions = new Array<Transaction>();
     const api = Adaptors.get(network);
 
-    try {
-      let rs = await fetch(
-        `${apiUrl}/profile/transactions?address=${address}&currency=${currency}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+    let rs = await fetch(
+      `${apiUrl}/profile/transactions?address=${address}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
-      if (!rs.ok) {
-        return [];
-      }
-      const data = await rs.json();
-      if (data == null || data.length === 0) {
-        return new Array<Transaction>();
-      }
-
-      for (let i = 0; i < data.length; i++) {
-        const tx = data[i];
-
-        let txType = 0;
-        let member = '';
-
-        let userId = null;
-        if (address === tx.from) {
-          txType = TxType.Sent;
-          member = tx.to;
-          if (tx.userTo !== '') {
-            userId = tx.userTo;
-          }
-        } else {
-          txType = TxType.Received;
-          member = tx.from;
-          if (tx.userFrom !== '') {
-            userId = tx.userFrom;
-          }
-        }
-        transactions.push({
-          id: tx.id,
-          userId: userId,
-          address: member,
-          currency: currency,
-          txType: txType,
-          timestamp: tx.timestamp,
-
-          value: math.convertFromPlanckToViewDecimals(
-            new BN(tx.value, 10),
-            api.decimals,
-            api.viewDecimals,
-          ),
-          planckValue: tx.value,
-          usdValue: MathUtils.floorUsd(tx.usdValue),
-
-          fee: math.convertFromPlanckToViewDecimals(
-            new BN(tx.fee, 10),
-            api.decimals,
-            api.viewDecimals,
-          ),
-          planckFee: tx.fee,
-          usdFee: MathUtils.floorUsd(tx.usdFee),
-          status: tx.Status,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      return transactions;
+      },
+    );
+    if (!rs.ok) {
+      throw new Error('invalid get txs (status != 200)');
     }
+
+    const data = await rs.json();
+    if (data == null || data.length === 0) {
+      return new Array<Transaction>();
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      const tx = data[i];
+
+      let txType = 0;
+      let member = '';
+
+      let userId = null;
+      if (address === tx.from) {
+        txType = TxType.Sent;
+        member = tx.to;
+        if (tx.userTo !== '') {
+          userId = tx.userTo;
+        }
+      } else {
+        txType = TxType.Received;
+        member = tx.from;
+        if (tx.userFrom !== '') {
+          userId = tx.userFrom;
+        }
+      }
+      transactions.push({
+        id: tx.id,
+        userId: userId,
+        address: member,
+        currency: currency,
+        txType: txType,
+        timestamp: tx.timestamp,
+
+        value: math.convertFromPlanckToViewDecimals(
+          new BN(tx.value, 10),
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckValue: tx.value,
+        usdValue: MathUtils.floorUsd(tx.usdValue),
+
+        fee: math.convertFromPlanckToViewDecimals(
+          new BN(tx.fee, 10),
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckFee: tx.fee,
+        usdFee: MathUtils.floorUsd(tx.usdFee),
+        status: tx.status,
+      });
+    }
+
     return transactions;
   }
 

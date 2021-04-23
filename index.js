@@ -71,8 +71,7 @@ PushNotification.createChannel(
     soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
     importance: 4, // (optional) default: 4. Int value of the Android notification importance
   },
-  (created) =>
-    console.log(`createChannel 'default-channel-id' returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+  (created) => console.log(`createChannel 'chats' returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
 );
 
 AppRegistry.registerComponent(appName, () => Root);

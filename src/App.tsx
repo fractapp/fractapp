@@ -1,13 +1,15 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
 import {
-  View,
+  ActivityIndicator,
   Alert,
-  StatusBar,
   Dimensions,
   Image,
-  ActivityIndicator,
+  StatusBar,
+  View,
+  Text,
+  NativeModules,
 } from 'react-native';
 import {Dialog} from 'components/Dialog';
 import {PassCode} from 'components/PassCode';
@@ -26,7 +28,6 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import ChatsStore from 'storage/Chats';
-import TransactionsStore from 'storage/Transactions';
 import {Loader} from 'components/Loader';
 import backend from 'utils/backend';
 
@@ -36,7 +37,6 @@ export default function App() {
   const accountsContext = useContext(AccountsStore.Context);
   const pricesContext = useContext(PricesStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
 
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isLocked, setLocked] = useState<boolean>(false);
@@ -75,6 +75,7 @@ export default function App() {
   const onLoaded = () => {
     showNavigationBar();
     setLoading(false);
+    console.log('loading off');
     changeNavigationBarColor('#FFFFFF', true, true);
     SplashScreen.hide();
   };
@@ -105,17 +106,19 @@ export default function App() {
         accountsContext,
         pricesContext,
         chatsContext,
-        transactionsContext,
       );
       console.log('end pub data');
     });
   }, [globalContext.state.authInfo.isAuthed]);
 
   useEffect(() => {
+    console.log('Is Global init? ' + globalContext.state.isInitialized);
+    console.log('Is Accounts init? ' + accountsContext.state.isInitialized);
+    console.log('Is Chats init? ' + chatsContext.state.isInitialized);
+
     if (
       !globalContext.state.isInitialized ||
       !accountsContext.state.isInitialized ||
-      !transactionsContext.state.isInitialized ||
       !chatsContext.state.isInitialized
     ) {
       return;
@@ -128,7 +131,6 @@ export default function App() {
         pricesContext,
         globalContext,
         chatsContext,
-        transactionsContext,
       );
 
       if (isBiometry) {
@@ -144,7 +146,6 @@ export default function App() {
   }, [
     globalContext.state.isInitialized,
     accountsContext.state.isInitialized,
-    transactionsContext.state.isInitialized,
     chatsContext.state.isInitialized,
   ]);
 
@@ -153,7 +154,6 @@ export default function App() {
       !globalContext.state.isUpdatingProfile ||
       !globalContext.state.isInitialized ||
       !accountsContext.state.isInitialized ||
-      !transactionsContext.state.isInitialized ||
       !chatsContext.state.isInitialized
     ) {
       return;
@@ -172,7 +172,6 @@ export default function App() {
     globalContext.state.isUpdatingProfile,
     globalContext.state.isInitialized,
     accountsContext.state.isInitialized,
-    transactionsContext.state.isInitialized,
     chatsContext.state.isInitialized,
   ]);
   useEffect(() => {
@@ -261,6 +260,34 @@ export default function App() {
             width: '100%',
           }}>
           <Loader />
+        </View>
+      )}
+      {globalContext.state.isSyncShow && globalContext.state.authInfo.isAuthed && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 70,
+            alignSelf: 'center',
+            backgroundColor: '#2AB2E2',
+            flexDirection: 'row',
+            padding: 5,
+            paddingRight: 12,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 20,
+          }}>
+          <ActivityIndicator testID="loader" size={30} color="white" />
+          <Text
+            style={{
+              marginLeft: 4,
+              fontSize: 15,
+              color: 'white',
+              fontFamily: 'Roboto-Regular',
+              fontStyle: 'normal',
+              fontWeight: 'normal',
+            }}>
+            Synchronization
+          </Text>
         </View>
       )}
     </View>

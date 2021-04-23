@@ -163,7 +163,7 @@ export const Settings = ({
           />
         </View>
         <View style={styles.name}>
-          {globalContext.state.profile.username !== '' ? (
+          {globalContext.state.profile.name !== '' ? (
             <Text style={[styles.nameText, {color: 'black'}]}>
               {globalContext.state.profile.name}
             </Text>

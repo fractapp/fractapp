@@ -129,7 +129,7 @@ it('Test getAuthInfo positive', async () => {
 });
 
 it('Test setPrice', async () => {
-  const currency = Currency.Kusama;
+  const currency = Currency.KSM;
   const number = 100;
   await DB.setPrice(currency, number);
   expect(AsyncStorage.setItem).toBeCalledWith(
@@ -140,11 +140,11 @@ it('Test setPrice', async () => {
 it('Test getPrice negative', async () => {
   AsyncStorage.getItem.mockReturnValueOnce(null);
 
-  const value = await DB.getPrice(Currency.Polkadot);
+  const value = await DB.getPrice(Currency.DOT);
   expect(value).toEqual(0);
 });
 it('Test getPrice positive', async () => {
-  const currency = Currency.Kusama;
+  const currency = Currency.KSM;
   const number = 100;
 
   AsyncStorage.getItem.mockReturnValueOnce(String(number));
@@ -283,12 +283,12 @@ it('Test setChatsInfo', async () => {
         id: 'idChatInfo',
         name: 'name',
         lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.Polkadot,
+        lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: {
-          currency: Currency.Polkadot,
+          currency: Currency.DOT,
           address: 'address',
         },
       },
@@ -309,12 +309,12 @@ it('Test getChatsInfo positive', async () => {
         id: 'idChatInfo',
         name: 'name',
         lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.Polkadot,
+        lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: {
-          currency: Currency.Polkadot,
+          currency: Currency.DOT,
           address: 'address',
         },
       },
@@ -335,7 +335,7 @@ it('Test getChatsInfo negative', async () => {
 
 it('Test setChat', async () => {
   const chatId = 'chatId';
-  const chats = new Map([['txIdOne', Currency.Polkadot]]);
+  const chats = new Map([['txIdOne', Currency.DOT]]);
 
   await DB.setChat(chatId, chats);
   expect(AsyncStorage.setItem).toBeCalledWith(
@@ -345,7 +345,7 @@ it('Test setChat', async () => {
 });
 it('Test getChat positive', async () => {
   const chatId = 'chatId';
-  const chats = new Map([['txIdOne', Currency.Polkadot]]);
+  const chats = new Map([['txIdOne', Currency.DOT]]);
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...chats]));
 
   const c = await DB.getChat(chatId);
@@ -366,7 +366,7 @@ it('Test setTx', async () => {
     id: 'txIdOne',
     userId: 'userId',
     address: 'address#1',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     txType: TxType.None,
     timestamp: new Date('12-12-2020').getTime(),
     value: 10,
@@ -376,9 +376,9 @@ it('Test setTx', async () => {
     status: TxStatus.Success,
   };
 
-  await DB.setTx(Currency.Polkadot, tx);
+  await DB.setTx(Currency.DOT, tx);
   expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.transactions(Currency.Polkadot),
+    DB.AsyncStorageKeys.transactions(Currency.DOT),
     JSON.stringify([
       ...new Map([
         [
@@ -387,7 +387,7 @@ it('Test setTx', async () => {
             id: 'txIdOne',
             userId: 'userId',
             address: 'address#1',
-            currency: Currency.Polkadot,
+            currency: Currency.DOT,
             txType: TxType.None,
             timestamp: new Date('12-12-2020').getTime(),
             value: 10,
@@ -409,7 +409,7 @@ it('Test getTxs positive', async () => {
         id: 'txIdOne',
         userId: 'userId',
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.None,
         timestamp: new Date('12-12-2020').getTime(),
         value: 10,
@@ -422,16 +422,16 @@ it('Test getTxs positive', async () => {
   ]);
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...txs]));
 
-  const t = await DB.getTxs(Currency.Polkadot);
+  const t = await DB.getTxs(Currency.DOT);
   expect(t).toEqual(txs);
   expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.transactions(Currency.Polkadot),
+    DB.AsyncStorageKeys.transactions(Currency.DOT),
   );
 });
 it('Test getTxs negative', async () => {
   AsyncStorage.getItem.mockReturnValueOnce(null);
 
-  const value = await DB.getTxs(Currency.Polkadot);
+  const value = await DB.getTxs(Currency.DOT);
   expect(value).toEqual(new Map());
 });
 
@@ -540,9 +540,9 @@ it('Test getUsers negative', async () => {
 it('Test setPendingTxs', async () => {
   const txs = ['txOne', 'txTwo'];
 
-  await DB.setPendingTxs(Currency.Kusama, txs);
+  await DB.setPendingTxs(Currency.KSM, txs);
   expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.pendingTransactions(Currency.Kusama),
+    DB.AsyncStorageKeys.pendingTransactions(Currency.KSM),
     JSON.stringify(txs),
   );
 });
@@ -550,16 +550,16 @@ it('Test getPendingTxs positive', async () => {
   const txs = ['txOne', 'txTwo'];
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify(txs));
 
-  const pTx = await DB.getPendingTxs(Currency.Polkadot);
+  const pTx = await DB.getPendingTxs(Currency.DOT);
   expect(pTx).toEqual(txs);
   expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.pendingTransactions(Currency.Polkadot),
+    DB.AsyncStorageKeys.pendingTransactions(Currency.DOT),
   );
 });
 it('Test getPendingTxs negative', async () => {
   AsyncStorage.getItem.mockReturnValueOnce(null);
 
-  const value = await DB.getPendingTxs(Currency.Polkadot);
+  const value = await DB.getPendingTxs(Currency.DOT);
   expect(value).toEqual([]);
 });
 
@@ -568,7 +568,7 @@ it('Test setAccountInfo', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubKey',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     balance: 100,
     planks: '1000000',
   };
@@ -584,7 +584,7 @@ it('Test getAccountInfo positive', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubKey',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     balance: 100,
     planks: '1000000',
   };

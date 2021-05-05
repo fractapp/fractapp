@@ -11,11 +11,11 @@ const initState = () => ({
 });
 it('Test updateBalance', async () => {
   expect(
-    Accounts.updateBalance(Currency.Kusama, 1000, '1000000000000000'),
+    Accounts.updateBalance(Currency.KSM, 1000, '1000000000000000'),
   ).toStrictEqual({
     type: Accounts.Action.UPDATE_BALANCE,
     balance: 1000,
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
     planks: '1000000000000000',
   });
 });
@@ -25,11 +25,11 @@ it('Test set', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubkey',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     balance: 1000,
     planks: '10000',
   };
-  const accounts = new Map([[Currency.Polkadot, account]]);
+  const accounts = new Map([[Currency.DOT, account]]);
   const result = Accounts.set(accounts);
   expect(result).toStrictEqual({
     type: Accounts.Action.SET,
@@ -42,11 +42,11 @@ it('Test reducer set', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubkey',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
     balance: 1000,
     planks: '10000',
   };
-  const accounts = new Map([[Currency.Kusama, account]]);
+  const accounts = new Map([[Currency.KSM, account]]);
   const add = Accounts.set(accounts);
 
   expect(initState()).toStrictEqual({
@@ -64,16 +64,16 @@ it('Test reducer update balance', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubkey',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
     balance: 1000,
     planks: '10000',
   };
-  const accounts = new Map([[Currency.Kusama, account]]);
+  const accounts = new Map([[Currency.KSM, account]]);
   const add = Accounts.set(accounts);
   const prevState = Accounts.reducer(initState(), add);
 
   const updBalance = Accounts.updateBalance(
-    Currency.Kusama,
+    Currency.KSM,
     2000,
     '2000000000000000',
   );
@@ -84,12 +84,12 @@ it('Test reducer update balance', async () => {
   });
   const expectAccounts = new Map([
     [
-      Currency.Kusama,
+      Currency.KSM,
       {
         name: 'name',
         address: 'address',
         pubKey: 'pubkey',
-        currency: Currency.Kusama,
+        currency: Currency.KSM,
         balance: 2000,
         planks: '2000000000000000',
       },
@@ -99,7 +99,7 @@ it('Test reducer update balance', async () => {
     isInitialized: true,
     accounts: expectAccounts,
   });
-  expect(DB.setAccountInfo).toBeCalledWith(expectAccounts.get(Currency.Kusama));
+  expect(DB.setAccountInfo).toBeCalledWith(expectAccounts.get(Currency.KSM));
 });
 
 it('Test default', async () => {

@@ -60,7 +60,7 @@ it('Test view', () => {
             wallet: new Wallet(
               'Wallet Polkadot',
               'address#1',
-              Currency.Polkadot,
+              Currency.DOT,
               100,
               '1000000000000',
               10,
@@ -76,7 +76,7 @@ it('Test view', () => {
 
 it('Test calculate value #1', async () => {
   const setters = setStates(100, 0);
-  MathUtils.calculateValue.mockReturnValueOnce(125);
+  MathUtils.calculateAlternativeValue.mockReturnValueOnce(125);
   const component = await render(
     <EnterAmount
       navigation={{
@@ -87,7 +87,7 @@ it('Test calculate value #1', async () => {
           wallet: new Wallet(
             'Wallet Polkadot',
             'address#1',
-            Currency.Polkadot,
+            Currency.DOT,
             100,
             '1000000000000',
             10,
@@ -122,7 +122,7 @@ it('Test calculate value #2', async () => {
           wallet: new Wallet(
             'Wallet Polkadot',
             'address#1',
-            Currency.Polkadot,
+            Currency.DOT,
             100,
             '1000000000000',
             10,

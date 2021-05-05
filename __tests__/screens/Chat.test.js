@@ -58,12 +58,12 @@ it('Test view with empty txs', () => {
               id: 'idChatInfo',
               name: 'name',
               lastTxId: 'lastTxId',
-              lastTxCurrency: Currency.Polkadot,
+              lastTxCurrency: Currency.DOT,
               notificationCount: 10,
               timestamp: new Date().getTime(),
               type: ChatType.AddressOnly,
               details: {
-                currency: Currency.Polkadot,
+                currency: Currency.DOT,
                 address: 'address',
               },
             },
@@ -79,12 +79,12 @@ it('Test view with txs (ChatType == Address)', () => {
   const accountsStore = AccountsStore.initialState();
   accountsStore.accounts = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       {
         name: 'accountName',
         address: 'accountAddress',
         pubKey: 'pubKeyAddress',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         balance: 10000,
         planks: '100000000',
       },
@@ -113,7 +113,7 @@ it('Test view with txs (ChatType == Address)', () => {
         id: '1',
         userId: null,
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.Sent,
         timestamp: new Date('02-12-2020').getTime(),
         value: 12,
@@ -129,7 +129,7 @@ it('Test view with txs (ChatType == Address)', () => {
         id: '2',
         userId: null,
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.Sent,
         timestamp: new Date('03-12-2020').getTime(),
         value: 10,
@@ -145,8 +145,8 @@ it('Test view with txs (ChatType == Address)', () => {
   chatsState.chats.set(
     'idChatInfo',
     new Map([
-      ['1', Currency.Polkadot],
-      ['2', Currency.Polkadot],
+      ['1', Currency.DOT],
+      ['2', Currency.DOT],
     ]),
   );
   useContext.mockReturnValueOnce({
@@ -155,7 +155,7 @@ it('Test view with txs (ChatType == Address)', () => {
   });
   useContext.mockReturnValueOnce({
     state: {
-      transactions: new Map([[Currency.Polkadot, txs]]),
+      transactions: new Map([[Currency.DOT, txs]]),
       isInitialized: true,
     },
     dispatch: jest.fn(),
@@ -171,12 +171,12 @@ it('Test view with txs (ChatType == Address)', () => {
               id: 'idChatInfo',
               name: 'name',
               lastTxId: 'lastTxId',
-              lastTxCurrency: Currency.Polkadot,
+              lastTxCurrency: Currency.DOT,
               notificationCount: 1,
               timestamp: new Date().getTime(),
               type: ChatType.AddressOnly,
               details: {
-                currency: Currency.Polkadot,
+                currency: Currency.DOT,
                 address: 'address',
               },
             },

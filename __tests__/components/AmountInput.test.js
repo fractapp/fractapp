@@ -9,7 +9,7 @@ it('Test one', () => {
       <AmountInput
         alternativeValue={123}
         fee={1000}
-        currency={Currency.Polkadot}
+        currency={Currency.DOT}
         onChangeText={() => console.log('test')}
       />,
     )
@@ -22,7 +22,7 @@ it('Test two', () => {
       <AmountInput
         alternativeValue={555}
         fee={100}
-        currency={Currency.Kusama}
+        currency={Currency.KSM}
         usdMode={true}
         value={'100'}
         width={'90%'}

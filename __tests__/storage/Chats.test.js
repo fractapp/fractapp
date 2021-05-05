@@ -14,7 +14,7 @@ const initState = () => ({
   isInitialized: false,
 });
 it('Test set', async () => {
-  const chats = new Map([['chatId', new Map([['txId', Currency.Polkadot]])]]);
+  const chats = new Map([['chatId', new Map([['txId', Currency.DOT]])]]);
   const chatsInfo = new Map([
     [
       'chatId',
@@ -22,10 +22,10 @@ it('Test set', async () => {
         id: 'chatId',
         name: 'name',
         lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.Polkadot,
+        lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: null,
       },
     ],
@@ -43,10 +43,10 @@ it('Test setChatInfo', async () => {
     id: 'chatId',
     name: 'name',
     lastTxId: 'lastTxId',
-    lastTxCurrency: Currency.Polkadot,
+    lastTxCurrency: Currency.DOT,
     notificationCount: 10,
     timestamp: new Date().getTime(),
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
     details: null,
   };
 
@@ -58,13 +58,11 @@ it('Test setChatInfo', async () => {
 });
 
 it('Test addTxInChat', async () => {
-  expect(
-    ChatsStore.addTxInChat('chatId', 'txId', Currency.Polkadot),
-  ).toStrictEqual({
+  expect(ChatsStore.addTxInChat('chatId', 'txId', Currency.DOT)).toStrictEqual({
     type: ChatsStore.Action.ADD_TX_IN_CHAT,
     chatId: 'chatId',
     txId: 'txId',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
   });
 });
 
@@ -76,7 +74,7 @@ it('Test resetNotification', async () => {
 });
 
 it('Test reducer set', async () => {
-  const chats = new Map([['chatId', new Map([['txId', Currency.Polkadot]])]]);
+  const chats = new Map([['chatId', new Map([['txId', Currency.DOT]])]]);
   const chatsInfo = new Map([
     [
       'chatId',
@@ -84,10 +82,10 @@ it('Test reducer set', async () => {
         id: 'chatId',
         name: 'name',
         lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.Polkadot,
+        lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: null,
       },
     ],
@@ -107,10 +105,10 @@ it('Test reducer setChatInfo', async () => {
     id: 'chatId',
     name: 'name',
     lastTxId: 'lastTxId',
-    lastTxCurrency: Currency.Polkadot,
+    lastTxCurrency: Currency.DOT,
     notificationCount: 10,
     timestamp: new Date().getTime(),
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
     details: null,
   };
 
@@ -121,10 +119,10 @@ it('Test reducer setChatInfo', async () => {
         id: 'chatId',
         name: 'name',
         lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.Polkadot,
+        lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: null,
       },
     ],
@@ -143,16 +141,16 @@ it('Test reducer setChatInfo', async () => {
 });
 
 it('Test reducer addTxInChat', async () => {
-  const chats = new Map([['chatId', new Map([['txId', Currency.Polkadot]])]]);
+  const chats = new Map([['chatId', new Map([['txId', Currency.DOT]])]]);
   expect(
     ChatsStore.reducer(
       initState(),
-      ChatsStore.addTxInChat('chatId', 'txId', Currency.Polkadot),
+      ChatsStore.addTxInChat('chatId', 'txId', Currency.DOT),
     ),
   ).toStrictEqual({
     chatsInfo: new Map(),
     isInitialized: false,
-    chats: new Map([['chatId', new Map([['txId', Currency.Polkadot]])]]),
+    chats: new Map([['chatId', new Map([['txId', Currency.DOT]])]]),
   });
   expect(DB.setChat).toBeCalledWith('chatId', chats.get('chatId'));
 });
@@ -162,10 +160,10 @@ it('Test reducer resetNotification', async () => {
     id: 'chatId',
     name: 'name',
     lastTxId: 'lastTxId',
-    lastTxCurrency: Currency.Polkadot,
+    lastTxCurrency: Currency.DOT,
     notificationCount: 10,
     timestamp: new Date().getTime(),
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
     details: null,
   };
 
@@ -184,10 +182,10 @@ it('Test reducer resetNotification', async () => {
           id: 'chatId',
           name: 'name',
           lastTxId: 'lastTxId',
-          lastTxCurrency: Currency.Polkadot,
+          lastTxCurrency: Currency.DOT,
           notificationCount: 0,
           timestamp: chatInfo.timestamp,
-          type: ChatType.Chat,
+          type: ChatType.WithUser,
           details: null,
         },
       ],

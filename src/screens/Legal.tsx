@@ -3,6 +3,7 @@ import {Linking, StyleSheet, Text, View} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {WhiteButton} from 'components/WhiteButton';
 import CheckBox from '@react-native-community/checkbox';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with legal information
@@ -18,7 +19,7 @@ export const Legal = ({navigation}: {navigation: any}) => {
       </Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>
         <WhiteButton
-          text={'Terms & Conditions'}
+          text={StringUtils.texts.legal.tos}
           height={50}
           width="90%"
           onPress={() =>
@@ -27,7 +28,7 @@ export const Legal = ({navigation}: {navigation: any}) => {
         />
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={'Privacy Policy'}
+            text={StringUtils.texts.legal.privacyPolicy}
             height={50}
             onPress={() =>
               Linking.openURL(
@@ -59,7 +60,7 @@ export const Legal = ({navigation}: {navigation: any}) => {
           </Text>
         </View>
         <BlueButton
-          text={'Next'}
+          text={StringUtils.texts.NextBtnTitle}
           height={50}
           disabled={!toggleCheckBox}
           onPress={() => navigation.navigate('SettingWallet')}

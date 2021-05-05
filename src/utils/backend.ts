@@ -2,12 +2,19 @@ import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'types/wallet';
+import {Network} from 'types/account';
 
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
+import {Transaction, TxStatus, TxType} from 'types/transaction';
+import BN from 'bn.js';
+import MathUtils from 'utils/math';
+import {ServerInfo} from 'types/serverInfo';
+import {Adaptors} from 'adaptors/adaptor';
+import math from 'utils/math';
 
 /**
  * @namespace
@@ -18,10 +25,6 @@ namespace BackendApi {
     Auth = 0,
     Change,
   }
-  export enum Network {
-    Polkadot = 0,
-    Kusama,
-  }
   export enum CodeType {
     Phone = 0,
     Email,
@@ -29,7 +32,7 @@ namespace BackendApi {
 
   const cacheTimeout = 36000000; // 10 minutes
 
-  let userByAddressCache = new Map<string, UserProfile>();
+  let userById = new Map<string, UserProfile>();
   let timeForCache = new Map<string, number>();
 
   const apiUrl = FRACTAPP_API;
@@ -56,23 +59,20 @@ namespace BackendApi {
     let key = new Keyring({type: 'sr25519'}).addFromUri(seed);
     let ok = true;
     for (let account of accounts) {
-      const accountInfo = await DB.getAccountInfo(account);
-
-      if (accountInfo == null) {
-        continue;
-      }
+      const accountInfo = (await DB.getAccountInfo(account))!;
 
       const time = Math.round(new Date().getTime() / 1000);
       const msg = signTokenMsg + token + time;
       let network = Network.Polkadot;
       switch (accountInfo.currency) {
-        case Currency.Polkadot:
+        case Currency.DOT:
           network = Network.Polkadot;
           break;
-        case Currency.Kusama:
+        case Currency.KSM:
           network = Network.Kusama;
           break;
       }
+
       const response = await fetch(`${apiUrl}/notification/subscribe`, {
         method: 'POST',
         headers: {
@@ -87,6 +87,8 @@ namespace BackendApi {
           timestamp: time,
         }),
       });
+
+      console.log(response.text());
 
       if (!response.ok) {
         ok = response.ok;
@@ -175,6 +177,30 @@ namespace BackendApi {
       await DB.setJWT(json.token);
     }
     return response.status;
+  }
+
+  function createAuthPubKeyHeaderWithKeyAndTime(
+    rq: any,
+    key: KeyringPair,
+    time: number,
+  ): string {
+    const msg = authMsg + JSON.stringify(rq) + time;
+    return u8aToHex(key.sign(stringToU8a(msg)));
+  }
+
+  export async function getInfo(): Promise<ServerInfo | null> {
+    const response = await fetch(`${apiUrl}/info/total`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      return await response.json();
+    } else {
+      return null;
+    }
   }
 
   export async function myMatchContacts(): Promise<Array<UserProfile>> {
@@ -273,17 +299,16 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function search(
-    value: string,
-    isEmail: boolean,
-  ): Promise<Array<UserProfile>> {
-    value = value.toLowerCase();
+  export async function search(value: string): Promise<Array<UserProfile>> {
+    value = value.toLowerCase().trim();
+    if (value.startsWith('@')) {
+      value = value.substring(1);
+    }
+
     if (value.length < 4) {
       return [];
     }
-    const response = await fetch(
-      `${apiUrl}/profile/search?value=${value}${isEmail ? '&type=email' : ''}`,
-    );
+    const response = await fetch(`${apiUrl}/profile/search?value=${value}`);
 
     if (response.status !== 200) {
       return [];
@@ -291,43 +316,26 @@ namespace BackendApi {
     return await response.json();
   }
 
-  export async function getUserById(id: string): Promise<UserProfile | null> {
-    const response = await fetch(`${apiUrl}/profile/info?id=${id}`);
-
-    if (response.status !== 200) {
-      return null;
+  export async function getUserById(
+    id: string,
+  ): Promise<UserProfile | null | undefined> {
+    if (timeForCache.has(id) && timeForCache.get(id)! >= new Date().getTime()) {
+      console.log('user get from cache: ' + id);
+      return userById.get(id)!;
     }
 
-    const data: UserProfile = await response.json();
-    return data;
-  }
+    const response = await fetch(`${apiUrl}/profile/userInfo?id=${id}`);
 
-  export async function getUserByAddress(
-    address: string,
-  ): Promise<UserProfile | null> {
-    if (
-      timeForCache.has(address) &&
-      timeForCache.get(address)! >= new Date().getTime()
-    ) {
-      console.log('user get from cache: ' + address);
-      return userByAddressCache.get(address)!;
-    }
-
-    const response = await fetch(`${apiUrl}/profile/info?address=${address}`);
-
-    if (response.status !== 200) {
+    console.log('get user status: ' + response.status);
+    if (response.status === 404) {
+      return undefined;
+    } else if (response.status !== 200) {
       return null;
     }
     const data: UserProfile = await response.json();
 
-    const polkadot = data.addresses[Currency.Polkadot];
-    const kusama = data.addresses[Currency.Kusama];
-
-    timeForCache.set(polkadot, new Date().getTime() + cacheTimeout);
-    userByAddressCache.set(polkadot, data);
-
-    timeForCache.set(kusama, new Date().getTime() + cacheTimeout);
-    userByAddressCache.set(kusama, data);
+    timeForCache.set(id, new Date().getTime() + cacheTimeout);
+    userById.set(id, data);
 
     return data;
   }
@@ -368,28 +376,127 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function getLocal(): Promise<string> {
+  export async function getLocalByIp(): Promise<string> {
     let url = 'http://ip-api.com/json/';
     const response = await fetch(url);
     const json = await response.json();
     return json.countryCode;
   }
 
-  export function getImgUrl(
-    id: string,
-    ex: string,
-    lastUpdate: number,
-  ): string {
-    return `${apiUrl}/${id}.${ex}` + '#' + lastUpdate;
+  export async function getTransactions(
+    address: string,
+    network: Network,
+    currency: Currency,
+  ): Promise<Array<Transaction>> {
+    let transactions = new Array<Transaction>();
+    const api = Adaptors.get(network);
+
+    let rs = await fetch(
+      `${apiUrl}/profile/transactions?address=${address}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    if (!rs.ok) {
+      throw new Error('invalid get txs (status != 200)');
+    }
+
+    const data = await rs.json();
+    if (data == null || data.length === 0) {
+      return new Array<Transaction>();
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      const tx = data[i];
+
+      let txType = 0;
+      let member = '';
+
+      let userId = null;
+      if (address === tx.from) {
+        txType = TxType.Sent;
+        member = tx.to;
+        if (tx.userTo !== '') {
+          userId = tx.userTo;
+        }
+      } else {
+        txType = TxType.Received;
+        member = tx.from;
+        if (tx.userFrom !== '') {
+          userId = tx.userFrom;
+        }
+      }
+      transactions.push({
+        id: tx.id,
+        userId: userId,
+        address: member,
+        currency: currency,
+        txType: txType,
+        timestamp: tx.timestamp,
+
+        value: math.convertFromPlanckToViewDecimals(
+          new BN(tx.value, 10),
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckValue: tx.value,
+        usdValue: MathUtils.floorUsd(tx.usdValue),
+
+        fee: math.convertFromPlanckToViewDecimals(
+          new BN(tx.fee, 10),
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckFee: tx.fee,
+        usdFee: MathUtils.floorUsd(tx.usdFee),
+        status: tx.status,
+      });
+    }
+
+    return transactions;
   }
 
-  function createAuthPubKeyHeaderWithKeyAndTime(
-    rq: any,
-    key: KeyringPair,
-    time: number,
-  ): string {
-    const msg = authMsg + JSON.stringify(rq) + time;
-    return u8aToHex(key.sign(stringToU8a(msg)));
+  export async function getTxStatus(hash: string): Promise<TxStatus | null> {
+    let rs = await fetch(`${apiUrl}/profile/transaction/status?hash=${hash}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!rs.ok) {
+      return null;
+    }
+
+    const data = await rs.json();
+    return data.status;
+  }
+
+  export async function substrateBalance(
+    address: string,
+    currency: Currency,
+  ): Promise<BN | null> {
+    let rs = await fetch(
+      `${apiUrl}/profile/substrate/balance?address=${address}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    if (!rs.ok) {
+      return null;
+    }
+
+    const balance = await rs.json();
+    return new BN(balance.value);
+  }
+
+  export function getImgUrl(id: string, lastUpdate: number): string {
+    return `${apiUrl}/profile/avatar/${id}` + '#' + lastUpdate;
   }
 }
 export default BackendApi;

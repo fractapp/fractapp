@@ -67,17 +67,9 @@ export const TransactionInfo = ({
         <View style={{flex: 1, flexDirection: 'row'}}>
           {user != null ? (
             <Image
-              source={
-                user.avatarExt === ''
-                  ? require('assets/img/default-avatar.png')
-                  : {
-                      uri: backend.getImgUrl(
-                        user.id,
-                        user.avatarExt,
-                        user.lastUpdate,
-                      ),
-                    }
-              }
+              source={{
+                uri: backend.getImgUrl(user.id, user.lastUpdate),
+              }}
               width={50}
               height={50}
               style={{width: 50, height: 50, borderRadius: 25}}
@@ -95,7 +87,11 @@ export const TransactionInfo = ({
             }}>
             <Text numberOfLines={1} style={styles.member}>
               {stringUtils.formatNameOrAddress(
-                user != null ? user.name : transaction.address,
+                user != null
+                  ? user.name !== undefined && user.name !== ''
+                    ? user.name
+                    : user.username
+                  : transaction.address,
               )}
             </Text>
             <Text style={[styles.balance, {textAlign: 'left', color: color}]}>

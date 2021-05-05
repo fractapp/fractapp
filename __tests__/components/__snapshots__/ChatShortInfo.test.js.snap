@@ -204,7 +204,7 @@ exports[`Test three 1`] = `
       height={60}
       source={
         Object {
-          "testUri": "../../../assets/img/default-avatar.png",
+          "uri": undefined,
         }
       }
       style={

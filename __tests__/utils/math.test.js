@@ -1,105 +1,94 @@
 import mathUtils from 'utils/math';
-import {Currency} from 'types/wallet';
 import BN from 'bn.js';
 
-jest.mock('utils/polkadot', () => {
-  const BN = require('bn.js');
-  return {
-    Api: {
-      getInstance: jest.fn(() => ({
-        viewDecimals: 3,
-        convertFromPlanckWithViewDecimals: jest.fn(() => 150),
-        convertToPlanck: jest.fn(),
-        getSubstrateApi: jest.fn(() => ({
-          tx: {
-            balances: {
-              transferKeepAlive: jest.fn(() => ({
-                paymentInfo: jest.fn(() => ({
-                  partialFee: new BN(10000000000),
-                })),
-              })),
-            },
-          },
-        })),
-      })),
-    },
-  };
-});
-jest.mock('react-native-crypto');
-
 it('Test floor', async () => {
-  const v = mathUtils.floor(0.155555, 3);
-  expect(v).toBe(0.155);
+  expect(mathUtils.floor(0.155555, 3)).toBe(0.155);
+  expect(mathUtils.floor(0.1544444, 3)).toBe(0.154);
 });
 
 it('Test floorUsd', async () => {
-  const v = mathUtils.floorUsd(0.155555);
-  expect(v).toBe(0.15);
+  expect(mathUtils.floorUsd(0.154555)).toBe(0.15);
+  expect(mathUtils.floorUsd(0.155555)).toBe(0.15);
 });
 
 it('Test round', async () => {
-  const v = mathUtils.round(0.155555, 3);
-  expect(v).toBe(0.156);
+  expect(mathUtils.round(0.155555, 3)).toBe(0.156);
+  expect(mathUtils.round(0.154544, 3)).toBe(0.155);
+  expect(mathUtils.round(0.155444, 3)).toBe(0.155);
+  expect(mathUtils.round(0.154444, 3)).toBe(0.154);
 });
 
-it('Test calculateValue with isUsdMode = true', async () => {
-  const v = await mathUtils.calculateValue(
-    {
-      state: new Map([[Currency.Polkadot, 125]]),
-    },
-    Currency.Polkadot,
-    152.143,
-    true,
-  );
-  expect(v).toBe(1.217);
+it('Test calculateUsdValue', async () => {
+  const v = await mathUtils.calculateUsdValue(new BN('1234567890000'), 10, 100);
+  expect(v).toBe(12345.67);
 });
 
-it('Test calculateValue with isUsdMode = false', async () => {
-  const v = await mathUtils.calculateValue(
-    {
-      state: new Map([[Currency.Polkadot, 125]]),
-    },
-    Currency.Polkadot,
-    152.143,
+it('Test calculatePlanksValue', async () => {
+  expect(
+    await mathUtils.calculatePlanksValue(500, 8, 61000.99).toString(),
+  ).toBe('819658');
+
+  expect(
+    await mathUtils.calculatePlanksValue(0.9, 8, 61000.99).toString(),
+  ).toBe('1475');
+});
+
+it('Test convertFromPlanckToViewDecimals (isRound=false)', async () => {
+  const v = await mathUtils.convertFromPlanckToViewDecimals(
+    new BN('1234567890000'),
+    10,
+    3,
     false,
   );
-  expect(v).toBe(19017.88);
+  expect(v).toBe(123.456);
 });
 
-it('Test calculateTxInfo', async () => {
-  const v = await mathUtils.calculateTxInfo(
-    {
-      state: new Map([[Currency.Polkadot, 125]]),
-    },
-    Currency.Polkadot,
-    152.143,
-    'receiver',
-  );
-  expect(v.fee.toString()).toBe(new BN(10000000000).toString());
-  expect(v.usdFee).toBe(18750);
+it('Test convertFromPlanckToViewDecimals (isRound=true)', async () => {
+  expect(
+    await mathUtils.convertFromPlanckToViewDecimals(
+      new BN('1234567890000'),
+      10,
+      3,
+      true,
+    ),
+  ).toBe(123.457);
+  expect(
+    await mathUtils.convertFromPlanckToViewDecimals(
+      new BN('1234560000001'),
+      10,
+      3,
+      true,
+    ),
+  ).toBe(123.457);
+  expect(
+    await mathUtils.convertFromPlanckToViewDecimals(
+      new BN('1234560000001'),
+      10,
+      3,
+      true,
+    ),
+  ).toBe(123.457);
+  expect(
+    await mathUtils.convertFromPlanckToViewDecimals(
+      new BN('1234500000001'),
+      10,
+      3,
+      true,
+    ),
+  ).toBe(123.451);
 });
 
-it('Test calculateValue without price', async () => {
-  const v = await mathUtils.calculateValue(
-    {
-      state: new Map(),
-    },
-    Currency.Polkadot,
-    152.143,
-    false,
+it('Test convertFromPlanckString', async () => {
+  expect(
+    mathUtils.convertFromPlanckToString(new BN('10000000000001'), 12),
+  ).toBe('10.000000000001');
+  expect(mathUtils.convertFromPlanckToString(new BN('1'), 12)).toBe(
+    '0.000000000001',
   );
-  expect(v).toBe(0);
-});
-
-it('Test calculateTxInfo without price', async () => {
-  const v = await mathUtils.calculateTxInfo(
-    {
-      state: new Map(),
-    },
-    Currency.Polkadot,
-    152.143,
-    'receiver',
+  expect(mathUtils.convertFromPlanckToString(new BN('100000000123'), 12)).toBe(
+    '0.100000000123',
   );
-  expect(v.fee.toString()).toBe(new BN(10000000000).toString());
-  expect(v.usdFee).toBe(0);
+  expect(
+    mathUtils.convertFromPlanckToString(new BN('25000004000000'), 12),
+  ).toBe('25.000004000000');
 });

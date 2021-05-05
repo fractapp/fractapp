@@ -6,14 +6,14 @@ test('create model #1', () => {
   const model = new Wallet(
     'name',
     'address',
-    Currency.Kusama,
+    Currency.KSM,
     balance,
     '10000',
     price,
   );
   expect(model.name).toBe('name');
   expect(model.address).toBe('address');
-  expect(model.currency).toBe(Currency.Kusama);
+  expect(model.currency).toBe(Currency.KSM);
   expect(model.balance).toBe(balance);
   expect(model.usdValue).toBe(balance * price);
 });
@@ -24,24 +24,24 @@ test('create model #2', () => {
   const model = new Wallet(
     'name',
     'address',
-    Currency.Kusama,
+    Currency.KSM,
     balance,
     '1000',
     price,
   );
   expect(model.name).toBe('name');
   expect(model.address).toBe('address');
-  expect(model.currency).toBe(Currency.Kusama);
+  expect(model.currency).toBe(Currency.KSM);
   expect(model.balance).toBe(balance);
   expect(model.usdValue).toBe(+(balance * price).toFixed(2));
 });
 
 test('get logo Kusama', () => {
-  expect(getLogo(Currency.Kusama)).toBe(require('assets/img/kusama.png'));
+  expect(getLogo(Currency.KSM)).toBe(require('assets/img/kusama.png'));
 });
 
 test('get logo Polkadot', () => {
-  expect(getLogo(Currency.Polkadot)).toBe(require('assets/img/dot.png'));
+  expect(getLogo(Currency.DOT)).toBe(require('assets/img/dot.png'));
 });
 
 test('get logo throw', () => {
@@ -49,11 +49,11 @@ test('get logo throw', () => {
 });
 
 test('get symbol Kusama', () => {
-  expect(getSymbol(Currency.Kusama)).toBe('KSM');
+  expect(getSymbol(Currency.KSM)).toBe('KSM');
 });
 
 test('get symbol Polkadot', () => {
-  expect(getSymbol(Currency.Polkadot)).toBe('DOT');
+  expect(getSymbol(Currency.DOT)).toBe('DOT');
 });
 
 test('get symbol throw', () => {

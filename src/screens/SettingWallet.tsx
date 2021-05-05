@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton} from 'components/WhiteButton';
+import StringUtils from 'utils/string';
 
 /**
  * First setting for wallet
@@ -17,14 +18,14 @@ export const SettingWallet = ({navigation}: {navigation: any}) => {
       <Text style={styles.title}>Setting wallet</Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>
         <WhiteButton
-          text={'Create new wallet'}
+          text={StringUtils.texts.settingWallet.create}
           height={50}
           width="90%"
           onPress={() => navigation.navigate('SaveWallet')}
         />
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={'I have a wallet'}
+            text={StringUtils.texts.settingWallet.backup}
             height={50}
             onPress={() => navigation.navigate('ImportWallet')}
           />

@@ -30,7 +30,7 @@ exports[`Test view (empty) 1`] = `
       height={120}
       source={
         Object {
-          "testUri": "../../../assets/img/default-avatar.png",
+          "uri": "uri",
         }
       }
       style={

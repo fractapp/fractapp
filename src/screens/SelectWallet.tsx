@@ -33,6 +33,7 @@ export const SelectWallet = ({
           account.name,
           account.address,
           account.currency,
+          account.network,
           account.balance,
           account.planks,
           price,

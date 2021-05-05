@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {ChatShortInfo} from 'components/ChatShortInfo';
 import {ChatInfo, ChatType} from 'types/chatInfo';
-import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,7 +18,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
  */
 export const Chats = ({navigation}: {navigation: any}) => {
   const chatsContext = useContext(ChatsStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
   const globalContext = useContext(GlobalStore.Context);
 
   useEffect(() => {
@@ -37,18 +35,18 @@ export const Chats = ({navigation}: {navigation: any}) => {
     const chats = Array.from(chatsContext.state.chatsInfo.values())
       .filter(
         (value) =>
-          transactionsContext.state.transactions.has(value.lastTxCurrency) &&
-          transactionsContext.state.transactions
+          chatsContext.state.transactions.has(value.lastTxCurrency) &&
+          chatsContext.state.transactions
             ?.get(value.lastTxCurrency)!
-            .has(value.lastTxId),
+            .transactionById.has(value.lastTxId),
       )
       .sort((a, b) => b.timestamp - a.timestamp);
     return chats;
   };
   const renderItem = ({item}: {item: ChatInfo}) => {
-    const tx = transactionsContext.state.transactions
+    const tx = chatsContext.state.transactions
       .get(item.lastTxCurrency)!
-      .get(item.lastTxId)!;
+      .transactionById.get(item.lastTxId)!;
 
     return (
       <TouchableHighlight
@@ -59,8 +57,18 @@ export const Chats = ({navigation}: {navigation: any}) => {
           notificationCount={item.notificationCount}
           tx={tx}
           user={
-            item.type === ChatType.Chat
-              ? globalContext.state.users.get(item.id)!
+            item.type === ChatType.WithUser
+              ? globalContext.state.users.get(item.id) ?? {
+                  id: '0',
+                  name: 'Deleted',
+                  username: '-',
+                  avatarExt: '',
+                  lastUpdate: 0,
+                  addresses: {
+                    0: 'invalid',
+                    1: 'invalid',
+                  },
+                }
               : null
           }
         />
@@ -96,6 +104,6 @@ const styles = StyleSheet.create({
     marginLeft: 80,
     width: '100%',
     height: 1,
-    backgroundColor: '#ededed',
+    backgroundColor: '#f5f5f5',
   },
 });

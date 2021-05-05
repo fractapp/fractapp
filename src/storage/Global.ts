@@ -3,6 +3,7 @@ import DB from 'storage/DB';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
+import {Network} from 'types/account';
 
 /**
  * @namespace
@@ -16,17 +17,17 @@ namespace GlobalStore {
     SIGN_IN_FRACTAPP,
     SET_UPDATING_PROFILE,
     SIGN_OUT_FRACTAPP,
-    ADD_NOTIFICATION,
-    REMOVE_NOTIFICATION,
     ENABLE_PASSCODE,
     DISABLE_PASSCODE,
     ENABLE_BIOMETRY,
     DISABLE_BIOMETRY,
     SET_SYNCED,
     SET_LOADING,
+    SET_SYNC_SHOW,
     SET_CONTACTS,
     SET_USER,
     DELETE_USER,
+    SET_SUBSTRATE_URL,
   }
 
   export type State = {
@@ -35,10 +36,11 @@ namespace GlobalStore {
     users: Map<string, UserProfile>;
     isRegistered: boolean;
     isUpdatingProfile: boolean;
-    notificationCount: number;
     authInfo: AuthInfo;
     isInitialized: boolean;
+    isSyncShow: boolean;
     isLoadingShow: boolean;
+    urls: Map<Network, string>;
   };
 
   export type ContextType = {
@@ -60,16 +62,17 @@ namespace GlobalStore {
     },
     contacts: [],
     users: new Map<string, UserProfile>(),
-    notificationCount: 0,
     authInfo: {
       isSynced: false,
       isAuthed: false,
       isPasscode: false,
       isBiometry: false,
     },
+    isSyncShow: true,
     isInitialized: false,
     isRegistered: false,
     isLoadingShow: false,
+    urls: new Map<Network, string>(),
   });
   export const Context = createContext<ContextType>({
     state: initialState(),
@@ -83,13 +86,14 @@ namespace GlobalStore {
         return {
           isUpdatingProfile: action.isUpdatingProfile,
           profile: action.profile,
-          notificationCount: action.notificationCount,
           authInfo: action.authInfo,
           isInitialized: true,
           isRegistered: action.isRegistered,
           isLoadingShow: false,
           contacts: action.contacts,
           users: action.users,
+          urls: action.urls,
+          isSyncShow: true,
         };
       case Action.SET_PROFILE:
         copy.profile = action.profile;
@@ -109,19 +113,6 @@ namespace GlobalStore {
       case Action.SIGN_OUT_FRACTAPP:
         copy.profile = GlobalStore.initialState().profile;
         copy.isRegistered = false;
-        break;
-      case Action.ADD_NOTIFICATION:
-        copy.notificationCount++;
-
-        DB.setNotificationCount(copy.notificationCount);
-        break;
-      case Action.REMOVE_NOTIFICATION:
-        if (copy.notificationCount - action.value < 0) {
-          DB.setNotificationCount(0);
-          break;
-        }
-        copy.notificationCount -= action.value;
-        DB.setNotificationCount(copy.notificationCount);
         break;
       case Action.SET_SYNCED:
         copy.authInfo.isSynced = true;
@@ -157,6 +148,14 @@ namespace GlobalStore {
       case Action.DELETE_USER:
         copy.users.delete(action.id);
         DB.setUsers(copy.users);
+        break;
+      case Action.SET_SUBSTRATE_URL:
+        copy.urls.set(action.network, action.url);
+        DB.setSubstrateUrls(copy.urls);
+        break;
+      case Action.SET_SYNC_SHOW:
+        copy.isSyncShow = action.isSyncShow;
+        break;
       default:
         return prevState;
     }
@@ -166,21 +165,21 @@ namespace GlobalStore {
 
   export const set = (
     profile: MyProfile,
-    notificationCount: number,
     authInfo: AuthInfo,
     isRegistered: boolean,
     isUpdatingProfile: boolean,
     contacts: Array<UserProfile>,
     users: Map<string, UserProfile>,
+    urls: Map<Network, string>,
   ) => ({
     type: Action.SET,
     profile: profile,
-    notificationCount: notificationCount,
     authInfo: authInfo,
     isRegistered: isRegistered,
     isUpdatingProfile: isUpdatingProfile,
     contacts: contacts,
     users: users,
+    urls: urls,
   });
 
   export const setProfile = (profile: MyProfile) => ({
@@ -203,13 +202,6 @@ namespace GlobalStore {
   export const setSynced = () => ({
     type: Action.SET_SYNCED,
   });
-  export const addNotificationCount = () => ({
-    type: Action.ADD_NOTIFICATION,
-  });
-  export const removeNotificationCount = (value: number) => ({
-    type: Action.REMOVE_NOTIFICATION,
-    value: value,
-  });
   export const enablePasscode = (passcode: string) => ({
     type: Action.ENABLE_PASSCODE,
     passcode: passcode,
@@ -222,6 +214,10 @@ namespace GlobalStore {
   });
   export const disableBiometry = () => ({
     type: Action.DISABLE_BIOMETRY,
+  });
+  export const setSyncShow = (isSyncShow: boolean) => ({
+    type: Action.SET_SYNC_SHOW,
+    isSyncShow: isSyncShow,
   });
   export const setLoading = (isLoadingShow: boolean) => ({
     type: Action.SET_LOADING,
@@ -238,6 +234,11 @@ namespace GlobalStore {
   export const deleteUser = (id: string) => ({
     type: Action.DELETE_USER,
     id: id,
+  });
+  export const setSubstrateUrl = (network: Network, url: string) => ({
+    type: Action.SET_SUBSTRATE_URL,
+    url: url,
+    network: network,
   });
 }
 export default GlobalStore;

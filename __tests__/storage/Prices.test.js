@@ -9,23 +9,23 @@ jest.mock('storage/DB', () => ({
 const initState = () => new Map();
 
 it('Test set', async () => {
-  expect(Prices.set(Currency.Polkadot, 1000)).toMatchSnapshot();
+  expect(Prices.set(Currency.DOT, 1000)).toMatchSnapshot();
 });
 it('Test update price', async () => {
-  expect(Prices.updatePrice(Currency.Kusama, 250)).toMatchSnapshot();
+  expect(Prices.updatePrice(Currency.KSM, 250)).toMatchSnapshot();
 });
 
 it('Test reducer set', async () => {
   expect(
-    Prices.reducer(initState(), Prices.set(Currency.Polkadot, 1000)),
+    Prices.reducer(initState(), Prices.set(Currency.DOT, 1000)),
   ).toMatchSnapshot();
 });
 
 it('Test reducer update balance', async () => {
   expect(
-    Prices.reducer(initState(), Prices.updatePrice(Currency.Kusama, 250)),
+    Prices.reducer(initState(), Prices.updatePrice(Currency.KSM, 250)),
   ).toMatchSnapshot();
-  expect(DB.setPrice).toBeCalledWith(Currency.Kusama, 250);
+  expect(DB.setPrice).toBeCalledWith(Currency.KSM, 250);
 });
 
 it('Test default', async () => {

@@ -34,7 +34,7 @@ it('Test receive #1', () => {
         route={{
           params: {
             address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
-            currency: Currency.Polkadot,
+            currency: Currency.DOT,
           },
         }}
       />,
@@ -46,7 +46,7 @@ it('Test receive #1', () => {
 it('Test receive #2', () => {
   const params = {
     address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
   };
 
   const tree = renderer.create(<Receive route={{params: params}} />).toJSON();
@@ -56,7 +56,7 @@ it('Test receive #2', () => {
 it('Test receive click copy', () => {
   const params = {
     address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
   };
 
   const component = render(<Receive route={{params: params}} />);
@@ -72,7 +72,7 @@ it('Test receive click copy', () => {
 it('Test receive click share', () => {
   const params = {
     address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
   };
 
   const component = render(<Receive route={{params: params}} />);

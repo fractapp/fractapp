@@ -16,8 +16,8 @@ import ChatsStore from 'storage/Chats';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
-import TransactionsStore from 'storage/Transactions';
 import stringUtils from 'utils/string';
+import StringUtils from 'utils/string';
 import backend from 'utils/backend';
 
 /**
@@ -31,13 +31,11 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const priceContext = useContext(PricesStore.Context);
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
 
   const chatInfo: ChatInfo = route.params.chatInfo;
 
-  const [notificationCount, setNotificationCount] = useState(
-    chatInfo.notificationCount,
-  );
+  const [notificationCount] = useState(chatInfo.notificationCount);
+  const [txs, setTxs] = useState<Array<Transaction>>([]);
 
   const getWallet = (currency: Currency) => {
     let account = accountsContext.state.accounts.get(currency);
@@ -52,29 +50,31 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       account.name,
       account.address,
       account.currency,
+      account.network,
       account.balance,
       account.planks,
       price,
     );
   };
 
-  const getTxs = () => {
+  useEffect(() => {
     const txs = new Array<Transaction>();
     if (!chatsContext.state.chats.has(chatInfo.id)) {
-      return txs;
+      return;
     }
     const ids = chatsContext.state.chats.get(chatInfo.id)!;
 
-    for (let [id, currency] of ids) {
-      txs.push(transactionsContext.state.transactions?.get(currency)?.get(id)!);
+    for (let [id, info] of ids.infoById) {
+      txs.push(
+        chatsContext.state.transactions
+          ?.get(info.currency)
+          ?.transactionById.get(id)!,
+      );
     }
     const result = txs.sort((a, b) => b.timestamp - a.timestamp);
-    if (result.length < notificationCount) {
-      //TODO
-      setNotificationCount(result.length);
-    }
-    return result;
-  };
+    setTxs(result);
+  }, [chatsContext.state.chats]);
+
   const renderItem = ({item, index}: {item: Transaction; index: number}) => {
     let line;
     if (notificationCount !== 0 && index === notificationCount - 1) {
@@ -93,7 +93,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
               {position: 'absolute', left: 20},
             ]}
           />
-          <Text style={styles.newMsgText}>Unread messages</Text>
+          <Text style={styles.newMsgText}>
+            {StringUtils.texts.UnreadMessagesTitle}
+          </Text>
           <View
             style={[
               styles.newMsgDividingLine,
@@ -136,17 +138,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           />
         ) : (
           <Image
-            source={
-              globalContext.state.users.get(chatInfo.id)!.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      globalContext.state.users.get(chatInfo.id)!.id,
-                      globalContext.state.users.get(chatInfo.id)!.avatarExt,
-                      globalContext.state.users.get(chatInfo.id)!.lastUpdate,
-                    ),
-                  }
-            }
+            source={{
+              uri: backend.getImgUrl(
+                globalContext.state.users.get(chatInfo.id)?.id ?? '0',
+                globalContext.state.users.get(chatInfo.id)?.lastUpdate ?? 0,
+              ),
+            }}
             width={45}
             height={45}
             style={{width: 45, height: 45, borderRadius: 25}}
@@ -160,10 +157,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   }, []);
   useEffect(() => {
     if (chatInfo.notificationCount !== 0) {
-      globalContext.dispatch(
-        GlobalStore.removeNotificationCount(notificationCount),
-      );
-      chatsContext.dispatch(ChatsStore.resetNotification(chatInfo.id));
+      chatsContext.dispatch(ChatsStore.removeNotification(chatInfo.id));
     }
   }, [chatInfo.notificationCount]);
 
@@ -184,31 +178,35 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         ref={flatListRef}
         scrollToOverflowEnabled={true}
         initialNumToRender={notificationCount < 10 ? 10 : notificationCount}
-        data={getTxs()}
+        data={txs}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: 90}} />}
       />
-      <TouchableOpacity
-        style={styles.sendBox}
-        onPress={() =>
-          chatInfo.type === ChatType.Chat
-            ? navigation.navigate('SelectWallet', {
-                chatInfo: chatInfo,
-              })
-            : navigation.navigate('Send', {
-                isEditable: false,
-                chatInfo: chatInfo,
-                wallet: getWallet(
-                  (chatInfo.details as DefaultDetails).currency,
-                ),
-              })
-        }>
-        <Image
-          source={require('assets/img/send.png')}
-          style={{width: 16, height: 25}}
-        />
-      </TouchableOpacity>
+      {chatInfo.type === ChatType.AddressOnly ||
+        (chatInfo.type === ChatType.WithUser &&
+          globalContext.state.users.get(chatInfo.id) !== undefined && (
+            <TouchableOpacity
+              style={styles.sendBox}
+              onPress={() =>
+                chatInfo.type === ChatType.WithUser
+                  ? navigation.navigate('SelectWallet', {
+                      chatInfo: chatInfo,
+                    })
+                  : navigation.navigate('Send', {
+                      isEditable: false,
+                      chatInfo: chatInfo,
+                      wallet: getWallet(
+                        (chatInfo.details as DefaultDetails).currency,
+                      ),
+                    })
+              }>
+              <Image
+                source={require('assets/img/send.png')}
+                style={{width: 16, height: 25}}
+              />
+            </TouchableOpacity>
+          ))}
     </View>
   );
 };

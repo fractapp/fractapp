@@ -7,7 +7,6 @@ import GlobalStore from 'storage/Global';
 import DialogStore from 'storage/Dialog';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
-import TransactionsStore from 'storage/Transactions';
 import ChatsStore from 'storage/Chats';
 import App from './src/App';
 
@@ -32,16 +31,11 @@ export default function Root() {
     ChatsStore.reducer,
     ChatsStore.initialState(),
   );
-  const [transactionsStore, transactionsDispatch] = useReducer(
-    TransactionsStore.reducer,
-    TransactionsStore.initialState(),
-  );
 
   if (
-    dialogStore == undefined ||
-    accountsStore == undefined ||
-    pricesStore == undefined ||
-    transactionsStore == null
+    dialogStore === undefined ||
+    accountsStore === undefined ||
+    pricesStore === undefined
   ) {
     Alert.alert('Please contact support: support@fractapp.com');
     return <View />;
@@ -60,16 +54,10 @@ export default function Root() {
                 state: chatsStore,
                 dispatch: chatsDispatch,
               }}>
-              <TransactionsStore.Context.Provider
-                value={{
-                  state: transactionsStore,
-                  dispatch: transactionsDispatch,
-                }}>
-                <PricesStore.Context.Provider
-                  value={{state: pricesStore, dispatch: pricesDispatch}}>
-                  <App />
-                </PricesStore.Context.Provider>
-              </TransactionsStore.Context.Provider>
+              <PricesStore.Context.Provider
+                value={{state: pricesStore, dispatch: pricesDispatch}}>
+                <App />
+              </PricesStore.Context.Provider>
             </ChatsStore.Context.Provider>
           </AccountsStore.Context.Provider>
         </GlobalStore.Context.Provider>

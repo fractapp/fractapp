@@ -5,6 +5,7 @@ import {SeedButton} from 'components/SeedButton';
 import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
+import StringUtils from 'utils/string';
 
 /**
  * Confirm save seed phrase screen
@@ -45,6 +46,7 @@ export const ConfirmSaveSeed = ({
       }
 
       setLoading(false);
+
       navigation.reset({
         index: 0,
         routes: [{name: 'Home'}],
@@ -117,20 +119,28 @@ export const ConfirmSaveSeed = ({
   };
 
   const renderButtonOrError = () => {
-    if (selectedPhrase.length != seed.length) {
+    if (selectedPhrase.length !== seed.length) {
       return null;
     }
 
     for (let i = 0; i < seed.length; i++) {
-      if (selectedPhrase[i] == seed[i]) {
+      if (selectedPhrase[i] === seed[i]) {
         continue;
       }
 
-      return <Text style={styles.invalidSeed}>Incorrectly entered seed</Text>;
+      return (
+        <Text style={styles.invalidSeed}>
+          {StringUtils.texts.confirmSaveSeed.incorrectEnteredSeed}
+        </Text>
+      );
     }
     return (
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Next'} height={50} onPress={startSaveSeed} />
+        <BlueButton
+          text={StringUtils.texts.ConfirmBtnTitle}
+          height={50}
+          onPress={startSaveSeed}
+        />
       </View>
     );
   };
@@ -146,9 +156,11 @@ export const ConfirmSaveSeed = ({
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Veryfy secret phrase</Text>
+      <Text style={styles.title}>
+        {StringUtils.texts.confirmSaveSeed.title}
+      </Text>
       <Text style={styles.description}>
-        Put the words in the correct order.
+        {StringUtils.texts.confirmSaveSeed.description}
       </Text>
       <View style={styles.selectedBox}>{renderSelectedPhrase()}</View>
 

@@ -4,6 +4,7 @@ import {SuccessButton} from 'components/SuccessButton';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with editing name in fractapp
@@ -18,21 +19,25 @@ export const EditName = ({navigation}: {navigation: any}) => {
   const [isErrorName, setNameIsError] = useState<boolean>(false);
 
   const onSuccess = async () => {
-    if (name === globalContext.state.profile.name) {
+    const validName = name.trim();
+    if (validName === globalContext.state.profile.name || validName === '') {
       navigation.goBack();
       return;
     }
 
     if (
-      regExp.test(name) ||
-      name.length < 4 ||
-      name.length > 32 ||
-      !(await backend.updateProfile(name, globalContext.state.profile.username))
+      regExp.test(validName) ||
+      validName.length < 4 ||
+      validName.length > 32 ||
+      !(await backend.updateProfile(
+        validName,
+        globalContext.state.profile.username,
+      ))
     ) {
       dialogContext.dispatch(
         Dialog.open(
-          'Invalid name',
-          'Please validate and write name again',
+          StringUtils.texts.InvalidNameTitle,
+          StringUtils.texts.InvalidNameText,
           () => dialogContext.dispatch(Dialog.close()),
         ),
       );
@@ -52,7 +57,7 @@ export const EditName = ({navigation}: {navigation: any}) => {
     });
 
     setNameIsError(regExp.test(name));
-    if (name.length < 4 || name.length > 32) {
+    if (name !== '' && (name.length < 4 || name.length > 32)) {
       setNameIsError(true);
     }
   }, [name]);
@@ -81,7 +86,7 @@ export const EditName = ({navigation}: {navigation: any}) => {
             onChangeText={(text) => {
               setName(text);
             }}
-            placeholder={'Enter name'}
+            placeholder={StringUtils.texts.edit.name}
             keyboardType={'default'}
             placeholderTextColor={'#BFBDBD'}
             autoCompleteType={'username'}

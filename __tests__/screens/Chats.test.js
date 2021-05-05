@@ -49,12 +49,12 @@ it('Test view with chats', () => {
     id: 'chatOne',
     name: 'address#1',
     lastTxId: 'txOne',
-    lastTxCurrency: Currency.Polkadot,
+    lastTxCurrency: Currency.DOT,
     notificationCount: 15,
     timestamp: 123123,
     type: ChatType.AddressOnly,
     details: {
-      currency: Currency.Polkadot,
+      currency: Currency.DOT,
       address: 'address#1',
     },
   });
@@ -62,10 +62,10 @@ it('Test view with chats', () => {
     id: 'chatTwo',
     name: 'username',
     lastTxId: 'txTwo',
-    lastTxCurrency: Currency.Kusama,
+    lastTxCurrency: Currency.KSM,
     notificationCount: 12,
     timestamp: 222111,
-    type: ChatType.Chat,
+    type: ChatType.WithUser,
   });
   useContext.mockReturnValueOnce({
     state: chats,
@@ -73,7 +73,7 @@ it('Test view with chats', () => {
 
   const txs = TransactionsStore.initialState();
   txs.transactions.set(
-    Currency.Polkadot,
+    Currency.DOT,
     new Map([
       [
         'txOne',
@@ -81,7 +81,7 @@ it('Test view with chats', () => {
           id: 'txOne',
           userId: null,
           address: 'address#1',
-          currency: Currency.Polkadot,
+          currency: Currency.DOT,
           txType: TxType.Sent,
           timestamp: 12123,
           value: 10000,
@@ -94,7 +94,7 @@ it('Test view with chats', () => {
     ]),
   );
   txs.transactions.set(
-    Currency.Kusama,
+    Currency.KSM,
     new Map([
       [
         'txTwo',
@@ -102,7 +102,7 @@ it('Test view with chats', () => {
           id: 'txTwo',
           userId: 'userId',
           address: 'address#2',
-          currency: Currency.Kusama,
+          currency: Currency.KSM,
           txType: TxType.Sent,
           timestamp: 121235,
           value: 100005,

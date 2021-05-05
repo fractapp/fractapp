@@ -10,6 +10,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
 import GlobalStore from 'storage/Global';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with editing profile in fractapp
@@ -19,23 +20,23 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
   const globalContext = useContext(GlobalStore.Context);
   const Inputs = [
     {
-      title: 'Name',
+      title: StringUtils.texts.edit.profile.nameTitle,
       value: globalContext.state.profile.name,
-      placeholder: 'Write your name',
+      placeholder: StringUtils.texts.edit.profile.namePlaceholder,
       onClick: () => navigation.navigate('EditName'),
     },
     {
-      title: 'Username',
+      title: StringUtils.texts.edit.profile.usernameTitle,
       value: !globalContext.state.profile.username
         ? ''
         : '@' + globalContext.state.profile.username,
-      placeholder: 'Write your username',
+      placeholder: StringUtils.texts.edit.profile.usernamePlaceholder,
       onClick: () => navigation.navigate('EditUsername'),
     },
     {
-      title: 'Phone',
+      title: StringUtils.texts.edit.profile.phoneTitle,
       value: globalContext.state.profile.phoneNumber,
-      placeholder: 'Write your phone',
+      placeholder: StringUtils.texts.edit.profile.phonePlaceholder,
       onClick: () =>
         globalContext.state.profile.phoneNumber !== '' &&
         globalContext.state.profile.phoneNumber !== undefined
@@ -43,9 +44,9 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
           : navigation.navigate('EditPhoneNumber'),
     },
     {
-      title: 'Email',
+      title: StringUtils.texts.edit.profile.emailTitle,
       value: globalContext.state.profile.email,
-      placeholder: 'Write your email',
+      placeholder: StringUtils.texts.edit.profile.emailPlaceholder,
       onClick: () =>
         globalContext.state.profile.email !== '' &&
         globalContext.state.profile.email !== undefined
@@ -63,7 +64,7 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
         maxHeight: 400,
       },
       async (rs) => {
-        if (rs.base64 == undefined) {
+        if (rs.base64 === undefined) {
           return;
         }
         globalContext.dispatch(GlobalStore.setLoading(true));
@@ -75,6 +76,7 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
       },
     );
   };
+
   const renderItem = (item: any) => {
     const input = item.item;
     return (
@@ -95,17 +97,12 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
     <View style={styles.profile}>
       <TouchableOpacity testID={'editAvatarBtn'} onPress={openFilePicker}>
         <Image
-          source={
-            globalContext.state.profile.avatarExt === ''
-              ? require('assets/img/default-avatar.png')
-              : {
-                  uri: backend.getImgUrl(
-                    globalContext.state.profile.id,
-                    globalContext.state.profile.avatarExt,
-                    globalContext.state.profile.lastUpdate,
-                  ),
-                }
-          }
+          source={{
+            uri: backend.getImgUrl(
+              globalContext.state.profile.id,
+              globalContext.state.profile.lastUpdate,
+            ),
+          }}
           style={styles.avatar}
           width={120}
           height={120}

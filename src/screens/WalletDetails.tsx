@@ -12,8 +12,9 @@ import {Transaction} from 'types/transaction';
 import {TransactionInfo} from 'components/TransactionInfo';
 import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
 import stringUtils from 'utils/string';
-import TransactionsStore from 'storage/Transactions';
 import GlobalStore from 'storage/Global';
+import ChatsStore from 'storage/Chats';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with wallet details
@@ -27,7 +28,7 @@ export const WalletDetails = ({
   route: any;
 }) => {
   const globalContext = useContext(GlobalStore.Context);
-  const transactionsContext = useContext(TransactionsStore.Context);
+  const chatsContext = useContext(ChatsStore.Context);
   const wallet: Wallet = route.params.wallet;
 
   const getDataWithSections = () => {
@@ -38,13 +39,13 @@ export const WalletDetails = ({
     //TODO: refactoring
     const txs = new Array<Transaction>();
 
-    if (!transactionsContext.state.transactions.has(wallet.currency)) {
+    if (!chatsContext.state.transactions.has(wallet.currency)) {
       return [];
     }
 
-    for (let tx of transactionsContext.state.transactions
+    for (let tx of chatsContext.state.transactions
       .get(wallet.currency)
-      ?.values()!) {
+      ?.transactionById.values()!) {
       txs.push(tx);
     }
 
@@ -89,7 +90,7 @@ export const WalletDetails = ({
                     color="#666666"
                   />
                 </TouchableHighlight>
-                <Text style={styles.btnText}>Send</Text>
+                <Text style={styles.btnText}>{StringUtils.texts.SendBtn}</Text>
               </View>
               <View style={{marginLeft: 30}}>
                 <TouchableHighlight
@@ -108,7 +109,9 @@ export const WalletDetails = ({
                     color="#666666"
                   />
                 </TouchableHighlight>
-                <Text style={styles.btnText}>Receive</Text>
+                <Text style={styles.btnText}>
+                  {StringUtils.texts.ReceiveBtn}
+                </Text>
               </View>
             </View>
             <View style={styles.dividingLine} />

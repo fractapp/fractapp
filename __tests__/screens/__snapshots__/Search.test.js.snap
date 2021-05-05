@@ -617,7 +617,7 @@ exports[`Test view 1`] = `
               <Image
                 source={
                   Object {
-                    "testUri": "../../../assets/img/default-avatar.png",
+                    "uri": "uri",
                   }
                 }
                 style={
@@ -733,7 +733,7 @@ exports[`Test view 1`] = `
               <Image
                 source={
                   Object {
-                    "testUri": "../../../assets/img/default-avatar.png",
+                    "uri": "uri",
                   }
                 }
                 style={
@@ -849,7 +849,7 @@ exports[`Test view 1`] = `
               <Image
                 source={
                   Object {
-                    "testUri": "../../../assets/img/default-avatar.png",
+                    "uri": "uri",
                   }
                 }
                 style={
@@ -965,7 +965,7 @@ exports[`Test view 1`] = `
               <Image
                 source={
                   Object {
-                    "testUri": "../../../assets/img/default-avatar.png",
+                    "uri": "uri",
                   }
                 }
                 style={

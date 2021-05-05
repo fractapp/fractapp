@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
+import StringUtils from 'utils/string';
 
 /**
  * Start screen for new users
@@ -10,14 +11,14 @@ export const Start = ({navigation}: {navigation: any}) => {
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <Image source={require('assets/img/logo.png')} style={styles.logo} />
-      <Text style={styles.welcomeText}>Welcome to Fractapp</Text>
+      <Text style={styles.welcomeText}>{StringUtils.texts.WelcomeTitle}</Text>
       <Text style={styles.description}>
-        Cryptocurrency wallet with social payments
+        {StringUtils.texts.WelcomeDescription}
       </Text>
 
       <View style={styles.nextBtn}>
         <BlueButton
-          text={'Start'}
+          text={StringUtils.texts.StartBtnTitle}
           height={50}
           onPress={() => navigation.navigate('Legal')}
         />

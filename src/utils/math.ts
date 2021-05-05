@@ -1,66 +1,113 @@
 import BN from 'bn.js';
-import {Currency} from 'types/wallet';
-import {Api} from 'utils/polkadot';
-import PricesStore from 'storage/Prices';
 
 /**
  * @namespace
  * @category Utils
  */
 namespace MathUtils {
-  type CalculateTxFeeInfo = {
-    usdFee: number;
-    fee: BN;
-  };
-
   const USDDecimals = 2;
+
   export function floor(value: number, decimals: number): number {
     return Math.floor(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }
+
   export function floorUsd(value: number): number {
     return floor(value, USDDecimals);
   }
+
   export function round(value: number, decimals: number): number {
     return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }
+
   export function roundUsd(value: number): number {
     return round(value, USDDecimals);
   }
 
-  export async function calculateValue(
-    priceContext: PricesStore.ContextType,
-    currency: Currency,
-    value: number,
-    isUSDMode: boolean,
-  ): Promise<number> {
-    const api = await Api.getInstance(currency);
-    const price = priceContext.state?.get(currency) ?? 0;
-
-    return isUSDMode
-      ? MathUtils.round(value / price, api.viewDecimals)
-      : MathUtils.roundUsd(value * price);
+  export function calculateUsdValue(
+    value: BN,
+    decimals: number,
+    price: number,
+  ): number {
+    const d = new BN(10).pow(new BN(decimals));
+    const ud = new BN(10).pow(new BN(USDDecimals));
+    return roundUsd(
+      value.mul(ud).mul(new BN(price)).div(d).toNumber() / ud.toNumber(), //TODO: add price cent
+    );
   }
 
-  export async function calculateTxInfo(
-    priceContext: PricesStore.ContextType,
-    currency: Currency,
-    currencyValue: number,
-    receiver: string,
-  ): Promise<CalculateTxFeeInfo> {
-    const api = await Api.getInstance(currency);
-    const price = priceContext.state?.get(currency) ?? 0;
+  export function calculatePlanksValue(
+    usdValue: number,
+    decimals: number,
+    price: number,
+  ): BN {
+    const d = new BN(10).pow(new BN(decimals));
+    const ud = new BN(10).pow(new BN(USDDecimals));
+    return new BN(usdValue * ud.toNumber())
+      .mul(d)
+      .div(new BN(price * ud.toNumber()));
+  }
 
-    const substrateApi = await api.getSubstrateApi();
-    const info = await substrateApi.tx.balances
-      .transferKeepAlive(receiver, api.convertToPlanck(String(currencyValue)))
-      .paymentInfo(receiver);
+  export function convertFromPlanckToViewDecimals(
+    planck: BN,
+    decimals: number,
+    viewDecimals: number,
+    isRound?: boolean,
+  ): number {
+    const d = new BN(10).pow(new BN(decimals));
+    const viewD = new BN(10).pow(new BN(viewDecimals));
 
-    return {
-      fee: info.partialFee,
-      usdFee: MathUtils.roundUsd(
-        api.convertFromPlanckWithViewDecimals(info.partialFee) * price,
-      ),
-    };
+    const preV = planck.mul(viewD).div(d);
+    let v = preV;
+
+    if (isRound) {
+      const rem = preV.mod(viewD);
+      if (rem.cmp(new BN(0)) > 0) {
+        v = v.add(new BN(1));
+      }
+    }
+
+    return round(v.toNumber() / viewD.toNumber(), viewDecimals);
+  }
+
+  export function convertFromPlanckToString(
+    planck: BN,
+    decimals: number,
+  ): string {
+    let value = planck.toString();
+
+    const length = value.length;
+    if (length < decimals) {
+      for (let i = 0; i < decimals - length; i++) {
+        value = '0' + value;
+      }
+    }
+
+    value =
+      value.substr(0, value.length - decimals) +
+      '.' +
+      value.substr(value.length - decimals);
+
+    if (value.startsWith('.')) {
+      value = '0' + value;
+    }
+
+    return value;
+  }
+
+  export function convertToPlanck(number: string, decimals: number): BN {
+    const numbers = String(number).split('.');
+    let planks = numbers[0] + (numbers.length === 2 ? numbers[1] : '');
+    if (numbers.length === 2 && numbers[1].length < decimals) {
+      for (let i = 0; i < decimals - numbers[1].length; i++) {
+        planks += '0';
+      }
+    } else if (numbers.length === 1) {
+      for (let i = 0; i < decimals; i++) {
+        planks += '0';
+      }
+    }
+
+    return new BN(planks);
   }
 }
 

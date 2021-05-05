@@ -6,6 +6,9 @@ import {
   TouchableHighlight,
   View,
   PermissionsAndroid,
+  Image,
+  ActivityIndicator,
+  Text,
 } from 'react-native';
 import Contacts from 'react-native-contacts';
 import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
@@ -18,7 +21,9 @@ import Dialog from 'storage/Dialog';
 import DialogStore from 'storage/Dialog';
 import {UserProfile} from 'types/profile';
 import {Wallet} from 'types/wallet';
-import {ChatType} from 'types/chatInfo';
+import {ChatInfo, ChatType} from 'types/chatInfo';
+import ChatsStore from 'storage/Chats';
+import StringUtils from 'utils/string';
 
 /**
  * Users search screen
@@ -28,10 +33,13 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const wallet: Wallet = route.params?.wallet;
 
   const globalContext = useContext(GlobalStore.Context);
+  const chatsContext = useContext(ChatsStore.Context);
   const dialogContext = useContext(DialogStore.Context);
 
   const [searchString, setSearchString] = useState<string>('');
   const [users, setUsers] = useState<Array<UserProfile>>();
+  const [isLoading, setLoading] = useState<boolean>();
+  const [lastSearch, setLastSearch] = useState<string>();
 
   useEffect(() => {
     if (!globalContext.state.isRegistered) {
@@ -46,8 +54,8 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
       if (status === 'never_ask_again') {
         dialogContext.dispatch(
           Dialog.open(
-            'Open settings',
-            'If you want to find users by your contacts then open the application settings and give it access to read your contacts .',
+            StringUtils.texts.OpenSettingsTitle,
+            StringUtils.texts.OpenSettingsForContactsText,
             () => dialogContext.dispatch(Dialog.close()),
           ),
         );
@@ -111,6 +119,16 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   };
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+    if (!isLoading && lastSearch === searchString) {
+      return;
+    }
+
+    setLoading(true);
+    setLastSearch(searchString);
+
     if (searchString.length === 0) {
       const contacts = new Array<UserProfile>();
       for (let id of globalContext.state.contacts) {
@@ -120,56 +138,52 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
         contacts.push(globalContext.state.users.get(id)!);
       }
       setUsers(contacts);
+      setLoading(false);
     } else {
-      if (searchString[0] === '@') {
-        backend.search(searchString.split('@')[1], false).then((users) => {
+      backend
+        .search(searchString)
+        .then((users: UserProfile[]) => {
           setUsers(
             users.filter((user) => user.id !== globalContext.state.profile.id),
           );
-        });
-      } else {
-        backend.search(searchString, true).then((users) => {
-          setUsers(
-            users.filter((user) => user.id !== globalContext.state.profile.id),
-          );
-        });
-      }
+          setTimeout(() => setLoading(false), 1000);
+        })
+        .catch((e) => setTimeout(() => setLoading(false), 1000));
     }
-  }, [searchString]);
+  }, [searchString, isLoading]);
 
-  const renderItem = ({item}: {item: any}) => {
+  const renderItem = ({item}: {item: UserProfile}) => {
     return (
       <TouchableHighlight
         onPress={() => {
           globalContext.dispatch(GlobalStore.setUser(item));
 
-          navigation.navigate('Chat', {
-            chatInfo: {
+          let chatInfo: ChatInfo;
+          if (!chatsContext.state.chatsInfo.has(item.id)) {
+            chatInfo = {
               id: item.id,
-              name: item.name,
+              name: item.name !== '' ? item.name : item.username,
               lastTxId: '',
               lastTxCurrency: 0,
               notificationCount: 0,
               timestamp: 0,
-              type: ChatType.Chat,
+              type: ChatType.WithUser,
               details: null,
-            },
+            };
+          } else {
+            chatInfo = chatsContext.state.chatsInfo.get(item.id)!;
+          }
+
+          navigation.navigate('Chat', {
+            chatInfo: chatInfo,
           });
         }}
         underlayColor="#f8f9fb">
         <Contact
           name={item.name}
-          img={
-            item.avatarExt === ''
-              ? require('assets/img/default-avatar.png')
-              : {
-                  uri: backend.getImgUrl(
-                    item.id,
-                    item.avatarExt,
-                    item.lastUpdate,
-                  ),
-                }
-          }
+          img={{
+            uri: backend.getImgUrl(item.id, item.lastUpdate),
+          }}
           usernameOrPhoneNumber={'@' + item.username}
         />
       </TouchableHighlight>
@@ -179,6 +193,17 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   return (
     <View style={styles.users}>
       <View style={styles.searchBox}>
+        {isLoading && (
+          <ActivityIndicator
+            testID="loader"
+            size={25}
+            color="#2AB2E2"
+            style={{
+              position: 'absolute',
+              right: 10,
+            }}
+          />
+        )}
         <Ionicons
           name={'arrow-back'}
           style={{paddingLeft: 10}}
@@ -197,7 +222,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           onChangeText={(text) => {
             setSearchString(text);
           }}
-          placeholder={'Search by @username or email'}
+          placeholder={StringUtils.texts.SearchPlaceholder}
           keyboardType={'default'}
           placeholderTextColor={'#949499'}
           autoCompleteType={'username'}
@@ -205,28 +230,57 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           secureTextEntry={false}
         />
       </View>
+      {searchString.length > 0 &&
+        !isLoading &&
+        (users === undefined || users.length === 0) && (
+          <View
+            style={{
+              position: 'absolute',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}>
+            <Image
+              source={require('assets/img/not-found.png')}
+              style={{
+                width: 70,
+                height: 70,
+                alignSelf: 'center',
+              }}
+            />
+            <Text style={styles.noResultsText}>
+              {StringUtils.texts.NoResultsTitle}
+            </Text>
+          </View>
+        )}
       <FlatList
         ListHeaderComponent={
-          <TouchableHighlight
-            onPress={() => {
-              if (wallet == null) {
-                navigation.navigate('SelectWallet', {
-                  isEditable: true,
-                });
-              } else {
-                navigation.navigate('Send', {isEditable: true, wallet: wallet});
-              }
-            }}
-            underlayColor="#f8f9fb">
-            <SendBy
-              title={'Send by address'}
-              img={require('assets/img/address.png')}
-            />
-          </TouchableHighlight>
+          searchString.length === 0 ? (
+            <TouchableHighlight
+              onPress={() => {
+                if (wallet == null) {
+                  navigation.navigate('SelectWallet', {
+                    isEditable: true,
+                  });
+                } else {
+                  navigation.navigate('Send', {
+                    isEditable: true,
+                    wallet: wallet,
+                  });
+                }
+              }}
+              underlayColor="#f8f9fb">
+              <SendBy
+                title={StringUtils.texts.SendByAddressBtn}
+                img={require('assets/img/address.png')}
+              />
+            </TouchableHighlight>
+          ) : (
+            <View />
+          )
         }
         showsVerticalScrollIndicator={false}
         style={styles.list}
-        data={users}
+        data={isLoading ? [] : users}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
@@ -257,6 +311,14 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'black',
+  },
+  noResultsText: {
+    marginTop: 10,
+    fontSize: 19,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: '#888888',
   },
   list: {
     marginTop: 20,

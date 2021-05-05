@@ -10,6 +10,7 @@ import {
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import BackendApi from 'utils/backend';
+import StringUtils from 'utils/string';
 
 /**
  * Confirm code screen
@@ -78,7 +79,7 @@ export const ConfirmCode = ({
           switch (rsCode) {
             case 400:
               dialogContext.dispatch(
-                Dialog.open('Service unavailable', '', () =>
+                Dialog.open(StringUtils.texts.ServiceUnavailableTitle, '', () =>
                   dialogContext.dispatch(Dialog.close()),
                 ),
               );
@@ -90,8 +91,8 @@ export const ConfirmCode = ({
               navigation.goBack();
               dialogContext.dispatch(
                 Dialog.open(
-                  'The account is registered to a different address',
-                  '',
+                  StringUtils.texts.DifferentAddressTitle,
+                  StringUtils.texts.DifferentAddressText,
                   () => dialogContext.dispatch(Dialog.close()),
                 ),
               );
@@ -137,7 +138,7 @@ export const ConfirmCode = ({
     switch (rsCode) {
       case 400:
         dialogContext.dispatch(
-          Dialog.open('Service unavailable', 'Please try again', () =>
+          Dialog.open(StringUtils.texts.ServiceUnavailableTitle, '', () =>
             dialogContext.dispatch(Dialog.close()),
           ),
         );
@@ -145,11 +146,12 @@ export const ConfirmCode = ({
       case 404:
         dialogContext.dispatch(
           Dialog.open(
-            'Invalid ' +
-              (type === BackendApi.CodeType.Phone ? 'phone number' : 'email'),
-            `Please validate and write ${
-              type === BackendApi.CodeType.Phone ? 'phone number' : 'email'
-            } again`,
+            type === BackendApi.CodeType.Phone
+              ? StringUtils.texts.InvalidPhoneNumberTitle
+              : StringUtils.texts.InvalidEmailTitle,
+            type === BackendApi.CodeType.Phone
+              ? StringUtils.texts.InvalidPhoneNumberText
+              : StringUtils.texts.InvalidEmailText,
             () => dialogContext.dispatch(Dialog.close()),
           ),
         );
@@ -219,9 +221,9 @@ export const ConfirmCode = ({
   return (
     <View style={styles.box}>
       <Text style={styles.description}>
-        {`Confirmation code sent to your ${
-          type === BackendApi.CodeType.Phone ? 'phone number' : 'email'
-        }`}
+        {type === BackendApi.CodeType.Phone
+          ? StringUtils.texts.ConfirmationCodePhoneNumberText
+          : StringUtils.texts.ConfirmationCodeEmailText}
       </Text>
       <Text style={styles.id}>
         {type === BackendApi.CodeType.Phone ? '+' : ''}
@@ -232,11 +234,11 @@ export const ConfirmCode = ({
       </View>
       {lockTime <= 0 ? (
         <TouchableOpacity onPress={onResend}>
-          <Text style={styles.resend}>Resend</Text>
+          <Text style={styles.resend}>{StringUtils.texts.ResendTitle}</Text>
         </TouchableOpacity>
       ) : (
         <Text style={styles.resendTimer}>
-          {'Can be resend after ' + renderTime()}
+          {`${StringUtils.texts.ResendText} ${renderTime()}`}
         </Text>
       )}
     </View>

@@ -49,7 +49,7 @@ it('Test init', async () => {
     name: 'name',
     address: 'address',
     pubKey: 'pubKey',
-    currency: Currency.Polkadot,
+    currency: Currency.DOT,
     balance: 10000,
     planks: '10000000',
   };
@@ -66,7 +66,7 @@ it('Test init', async () => {
         id: 'idOne',
         userId: 'userId',
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.None,
         timestamp: new Date('12-12-2020').getTime(),
         value: 10,
@@ -82,7 +82,7 @@ it('Test init', async () => {
         id: 'idTwo',
         userId: 'userId',
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.None,
         timestamp: new Date('12-12-2020').getTime(),
         value: 10,
@@ -103,12 +103,12 @@ it('Test init', async () => {
         id: 'idChatInfo',
         name: 'name',
         lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.Polkadot,
+        lastTxCurrency: Currency.DOT,
         notificationCount: 10,
         timestamp: new Date().getTime(),
-        type: ChatType.Chat,
+        type: ChatType.WithUser,
         details: {
-          currency: Currency.Polkadot,
+          currency: Currency.DOT,
           address: 'address',
         },
       },
@@ -202,12 +202,12 @@ it('Test updatePrices', async () => {
     state: {
       accounts: new Map([
         [
-          Currency.Polkadot,
+          Currency.DOT,
           {
             name: 'name',
             address: 'address',
             pubKey: 'pubKey',
-            currency: Currency.Polkadot,
+            currency: Currency.DOT,
             balance: 10000,
             planks: '10000000',
           },
@@ -233,7 +233,7 @@ it('Test updatePrices', async () => {
 
   expect(pricesContext.dispatch).toBeCalledWith(
     PricesStore.updatePrice(
-      accountsContext.state.accounts.get(Currency.Polkadot).currency,
+      accountsContext.state.accounts.get(Currency.DOT).currency,
       price,
     ),
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Currency} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 /**
  * Bar with currency share in wallets
@@ -15,17 +16,17 @@ export const StatisticsBar = ({
   const defaultColor = '#CCCCCC';
   let total = 0;
 
-  for (let [key, value] of distribution) {
+  for (let value of distribution.values()) {
     total += value;
   }
   total = +total.toFixed(2);
   const getColorByCurrency = (currency: Currency) => {
     let color = '';
     switch (currency) {
-      case Currency.Polkadot:
+      case Currency.DOT:
         color = '#E6007A';
         break;
-      case Currency.Kusama:
+      case Currency.KSM:
         color = '#888888';
         break;
       default:
@@ -39,14 +40,14 @@ export const StatisticsBar = ({
     const end = {x: -1, y: 0};
     const colors = new Array<string>();
 
-    if (distribution.size == 0 || total == 0) {
+    if (distribution.size === 0 || total === 0) {
       end.x = 1;
       colors.push(defaultColor);
       colors.push(defaultColor);
     } else {
       for (let [currency, value] of distribution) {
         const size = value / total;
-        if (end.x == -1) {
+        if (end.x === -1) {
           end.x = size;
         }
         colors.push(getColorByCurrency(currency));
@@ -70,10 +71,12 @@ export const StatisticsBar = ({
     <View style={styles.statistics}>
       <View style={styles.titleBox}>
         <View style={styles.titleBoxElement}>
-          <Text style={[styles.title, {textAlign: 'left'}]}>Total</Text>
+          <Text style={[styles.title, {textAlign: 'left'}]}>
+            {StringUtils.texts.TotalTitle}
+          </Text>
         </View>
         <View style={styles.titleBoxElement}>
-          <Text style={[styles.title, {textAlign: 'right'}]}>{total}$</Text>
+          <Text style={[styles.title, {textAlign: 'right'}]}>${total}</Text>
         </View>
         {renderDistribution()}
       </View>

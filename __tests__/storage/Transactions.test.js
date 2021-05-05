@@ -17,7 +17,7 @@ const initState = () => ({
 it('Test set', async () => {
   const txs = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       new Map([
         [
           'txIdOne',
@@ -25,7 +25,7 @@ it('Test set', async () => {
             id: 'txIdOne',
             userId: 'userId',
             address: 'address#1',
-            currency: Currency.Polkadot,
+            currency: Currency.DOT,
             txType: TxType.None,
             timestamp: new Date('12-12-2020').getTime(),
             value: 10,
@@ -38,7 +38,7 @@ it('Test set', async () => {
       ]),
     ],
   ]);
-  const pendingTxs = new Map([[Currency.Polkadot, ['txOne', 'txTwo']]]);
+  const pendingTxs = new Map([[Currency.DOT, ['txOne', 'txTwo']]]);
   expect(Transactions.set(txs, pendingTxs)).toMatchSnapshot();
 });
 it('Test setTx', async () => {
@@ -46,7 +46,7 @@ it('Test setTx', async () => {
     id: 'txIdOne',
     userId: 'userId',
     address: 'address#1',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
     txType: TxType.Received,
     timestamp: new Date('12-12-2020').getTime(),
     value: 10,
@@ -55,21 +55,19 @@ it('Test setTx', async () => {
     usdFee: 10,
     status: TxStatus.Success,
   };
-  expect(Transactions.setTx(Currency.Kusama, tx)).toMatchSnapshot();
+  expect(Transactions.setTx(Currency.KSM, tx)).toMatchSnapshot();
 });
 it('Test addPendingTx', async () => {
-  expect(
-    Transactions.addPendingTx(Currency.Kusama, 'txHash'),
-  ).toMatchSnapshot();
+  expect(Transactions.addPendingTx(Currency.KSM, 'txHash')).toMatchSnapshot();
 });
 it('Test removePendingTx', async () => {
-  expect(Transactions.removePendingTx(Currency.Kusama, 10)).toMatchSnapshot();
+  expect(Transactions.removePendingTx(Currency.KSM, 10)).toMatchSnapshot();
 });
 
 it('Test reducer set', async () => {
   const txs = new Map([
     [
-      Currency.Polkadot,
+      Currency.DOT,
       new Map([
         [
           'txIdOne',
@@ -77,7 +75,7 @@ it('Test reducer set', async () => {
             id: 'txIdOne',
             userId: 'userId',
             address: 'address#1',
-            currency: Currency.Polkadot,
+            currency: Currency.DOT,
             txType: TxType.None,
             timestamp: new Date('12-12-2020').getTime(),
             value: 10,
@@ -90,7 +88,7 @@ it('Test reducer set', async () => {
       ]),
     ],
   ]);
-  const pendingTxs = new Map([[Currency.Polkadot, ['txOne', 'txTwo']]]);
+  const pendingTxs = new Map([[Currency.DOT, ['txOne', 'txTwo']]]);
   expect(
     Transactions.reducer(initState(), Transactions.set(txs, pendingTxs)),
   ).toMatchSnapshot();
@@ -100,7 +98,7 @@ it('Test reducer setTx', async () => {
     id: 'txIdOne',
     userId: 'userId',
     address: 'address#1',
-    currency: Currency.Kusama,
+    currency: Currency.KSM,
     txType: TxType.Received,
     timestamp: new Date('12-12-2020').getTime(),
     value: 10,
@@ -118,37 +116,34 @@ it('Test reducer addPendingTx', async () => {
   expect(
     Transactions.reducer(
       initState(),
-      Transactions.addPendingTx(Currency.Kusama, 'txHash'),
+      Transactions.addPendingTx(Currency.KSM, 'txHash'),
     ),
   ).toMatchSnapshot();
-  expect(DB.setPendingTxs).toBeCalledWith(Currency.Kusama, ['txHash']);
+  expect(DB.setPendingTxs).toBeCalledWith(Currency.KSM, ['txHash']);
 });
 it('Test reducer removePendingTx', async () => {
   let state = initState();
   state = Transactions.reducer(
     state,
-    Transactions.addPendingTx(Currency.Kusama, 'txHashOne'),
+    Transactions.addPendingTx(Currency.KSM, 'txHashOne'),
   );
   expect(state).toMatchSnapshot();
-  expect(DB.setPendingTxs).toBeCalledWith(Currency.Kusama, ['txHashOne']);
+  expect(DB.setPendingTxs).toBeCalledWith(Currency.KSM, ['txHashOne']);
 
   state = Transactions.reducer(
     state,
-    Transactions.addPendingTx(Currency.Kusama, 'txHashTwo'),
+    Transactions.addPendingTx(Currency.KSM, 'txHashTwo'),
   );
   expect(state).toMatchSnapshot();
-  expect(DB.setPendingTxs).toBeCalledWith(Currency.Kusama, [
+  expect(DB.setPendingTxs).toBeCalledWith(Currency.KSM, [
     'txHashOne',
     'txHashTwo',
   ]);
 
   expect(
-    Transactions.reducer(
-      state,
-      Transactions.removePendingTx(Currency.Kusama, 1),
-    ),
+    Transactions.reducer(state, Transactions.removePendingTx(Currency.KSM, 1)),
   ).toMatchSnapshot();
-  expect(DB.setPendingTxs).toBeCalledWith(Currency.Kusama, ['txHashOne']);
+  expect(DB.setPendingTxs).toBeCalledWith(Currency.KSM, ['txHashOne']);
 });
 
 it('Test default', async () => {

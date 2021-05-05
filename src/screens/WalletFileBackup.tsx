@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {TextInput} from 'components/TextInput';
 import {PasswordInput} from 'components/PasswordInput';
@@ -8,6 +8,7 @@ import DB from 'storage/DB';
 import backupUtils from 'utils/backup';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
+import StringUtils from 'utils/string';
 
 const minPasswordLength = 6;
 
@@ -34,11 +35,21 @@ export const WalletFileBackup = ({
 
   const seed: string = route.params.seed.join(' ');
   const type: backupUtils.BackupType = route.params.type;
-  const isNewAccount: boolean = route.params.isNewAccount;
 
   const startBackup = async () => {
     setLoading(true);
   };
+
+  useEffect(() => {
+    NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
+      console.log(result),
+    );
+
+    return () =>
+      NativeModules.PreventScreenshotModule.allow().then((result: string) =>
+        console.log(result),
+      );
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -46,33 +57,53 @@ export const WalletFileBackup = ({
     }
 
     (async () => {
-      await backupUtils.backup(seed, password, fileName, type);
+      const res = await backupUtils.backup(
+        seed,
+        password,
+        fileName.trim(),
+        type,
+      );
       setLoading(false);
 
-      await DB.createAccounts(seed);
-      const dir =
-        route.params.type === backupUtils.BackupType.File
-          ? 'Downloads'
-          : backupUtils.GoogleDriveFolder;
+      if (res.isError) {
+        return;
+      }
 
-      dialogContext.dispatch(
-        Dialog.open(
-          'Success save wallet',
-          `If you lose access to file then you will not be able to restore access to the wallet. File "${fileName}.json" saved in "${dir}" directory`,
-          async () => {
-            await dialogContext.dispatch(Dialog.close());
+      if (res.isExist) {
+        dialogContext.dispatch(
+          Dialog.open(
+            StringUtils.texts.FileExistTitle,
+            StringUtils.texts.FileExistText,
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
 
-            if (isNewAccount) {
-              await globalContext.dispatch(GlobalStore.signInLocal());
-            }
+      if (!globalContext.state.authInfo.isAuthed) {
+        await DB.createAccounts(seed);
+        globalContext.dispatch(GlobalStore.signInLocal());
+      }
 
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
-            });
-          },
-        ),
-      );
+      if (type === backupUtils.BackupType.File) {
+        dialogContext.dispatch(
+          Dialog.open(
+            StringUtils.texts.SuccessSaveWalletTitle,
+            StringUtils.texts.SuccessSaveWalletText(
+              fileName.trim(),
+              backupUtils.FSDriveFolder,
+            ),
+            () => {
+              dialogContext.dispatch(Dialog.close());
+            },
+          ),
+        );
+      }
+
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
     })();
   }, [isLoading]);
 
@@ -86,16 +117,24 @@ export const WalletFileBackup = ({
     ) {
       return (
         <Text style={styles.error}>
-          Minimum password length is 6 characters
+          {StringUtils.texts.walletFileBackup.passLenErr}
         </Text>
       );
     } else if (password !== confirmPassword) {
-      return <Text style={styles.error}>Password do not match</Text>;
+      return (
+        <Text style={styles.error}>
+          {StringUtils.texts.walletFileBackup.passNotMatch}
+        </Text>
+      );
     }
 
     return (
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Encrypt'} height={50} onPress={startBackup} />
+        <BlueButton
+          text={StringUtils.texts.ConfirmBtnTitle}
+          height={50}
+          onPress={startBackup}
+        />
       </View>
     );
   };
@@ -111,30 +150,31 @@ export const WalletFileBackup = ({
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Wallet encryption</Text>
+      <Text style={styles.title}>
+        {StringUtils.texts.walletFileBackup.title}
+      </Text>
       <Text style={styles.description}>
-        Enter the password to encrypt your wallet. Do not lose your password
-        otherwise you will not be able to restore access.
+        {StringUtils.texts.walletFileBackup.description}
       </Text>
 
       <View style={styles.fileName}>
         <TextInput
           onChangeText={(value: string) => setFilename(value)}
-          placeholder={'File name'}
+          placeholder={StringUtils.texts.walletFileBackup.filenamePlaceholder}
           defaultValue={fileName}
         />
       </View>
       <View style={styles.newPassword}>
         <PasswordInput
           onChangeText={(value: string) => setPassword(value)}
-          placeholder={'Password'}
+          placeholder={StringUtils.texts.walletFileBackup.passwordPlaceholder}
           defaultValue={password}
         />
       </View>
       <View style={styles.confirmPassword}>
         <PasswordInput
           onChangeText={(value: string) => setConfirmPassword(value)}
-          placeholder={'Confirm password'}
+          placeholder={StringUtils.texts.walletFileBackup.confirmPassword}
           defaultValue={confirmPassword}
         />
       </View>

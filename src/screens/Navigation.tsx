@@ -15,7 +15,6 @@ import {
   WalletDetails,
   ImportSeed,
   WalletFileImport,
-  GoogleDrivePicker,
   NewPassCode,
   Receive,
   TransactionDetails,
@@ -35,6 +34,7 @@ import {
   Send,
   EnterAmount,
   Legal,
+  ChooseImportWallet,
 } from 'screens/index';
 import {TabMenu} from 'components/TabMenu';
 import {getSymbol} from 'types/wallet';
@@ -83,6 +83,7 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         options={({route}) => ({
           title: title + (postfix ? postfix(route) : ''),
           headerTitleAlign: 'center',
+          headerTintColor: '#2AB2E2',
           headerRightContainerStyle: {
             marginRight: 10,
           },
@@ -112,8 +113,8 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('SaveWallet', SaveWallet)}
         {getEmptyRouter('ImportSeed', ImportSeed)}
         {getEmptyRouter('WalletFileImport', WalletFileImport)}
-        {getEmptyRouter('GoogleDrivePicker', GoogleDrivePicker)}
         {getEmptyRouter('Legal', Legal)}
+        {getEmptyRouter('ChooseImportWallet', ChooseImportWallet)}
       </>
     );
   };

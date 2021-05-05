@@ -14,8 +14,12 @@ namespace Backup {
   /**
    * default google drive folder
    */
-  export const GoogleDriveFolder = 'fractapp';
+  export const GoogleDriveFolder = 'FractappWalletBackups';
 
+  /**
+   * default folder in file system
+   */
+  export const FSDriveFolder = 'FractappWalletBackups';
   /**
    * Backup type for wallet
    */
@@ -43,8 +47,9 @@ namespace Backup {
   }
 
   export function randomFilename(): string {
-    return 'fractapp-' + randomAsHex(6).toLowerCase();
+    return randomAsHex(6).toLowerCase();
   }
+
   /**
    * backup file to phone drive or google
    */
@@ -53,24 +58,46 @@ namespace Backup {
     password: string,
     fileName: string,
     type: BackupType,
-  ): Promise<{isSuccess: boolean}> {
+  ): Promise<{isExist: boolean; isError: boolean}> {
     let json = JSON.stringify(encrypt(seed, password));
     const fileNameWithType = fileName + '.json';
     switch (type) {
       case BackupType.File:
-        const path = RNFS.DownloadDirectoryPath;
-        const filePath = `${path}/${fileNameWithType}`;
+        const path = `${RNFS.ExternalStorageDirectoryPath}/${FSDriveFolder}`;
 
+        const filePath = `${path}/${fileNameWithType}`;
         try {
+          await RNFS.mkdir(path);
+          const isExist = await RNFS.exists(filePath);
+          if (isExist) {
+            return {isError: false, isExist: true};
+          }
+
           await RNFS.writeFile(filePath, json, 'utf8');
         } catch (e) {
           console.log(e);
-          return {isSuccess: false};
+          return {isError: true, isExist: false};
         }
 
         break;
       case BackupType.GoogleDrive:
         await googleUtil.signIn();
+
+        const items = await googleUtil.getItems('root');
+        const folder = items.find((e) => e.title === GoogleDriveFolder);
+        if (folder !== undefined) {
+          const files = await googleUtil.getItems(folder.id);
+          let isExist = false;
+          for (let file of files) {
+            if (!isExist) {
+              isExist = file.title === fileName + '.json';
+            }
+            if (isExist) {
+              return {isError: false, isExist: true};
+            }
+          }
+        }
+
         if (
           !(await googleUtil.safeSave(
             GoogleDriveFolder,
@@ -78,21 +105,49 @@ namespace Backup {
             json,
           ))
         ) {
-          return {isSuccess: false};
+          return {isError: true, isExist: false};
         }
 
         break;
     }
-    return {isSuccess: true};
+    return {isError: false, isExist: false};
   }
 
   /**
    * get the file on the device
    */
-  export async function getFile(filePath: string): Promise<FileBackup> {
-    const fileString = await RNFS.readFile(filePath, 'utf8');
-    const file: FileBackup = JSON.parse(fileString);
-    return file;
+  export async function getFile(filename: string): Promise<FileBackup> {
+    const path = `${RNFS.ExternalStorageDirectoryPath}/${FSDriveFolder}/${filename}`;
+    const fileString = await RNFS.readFile(path, 'utf8');
+    return JSON.parse(fileString);
+  }
+
+  /**
+   * get the files from backup directory on the device
+   */
+  export async function getWallets(): Promise<Array<string>> {
+    const path = `${RNFS.ExternalStorageDirectoryPath}/${FSDriveFolder}`;
+    const wallets = [];
+    try {
+      const files = await RNFS.readDir(path);
+      for (let file of files) {
+        if (!file.isFile()) {
+          continue;
+        }
+        const fileString = await RNFS.readFile(file.path, 'utf8');
+        try {
+          const wallet = <FileBackup>JSON.parse(fileString);
+          if (wallet == null || wallet.seed === '' || wallet.algorithm === '') {
+            continue;
+          }
+
+          wallets.push(file.name);
+        } catch (e) {
+          continue;
+        }
+      }
+    } catch (e) {}
+    return wallets;
   }
 
   /**

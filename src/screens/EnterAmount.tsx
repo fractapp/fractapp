@@ -1,13 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text, Keyboard} from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
 import {getSymbol, Wallet} from 'types/wallet';
-import PricesStore from 'storage/Prices';
-import {Api} from 'utils/polkadot';
-import MathUtils from 'utils/math';
-import Dialog from 'storage/Dialog';
 import BN from 'bn.js';
+import Dialog from 'storage/Dialog';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with the input of the amount to be sent
@@ -20,79 +18,52 @@ export const EnterAmount = ({
   navigation: any;
   route: any;
 }) => {
-  const priceContext = useContext(PricesStore.Context);
   const dialogContext = useContext(Dialog.Context);
 
-  const routeValue = route.params?.value ?? 0;
+  const defaultValue = route.params?.value ?? '';
+
   const wallet: Wallet = route.params.wallet;
   const receiver: string = route.params.receiver;
 
   const [isUSDMode, setUSDMode] = useState<boolean>(
     route.params?.isUSDMode ?? true,
   );
-  const [value, setValue] = useState<number>(
-    routeValue === 0 ? '' : routeValue,
-  );
+  const [value, setValue] = useState<string>('0');
+  const [usdValue, setUsdValue] = useState<number>(0);
   const [alternativeValue, setAlternativeValue] = useState<number>(0);
   const [usdFee, setUsdFee] = useState<number>(0);
-  const [plankFee, setPlankFee] = useState<BN>(new BN(0));
+  const [planksValue, setPlanksValue] = useState<string>('');
+  const [planksFee, setPlanksFee] = useState<string>('');
+  const [isValid, setValid] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const onSuccess = async () => {
-    if (value <= 0 || alternativeValue <= 0) {
-      navigation.navigate('Send', {
-        isUSDMode: isUSDMode,
-        value: value,
-      });
-    }
-
-    const currencyValue = isUSDMode ? alternativeValue : value;
-    const api = await Api.getInstance(wallet.currency);
-    const planksValue = api.convertToPlanck(String(currencyValue));
-    if (new BN(wallet.planks).cmp(planksValue.add(plankFee)) < 0) {
+    if (isLoading) {
       dialogContext.dispatch(
-        Dialog.open('Not enough balance', '', () =>
+        Dialog.open(StringUtils.texts.WaitLoadingTitle, '', () =>
           dialogContext.dispatch(Dialog.close()),
-        ),
-      );
-      return;
-    }
-
-    const receiverBalance = (await api.balance(receiver))!;
-    if (
-      receiverBalance.plankValue.add(planksValue).cmp(await api.minTransfer()) <
-      0
-    ) {
-      dialogContext.dispatch(
-        Dialog.open(
-          'Minimum transfer',
-          `The minimum transfer for this recipient is ${api.convertFromPlanckWithViewDecimals(
-            await api.minTransfer(),
-          )} ${getSymbol(wallet.currency)}`,
-          () => dialogContext.dispatch(Dialog.close()),
-        ),
-      );
-      return;
-    }
-
-    const balanceAfterBalance = new BN(wallet.planks)
-      .sub(planksValue)
-      .sub(plankFee);
-
-    if (
-      balanceAfterBalance.cmp(await api.minTransfer()) < 0 &&
-      balanceAfterBalance.cmp(new BN(0)) !== 0
-    ) {
-      dialogContext.dispatch(
-        Dialog.open(
-          'Balance',
-          `After the transfer, more than ${api.convertFromPlanckWithViewDecimals(
-            await api.minTransfer(),
-          )} ${getSymbol(
-            wallet.currency,
-          )} should remain on the balance or transfer the entire remaining balance. Valid amount without fee: ${api.convertFromPlanckString(
-            new BN(wallet.planks).sub(plankFee),
-          )}`,
-          () => dialogContext.dispatch(Dialog.close()),
         ),
       );
       return;
@@ -101,71 +72,81 @@ export const EnterAmount = ({
     navigation.navigate('Send', {
       isUSDMode: isUSDMode,
       value: value,
+      usdValue: usdValue,
+      alternativeValue: alternativeValue,
+      usdFee: usdFee,
+      planksValue: planksValue,
+      planksFee: planksFee,
     });
   };
 
-  useEffect(() => {
-    if (value <= 0) {
-      return;
-    }
-
-    (async () => {
-      const aValue = await MathUtils.calculateValue(
-        priceContext,
-        wallet.currency,
-        value,
-        isUSDMode,
-      );
-      setAlternativeValue(aValue);
-    })();
-  }, [value, isUSDMode]);
-
-  useEffect(() => {
-    if (value <= 0 || alternativeValue <= 0) {
-      return;
-    }
-
-    const currencyValue = isUSDMode ? alternativeValue : value;
-
-    (async () => {
-      const info = await MathUtils.calculateTxInfo(
-        priceContext,
-        wallet.currency,
-        currencyValue,
-        receiver,
-      );
-      setPlankFee(info.fee);
-      setUsdFee(info.usdFee);
-    })();
-  }, [alternativeValue]);
+  const onChangeValues = (
+    value: string,
+    usdValue: number,
+    alternativeValue: number,
+    planksValue: BN,
+    planksFee: BN,
+    usdFee: number,
+    usdMode: boolean,
+    isValid: boolean,
+  ) => {
+    setValue(value);
+    setUsdValue(usdValue);
+    setAlternativeValue(alternativeValue);
+    setPlanksValue(planksValue.toString());
+    setPlanksFee(planksFee.toString());
+    setUsdFee(usdFee);
+    setUSDMode(usdMode);
+    setValid(isValid);
+  };
 
   useEffect(() => {
-    if (value <= 0 || alternativeValue <= 0) {
-      return;
-    }
-
     navigation.setOptions({
       headerRight: () => {
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
-  }, [alternativeValue, usdFee]);
-
+  }, [value, alternativeValue, usdFee, isUSDMode]);
   return (
     <View style={styles.chats}>
       <AmountInput
         width={'95%'}
-        onChangeText={(text, mode) => {
-          const v = parseFloat(text);
-          setValue(isNaN(v) ? 0 : v);
-          setUSDMode(mode);
-        }}
-        value={String(value)}
+        wallet={wallet}
+        receiver={receiver}
         usdMode={isUSDMode}
-        alternativeValue={alternativeValue}
-        fee={usdFee}
-        currency={wallet.currency}
+        onChangeValues={onChangeValues}
+        onSetLoading={(isLoading: boolean) => setLoading(isLoading)}
+        defaultValue={defaultValue}
       />
+      <View
+        style={[
+          styles.balance,
+          isKeyboardVisible
+            ? {
+                bottom: 350,
+              }
+            : {
+                bottom: 60,
+              },
+          isValid
+            ? {
+                borderColor: '#2AB2E2',
+              }
+            : {
+                borderColor: '#EA4335',
+              },
+        ]}>
+        <View style={{width: '50%', alignItems: 'flex-start'}}>
+          <Text style={styles.balanceText}>
+            {StringUtils.texts.YourBalanceTitle}
+          </Text>
+        </View>
+        <View style={{width: '50%', alignItems: 'flex-end'}}>
+          <Text style={styles.balanceText}>{`$${wallet.usdValue} (${
+            wallet.balance
+          } ${getSymbol(wallet.currency)})`}</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -175,5 +156,23 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
     flex: 1,
+  },
+  balance: {
+    padding: 12,
+    position: 'absolute',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '90%',
+  },
+  balanceText: {
+    fontSize: 17,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: 'black',
   },
 });

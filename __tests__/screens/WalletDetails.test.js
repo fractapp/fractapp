@@ -39,7 +39,7 @@ it('Test view with empty state', () => {
             wallet: new Wallet(
               'Wallet Polkadot',
               'address#1',
-              Currency.Polkadot,
+              Currency.DOT,
               100,
               '1000000000000',
               10,
@@ -60,7 +60,7 @@ it('Test view with txs', () => {
         id: '1',
         userId: null,
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.Sent,
         timestamp: new Date('02-12-2020').getTime(),
         value: 12,
@@ -76,7 +76,7 @@ it('Test view with txs', () => {
         id: '2',
         userId: 'userId',
         address: 'address#2DOT',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.Sent,
         timestamp: new Date('03-12-2020').getTime(),
         value: 10,
@@ -105,7 +105,7 @@ it('Test view with txs', () => {
   });
   useContext.mockReturnValueOnce({
     state: {
-      transactions: new Map([[Currency.Polkadot, txs]]),
+      transactions: new Map([[Currency.DOT, txs]]),
       isInitialized: true,
     },
     dispatch: () => null,
@@ -120,7 +120,7 @@ it('Test view with txs', () => {
             wallet: new Wallet(
               'Wallet Polkadot',
               'address#1',
-              Currency.Polkadot,
+              Currency.DOT,
               100,
               '1000000000000',
               10,
@@ -144,7 +144,7 @@ it('Test view click send', () => {
   const wallet = new Wallet(
     'Wallet Polkadot',
     'address#1',
-    Currency.Polkadot,
+    Currency.DOT,
     100,
     '1000000000000',
     10,
@@ -180,7 +180,7 @@ it('Test view click receive', () => {
   const wallet = new Wallet(
     'Wallet Polkadot',
     'address#1',
-    Currency.Polkadot,
+    Currency.DOT,
     100,
     '1000000000000',
     10,
@@ -214,7 +214,7 @@ it('Test view click txs', () => {
         id: '1',
         userId: null,
         address: 'address#1',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.Sent,
         timestamp: new Date('02-12-2020').getTime(),
         value: 12,
@@ -230,7 +230,7 @@ it('Test view click txs', () => {
         id: '2',
         userId: 'userId',
         address: 'address#2DOT',
-        currency: Currency.Polkadot,
+        currency: Currency.DOT,
         txType: TxType.Sent,
         timestamp: new Date('03-12-2020').getTime(),
         value: 10,
@@ -259,7 +259,7 @@ it('Test view click txs', () => {
   });
   useContext.mockReturnValueOnce({
     state: {
-      transactions: new Map([[Currency.Polkadot, txs]]),
+      transactions: new Map([[Currency.DOT, txs]]),
       isInitialized: true,
     },
     dispatch: () => null,
@@ -268,7 +268,7 @@ it('Test view click txs', () => {
   const wallet = new Wallet(
     'Wallet Polkadot',
     'address#1',
-    Currency.Polkadot,
+    Currency.DOT,
     100,
     '1000000000000',
     10,

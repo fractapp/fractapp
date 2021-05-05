@@ -55,7 +55,7 @@ export const PassCode = ({
             ) : (
               <Image
                 source={require('assets/img/fingerprint.png')}
-                style={{width: 40, height: 44}}
+                style={{width: 36, height: 40}}
               />
             );
             break;
@@ -66,7 +66,7 @@ export const PassCode = ({
             element = (
               <Image
                 source={require('assets/img/backspace.png')}
-                style={{width: 50, height: 35}}
+                style={{width: 40, height: 28}}
               />
             );
             break;
@@ -161,11 +161,11 @@ const styles = StyleSheet.create({
   },
   numpad: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
   },
   btnsLine: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 0,
   },
   btn: {
     alignItems: 'center',
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   btnText: {
-    fontSize: 25,
+    fontSize: 30,
     fontFamily: 'Roboto-Regular',
     color: '#888888',
   },

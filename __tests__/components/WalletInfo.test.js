@@ -11,7 +11,7 @@ it('Test Polkadot wallet', () => {
           new Wallet(
             'Wallet Polkadot',
             'address#1',
-            Currency.Polkadot,
+            Currency.DOT,
             100,
             '1000000000000',
             10,
@@ -31,7 +31,7 @@ it('Test Kusama wallet', () => {
           new Wallet(
             'Wallet Kusama',
             'address#2',
-            Currency.Kusama,
+            Currency.KSM,
             20,
             '20000000000000',
             5,

@@ -105,14 +105,6 @@ export const Settings = ({
       onClick: () => Linking.openURL('https://t.me/fractapp'),
     },
     {
-      img: require('assets/img/faq.png'),
-      title: 'FAQ',
-      onClick: () =>
-        Linking.openURL(
-          'https://medium.com/fractapp/fractapp-faq-4e76810c0564',
-        ),
-    },
-    {
       img: require('assets/img/help.png'),
       title: 'Help',
       onClick: () => Linking.openURL('mailto:support@fractapp.com'),
@@ -151,24 +143,19 @@ export const Settings = ({
         }}>
         <View style={styles.avatar}>
           <Image
-            source={
-              globalContext.state.profile.avatarExt === ''
-                ? require('assets/img/default-avatar.png')
-                : {
-                    uri: backend.getImgUrl(
-                      globalContext.state.profile.id,
-                      globalContext.state.profile.avatarExt,
-                      globalContext.state.profile.lastUpdate,
-                    ),
-                  }
-            }
+            source={{
+              uri: backend.getImgUrl(
+                globalContext.state.profile.id,
+                globalContext.state.profile.lastUpdate,
+              ),
+            }}
             style={styles.avatar}
             width={70}
             height={70}
           />
         </View>
         <View style={styles.name}>
-          {globalContext.state.profile.username !== '' ? (
+          {globalContext.state.profile.name !== '' ? (
             <Text style={[styles.nameText, {color: 'black'}]}>
               {globalContext.state.profile.name}
             </Text>
@@ -207,7 +194,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: '#DADADA',
+    borderBottomColor: '#f5f5f5',
   },
   account: {
     width: '100%',

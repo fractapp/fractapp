@@ -5,7 +5,7 @@ import {Type, DriveItem} from 'types/google';
 import {FileBackup} from 'types/backup';
 
 GoogleSignin.configure({
-  scopes: ['https://www.googleapis.com/auth/drive'],
+  scopes: ['https://www.googleapis.com/auth/drive.file'],
   offlineAccess: false,
   forceCodeForRefreshToken: true,
 });

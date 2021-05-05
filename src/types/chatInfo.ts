@@ -5,7 +5,7 @@ import {Currency} from 'types/wallet';
 
 export enum ChatType {
   AddressOnly,
-  Chat,
+  WithUser,
 }
 
 /**

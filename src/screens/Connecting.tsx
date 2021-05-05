@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components/WhiteButton';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with connecting to fractapp
@@ -13,14 +14,13 @@ export const Connecting = ({navigation}: {navigation: any}) => {
         flexDirection: 'column',
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Connecting</Text>
+      <Text style={styles.title}>{StringUtils.texts.connecting.title}</Text>
       <Text style={styles.description}>
-        Connect if you want to receive cryptocurrency by phone number, email or
-        twitter.
+        {StringUtils.texts.connecting.description}
       </Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 30}}>
         <WhiteButton
-          text={'Connect phone number'}
+          text={StringUtils.texts.connecting.phone}
           height={50}
           img={Img.Phone}
           width="90%"
@@ -28,7 +28,7 @@ export const Connecting = ({navigation}: {navigation: any}) => {
         />
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={'Connect email'}
+            text={StringUtils.texts.connecting.email}
             img={Img.Email}
             height={50}
             onPress={() => navigation.navigate('EditEmail')}

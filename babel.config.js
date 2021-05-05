@@ -33,6 +33,7 @@ module.exports = {
           utils: './src/utils',
           storage: './src/storage',
           tasks: './src/tasks',
+          adaptors: './src/adaptors',
         },
         root: ['.'],
       },

@@ -19,6 +19,7 @@ import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with editing phone number in fractapp
@@ -43,8 +44,8 @@ export const EditPhoneNumber = ({
     if (!isValidPhoneNumber('+' + number)) {
       dialogContext.dispatch(
         Dialog.open(
-          'Invalid phone number',
-          'Please validate and write number again',
+          StringUtils.texts.InvalidPhoneNumberTitle,
+          StringUtils.texts.InvalidPhoneNumberText,
           () => dialogContext.dispatch(Dialog.close()),
         ),
       );
@@ -73,7 +74,7 @@ export const EditPhoneNumber = ({
     }
 
     (async () => {
-      const local = await backend.getLocal();
+      const local = await backend.getLocalByIp();
       const numberCountryCode = getCountryCallingCode(local);
       setCountryCodeLength(numberCountryCode.length);
       setCountryCode(local);
@@ -104,7 +105,7 @@ export const EditPhoneNumber = ({
 
     if (number.length < countryCodeLength) {
       setCountryCode('');
-      setCountryName('Invalid phone number');
+      setCountryName(StringUtils.texts.edit.invalidPhoneNumber);
     }
 
     if (countryCode !== '') {
@@ -118,7 +119,7 @@ export const EditPhoneNumber = ({
       setCountryCode(info.country);
       setCountryName(en[info.country!]);
     } else {
-      setCountryName('Invalid phone number');
+      setCountryName(StringUtils.texts.edit.invalidPhoneNumber);
     }
   }, [number]);
 
@@ -128,11 +129,11 @@ export const EditPhoneNumber = ({
         testID={'selectCountryBtn'}
         style={styles.countryInput}
         onPress={() => navigation.navigate('SelectCountry')}>
-        <Text style={styles.title}>Country</Text>
+        <Text style={styles.title}>{StringUtils.texts.edit.countryTitle}</Text>
         <Text style={[styles.value, {marginTop: 6}]}>{countryName}</Text>
       </TouchableOpacity>
       <View style={styles.phoneInput}>
-        <Text style={styles.title}>Phone</Text>
+        <Text style={styles.title}>{StringUtils.texts.edit.phoneTitle}</Text>
         <View
           style={{
             flexDirection: 'row',

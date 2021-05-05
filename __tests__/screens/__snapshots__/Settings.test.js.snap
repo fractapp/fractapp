@@ -45,7 +45,7 @@ exports[`Test view (disable passcode) 1`] = `
         height={70}
         source={
           Object {
-            "testUri": "../../../assets/img/default-avatar.png",
+            "uri": "uri",
           }
         }
         style={
@@ -789,7 +789,7 @@ exports[`Test view (enable passcode) 1`] = `
         height={70}
         source={
           Object {
-            "testUri": "../../../assets/img/default-avatar.png",
+            "uri": "uri",
           }
         }
         style={

@@ -105,14 +105,6 @@ export const Settings = ({
       onClick: () => Linking.openURL('https://t.me/fractapp'),
     },
     {
-      img: require('assets/img/faq.png'),
-      title: 'FAQ',
-      onClick: () =>
-        Linking.openURL(
-          'https://medium.com/fractapp/fractapp-faq-4e76810c0564',
-        ),
-    },
-    {
       img: require('assets/img/help.png'),
       title: 'Help',
       onClick: () => Linking.openURL('mailto:support@fractapp.com'),

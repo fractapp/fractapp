@@ -11,7 +11,6 @@ import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
 import {Adaptors} from 'adaptors/adaptor';
 import math from 'utils/math';
-import {UserProfile} from 'types/profile';
 
 /**
  * @namespace
@@ -211,7 +210,9 @@ namespace Task {
   export async function checkPendingTxs(chatsContext: ChatsStore.ContextType) {
     for (let [currency, value] of chatsContext.state.pendingTransactions) {
       for (let i = 0; i < value.idsOfTransactions.length; i++) {
-        const status = await backend.getTxStatus(value.idsOfTransactions[i]);
+        const hash = value.idsOfTransactions[i].split('-')[0];
+        const status = await backend.getTxStatus(hash);
+
         if (status == null || status === TxStatus.Pending) {
           continue;
         }
@@ -221,7 +222,6 @@ namespace Task {
           ?.transactionById.get(value.idsOfTransactions[i])!;
 
         tx.status = status;
-
         chatsContext.dispatch(
           ChatsStore.confirmPendingTx(tx.id, tx.status, tx.currency, i),
         );

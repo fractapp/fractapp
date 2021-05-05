@@ -10,7 +10,6 @@ export {Settings} from './Settings';
 export {ConfirmSaveSeed} from './ConfirmSaveSeed';
 export {ImportSeed} from './ImportSeed';
 export {WalletFileImport} from './WalletFileImport';
-export {GoogleDrivePicker} from './GoogleDrivePicker';
 export {Receive} from './Receive';
 export {TransactionDetails} from './TransactionDetails';
 export {SplashScreen} from './SplashScreen';

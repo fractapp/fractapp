@@ -4,6 +4,7 @@ import {WhiteButton, Img} from 'components/WhiteButton';
 import {mnemonicGenerate} from '@polkadot/util-crypto';
 import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
+import StringUtils from 'utils/string';
 
 /**
  * Save wallet screen
@@ -11,26 +12,7 @@ import Backup from 'utils/backup';
  */
 export const SaveWallet = ({navigation}: {navigation: any}) => {
   const seed = mnemonicGenerate().split(' ');
-  const dialogContext = useContext(Dialog.Context);
 
-  const backupFile = async () => {
-    await Backup.checkPermissions(
-      () =>
-        navigation.navigate('WalletFileBackup', {
-          seed: seed,
-          type: Backup.BackupType.File,
-          isNewAccount: true,
-        }),
-      () =>
-        dialogContext.dispatch(
-          Dialog.open(
-            'Open settings',
-            'If you want to save a file then open the application settings and give it access to the storage.',
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        ),
-    );
-  };
   const backupGoogleDrive = async () => {
     await Backup.backupGoogleDrive(() =>
       navigation.navigate('WalletFileBackup', {
@@ -48,15 +30,14 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Save a wallet</Text>
+      <Text style={styles.title}>{StringUtils.texts.saveWallet.title}</Text>
       <Text style={styles.description}>
-        Save your wallet keys in a safe place. If you lose your wallet keys, you
-        cannot restore access to it. Do not share this with anyone.
+        {StringUtils.texts.saveWallet.description}
       </Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 30}}>
         <View style={{width: '90%'}}>
           <WhiteButton
-            text={'On Google Drive'}
+            text={StringUtils.texts.saveWallet.googleDriveTitle}
             img={Img.GoogleDrive}
             height={50}
             onPress={backupGoogleDrive}
@@ -64,15 +45,7 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         </View>
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={'To encrypted file'}
-            img={Img.File}
-            height={50}
-            onPress={backupFile}
-          />
-        </View>
-        <View style={{marginTop: 20, width: '90%'}}>
-          <WhiteButton
-            text={'Back up manually'}
+            text={StringUtils.texts.saveWallet.manuallyTitle}
             height={50}
             img={Img.Copy}
             onPress={() =>

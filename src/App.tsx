@@ -9,7 +9,6 @@ import {
   StatusBar,
   View,
   Text,
-  NativeModules,
 } from 'react-native';
 import {Dialog} from 'components/Dialog';
 import {PassCode} from 'components/PassCode';
@@ -30,6 +29,7 @@ import PricesStore from 'storage/Prices';
 import ChatsStore from 'storage/Chats';
 import {Loader} from 'components/Loader';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 export default function App() {
   const globalContext = useContext(GlobalStore.Context);
@@ -66,7 +66,7 @@ export default function App() {
       setLocked(false);
     } else {
       showMessage({
-        message: 'Incorrect passcode',
+        message: StringUtils.texts.showMsg.incorrectPasscode,
         type: 'danger',
         icon: 'warning',
       });
@@ -160,7 +160,7 @@ export default function App() {
     }
 
     backend.myProfile().then(([code, profile]) => {
-      console.log('update profile: ' + profile.lastUpdate);
+      console.log('update profile: ' + profile?.lastUpdate);
       if (code === 401) {
         globalContext.dispatch(GlobalStore.signOutFractapp());
       } else if (code === 200) {
@@ -174,22 +174,36 @@ export default function App() {
     accountsContext.state.isInitialized,
     chatsContext.state.isInitialized,
   ]);
+
+  useEffect(() => {
+    if (netInfo.isConnected !== isConnected) {
+      setConnected(netInfo.isConnected);
+    }
+  }, [netInfo.isConnected]);
+
   useEffect(() => {
     if (!globalContext.state.isInitialized) {
       return;
     }
 
-    if (netInfo.isConnected && !isConnected) {
+    if (isConnected) {
       showMessage({
-        message: 'Connection restored',
+        message: StringUtils.texts.showMsg.connectionRestored,
         type: 'success',
         icon: 'success',
         position: 'top',
       });
     }
-    if (!netInfo.isConnected) {
+  }, [isConnected]);
+
+  useEffect(() => {
+    if (!globalContext.state.isInitialized) {
+      return;
+    }
+
+    if (!isConnected) {
       showMessage({
-        message: 'Invalid connection',
+        message: StringUtils.texts.showMsg.invalidConnection,
         type: 'danger',
         icon: 'danger',
         hideOnPress: false,
@@ -197,9 +211,7 @@ export default function App() {
         position: 'top',
       });
     }
-
-    setConnected(netInfo.isConnected);
-  }, [netInfo.isConnected]);
+  }, [isConnected, globalContext.state.isInitialized]);
 
   if (isLoading) {
     return (
@@ -233,7 +245,7 @@ export default function App() {
       {isLocked ? (
         <PassCode
           isBiometry={isBiometry}
-          description={'Enter passcode'}
+          description={StringUtils.texts.passCode.verifyDescription}
           onSubmit={onSubmitPasscode}
         />
       ) : (
@@ -262,34 +274,36 @@ export default function App() {
           <Loader />
         </View>
       )}
-      {globalContext.state.isSyncShow && globalContext.state.authInfo.isAuthed && (
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 70,
-            alignSelf: 'center',
-            backgroundColor: '#2AB2E2',
-            flexDirection: 'row',
-            padding: 5,
-            paddingRight: 12,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 20,
-          }}>
-          <ActivityIndicator testID="loader" size={30} color="white" />
-          <Text
+      {!isLocked &&
+        globalContext.state.isSyncShow &&
+        globalContext.state.authInfo.isAuthed && (
+          <View
             style={{
-              marginLeft: 4,
-              fontSize: 15,
-              color: 'white',
-              fontFamily: 'Roboto-Regular',
-              fontStyle: 'normal',
-              fontWeight: 'normal',
+              position: 'absolute',
+              bottom: 70,
+              alignSelf: 'center',
+              backgroundColor: '#2AB2E2',
+              flexDirection: 'row',
+              padding: 5,
+              paddingRight: 12,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 20,
             }}>
-            Synchronization
-          </Text>
-        </View>
-      )}
+            <ActivityIndicator testID="loader" size={30} color="white" />
+            <Text
+              style={{
+                marginLeft: 4,
+                fontSize: 15,
+                color: 'white',
+                fontFamily: 'Roboto-Regular',
+                fontStyle: 'normal',
+                fontWeight: 'normal',
+              }}>
+              {StringUtils.texts.SynchronizationTitle}
+            </Text>
+          </View>
+        )}
     </View>
   );
 }

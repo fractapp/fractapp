@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Keyboard} from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
 import {getSymbol, Wallet} from 'types/wallet';
 import BN from 'bn.js';
+import Dialog from 'storage/Dialog';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with the input of the amount to be sent
@@ -16,6 +18,8 @@ export const EnterAmount = ({
   navigation: any;
   route: any;
 }) => {
+  const dialogContext = useContext(Dialog.Context);
+
   const defaultValue = route.params?.value ?? '';
 
   const wallet: Wallet = route.params.wallet;
@@ -31,9 +35,9 @@ export const EnterAmount = ({
   const [planksValue, setPlanksValue] = useState<string>('');
   const [planksFee, setPlanksFee] = useState<string>('');
   const [isValid, setValid] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  console.log(isKeyboardVisible);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -56,6 +60,15 @@ export const EnterAmount = ({
   }, []);
 
   const onSuccess = async () => {
+    if (isLoading) {
+      dialogContext.dispatch(
+        Dialog.open(StringUtils.texts.WaitLoadingTitle, '', () =>
+          dialogContext.dispatch(Dialog.close()),
+        ),
+      );
+      return;
+    }
+
     navigation.navigate('Send', {
       isUSDMode: isUSDMode,
       value: value,
@@ -102,6 +115,7 @@ export const EnterAmount = ({
         receiver={receiver}
         usdMode={isUSDMode}
         onChangeValues={onChangeValues}
+        onSetLoading={(isLoading: boolean) => setLoading(isLoading)}
         defaultValue={defaultValue}
       />
       <View
@@ -123,7 +137,9 @@ export const EnterAmount = ({
               },
         ]}>
         <View style={{width: '50%', alignItems: 'flex-start'}}>
-          <Text style={styles.balanceText}>Your balance</Text>
+          <Text style={styles.balanceText}>
+            {StringUtils.texts.YourBalanceTitle}
+          </Text>
         </View>
         <View style={{width: '50%', alignItems: 'flex-end'}}>
           <Text style={styles.balanceText}>{`$${wallet.usdValue} (${

@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Currency} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 /**
  * Bar with currency share in wallets
@@ -70,10 +71,12 @@ export const StatisticsBar = ({
     <View style={styles.statistics}>
       <View style={styles.titleBox}>
         <View style={styles.titleBoxElement}>
-          <Text style={[styles.title, {textAlign: 'left'}]}>Total</Text>
+          <Text style={[styles.title, {textAlign: 'left'}]}>
+            {StringUtils.texts.TotalTitle}
+          </Text>
         </View>
         <View style={styles.titleBoxElement}>
-          <Text style={[styles.title, {textAlign: 'right'}]}>{total}$</Text>
+          <Text style={[styles.title, {textAlign: 'right'}]}>${total}</Text>
         </View>
         {renderDistribution()}
       </View>

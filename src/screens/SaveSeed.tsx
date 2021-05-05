@@ -1,16 +1,10 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  NativeModules,
-  BackHandler,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Text, NativeModules, Image} from 'react-native';
 import {SeedButton} from 'components/SeedButton';
 import {BlueButton} from 'components/BlueButton';
 import {showMessage} from 'react-native-flash-message';
 import Clipboard from '@react-native-community/clipboard';
+import StringUtils from 'utils/string';
 
 /**
  * Save seed screen
@@ -54,9 +48,9 @@ export const SaveSeed = ({
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Your secret phrase</Text>
+      <Text style={styles.title}>{StringUtils.texts.saveSeed.title}</Text>
       <Text style={styles.description}>
-        Write these 12 word down, or copy them to your password manager.
+        {StringUtils.texts.saveSeed.description}
       </Text>
       <View style={styles.seed}>{seedBtns}</View>
 
@@ -65,7 +59,7 @@ export const SaveSeed = ({
         onPress={() => {
           Clipboard.setString(seed.join(' '));
           showMessage({
-            message: 'Copied to Clipboard',
+            message: StringUtils.texts.showMsg.copiedToClipboard,
             type: 'info',
             icon: 'info',
           });
@@ -75,7 +69,7 @@ export const SaveSeed = ({
 
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
         <BlueButton
-          text={'Next'}
+          text={StringUtils.texts.NextBtnTitle}
           height={50}
           onPress={() =>
             navigation.navigate('ConfirmSaveSeed', {
@@ -94,10 +88,8 @@ export const SaveSeed = ({
             height: 35,
           }}
         />
-        <Text style={styles.infoMsg}>
-          These 12 words are the keys to your wallet. Back up in a safe place.
-          Do not share this with anyone.
-        </Text>
+        <Text style={styles.infoMsg} />
+        {StringUtils.texts.saveSeed.info}
       </View>
     </View>
   );

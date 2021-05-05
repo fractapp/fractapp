@@ -226,7 +226,8 @@ namespace ChatsStore {
 
         let newPTxs = copy.pendingTransactions.get(currency)
           ?.idsOfTransactions!;
-        newPTxs = newPTxs.splice(index, 1);
+
+        newPTxs.splice(index, 1);
         copy.pendingTransactions.set(currency, {
           idsOfTransactions: newPTxs,
         });

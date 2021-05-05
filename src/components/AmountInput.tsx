@@ -14,6 +14,7 @@ import {Adaptors} from 'adaptors/adaptor';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import math from 'utils/math';
+import StringUtils from 'utils/string';
 
 /**
  * Text input for amount
@@ -24,6 +25,7 @@ export const AmountInput = ({
   receiver,
   usdMode,
   onChangeValues,
+  onSetLoading,
   defaultValue,
   width = '100%',
 }: {
@@ -40,6 +42,7 @@ export const AmountInput = ({
     usdMode: boolean,
     isValid: boolean,
   ) => void;
+  onSetLoading: (isLoading: boolean) => void;
   defaultValue: string;
   width?: string;
 }) => {
@@ -97,6 +100,7 @@ export const AmountInput = ({
       );
       setPlanksValue(p);
 
+      onSetLoading(true);
       setFeeLoading(true);
     } else {
       const p = new BN(math.convertToPlanck(text, api.decimals));
@@ -109,6 +113,7 @@ export const AmountInput = ({
       );
       setUSDValue(usd);
 
+      onSetLoading(true);
       setFeeLoading(true);
     }
   };
@@ -121,9 +126,11 @@ export const AmountInput = ({
     setUSDValue(0);
 
     setAlternativeValue(0);
-    setFeeLoading(false);
     setUsdFee(0);
     setPlanksFee(new BN(0));
+
+    onSetLoading(false);
+    setFeeLoading(false);
 
     onChangeValues('', 0, 0, new BN(0), new BN(0), 0, isUSDMode, isValid);
   };
@@ -145,7 +152,7 @@ export const AmountInput = ({
     }
 
     if (new BN(wallet.planks).cmp(planksValue.add(planksFee)) < 0) {
-      resetValues(false, 'Not enough balance');
+      resetValues(false, StringUtils.texts.NotEnoughBalanceErr);
       return false;
     }
 
@@ -218,7 +225,9 @@ export const AmountInput = ({
       setValid(true);
       setErrorText('');
 
+      onSetLoading(false);
       setFeeLoading(false);
+
       onChangeValues(
         value,
         usdValue,
@@ -293,7 +302,9 @@ export const AmountInput = ({
           top: 8,
         }}
         onPress={async () => {
+          onSetLoading(true);
           setFeeLoading(true);
+
           let v = new BN(wallet.planks);
 
           setValue(
@@ -322,7 +333,9 @@ export const AmountInput = ({
           <>
             <View style={{width: '50%', alignItems: 'flex-start'}}>
               {usdFee !== 0 && (
-                <Text style={[styles.subValue]}>Fee ${usdFee}</Text>
+                <Text style={[styles.subValue]}>
+                  {StringUtils.texts.FeeTitle} ${usdFee}
+                </Text>
               )}
             </View>
             <View style={{width: '50%', alignItems: 'flex-end'}}>

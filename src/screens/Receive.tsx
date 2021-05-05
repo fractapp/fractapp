@@ -6,6 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import QRCode from 'react-native-qrcode-svg';
 import Share from 'react-native-share';
 import {showMessage} from 'react-native-flash-message';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with receiver information and qr code
@@ -23,7 +24,9 @@ export const Receive = ({route}: {route: any}) => {
             source={require('assets/img/logo.png')}
             style={{width: 30, height: 30, marginRight: 10}}
           />
-          <Text style={styles.titleText}>Fractapp Wallet</Text>
+          <Text style={styles.titleText}>
+            {StringUtils.texts.FractappWalletTitle}
+          </Text>
         </View>
         <QRCode value={address} size={250} />
         <Text style={styles.address}>{address}</Text>
@@ -35,7 +38,7 @@ export const Receive = ({route}: {route: any}) => {
             onPress={() => {
               Clipboard.setString(address);
               showMessage({
-                message: 'Address copied',
+                message: StringUtils.texts.showMsg.addressCopied,
                 type: 'info',
                 icon: 'info',
               });
@@ -48,14 +51,14 @@ export const Receive = ({route}: {route: any}) => {
               color="white"
             />
           </TouchableHighlight>
-          <Text style={styles.btnText}>Copy</Text>
+          <Text style={styles.btnText}>{StringUtils.texts.CopyBtn}</Text>
         </View>
         <View style={{marginLeft: 30}}>
           <TouchableHighlight
             testID="shareBtn"
             onPress={() =>
               Share.open({
-                url: `My address for ${getSymbol(currency)}: ${address}`,
+                url: StringUtils.texts.MyAddressForText(currency, address),
                 type: 'text/plain',
               })
             }
@@ -67,7 +70,7 @@ export const Receive = ({route}: {route: any}) => {
               color="white"
             />
           </TouchableHighlight>
-          <Text style={styles.btnText}>Share</Text>
+          <Text style={styles.btnText}>{StringUtils.texts.ShareBtn}</Text>
         </View>
       </View>
     </View>

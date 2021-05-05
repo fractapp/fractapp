@@ -4,6 +4,7 @@ import {SuccessButton} from 'components/SuccessButton';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with editing username in fractapp
@@ -39,15 +40,17 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
     ) {
       if (!(await backend.isUsernameFree(username))) {
         dialogContext.dispatch(
-          Dialog.open('Username is exist', 'Please write new username', () =>
-            dialogContext.dispatch(Dialog.close()),
+          Dialog.open(
+            StringUtils.texts.UsernameIsExistTitle,
+            StringUtils.texts.UsernameIsExistText,
+            () => dialogContext.dispatch(Dialog.close()),
           ),
         );
       } else {
         dialogContext.dispatch(
           Dialog.open(
-            'Invalid username',
-            'Please validate and write username again',
+            StringUtils.texts.InvalidUsernameTitle,
+            StringUtils.texts.InvalidUsernameText,
             () => dialogContext.dispatch(Dialog.close()),
           ),
         );
@@ -117,7 +120,7 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
             onChangeText={(text) => {
               setUsername(text);
             }}
-            placeholder={'Enter username'}
+            placeholder={StringUtils.texts.edit.username}
             keyboardType={'default'}
             placeholderTextColor={'#BFBDBD'}
             autoCompleteType={'username'}

@@ -8,49 +8,14 @@ import Backup from 'utils/backup';
 import Global from 'storage/Global';
 import GlobalStore from 'storage/Global';
 import {showMessage} from 'react-native-flash-message';
+import StringUtils from 'utils/string';
 
 /**
  * Import wallet screen
  * @category Screens
  */
 export const ImportWallet = ({navigation}: {navigation: any}) => {
-  const dialogContext = useContext(Dialog.Context);
   const globalContext = useContext(Global.Context);
-
-  const openFilePicker = async () => {
-    await backup.checkPermissions(
-      async () => {
-        globalContext.dispatch(GlobalStore.setLoading(true));
-        let wallets = await backup.getWallets();
-
-        if (wallets.length === 0) {
-          showMessage({
-            message: 'Wallet not found',
-            type: 'danger',
-            icon: 'danger',
-          });
-          globalContext.dispatch(GlobalStore.setLoading(false));
-        } else if (wallets.length === 1) {
-          navigation.navigate('WalletFileImport', {
-            file: await backup.getFile(wallets[0]),
-          });
-        } else {
-          navigation.navigate('ChooseImportWallet', {
-            wallets: wallets,
-            type: Backup.BackupType.File,
-          });
-        }
-      },
-      () =>
-        dialogContext.dispatch(
-          Dialog.open(
-            'Open settings',
-            'If you want to import a file then open the application settings and give it access to the storage.',
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        ),
-    );
-  };
 
   const openFileGoogleDrivePicker = async () => {
     await googleUtil.signOut();
@@ -77,7 +42,7 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
 
     if (wallets.length === 0) {
       showMessage({
-        message: 'Wallet not found',
+        message: StringUtils.texts.showMsg.walletNotFound,
         type: 'danger',
         icon: 'danger',
       });
@@ -106,7 +71,7 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>
         <View style={{width: '90%'}}>
           <WhiteButton
-            text={'From Google Drive'}
+            text={StringUtils.texts.importWallet.googleDriveTitle}
             img={Img.GoogleDrive}
             height={50}
             onPress={() => openFileGoogleDrivePicker()}
@@ -114,15 +79,7 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
         </View>
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={'With encrypted file'}
-            img={Img.File}
-            height={50}
-            onPress={() => openFilePicker()}
-          />
-        </View>
-        <View style={{marginTop: 20, width: '90%'}}>
-          <WhiteButton
-            text={'With recovery phrase'}
+            text={StringUtils.texts.importWallet.manuallyTitle}
             height={50}
             img={Img.Key}
             onPress={() => navigation.navigate('ImportSeed')}

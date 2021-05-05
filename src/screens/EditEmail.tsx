@@ -4,6 +4,7 @@ import {SuccessButton} from 'components/SuccessButton';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with editing email in fractapp
@@ -18,8 +19,8 @@ export const EditEmail = ({navigation}: {navigation: any}) => {
     if (!EmailValidator.validate(email)) {
       dialogContext.dispatch(
         Dialog.open(
-          'Invalid email',
-          'Please validate and write email again',
+          StringUtils.texts.InvalidEmailTitle,
+          StringUtils.texts.InvalidEmailText,
           () => dialogContext.dispatch(Dialog.close()),
         ),
       );
@@ -70,7 +71,7 @@ export const EditEmail = ({navigation}: {navigation: any}) => {
             onChangeText={(text) => {
               setEmail(text);
             }}
-            placeholder={'Enter email'}
+            placeholder={StringUtils.texts.edit.email}
             keyboardType={'email-address'}
             placeholderTextColor={'#BFBDBD'}
             autoCompleteType={'email'}

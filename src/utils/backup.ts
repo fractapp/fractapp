@@ -47,8 +47,9 @@ namespace Backup {
   }
 
   export function randomFilename(): string {
-    return 'fractapp-' + randomAsHex(6).toLowerCase();
+    return randomAsHex(6).toLowerCase();
   }
+
   /**
    * backup file to phone drive or google
    */

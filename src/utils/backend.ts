@@ -59,11 +59,7 @@ namespace BackendApi {
     let key = new Keyring({type: 'sr25519'}).addFromUri(seed);
     let ok = true;
     for (let account of accounts) {
-      const accountInfo = await DB.getAccountInfo(account);
-
-      if (accountInfo == null) {
-        continue;
-      }
+      const accountInfo = (await DB.getAccountInfo(account))!;
 
       const time = Math.round(new Date().getTime() / 1000);
       const msg = signTokenMsg + token + time;
@@ -76,6 +72,7 @@ namespace BackendApi {
           network = Network.Kusama;
           break;
       }
+
       const response = await fetch(`${apiUrl}/notification/subscribe`, {
         method: 'POST',
         headers: {
@@ -90,6 +87,8 @@ namespace BackendApi {
           timestamp: time,
         }),
       });
+
+      console.log(response.text());
 
       if (!response.ok) {
         ok = response.ok;
@@ -301,7 +300,11 @@ namespace BackendApi {
   }
 
   export async function search(value: string): Promise<Array<UserProfile>> {
-    value = value.toLowerCase();
+    value = value.toLowerCase().trim();
+    if (value.startsWith('@')) {
+      value = value.substring(1);
+    }
+
     if (value.length < 4) {
       return [];
     }

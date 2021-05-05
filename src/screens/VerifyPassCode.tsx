@@ -5,6 +5,7 @@ import DB from 'storage/DB';
 import PasscodeUtil from 'utils/passcode';
 import GlobalStore from 'storage/Global';
 import {CommonActions} from '@react-navigation/native';
+import StringUtils from 'utils/string';
 
 /**
  * Passcode verification screen
@@ -67,7 +68,7 @@ export const VerifyPassCode = ({
       globalContext.dispatch(GlobalStore.setLoading(false));
 
       showMessage({
-        message: 'Incorrect passcode',
+        message: StringUtils.texts.showMsg.incorrectPasscode,
         type: 'danger',
         icon: 'warning',
       });
@@ -77,7 +78,7 @@ export const VerifyPassCode = ({
   return (
     <PassCode
       isBiometry={globalContext.state.authInfo.isBiometry}
-      description={'Enter passcode'}
+      description={StringUtils.texts.passCode.verifyDescription}
       onSubmit={onSubmit}
     />
   );

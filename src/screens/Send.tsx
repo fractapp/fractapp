@@ -18,6 +18,7 @@ import {Adaptors} from 'adaptors/adaptor';
 import {UserProfile} from 'types/profile';
 import math from 'utils/math';
 import {Transaction, TxType, TxStatus} from 'types/transaction';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with sending funds
@@ -69,18 +70,26 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
           if (p === undefined) {
             globalContext.dispatch(GlobalStore.setLoading(false));
             dialogContext.dispatch(
-              DialogStore.open('User has been deleted', '', () => {
-                dialogContext.dispatch(DialogStore.close());
-              }),
+              DialogStore.open(
+                StringUtils.texts.UserHasBeenDeletedTitle,
+                '',
+                () => {
+                  dialogContext.dispatch(DialogStore.close());
+                },
+              ),
             );
             navigation.goBack();
             return;
           } else if (p == null) {
             globalContext.dispatch(GlobalStore.setLoading(false));
             dialogContext.dispatch(
-              DialogStore.open('Service unavailable', '', () => {
-                dialogContext.dispatch(DialogStore.close());
-              }),
+              DialogStore.open(
+                StringUtils.texts.ServiceUnavailableTitle,
+                '',
+                () => {
+                  dialogContext.dispatch(DialogStore.close());
+                },
+              ),
             );
             navigation.goBack();
             return;
@@ -102,9 +111,13 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
         console.log('Err: ' + e);
         globalContext.dispatch(GlobalStore.setLoading(false));
         dialogContext.dispatch(
-          DialogStore.open('Service unavailable', '', () => {
-            dialogContext.dispatch(DialogStore.close());
-          }),
+          DialogStore.open(
+            StringUtils.texts.ServiceUnavailableTitle,
+            '',
+            () => {
+              dialogContext.dispatch(DialogStore.close());
+            },
+          ),
         );
         navigation.goBack();
       });
@@ -124,7 +137,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
     if (!isValidReceiver) {
       dialogContext.dispatch(
-        DialogStore.open('Please enter a valid address first', '', () =>
+        DialogStore.open(StringUtils.texts.EnterValidAddressErr, '', () =>
           dialogContext.dispatch(DialogStore.close()),
         ),
       );
@@ -241,7 +254,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             !isValidReceiver
               ? dialogContext.dispatch(
                   DialogStore.open(
-                    'Please enter a valid address first',
+                    StringUtils.texts.EnterValidAddressErr,
                     '',
                     () => dialogContext.dispatch(DialogStore.close()),
                   ),
@@ -261,7 +274,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       <View style={{width: '85%', marginTop: 60}}>
         <BlueButton
           text={
-            'Send' +
+            StringUtils.texts.SendText +
             (totalUsd > 0
               ? ` $${totalUsd} (${math.convertFromPlanckToViewDecimals(
                   totalCurrency,

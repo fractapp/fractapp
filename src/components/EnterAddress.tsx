@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Currency} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
+import StringUtils from 'utils/string';
 
 /**
  * Input for address
@@ -46,7 +47,7 @@ export const EnterAddress = ({
               onChangeText={onChangeText}
               onEndEditing={onOk}
               style={[styles.accountName, {borderColor: getBorderColor()}]}
-              placeholder={'Enter address'}
+              placeholder={StringUtils.texts.EnterAddressTitle}
             />
           </View>
         </View>

@@ -15,7 +15,6 @@ import {
   WalletDetails,
   ImportSeed,
   WalletFileImport,
-  GoogleDrivePicker,
   NewPassCode,
   Receive,
   TransactionDetails,
@@ -114,7 +113,6 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('SaveWallet', SaveWallet)}
         {getEmptyRouter('ImportSeed', ImportSeed)}
         {getEmptyRouter('WalletFileImport', WalletFileImport)}
-        {getEmptyRouter('GoogleDrivePicker', GoogleDrivePicker)}
         {getEmptyRouter('Legal', Legal)}
         {getEmptyRouter('ChooseImportWallet', ChooseImportWallet)}
       </>

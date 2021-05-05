@@ -7,6 +7,7 @@ import {Network} from 'types/account';
 import math from 'utils/math';
 import {Currency, getSymbol} from 'types/wallet';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 export class SubstrateAdaptor implements IAdaptor {
   public readonly viewDecimals: number;
@@ -74,8 +75,10 @@ export class SubstrateAdaptor implements IAdaptor {
 
     const substrateApi = await this.getSubstrateApi();
     const tx = await substrateApi.tx.balances.transfer(receiver, value);
-
-    return (await tx.signAndSend(key)).toHex();
+    const hash = await tx.signAndSend(key);
+    return `${hash.toHex()}-${tx.signer.toString()}-${tx.nonce
+      .toBn()
+      .toString()}`;
   }
 
   public async isValidTransfer(
@@ -89,12 +92,14 @@ export class SubstrateAdaptor implements IAdaptor {
       return {
         isOk: false,
         errorCode: ErrorCode.MinBalance,
-        errorTitle: 'Minimum transfer',
-        errorMsg: `The minimum transfer for this recipient is ${math.convertFromPlanckToViewDecimals(
-          this.minTransfer,
-          this.decimals,
-          this.viewDecimals,
-        )} ${getSymbol(this.currency)}`,
+        errorTitle: StringUtils.texts.MinimumTransferErrorTitle,
+        errorMsg:
+          StringUtils.texts.MinimumTransferErrorText +
+          ` ${math.convertFromPlanckToViewDecimals(
+            this.minTransfer,
+            this.decimals,
+            this.viewDecimals,
+          )} ${getSymbol(this.currency)}`,
       };
     }
 
@@ -113,19 +118,20 @@ export class SubstrateAdaptor implements IAdaptor {
       balanceAfterBalance.cmp(this.minTransfer) < 0 &&
       balanceAfterBalance.cmp(new BN(0)) !== 0
     ) {
-      //TODO: refactoring error text
       const v = math.convertFromPlanckToString(value.sub(fee), this.decimals);
       return {
         isOk: false,
         errorCode: ErrorCode.NeedFullBalance,
-        errorTitle: 'Amount',
-        errorMsg: `After the transfer, more than ${math.convertFromPlanckToViewDecimals(
-          this.minTransfer,
-          this.decimals,
-          this.viewDecimals,
-        )} ${getSymbol(
+        errorTitle: StringUtils.texts.NeedFullBalanceErrTitle,
+        errorMsg: StringUtils.texts.NeedFullBalanceErrText(
+          math.convertFromPlanckToViewDecimals(
+            this.minTransfer,
+            this.decimals,
+            this.viewDecimals,
+          ),
+          v,
           this.currency,
-        )} should remain on the balance or transfer the entire remaining balance. Valid amount: ${v}`,
+        ),
       };
     }
 

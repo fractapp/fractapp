@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import {Currency, getSymbol} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 /**
  * View with amount value
@@ -55,7 +56,9 @@ export const AmountValue = ({
             },
           ]}
           editable={false}
-          value={value === '' ? 'Enter amount' : String(value)}
+          value={
+            value === '' ? StringUtils.texts.EnterAmountTitle : String(value)
+          }
           keyboardType={'decimal-pad'}
         />
         <Text style={styles.valueCurrency}>
@@ -66,7 +69,12 @@ export const AmountValue = ({
       <View style={[styles.line, {width: width}]} />
       <View style={{flexDirection: 'row', width: width}}>
         <View style={{width: '50%', alignItems: 'flex-start'}}>
-          {fee !== 0 && <Text style={[styles.subValue]}>Fee ${fee}</Text>}
+          {fee !== 0 && (
+            <Text
+              style={[
+                styles.subValue,
+              ]}>{`${StringUtils.texts.FeeTitle} $${fee}`}</Text>
+          )}
         </View>
         <View style={{width: '50%', alignItems: 'flex-end'}}>
           {alternativeValue !== 0 && (

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,40 +6,18 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  NativeModules,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
 import db from 'storage/DB';
+import StringUtils from 'utils/string';
 
 /**
  * Backup screen
  * @category Screens
  */
 export const Backup = ({navigation}: {navigation: any}) => {
-  const dialogContext = useContext(Dialog.Context);
-
-  const backupFile = async () => {
-    const seed = await db.getSeed();
-    await BackupUtils.checkPermissions(
-      () =>
-        navigation.navigate('WalletFileBackup', {
-          seed: seed?.split(' '),
-          type: BackupUtils.BackupType.File,
-          isNewAccount: false,
-        }),
-      () =>
-        dialogContext.dispatch(
-          Dialog.open(
-            'Open settings',
-            'If you want to save a file then open the application settings and give it access to the storage.',
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
-        ),
-    );
-  };
   const backupGoogleDrive = async () => {
     const seed = await db.getSeed();
     await BackupUtils.backupGoogleDrive(() =>
@@ -66,19 +44,14 @@ export const Backup = ({navigation}: {navigation: any}) => {
           style={{width: 32, height: 32}}
         />
       ),
-      title: 'On Google Drive',
+      title: StringUtils.texts.backup.googleDriveTitle,
       onClick: () => backupGoogleDrive(),
-    },
-    {
-      img: <MaterialIcons name="folder-open" size={32} color="#888888" />,
-      title: 'To encrypted file',
-      onClick: () => backupFile(),
     },
     {
       img: (
         <MaterialCommunityIcons name="content-copy" size={32} color="#888888" />
       ),
-      title: 'Back up manually',
+      title: StringUtils.texts.backup.manuallyTitle,
       onClick: () => backupSeed(),
     },
   ];
@@ -91,10 +64,7 @@ export const Backup = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.box}>
-      <Text style={styles.description}>
-        Save your wallet in a safe place. If you lose your wallet, you cannot
-        restore access to it.
-      </Text>
+      <Text style={styles.description}>{StringUtils.texts.backup.title}</Text>
       <FlatList
         style={styles.menu}
         ItemSeparatorComponent={() => <View style={styles.dividingLine} />}
@@ -117,7 +87,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: '#DADADA',
+    borderBottomColor: '#f5f5f5',
   },
   description: {
     width: '90%',

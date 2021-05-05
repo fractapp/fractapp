@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components/PassCode';
 import GlobalStore from 'storage/Global';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with entering new passcode
@@ -11,12 +12,14 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
   const globalContext = useContext(GlobalStore.Context);
 
   const [newPasscode, setNewPasscode] = useState<Array<number>>(new Array());
-  const [description, setDescription] = useState<string>('Enter new passcode');
+  const [description, setDescription] = useState<string>(
+    StringUtils.texts.passCode.newCodeDescription,
+  );
 
   const onSubmit = async (passcode: Array<number>) => {
     if (newPasscode.length === 0) {
       setNewPasscode(passcode);
-      setDescription('Confirm new passcode');
+      setDescription(StringUtils.texts.passCode.confirmNewCodeDescription);
     } else {
       let isEquals = true;
       for (let i = 0; i < passcode.length; i++) {
@@ -31,7 +34,7 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
         navigation.goBack();
       } else {
         showMessage({
-          message: 'Passcode not equals',
+          message: StringUtils.texts.showMsg.passcodeNotEquals,
           type: 'danger',
           icon: 'warning',
         });

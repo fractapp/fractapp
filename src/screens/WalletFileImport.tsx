@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, Alert, NativeModules} from 'react-native';
+import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {PasswordInput} from 'components/PasswordInput';
 import {Loader} from 'components/Loader';
@@ -7,6 +7,8 @@ import DB from 'storage/DB';
 import backupUtil from 'utils/backup';
 import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
+import Dialog from 'storage/Dialog';
+import StringUtils from 'utils/string';
 
 /**
  * Wallet file import screen
@@ -14,6 +16,7 @@ import GlobalStore from 'storage/Global';
  */
 export const WalletFileImport = ({route}: {route: any}) => {
   const globalContext = useContext(GlobalStore.Context);
+  const dialogContext = useContext(Dialog.Context);
 
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -47,7 +50,13 @@ export const WalletFileImport = ({route}: {route: any}) => {
       try {
         seed = await backupUtil.getSeed(file, password);
       } catch (e) {
-        Alert.alert('Invalid password');
+        dialogContext.dispatch(
+          Dialog.open(
+            StringUtils.texts.walletFileImport.invalidPasswordTitle,
+            '',
+            () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
         setLoading(false);
         return;
       }
@@ -68,20 +77,26 @@ export const WalletFileImport = ({route}: {route: any}) => {
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Wallet decryption</Text>
+      <Text style={styles.title}>
+        {StringUtils.texts.walletFileImport.title}
+      </Text>
       <Text style={styles.description}>
-        Enter the password to decrypt your wallet.
+        {StringUtils.texts.walletFileImport.description}
       </Text>
 
       <View style={styles.newPassword}>
         <PasswordInput
           onChangeText={(value: string) => setPassword(value)}
-          placeholder={'Password'}
+          placeholder={StringUtils.texts.walletFileImport.passwordPlaceholder}
         />
       </View>
 
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Restore'} height={50} onPress={startImport} />
+        <BlueButton
+          text={StringUtils.texts.RestoreBtn}
+          height={50}
+          onPress={startImport}
+        />
       </View>
     </View>
   );

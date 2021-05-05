@@ -14,6 +14,7 @@ import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
 import stringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
+import StringUtils from 'utils/string';
 
 /**
  * Screen with wallet details
@@ -89,7 +90,7 @@ export const WalletDetails = ({
                     color="#666666"
                   />
                 </TouchableHighlight>
-                <Text style={styles.btnText}>Send</Text>
+                <Text style={styles.btnText}>{StringUtils.texts.SendBtn}</Text>
               </View>
               <View style={{marginLeft: 30}}>
                 <TouchableHighlight
@@ -108,7 +109,9 @@ export const WalletDetails = ({
                     color="#666666"
                   />
                 </TouchableHighlight>
-                <Text style={styles.btnText}>Receive</Text>
+                <Text style={styles.btnText}>
+                  {StringUtils.texts.ReceiveBtn}
+                </Text>
               </View>
             </View>
             <View style={styles.dividingLine} />

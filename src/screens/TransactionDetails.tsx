@@ -27,21 +27,27 @@ export const TransactionDetails = ({route}: {route: any}) => {
         return (
           <View style={styles.status}>
             <MaterialIcons name="done" size={25} color="#67D44D" />
-            <Text style={styles.statusText}>Success</Text>
+            <Text style={styles.statusText}>
+              {StringUtils.texts.statuses.success}
+            </Text>
           </View>
         );
       case TxStatus.Pending:
         return (
           <View style={styles.status}>
             <MaterialIcons name="schedule" size={25} color="#F39B34" />
-            <Text style={styles.statusText}>Pending</Text>
+            <Text style={styles.statusText}>
+              {StringUtils.texts.statuses.pending}
+            </Text>
           </View>
         );
       case TxStatus.Fail:
         return (
           <View style={styles.status}>
             <MaterialCommunityIcons name="close" size={25} color="#EA4335" />
-            <Text style={styles.statusText}>Failed</Text>
+            <Text style={styles.statusText}>
+              {StringUtils.texts.statuses.failed}
+            </Text>
           </View>
         );
     }
@@ -76,7 +82,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
           onPress={() => {
             Clipboard.setString(user != null ? user.username : tx.address);
             showMessage({
-              message: 'Copied',
+              message: StringUtils.texts.showMsg.copied,
               type: 'info',
               icon: 'info',
             });
@@ -106,8 +112,8 @@ export const TransactionDetails = ({route}: {route: any}) => {
       <View style={{width: '100%', marginTop: 30}}>
         <Text style={[styles.title, {marginBottom: 10}]}>
           {tx.txType === TxType.Sent
-            ? 'Write-off account'
-            : 'Receiving account'}
+            ? StringUtils.texts.WriteOffAccountTitle
+            : StringUtils.texts.ReceivingAccountTitle}
         </Text>
         <WalletInfo wallet={wallet} />
       </View>

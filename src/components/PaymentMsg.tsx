@@ -72,7 +72,9 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
           color="#888888"
         />
         <Text style={styles.msgText}>
-          {tx.txType === TxType.Sent ? 'You sent' : 'You received'}
+          {tx.txType === TxType.Sent
+            ? StringUtils.texts.SentTitle
+            : StringUtils.texts.ReceivedTitle}
         </Text>
       </View>
       <View style={styles.cardRow}>

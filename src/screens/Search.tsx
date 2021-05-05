@@ -23,6 +23,7 @@ import {UserProfile} from 'types/profile';
 import {Wallet} from 'types/wallet';
 import {ChatInfo, ChatType} from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
+import StringUtils from 'utils/string';
 
 /**
  * Users search screen
@@ -53,8 +54,8 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
       if (status === 'never_ask_again') {
         dialogContext.dispatch(
           Dialog.open(
-            'Open settings',
-            'If you want to find users by your contacts then open the application settings and give it access to read your contacts .',
+            StringUtils.texts.OpenSettingsTitle,
+            StringUtils.texts.OpenSettingsForContactsText,
             () => dialogContext.dispatch(Dialog.close()),
           ),
         );
@@ -221,7 +222,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           onChangeText={(text) => {
             setSearchString(text);
           }}
-          placeholder={'Search'}
+          placeholder={StringUtils.texts.SearchPlaceholder}
           keyboardType={'default'}
           placeholderTextColor={'#949499'}
           autoCompleteType={'username'}
@@ -246,7 +247,9 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
                 alignSelf: 'center',
               }}
             />
-            <Text style={styles.noResultsText}>No results</Text>
+            <Text style={styles.noResultsText}>
+              {StringUtils.texts.NoResultsTitle}
+            </Text>
           </View>
         )}
       <FlatList
@@ -267,7 +270,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
               }}
               underlayColor="#f8f9fb">
               <SendBy
-                title={'Send by address'}
+                title={StringUtils.texts.SendByAddressBtn}
                 img={require('assets/img/address.png')}
               />
             </TouchableHighlight>

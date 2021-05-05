@@ -6,7 +6,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Wallets} from 'screens/Wallets';
 import {Settings} from 'screens/Settings';
 import {Chats} from 'screens/Chats';
-import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 
 /**

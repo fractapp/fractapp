@@ -17,6 +17,7 @@ import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
+import StringUtils from 'utils/string';
 import backend from 'utils/backend';
 
 /**
@@ -92,7 +93,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
               {position: 'absolute', left: 20},
             ]}
           />
-          <Text style={styles.newMsgText}>Unread messages</Text>
+          <Text style={styles.newMsgText}>
+            {StringUtils.texts.UnreadMessagesTitle}
+          </Text>
           <View
             style={[
               styles.newMsgDividingLine,
@@ -137,8 +140,8 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           <Image
             source={{
               uri: backend.getImgUrl(
-                globalContext.state.users.get(chatInfo.id)!.id,
-                globalContext.state.users.get(chatInfo.id)!.lastUpdate,
+                globalContext.state.users.get(chatInfo.id)?.id ?? '0',
+                globalContext.state.users.get(chatInfo.id)?.lastUpdate ?? 0,
               ),
             }}
             width={45}
@@ -180,26 +183,30 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: 90}} />}
       />
-      <TouchableOpacity
-        style={styles.sendBox}
-        onPress={() =>
-          chatInfo.type === ChatType.WithUser
-            ? navigation.navigate('SelectWallet', {
-                chatInfo: chatInfo,
-              })
-            : navigation.navigate('Send', {
-                isEditable: false,
-                chatInfo: chatInfo,
-                wallet: getWallet(
-                  (chatInfo.details as DefaultDetails).currency,
-                ),
-              })
-        }>
-        <Image
-          source={require('assets/img/send.png')}
-          style={{width: 16, height: 25}}
-        />
-      </TouchableOpacity>
+      {chatInfo.type === ChatType.AddressOnly ||
+        (chatInfo.type === ChatType.WithUser &&
+          globalContext.state.users.get(chatInfo.id) !== undefined && (
+            <TouchableOpacity
+              style={styles.sendBox}
+              onPress={() =>
+                chatInfo.type === ChatType.WithUser
+                  ? navigation.navigate('SelectWallet', {
+                      chatInfo: chatInfo,
+                    })
+                  : navigation.navigate('Send', {
+                      isEditable: false,
+                      chatInfo: chatInfo,
+                      wallet: getWallet(
+                        (chatInfo.details as DefaultDetails).currency,
+                      ),
+                    })
+              }>
+              <Image
+                source={require('assets/img/send.png')}
+                style={{width: 16, height: 25}}
+              />
+            </TouchableOpacity>
+          ))}
     </View>
   );
 };

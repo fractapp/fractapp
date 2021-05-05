@@ -58,7 +58,17 @@ export const Chats = ({navigation}: {navigation: any}) => {
           tx={tx}
           user={
             item.type === ChatType.WithUser
-              ? globalContext.state.users.get(item.id)!
+              ? globalContext.state.users.get(item.id) ?? {
+                  id: '0',
+                  name: 'Deleted',
+                  username: '-',
+                  avatarExt: '',
+                  lastUpdate: 0,
+                  addresses: {
+                    0: 'invalid',
+                    1: 'invalid',
+                  },
+                }
               : null
           }
         />

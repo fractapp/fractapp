@@ -5,6 +5,7 @@ import {Loader} from 'components/Loader';
 import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
 import DB from 'storage/DB';
+import StringUtils from 'utils/string';
 
 /**
  * Import seed screen
@@ -49,12 +50,20 @@ export const ImportSeed = () => {
     }
 
     if (!mnemonicValidate(seed)) {
-      return <Text style={styles.invalidSeed}>Invalid secret phrase</Text>;
+      return (
+        <Text style={styles.invalidSeed}>
+          {StringUtils.texts.importSeed.invalidSecretPhraseErr}
+        </Text>
+      );
     }
 
     return (
       <View style={{width: '80%', position: 'absolute', bottom: 40}}>
-        <BlueButton text={'Next'} height={50} onPress={startSaveSeed} />
+        <BlueButton
+          text={StringUtils.texts.NextBtnTitle}
+          height={50}
+          onPress={startSaveSeed}
+        />
       </View>
     );
   };
@@ -70,8 +79,10 @@ export const ImportSeed = () => {
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Import secret phrase</Text>
-      <Text style={styles.description}>Import your secret phrase</Text>
+      <Text style={styles.title}>{StringUtils.texts.importSeed.title}</Text>
+      <Text style={styles.description}>
+        {StringUtils.texts.importSeed.description}
+      </Text>
       <TextInput
         autoCorrect={false}
         multiline={true}

@@ -4,6 +4,7 @@ import GlobalStore from 'storage/Global';
 import {WhiteButton} from 'components/WhiteButton';
 import backup from 'utils/backup';
 import googleUtil from 'utils/google';
+import StringUtils from 'utils/string';
 
 /**
  * Choose import wallet file import screen
@@ -68,7 +69,7 @@ export const ChooseImportWallet = ({
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Choose wallet</Text>
+      <Text style={styles.title}>{StringUtils.texts.ChooseWalletTitle}</Text>
 
       <FlatList
         style={{

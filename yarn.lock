@@ -1669,10 +1669,10 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
-"@types/react-native-share@^3.3.0":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-3.3.1.tgz#8f605c09d6dadbde63ff46e1f74f81f09c5eeea2"
-  integrity sha512-grvLZNe1EblHEdId2RqL2cZ4Sf3GUlD7WZqoPSEnN58ektko1muNnQDls+LHC4bh14KZm3ye3kNR96e6R6TVDA==
+"@types/react-native-share@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-3.3.2.tgz#d2c8af2c708d93a8d8916f4c272a3e974fd4381a"
+  integrity sha512-D/kIZvafsCFBONYZ37pekeE7/b/Zs+K0mRtT05SJ0aGZjSDnPyRmazrfyOrzOOIufEBH/vXrlb3yFkmdbCkwaA==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"

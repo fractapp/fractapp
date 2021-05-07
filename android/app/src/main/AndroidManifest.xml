@@ -65,10 +65,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="fractapp"
                       android:host="chat"
-                      android:pathPrefix=""/>
+                      android:pathPrefix="" />
                 <data android:scheme="https"
-                      android:host="fractapp.com"
-                      android:pathPrefix="/send.html"/>
+                      android:host="send.fractapp.com" />
             </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />

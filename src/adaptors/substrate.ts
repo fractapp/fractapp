@@ -78,7 +78,7 @@ export class SubstrateAdaptor implements IAdaptor {
     const hash = await tx.signAndSend(key);
     return `${hash.toHex()}-${tx.signer.toString()}-${tx.nonce
       .toBn()
-      .toString()}`;
+      .toString()}-${0}`;
   }
 
   public async isValidTransfer(

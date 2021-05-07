@@ -4,7 +4,7 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {navigationRef} from 'screens/./RootNavigation';
+import {navigationRef} from 'utils/RootNavigation';
 import {
   Start,
   SettingWallet,

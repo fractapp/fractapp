@@ -24,6 +24,9 @@ namespace DB {
   export const biometryOption = {
     service: 'com.fractapp',
     accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+    authenticationPrompt: {
+      title: 'Please Authenticate',
+    },
   };
 
   export const AsyncStorageKeys = {

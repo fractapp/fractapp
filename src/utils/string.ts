@@ -191,11 +191,11 @@ namespace StringUtils {
       let text = `My address for ${getSymbol(currency)}: ${address}\n\n`;
 
       if (userId === '') {
-        text += `Link for sending via Fractapp: https://fractapp.com/send.html?user=${address}&type=address&currency=${getSymbol(
+        text += `Link for sending via Fractapp: https://send.fractapp.com/send.html?user=${address}&type=address&currency=${getSymbol(
           currency,
         )}`;
       } else {
-        text += `Link for sending via Fractapp: https://fractapp.com/send.html?user=${userId}&type=user&currency=${getSymbol(
+        text += `Link for sending via Fractapp: https://send.fractapp.com/send.html?user=${userId}&type=user&currency=${getSymbol(
           currency,
         )}`;
       }

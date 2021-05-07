@@ -31,7 +31,7 @@ import ChatsStore from 'storage/Chats';
 import {Loader} from 'components/Loader';
 import backend from 'utils/backend';
 import StringUtils from 'utils/string';
-import {navigate} from 'screens/./RootNavigation';
+import {navigate} from 'utils/RootNavigation';
 import {ChatInfo, ChatType} from 'types/chatInfo';
 import {toCurrency} from 'types/wallet';
 
@@ -70,6 +70,8 @@ export default function App() {
 
     if (hash === PasscodeUtil.hash(passcode.join(''), salt)) {
       setLocked(false);
+      setLoading(true);
+      onLoaded();
     } else {
       showMessage({
         message: StringUtils.texts.showMsg.incorrectPasscode,
@@ -112,7 +114,7 @@ export default function App() {
         url !== null &&
         url !== undefined &&
         (url?.startsWith('fractapp://chat') ||
-          url?.startsWith('https://fractapp.com/send.html'))
+          url?.startsWith('https://send.fractapp.com/send.html'))
       ) {
         let user = '';
         let type = '';
@@ -124,7 +126,7 @@ export default function App() {
           user = params[1];
           currency = params[2];
         } else {
-          url = url.replace('https://fractapp.com/send.html?', '');
+          url = url.replace('https://send.fractapp.com/send.html?', '');
           const urlParams = url.split('&');
           for (let p of urlParams) {
             if (p.startsWith('type')) {

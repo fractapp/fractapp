@@ -73,8 +73,8 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
         />
         <Text style={styles.msgText}>
           {tx.txType === TxType.Sent
-            ? StringUtils.texts.SentTitle
-            : StringUtils.texts.ReceivedTitle}
+            ? StringUtils.texts.YouSentTitle
+            : StringUtils.texts.YouReceivedTitle}
         </Text>
       </View>
       <View style={styles.cardRow}>

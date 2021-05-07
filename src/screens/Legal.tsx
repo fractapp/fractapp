@@ -14,9 +14,7 @@ export const Legal = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
-      <Text style={styles.title}>
-        Please read Terms & Conditions and Privacy Policy
-      </Text>
+      <Text style={styles.title}>{StringUtils.texts.legal.title}</Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>
         <WhiteButton
           text={StringUtils.texts.legal.tos}
@@ -55,8 +53,7 @@ export const Legal = ({navigation}: {navigation: any}) => {
           <Text
             style={styles.checkBoxText}
             onPress={() => setToggleCheckBox(!toggleCheckBox)}>
-            I have read, understood, and agree with the Terms & Conditions and
-            Privacy Policy
+            {StringUtils.texts.legal.checkbox}
           </Text>
         </View>
         <BlueButton

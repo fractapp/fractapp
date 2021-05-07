@@ -50,7 +50,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
   const [receiver, setReceiver] = useState<string>('');
   const [user, setUser] = useState<UserProfile | undefined>(undefined);
 
-  const [isValidReceiver, setIsValidReceiver] = useState<boolean>(!isEditable);
+  const [isValidReceiver, setValidReceiver] = useState<boolean>(!isEditable);
   const [isWrite, setIsWrite] = useState<boolean>(false);
 
   useEffect(() => {
@@ -99,7 +99,11 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             setUser(p);
           }
         } else if (chatInfo.type === ChatType.AddressOnly) {
-          setReceiver(chatInfo.details!.address);
+          const r = chatInfo.details!.address;
+          setReceiver(r);
+          setValidReceiver(
+            checkAddress(r, wallet.currency === Currency.DOT ? 0 : 2)[0],
+          );
         }
 
         setTimeout(
@@ -229,7 +233,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
               text,
               wallet.currency === Currency.DOT ? 0 : 2,
             );
-            setIsValidReceiver(result[0]);
+            setValidReceiver(result[0]);
           }}
           onOk={() => setIsWrite(false)}
           currency={wallet.currency}
@@ -274,7 +278,7 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       <View style={{width: '85%', marginTop: 60}}>
         <BlueButton
           text={
-            StringUtils.texts.SendText +
+            StringUtils.texts.SendBtn +
             (totalUsd > 0
               ? ` $${totalUsd} (${math.convertFromPlanckToViewDecimals(
                   totalCurrency,

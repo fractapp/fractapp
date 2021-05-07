@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, View, Image, Text, TouchableHighlight} from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import {Currency, getSymbol} from 'types/wallet';
@@ -7,12 +7,15 @@ import QRCode from 'react-native-qrcode-svg';
 import Share from 'react-native-share';
 import {showMessage} from 'react-native-flash-message';
 import StringUtils from 'utils/string';
+import GlobalStore from 'storage/Global';
 
 /**
  * Screen with receiver information and qr code
  * @category Screens
  */
 export const Receive = ({route}: {route: any}) => {
+  const globalContext = useContext(GlobalStore.Context);
+
   const address: string = route.params.address;
   const currency: Currency = route.params.currency;
 
@@ -58,7 +61,11 @@ export const Receive = ({route}: {route: any}) => {
             testID="shareBtn"
             onPress={() =>
               Share.open({
-                url: StringUtils.texts.MyAddressForText(currency, address),
+                url: StringUtils.texts.MyAddressForShare(
+                  currency,
+                  address,
+                  globalContext.state.profile?.id,
+                ),
                 type: 'text/plain',
               })
             }

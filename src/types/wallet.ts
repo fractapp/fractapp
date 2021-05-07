@@ -57,6 +57,21 @@ export function getSymbol(currency: Currency) {
 }
 
 /**
+ * string to currency
+ * @category Models
+ */
+export function toCurrency(currency: string): Currency {
+  switch (currency) {
+    case 'DOT':
+      return Currency.DOT;
+    case 'KSM':
+      return Currency.KSM;
+    default:
+      throw new Error('invalid currency');
+  }
+}
+
+/**
  * @category Models
  */
 export class Wallet {

@@ -9,8 +9,11 @@ import backupUtils from 'utils/backup';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
+import passwordValidator from 'password-validator';
 
-const minPasswordLength = 6;
+const minPasswordLength = 8;
+const schema = new passwordValidator();
+schema.is().min(minPasswordLength).has().lowercase(1).has().digits(1);
 
 /**
  * Wallet file backup screen
@@ -85,7 +88,9 @@ export const WalletFileBackup = ({
         globalContext.dispatch(GlobalStore.signInLocal());
       }
 
-      if (type === backupUtils.BackupType.File) {
+      /*
+      TODO: file
+       if (type === backupUtils.BackupType.File) {
         dialogContext.dispatch(
           Dialog.open(
             StringUtils.texts.SuccessSaveWalletTitle,
@@ -98,7 +103,7 @@ export const WalletFileBackup = ({
             },
           ),
         );
-      }
+      }*/
 
       navigation.reset({
         index: 0,
@@ -108,22 +113,22 @@ export const WalletFileBackup = ({
   }, [isLoading]);
 
   const renderButtonOrError = () => {
-    if (confirmPassword === '' || password === '') {
-      return null;
-    } else if (
-      password.length < minPasswordLength &&
-      password !== '' &&
-      confirmPassword !== ''
-    ) {
+    if (password.length < minPasswordLength && password !== '') {
       return (
         <Text style={styles.error}>
           {StringUtils.texts.walletFileBackup.passLenErr}
         </Text>
       );
-    } else if (password !== confirmPassword) {
+    } else if (!schema.validate(password) && password !== '') {
       return (
         <Text style={styles.error}>
-          {StringUtils.texts.walletFileBackup.passNotMatch}
+          {StringUtils.texts.walletFileBackup.symbolOrNumberErr}
+        </Text>
+      );
+    } else if (password !== confirmPassword && confirmPassword !== '') {
+      return (
+        <Text style={styles.error}>
+          {StringUtils.texts.walletFileBackup.passNotMatchErr}
         </Text>
       );
     }

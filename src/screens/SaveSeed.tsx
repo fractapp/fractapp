@@ -88,8 +88,7 @@ export const SaveSeed = ({
             height: 35,
           }}
         />
-        <Text style={styles.infoMsg} />
-        {StringUtils.texts.saveSeed.info}
+        <Text style={styles.infoMsg}>{StringUtils.texts.saveSeed.info}</Text>
       </View>
     </View>
   );

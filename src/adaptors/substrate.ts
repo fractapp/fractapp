@@ -129,7 +129,6 @@ export class SubstrateAdaptor implements IAdaptor {
             this.decimals,
             this.viewDecimals,
           ),
-          v,
           this.currency,
         ),
       };

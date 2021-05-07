@@ -4,6 +4,7 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
+import {navigationRef} from 'screens/./RootNavigation';
 import {
   Start,
   SettingWallet,
@@ -161,7 +162,7 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
   };
 
   return (
-    <NavigationContainer theme={Theme}>
+    <NavigationContainer theme={Theme} ref={navigationRef}>
       <RootStack.Navigator
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,

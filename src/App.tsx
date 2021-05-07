@@ -6,9 +6,10 @@ import {
   Alert,
   Dimensions,
   Image,
+  Linking,
   StatusBar,
-  View,
   Text,
+  View,
 } from 'react-native';
 import {Dialog} from 'components/Dialog';
 import {PassCode} from 'components/PassCode';
@@ -30,6 +31,9 @@ import ChatsStore from 'storage/Chats';
 import {Loader} from 'components/Loader';
 import backend from 'utils/backend';
 import StringUtils from 'utils/string';
+import {navigate} from 'screens/./RootNavigation';
+import {ChatInfo, ChatType} from 'types/chatInfo';
+import {toCurrency} from 'types/wallet';
 
 export default function App() {
   const globalContext = useContext(GlobalStore.Context);
@@ -42,6 +46,8 @@ export default function App() {
   const [isLocked, setLocked] = useState<boolean>(false);
   const [isBiometry, setBiometry] = useState<boolean>(false);
   const [isConnected, setConnected] = useState<boolean>(true);
+  const [url, setUrl] = useState<string | null>(null);
+
   const netInfo = useNetInfo();
 
   const unlockWithBiometry = async () => {
@@ -72,12 +78,117 @@ export default function App() {
       });
     }
   };
+
+  useEffect(() => {
+    Linking.addEventListener('url', openUrlEvent);
+
+    return () => Linking.removeEventListener('url', openUrlEvent);
+  }, []);
+
+  useEffect(() => {
+    if (url == null) {
+      return;
+    }
+    openUrl(url);
+  }, [url]);
+
+  const openUrlEvent = (ev: any) => {
+    setUrl(ev?.url);
+    setLoading(true);
+  };
+
   const onLoaded = () => {
+    Linking.getInitialURL().then((url) => {
+      openUrl(url);
+    });
+  };
+
+  const openUrl = async (url: string | null) => {
+    console.log('url: ' + url);
+    let chat: ChatInfo | null = null;
+
+    try {
+      if (
+        url !== null &&
+        url !== undefined &&
+        (url?.startsWith('fractapp://chat') ||
+          url?.startsWith('https://fractapp.com/send.html'))
+      ) {
+        let user = '';
+        let type = '';
+        let currency = '';
+        if (url?.startsWith('fractapp://chat')) {
+          url = url.replace('fractapp://chat/', '');
+          const params = url.split('/');
+          type = params[0];
+          user = params[1];
+          currency = params[2];
+        } else {
+          url = url.replace('https://fractapp.com/send.html?', '');
+          const urlParams = url.split('&');
+          for (let p of urlParams) {
+            if (p.startsWith('type')) {
+              type = p.replace('type=', '');
+            } else if (p.startsWith('user')) {
+              user = p.replace('user=', '');
+            } else if (p.startsWith('currency')) {
+              currency = p.replace('currency=', '');
+            }
+          }
+        }
+        console.log('Open link by user and type: ' + user + ' ' + type);
+
+        if (chatsContext.state.chatsInfo.has(user)) {
+          chat = chatsContext.state.chatsInfo.get(user)!;
+        } else {
+          let profile = null;
+          if (type === 'user') {
+            profile = await backend.getUserById(user);
+          }
+
+          if (type === 'user' && profile !== undefined) {
+            globalContext.dispatch(GlobalStore.setUser(profile!));
+            chat = {
+              id: user,
+              name: profile?.name! !== '' ? profile?.name! : profile?.username!,
+              lastTxId: '',
+              lastTxCurrency: 0,
+              notificationCount: 0,
+              timestamp: 0,
+              type: ChatType.WithUser,
+              details: null,
+            };
+          } else if (type === 'address') {
+            chat = {
+              id: user,
+              name: user,
+              lastTxId: '',
+              lastTxCurrency: 0,
+              notificationCount: 0,
+              timestamp: 0,
+              type: ChatType.AddressOnly,
+              details: {
+                currency: toCurrency(currency),
+                address: user,
+              },
+            };
+          }
+        }
+      }
+    } catch (e) {}
+
     showNavigationBar();
     setLoading(false);
+    setUrl(null);
     console.log('loading off');
     changeNavigationBarColor('#FFFFFF', true, true);
     SplashScreen.hide();
+
+    if (chat != null) {
+      navigate('Chat', {
+        chatInfo: chat,
+      });
+    }
   };
 
   useEffect(() => {
@@ -213,25 +324,6 @@ export default function App() {
     }
   }, [isConnected, globalContext.state.isInitialized]);
 
-  if (isLoading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <View>
-          <Image
-            source={require('assets/img/logo.png')}
-            style={{width: 80, height: 80, marginBottom: 20}}
-          />
-          <ActivityIndicator testID="loader" size={30} color="#2AB2E2" />
-        </View>
-      </View>
-    );
-  }
-
   return (
     <View
       style={{
@@ -261,6 +353,32 @@ export default function App() {
         title={dialogContext.state.title}
         text={dialogContext.state.text}
       />
+      {isLoading && (
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'stretch',
+            position: 'absolute',
+            backgroundColor: 'white',
+            height: Dimensions.get('window').height,
+            width: '100%',
+          }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View>
+              <Image
+                source={require('assets/img/logo.png')}
+                style={{width: 80, height: 80, marginBottom: 20}}
+              />
+              <ActivityIndicator testID="loader" size={30} color="#2AB2E2" />
+            </View>
+          </View>
+        </View>
+      )}
       {globalContext.state.isLoadingShow && (
         <View
           style={{
@@ -275,6 +393,7 @@ export default function App() {
         </View>
       )}
       {!isLocked &&
+        !isLocked &&
         globalContext.state.isSyncShow &&
         globalContext.state.authInfo.isAuthed && (
           <View

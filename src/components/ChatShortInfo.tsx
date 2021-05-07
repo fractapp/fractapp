@@ -6,6 +6,7 @@ import {Transaction, TxType} from 'types/transaction';
 import stringUtils from 'utils/string';
 import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 /**
  * Short chat information
@@ -62,7 +63,9 @@ export const ChatShortInfo = ({
           <View style={{height: 23, flexDirection: 'row'}}>
             <View style={{flex: 8}}>
               <Text style={[styles.msg, {textAlign: 'left'}]}>
-                {tx.txType === TxType.Sent ? 'Sent -' : 'Received +'}
+                {tx.txType === TxType.Sent
+                  ? StringUtils.texts.SentTitle + ' -'
+                  : StringUtils.texts.ReceivedTitle + ' +'}
                 {tx.usdValue !== 0
                   ? `$${tx.usdValue} (${tx.value} ${getSymbol(tx.currency)})`
                   : `${tx.value} ${getSymbol(tx.currency)}`}

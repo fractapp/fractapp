@@ -10,10 +10,12 @@ namespace StringUtils {
     WelcomeDescription: 'The most simple Polkadot wallet for DeFi and crypto',
     SynchronizationTitle: 'Synchronization',
 
-    FractappWalletTitle: 'Fractapp Wallet',
+    FractappWalletTitle: 'Fractapp',
     FeeTitle: 'Fee',
-    SentTitle: 'You sent',
-    ReceivedTitle: 'You received',
+    YouSentTitle: 'You sent',
+    YouReceivedTitle: 'You received',
+    SentTitle: 'Sent',
+    ReceivedTitle: 'Received',
     TotalTitle: 'Total',
     UnreadMessagesTitle: 'Unread messages',
     ChooseWalletTitle: 'Choose wallet',
@@ -21,19 +23,24 @@ namespace StringUtils {
     SearchPlaceholder: 'Search',
     NoResultsTitle: 'No results',
 
-    EnterValidAddressErr: 'Please enter a valid address first',
-    SendByAddressBtn: 'Send by address',
+    EnterValidAddressErr: 'Please enter a valid address',
+    SendByAddressBtn: 'Send to address',
     NotEnoughBalanceErr: 'Not enough balance',
     EnterAmountTitle: 'Enter amount',
     EnterAddressTitle: 'Enter address',
     ResendTitle: 'Resend',
-    ResendText: 'Can be resend after',
+    ResendText: 'Can be resending after',
     ConfirmBtnTitle: 'Confirm',
     NextBtnTitle: 'Next',
     StartBtnTitle: 'Start',
-
     CopyBtn: 'Copy',
     ShareBtn: 'Share',
+    SendBtn: 'Send',
+    ReceiveBtn: 'Receive',
+    RestoreBtn: 'Restore',
+    WriteOffAccountTitle: 'Write-off account',
+    ReceivingAccountTitle: 'Receiving account',
+
     passCode: {
       verifyDescription: 'Enter passcode',
       newCodeDescription: 'Enter new passcode',
@@ -41,86 +48,74 @@ namespace StringUtils {
     },
     showMsg: {
       walletNotFound: 'Wallet not found',
-      passcodeNotEquals: 'Passcode not equals',
-      addressCopied: 'Address copied',
-      copiedToClipboard: 'Copied to Clipboard',
-      copied: 'Copied',
+      passcodeNotEquals: 'Passcodes not equal',
       incorrectPasscode: 'Incorrect passcode',
+      addressCopied: 'Address copied',
+      copiedToClipboard: 'Copied to clipboard',
       connectionRestored: 'Connection restored',
       invalidConnection: 'Invalid connection',
     },
-
-    WriteOffAccountTitle: 'Write-off account',
-    ReceivingAccountTitle: 'Receiving account',
-
-    SendBtn: 'Send',
-    ReceiveBtn: 'Receive',
-
-    RestoreBtn: 'Restore',
-
     statuses: {
       success: 'Success',
       pending: 'Pending',
       failed: 'Failed',
     },
+    legal: {
+      title: 'Terms & Conditions and Privacy Policy',
+      checkbox:
+        ' I have read, understood, and agree with the Terms & Conditions and Privacy Policy',
+      tos: 'Terms & Conditions',
+      privacyPolicy: 'Privacy Policy',
+    },
     walletFileBackup: {
-      title: 'Wallet encryption',
+      title: 'Backup wallet',
       description:
-        'Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.',
+        'Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.',
       filenamePlaceholder: 'File name',
       passwordPlaceholder: 'Password',
       confirmPassword: 'Confirm password',
-      passLenErr: 'Minimum password length is 6 characters',
-      passNotMatch: 'Password do not match',
+      passLenErr: 'At least 8 characters',
+      symbolOrNumberErr: 'Include at least 1 letter and 1 number',
+      passNotMatchErr: 'Passwords do not match',
     },
     walletFileImport: {
-      title: 'Wallet decryption',
+      title: 'Import wallet',
       passwordPlaceholder: 'Password',
       description: 'Enter the password to decrypt your wallet.',
-      invalidPasswordTitle: 'Invalid password',
+      invalidPasswordTitle: 'Incorrect password',
     },
     saveSeed: {
       title: 'Your secret phrase',
       description:
-        'Write these 12 word down, or copy them to your password manager.',
+        'Write these 12 words down, or copy them to your password manager.',
       info:
         'These 12 words are the keys to your wallet. Back up in a safe place. Do not share this with anyone.',
     },
+    confirmSaveSeed: {
+      title: 'Verify secret phrase',
+      description: 'Put the words in the correct order.',
+      incorrectEnteredSeed: 'Incorrectly entered secret phrase',
+    },
     importSeed: {
-      title: 'Import secret phrase',
-      description: 'Import your secret phrase',
-      invalidSecretPhraseErr: 'Invalid secret phrase',
+      title: 'Import wallet',
+      description: 'Write your secret phrase',
+      invalidSecretPhraseErr: 'Incorrect secret phrase',
     },
     importWallet: {
       googleDriveTitle: 'From Google Drive',
       manuallyTitle: 'With recovery phrase',
     },
-    legal: {
-      tos: 'Terms & Conditions',
-      privacyPolicy: 'Privacy Policy',
-    },
-    saveWallet: {
+    backup: {
       title: 'Save a wallet',
       description:
-        'Save your wallet keys in a safe place. If you lose your wallet keys, you cannot restore access to it. Do not share this with anyone.',
+        'Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.',
       googleDriveTitle: 'On Google Drive',
       manuallyTitle: 'Back up manually',
-    },
-    backup: {
-      title:
-        'Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.',
-      googleDriveTitle: 'On Google Drive',
-      manuallyTitle: 'Back up manually',
-    },
-    confirmSaveSeed: {
-      title: 'Verify secret phrase',
-      description: 'Put the words in the correct order.',
-      incorrectEnteredSeed: 'Incorrectly entered seed',
     },
     connecting: {
       title: 'Connecting',
       description:
-        'Connect if you want to receive cryptocurrency by phone number, email or twitter.',
+        'Connect to Fractapp and receive cryptocurrency by phone number, email or username',
       phone: 'Connect phone number',
       email: 'Connect email',
     },
@@ -148,49 +143,65 @@ namespace StringUtils {
 
     YourBalanceTitle: 'Your balance',
     OpenSettingsTitle: 'Open settings',
-    OpenSettingsForStorageText:
-      'If you want to save a file then open the application settings and give it access to the storage.',
+    /*  OpenSettingsForStorageText:
+      'If you want to save a file then open the application settings and give it access to the storage.',*/
     OpenSettingsForContactsText:
-      'If you want to find users by your contacts then open the application settings and give it access to read your contacts.',
+      'If you want to find users by your contacts then open the system settings and give it access to read your contacts.',
 
     WaitLoadingTitle: 'Wait loading amount',
 
     ServiceUnavailableTitle: 'Service unavailable',
-    UserHasBeenDeletedTitle: 'User has been deleted',
+    UserHasBeenDeletedTitle: 'The user has been deleted',
 
     settingWallet: {
       backup: 'I have a wallet',
-      create: 'Create new wallet',
+      create: 'Create a new wallet',
     },
     DifferentAddressTitle: 'The account is registered to a different address',
     DifferentAddressText: '',
 
     InvalidPhoneNumberTitle: 'Invalid phone number',
-    InvalidPhoneNumberText: 'Please validate and write phone number again',
+    InvalidPhoneNumberText: 'Please validate and write the phone number again',
 
     InvalidEmailTitle: 'Invalid email',
-    InvalidEmailText: 'Please validate and write email again',
+    InvalidEmailText: 'Please validate and write the email again',
 
     InvalidNameTitle: 'Invalid name',
-    InvalidNameText: 'Please validate and write name again',
+    InvalidNameText: 'Please validate and write the name again',
 
     InvalidUsernameTitle: 'Invalid name',
-    InvalidUsernameText: 'Please validate and write username again',
+    InvalidUsernameText: 'Please validate and write the username again',
 
     UsernameIsExistTitle: 'Username exists',
-    UsernameIsExistText: 'Please write new username',
+    UsernameIsExistText: 'Please write a new username',
 
     FileExistTitle: 'File exists',
     FileExistText: 'Please enter a different file name',
 
-    SuccessSaveWalletTitle: 'Success save wallet',
+    /*  SuccessSaveWalletTitle: 'Success save wallet',
     SuccessSaveWalletText: (filename: string, folder: string) =>
       `If you lose access to file then you will not be able to restore access to the wallet. File "${filename}.json" saved in "${folder}" directory`,
+    */
 
-    MyAddressForText: (currency: Currency, address: string) =>
-      `My address for ${getSymbol(currency)}: ${address}`,
+    MyAddressForShare: (
+      currency: Currency,
+      address: string,
+      userId: string,
+    ) => {
+      let text = `My address for ${getSymbol(currency)}: ${address}\n\n`;
 
-    SendText: 'Send',
+      if (userId === '') {
+        text += `Link for sending via Fractapp: https://fractapp.com/send.html?user=${address}&type=address&currency=${getSymbol(
+          currency,
+        )}`;
+      } else {
+        text += `Link for sending via Fractapp: https://fractapp.com/send.html?user=${userId}&type=user&currency=${getSymbol(
+          currency,
+        )}`;
+      }
+      return text;
+    },
+
     ConfirmationCodePhoneNumberText:
       'Confirmation code sent to your phone number',
     ConfirmationCodeEmailText: 'Confirmation code sent to your email',
@@ -199,14 +210,10 @@ namespace StringUtils {
     MinimumTransferErrorText: 'The minimum transfer for this recipient is',
 
     NeedFullBalanceErrTitle: 'Amount',
-    NeedFullBalanceErrText: (
-      minBalance: number,
-      validAmount: string,
-      currency: Currency,
-    ) =>
-      `After the transfer, more than ${minBalance} ${getSymbol(
+    NeedFullBalanceErrText: (minBalance: number, currency: Currency) =>
+      `Leave more than  ${minBalance} ${getSymbol(
         currency,
-      )} should remain on the balance or transfer the entire remaining balance. Valid amount: ${validAmount}`,
+      )} on your balance or send the whole balance`,
   };
 
   const months = [

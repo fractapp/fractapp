@@ -88,8 +88,6 @@ namespace BackendApi {
         }),
       });
 
-      console.log(response.text());
-
       if (!response.ok) {
         ok = response.ok;
       }

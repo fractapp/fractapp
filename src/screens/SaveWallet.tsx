@@ -30,14 +30,14 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>{StringUtils.texts.saveWallet.title}</Text>
+      <Text style={styles.title}>{StringUtils.texts.backup.title}</Text>
       <Text style={styles.description}>
-        {StringUtils.texts.saveWallet.description}
+        {StringUtils.texts.backup.description}
       </Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 30}}>
         <View style={{width: '90%'}}>
           <WhiteButton
-            text={StringUtils.texts.saveWallet.googleDriveTitle}
+            text={StringUtils.texts.backup.googleDriveTitle}
             img={Img.GoogleDrive}
             height={50}
             onPress={backupGoogleDrive}
@@ -45,7 +45,7 @@ export const SaveWallet = ({navigation}: {navigation: any}) => {
         </View>
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={StringUtils.texts.saveWallet.manuallyTitle}
+            text={StringUtils.texts.backup.manuallyTitle}
             height={50}
             img={Img.Copy}
             onPress={() =>

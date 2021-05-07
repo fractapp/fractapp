@@ -82,7 +82,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
           onPress={() => {
             Clipboard.setString(user != null ? user.username : tx.address);
             showMessage({
-              message: StringUtils.texts.showMsg.copied,
+              message: StringUtils.texts.showMsg.copiedToClipboard,
               type: 'info',
               icon: 'info',
             });

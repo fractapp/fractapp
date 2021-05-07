@@ -64,7 +64,9 @@ export const Backup = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.box}>
-      <Text style={styles.description}>{StringUtils.texts.backup.title}</Text>
+      <Text style={styles.description}>
+        {StringUtils.texts.backup.description}
+      </Text>
       <FlatList
         style={styles.menu}
         ItemSeparatorComponent={() => <View style={styles.dividingLine} />}

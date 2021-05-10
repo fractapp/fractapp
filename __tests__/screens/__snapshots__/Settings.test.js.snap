@@ -150,13 +150,6 @@ exports[`Test view (disable passcode) 1`] = `
         },
         Object {
           "img": Object {
-            "testUri": "../../../assets/img/faq.png",
-          },
-          "onClick": [Function],
-          "title": "FAQ",
-        },
-        Object {
-          "img": Object {
             "testUri": "../../../assets/img/help.png",
           },
           "onClick": [Function],
@@ -256,7 +249,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -318,7 +311,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -380,7 +373,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -432,7 +425,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -494,7 +487,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -556,69 +549,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
-              "borderBottomWidth": 1,
-              "width": "100%",
-            }
-          }
-        />
-      </View>
-      <View
-        onLayout={[Function]}
-        style={null}
-      >
-        <View
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "flexDirection": "row",
-              "opacity": 1,
-              "paddingBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <Image
-            source={
-              Object {
-                "testUri": "../../../assets/img/faq.png",
-              }
-            }
-            style={
-              Object {
-                "height": 32,
-                "width": 32,
-              }
-            }
-          />
-          <Text
-            style={
-              Object {
-                "alignSelf": "center",
-                "color": "black",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 16,
-                "fontStyle": "normal",
-                "marginLeft": 10,
-              }
-            }
-          >
-            FAQ
-          </Text>
-        </View>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -680,7 +611,7 @@ exports[`Test view (disable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -894,13 +825,6 @@ exports[`Test view (enable passcode) 1`] = `
         },
         Object {
           "img": Object {
-            "testUri": "../../../assets/img/faq.png",
-          },
-          "onClick": [Function],
-          "title": "FAQ",
-        },
-        Object {
-          "img": Object {
             "testUri": "../../../assets/img/help.png",
           },
           "onClick": [Function],
@@ -1000,7 +924,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1062,7 +986,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1124,7 +1048,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1186,7 +1110,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1248,7 +1172,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1310,69 +1234,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
-              "borderBottomWidth": 1,
-              "width": "100%",
-            }
-          }
-        />
-      </View>
-      <View
-        onLayout={[Function]}
-        style={null}
-      >
-        <View
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "flexDirection": "row",
-              "opacity": 1,
-              "paddingBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <Image
-            source={
-              Object {
-                "testUri": "../../../assets/img/faq.png",
-              }
-            }
-            style={
-              Object {
-                "height": 32,
-                "width": 32,
-              }
-            }
-          />
-          <Text
-            style={
-              Object {
-                "alignSelf": "center",
-                "color": "black",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 16,
-                "fontStyle": "normal",
-                "marginLeft": 10,
-              }
-            }
-          >
-            FAQ
-          </Text>
-        </View>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1434,7 +1296,7 @@ exports[`Test view (enable passcode) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1649,13 +1511,6 @@ exports[`Test view (with user) 1`] = `
         },
         Object {
           "img": Object {
-            "testUri": "../../../assets/img/faq.png",
-          },
-          "onClick": [Function],
-          "title": "FAQ",
-        },
-        Object {
-          "img": Object {
             "testUri": "../../../assets/img/help.png",
           },
           "onClick": [Function],
@@ -1755,7 +1610,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1817,7 +1672,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1879,7 +1734,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1931,7 +1786,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -1993,7 +1848,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -2055,69 +1910,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
-              "borderBottomWidth": 1,
-              "width": "100%",
-            }
-          }
-        />
-      </View>
-      <View
-        onLayout={[Function]}
-        style={null}
-      >
-        <View
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "flexDirection": "row",
-              "opacity": 1,
-              "paddingBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <Image
-            source={
-              Object {
-                "testUri": "../../../assets/img/faq.png",
-              }
-            }
-            style={
-              Object {
-                "height": 32,
-                "width": 32,
-              }
-            }
-          />
-          <Text
-            style={
-              Object {
-                "alignSelf": "center",
-                "color": "black",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 16,
-                "fontStyle": "normal",
-                "marginLeft": 10,
-              }
-            }
-          >
-            FAQ
-          </Text>
-        </View>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -2179,7 +1972,7 @@ exports[`Test view (with user) 1`] = `
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }

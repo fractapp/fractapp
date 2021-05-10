@@ -20,7 +20,7 @@ exports[`Test confirm seed incorrectly 1`] = `
       }
     }
   >
-    Veryfy secret phrase
+    Verify secret phrase
   </Text>
   <Text
     style={
@@ -723,7 +723,7 @@ exports[`Test confirm seed incorrectly 1`] = `
       }
     }
   >
-    Incorrectly entered seed
+    Incorrectly entered secret phrase
   </Text>
 </View>
 `;
@@ -748,7 +748,7 @@ exports[`Test confirm seed start 1`] = `
       }
     }
   >
-    Veryfy secret phrase
+    Verify secret phrase
   </Text>
   <Text
     style={
@@ -1465,7 +1465,7 @@ exports[`Test confirm seed success 1`] = `
       }
     }
   >
-    Veryfy secret phrase
+    Verify secret phrase
   </Text>
   <Text
     style={
@@ -2201,7 +2201,7 @@ exports[`Test confirm seed success 1`] = `
           }
         }
       >
-        Next
+        Confirm
       </Text>
     </View>
   </View>

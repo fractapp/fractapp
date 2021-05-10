@@ -136,12 +136,12 @@ export const EnterAmount = ({
                 borderColor: '#EA4335',
               },
         ]}>
-        <View style={{width: '50%', alignItems: 'flex-start'}}>
+        <View style={{width: '30%', alignItems: 'flex-start'}}>
           <Text style={styles.balanceText}>
             {StringUtils.texts.YourBalanceTitle}
           </Text>
         </View>
-        <View style={{width: '50%', alignItems: 'flex-end'}}>
+        <View style={{width: '70%', alignItems: 'flex-end'}}>
           <Text style={styles.balanceText}>{`$${wallet.usdValue} (${
             wallet.balance
           } ${getSymbol(wallet.currency)})`}</Text>

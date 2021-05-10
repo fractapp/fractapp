@@ -33,7 +33,7 @@ exports[`Test save seed #1 1`] = `
       }
     }
   >
-    Write or copy these words in the correct order and keep in a safe place.
+    Write these 12 words down, or copy them to your password manager.
   </Text>
   <View
     style={
@@ -768,6 +768,48 @@ exports[`Test save seed #1 1`] = `
         Next
       </Text>
     </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#F4FCFF",
+        "borderRadius": 10,
+        "bottom": 120,
+        "justifyContent": "center",
+        "padding": 20,
+        "position": "absolute",
+        "width": "85%",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/info.png",
+        }
+      }
+      style={
+        Object {
+          "height": 35,
+          "width": 35,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#2AB2E2",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 13,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "90%",
+        }
+      }
+    >
+      These 12 words are the keys to your wallet. Back up in a safe place. Do not share this with anyone.
+    </Text>
   </View>
 </View>
 `;

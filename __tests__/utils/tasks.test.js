@@ -11,7 +11,7 @@ jest.mock('@react-native-firebase/messaging', () => {});
 jest.mock('react-native-background-timer', () => ({
   runBackgroundTimer: jest.fn(),
 }));
-jest.mock('utils/polkadot', () => ({}));
+jest.mock('adaptors/adaptor', () => ({}));
 jest.mock('utils/backend', () => ({}));
 jest.mock('storage/DB', () => ({
   getAccounts: jest.fn(),

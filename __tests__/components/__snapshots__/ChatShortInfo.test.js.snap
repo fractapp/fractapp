@@ -4,7 +4,7 @@ exports[`Test one 1`] = `
 <View
   style={
     Object {
-      "height": 80,
+      "height": 75,
       "width": "100%",
     }
   }
@@ -29,11 +29,11 @@ exports[`Test one 1`] = `
       style={
         Object {
           "borderColor": "black",
-          "borderRadius": 30,
+          "borderRadius": 27.5,
           "borderWidth": 0.8,
-          "height": 60,
+          "height": 55,
           "overflow": "hidden",
-          "width": 60,
+          "width": 55,
         }
       }
     />
@@ -93,7 +93,7 @@ exports[`Test one 1`] = `
                 Object {
                   "color": "#888888",
                   "fontFamily": "Roboto-Regular",
-                  "fontSize": 13,
+                  "fontSize": 12,
                   "fontStyle": "normal",
                 },
                 Object {
@@ -110,7 +110,7 @@ exports[`Test one 1`] = `
         style={
           Object {
             "flexDirection": "row",
-            "height": 25,
+            "height": 23,
           }
         }
       >
@@ -127,7 +127,7 @@ exports[`Test one 1`] = `
                 Object {
                   "color": "#888888",
                   "fontFamily": "Roboto-Regular",
-                  "fontSize": 15,
+                  "fontSize": 14,
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 },
@@ -137,7 +137,8 @@ exports[`Test one 1`] = `
               ]
             }
           >
-            Received +$0 (10 KSM)
+            Received +
+            10 KSM
           </Text>
         </View>
         <View
@@ -164,7 +165,7 @@ exports[`Test one 1`] = `
                   Object {
                     "color": "white",
                     "fontFamily": "Roboto-Regular",
-                    "fontSize": 13,
+                    "fontSize": 12,
                     "fontStyle": "normal",
                   },
                 ]
@@ -184,7 +185,7 @@ exports[`Test three 1`] = `
 <View
   style={
     Object {
-      "height": 80,
+      "height": 75,
       "width": "100%",
     }
   }
@@ -201,7 +202,7 @@ exports[`Test three 1`] = `
     }
   >
     <Image
-      height={60}
+      height={55}
       source={
         Object {
           "uri": undefined,
@@ -210,11 +211,11 @@ exports[`Test three 1`] = `
       style={
         Object {
           "borderRadius": 30,
-          "height": 60,
-          "width": 60,
+          "height": 55,
+          "width": 55,
         }
       }
-      width={60}
+      width={55}
     />
     <View
       style={
@@ -272,7 +273,7 @@ exports[`Test three 1`] = `
                 Object {
                   "color": "#888888",
                   "fontFamily": "Roboto-Regular",
-                  "fontSize": 13,
+                  "fontSize": 12,
                   "fontStyle": "normal",
                 },
                 Object {
@@ -289,7 +290,7 @@ exports[`Test three 1`] = `
         style={
           Object {
             "flexDirection": "row",
-            "height": 25,
+            "height": 23,
           }
         }
       >
@@ -306,7 +307,7 @@ exports[`Test three 1`] = `
                 Object {
                   "color": "#888888",
                   "fontFamily": "Roboto-Regular",
-                  "fontSize": 15,
+                  "fontSize": 14,
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 },
@@ -316,7 +317,8 @@ exports[`Test three 1`] = `
               ]
             }
           >
-            Received +$0 (10 KSM)
+            Received +
+            10 KSM
           </Text>
         </View>
         <View
@@ -343,7 +345,7 @@ exports[`Test three 1`] = `
                   Object {
                     "color": "white",
                     "fontFamily": "Roboto-Regular",
-                    "fontSize": 13,
+                    "fontSize": 12,
                     "fontStyle": "normal",
                   },
                 ]
@@ -363,7 +365,7 @@ exports[`Test two 1`] = `
 <View
   style={
     Object {
-      "height": 80,
+      "height": 75,
       "width": "100%",
     }
   }
@@ -380,7 +382,7 @@ exports[`Test two 1`] = `
     }
   >
     <Image
-      height={60}
+      height={55}
       source={
         Object {
           "uri": undefined,
@@ -389,11 +391,11 @@ exports[`Test two 1`] = `
       style={
         Object {
           "borderRadius": 30,
-          "height": 60,
-          "width": 60,
+          "height": 55,
+          "width": 55,
         }
       }
-      width={60}
+      width={55}
     />
     <View
       style={
@@ -451,7 +453,7 @@ exports[`Test two 1`] = `
                 Object {
                   "color": "#888888",
                   "fontFamily": "Roboto-Regular",
-                  "fontSize": 13,
+                  "fontSize": 12,
                   "fontStyle": "normal",
                 },
                 Object {
@@ -468,7 +470,7 @@ exports[`Test two 1`] = `
         style={
           Object {
             "flexDirection": "row",
-            "height": 25,
+            "height": 23,
           }
         }
       >
@@ -485,7 +487,7 @@ exports[`Test two 1`] = `
                 Object {
                   "color": "#888888",
                   "fontFamily": "Roboto-Regular",
-                  "fontSize": 15,
+                  "fontSize": 14,
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 },
@@ -495,7 +497,8 @@ exports[`Test two 1`] = `
               ]
             }
           >
-            Sent -$0 (10 DOT)
+            Sent -
+            10 DOT
           </Text>
         </View>
         <View

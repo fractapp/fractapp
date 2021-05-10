@@ -1,4 +1,5 @@
 import './shim.js';
+import 'locales/i18n';
 import React, {useReducer} from 'react';
 import {StyleSheet, View, Alert} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';

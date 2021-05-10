@@ -81,7 +81,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.
+    Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.
   </Text>
   <RCTScrollView
     ItemSeparatorComponent={[Function]}
@@ -102,17 +102,7 @@ exports[`Test view 1`] = `
             }
           />,
           "onClick": [Function],
-          "title": "Google drive",
-        },
-        Object {
-          "img": <Icon
-            allowFontScaling={false}
-            color="#888888"
-            name="folder-open"
-            size={32}
-          />,
-          "onClick": [Function],
-          "title": "Encrypted file",
+          "title": "On Google Drive",
         },
         Object {
           "img": <Icon
@@ -122,7 +112,7 @@ exports[`Test view 1`] = `
             size={32}
           />,
           "onClick": [Function],
-          "title": "Backup seed",
+          "title": "Back up manually",
         },
       ]
     }
@@ -204,83 +194,14 @@ exports[`Test view 1`] = `
               }
             }
           >
-            Google drive
+            On Google Drive
           </Text>
         </View>
         <View
           style={
             Object {
               "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
-              "borderBottomWidth": 1,
-              "width": "100%",
-            }
-          }
-        />
-      </View>
-      <View
-        onLayout={[Function]}
-        style={null}
-      >
-        <View
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "flexDirection": "row",
-              "opacity": 1,
-              "paddingBottom": 10,
-              "paddingTop": 10,
-            }
-          }
-        >
-          <Text
-            allowFontScaling={false}
-            style={
-              Array [
-                Object {
-                  "color": "#888888",
-                  "fontSize": 32,
-                },
-                undefined,
-                Object {
-                  "fontFamily": "Material Icons",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                },
-                Object {},
-              ]
-            }
-          >
-            
-          </Text>
-          <Text
-            style={
-              Object {
-                "alignSelf": "center",
-                "color": "black",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 17,
-                "fontStyle": "normal",
-                "marginLeft": 10,
-              }
-            }
-          >
-            Encrypted file
-          </Text>
-        </View>
-        <View
-          style={
-            Object {
-              "alignSelf": "center",
-              "borderBottomColor": "#DADADA",
+              "borderBottomColor": "#f5f5f5",
               "borderBottomWidth": 1,
               "width": "100%",
             }
@@ -342,7 +263,7 @@ exports[`Test view 1`] = `
               }
             }
           >
-            Backup seed
+            Back up manually
           </Text>
         </View>
       </View>

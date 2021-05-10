@@ -3,7 +3,7 @@
 exports[`Test invalid passcode 1`] = `
 Object {
   "icon": "warning",
-  "message": "Passcode not equals",
+  "message": "Passcodes not equal",
   "type": "danger",
 }
 `;

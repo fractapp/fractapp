@@ -15,7 +15,6 @@ exports[`Test fail sent tx 1`] = `
         "marginTop": 5,
         "minWidth": "48%",
         "padding": 10,
-        "paddingRight": 10,
       },
       Object {
         "alignSelf": "flex-end",
@@ -61,7 +60,7 @@ exports[`Test fail sent tx 1`] = `
         Object {
           "color": "#888888",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 15,
+          "fontSize": 13,
           "fontStyle": "normal",
           "fontWeight": "normal",
           "marginLeft": 3,
@@ -88,11 +87,11 @@ exports[`Test fail sent tx 1`] = `
       style={
         Object {
           "borderColor": "black",
-          "borderRadius": 22.5,
+          "borderRadius": 20,
           "borderWidth": 0.8,
-          "height": 45,
+          "height": 40,
           "overflow": "hidden",
-          "width": 45,
+          "width": 40,
         }
       }
     />
@@ -102,10 +101,10 @@ exports[`Test fail sent tx 1`] = `
           Object {
             "color": "black",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 35,
+            "fontSize": 30,
             "fontStyle": "normal",
             "fontWeight": "normal",
-            "marginLeft": 10,
+            "marginLeft": 8,
           },
           Object {
             "color": "#888888",
@@ -122,10 +121,10 @@ exports[`Test fail sent tx 1`] = `
         Object {
           "color": "black",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 18,
+          "fontSize": 15,
           "fontStyle": "normal",
           "fontWeight": "normal",
-          "marginLeft": 60,
+          "marginLeft": 55,
         },
       ]
     }
@@ -153,7 +152,7 @@ exports[`Test fail sent tx 1`] = `
           Object {
             "color": "#888888",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 13,
+            "fontSize": 12,
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -216,7 +215,6 @@ exports[`Test pending sent tx 1`] = `
         "marginTop": 5,
         "minWidth": "48%",
         "padding": 10,
-        "paddingRight": 10,
       },
       Object {
         "alignSelf": "flex-end",
@@ -262,7 +260,7 @@ exports[`Test pending sent tx 1`] = `
         Object {
           "color": "#888888",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 15,
+          "fontSize": 13,
           "fontStyle": "normal",
           "fontWeight": "normal",
           "marginLeft": 3,
@@ -289,11 +287,11 @@ exports[`Test pending sent tx 1`] = `
       style={
         Object {
           "borderColor": "black",
-          "borderRadius": 22.5,
+          "borderRadius": 20,
           "borderWidth": 0.8,
-          "height": 45,
+          "height": 40,
           "overflow": "hidden",
-          "width": 45,
+          "width": 40,
         }
       }
     />
@@ -303,10 +301,10 @@ exports[`Test pending sent tx 1`] = `
           Object {
             "color": "black",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 35,
+            "fontSize": 30,
             "fontStyle": "normal",
             "fontWeight": "normal",
-            "marginLeft": 10,
+            "marginLeft": 8,
           },
           Object {
             "color": "#EA4335",
@@ -323,10 +321,10 @@ exports[`Test pending sent tx 1`] = `
         Object {
           "color": "black",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 18,
+          "fontSize": 15,
           "fontStyle": "normal",
           "fontWeight": "normal",
-          "marginLeft": 60,
+          "marginLeft": 55,
         },
       ]
     }
@@ -354,7 +352,7 @@ exports[`Test pending sent tx 1`] = `
           Object {
             "color": "#888888",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 13,
+            "fontSize": 12,
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -417,7 +415,6 @@ exports[`Test received tx withzero usdValu 1`] = `
         "marginTop": 5,
         "minWidth": "48%",
         "padding": 10,
-        "paddingRight": 10,
       },
       Object {
         "alignSelf": "flex-start",
@@ -463,7 +460,7 @@ exports[`Test received tx withzero usdValu 1`] = `
         Object {
           "color": "#888888",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 15,
+          "fontSize": 13,
           "fontStyle": "normal",
           "fontWeight": "normal",
           "marginLeft": 3,
@@ -490,11 +487,11 @@ exports[`Test received tx withzero usdValu 1`] = `
       style={
         Object {
           "borderColor": "black",
-          "borderRadius": 22.5,
+          "borderRadius": 20,
           "borderWidth": 0.8,
-          "height": 45,
+          "height": 40,
           "overflow": "hidden",
-          "width": 45,
+          "width": 40,
         }
       }
     />
@@ -504,10 +501,10 @@ exports[`Test received tx withzero usdValu 1`] = `
           Object {
             "color": "black",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 35,
+            "fontSize": 30,
             "fontStyle": "normal",
             "fontWeight": "normal",
-            "marginLeft": 10,
+            "marginLeft": 8,
           },
           Object {
             "color": "#888888",
@@ -538,7 +535,7 @@ exports[`Test received tx withzero usdValu 1`] = `
           Object {
             "color": "#888888",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 13,
+            "fontSize": 12,
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -601,7 +598,6 @@ exports[`Test success received tx 1`] = `
         "marginTop": 5,
         "minWidth": "48%",
         "padding": 10,
-        "paddingRight": 10,
       },
       Object {
         "alignSelf": "flex-start",
@@ -647,7 +643,7 @@ exports[`Test success received tx 1`] = `
         Object {
           "color": "#888888",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 15,
+          "fontSize": 13,
           "fontStyle": "normal",
           "fontWeight": "normal",
           "marginLeft": 3,
@@ -674,11 +670,11 @@ exports[`Test success received tx 1`] = `
       style={
         Object {
           "borderColor": "black",
-          "borderRadius": 22.5,
+          "borderRadius": 20,
           "borderWidth": 0.8,
-          "height": 45,
+          "height": 40,
           "overflow": "hidden",
-          "width": 45,
+          "width": 40,
         }
       }
     />
@@ -688,10 +684,10 @@ exports[`Test success received tx 1`] = `
           Object {
             "color": "black",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 35,
+            "fontSize": 30,
             "fontStyle": "normal",
             "fontWeight": "normal",
-            "marginLeft": 10,
+            "marginLeft": 8,
           },
           Object {
             "color": "#67D44D",
@@ -708,10 +704,10 @@ exports[`Test success received tx 1`] = `
         Object {
           "color": "black",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 18,
+          "fontSize": 15,
           "fontStyle": "normal",
           "fontWeight": "normal",
-          "marginLeft": 60,
+          "marginLeft": 55,
         },
       ]
     }
@@ -739,7 +735,7 @@ exports[`Test success received tx 1`] = `
           Object {
             "color": "#888888",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 13,
+            "fontSize": 12,
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -802,7 +798,6 @@ exports[`Test success sent tx 1`] = `
         "marginTop": 5,
         "minWidth": "48%",
         "padding": 10,
-        "paddingRight": 10,
       },
       Object {
         "alignSelf": "flex-end",
@@ -848,7 +843,7 @@ exports[`Test success sent tx 1`] = `
         Object {
           "color": "#888888",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 15,
+          "fontSize": 13,
           "fontStyle": "normal",
           "fontWeight": "normal",
           "marginLeft": 3,
@@ -875,11 +870,11 @@ exports[`Test success sent tx 1`] = `
       style={
         Object {
           "borderColor": "black",
-          "borderRadius": 22.5,
+          "borderRadius": 20,
           "borderWidth": 0.8,
-          "height": 45,
+          "height": 40,
           "overflow": "hidden",
-          "width": 45,
+          "width": 40,
         }
       }
     />
@@ -889,10 +884,10 @@ exports[`Test success sent tx 1`] = `
           Object {
             "color": "black",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 35,
+            "fontSize": 30,
             "fontStyle": "normal",
             "fontWeight": "normal",
-            "marginLeft": 10,
+            "marginLeft": 8,
           },
           Object {
             "color": "#EA4335",
@@ -909,10 +904,10 @@ exports[`Test success sent tx 1`] = `
         Object {
           "color": "black",
           "fontFamily": "Roboto-Regular",
-          "fontSize": 18,
+          "fontSize": 15,
           "fontStyle": "normal",
           "fontWeight": "normal",
-          "marginLeft": 60,
+          "marginLeft": 55,
         },
       ]
     }
@@ -940,7 +935,7 @@ exports[`Test success sent tx 1`] = `
           Object {
             "color": "#888888",
             "fontFamily": "Roboto-Regular",
-            "fontSize": 13,
+            "fontSize": 12,
             "fontStyle": "normal",
             "fontWeight": "normal",
           },

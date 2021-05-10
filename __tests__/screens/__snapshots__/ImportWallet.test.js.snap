@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test backup google drive: GoogleDrivePicker 1`] = `undefined`;
-
 exports[`Test from file 1`] = `"WalletFileImport"`;
 
 exports[`Test from file 2`] = `
@@ -50,7 +48,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Import a wallet
+    Restore wallet
   </Text>
   <View
     style={
@@ -62,140 +60,8 @@ exports[`Test view 1`] = `
     }
   >
     <View
-      accessible={true}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "alignItems": "center",
-          "backgroundColor": "white",
-          "borderColor": "black",
-          "borderRadius": 10,
-          "borderWidth": 0.5,
-          "height": 50,
-          "justifyContent": "center",
-          "opacity": 1,
-          "width": "90%",
-        }
-      }
-    >
-      <Text
-        allowFontScaling={false}
-        style={
-          Array [
-            Object {
-              "color": "#888888",
-              "fontSize": 30,
-            },
-            Object {
-              "left": 70,
-              "position": "absolute",
-            },
-            Object {
-              "fontFamily": "Material Design Icons",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            },
-            Object {},
-          ]
-        }
-      >
-        󰷖
-      </Text>
-      <Text
-        style={
-          Object {
-            "color": "black",
-            "fontFamily": "Roboto-Regular",
-            "fontSize": 15,
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
-        }
-      >
-        Enter seed
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "marginTop": 20,
-          "width": "90%",
-        }
-      }
-    >
-      <View
-        accessible={true}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "borderColor": "black",
-            "borderRadius": 10,
-            "borderWidth": 0.5,
-            "height": 50,
-            "justifyContent": "center",
-            "opacity": 1,
-            "width": "100%",
-          }
-        }
-      >
-        <Text
-          allowFontScaling={false}
-          style={
-            Array [
-              Object {
-                "color": "#888888",
-                "fontSize": 30,
-              },
-              Object {
-                "left": 70,
-                "position": "absolute",
-              },
-              Object {
-                "fontFamily": "Material Icons",
-                "fontStyle": "normal",
-                "fontWeight": "normal",
-              },
-              Object {},
-            ]
-          }
-        >
-          
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 15,
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          From file
-        </Text>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "marginTop": 20,
           "width": "90%",
         }
       }
@@ -254,7 +120,77 @@ exports[`Test view 1`] = `
             }
           }
         >
-          Google drive
+          From Google Drive
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "marginTop": 20,
+          "width": "90%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "white",
+            "borderColor": "black",
+            "borderRadius": 10,
+            "borderWidth": 0.5,
+            "height": 50,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "#888888",
+                "fontSize": 30,
+              },
+              Object {
+                "left": 70,
+                "position": "absolute",
+              },
+              Object {
+                "fontFamily": "Material Design Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          󰷖
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          With recovery phrase
         </Text>
       </View>
     </View>

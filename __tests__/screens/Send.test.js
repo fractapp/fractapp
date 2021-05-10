@@ -14,7 +14,7 @@ jest.mock('react', () => ({
 jest.mock('utils/backend', () => {});
 jest.mock('utils/tasks', () => {});
 jest.mock('@polkadot/util-crypto', () => {});
-jest.mock('utils/polkadot', () => ({
+jest.mock('adaptors/adaptor', () => ({
   Api: {
     getInstance: async () => jest.fn()(),
   },

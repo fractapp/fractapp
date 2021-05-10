@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import GlobalStore from 'storage/Global';
 
 jest.mock('react-native-crypto', () => {});
-jest.mock('utils/polkadot', () => {});
+jest.mock('adaptors/adaptor', () => {});
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),

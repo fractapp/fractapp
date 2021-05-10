@@ -1,0 +1,214 @@
+{
+  "today": "Сегодня",
+  "yesterday": "Вчера",
+  "months": {
+    "january": "янв.",
+    "february": "фев.",
+    "march": "мар.",
+    "april": "апр.",
+    "may": "мая",
+    "june": "июн.",
+    "july": "июл.",
+    "august": "авг.",
+    "september": "сен.",
+    "october": "окт.",
+    "november": "ноя.",
+    "december": "дек."
+  },
+  "welcome_title": "Добро пожаловать во Fractapp",
+  "welcome_description": "Самый простой Polkadot кошелек для DeFi",
+  "synchronization_title": "Синхронизация",
+
+  "fractapp_wallet_title": "Fractapp",
+  "date_title": "Дата",
+  "fee_title": "Комиссия",
+  "you_sent_title": "Вы отправили",
+  "you_received_title": "Вы получили",
+  "sent_title": "Отправлено",
+  "received_title": "Получено",
+  "total_title": "Сумма",
+  "unread_messages_title": "Непрочитанные сообщения",
+  "choose_wallet_title": "Выберите кошелек",
+
+  "search_placeholder": "Поиск",
+  "no_results_title": "Нет результатов",
+
+  "enter_valid_address_err": "Введите правильный адрес",
+  "send_by_address_btn": "Отправить по адресу",
+  "not_enough_balance_err": "Недостаточно средств",
+  "enter_amount_title": "Введите сумму",
+  "enter_address_title": "Введите адрес",
+  "resend_title": "Отправить еще раз",
+  "resend_text": "Запросить код повторно можно через",
+  "confirm_btn_title": "Подтвердить",
+  "next_btn_title": "Далее",
+  "start_btn_title": "Начать",
+  "copy_btn": "Копировать",
+  "share_btn": "Поделиться",
+  "send_btn": "Отправить",
+  "receive_btn": "Получить",
+  "restore_btn": "Восстановить",
+  "write_off_account_title": "Счет списания",
+  "receiving_account_title": "Счет получения",
+
+  "settings": {
+    "edit_profile": "Редактировать",
+    "backup": "Сохранить кошелек",
+    "enable_passcode": "Добавить пароль",
+    "disable_passcode": "Отключить пароль",
+    "enable_biometry": "Подключить биометрию",
+    "disable_biometry": "Отключить биометрию",
+    "help": "Помощь",
+    "about_us": "О нас"
+  },
+  "titles": {
+    "details": "Детали",
+    "transaction": "Транзакция",
+    "backup": "Сохранить кошелек",
+    "edit_profile": "Редактировать",
+    "confirm_code": "Подтверждение кода",
+    "select_country": "Выберите старну",
+    "phone_number": "Номер телефона",
+    "email": "Email",
+    "edit_username": "Имя пользователя",
+    "edit_name": "Редактировать имя",
+    "select_wallet": "Выберите кошелек",
+    "send": "Отправка",
+    "enter_amount": "Введите сумму",
+    "receive": "Получить",
+    "setting_wallet": "Настройка кошелька",
+    "restore_wallet": "Восстановление кошелька"
+  },
+  "pass_code": {
+    "verify_description": "Введите пароль",
+    "new_code_description": "Введите новый пароль",
+    "confirm_new_code_description": "Введите новый пароль еще раз"
+  },
+  "show_msg": {
+    "wallet_not_found": "Кошелек не найден",
+    "passcode_not_equals": "Пароли не совпадают",
+    "incorrect_passcode": "Неверный пароль",
+    "address_copied": "Адрес скопирован",
+    "copied_to_clipboard": "Скопирован в буфер обмена",
+    "connection_restored": "Соединение восстановлено",
+    "invalid_connection": "Нет соединения"
+  },
+  "statuses": {
+    "success": "Подтверждено",
+    "pending": "В ожидании",
+    "failed": "Не удалось"
+  },
+  "legal": {
+    "title": "Terms & Conditions and Privacy Policy",
+    "checkbox": "Я прочитал, понял и согласен с Terms & Conditions и Privacy Policy",
+    "tos": "Terms & Conditions",
+    "privacy_policy": "Privacy Policy"
+  },
+  "wallet_file_backup": {
+    "title": "Сохранение кошелька",
+    "description": "Введите пароль для шифрования вашего кошелька. Не теряйте файл с кошельком и пароль, иначе вы не сможете восстановить доступ к нему.",
+    "filename_placeholder": "Имя файла",
+    "password_placeholder": "Пароль",
+    "confirm_password": "Подтвердите пароль",
+    "pass_len_err": "Минимальная длина 8 символов",
+    "symbol_or_number_err": "Пароль должен включать минимум 1 букву и 1 цифру",
+    "pass_not_match_err": "Пароли не совпадают"
+  },
+  "wallet_file_import": {
+    "title": "Импорт кошелька",
+    "password_placeholder": "Пароль",
+    "description": "Введите пароль для получения доступа к кошельку",
+    "invalid_password_title": "Неверный пароль"
+  },
+  "save_seed": {
+    "title": "Ваша секретная фраза",
+    "description": "Запишите эти 12 слов или скопируйте в ваш менеджер паролей.",
+    "info": "Эти 12 слов это доступ к вашему кошельку. Сохраните их в безопасном месте. Не делитесь ими ни с кем."
+  },
+  "confirm_save_seed": {
+    "title": "Подтверждение фразы",
+    "description": "Поместите слова в правильном порядке.",
+    "incorrect_entered_seed": "Неправильная порядок слов"
+  },
+  "import_seed": {
+    "title": "Импорт секретной фразы",
+    "description": "Введите вашу секретную фразу",
+    "invalid_secret_phrase_err": "Неправильная секретная фраза"
+  },
+  "import_wallet": {
+    "google_drive_title": "Из Google Диска",
+    "manually_title": "Секретная фраза"
+  },
+  "backup": {
+    "title": "Сохранение кошелька",
+    "description": "Сохраните файл в безопасное место. Если вы потеряете доступ к кошельку, то вы не сможете восстановить доступ к нему. Не делитесь им ни с кем.",
+    "google_drive_title": "Из Google Drive",
+    "manually_title": "Секретная фраза"
+  },
+  "connecting": {
+    "title": "Подключение",
+    "description": "Подключитесь к Fractapp и получайте криптовалюту по номеру телефона, email или с помощью имени пользователя.",
+    "phone": "Подключить номер",
+    "email": "Подключить email"
+  },
+  "edit": {
+    "email": "Введите email",
+    "name": "Введите ваше имя",
+    "username": "Введите имя пользователя",
+    "phone_title": "Номер телефона",
+    "country_title": "Страна",
+    "invalid_phone_number": "Некорректный номер телефона",
+    "profile": {
+      "name_title": "Имя",
+      "username_title": "Имя пользователя",
+      "phone_title": "Номер телефона",
+      "email_title": "Email",
+      "name_placeholder": "Введите ваше имя",
+      "username_placeholder": "Введите имя пользователя",
+      "phone_placeholder": "Введите номер телефона",
+      "email_placeholder": "Введите email"
+    }
+  },
+
+  "your_balance_title": "Ваш баланс",
+  "open_settings_title": "Откройте настройки",
+  "open_settings_for_contacts_text": "Если вы хотите найти пользователей из вашей адресной книги тогда откройте настройки, и дайте доступ приложению на чтение контактов.",
+  "wait_loading_title": "Подождите загрузку суммы",
+  "service_unavailable_title": "Сервис недоступен",
+  "user_has_been_deleted_title": "Пользователь был удален",
+  "setting_wallet": {
+    "backup": "У меня есть кошелек",
+    "create": "Создать новый кошелек"
+  },
+  "different_address_title": "Аккаунт зарегистрирован на другие адреса",
+  "invalid_phone_number_title": "Некорректный номер телефона",
+  "invalid_phone_number_text": "Проверьте и введите номер телефона еще раз",
+
+  "invalid_email_title": "Некорректный email",
+  "invalid_email_text": "Проверьте и введите email еще раз",
+
+  "invalid_name_title": "Некорректное имя",
+  "invalid_name_text": "Проверьте и введите имя еще раз",
+
+  "invalid_username_title": "Некорректное имя пользователя",
+  "invalid_username_text": "Проверьте и введите имя пользователя еще раз",
+
+  "username_is_exist_title": "Имя пользователя занято",
+  "username_is_exist_text": "Введите новое имя пользователя",
+
+  "file_exist_title": "Файл существует",
+  "file_exist_text": "Введите другое имя файла",
+
+  "confirmation_code_phone_number_text": "Код подтверждения отправлен на ваш номер телефона",
+  "confirmation_code_email_text": "Код подтверждения отправлен на ваш email",
+
+  "minimum_transfer_error_title": "Минимальный перевод",
+  "minimum_transfer_error_text": "Минимальный перевод для этого получателя составляет",
+
+  "need_full_balance_err_title": "Сумма",
+  "need_full_balance_err_text_part_one": "Оставьте на балансе больше, чем",
+  "need_full_balance_err_text_part_two": "или отправьте весь баланс",
+
+  "share_text": "Мой адрес для",
+  "share_link": "Ссылка для отправки через Fractapp"
+}

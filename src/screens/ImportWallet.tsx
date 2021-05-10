@@ -3,7 +3,6 @@ import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components/WhiteButton';
 import backup from 'utils/backup';
 import googleUtil from 'utils/google';
-import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
 import Global from 'storage/Global';
 import GlobalStore from 'storage/Global';
@@ -22,23 +21,9 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
     await googleUtil.signIn();
 
     globalContext.dispatch(GlobalStore.setLoading(true));
-    const items = await googleUtil.getItems('root');
-    const folder = items.find((e) => e.title === backup.GoogleDriveFolder);
-
-    let wallets = [];
-    let ids = [];
-    if (folder !== undefined) {
-      const files = await googleUtil.getItems(folder.id);
-      for (let file of files) {
-        try {
-          const f = await googleUtil.getFileBackup(file.id);
-          wallets.push(file.title);
-          ids.push(file.id);
-        } catch (e) {
-          continue;
-        }
-      }
-    }
+    const files = await backup.getWalletsFromGoogle();
+    const wallets = files.wallets;
+    const ids = files.ids;
 
     if (wallets.length === 0) {
       showMessage({
@@ -67,7 +52,7 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Restore wallet</Text>
+      <Text style={styles.title}>{StringUtils.texts.titles.restoreWallet}</Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>
         <View style={{width: '90%'}}>
           <WhiteButton

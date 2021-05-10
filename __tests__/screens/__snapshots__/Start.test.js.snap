@@ -46,7 +46,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    Cryptocurrency wallet with social payments
+    The most simple Polkadot wallet for DeFi and crypto
   </Text>
   <View
     style={

@@ -66,6 +66,8 @@ export const WalletFileBackup = ({
         fileName.trim(),
         type,
       );
+
+      const files = await backupUtils.getWalletsFromGoogle();
       setLoading(false);
 
       if (res.isError) {
@@ -78,6 +80,23 @@ export const WalletFileBackup = ({
             StringUtils.texts.FileExistTitle,
             StringUtils.texts.FileExistText,
             () => dialogContext.dispatch(Dialog.close()),
+          ),
+        );
+        return;
+      }
+
+      let isSuccessSave = false;
+      for (let wallet of files.wallets) {
+        if (wallet.replace('.json', '') === fileName.trim()) {
+          isSuccessSave = true;
+          break;
+        }
+      }
+
+      if (!isSuccessSave) {
+        dialogContext.dispatch(
+          Dialog.open(StringUtils.texts.ServiceUnavailableTitle, '', () =>
+            dialogContext.dispatch(Dialog.close()),
           ),
         );
         return;

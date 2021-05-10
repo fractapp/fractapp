@@ -5,6 +5,7 @@ import {FileBackup} from 'types/backup';
 import RNFS from 'react-native-fs';
 import {mnemonicValidate, randomAsHex} from '@polkadot/util-crypto';
 import googleUtil from 'utils/google';
+import string from 'utils/string';
 
 /**
  * @namespace
@@ -125,7 +126,7 @@ namespace Backup {
   /**
    * get the files from backup directory on the device
    */
-  export async function getWallets(): Promise<Array<string>> {
+  export async function getWalletsFromDevice(): Promise<Array<string>> {
     const path = `${RNFS.ExternalStorageDirectoryPath}/${FSDriveFolder}`;
     const wallets = [];
     try {
@@ -197,6 +198,31 @@ namespace Backup {
     await googleUtil.signOut();
     await googleUtil.signIn();
     onSuccess();
+  };
+
+  export const getWalletsFromGoogle = async (): Promise<{
+    wallets: Array<string>;
+    ids: Array<string>;
+  }> => {
+    const items = await googleUtil.getItems('root');
+    const folder = items.find((e) => e.title === GoogleDriveFolder);
+
+    let wallets = [];
+    let ids = [];
+    if (folder !== undefined) {
+      const files = await googleUtil.getItems(folder.id);
+      for (let file of files) {
+        try {
+          const f = await googleUtil.getFileBackup(file.id);
+          wallets.push(file.title);
+          ids.push(file.id);
+        } catch (e) {
+          continue;
+        }
+      }
+    }
+
+    return {wallets: wallets, ids: ids};
   };
 }
 

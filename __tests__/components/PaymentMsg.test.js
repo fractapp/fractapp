@@ -4,7 +4,7 @@ import {PaymentMsg} from 'components/PaymentMsg';
 import {Currency} from 'types/wallet';
 import {TxStatus, TxType} from 'types/transaction';
 
-jest.mock('utils/polkadot', () => {});
+jest.mock('adaptors/adaptor', () => {});
 
 it('Test success sent tx', () => {
   const tree = renderer

@@ -5,14 +5,11 @@ Object {
   "accountInfo": [Function],
   "accounts": "accounts",
   "authInfo": "auth_info",
-  "chatByChatId": [Function],
-  "chatsInfo": "chats_info",
+  "chatsStorage": "chatsStorage",
   "contacts": "contacts",
-  "notificationCount": "notification_count",
-  "pendingTransactions": [Function],
   "price": [Function],
   "profile": "profile",
-  "transactions": [Function],
+  "urls": "urls",
   "users": "users",
 }
 `;
@@ -36,6 +33,9 @@ Object {
 exports[`Test biometryOption 1`] = `
 Object {
   "accessControl": 0,
+  "authenticationPrompt": Object {
+    "title": "Please Authenticate",
+  },
   "service": "com.fractapp",
 }
 `;

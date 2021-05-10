@@ -130,7 +130,7 @@ exports[`Test four 1`] = `
   <View
     style={
       Object {
-        "bottom": 0,
+        "bottom": 20,
         "position": "absolute",
       }
     }
@@ -139,7 +139,7 @@ exports[`Test four 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -170,7 +170,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -204,7 +204,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -238,7 +238,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -250,7 +250,7 @@ exports[`Test four 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -281,7 +281,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -315,7 +315,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -349,7 +349,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -361,7 +361,7 @@ exports[`Test four 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -392,7 +392,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -426,7 +426,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -460,7 +460,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -472,7 +472,7 @@ exports[`Test four 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -503,7 +503,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         />
@@ -535,7 +535,7 @@ exports[`Test four 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -572,8 +572,8 @@ exports[`Test four 1`] = `
           }
           style={
             Object {
-              "height": 35,
-              "width": 50,
+              "height": 28,
+              "width": 40,
             }
           }
         />
@@ -713,7 +713,7 @@ exports[`Test one 1`] = `
   <View
     style={
       Object {
-        "bottom": 0,
+        "bottom": 20,
         "position": "absolute",
       }
     }
@@ -722,7 +722,7 @@ exports[`Test one 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -753,7 +753,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -787,7 +787,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -821,7 +821,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -833,7 +833,7 @@ exports[`Test one 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -864,7 +864,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -898,7 +898,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -932,7 +932,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -944,7 +944,7 @@ exports[`Test one 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -975,7 +975,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1009,7 +1009,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1043,7 +1043,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1055,7 +1055,7 @@ exports[`Test one 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -1086,7 +1086,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         />
@@ -1118,7 +1118,7 @@ exports[`Test one 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1155,8 +1155,8 @@ exports[`Test one 1`] = `
           }
           style={
             Object {
-              "height": 35,
-              "width": 50,
+              "height": 28,
+              "width": 40,
             }
           }
         />
@@ -1296,7 +1296,7 @@ exports[`Test three 1`] = `
   <View
     style={
       Object {
-        "bottom": 0,
+        "bottom": 20,
         "position": "absolute",
       }
     }
@@ -1305,7 +1305,7 @@ exports[`Test three 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -1336,7 +1336,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1370,7 +1370,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1404,7 +1404,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1416,7 +1416,7 @@ exports[`Test three 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -1447,7 +1447,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1481,7 +1481,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1515,7 +1515,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1527,7 +1527,7 @@ exports[`Test three 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -1558,7 +1558,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1592,7 +1592,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1626,7 +1626,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1638,7 +1638,7 @@ exports[`Test three 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -1669,7 +1669,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         />
@@ -1701,7 +1701,7 @@ exports[`Test three 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1738,8 +1738,8 @@ exports[`Test three 1`] = `
           }
           style={
             Object {
-              "height": 35,
-              "width": 50,
+              "height": 28,
+              "width": 40,
             }
           }
         />
@@ -1879,7 +1879,7 @@ exports[`Test two 1`] = `
   <View
     style={
       Object {
-        "bottom": 0,
+        "bottom": 20,
         "position": "absolute",
       }
     }
@@ -1888,7 +1888,7 @@ exports[`Test two 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -1919,7 +1919,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1953,7 +1953,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1987,7 +1987,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -1999,7 +1999,7 @@ exports[`Test two 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -2030,7 +2030,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2064,7 +2064,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2098,7 +2098,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2110,7 +2110,7 @@ exports[`Test two 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -2141,7 +2141,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2175,7 +2175,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2209,7 +2209,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2221,7 +2221,7 @@ exports[`Test two 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "marginBottom": 10,
+          "marginBottom": 0,
         }
       }
     >
@@ -2255,8 +2255,8 @@ exports[`Test two 1`] = `
           }
           style={
             Object {
-              "height": 44,
-              "width": 40,
+              "height": 40,
+              "width": 36,
             }
           }
         />
@@ -2288,7 +2288,7 @@ exports[`Test two 1`] = `
             Object {
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
-              "fontSize": 25,
+              "fontSize": 30,
             }
           }
         >
@@ -2325,8 +2325,8 @@ exports[`Test two 1`] = `
           }
           style={
             Object {
-              "height": 35,
-              "width": 50,
+              "height": 28,
+              "width": 40,
             }
           }
         />

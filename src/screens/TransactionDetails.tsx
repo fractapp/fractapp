@@ -120,7 +120,9 @@ export const TransactionDetails = ({route}: {route: any}) => {
 
       <View style={{width: '100%', flexDirection: 'row', marginTop: 20}}>
         <View style={{flex: 1}}>
-          <Text style={[styles.title, {marginBottom: 5}]}>Date</Text>
+          <Text style={[styles.title, {marginBottom: 5}]}>
+            {StringUtils.texts.DateTitle}
+          </Text>
           <Text style={styles.dateAndFee}>
             {StringUtils.fromFullDate(new Date(tx.timestamp)) +
               ' ' +
@@ -130,7 +132,9 @@ export const TransactionDetails = ({route}: {route: any}) => {
         <View style={{flex: 1, alignItems: 'flex-end'}}>
           {tx.txType === TxType.Sent && (
             <View>
-              <Text style={[styles.title, {marginBottom: 5}]}>Fee</Text>
+              <Text style={[styles.title, {marginBottom: 5}]}>
+                {StringUtils.texts.FeeTitle}
+              </Text>
               {tx.usdFee === 0 ? (
                 <Text style={styles.dateAndFee}>
                   {tx.fee} {getSymbol(wallet.currency)}

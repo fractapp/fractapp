@@ -22,7 +22,7 @@ exports[`Test checkbox=false 1`] = `
       }
     }
   >
-    Please read Terms & Conditions and Privacy Policy
+    Terms & Conditions and Privacy Policy
   </Text>
   <View
     style={
@@ -172,7 +172,7 @@ exports[`Test checkbox=false 1`] = `
           }
         }
       >
-        I have read, understood, and agree with the Terms & Conditions and Privacy Policy
+         I have read, understood, and agree with the Terms & Conditions and Privacy Policy
       </Text>
     </View>
     <View
@@ -237,7 +237,7 @@ exports[`Test checkbox=true 1`] = `
       }
     }
   >
-    Please read Terms & Conditions and Privacy Policy
+    Terms & Conditions and Privacy Policy
   </Text>
   <View
     style={
@@ -387,7 +387,7 @@ exports[`Test checkbox=true 1`] = `
           }
         }
       >
-        I have read, understood, and agree with the Terms & Conditions and Privacy Policy
+         I have read, understood, and agree with the Terms & Conditions and Privacy Policy
       </Text>
     </View>
     <View

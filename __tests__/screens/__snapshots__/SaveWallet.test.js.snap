@@ -92,7 +92,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Save your wallet in a safe place. If you lose your wallet, you cannot restore access to it.
+    Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.
   </Text>
   <View
     style={
@@ -104,140 +104,8 @@ exports[`Test view 1`] = `
     }
   >
     <View
-      accessible={true}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "alignItems": "center",
-          "backgroundColor": "white",
-          "borderColor": "black",
-          "borderRadius": 10,
-          "borderWidth": 0.5,
-          "height": 50,
-          "justifyContent": "center",
-          "opacity": 1,
-          "width": "90%",
-        }
-      }
-    >
-      <Text
-        allowFontScaling={false}
-        style={
-          Array [
-            Object {
-              "color": "#888888",
-              "fontSize": 27,
-            },
-            Object {
-              "left": 70,
-              "position": "absolute",
-            },
-            Object {
-              "fontFamily": "Material Design Icons",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            },
-            Object {},
-          ]
-        }
-      >
-        󰆏
-      </Text>
-      <Text
-        style={
-          Object {
-            "color": "black",
-            "fontFamily": "Roboto-Regular",
-            "fontSize": 15,
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
-        }
-      >
-        Backup seed
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "marginTop": 20,
-          "width": "90%",
-        }
-      }
-    >
-      <View
-        accessible={true}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "borderColor": "black",
-            "borderRadius": 10,
-            "borderWidth": 0.5,
-            "height": 50,
-            "justifyContent": "center",
-            "opacity": 1,
-            "width": "100%",
-          }
-        }
-      >
-        <Text
-          allowFontScaling={false}
-          style={
-            Array [
-              Object {
-                "color": "#888888",
-                "fontSize": 30,
-              },
-              Object {
-                "left": 70,
-                "position": "absolute",
-              },
-              Object {
-                "fontFamily": "Material Icons",
-                "fontStyle": "normal",
-                "fontWeight": "normal",
-              },
-              Object {},
-            ]
-          }
-        >
-          
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 15,
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          Encrypted file
-        </Text>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "marginTop": 20,
           "width": "90%",
         }
       }
@@ -296,7 +164,77 @@ exports[`Test view 1`] = `
             }
           }
         >
-          Google drive
+          On Google Drive
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "marginTop": 20,
+          "width": "90%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "white",
+            "borderColor": "black",
+            "borderRadius": 10,
+            "borderWidth": 0.5,
+            "height": 50,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "#888888",
+                "fontSize": 27,
+              },
+              Object {
+                "left": 70,
+                "position": "absolute",
+              },
+              Object {
+                "fontFamily": "Material Design Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          󰆏
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          Back up manually
         </Text>
       </View>
     </View>

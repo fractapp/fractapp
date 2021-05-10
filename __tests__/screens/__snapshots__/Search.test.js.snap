@@ -50,7 +50,7 @@ exports[`Test view (empty) 1`] = `
       autoCompleteType="username"
       keyboardType="default"
       onChangeText={[Function]}
-      placeholder="Search by @username or email"
+      placeholder="Search"
       placeholderTextColor="#949499"
       rejectResponderTermination={true}
       secureTextEntry={false}
@@ -88,7 +88,7 @@ exports[`Test view (empty) 1`] = `
               "testUri": "../../../assets/img/address.png",
             }
           }
-          title="Send by address"
+          title="Send to address"
         />
       </ForwardRef>
     }
@@ -193,7 +193,7 @@ exports[`Test view (empty) 1`] = `
                     ]
                   }
                 >
-                  Send by address
+                  Send to address
                 </Text>
               </View>
             </View>
@@ -255,7 +255,7 @@ exports[`Test view 1`] = `
       autoCompleteType="username"
       keyboardType="default"
       onChangeText={[Function]}
-      placeholder="Search by @username or email"
+      placeholder="Search"
       placeholderTextColor="#949499"
       rejectResponderTermination={true}
       secureTextEntry={false}
@@ -293,7 +293,7 @@ exports[`Test view 1`] = `
               "testUri": "../../../assets/img/address.png",
             }
           }
-          title="Send by address"
+          title="Send to address"
         />
       </ForwardRef>
     }
@@ -457,7 +457,7 @@ exports[`Test view 1`] = `
                     ]
                   }
                 >
-                  Send by address
+                  Send to address
                 </Text>
               </View>
             </View>

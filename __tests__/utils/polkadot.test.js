@@ -1,6 +1,6 @@
 import {ApiPromise, WsProvider} from '@polkadot/api';
 import {Currency} from 'types/wallet';
-import {Api} from 'utils/polkadot';
+import {Api} from 'adaptors/adaptor';
 import BN from 'bn.js';
 import {TxStatus, TxType} from 'types/transaction';
 import {

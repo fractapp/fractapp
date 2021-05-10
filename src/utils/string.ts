@@ -3,240 +3,260 @@
  * @category Utils
  */
 import {Currency, getSymbol} from 'types/wallet';
+import I18n from 'react-native-i18n';
 
 namespace StringUtils {
+  const today = I18n.t('today');
+  const yesterday = I18n.t('yesterday');
+
+  const months = [
+    I18n.t('months.january'),
+    I18n.t('months.february'),
+    I18n.t('months.march'),
+    I18n.t('months.april'),
+    I18n.t('months.may'),
+    I18n.t('months.june'),
+    I18n.t('months.july'),
+    I18n.t('months.august'),
+    I18n.t('months.september'),
+    I18n.t('months.october'),
+    I18n.t('months.november'),
+    I18n.t('months.december'),
+  ];
+
   export const texts = {
-    WelcomeTitle: 'Welcome to Fractapp',
-    WelcomeDescription: 'The most simple Polkadot wallet for DeFi and crypto',
-    SynchronizationTitle: 'Synchronization',
+    WelcomeTitle: I18n.t('welcome_title'),
+    WelcomeDescription: I18n.t('welcome_description'),
+    SynchronizationTitle: I18n.t('synchronization_title'),
 
-    FractappWalletTitle: 'Fractapp',
-    FeeTitle: 'Fee',
-    YouSentTitle: 'You sent',
-    YouReceivedTitle: 'You received',
-    SentTitle: 'Sent',
-    ReceivedTitle: 'Received',
-    TotalTitle: 'Total',
-    UnreadMessagesTitle: 'Unread messages',
-    ChooseWalletTitle: 'Choose wallet',
+    FractappWalletTitle: I18n.t('fractapp_wallet_title'),
+    FeeTitle: I18n.t('fee_title'),
+    DateTitle: I18n.t('date_title'),
+    YouSentTitle: I18n.t('you_sent_title'),
+    YouReceivedTitle: I18n.t('you_received_title'),
+    SentTitle: I18n.t('sent_title'),
+    ReceivedTitle: I18n.t('received_title'),
+    TotalTitle: I18n.t('total_title'),
+    UnreadMessagesTitle: I18n.t('unread_messages_title'),
+    ChooseWalletTitle: I18n.t('choose_wallet_title'),
 
-    SearchPlaceholder: 'Search',
-    NoResultsTitle: 'No results',
+    SearchPlaceholder: I18n.t('search_placeholder'),
+    NoResultsTitle: I18n.t('no_results_title'),
 
-    EnterValidAddressErr: 'Please enter a valid address',
-    SendByAddressBtn: 'Send to address',
-    NotEnoughBalanceErr: 'Not enough balance',
-    EnterAmountTitle: 'Enter amount',
-    EnterAddressTitle: 'Enter address',
-    ResendTitle: 'Resend',
-    ResendText: 'Can be resending after',
-    ConfirmBtnTitle: 'Confirm',
-    NextBtnTitle: 'Next',
-    StartBtnTitle: 'Start',
-    CopyBtn: 'Copy',
-    ShareBtn: 'Share',
-    SendBtn: 'Send',
-    ReceiveBtn: 'Receive',
-    RestoreBtn: 'Restore',
-    WriteOffAccountTitle: 'Write-off account',
-    ReceivingAccountTitle: 'Receiving account',
+    EnterValidAddressErr: I18n.t('enter_valid_address_err'),
+    SendByAddressBtn: I18n.t('send_by_address_btn'),
+    NotEnoughBalanceErr: I18n.t('not_enough_balance_err'),
+    EnterAmountTitle: I18n.t('enter_amount_title'),
+    EnterAddressTitle: I18n.t('enter_address_title'),
+    ResendTitle: I18n.t('resend_title'),
+    ResendText: I18n.t('resend_text'),
+    ConfirmBtnTitle: I18n.t('confirm_btn_title'),
+    NextBtnTitle: I18n.t('next_btn_title'),
+    StartBtnTitle: I18n.t('start_btn_title'),
+    CopyBtn: I18n.t('copy_btn'),
+    ShareBtn: I18n.t('share_btn'),
+    SendBtn: I18n.t('send_btn'),
+    ReceiveBtn: I18n.t('receive_btn'),
+    RestoreBtn: I18n.t('restore_btn'),
+    WriteOffAccountTitle: I18n.t('write_off_account_title'),
+    ReceivingAccountTitle: I18n.t('receiving_account_title'),
 
+    settings: {
+      editProfile: I18n.t('settings.edit_profile'),
+      backup: I18n.t('settings.backup'),
+      disablePasscode: I18n.t('settings.disable_passcode'),
+      enablePasscode: I18n.t('settings.enable_passcode'),
+      disableBiometry: I18n.t('settings.disable_biometry'),
+      enableBiometry: I18n.t('settings.enable_biometry'),
+      help: I18n.t('settings.help'),
+      aboutUs: I18n.t('settings.about_us'),
+    },
+    titles: {
+      details: I18n.t('titles.details'),
+      transaction: I18n.t('titles.transaction'),
+      backup: I18n.t('titles.backup'),
+      editProfile: I18n.t('titles.edit_profile'),
+      confirmCode: I18n.t('titles.confirm_code'),
+      selectCountry: I18n.t('titles.select_country'),
+      phoneNumber: I18n.t('titles.phone_number'),
+      email: I18n.t('titles.email'),
+      editUsername: I18n.t('titles.edit_username'),
+      editName: I18n.t('titles.edit_name'),
+      selectWallet: I18n.t('titles.select_wallet'),
+      send: I18n.t('titles.send'),
+      enterAmount: I18n.t('titles.enter_amount'),
+      receive: I18n.t('titles.receive'),
+      settingWallet: I18n.t('titles.setting_wallet'),
+      restoreWallet: I18n.t('titles.restore_wallet'),
+    },
     passCode: {
-      verifyDescription: 'Enter passcode',
-      newCodeDescription: 'Enter new passcode',
-      confirmNewCodeDescription: 'Confirm new passcode',
+      verifyDescription: I18n.t('pass_code.verify_description'),
+      newCodeDescription: I18n.t('pass_code.new_code_description'),
+      confirmNewCodeDescription: I18n.t(
+        'pass_code.confirm_new_code_description',
+      ),
     },
     showMsg: {
-      walletNotFound: 'Wallet not found',
-      passcodeNotEquals: 'Passcodes not equal',
-      incorrectPasscode: 'Incorrect passcode',
-      addressCopied: 'Address copied',
-      copiedToClipboard: 'Copied to clipboard',
-      connectionRestored: 'Connection restored',
-      invalidConnection: 'Invalid connection',
+      walletNotFound: I18n.t('show_msg.wallet_not_found'),
+      passcodeNotEquals: I18n.t('show_msg.passcode_not_equals'),
+      incorrectPasscode: I18n.t('show_msg.incorrect_passcode'),
+      addressCopied: I18n.t('show_msg.address_copied'),
+      copiedToClipboard: I18n.t('show_msg.copied_to_clipboard'),
+      connectionRestored: I18n.t('show_msg.connection_restored'),
+      invalidConnection: I18n.t('show_msg.invalid_connection'),
     },
     statuses: {
-      success: 'Success',
-      pending: 'Pending',
-      failed: 'Failed',
+      success: I18n.t('statuses.success'),
+      pending: I18n.t('statuses.pending'),
+      failed: I18n.t('statuses.failed'),
     },
     legal: {
-      title: 'Terms & Conditions and Privacy Policy',
-      checkbox:
-        ' I have read, understood, and agree with the Terms & Conditions and Privacy Policy',
-      tos: 'Terms & Conditions',
-      privacyPolicy: 'Privacy Policy',
+      title: I18n.t('legal.title'),
+      checkbox: I18n.t('legal.checkbox'),
+      tos: I18n.t('legal.tos'),
+      privacyPolicy: I18n.t('legal.privacy_policy'),
     },
     walletFileBackup: {
-      title: 'Backup wallet',
-      description:
-        'Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.',
-      filenamePlaceholder: 'File name',
-      passwordPlaceholder: 'Password',
-      confirmPassword: 'Confirm password',
-      passLenErr: 'At least 8 characters',
-      symbolOrNumberErr: 'Include at least 1 letter and 1 number',
-      passNotMatchErr: 'Passwords do not match',
+      title: I18n.t('wallet_file_backup.title'),
+      description: I18n.t('wallet_file_backup.description'),
+      filenamePlaceholder: I18n.t('wallet_file_backup.filename_placeholder'),
+      passwordPlaceholder: I18n.t('wallet_file_backup.password_placeholder'),
+      confirmPassword: I18n.t('wallet_file_backup.confirm_password'),
+      passLenErr: I18n.t('wallet_file_backup.pass_len_err'),
+      symbolOrNumberErr: I18n.t('wallet_file_backup.symbol_or_number_err'),
+      passNotMatchErr: I18n.t('wallet_file_backup.pass_not_match_err'),
     },
     walletFileImport: {
-      title: 'Import wallet',
-      passwordPlaceholder: 'Password',
-      description: 'Enter the password to decrypt your wallet.',
-      invalidPasswordTitle: 'Incorrect password',
+      title: I18n.t('wallet_file_import.title'),
+      passwordPlaceholder: I18n.t('wallet_file_import.password_placeholder'),
+      description: I18n.t('wallet_file_import.description'),
+      invalidPasswordTitle: I18n.t('wallet_file_import.invalid_password_title'),
     },
     saveSeed: {
-      title: 'Your secret phrase',
-      description:
-        'Write these 12 words down, or copy them to your password manager.',
-      info:
-        'These 12 words are the keys to your wallet. Back up in a safe place. Do not share this with anyone.',
+      title: I18n.t('save_seed.title'),
+      description: I18n.t('save_seed.description'),
+      info: I18n.t('save_seed.info'),
     },
     confirmSaveSeed: {
-      title: 'Verify secret phrase',
-      description: 'Put the words in the correct order.',
-      incorrectEnteredSeed: 'Incorrectly entered secret phrase',
+      title: I18n.t('confirm_save_seed.title'),
+      description: I18n.t('confirm_save_seed.description'),
+      incorrectEnteredSeed: I18n.t('confirm_save_seed.incorrect_entered_seed'),
     },
     importSeed: {
-      title: 'Import wallet',
-      description: 'Write your secret phrase',
-      invalidSecretPhraseErr: 'Incorrect secret phrase',
+      title: I18n.t('import_seed.title'),
+      description: I18n.t('import_seed.description'),
+      invalidSecretPhraseErr: I18n.t('import_seed.invalid_secret_phrase_err'),
     },
     importWallet: {
-      googleDriveTitle: 'From Google Drive',
-      manuallyTitle: 'With recovery phrase',
+      googleDriveTitle: I18n.t('import_wallet.google_drive_title'),
+      manuallyTitle: I18n.t('import_wallet.manually_title'),
     },
     backup: {
-      title: 'Save a wallet',
-      description:
-        'Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.',
-      googleDriveTitle: 'On Google Drive',
-      manuallyTitle: 'Back up manually',
+      title: I18n.t('backup.title'),
+      description: I18n.t('backup.description'),
+      googleDriveTitle: I18n.t('backup.google_drive_title'),
+      manuallyTitle: I18n.t('backup.manually_title'),
     },
     connecting: {
-      title: 'Connecting',
-      description:
-        'Connect to Fractapp and receive cryptocurrency by phone number, email or username',
-      phone: 'Connect phone number',
-      email: 'Connect email',
+      title: I18n.t('connecting.title'),
+      description: I18n.t('connecting.description'),
+      phone: I18n.t('connecting.phone'),
+      email: I18n.t('connecting.email'),
     },
     edit: {
-      email: 'Enter email',
-      name: 'Enter name',
-      username: 'Enter username',
+      email: I18n.t('edit.email'),
+      name: I18n.t('edit.name'),
+      username: I18n.t('edit.username'),
 
-      phoneTitle: 'Phone',
-      countryTitle: 'Country',
-      invalidPhoneNumber: 'Invalid phone number',
+      phoneTitle: I18n.t('edit.phone_title'),
+      countryTitle: I18n.t('edit.country_title'),
+      invalidPhoneNumber: I18n.t('edit.invalid_phone_number'),
 
       profile: {
-        nameTitle: 'Name',
-        usernameTitle: 'Username',
-        phoneTitle: 'Phone',
-        emailTitle: 'Email',
+        nameTitle: I18n.t('edit.profile.name_title'),
+        usernameTitle: I18n.t('edit.profile.username_title'),
+        phoneTitle: I18n.t('edit.profile.phone_title'),
+        emailTitle: I18n.t('edit.profile.email_title'),
 
-        namePlaceholder: 'Write your name',
-        usernamePlaceholder: 'Write your username',
-        phonePlaceholder: 'Write your phone',
-        emailPlaceholder: 'Write your email',
+        namePlaceholder: I18n.t('edit.profile.name_placeholder'),
+        usernamePlaceholder: I18n.t('edit.profile.username_placeholder'),
+        phonePlaceholder: I18n.t('edit.profile.phone_placeholder'),
+        emailPlaceholder: I18n.t('edit.profile.email_placeholder'),
       },
     },
 
-    YourBalanceTitle: 'Your balance',
-    OpenSettingsTitle: 'Open settings',
-    /*  OpenSettingsForStorageText:
-      'If you want to save a file then open the application settings and give it access to the storage.',*/
-    OpenSettingsForContactsText:
-      'If you want to find users by your contacts then open the system settings and give it access to read your contacts.',
-
-    WaitLoadingTitle: 'Wait loading amount',
-
-    ServiceUnavailableTitle: 'Service unavailable',
-    UserHasBeenDeletedTitle: 'The user has been deleted',
+    YourBalanceTitle: I18n.t('your_balance_title'),
+    OpenSettingsTitle: I18n.t('open_settings_title'),
+    OpenSettingsForContactsText: I18n.t('open_settings_for_contacts_text'),
+    WaitLoadingTitle: I18n.t('wait_loading_title'),
+    ServiceUnavailableTitle: I18n.t('service_unavailable_title'),
+    UserHasBeenDeletedTitle: I18n.t('user_has_been_deleted_title'),
 
     settingWallet: {
-      backup: 'I have a wallet',
-      create: 'Create a new wallet',
+      backup: I18n.t('setting_wallet.backup'),
+      create: I18n.t('setting_wallet.create'),
     },
-    DifferentAddressTitle: 'The account is registered to a different address',
-    DifferentAddressText: '',
+    DifferentAddressTitle: I18n.t('different_address_title'),
+    InvalidPhoneNumberTitle: I18n.t('invalid_phone_number_title'),
+    InvalidPhoneNumberText: I18n.t('invalid_phone_number_text'),
 
-    InvalidPhoneNumberTitle: 'Invalid phone number',
-    InvalidPhoneNumberText: 'Please validate and write the phone number again',
+    InvalidEmailTitle: I18n.t('invalid_email_title'),
+    InvalidEmailText: I18n.t('invalid_email_text'),
 
-    InvalidEmailTitle: 'Invalid email',
-    InvalidEmailText: 'Please validate and write the email again',
+    InvalidNameTitle: I18n.t('invalid_name_title'),
+    InvalidNameText: I18n.t('invalid_name_text'),
 
-    InvalidNameTitle: 'Invalid name',
-    InvalidNameText: 'Please validate and write the name again',
+    InvalidUsernameTitle: I18n.t('invalid_username_title'),
+    InvalidUsernameText: I18n.t('invalid_username_text'),
 
-    InvalidUsernameTitle: 'Invalid name',
-    InvalidUsernameText: 'Please validate and write the username again',
+    UsernameIsExistTitle: I18n.t('username_is_exist_title'),
+    UsernameIsExistText: I18n.t('username_is_exist_text'),
 
-    UsernameIsExistTitle: 'Username exists',
-    UsernameIsExistText: 'Please write a new username',
+    FileExistTitle: I18n.t('file_exist_title'),
+    FileExistText: I18n.t('file_exist_text'),
 
-    FileExistTitle: 'File exists',
-    FileExistText: 'Please enter a different file name',
+    ConfirmationCodePhoneNumberText: I18n.t(
+      'confirmation_code_phone_number_text',
+    ),
+    ConfirmationCodeEmailText: I18n.t('confirmation_code_email_text'),
 
-    /*  SuccessSaveWalletTitle: 'Success save wallet',
-    SuccessSaveWalletText: (filename: string, folder: string) =>
-      `If you lose access to file then you will not be able to restore access to the wallet. File "${filename}.json" saved in "${folder}" directory`,
-    */
+    MinimumTransferErrorTitle: I18n.t('minimum_transfer_error_title'),
+    MinimumTransferErrorText: I18n.t('minimum_transfer_error_text'),
+
+    NeedFullBalanceErrTitle: I18n.t('need_full_balance_err_title'),
+
+    NeedFullBalanceErrText: (minBalance: number, currency: Currency) =>
+      `${I18n.t(
+        'need_full_balance_err_text_part_one',
+      )} ${minBalance} ${getSymbol(currency)} ${I18n.t(
+        'need_full_balance_err_text_part_two',
+      )}`,
 
     MyAddressForShare: (
       currency: Currency,
       address: string,
       userId: string,
     ) => {
-      let text = `My address for ${getSymbol(currency)}: ${address}\n\n`;
+      let text = `${I18n.t('share_text')} ${getSymbol(
+        currency,
+      )}: ${address}\n\n`;
 
       if (userId === '') {
-        text += `Link for sending via Fractapp: https://send.fractapp.com/send.html?user=${address}&type=address&currency=${getSymbol(
+        text += `${I18n.t(
+          'share_link',
+        )}: https://send.fractapp.com/send.html?user=${address}&type=address&currency=${getSymbol(
           currency,
         )}`;
       } else {
-        text += `Link for sending via Fractapp: https://send.fractapp.com/send.html?user=${userId}&type=user&currency=${getSymbol(
+        text += `${I18n.t(
+          'share_link',
+        )}: https://send.fractapp.com/send.html?user=${userId}&type=user&currency=${getSymbol(
           currency,
         )}`;
       }
       return text;
     },
-
-    ConfirmationCodePhoneNumberText:
-      'Confirmation code sent to your phone number',
-    ConfirmationCodeEmailText: 'Confirmation code sent to your email',
-
-    MinimumTransferErrorTitle: 'Minimum transfer',
-    MinimumTransferErrorText: 'The minimum transfer for this recipient is',
-
-    NeedFullBalanceErrTitle: 'Amount',
-    NeedFullBalanceErrText: (minBalance: number, currency: Currency) =>
-      `Leave more than  ${minBalance} ${getSymbol(
-        currency,
-      )} on your balance or send the whole balance`,
   };
-
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  /**
-   * get month name by day number
-   */
-  export function getMonths(day: number): string {
-    return months[day];
-  }
 
   /**
    * convert date to string
@@ -248,13 +268,13 @@ namespace StringUtils {
       now.getMonth() === date.getMonth() &&
       now.getDate() === date.getDate()
     ) {
-      dateValue = 'Today';
+      dateValue = today;
     } else if (
       now.getFullYear() === date.getFullYear() &&
       now.getMonth() === date.getMonth() &&
       now.getDate() - 1 === date.getDate()
     ) {
-      dateValue = 'Yesterday';
+      dateValue = yesterday;
     } else if (now.getFullYear() === date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()];
     } else {
@@ -294,7 +314,7 @@ namespace StringUtils {
       now.getMonth() === date.getMonth() &&
       now.getDate() - 1 === date.getDate()
     ) {
-      dateValue = 'Yesterday';
+      dateValue = yesterday;
     } else if (now.getFullYear() === date.getFullYear()) {
       dateValue = date.getDate() + ' ' + months[date.getMonth()];
     } else {

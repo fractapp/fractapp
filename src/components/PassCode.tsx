@@ -78,7 +78,7 @@ export const PassCode = ({
         line.push(
           <TouchableOpacity
             key={index}
-            style={styles.btn}
+            style={styles.btnImg}
             onPress={() => numpadClick(index)}>
             {element}
           </TouchableOpacity>,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 0,
   },
-  btn: {
+  btnImg: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 80,

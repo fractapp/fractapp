@@ -6,12 +6,13 @@ import {Currency, Wallet} from 'types/wallet';
 import {fireEvent, render} from '@testing-library/react-native';
 import {showMessage} from 'react-native-flash-message';
 import Clipboard from '@react-native-community/clipboard';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('utils/backend', () => ({
   getImgUrl: jest.fn(() => 'http://127.0.0.1/1.png'),
 }));
-jest.mock('utils/polkadot', () => {});
+jest.mock('adaptors/adaptor', () => {});
 jest.mock('react-native-crypto', () => {});
 jest.mock('react-native-flash-message', () => ({
   showMessage: jest.fn(),
@@ -263,7 +264,7 @@ it('Test click start without user', () => {
 
   fireEvent.press(component.getByText('address#1'));
   expect(showMessage).toBeCalledWith({
-    message: 'Copied',
+    message: StringUtils.texts.showMsg.copiedToClipboard,
     type: 'info',
     icon: 'info',
   });
@@ -360,9 +361,9 @@ it('Test click start with user', () => {
 
   fireEvent.press(component.getByText('name'));
   expect(showMessage).toBeCalledWith({
-    message: 'Copied',
+    message: StringUtils.texts.showMsg.copiedToClipboard,
     type: 'info',
     icon: 'info',
   });
-  expect(Clipboard.setString).toBeCalledWith('@username');
+  expect(Clipboard.setString).toBeCalledWith('username');
 });

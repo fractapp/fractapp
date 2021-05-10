@@ -39,6 +39,7 @@ import {
 } from 'screens/index';
 import {TabMenu} from 'components/TabMenu';
 import {getSymbol} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 /**
  * Main navigation stack
@@ -125,29 +126,72 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('Home', TabMenu)}
         {getEmptyRouter('NewPassCode', NewPassCode)}
         {getEmptyRouter('VerifyPassCode', VerifyPassCode)}
-        {getRouterWithTitle('WalletDetails', 'Details', WalletDetails)}
+        {getRouterWithTitle(
+          'WalletDetails',
+          StringUtils.texts.titles.details,
+          WalletDetails,
+        )}
         {getRouterWithTitle(
           'TransactionDetails',
-          'Transaction',
+          StringUtils.texts.titles.transaction,
           TransactionDetails,
         )}
-        {getRouterWithTitle('Backup', 'Backup', Backup)}
-        {getRouterWithTitle('EditProfile', 'Edit Profile', EditProfile)}
-        {getRouterWithTitle('ConfirmCode', 'Confirm code', ConfirmCode)}
-        {getRouterWithTitle('SelectCountry', 'Select country', SelectCountry)}
-        {getRouterWithTitle('EditPhoneNumber', 'Phone number', EditPhoneNumber)}
-        {getRouterWithTitle('EditEmail', 'Email', EditEmail)}
-        {getRouterWithTitle('EditUsername', 'Edit Username', EditUsername)}
-        {getRouterWithTitle('EditName', 'Edit Name', EditName)}
-        {getRouterWithTitle('SelectWallet', 'Select Wallet', SelectWallet)}
-        {getRouterWithTitle('Send', 'Send', Send)}
-        {getRouterWithTitle('EnterAmount', 'Enter Amount', EnterAmount)}
-        {getEmptyRouter('Search', Search)}
-        {getRouterWithTitle('Chat', '', Chat)}
-        {getRouterWithTitle('Receive', 'Receive ', Receive, (route) =>
-          getSymbol(route.params.currency),
+        {getRouterWithTitle('Backup', StringUtils.texts.titles.backup, Backup)}
+        {getRouterWithTitle(
+          'EditProfile',
+          StringUtils.texts.titles.editProfile,
+          EditProfile,
+        )}
+        {getRouterWithTitle(
+          'ConfirmCode',
+          StringUtils.texts.titles.confirmCode,
+          ConfirmCode,
+        )}
+        {getRouterWithTitle(
+          'SelectCountry',
+          StringUtils.texts.titles.selectCountry,
+          SelectCountry,
+        )}
+        {getRouterWithTitle(
+          'EditPhoneNumber',
+          StringUtils.texts.titles.phoneNumber,
+          EditPhoneNumber,
+        )}
+        {getRouterWithTitle(
+          'EditEmail',
+          StringUtils.texts.titles.email,
+          EditEmail,
+        )}
+        {getRouterWithTitle(
+          'EditUsername',
+          StringUtils.texts.titles.editUsername,
+          EditUsername,
+        )}
+        {getRouterWithTitle(
+          'EditName',
+          StringUtils.texts.titles.editName,
+          EditName,
+        )}
+        {getRouterWithTitle(
+          'SelectWallet',
+          StringUtils.texts.titles.selectWallet,
+          SelectWallet,
+        )}
+        {getRouterWithTitle('Send', StringUtils.texts.titles.send, Send)}
+        {getRouterWithTitle(
+          'EnterAmount',
+          StringUtils.texts.titles.enterAmount,
+          EnterAmount,
+        )}
+        {getRouterWithTitle(
+          'Receive',
+          StringUtils.texts.titles.receive + ' ',
+          Receive,
+          (route) => getSymbol(route.params.currency),
         )}
         {getRouterWithTitle('Connecting', '', Connecting)}
+        {getRouterWithTitle('Chat', '', Chat)}
+        {getEmptyRouter('Search', Search)}
       </>
     );
   };

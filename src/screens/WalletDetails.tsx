@@ -74,7 +74,7 @@ export const WalletDetails = ({
           <View>
             <WalletDetailsInfo wallet={wallet} />
             <View style={styles.btns}>
-              <View>
+              <View style={styles.btn}>
                 <TouchableHighlight
                   testID={'sendBtn'}
                   onPress={() =>
@@ -83,7 +83,7 @@ export const WalletDetails = ({
                     })
                   }
                   underlayColor="#f8f9fb"
-                  style={styles.btn}>
+                  style={styles.btnImg}>
                   <MaterialCommunityIcons
                     name="upload-outline"
                     size={24}
@@ -92,7 +92,7 @@ export const WalletDetails = ({
                 </TouchableHighlight>
                 <Text style={styles.btnText}>{StringUtils.texts.SendBtn}</Text>
               </View>
-              <View style={{marginLeft: 30}}>
+              <View style={[styles.btn, {marginLeft: 30}]}>
                 <TouchableHighlight
                   testID={'receiveBtn'}
                   onPress={() =>
@@ -102,7 +102,7 @@ export const WalletDetails = ({
                     })
                   }
                   underlayColor="#f8f9fb"
-                  style={[styles.btn]}>
+                  style={[styles.btnImg]}>
                   <MaterialCommunityIcons
                     name="download-outline"
                     size={24}
@@ -158,6 +158,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnImg: {
     width: 70,
     height: 70,
     backgroundColor: '#F0EEEE',

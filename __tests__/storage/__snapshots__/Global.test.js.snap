@@ -9,32 +9,32 @@ Object {
 exports[`Test deleteUser 1`] = `
 Object {
   "id": "id",
-  "type": 16,
+  "type": 15,
 }
 `;
 
 exports[`Test disableBiometry 1`] = `
 Object {
-  "type": 11,
+  "type": 9,
 }
 `;
 
 exports[`Test disablePasscode 1`] = `
 Object {
-  "type": 9,
+  "type": 7,
 }
 `;
 
 exports[`Test enableBiometry 1`] = `
 Object {
-  "type": 10,
+  "type": 8,
 }
 `;
 
 exports[`Test enablePasscode 1`] = `
 Object {
   "passcode": "111111",
-  "type": 8,
+  "type": 6,
 }
 `;
 
@@ -423,13 +423,42 @@ Object {
 
 exports[`Test reducer set 1`] = `
 Object {
-  "authInfo": Object {
+  "authInfo": 10,
+  "contacts": false,
+  "isInitialized": true,
+  "isLoadingShow": false,
+  "isRegistered": Object {
     "isAuthed": true,
     "isBiometry": true,
     "isPasscode": false,
     "isSynced": false,
   },
-  "contacts": Array [
+  "isSyncShow": true,
+  "isUpdatingProfile": true,
+  "profile": Object {
+    "avatarExt": "png",
+    "email": "email@email.com",
+    "id": "id",
+    "isMigratory": false,
+    "lastUpdate": 123123,
+    "name": "name",
+    "phoneNumber": "+123123123",
+    "username": "username",
+  },
+  "urls": Map {
+    "idOne" => Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  },
+  "users": Array [
     Object {
       "addresses": Object {
         "0": "addressOne",
@@ -453,34 +482,6 @@ Object {
       "username": "usernameOne",
     },
   ],
-  "isInitialized": true,
-  "isLoadingShow": false,
-  "isRegistered": true,
-  "isUpdatingProfile": false,
-  "notificationCount": 10,
-  "profile": Object {
-    "avatarExt": "png",
-    "email": "email@email.com",
-    "id": "id",
-    "isMigratory": false,
-    "lastUpdate": 123123,
-    "name": "name",
-    "phoneNumber": "+123123123",
-    "username": "username",
-  },
-  "users": Map {
-    "idOne" => Object {
-      "addresses": Object {
-        "0": "addressOne",
-        "1": "addressTwo",
-      },
-      "avatarExt": "jpg",
-      "id": "idOne",
-      "lastUpdate": 123123,
-      "name": "nameOne",
-      "username": "usernameOne",
-    },
-  },
 }
 `;
 
@@ -760,39 +761,15 @@ Object {
 
 exports[`Test set 1`] = `
 Object {
-  "authInfo": Object {
+  "authInfo": 10,
+  "contacts": false,
+  "isRegistered": Object {
     "isAuthed": true,
     "isBiometry": true,
     "isPasscode": false,
     "isSynced": false,
   },
-  "contacts": Array [
-    Object {
-      "addresses": Object {
-        "0": "addressOne",
-        "1": "addressTwo",
-      },
-      "avatarExt": "jpg",
-      "id": "idOne",
-      "lastUpdate": 123123,
-      "name": "nameOne",
-      "username": "usernameOne",
-    },
-    Object {
-      "addresses": Object {
-        "0": "addressOne",
-        "1": "addressTwo",
-      },
-      "avatarExt": "jpg",
-      "id": "idOne",
-      "lastUpdate": 123123,
-      "name": "nameOne",
-      "username": "usernameOne",
-    },
-  ],
-  "isRegistered": true,
-  "isUpdatingProfile": false,
-  "notificationCount": 10,
+  "isUpdatingProfile": true,
   "profile": Object {
     "avatarExt": "png",
     "email": "email@email.com",
@@ -804,7 +781,7 @@ Object {
     "username": "username",
   },
   "type": 0,
-  "users": Map {
+  "urls": Map {
     "idOne" => Object {
       "addresses": Object {
         "0": "addressOne",
@@ -817,6 +794,30 @@ Object {
       "username": "usernameOne",
     },
   },
+  "users": Array [
+    Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+    Object {
+      "addresses": Object {
+        "0": "addressOne",
+        "1": "addressTwo",
+      },
+      "avatarExt": "jpg",
+      "id": "idOne",
+      "lastUpdate": 123123,
+      "name": "nameOne",
+      "username": "usernameOne",
+    },
+  ],
 }
 `;
 
@@ -826,14 +827,14 @@ Object {
     "contact#1",
     "contact#2",
   ],
-  "type": 14,
+  "type": 13,
 }
 `;
 
 exports[`Test setLoading 1`] = `
 Object {
   "isLoadingShow": true,
-  "type": 13,
+  "type": 11,
 }
 `;
 
@@ -855,7 +856,7 @@ Object {
 
 exports[`Test setSynced 1`] = `
 Object {
-  "type": 12,
+  "type": 10,
 }
 `;
 
@@ -868,7 +869,7 @@ Object {
 
 exports[`Test setUser 1`] = `
 Object {
-  "type": 15,
+  "type": 14,
   "user": Object {
     "addresses": Object {
       "0": "addressOne",

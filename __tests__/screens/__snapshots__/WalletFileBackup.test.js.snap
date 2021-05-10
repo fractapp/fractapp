@@ -36,7 +36,7 @@ exports[`Test empty password 1`] = `
       }
     }
   >
-    Wallet encryption
+    Backup wallet
   </Text>
   <Text
     style={
@@ -49,7 +49,7 @@ exports[`Test empty password 1`] = `
       }
     }
   >
-    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+    Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.
   </Text>
   <View
     style={
@@ -164,6 +164,52 @@ exports[`Test empty password 1`] = `
       underlineColorAndroid="transparent"
     />
   </View>
+  <View
+    style={
+      Object {
+        "bottom": 40,
+        "position": "absolute",
+        "width": "80%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#2AB2E2",
+          "borderRadius": 10,
+          "height": 50,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Confirm
+      </Text>
+    </View>
+  </View>
 </View>
 `;
 
@@ -206,7 +252,7 @@ exports[`Test minimum password length 1`] = `
       }
     }
   >
-    Wallet encryption
+    Backup wallet
   </Text>
   <Text
     style={
@@ -219,7 +265,7 @@ exports[`Test minimum password length 1`] = `
       }
     }
   >
-    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+    Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.
   </Text>
   <View
     style={
@@ -344,7 +390,7 @@ exports[`Test minimum password length 1`] = `
       }
     }
   >
-    Minimum password length is 6 characters
+    At least 8 characters
   </Text>
 </View>
 `;
@@ -369,7 +415,7 @@ exports[`Test password do not match 1`] = `
       }
     }
   >
-    Wallet encryption
+    Backup wallet
   </Text>
   <Text
     style={
@@ -382,7 +428,7 @@ exports[`Test password do not match 1`] = `
       }
     }
   >
-    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+    Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.
   </Text>
   <View
     style={
@@ -507,7 +553,7 @@ exports[`Test password do not match 1`] = `
       }
     }
   >
-    Password do not match
+    At least 8 characters
   </Text>
 </View>
 `;
@@ -532,7 +578,7 @@ exports[`Test success password 1`] = `
       }
     }
   >
-    Wallet encryption
+    Backup wallet
   </Text>
   <Text
     style={
@@ -545,7 +591,7 @@ exports[`Test success password 1`] = `
       }
     }
   >
-    Enter the password to encrypt your wallet. Do not lose your password otherwise you will not be able to restore access.
+    Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.
   </Text>
   <View
     style={
@@ -660,51 +706,17 @@ exports[`Test success password 1`] = `
       underlineColorAndroid="transparent"
     />
   </View>
-  <View
+  <Text
     style={
       Object {
-        "bottom": 40,
-        "position": "absolute",
-        "width": "80%",
+        "color": "red",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "marginTop": 20,
       }
     }
   >
-    <View
-      accessible={true}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#2AB2E2",
-          "borderRadius": 10,
-          "height": 50,
-          "justifyContent": "center",
-          "opacity": 1,
-          "width": "100%",
-        }
-      }
-    >
-      <Text
-        style={
-          Object {
-            "color": "white",
-            "fontFamily": "Roboto-Regular",
-            "fontSize": 15,
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
-        }
-      >
-        Encrypt
-      </Text>
-    </View>
-  </View>
+    At least 8 characters
+  </Text>
 </View>
 `;

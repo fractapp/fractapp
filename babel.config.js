@@ -34,6 +34,7 @@ module.exports = {
           storage: './src/storage',
           tasks: './src/tasks',
           adaptors: './src/adaptors',
+          locales: './src/locales',
         },
         root: ['.'],
       },

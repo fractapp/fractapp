@@ -24,7 +24,7 @@ export const Dialog = ({
       width={0.7}
       dialogTitle={<Text style={styles.title}>{title}</Text>}
       footer={
-        <View style={styles.btn}>
+        <View style={styles.btnImg}>
           <BlueButton text={'OK'} height={40} onPress={onPress} />
         </View>
       }>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     color: '#888888',
   },
-  btn: {
+  btnImg: {
     marginBottom: 12,
     width: '40%',
     alignSelf: 'center',

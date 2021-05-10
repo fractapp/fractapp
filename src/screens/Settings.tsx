@@ -12,6 +12,7 @@ import Keychain from 'react-native-keychain';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/backend';
 import {CommonActions} from '@react-navigation/native';
+import StringUtils from 'utils/string';
 
 /**
  * Settings screen
@@ -42,7 +43,7 @@ export const Settings = ({
   const menuItems = [
     {
       img: require('assets/img/edit-profile.png'),
-      title: 'Edit profile',
+      title: StringUtils.texts.settings.editProfile,
       onClick: () =>
         globalContext.state.isRegistered
           ? navigation.navigate('EditProfile')
@@ -50,7 +51,7 @@ export const Settings = ({
     },
     {
       img: require('assets/img/backup.png'),
-      title: 'Backup',
+      title: StringUtils.texts.settings.backup,
       onClick: async () => {
         if (globalContext.state.authInfo.isPasscode) {
           navigation.navigate('VerifyPassCode', {
@@ -67,8 +68,8 @@ export const Settings = ({
     {
       img: require('assets/img/safety.png'),
       title: globalContext.state.authInfo.isPasscode
-        ? 'Disable passcode'
-        : 'Enable passcode',
+        ? StringUtils.texts.settings.disablePasscode
+        : StringUtils.texts.settings.enablePasscode,
       onClick: async () => {
         if (globalContext.state.authInfo.isPasscode) {
           navigation.navigate('VerifyPassCode', {
@@ -82,8 +83,8 @@ export const Settings = ({
     {
       img: require('assets/img/biometry-btn.png'),
       title: globalContext.state.authInfo.isBiometry
-        ? 'Disable biometry'
-        : 'Enable biometry',
+        ? StringUtils.texts.settings.disableBiometry
+        : StringUtils.texts.settings.enableBiometry,
       onClick: async () => {
         navigation.navigate('VerifyPassCode', {
           isChangeBiometry: true,
@@ -106,12 +107,12 @@ export const Settings = ({
     },
     {
       img: require('assets/img/help.png'),
-      title: 'Help',
+      title: StringUtils.texts.settings.help,
       onClick: () => Linking.openURL('mailto:support@fractapp.com'),
     },
     {
       img: require('assets/img/about.png'),
-      title: 'About us',
+      title: StringUtils.texts.settings.aboutUs,
       onClick: () => Linking.openURL('https://fractapp.com'),
     },
   ];

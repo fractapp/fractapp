@@ -3,8 +3,8 @@
 exports[`Test click success with invalid name 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please validate and write username again",
-  "title": "Invalid username",
+  "text": "Please validate and write the username again",
+  "title": "Invalid name",
   "type": 0,
 }
 `;
@@ -12,8 +12,8 @@ Object {
 exports[`Test click success with name is not free 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please write new username",
-  "title": "Username is exist",
+  "text": "Please write a new username",
+  "title": "Username exists",
   "type": 0,
 }
 `;

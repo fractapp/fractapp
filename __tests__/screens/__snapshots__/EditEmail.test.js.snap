@@ -3,7 +3,7 @@
 exports[`Test click success with invalid email 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please validate and write email again",
+  "text": "Please validate and write the email again",
   "title": "Invalid email",
   "type": 0,
 }

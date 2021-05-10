@@ -159,7 +159,7 @@ exports[`Test tx details (fail) 1`] = `
         ]
       }
     >
-      Write-off account
+      Receiving account
     </Text>
     <View
       style={
@@ -256,7 +256,7 @@ exports[`Test tx details (fail) 1`] = `
                       ]
                     }
                   >
-                    100
+                    100000
                      
                     DOT
                   </Text>
@@ -285,7 +285,7 @@ exports[`Test tx details (fail) 1`] = `
                     }
                   >
                     $
-                    100000
+                    NaN
                   </Text>
                 </View>
               </View>
@@ -366,44 +366,7 @@ exports[`Test tx details (fail) 1`] = `
           "flex": 1,
         }
       }
-    >
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "alignSelf": "flex-start",
-                "color": "#888888",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 17,
-                "marginLeft": 20,
-                "marginRight": 20,
-              },
-              Object {
-                "marginBottom": 5,
-              },
-            ]
-          }
-        >
-          Fee
-        </Text>
-        <Text
-          style={
-            Object {
-              "alignSelf": "flex-start",
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 17,
-              "marginLeft": 20,
-              "marginRight": 20,
-            }
-          }
-        >
-          $
-          10
-        </Text>
-      </View>
-    </View>
+    />
   </View>
 </View>
 `;
@@ -567,7 +530,7 @@ exports[`Test tx details (none) 1`] = `
         ]
       }
     >
-      Write-off account
+      Receiving account
     </Text>
     <View
       style={
@@ -664,7 +627,7 @@ exports[`Test tx details (none) 1`] = `
                       ]
                     }
                   >
-                    200
+                    10000
                      
                     KSM
                   </Text>
@@ -693,7 +656,7 @@ exports[`Test tx details (none) 1`] = `
                     }
                   >
                     $
-                    40200
+                    NaN
                   </Text>
                 </View>
               </View>
@@ -774,44 +737,7 @@ exports[`Test tx details (none) 1`] = `
           "flex": 1,
         }
       }
-    >
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "alignSelf": "flex-start",
-                "color": "#888888",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 17,
-                "marginLeft": 20,
-                "marginRight": 20,
-              },
-              Object {
-                "marginBottom": 5,
-              },
-            ]
-          }
-        >
-          Fee
-        </Text>
-        <Text
-          style={
-            Object {
-              "alignSelf": "flex-start",
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 17,
-              "marginLeft": 20,
-              "marginRight": 20,
-            }
-          }
-        >
-          $
-          10
-        </Text>
-      </View>
-    </View>
+    />
   </View>
 </View>
 `;
@@ -975,7 +901,7 @@ exports[`Test tx details (pending) 1`] = `
         ]
       }
     >
-      Write-off account
+      Receiving account
     </Text>
     <View
       style={
@@ -1072,7 +998,7 @@ exports[`Test tx details (pending) 1`] = `
                       ]
                     }
                   >
-                    100
+                    100000
                      
                     DOT
                   </Text>
@@ -1101,7 +1027,7 @@ exports[`Test tx details (pending) 1`] = `
                     }
                   >
                     $
-                    100000
+                    NaN
                   </Text>
                 </View>
               </View>
@@ -1182,44 +1108,7 @@ exports[`Test tx details (pending) 1`] = `
           "flex": 1,
         }
       }
-    >
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "alignSelf": "flex-start",
-                "color": "#888888",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 17,
-                "marginLeft": 20,
-                "marginRight": 20,
-              },
-              Object {
-                "marginBottom": 5,
-              },
-            ]
-          }
-        >
-          Fee
-        </Text>
-        <Text
-          style={
-            Object {
-              "alignSelf": "flex-start",
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 17,
-              "marginLeft": 20,
-              "marginRight": 20,
-            }
-          }
-        >
-          $
-          10
-        </Text>
-      </View>
-    </View>
+    />
   </View>
 </View>
 `;
@@ -1383,7 +1272,7 @@ exports[`Test tx details (received) 1`] = `
         ]
       }
     >
-      Write-off account
+      Receiving account
     </Text>
     <View
       style={
@@ -1480,7 +1369,7 @@ exports[`Test tx details (received) 1`] = `
                       ]
                     }
                   >
-                    100
+                    100000
                      
                     DOT
                   </Text>
@@ -1509,7 +1398,7 @@ exports[`Test tx details (received) 1`] = `
                     }
                   >
                     $
-                    100000
+                    NaN
                   </Text>
                 </View>
               </View>
@@ -1590,44 +1479,7 @@ exports[`Test tx details (received) 1`] = `
           "flex": 1,
         }
       }
-    >
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "alignSelf": "flex-start",
-                "color": "#888888",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 17,
-                "marginLeft": 20,
-                "marginRight": 20,
-              },
-              Object {
-                "marginBottom": 5,
-              },
-            ]
-          }
-        >
-          Fee
-        </Text>
-        <Text
-          style={
-            Object {
-              "alignSelf": "flex-start",
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 17,
-              "marginLeft": 20,
-              "marginRight": 20,
-            }
-          }
-        >
-          $
-          10
-        </Text>
-      </View>
-    </View>
+    />
   </View>
 </View>
 `;
@@ -1888,7 +1740,7 @@ exports[`Test tx details (sent) 1`] = `
                       ]
                     }
                   >
-                    100
+                    100000
                      
                     DOT
                   </Text>
@@ -1917,7 +1769,7 @@ exports[`Test tx details (sent) 1`] = `
                     }
                   >
                     $
-                    100000
+                    NaN
                   </Text>
                 </View>
               </View>
@@ -2295,7 +2147,7 @@ exports[`Test tx details with user 1`] = `
                       ]
                     }
                   >
-                    100
+                    100000
                      
                     DOT
                   </Text>
@@ -2324,7 +2176,7 @@ exports[`Test tx details with user 1`] = `
                     }
                   >
                     $
-                    100000
+                    NaN
                   </Text>
                 </View>
               </View>
@@ -2687,7 +2539,7 @@ exports[`Test tx details without usd 1`] = `
                       ]
                     }
                   >
-                    200
+                    10000
                      
                     KSM
                   </Text>
@@ -2716,7 +2568,7 @@ exports[`Test tx details without usd 1`] = `
                     }
                   >
                     $
-                    40200
+                    NaN
                   </Text>
                 </View>
               </View>

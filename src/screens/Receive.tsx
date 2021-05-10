@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View, Image, Text, TouchableHighlight} from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
-import {Currency, getSymbol} from 'types/wallet';
+import {Currency} from 'types/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import QRCode from 'react-native-qrcode-svg';
 import Share from 'react-native-share';
@@ -35,7 +35,7 @@ export const Receive = ({route}: {route: any}) => {
         <Text style={styles.address}>{address}</Text>
       </View>
       <View style={styles.btns}>
-        <View>
+        <View style={styles.btn}>
           <TouchableHighlight
             testID="copyBtn"
             onPress={() => {
@@ -47,7 +47,7 @@ export const Receive = ({route}: {route: any}) => {
               });
             }}
             underlayColor="#76C7E3"
-            style={styles.btn}>
+            style={styles.btnImg}>
             <MaterialCommunityIcons
               name="content-copy"
               size={24}
@@ -56,7 +56,7 @@ export const Receive = ({route}: {route: any}) => {
           </TouchableHighlight>
           <Text style={styles.btnText}>{StringUtils.texts.CopyBtn}</Text>
         </View>
-        <View style={{marginLeft: 30}}>
+        <View style={[styles.btn, {marginLeft: 30}]}>
           <TouchableHighlight
             testID="shareBtn"
             onPress={() =>
@@ -70,7 +70,7 @@ export const Receive = ({route}: {route: any}) => {
               })
             }
             underlayColor="#76C7E3"
-            style={[styles.btn]}>
+            style={[styles.btnImg]}>
             <MaterialCommunityIcons
               name="upload-outline"
               size={24}
@@ -91,6 +91,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnImg: {
     width: 60,
     height: 60,
     backgroundColor: '#2AB2E2',

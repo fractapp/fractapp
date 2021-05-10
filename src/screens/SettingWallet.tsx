@@ -15,7 +15,7 @@ export const SettingWallet = ({navigation}: {navigation: any}) => {
         flex: 1,
         alignItems: 'center',
       }}>
-      <Text style={styles.title}>Setting wallet</Text>
+      <Text style={styles.title}>{StringUtils.texts.titles.settingWallet}</Text>
       <View style={{width: '100%', alignItems: 'center', marginTop: 70}}>
         <WhiteButton
           text={StringUtils.texts.settingWallet.create}

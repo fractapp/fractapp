@@ -71,8 +71,8 @@ exports[`Test default color 1`] = `
           ]
         }
       >
-        10
         $
+        10
       </Text>
     </View>
     <BVLinearGradient
@@ -185,8 +185,8 @@ exports[`Test empty wallet 1`] = `
           ]
         }
       >
-        0
         $
+        0
       </Text>
     </View>
     <BVLinearGradient
@@ -299,8 +299,8 @@ exports[`Test one currency Kusama 1`] = `
           ]
         }
       >
-        100
         $
+        100
       </Text>
     </View>
     <BVLinearGradient
@@ -413,8 +413,8 @@ exports[`Test one currency Polkadot 1`] = `
           ]
         }
       >
-        100
         $
+        100
       </Text>
     </View>
     <BVLinearGradient
@@ -527,8 +527,8 @@ exports[`Test two currency 10/90 1`] = `
           ]
         }
       >
-        100
         $
+        100
       </Text>
     </View>
     <BVLinearGradient
@@ -641,8 +641,8 @@ exports[`Test two currency 50/50 1`] = `
           ]
         }
       >
-        200
         $
+        200
       </Text>
     </View>
     <BVLinearGradient

@@ -1,0 +1,214 @@
+{
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "months": {
+    "january": "Jan",
+    "february": "Feb",
+    "march": "Mar",
+    "april": "Apr",
+    "may": "May",
+    "june": "Jun",
+    "july": "Jul",
+    "august": "Aug",
+    "september": "Sept",
+    "october": "Oct",
+    "november": "Nov",
+    "december": "Dec"
+  },
+  "welcome_title": "Welcome to Fractapp",
+  "welcome_description": "The most simple Polkadot wallet for DeFi",
+  "synchronization_title": "Synchronization",
+
+  "fractapp_wallet_title": "Fractapp",
+  "date_title": "Date",
+  "fee_title": "Fee",
+  "you_sent_title": "You sent",
+  "you_received_title": "You received",
+  "sent_title": "Sent",
+  "received_title": "Received",
+  "total_title": "Total",
+  "unread_messages_title": "Unread messages",
+  "choose_wallet_title": "Choose wallet",
+
+  "search_placeholder": "Search",
+  "no_results_title": "No results",
+
+  "enter_valid_address_err": "Please enter a valid address",
+  "send_by_address_btn": "Send to address",
+  "not_enough_balance_err": "Not enough balance",
+  "enter_amount_title": "Enter amount",
+  "enter_address_title": "Enter address",
+  "resend_title": "Resend",
+  "resend_text": "Can be resending after",
+  "confirm_btn_title": "Confirm",
+  "next_btn_title": "Next",
+  "start_btn_title": "Start",
+  "copy_btn": "Copy",
+  "share_btn": "Share",
+  "send_btn": "Send",
+  "receive_btn": "Receive",
+  "restore_btn": "Restore",
+  "write_off_account_title": "Write-off account",
+  "receiving_account_title": "Receiving account",
+
+  "settings": {
+    "edit_profile": "Edit profile",
+    "backup": "Backup",
+    "disable_passcode": "Disable passcode",
+    "enable_passcode": "Enable passcode",
+    "disable_biometry": "Disable biometry",
+    "enable_biometry": "Enable biometry",
+    "help": "Help",
+    "about_us": "About us"
+  },
+  "titles": {
+    "details": "Details",
+    "transaction": "Transaction",
+    "backup": "Backup",
+    "edit_profile": "Edit Profile",
+    "confirm_code": "Confirm code",
+    "select_country": "Select country",
+    "phone_number": "Phone number",
+    "email": "Email",
+    "edit_username": "Edit Username",
+    "edit_name": "Edit Name",
+    "select_wallet": "Select Wallet",
+    "send": "Send",
+    "enter_amount": "Enter Amount",
+    "receive": "Receive",
+    "setting_wallet": "Setting wallet",
+    "restore_wallet": "Restore wallet"
+  },
+  "pass_code": {
+    "verify_description": "Enter passcode",
+    "new_code_description": "Enter new passcode",
+    "confirm_new_code_description": "Confirm new passcode"
+  },
+  "show_msg": {
+    "wallet_not_found": "Wallet not found",
+    "passcode_not_equals": "Passcodes not equal",
+    "incorrect_passcode": "Incorrect passcode",
+    "address_copied": "Address copied",
+    "copied_to_clipboard": "Copied to clipboard",
+    "connection_restored": "Connection restored",
+    "invalid_connection": "Invalid connection"
+  },
+  "statuses": {
+    "success": "Success",
+    "pending": "Pending",
+    "failed": "Failed"
+  },
+  "legal": {
+    "title": "Terms & Conditions and Privacy Policy",
+    "checkbox": "I have read, understood, and agree with the Terms & Conditions and Privacy Policy",
+    "tos": "Terms & Conditions",
+    "privacy_policy": "Privacy Policy"
+  },
+  "wallet_file_backup": {
+    "title": "Backup wallet",
+    "description": "Enter the password to encrypt your wallet. Do not lose your password and file otherwise, you cannot restore access.",
+    "filename_placeholder": "File name",
+    "password_placeholder": "Password",
+    "confirm_password": "Confirm password",
+    "pass_len_err": "At least 8 characters",
+    "symbol_or_number_err": "Include at least 1 letter and 1 number",
+    "pass_not_match_err": "Passwords do not match"
+  },
+  "wallet_file_import": {
+    "title": "Import wallet",
+    "password_placeholder": "Password",
+    "description": "Enter the password to decrypt your wallet",
+    "invalid_password_title": "Incorrect password"
+  },
+  "save_seed": {
+    "title": "Your secret phrase",
+    "description": "Write these 12 words down, or copy them to your password manager.",
+    "info": "These 12 words are the keys to your wallet. Back up in a safe place. Do not share this with anyone."
+  },
+  "confirm_save_seed": {
+    "title": "Verify secret phrase",
+    "description": "Put the words in the correct order.",
+    "incorrect_entered_seed": "Incorrectly entered secret phrase"
+  },
+  "import_seed": {
+    "title": "Import wallet",
+    "description": "Write your secret phrase",
+    "invalid_secret_phrase_err": "Incorrect secret phrase"
+  },
+  "import_wallet": {
+    "google_drive_title": "From Google Drive",
+    "manually_title": "With recovery phrase"
+  },
+  "backup": {
+    "title": "Save a wallet",
+    "description": "Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.",
+    "google_drive_title": "On Google Drive",
+    "manually_title": "Back up manually"
+  },
+  "connecting": {
+    "title": "Connecting",
+    "description": "Connect to Fractapp and receive cryptocurrency by phone number, email or username",
+    "phone": "Connect phone number",
+    "email": "Connect email"
+  },
+  "edit": {
+    "email": "Enter email",
+    "name": "Enter name",
+    "username": "Enter username",
+    "phone_title": "Phone number",
+    "country_title": "Country",
+    "invalid_phone_number": "Invalid phone number",
+    "profile": {
+      "name_title": "Name",
+      "username_title": "Username",
+      "phone_title": "Phone number",
+      "email_title": "Email",
+      "name_placeholder": "Write your name",
+      "username_placeholder": "Write your username",
+      "phone_placeholder": "Write your phone number",
+      "email_placeholder": "Write your email"
+    }
+  },
+
+  "your_balance_title": "Your balance",
+  "open_settings_title": "Open settings",
+  "open_settings_for_contacts_text": "If you want to find users by your contacts then open the system settings and give it access to read your contacts.",
+  "wait_loading_title": "Wait loading amount",
+  "service_unavailable_title": "Service unavailable",
+  "user_has_been_deleted_title": "The user has been deleted",
+  "setting_wallet": {
+    "backup": "I have a wallet",
+    "create": "Create a new wallet"
+  },
+  "different_address_title": "The account is registered to a different address",
+  "invalid_phone_number_title": "Invalid phone number",
+  "invalid_phone_number_text": "Please validate and write the phone number again",
+
+  "invalid_email_title": "Invalid email",
+  "invalid_email_text": "Please validate and write the email again",
+
+  "invalid_name_title": "Invalid name",
+  "invalid_name_text": "Please validate and write the name again",
+
+  "invalid_username_title": "Invalid username",
+  "invalid_username_text": "Please validate and write the username again",
+
+  "username_is_exist_title": "Username exists",
+  "username_is_exist_text": "Please write a new username",
+
+  "file_exist_title": "File exists",
+  "file_exist_text": "Please enter a different file name",
+
+  "confirmation_code_phone_number_text": "Confirmation code sent to your phone number",
+  "confirmation_code_email_text": "Confirmation code sent to your email",
+
+  "minimum_transfer_error_title": "Minimum transfer",
+  "minimum_transfer_error_text": "The minimum transfer for this recipient is",
+
+  "need_full_balance_err_title": "Amount",
+  "need_full_balance_err_text_part_one": "Leave more than",
+  "need_full_balance_err_text_part_two": "on your balance or send the whole balance",
+
+  "share_text": "My address for",
+  "share_link": "Link for sending via Fractapp"
+}

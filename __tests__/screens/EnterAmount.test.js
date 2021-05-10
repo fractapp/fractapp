@@ -18,7 +18,7 @@ jest.mock('@polkadot/util-crypto', () => ({
   mnemonicValidate: jest.fn(),
 }));
 jest.mock('utils/google', () => ({}));
-jest.mock('utils/polkadot', () => ({
+jest.mock('adaptors/adaptor', () => ({
   Api: {
     getInstance: jest.fn(),
   },

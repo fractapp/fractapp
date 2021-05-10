@@ -39,7 +39,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    Wallet decryption
+    Import wallet
   </Text>
   <Text
     style={
@@ -135,7 +135,7 @@ exports[`Test positive 1`] = `
           }
         }
       >
-        Decrypt
+        Restore
       </Text>
     </View>
   </View>

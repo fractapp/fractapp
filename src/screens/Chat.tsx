@@ -167,11 +167,19 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const onLayout = () => {
     if (notificationCount > 0 && flatListRef && flatListRef.current) {
-      flatListRef.current.scrollToIndex({
-        index: notificationCount - 1,
-        viewPosition: 0.7,
-      });
+      scroll();
     }
+  };
+  const scroll = () => {
+    let index = notificationCount;
+    if (notificationCount > txs.length) {
+      index = txs.length;
+    }
+    flatListRef.current?.scrollToIndex({
+      index: index - 1,
+      viewPosition: 0.7,
+      animated: true,
+    });
   };
 
   return (
@@ -185,6 +193,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: 90}} />}
+        onScrollToIndexFailed={(info) => {
+          const wait = new Promise((resolve) => setTimeout(resolve, 100));
+          wait.then(() => {
+            scroll();
+          });
+        }}
       />
       {((chatInfo.type === ChatType.WithUser &&
         globalContext.state.users.get(chatInfo.id) !== undefined) ||

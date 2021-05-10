@@ -125,8 +125,7 @@ exports[`Test one 1`] = `
           ]
         }
       >
-        Fee $
-        100
+        Fee $100
       </Text>
     </View>
     <View
@@ -209,20 +208,20 @@ exports[`Test three 1`] = `
             "fontWeight": "normal",
           },
           Object {
-            "alignSelf": "flex-start",
-            "color": "#BFBDBD",
+            "alignSelf": "center",
+            "color": "black",
             "marginBottom": 8,
             "marginTop": 8,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,
             "paddingTop": 0,
-            "width": "90%",
+            "width": "auto",
           },
         ]
       }
       underlineColorAndroid="transparent"
-      value="Enter amount"
+      value="0"
     />
     <Text
       style={
@@ -234,7 +233,9 @@ exports[`Test three 1`] = `
           "fontWeight": "normal",
         }
       }
-    />
+    >
+       KSM
+    </Text>
   </View>
   <View
     style={
@@ -279,8 +280,7 @@ exports[`Test three 1`] = `
           ]
         }
       >
-        Fee $
-        11
+        Fee $11
       </Text>
     </View>
     <View
@@ -435,8 +435,7 @@ exports[`Test two 1`] = `
           ]
         }
       >
-        Fee $
-        11
+        Fee $11
       </Text>
     </View>
     <View

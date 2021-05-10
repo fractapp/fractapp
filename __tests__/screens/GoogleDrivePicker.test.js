@@ -4,7 +4,7 @@ import {GoogleDrivePicker} from 'screens/GoogleDrivePicker';
 import {DriveItem, Type} from 'types/google';
 import googleUtil from 'utils/google';
 
-jest.mock('utils/polkadot', () => {});
+jest.mock('adaptors/adaptor', () => {});
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),

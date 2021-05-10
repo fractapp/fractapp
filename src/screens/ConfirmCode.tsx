@@ -90,10 +90,8 @@ export const ConfirmCode = ({
             case 403:
               navigation.goBack();
               dialogContext.dispatch(
-                Dialog.open(
-                  StringUtils.texts.DifferentAddressTitle,
-                  StringUtils.texts.DifferentAddressText,
-                  () => dialogContext.dispatch(Dialog.close()),
+                Dialog.open(StringUtils.texts.DifferentAddressTitle, '', () =>
+                  dialogContext.dispatch(Dialog.close()),
                 ),
               );
               setCode('');

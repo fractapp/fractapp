@@ -4,6 +4,7 @@ import {BlueButton} from 'components/BlueButton';
 import {WhiteButton} from 'components/WhiteButton';
 import CheckBox from '@react-native-community/checkbox';
 import StringUtils from 'utils/string';
+import {mnemonicGenerate} from '@polkadot/util-crypto';
 
 /**
  * Screen with legal information
@@ -11,6 +12,7 @@ import StringUtils from 'utils/string';
  */
 export const Legal = ({navigation}: {navigation: any}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const seed = mnemonicGenerate().split(' ');
 
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
@@ -60,7 +62,12 @@ export const Legal = ({navigation}: {navigation: any}) => {
           text={StringUtils.texts.NextBtnTitle}
           height={50}
           disabled={!toggleCheckBox}
-          onPress={() => navigation.navigate('SettingWallet')}
+          onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'SettingWallet', params: {seed: seed}}],
+            })
+          }
         />
       </View>
     </View>

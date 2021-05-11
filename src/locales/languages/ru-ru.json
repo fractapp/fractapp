@@ -52,6 +52,7 @@
   "receiving_account_title": "Счет получения",
 
   "settings": {
+    "language": "Язык",
     "edit_profile": "Редактировать",
     "backup": "Сохранить кошелек",
     "enable_passcode": "Добавить пароль",
@@ -62,6 +63,7 @@
     "about_us": "О нас"
   },
   "titles": {
+    "language": "Язык",
     "details": "Детали",
     "transaction": "Транзакция",
     "backup": "Сохранить кошелек",
@@ -93,8 +95,13 @@
     "connection_restored": "Соединение восстановлено",
     "invalid_connection": "Нет соединения"
   },
+  "menu": {
+    "chats": "Чаты",
+    "wallet": "Кошелек",
+    "profile": "Профиль"
+  },
   "statuses": {
-    "success": "Подтверждено",
+    "success": "Успешно",
     "pending": "В ожидании",
     "failed": "Не удалось"
   },
@@ -142,7 +149,7 @@
   "backup": {
     "title": "Сохранение кошелька",
     "description": "Сохраните файл в безопасное место. Если вы потеряете доступ к кошельку, то вы не сможете восстановить доступ к нему. Не делитесь им ни с кем.",
-    "google_drive_title": "Из Google Drive",
+    "google_drive_title": "На Google Диск",
     "manually_title": "Секретная фраза"
   },
   "connecting": {

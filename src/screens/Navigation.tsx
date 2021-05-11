@@ -40,6 +40,7 @@ import {
 import {TabMenu} from 'components/TabMenu';
 import {getSymbol} from 'types/wallet';
 import StringUtils from 'utils/string';
+import {Language} from 'screens/Language';
 
 /**
  * Main navigation stack
@@ -188,6 +189,11 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
           StringUtils.texts.titles.receive + ' ',
           Receive,
           (route) => getSymbol(route.params.currency),
+        )}
+        {getRouterWithTitle(
+          'Language',
+          StringUtils.texts.titles.language,
+          Language,
         )}
         {getRouterWithTitle('Connecting', '', Connecting)}
         {getRouterWithTitle('Chat', '', Chat)}

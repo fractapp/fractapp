@@ -236,6 +236,7 @@ export default function App() {
     ) {
       return;
     }
+
     (async () => {
       tasks.initPrivateData();
 

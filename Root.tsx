@@ -1,6 +1,6 @@
 import './shim.js';
 import 'locales/i18n';
-import React, {useReducer} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {StyleSheet, View, Alert} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';

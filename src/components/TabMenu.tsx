@@ -7,6 +7,7 @@ import {Wallets} from 'screens/Wallets';
 import {Settings} from 'screens/Settings';
 import {Chats} from 'screens/Chats';
 import ChatsStore from 'storage/Chats';
+import StringUtils from 'utils/string';
 
 /**
  * All Tab Navigator
@@ -33,18 +34,21 @@ const ChatsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
 /**
+ * Tabs name
+ * @category Components
+ */
+const MenuTabs = {
+  Chats: StringUtils.texts.menu.chats,
+  Wallet: StringUtils.texts.menu.wallet,
+  Profile: StringUtils.texts.menu.profile,
+};
+/**
  * Menu with tabs
  * @category Components
  */
 export const TabMenu = () => {
   const chatsContext = useContext(ChatsStore.Context);
 
-  const MenuTabs = {
-    Discovery: 'Discovery',
-    Chats: 'Chats',
-    Wallet: 'Wallet',
-    Profile: 'Profile',
-  };
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -95,7 +99,7 @@ const WalletTab = () => {
   return (
     <WalletStack.Navigator>
       <WalletStack.Screen
-        name="Wallet"
+        name={MenuTabs.Wallet}
         component={Wallets}
         options={{
           headerTitleAlign: 'center',
@@ -128,7 +132,7 @@ const ChatsTab = () => {
   return (
     <ChatsStack.Navigator>
       <WalletStack.Screen
-        name="Chats"
+        name={MenuTabs.Chats}
         component={Chats}
         options={{
           headerTitleAlign: 'center',
@@ -161,7 +165,7 @@ const ProfileTab = () => {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
-        name="Profile"
+        name={MenuTabs.Profile}
         component={Settings}
         options={{
           headerTitleAlign: 'center',

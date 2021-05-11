@@ -9,8 +9,9 @@ import ru from './languages/ru-ru.json';
 ReactNative.I18nManager.allowRTL(false);
 I18n.fallbacks = true;
 I18n.defaultLocale = 'en';
-// Define the supported translations
 I18n.translations = {
   en,
   ru,
 };
+
+export default I18n;

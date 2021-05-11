@@ -1,8 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components/WhiteButton';
-import {mnemonicGenerate} from '@polkadot/util-crypto';
-import Dialog from 'storage/Dialog';
 import Backup from 'utils/backup';
 import StringUtils from 'utils/string';
 
@@ -10,8 +8,14 @@ import StringUtils from 'utils/string';
  * Save wallet screen
  * @category Screens
  */
-export const SaveWallet = ({navigation}: {navigation: any}) => {
-  const seed = mnemonicGenerate().split(' ');
+export const SaveWallet = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
+  const seed = route.params.seed;
 
   const backupGoogleDrive = async () => {
     await Backup.backupGoogleDrive(() =>

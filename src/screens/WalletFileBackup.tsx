@@ -10,10 +10,11 @@ import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 import passwordValidator from 'password-validator';
+import googleUtil from 'utils/google';
 
 const minPasswordLength = 8;
 const schema = new passwordValidator();
-schema.is().min(minPasswordLength).has().lowercase(1).has().digits(1);
+schema.is().min(minPasswordLength).has().letters(1).has().digits(1);
 
 /**
  * Wallet file backup screen
@@ -68,9 +69,9 @@ export const WalletFileBackup = ({
       );
 
       const files = await backupUtils.getWalletsFromGoogle();
-      setLoading(false);
 
       if (res.isError) {
+        setLoading(false);
         return;
       }
 
@@ -82,16 +83,26 @@ export const WalletFileBackup = ({
             () => dialogContext.dispatch(Dialog.close()),
           ),
         );
+        setLoading(false);
         return;
       }
 
       let isSuccessSave = false;
-      for (let wallet of files.wallets) {
+      for (let i = 0; i < files.wallets.length; i++) {
+        const wallet = files.wallets[i];
         if (wallet.replace('.json', '') === fileName.trim()) {
-          isSuccessSave = true;
+          const file = await googleUtil.getFileBackup(files.ids[i]);
+          try {
+            const fileSeed = await backupUtils.getSeed(file, password);
+            if (fileSeed === seed) {
+              isSuccessSave = true;
+            }
+          } catch (e) {}
           break;
         }
       }
+
+      setLoading(false);
 
       if (!isSuccessSave) {
         dialogContext.dispatch(
@@ -106,23 +117,6 @@ export const WalletFileBackup = ({
         await DB.createAccounts(seed);
         globalContext.dispatch(GlobalStore.signInLocal());
       }
-
-      /*
-      TODO: file
-       if (type === backupUtils.BackupType.File) {
-        dialogContext.dispatch(
-          Dialog.open(
-            StringUtils.texts.SuccessSaveWalletTitle,
-            StringUtils.texts.SuccessSaveWalletText(
-              fileName.trim(),
-              backupUtils.FSDriveFolder,
-            ),
-            () => {
-              dialogContext.dispatch(Dialog.close());
-            },
-          ),
-        );
-      }*/
 
       navigation.reset({
         index: 0,

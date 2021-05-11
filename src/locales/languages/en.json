@@ -52,6 +52,7 @@
   "receiving_account_title": "Receiving account",
 
   "settings": {
+    "language": "Language",
     "edit_profile": "Edit profile",
     "backup": "Backup",
     "disable_passcode": "Disable passcode",
@@ -62,6 +63,7 @@
     "about_us": "About us"
   },
   "titles": {
+    "language": "Language",
     "details": "Details",
     "transaction": "Transaction",
     "backup": "Backup",
@@ -92,6 +94,11 @@
     "copied_to_clipboard": "Copied to clipboard",
     "connection_restored": "Connection restored",
     "invalid_connection": "Invalid connection"
+  },
+  "menu": {
+    "chats": "Chats",
+    "wallet": "Wallet",
+    "profile": "Profile"
   },
   "statuses": {
     "success": "Success",

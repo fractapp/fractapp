@@ -7,7 +7,15 @@ import StringUtils from 'utils/string';
  * First setting for wallet
  * @category Screens
  */
-export const SettingWallet = ({navigation}: {navigation: any}) => {
+export const SettingWallet = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
+  const seed = route.params.seed;
+
   return (
     <View
       style={{
@@ -21,7 +29,7 @@ export const SettingWallet = ({navigation}: {navigation: any}) => {
           text={StringUtils.texts.settingWallet.create}
           height={50}
           width="90%"
-          onPress={() => navigation.navigate('SaveWallet')}
+          onPress={() => navigation.navigate('SaveWallet', {seed: seed})}
         />
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton

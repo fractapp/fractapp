@@ -4,7 +4,6 @@ import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
 import {Network} from 'types/account';
-
 /**
  * @namespace
  * @category Storage
@@ -13,6 +12,7 @@ namespace GlobalStore {
   export enum Action {
     SET,
     SET_PROFILE,
+    SET_LANG,
     SIGN_IN_LOCAL,
     SIGN_IN_FRACTAPP,
     SET_UPDATING_PROFILE,
@@ -41,6 +41,7 @@ namespace GlobalStore {
     isSyncShow: boolean;
     isLoadingShow: boolean;
     urls: Map<Network, string>;
+    lang: string | null;
   };
 
   export type ContextType = {
@@ -73,6 +74,7 @@ namespace GlobalStore {
     isRegistered: false,
     isLoadingShow: false,
     urls: new Map<Network, string>(),
+    lang: null,
   });
   export const Context = createContext<ContextType>({
     state: initialState(),
@@ -94,7 +96,14 @@ namespace GlobalStore {
           users: action.users,
           urls: action.urls,
           isSyncShow: true,
+          lang: action.lang,
         };
+      case Action.SET_LANG:
+        copy.lang = action.lang;
+        if (copy.lang != null) {
+          DB.setLang(copy.lang);
+        }
+        break;
       case Action.SET_PROFILE:
         copy.profile = action.profile;
         DB.setProfile(copy.profile);
@@ -171,6 +180,7 @@ namespace GlobalStore {
     contacts: Array<UserProfile>,
     users: Map<string, UserProfile>,
     urls: Map<Network, string>,
+    lang: string | null,
   ) => ({
     type: Action.SET,
     profile: profile,
@@ -180,6 +190,12 @@ namespace GlobalStore {
     contacts: contacts,
     users: users,
     urls: urls,
+    lang: lang,
+  });
+
+  export const setLang = (lang: string) => ({
+    type: Action.SET_LANG,
+    lang: lang,
   });
 
   export const setProfile = (profile: MyProfile) => ({

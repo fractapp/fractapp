@@ -64,6 +64,7 @@ namespace StringUtils {
     settings: {
       editProfile: I18n.t('settings.edit_profile'),
       backup: I18n.t('settings.backup'),
+      language: I18n.t('settings.language'),
       disablePasscode: I18n.t('settings.disable_passcode'),
       enablePasscode: I18n.t('settings.enable_passcode'),
       disableBiometry: I18n.t('settings.disable_biometry'),
@@ -72,6 +73,7 @@ namespace StringUtils {
       aboutUs: I18n.t('settings.about_us'),
     },
     titles: {
+      language: I18n.t('titles.language'),
       details: I18n.t('titles.details'),
       transaction: I18n.t('titles.transaction'),
       backup: I18n.t('titles.backup'),
@@ -104,6 +106,11 @@ namespace StringUtils {
       copiedToClipboard: I18n.t('show_msg.copied_to_clipboard'),
       connectionRestored: I18n.t('show_msg.connection_restored'),
       invalidConnection: I18n.t('show_msg.invalid_connection'),
+    },
+    menu: {
+      chats: I18n.t('menu.chats'),
+      wallet: I18n.t('menu.wallet'),
+      profile: I18n.t('menu.profile'),
     },
     statuses: {
       success: I18n.t('statuses.success'),

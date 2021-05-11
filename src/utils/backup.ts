@@ -5,7 +5,6 @@ import {FileBackup} from 'types/backup';
 import RNFS from 'react-native-fs';
 import {mnemonicValidate, randomAsHex} from '@polkadot/util-crypto';
 import googleUtil from 'utils/google';
-import string from 'utils/string';
 
 /**
  * @namespace

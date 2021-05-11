@@ -55,6 +55,7 @@ namespace Task {
     const contacts = await DB.getContacts();
     const users = await DB.getUsers();
     const urls = await DB.getSubstrateUrls();
+    const lang = await DB.getLang();
 
     globalContext.dispatch(
       GlobalStore.set(
@@ -65,6 +66,7 @@ namespace Task {
         contacts,
         users,
         urls,
+        lang,
       ),
     );
     Adaptors.init(globalContext);

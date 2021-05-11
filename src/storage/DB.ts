@@ -35,6 +35,7 @@ namespace DB {
     authInfo: 'auth_info',
     accounts: 'accounts',
     contacts: 'contacts',
+    lang: 'lang',
     users: 'users',
     urls: 'urls',
     accountInfo: (address: string) => `account_${address}`,
@@ -91,6 +92,13 @@ namespace DB {
       return 0;
     }
     return Number(result);
+  }
+
+  export async function setLang(lang: string) {
+    await AsyncStorage.setItem(AsyncStorageKeys.lang, lang);
+  }
+  export async function getLang(): Promise<string | null> {
+    return await AsyncStorage.getItem(AsyncStorageKeys.lang);
   }
 
   export async function setProfile(profile: MyProfile) {

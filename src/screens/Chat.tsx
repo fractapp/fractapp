@@ -88,21 +88,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
             justifyContent: 'center',
             scaleY: -1,
           }}>
-          <View
-            style={[
-              styles.newMsgDividingLine,
-              {position: 'absolute', left: 20},
-            ]}
-          />
           <Text style={styles.newMsgText}>
             {StringUtils.texts.UnreadMessagesTitle}
           </Text>
-          <View
-            style={[
-              styles.newMsgDividingLine,
-              {position: 'absolute', right: 20},
-            ]}
-          />
         </View>
       );
     }
@@ -261,16 +249,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#C5C5C5',
   },
   newMsgDividingLine: {
-    width: '27%',
+    width: '15%',
     height: 1,
     borderColor: '#2AB2E2',
     borderBottomWidth: 1,
   },
   newMsgText: {
+    textAlign: 'center',
+    width: '100%',
+    backgroundColor: '#51caf5',
     fontSize: 15,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    color: '#2AB2E2',
+    color: 'white',
   },
 });

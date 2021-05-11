@@ -34,6 +34,8 @@ export const PassCode = ({
       setPasscode(passcode.slice(0, passcode.length - 1));
     } else if (index === 10 && isBiometry) {
       unlockWithBiometry();
+    } else if (index === 11) {
+      setPasscode([...passcode, 0]);
     } else if (passcode.length < PasscodeSize) {
       setPasscode([...passcode, index]);
     }

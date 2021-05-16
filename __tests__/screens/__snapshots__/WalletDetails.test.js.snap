@@ -121,7 +121,7 @@ exports[`Test view with empty state 1`] = `
                         ]
                       }
                     >
-                      100
+                      1000000000000
                        
                       DOT
                     </Text>
@@ -149,7 +149,7 @@ exports[`Test view with empty state 1`] = `
                       }
                     >
                       $
-                      1000
+                      NaN
                     </Text>
                   </View>
                 </View>
@@ -165,7 +165,14 @@ exports[`Test view with empty state 1`] = `
               }
             }
           >
-            <View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
+              }
+            >
               <View
                 accessible={true}
                 focusable={true}
@@ -221,14 +228,20 @@ exports[`Test view with empty state 1`] = `
                   }
                 }
               >
-                Send
+                [missing "en.send_btn" translation]
               </Text>
             </View>
             <View
               style={
-                Object {
-                  "marginLeft": 30,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                  Object {
+                    "marginLeft": 30,
+                  },
+                ]
               }
             >
               <View
@@ -288,7 +301,7 @@ exports[`Test view with empty state 1`] = `
                   }
                 }
               >
-                Receive
+                [missing "en.receive_btn" translation]
               </Text>
             </View>
           </View>

@@ -7,7 +7,6 @@ import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
-import TransactionsStore from 'storage/Transactions';
 import {TxStatus, TxType} from 'types/transaction';
 
 jest.mock('storage/DB', () => ({}));
@@ -41,10 +40,6 @@ it('Test view with empty txs', () => {
   });
   useContext.mockReturnValueOnce({
     state: ChatsStore.initialState(),
-    dispatch: jest.fn(),
-  });
-  useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState(),
     dispatch: jest.fn(),
   });
 

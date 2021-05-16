@@ -200,7 +200,7 @@ namespace StringUtils {
     UserHasBeenDeletedTitle: I18n.t('user_has_been_deleted_title'),
 
     settingWallet: {
-      backup: I18n.t('setting_wallet.backup'),
+      import: I18n.t('setting_wallet.import'),
       create: I18n.t('setting_wallet.create'),
     },
     DifferentAddressTitle: I18n.t('different_address_title'),

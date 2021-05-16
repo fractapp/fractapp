@@ -5,6 +5,7 @@ import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import DB from 'storage/DB';
+import StringUtils from 'utils/string';
 
 jest.mock('react-native-crypto', () => {});
 jest.mock('storage/DB', () => ({
@@ -128,7 +129,7 @@ it('Test click Decrypt', () => {
   });
 
   const component = render(<WalletFileImport route={{params: {file: {}}}} />);
-  fireEvent.press(component.getByText('Decrypt'));
+  fireEvent.press(component.getByText(StringUtils.texts.RestoreBtn));
 
   expect(setLoading).toBeCalledWith(true);
 });

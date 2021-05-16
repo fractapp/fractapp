@@ -291,7 +291,7 @@ export default function App() {
 
   useEffect(() => {
     if (netInfo.isConnected !== isConnected) {
-      setConnected(netInfo.isConnected);
+      setConnected(netInfo.isConnected ?? false);
     }
   }, [netInfo.isConnected]);
 

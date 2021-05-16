@@ -184,7 +184,7 @@
   "service_unavailable_title": "Service unavailable",
   "user_has_been_deleted_title": "The user has been deleted",
   "setting_wallet": {
-    "backup": "I have a wallet",
+    "import": "I have a wallet",
     "create": "Create a new wallet"
   },
   "different_address_title": "The account is registered to a different address",

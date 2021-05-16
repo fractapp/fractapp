@@ -125,7 +125,7 @@ exports[`Test one 1`] = `
           ]
         }
       >
-        Fee $100
+        [missing "en.fee_title" translation] $100
       </Text>
     </View>
     <View
@@ -280,7 +280,7 @@ exports[`Test three 1`] = `
           ]
         }
       >
-        Fee $11
+        [missing "en.fee_title" translation] $11
       </Text>
     </View>
     <View
@@ -435,7 +435,7 @@ exports[`Test two 1`] = `
           ]
         }
       >
-        Fee $11
+        [missing "en.fee_title" translation] $11
       </Text>
     </View>
     <View

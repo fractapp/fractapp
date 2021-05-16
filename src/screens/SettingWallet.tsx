@@ -33,7 +33,7 @@ export const SettingWallet = ({
         />
         <View style={{marginTop: 20, width: '90%'}}>
           <WhiteButton
-            text={StringUtils.texts.settingWallet.backup}
+            text={StringUtils.texts.settingWallet.import}
             height={50}
             onPress={() => navigation.navigate('ImportWallet')}
           />

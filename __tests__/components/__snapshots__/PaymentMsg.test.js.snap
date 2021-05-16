@@ -67,7 +67,7 @@ exports[`Test fail sent tx 1`] = `
         }
       }
     >
-      You sent
+      [missing "en.you_sent_title" translation]
     </Text>
   </View>
   <View
@@ -267,7 +267,7 @@ exports[`Test pending sent tx 1`] = `
         }
       }
     >
-      You sent
+      [missing "en.you_sent_title" translation]
     </Text>
   </View>
   <View
@@ -467,7 +467,7 @@ exports[`Test received tx withzero usdValu 1`] = `
         }
       }
     >
-      You received
+      [missing "en.you_received_title" translation]
     </Text>
   </View>
   <View
@@ -650,7 +650,7 @@ exports[`Test success received tx 1`] = `
         }
       }
     >
-      You received
+      [missing "en.you_received_title" translation]
     </Text>
   </View>
   <View
@@ -850,7 +850,7 @@ exports[`Test success sent tx 1`] = `
         }
       }
     >
-      You sent
+      [missing "en.you_sent_title" translation]
     </Text>
   </View>
   <View

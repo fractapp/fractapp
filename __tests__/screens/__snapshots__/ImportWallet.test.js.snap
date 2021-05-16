@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test from file 1`] = `"WalletFileImport"`;
-
-exports[`Test from file 2`] = `
-Object {
-  "file": Object {
-    "algorithm": "algorithm",
-    "seed": "seed",
-  },
-}
-`;
-
-exports[`Test from file 3`] = `
-Object {
-  "onPress": [Function],
-  "text": "If you want to import a file then open the application settings and give it access to the storage.",
-  "title": "Open settings",
-  "type": 0,
-}
-`;
-
-exports[`Test from file 4`] = `
-Object {
-  "type": 1,
-}
-`;
-
 exports[`Test seed 1`] = `"ImportSeed"`;
 
 exports[`Test view 1`] = `
@@ -48,7 +22,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Restore wallet
+    [missing "en.titles.restore_wallet" translation]
   </Text>
   <View
     style={
@@ -120,7 +94,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          From Google Drive
+          [missing "en.import_wallet.google_drive_title" translation]
         </Text>
       </View>
     </View>
@@ -190,7 +164,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          With recovery phrase
+          [missing "en.import_wallet.manually_title" translation]
         </Text>
       </View>
     </View>

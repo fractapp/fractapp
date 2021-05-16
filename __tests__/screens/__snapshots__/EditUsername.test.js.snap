@@ -3,8 +3,8 @@
 exports[`Test click success with invalid name 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please validate and write the username again",
-  "title": "Invalid name",
+  "text": "[missing \\"en.invalid_username_text\\" translation]",
+  "title": "[missing \\"en.invalid_username_title\\" translation]",
   "type": 0,
 }
 `;
@@ -12,8 +12,8 @@ Object {
 exports[`Test click success with name is not free 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please write a new username",
-  "title": "Username exists",
+  "text": "[missing \\"en.username_is_exist_text\\" translation]",
+  "title": "[missing \\"en.username_is_exist_title\\" translation]",
   "type": 0,
 }
 `;
@@ -74,7 +74,7 @@ exports[`Test view 1`] = `
         autoCompleteType="username"
         keyboardType="default"
         onChangeText={[Function]}
-        placeholder="Enter username"
+        placeholder="[missing \\"en.edit.username\\" translation]"
         placeholderTextColor="#BFBDBD"
         rejectResponderTermination={true}
         secureTextEntry={false}

@@ -6,6 +6,7 @@ import Keychain from 'react-native-keychain';
 import {fireEvent, render} from '@testing-library/react-native';
 import {Linking} from 'react-native';
 import {CommonActions} from '@react-navigation/native';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -93,13 +94,17 @@ it('Test click', async () => {
   await fireEvent.press(component.getByTestId('avatarBtn'));
   expect(nav).toBeCalledWith('Connecting');
 
-  await fireEvent.press(component.getByText('Edit profile'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.settings.editProfile),
+  );
   expect(nav).toBeCalledWith('Connecting');
 
-  await fireEvent.press(component.getByText('Backup'));
+  await fireEvent.press(component.getByText(StringUtils.texts.settings.backup));
   expect(nav).toBeCalledWith('Backup');
 
-  await fireEvent.press(component.getByText('Enable passcode'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.settings.enablePasscode),
+  );
   expect(nav).toBeCalledWith('NewPassCode');
 
   await fireEvent.press(component.getByText('Twitter'));
@@ -113,10 +118,12 @@ it('Test click', async () => {
     'https://medium.com/fractapp/fractapp-faq-4e76810c0564',
   );
 
-  await fireEvent.press(component.getByText('Help'));
+  await fireEvent.press(component.getByText(StringUtils.texts.settings.help));
   expect(Linking.openURL).toBeCalledWith('mailto:support@fractapp.com');
 
-  await fireEvent.press(component.getByText('About us'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.settings.aboutUs),
+  );
   expect(Linking.openURL).toBeCalledWith('https://fractapp.com');
 });
 
@@ -143,10 +150,12 @@ it('Test click (with profile)', async () => {
   await fireEvent.press(component.getByTestId('avatarBtn'));
   expect(nav).toBeCalledWith('EditProfile');
 
-  await fireEvent.press(component.getByText('Edit profile'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.settings.editProfile),
+  );
   expect(nav).toBeCalledWith('EditProfile');
 
-  await fireEvent.press(component.getByText('Backup'));
+  await fireEvent.press(component.getByText(StringUtils.texts.settings.backup));
   expect(nav).toBeCalledWith('VerifyPassCode', {
     isVerify: true,
     returnScreen: 'name',
@@ -154,12 +163,16 @@ it('Test click (with profile)', async () => {
     screenKey: 'screenKey',
   });
 
-  await fireEvent.press(component.getByText('Disable passcode'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.settings.disablePasscode),
+  );
   expect(nav).toBeCalledWith('VerifyPassCode', {
     isDisablePasscode: true,
   });
 
-  await fireEvent.press(component.getByText('Disable biometry'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.settings.disableBiometry),
+  );
   expect(nav).toBeCalledWith('VerifyPassCode', {
     isChangeBiometry: true,
   });

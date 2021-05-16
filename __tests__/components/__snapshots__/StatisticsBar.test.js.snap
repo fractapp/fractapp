@@ -46,7 +46,7 @@ exports[`Test default color 1`] = `
           ]
         }
       >
-        Total
+        [missing "en.total_title" translation]
       </Text>
     </View>
     <View
@@ -160,7 +160,7 @@ exports[`Test empty wallet 1`] = `
           ]
         }
       >
-        Total
+        [missing "en.total_title" translation]
       </Text>
     </View>
     <View
@@ -274,7 +274,7 @@ exports[`Test one currency Kusama 1`] = `
           ]
         }
       >
-        Total
+        [missing "en.total_title" translation]
       </Text>
     </View>
     <View
@@ -388,7 +388,7 @@ exports[`Test one currency Polkadot 1`] = `
           ]
         }
       >
-        Total
+        [missing "en.total_title" translation]
       </Text>
     </View>
     <View
@@ -502,7 +502,7 @@ exports[`Test two currency 10/90 1`] = `
           ]
         }
       >
-        Total
+        [missing "en.total_title" translation]
       </Text>
     </View>
     <View
@@ -616,7 +616,7 @@ exports[`Test two currency 50/50 1`] = `
           ]
         }
       >
-        Total
+        [missing "en.total_title" translation]
       </Text>
     </View>
     <View

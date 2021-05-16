@@ -184,7 +184,7 @@
   "service_unavailable_title": "Сервис недоступен",
   "user_has_been_deleted_title": "Пользователь был удален",
   "setting_wallet": {
-    "backup": "У меня есть кошелек",
+    "import": "У меня есть кошелек",
     "create": "Создать новый кошелек"
   },
   "different_address_title": "Аккаунт зарегистрирован на другие адреса",

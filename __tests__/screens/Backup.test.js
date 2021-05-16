@@ -5,6 +5,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import DB from 'storage/DB';
 import BackupUtils from 'utils/backup';
 import GlobalStore from 'storage/Global';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({
   getSeed: jest.fn(),
@@ -45,33 +46,13 @@ it('Test backup google drive', async () => {
   DB.getSeed.mockReturnValueOnce(seed);
 
   const component = render(<Backup navigation={{navigate: navigate}} />);
-  await fireEvent.press(component.getByText('Google drive'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.backup.googleDriveTitle),
+  );
   BackupUtils.backupGoogleDrive.mock.calls[0][0]();
 
   expect(navigate.mock.calls[0][0]).toMatchSnapshot();
   expect(navigate.mock.calls[0][1]).toMatchSnapshot();
-});
-
-it('Test backup file', async () => {
-  const navigate = jest.fn();
-  const seed = 'seed seed';
-  DB.getSeed.mockReturnValueOnce(seed);
-
-  const dispatch = jest.fn();
-  useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState(),
-    dispatch: dispatch,
-  });
-
-  const component = render(<Backup navigation={{navigate: navigate}} />);
-  await fireEvent.press(component.getByText('Encrypted file'));
-  BackupUtils.checkPermissions.mock.calls[0][0]();
-  BackupUtils.checkPermissions.mock.calls[0][1]();
-
-  expect(navigate.mock.calls[0][0]).toMatchSnapshot();
-  expect(navigate.mock.calls[0][1]).toMatchSnapshot();
-
-  expect(dispatch).toMatchSnapshot();
 });
 
 it('Test seed', async () => {
@@ -80,7 +61,9 @@ it('Test seed', async () => {
   DB.getSeed.mockReturnValueOnce(seed);
 
   const component = render(<Backup navigation={{navigate: navigate}} />);
-  await fireEvent.press(component.getByText('Backup seed'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.backup.manuallyTitle),
+  );
 
   expect(navigate.mock.calls[0][0]).toMatchSnapshot();
   expect(navigate.mock.calls[0][1]).toMatchSnapshot();

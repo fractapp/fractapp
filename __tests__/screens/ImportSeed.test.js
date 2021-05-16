@@ -7,6 +7,7 @@ import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import {EditProfile} from 'screens/EditProfile';
 import DB from 'storage/DB';
+import StringUtils from 'utils/string';
 
 jest.mock('react-native-crypto', () => {});
 jest.mock('storage/DB', () => ({
@@ -106,7 +107,7 @@ it('Test start save', async () => {
       <ImportSeed />
     </GlobalStore.Context.Provider>,
   );
-  await fireEvent.press(component.getByText('Next'));
+  await fireEvent.press(component.getByText(StringUtils.texts.NextBtnTitle));
   expect(setLoading).toBeCalledWith(true);
   expect(setSaveSeed).toBeCalledWith(true);
 });

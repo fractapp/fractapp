@@ -7,6 +7,7 @@ import googleUtils from 'utils/google';
 import DocumentPicker from 'react-native-document-picker';
 import backupUtils from 'utils/backup';
 import BackupUtils from 'utils/backup';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -52,51 +53,21 @@ it('Test backup google drive', async () => {
   const navigate = jest.fn();
 
   const component = render(<ImportWallet navigation={{navigate: navigate}} />);
-  await fireEvent.press(component.getByText('Google drive'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.importWallet.googleDriveTitle),
+  );
 
   expect(googleUtils.signIn).toBeCalled();
   expect(googleUtils.signOut).toBeCalled();
   expect(navigate()).toMatchSnapshot('GoogleDrivePicker');
 });
 
-it('Test from file', async () => {
-  const navigate = jest.fn();
-
-  const dispatch = jest.fn();
-  useContext.mockReturnValueOnce({
-    state: DialogStore.initialState(),
-    dispatch: dispatch,
-  });
-
-  DocumentPicker.pick.mockReturnValueOnce({
-    uri: 'uri',
-  });
-  backupUtils.getFile.mockReturnValueOnce({
-    seed: 'seed',
-    algorithm: 'algorithm',
-  });
-
-  const component = render(<ImportWallet navigation={{navigate: navigate}} />);
-  await fireEvent.press(component.getByText('From file'));
-  await BackupUtils.checkPermissions.mock.calls[0][0]();
-
-  expect(DocumentPicker.pick).toBeCalledWith({
-    type: [DocumentPicker.types.allFiles],
-  });
-  expect(backupUtils.getFile).toBeCalledWith('uri');
-  expect(navigate.mock.calls[0][0]).toMatchSnapshot();
-  expect(navigate.mock.calls[0][1]).toMatchSnapshot();
-
-  await BackupUtils.checkPermissions.mock.calls[0][1]();
-  expect(dispatch.mock.calls[0][0]).toMatchSnapshot();
-  await dispatch.mock.calls[0][0].onPress();
-  expect(dispatch.mock.calls[1][0]).toMatchSnapshot();
-});
-
 it('Test seed', async () => {
   const navigate = jest.fn();
   const component = render(<ImportWallet navigation={{navigate: navigate}} />);
-  await fireEvent.press(component.getByText('Enter seed'));
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.importWallet.manuallyTitle),
+  );
 
   expect(navigate.mock.calls[0][0]).toMatchSnapshot();
 });

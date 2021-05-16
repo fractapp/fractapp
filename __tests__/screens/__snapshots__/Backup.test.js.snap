@@ -1,39 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test backup file 1`] = `"WalletFileBackup"`;
-
-exports[`Test backup file 2`] = `
-Object {
-  "isNewAccount": false,
-  "seed": Array [
-    "seed",
-    "seed",
-  ],
-  "type": 13,
-}
-`;
-
-exports[`Test backup file 3`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      Object {
-        "onPress": [Function],
-        "text": "If you want to save a file then open the application settings and give it access to the storage.",
-        "title": "Open settings",
-        "type": 0,
-      },
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-  ],
-}
-`;
-
 exports[`Test backup google drive 1`] = `"WalletFileBackup"`;
 
 exports[`Test backup google drive 2`] = `
@@ -81,7 +47,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.
+    [missing "en.backup.description" translation]
   </Text>
   <RCTScrollView
     ItemSeparatorComponent={[Function]}
@@ -102,7 +68,7 @@ exports[`Test view 1`] = `
             }
           />,
           "onClick": [Function],
-          "title": "On Google Drive",
+          "title": "[missing \\"en.backup.google_drive_title\\" translation]",
         },
         Object {
           "img": <Icon
@@ -112,7 +78,7 @@ exports[`Test view 1`] = `
             size={32}
           />,
           "onClick": [Function],
-          "title": "Back up manually",
+          "title": "[missing \\"en.backup.manually_title\\" translation]",
         },
       ]
     }
@@ -194,7 +160,7 @@ exports[`Test view 1`] = `
               }
             }
           >
-            On Google Drive
+            [missing "en.backup.google_drive_title" translation]
           </Text>
         </View>
         <View
@@ -263,7 +229,7 @@ exports[`Test view 1`] = `
               }
             }
           >
-            Back up manually
+            [missing "en.backup.manually_title" translation]
           </Text>
         </View>
       </View>

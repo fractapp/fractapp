@@ -7,6 +7,7 @@ Object {
   "authInfo": "auth_info",
   "chatsStorage": "chatsStorage",
   "contacts": "contacts",
+  "lang": "lang",
   "price": [Function],
   "profile": "profile",
   "urls": "urls",

@@ -2,6 +2,14 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {AmountInput} from 'components/AmountInput';
 import {Currency} from 'types/wallet';
+import {Adaptors} from 'adaptors/adaptor';
+
+jest.mock('storage/DB', () => ({}));
+jest.mock('adaptors/adaptor', () => ({
+  Adaptors: {
+    get: jest.fn(),
+  },
+}));
 
 it('Test one', () => {
   const tree = renderer

@@ -61,6 +61,8 @@ export const Receive = ({route}: {route: any}) => {
             testID="shareBtn"
             onPress={() =>
               Share.open({
+                message: '',
+                title: '',
                 url: StringUtils.texts.MyAddressForShare(
                   currency,
                   address,

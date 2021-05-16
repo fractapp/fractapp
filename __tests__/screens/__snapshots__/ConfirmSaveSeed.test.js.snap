@@ -20,7 +20,7 @@ exports[`Test confirm seed incorrectly 1`] = `
       }
     }
   >
-    Verify secret phrase
+    [missing "en.confirm_save_seed.title" translation]
   </Text>
   <Text
     style={
@@ -34,7 +34,7 @@ exports[`Test confirm seed incorrectly 1`] = `
       }
     }
   >
-    Put the words in the correct order.
+    [missing "en.confirm_save_seed.description" translation]
   </Text>
   <View
     style={
@@ -723,7 +723,7 @@ exports[`Test confirm seed incorrectly 1`] = `
       }
     }
   >
-    Incorrectly entered secret phrase
+    [missing "en.confirm_save_seed.incorrect_entered_seed" translation]
   </Text>
 </View>
 `;
@@ -748,7 +748,7 @@ exports[`Test confirm seed start 1`] = `
       }
     }
   >
-    Verify secret phrase
+    [missing "en.confirm_save_seed.title" translation]
   </Text>
   <Text
     style={
@@ -762,7 +762,7 @@ exports[`Test confirm seed start 1`] = `
       }
     }
   >
-    Put the words in the correct order.
+    [missing "en.confirm_save_seed.description" translation]
   </Text>
   <View
     style={
@@ -1465,7 +1465,7 @@ exports[`Test confirm seed success 1`] = `
       }
     }
   >
-    Verify secret phrase
+    [missing "en.confirm_save_seed.title" translation]
   </Text>
   <Text
     style={
@@ -1479,7 +1479,7 @@ exports[`Test confirm seed success 1`] = `
       }
     }
   >
-    Put the words in the correct order.
+    [missing "en.confirm_save_seed.description" translation]
   </Text>
   <View
     style={
@@ -2201,7 +2201,7 @@ exports[`Test confirm seed success 1`] = `
           }
         }
       >
-        Confirm
+        [missing "en.confirm_btn_title" translation]
       </Text>
     </View>
   </View>

@@ -58,7 +58,7 @@ exports[`Test one 1`] = `
           allowFontScaling={true}
           onChangeText={[Function]}
           onEndEditing={[Function]}
-          placeholder="Enter address"
+          placeholder="[missing \\"en.enter_address_title\\" translation]"
           rejectResponderTermination={true}
           style={
             Array [
@@ -147,7 +147,7 @@ exports[`Test three 1`] = `
           allowFontScaling={true}
           onChangeText={[Function]}
           onEndEditing={[Function]}
-          placeholder="Enter address"
+          placeholder="[missing \\"en.enter_address_title\\" translation]"
           rejectResponderTermination={true}
           style={
             Array [
@@ -236,7 +236,7 @@ exports[`Test two 1`] = `
           allowFontScaling={true}
           onChangeText={[Function]}
           onEndEditing={[Function]}
-          placeholder="Enter address"
+          placeholder="[missing \\"en.enter_address_title\\" translation]"
           rejectResponderTermination={true}
           style={
             Array [

@@ -3,8 +3,8 @@
 exports[`Test click success with invalid email 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please validate and write the email again",
-  "title": "Invalid email",
+  "text": "[missing \\"en.invalid_email_text\\" translation]",
+  "title": "[missing \\"en.invalid_email_title\\" translation]",
   "type": 0,
 }
 `;
@@ -42,7 +42,7 @@ exports[`Test view 1`] = `
         autoCompleteType="email"
         keyboardType="email-address"
         onChangeText={[Function]}
-        placeholder="Enter email"
+        placeholder="[missing \\"en.edit.email\\" translation]"
         placeholderTextColor="#BFBDBD"
         rejectResponderTermination={true}
         secureTextEntry={false}

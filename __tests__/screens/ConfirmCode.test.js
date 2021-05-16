@@ -6,6 +6,7 @@ import GlobalStore from 'storage/Global';
 import DialogStore from 'storage/Dialog';
 import {fireEvent, render} from '@testing-library/react-native';
 import Dialog from 'storage/Dialog';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -318,7 +319,7 @@ it('Test resend (200)', async () => {
       }}
     />,
   );
-  await fireEvent.press(component.getByText('Resend'));
+  await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
   expect(BackendApi.sendCode).toBeCalledWith(
@@ -345,7 +346,7 @@ it('Test resend (400)', async () => {
       }}
     />,
   );
-  await fireEvent.press(component.getByText('Resend'));
+  await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
   expect(BackendApi.sendCode).toBeCalledWith(
@@ -375,7 +376,7 @@ it('Test resend (404/email)', async () => {
       }}
     />,
   );
-  await fireEvent.press(component.getByText('Resend'));
+  await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
   expect(BackendApi.sendCode).toBeCalledWith(
@@ -405,7 +406,7 @@ it('Test resend (404/phone)', async () => {
       }}
     />,
   );
-  await fireEvent.press(component.getByText('Resend'));
+  await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
   expect(BackendApi.sendCode).toBeCalledWith(

@@ -3,6 +3,7 @@ import {Legal} from 'screens/Legal';
 import renderer from 'react-test-renderer';
 import {fireEvent, render} from '@testing-library/react-native';
 import {Linking} from 'react-native';
+import StringUtils from 'utils/string';
 
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
@@ -28,7 +29,7 @@ it('Test checkbox=true', () => {
 it('Test click T&C', () => {
   const component = render(<Legal navigation={null} />);
 
-  fireEvent.press(component.getByText('Terms & Conditions'));
+  fireEvent.press(component.getByText(StringUtils.texts.legal.tos));
   expect(Linking.openURL).toBeCalledWith(
     'http://fractapp.com/legal/app-tos.html',
   );
@@ -37,7 +38,7 @@ it('Test click T&C', () => {
 it('Test click Privacy Policy', () => {
   const component = render(<Legal navigation={null} />);
 
-  fireEvent.press(component.getByText('Privacy Policy'));
+  fireEvent.press(component.getByText(StringUtils.texts.legal.privacyPolicy));
   expect(Linking.openURL).toBeCalledWith(
     'http://fractapp.com/legal/app-privacy-policy.html',
   );
@@ -48,7 +49,7 @@ it('Test click next', () => {
   const mockNav = jest.fn();
   const component = render(<Legal navigation={{navigate: mockNav}} />);
 
-  fireEvent.press(component.getByText('Next'));
+  fireEvent.press(component.getByText(StringUtils.texts.NextBtnTitle));
   expect(mockNav).toBeCalledWith('SettingWallet');
 });
 

@@ -5,6 +5,7 @@ import renderer from 'react-test-renderer';
 import {render, fireEvent} from '@testing-library/react-native';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
+import StringUtils from 'utils/string';
 
 jest.mock('react-native-share', () => ({
   open: jest.fn(),
@@ -44,7 +45,7 @@ it('Test save click copy', () => {
   const component = render(
     <SaveSeed navigation={null} route={{params: {seed: seed.split(' ')}}} />,
   );
-  fireEvent.press(component.getByText('Copy'));
+  fireEvent.press(component.getByText(StringUtils.texts.CopyBtn));
   expect(Clipboard.setString).toBeCalledWith(seed);
   expect(showMessage).toBeCalledWith({
     message: "Seed is copied. Don't forget to remove it from your clipboard!",
@@ -65,6 +66,6 @@ it('Test save click next', () => {
     />,
   );
 
-  fireEvent.press(component.getByText('Next'));
+  fireEvent.press(component.getByText(StringUtils.texts.NextBtnTitle));
   expect(mockFn).toBeCalledWith('ConfirmSaveSeed', {seed: seed.split(' ')});
 });

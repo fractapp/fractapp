@@ -39,7 +39,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    Import wallet
+    [missing "en.wallet_file_import.title" translation]
   </Text>
   <Text
     style={
@@ -53,7 +53,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    Enter the password to decrypt your wallet.
+    [missing "en.wallet_file_import.description" translation]
   </Text>
   <View
     style={
@@ -68,7 +68,7 @@ exports[`Test positive 1`] = `
       autoCompleteType="password"
       defaultValue=""
       onChangeText={[Function]}
-      placeholder="Password"
+      placeholder="[missing \\"en.wallet_file_import.password_placeholder\\" translation]"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -135,7 +135,7 @@ exports[`Test positive 1`] = `
           }
         }
       >
-        Restore
+        [missing "en.restore_btn" translation]
       </Text>
     </View>
   </View>

@@ -72,7 +72,7 @@ exports[`Test 0 wallets without price 1`] = `
                   ]
                 }
               >
-                Total
+                [missing "en.total_title" translation]
               </Text>
             </View>
             <View
@@ -226,7 +226,7 @@ exports[`Test 1 wallets with price 1`] = `
                   ]
                 }
               >
-                Total
+                [missing "en.total_title" translation]
               </Text>
             </View>
             <View
@@ -528,7 +528,7 @@ exports[`Test 1 wallets without price 1`] = `
                   ]
                 }
               >
-                Total
+                [missing "en.total_title" translation]
               </Text>
             </View>
             <View
@@ -830,7 +830,7 @@ exports[`Test 2 wallets with price 1`] = `
                   ]
                 }
               >
-                Total
+                [missing "en.total_title" translation]
               </Text>
             </View>
             <View
@@ -1279,7 +1279,7 @@ exports[`Test 2 wallets without price 1`] = `
                   ]
                 }
               >
-                Total
+                [missing "en.total_title" translation]
               </Text>
             </View>
             <View

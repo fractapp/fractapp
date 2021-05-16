@@ -130,7 +130,7 @@ exports[`Test tx details (fail) 1`] = `
           }
         }
       >
-        Failed
+        [missing "en.statuses.failed" translation]
       </Text>
     </View>
   </View>
@@ -159,7 +159,7 @@ exports[`Test tx details (fail) 1`] = `
         ]
       }
     >
-      Receiving account
+      [missing "en.receiving_account_title" translation]
     </Text>
     <View
       style={
@@ -342,7 +342,7 @@ exports[`Test tx details (fail) 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -501,7 +501,7 @@ exports[`Test tx details (none) 1`] = `
           }
         }
       >
-        Success
+        [missing "en.statuses.success" translation]
       </Text>
     </View>
   </View>
@@ -530,7 +530,7 @@ exports[`Test tx details (none) 1`] = `
         ]
       }
     >
-      Receiving account
+      [missing "en.receiving_account_title" translation]
     </Text>
     <View
       style={
@@ -713,7 +713,7 @@ exports[`Test tx details (none) 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -872,7 +872,7 @@ exports[`Test tx details (pending) 1`] = `
           }
         }
       >
-        Pending
+        [missing "en.statuses.pending" translation]
       </Text>
     </View>
   </View>
@@ -901,7 +901,7 @@ exports[`Test tx details (pending) 1`] = `
         ]
       }
     >
-      Receiving account
+      [missing "en.receiving_account_title" translation]
     </Text>
     <View
       style={
@@ -1084,7 +1084,7 @@ exports[`Test tx details (pending) 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -1243,7 +1243,7 @@ exports[`Test tx details (received) 1`] = `
           }
         }
       >
-        Success
+        [missing "en.statuses.success" translation]
       </Text>
     </View>
   </View>
@@ -1272,7 +1272,7 @@ exports[`Test tx details (received) 1`] = `
         ]
       }
     >
-      Receiving account
+      [missing "en.receiving_account_title" translation]
     </Text>
     <View
       style={
@@ -1455,7 +1455,7 @@ exports[`Test tx details (received) 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -1614,7 +1614,7 @@ exports[`Test tx details (sent) 1`] = `
           }
         }
       >
-        Success
+        [missing "en.statuses.success" translation]
       </Text>
     </View>
   </View>
@@ -1643,7 +1643,7 @@ exports[`Test tx details (sent) 1`] = `
         ]
       }
     >
-      Write-off account
+      [missing "en.write_off_account_title" translation]
     </Text>
     <View
       style={
@@ -1826,7 +1826,7 @@ exports[`Test tx details (sent) 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -1869,7 +1869,7 @@ exports[`Test tx details (sent) 1`] = `
             ]
           }
         >
-          Fee
+          [missing "en.fee_title" translation]
         </Text>
         <Text
           style={
@@ -2021,7 +2021,7 @@ exports[`Test tx details with user 1`] = `
           }
         }
       >
-        Success
+        [missing "en.statuses.success" translation]
       </Text>
     </View>
   </View>
@@ -2050,7 +2050,7 @@ exports[`Test tx details with user 1`] = `
         ]
       }
     >
-      Write-off account
+      [missing "en.write_off_account_title" translation]
     </Text>
     <View
       style={
@@ -2233,7 +2233,7 @@ exports[`Test tx details with user 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -2276,7 +2276,7 @@ exports[`Test tx details with user 1`] = `
             ]
           }
         >
-          Fee
+          [missing "en.fee_title" translation]
         </Text>
         <Text
           style={
@@ -2413,7 +2413,7 @@ exports[`Test tx details without usd 1`] = `
           }
         }
       >
-        Success
+        [missing "en.statuses.success" translation]
       </Text>
     </View>
   </View>
@@ -2442,7 +2442,7 @@ exports[`Test tx details without usd 1`] = `
         ]
       }
     >
-      Write-off account
+      [missing "en.write_off_account_title" translation]
     </Text>
     <View
       style={
@@ -2625,7 +2625,7 @@ exports[`Test tx details without usd 1`] = `
           ]
         }
       >
-        Date
+        [missing "en.date_title" translation]
       </Text>
       <Text
         style={
@@ -2668,7 +2668,7 @@ exports[`Test tx details without usd 1`] = `
             ]
           }
         >
-          Fee
+          [missing "en.fee_title" translation]
         </Text>
         <Text
           style={

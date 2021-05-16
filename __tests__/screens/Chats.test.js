@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react';
 import renderer from 'react-test-renderer';
 import {Chats} from 'screens/Chats';
 import ChatsStore from 'storage/Chats';
-import TransactionsStore from 'storage/Transactions';
 import GlobalStore from 'storage/Global';
 import {Currency} from 'types/wallet';
 import {ChatType, DefaultDetails} from 'types/chatInfo';
@@ -26,7 +25,7 @@ it('Test view empty', () => {
     state: ChatsStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState(),
+    state: ChatsStore.initialState(),
   });
   useContext.mockReturnValueOnce({
     state: GlobalStore.initialState(),
@@ -71,7 +70,7 @@ it('Test view with chats', () => {
     state: chats,
   });
 
-  const txs = TransactionsStore.initialState();
+  const txs = ChatsStore.initialState();
   txs.transactions.set(
     Currency.DOT,
     new Map([

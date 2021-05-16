@@ -1,39 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test backup file 1`] = `"WalletFileBackup"`;
-
-exports[`Test backup file 2`] = `
-Object {
-  "isNewAccount": true,
-  "seed": Array [
-    "seed",
-    "seed",
-  ],
-  "type": 13,
-}
-`;
-
-exports[`Test backup file 3`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      Object {
-        "onPress": [Function],
-        "text": "If you want to save a file then open the application settings and give it access to the storage.",
-        "title": "Open settings",
-        "type": 0,
-      },
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-  ],
-}
-`;
-
 exports[`Test backup google drive 1`] = `"WalletFileBackup"`;
 
 exports[`Test backup google drive 2`] = `

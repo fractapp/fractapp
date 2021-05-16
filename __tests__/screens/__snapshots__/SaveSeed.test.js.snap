@@ -20,7 +20,7 @@ exports[`Test save seed #1 1`] = `
       }
     }
   >
-    Your secret phrase
+    [missing "en.save_seed.title" translation]
   </Text>
   <Text
     style={
@@ -33,7 +33,7 @@ exports[`Test save seed #1 1`] = `
       }
     }
   >
-    Write these 12 words down, or copy them to your password manager.
+    [missing "en.save_seed.description" translation]
   </Text>
   <View
     style={
@@ -765,7 +765,7 @@ exports[`Test save seed #1 1`] = `
           }
         }
       >
-        Next
+        [missing "en.next_btn_title" translation]
       </Text>
     </View>
   </View>
@@ -808,7 +808,7 @@ exports[`Test save seed #1 1`] = `
         }
       }
     >
-      These 12 words are the keys to your wallet. Back up in a safe place. Do not share this with anyone.
+      [missing "en.save_seed.info" translation]
     </Text>
   </View>
 </View>

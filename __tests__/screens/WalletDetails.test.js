@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import {WalletDetails} from 'screens/WalletDetails';
 import {Currency, Wallet} from 'types/wallet';
 import GlobalStore, {initialState} from 'storage/Global';
-import TransactionsStore from 'storage/Transactions';
+import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
 import {fireEvent, render} from '@testing-library/react-native';
 
@@ -27,7 +27,7 @@ it('Test view with empty state', () => {
     state: GlobalStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState(),
+    state: ChatsStore.initialState(),
   });
 
   const tree = renderer
@@ -138,7 +138,7 @@ it('Test view click send', () => {
     state: GlobalStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState(),
+    state: ChatsStore.initialState(),
   });
 
   const wallet = new Wallet(
@@ -174,7 +174,7 @@ it('Test view click receive', () => {
     state: GlobalStore.initialState(),
   });
   useContext.mockReturnValueOnce({
-    state: TransactionsStore.initialState(),
+    state: ChatsStore.initialState(),
   });
 
   const wallet = new Wallet(

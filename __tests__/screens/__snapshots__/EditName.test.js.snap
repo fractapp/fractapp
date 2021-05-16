@@ -3,8 +3,8 @@
 exports[`Test click success with invalid name 1`] = `
 Object {
   "onPress": [Function],
-  "text": "Please validate and write the name again",
-  "title": "Invalid name",
+  "text": "[missing \\"en.invalid_name_text\\" translation]",
+  "title": "[missing \\"en.invalid_name_title\\" translation]",
   "type": 0,
 }
 `;
@@ -46,7 +46,7 @@ exports[`Test view 1`] = `
         autoCompleteType="username"
         keyboardType="default"
         onChangeText={[Function]}
-        placeholder="Enter name"
+        placeholder="[missing \\"en.edit.name\\" translation]"
         placeholderTextColor="#BFBDBD"
         rejectResponderTermination={true}
         secureTextEntry={false}

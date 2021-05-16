@@ -34,7 +34,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    Welcome to Fractapp
+    [missing "en.welcome_title" translation]
   </Text>
   <Text
     style={
@@ -46,7 +46,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    The most simple Polkadot wallet for DeFi and crypto
+    [missing "en.welcome_description" translation]
   </Text>
   <View
     style={
@@ -90,7 +90,7 @@ exports[`Test positive 1`] = `
           }
         }
       >
-        Start
+        [missing "en.start_btn_title" translation]
       </Text>
     </View>
   </View>

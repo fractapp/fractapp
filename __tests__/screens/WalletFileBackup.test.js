@@ -7,6 +7,7 @@ import DialogStore from 'storage/Dialog';
 import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import DB from 'storage/DB';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({
   createAccounts: jest.fn(),
@@ -177,7 +178,7 @@ it('Test click encrypt', () => {
   const component = render(
     <WalletFileBackup route={{params: params}} navigation={{reset: mockNav}} />,
   );
-  fireEvent.press(component.getByText('Encrypt'));
+  fireEvent.press(component.getByText(StringUtils.texts.NextBtnTitle));
 
   expect(setLoader).toBeCalledWith(true);
 });

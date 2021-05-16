@@ -27,8 +27,6 @@ exports[`Test view with empty txs 1`] = `
     getItemCount={[Function]}
     horizontal={false}
     initialNumToRender={10}
-    invertStickyHeaders={true}
-    inverted={true}
     keyExtractor={[Function]}
     maxToRenderPerBatch={10}
     onContentSizeChange={[Function]}
@@ -38,6 +36,7 @@ exports[`Test view with empty txs 1`] = `
     onScroll={[Function]}
     onScrollBeginDrag={[Function]}
     onScrollEndDrag={[Function]}
+    onScrollToIndexFailed={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
     scrollEventThrottle={50}
@@ -46,11 +45,7 @@ exports[`Test view with empty txs 1`] = `
     style={
       Array [
         Object {
-          "transform": Array [
-            Object {
-              "scaleY": -1,
-            },
-          ],
+          "scaleY": -1,
         },
         Object {
           "width": "100%",
@@ -64,15 +59,6 @@ exports[`Test view with empty txs 1`] = `
     <View>
       <View
         onLayout={[Function]}
-        style={
-          Object {
-            "transform": Array [
-              Object {
-                "scaleY": -1,
-              },
-            ],
-          }
-        }
       >
         <View
           style={
@@ -153,8 +139,6 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
     getItemCount={[Function]}
     horizontal={false}
     initialNumToRender={10}
-    invertStickyHeaders={true}
-    inverted={true}
     keyExtractor={[Function]}
     maxToRenderPerBatch={10}
     onContentSizeChange={[Function]}
@@ -164,6 +148,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
     onScroll={[Function]}
     onScrollBeginDrag={[Function]}
     onScrollEndDrag={[Function]}
+    onScrollToIndexFailed={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
     scrollEventThrottle={50}
@@ -172,11 +157,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
     style={
       Array [
         Object {
-          "transform": Array [
-            Object {
-              "scaleY": -1,
-            },
-          ],
+          "scaleY": -1,
         },
         Object {
           "width": "100%",
@@ -190,15 +171,6 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
     <View>
       <View
         onLayout={[Function]}
-        style={
-          Object {
-            "transform": Array [
-              Object {
-                "scaleY": -1,
-              },
-            ],
-          }
-        }
       >
         <View
           style={

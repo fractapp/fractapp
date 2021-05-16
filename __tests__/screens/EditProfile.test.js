@@ -5,6 +5,7 @@ import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -80,10 +81,10 @@ it('Test clicks', () => {
   fireEvent.press(component.getByText('@username'));
   expect(nav).toBeCalledWith('EditUsername');
 
-  fireEvent.press(component.getByText('Phone'));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.phoneTitle));
   expect(nav).toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText('Email'));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.email));
   expect(nav).toBeCalledWith('EditEmail');
 });
 
@@ -177,9 +178,9 @@ it('Test clicks (negative)', () => {
   });
 
   const component = render(<EditProfile navigation={{navigate: nav}} />);
-  fireEvent.press(component.getByText('Phone'));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.phoneTitle));
   expect(nav).not.toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText('Email'));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.email));
   expect(nav).not.toBeCalledWith('EditEmail');
 });

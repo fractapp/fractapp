@@ -137,7 +137,7 @@ exports[`Test one 1`] = `
               ]
             }
           >
-            Received +
+            [missing "en.received_title" translation] +
             10 KSM
           </Text>
         </View>
@@ -317,7 +317,7 @@ exports[`Test three 1`] = `
               ]
             }
           >
-            Received +
+            [missing "en.received_title" translation] +
             10 KSM
           </Text>
         </View>
@@ -497,7 +497,7 @@ exports[`Test two 1`] = `
               ]
             }
           >
-            Sent -
+            [missing "en.sent_title" translation] -
             10 DOT
           </Text>
         </View>

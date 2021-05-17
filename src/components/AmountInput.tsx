@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -48,6 +48,7 @@ export const AmountInput = ({
 }) => {
   const priceContext = useContext(PricesStore.Context);
   const api = Adaptors.get(wallet.network);
+  const textInputRef = useRef<TextInput>(null);
 
   const [isValid, setValid] = useState<boolean>(true);
   const [errorText, setErrorText] = useState<string>('');
@@ -172,6 +173,9 @@ export const AmountInput = ({
   };
 
   useEffect(() => {
+    textInputRef?.current?.focus();
+  }, [textInputRef]);
+  useEffect(() => {
     console.log('default value: ' + defaultValue);
     if (defaultValue === undefined || defaultValue === '') {
       return;
@@ -261,6 +265,7 @@ export const AmountInput = ({
               marginBottom: 8,
             },
           ]}
+          ref={textInputRef}
           autoFocus={true}
           onChangeText={(text) => {
             onChangeText(text, isUSDMode);

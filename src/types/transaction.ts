@@ -21,6 +21,7 @@ export enum TxStatus {
  */
 export type Transaction = {
   id: string;
+  hash: string;
   userId: string | null;
   address: string;
   currency: Currency;

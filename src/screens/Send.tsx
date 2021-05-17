@@ -150,10 +150,11 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
     }
 
     const pValue = new BN(planksValueString);
-    const id = await api.send(receiver, pValue);
+    const hash = await api.send(receiver, pValue);
 
     const tx: Transaction = {
-      id: id,
+      id: 'sent-' + hash,
+      hash: hash,
       userId: user !== undefined ? user.id : null,
       address: receiver,
       currency: wallet.currency,

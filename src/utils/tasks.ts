@@ -152,9 +152,8 @@ namespace Task {
     globalContext: GlobalStore.ContextType,
     chatsContext: ChatsStore.ContextType,
   ) {
-    let existedTxs: ChatsStore.Transactions = chatsContext.state.transactions.get(
-      account.currency,
-    )!;
+    let existedTxs: ChatsStore.Transactions =
+      chatsContext.state.transactions.get(account.currency)!;
     if (existedTxs === undefined) {
       existedTxs = {
         transactionById: new Map<ChatsStore.TxId, Transaction>(),
@@ -179,8 +178,15 @@ namespace Task {
         continue;
       }
 
-      if (existedTxs.transactionById.has(txs[i].id) && isSynced) {
-        return;
+      if (
+        existedTxs.transactionById.has(txs[i].id) ||
+        existedTxs.transactionById.has('sent-' + txs[i].hash)
+      ) {
+        if (isSynced) {
+          return;
+        } else {
+          continue;
+        }
       }
 
       await setTx(globalContext, chatsContext, txs[i], isSynced);
@@ -212,16 +218,15 @@ namespace Task {
   export async function checkPendingTxs(chatsContext: ChatsStore.ContextType) {
     for (let [currency, value] of chatsContext.state.pendingTransactions) {
       for (let i = 0; i < value.idsOfTransactions.length; i++) {
-        const hash = value.idsOfTransactions[i].split('-')[0];
-        const status = await backend.getTxStatus(hash);
+        let tx = chatsContext.state.transactions
+          ?.get(currency)
+          ?.transactionById.get(value.idsOfTransactions[i])!;
+
+        const status = await backend.getTxStatus(tx.hash);
 
         if (status == null || status === TxStatus.Pending) {
           continue;
         }
-
-        let tx = chatsContext.state.transactions
-          ?.get(currency)
-          ?.transactionById.get(value.idsOfTransactions[i])!;
 
         tx.status = status;
         chatsContext.dispatch(

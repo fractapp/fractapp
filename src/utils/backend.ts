@@ -429,6 +429,7 @@ namespace BackendApi {
       }
       transactions.push({
         id: tx.id,
+        hash: tx.hash,
         userId: userId,
         address: member,
         currency: currency,

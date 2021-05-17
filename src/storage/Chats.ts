@@ -224,8 +224,8 @@ namespace ChatsStore {
         pTx.status = txStatus;
         copy.transactions.get(pTx.currency)!.transactionById.set(pTx.id, pTx);
 
-        let newPTxs = copy.pendingTransactions.get(currency)
-          ?.idsOfTransactions!;
+        let newPTxs =
+          copy.pendingTransactions.get(currency)?.idsOfTransactions!;
 
         newPTxs.splice(index, 1);
         copy.pendingTransactions.set(currency, {

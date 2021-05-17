@@ -76,9 +76,8 @@ export class SubstrateAdaptor implements IAdaptor {
     const substrateApi = await this.getSubstrateApi();
     const tx = await substrateApi.tx.balances.transfer(receiver, value);
     const hash = await tx.signAndSend(key);
-    return `${hash.toHex()}-${tx.signer.toString()}-${tx.nonce
-      .toBn()
-      .toString()}-${0}`;
+
+    return hash.toHex();
   }
 
   public async isValidTransfer(

@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,TouchableHighlight} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Currency} from 'types/wallet';
+import {Currency, Wallet} from 'types/wallet';
 import StringUtils from 'utils/string';
 
 /**
@@ -10,8 +10,12 @@ import StringUtils from 'utils/string';
  */
 export const StatisticsBar = ({
   distribution,
+  wallets,
+  onPress,
 }: {
-  distribution: Map<Currency, number>;
+  distribution: Map<Currency, number>,
+  wallets: any,
+  onPress?: () => void;
 }) => {
   const defaultColor = '#CCCCCC';
   let total = 0;
@@ -69,17 +73,19 @@ export const StatisticsBar = ({
   };
   return (
     <View style={styles.statistics}>
-      <View style={styles.titleBox}>
-        <View style={styles.titleBoxElement}>
-          <Text style={[styles.title, {textAlign: 'left'}]}>
-            {StringUtils.texts.TotalTitle}
-          </Text>
-        </View>
-        <View style={styles.titleBoxElement}>
-          <Text style={[styles.title, {textAlign: 'right'}]}>${total}</Text>
-        </View>
+      <TouchableHighlight onPress={onPress} underlayColor="#f8f9fb">
+        <View style={styles.titleBox}>
+          <View style={styles.titleBoxElement}>
+            <Text style={[styles.title, {textAlign: 'left'}]}>
+              {StringUtils.texts.TotalTitle}
+            </Text>
+          </View>
+          <View style={styles.titleBoxElement}>
+            <Text style={[styles.title, {textAlign: 'right'}]}>${total}</Text>
+          </View>
         {renderDistribution()}
       </View>
+      </TouchableHighlight>
     </View>
   );
 };

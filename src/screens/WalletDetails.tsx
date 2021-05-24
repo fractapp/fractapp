@@ -36,7 +36,6 @@ export const WalletDetails = ({
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    //TODO: refactoring
     const txs = new Array<Transaction>();
 
     if (!chatsContext.state.transactions.has(wallet.currency)) {
@@ -63,6 +62,7 @@ export const WalletDetails = ({
         title: key,
         data: value,
       });
+
     }
     return sections;
   };

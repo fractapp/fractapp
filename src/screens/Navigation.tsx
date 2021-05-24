@@ -12,6 +12,7 @@ import {
   SaveWallet,
   ConfirmSaveSeed,
   WalletFileBackup,
+  WalletDetailsGraph,
   SaveSeed,
   WalletDetails,
   ImportSeed,
@@ -127,6 +128,12 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('Home', TabMenu)}
         {getEmptyRouter('NewPassCode', NewPassCode)}
         {getEmptyRouter('VerifyPassCode', VerifyPassCode)}
+        {getRouterWithTitle(
+          'WalletDetailsGraph',
+          'Statistics',//add title StringUtils.texts.titles.graph,
+          WalletDetailsGraph
+          )}
+
         {getRouterWithTitle(
           'WalletDetails',
           StringUtils.texts.titles.details,

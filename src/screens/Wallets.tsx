@@ -13,10 +13,10 @@ import PricesStore from 'storage/Prices';
 export const Wallets = ({navigation}: {navigation: any}) => {
   const accountsContext = useContext(AccountsStore.Context);
   const priceContext = useContext(PricesStore.Context);
-
+  const wallets = new Array<Wallet>();
   const renderAccounts = () => {
     const result = new Array();
-    const wallets = new Array<Wallet>();
+    
     for (let [currency, account] of accountsContext.state.accounts) {
       let price = 0;
       if (priceContext.state.has(currency)) {
@@ -68,7 +68,13 @@ export const Wallets = ({navigation}: {navigation: any}) => {
     <View style={styles.wallet}>
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <StatisticsBar distribution={distribution()} />
+          <StatisticsBar
+            distribution={distribution()}
+            wallets={wallets}
+            onPress={() =>
+              navigation.navigate('WalletDetailsGraph', {wallets: wallets})
+            }
+          />
           <View style={styles.accounts}>{renderAccounts()}</View>
         </View>
       </ScrollView>

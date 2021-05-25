@@ -1,4 +1,4 @@
-import React, {useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { VictoryPie, VictoryLegend } from "victory-native";
 import {
   SectionList,
@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Wallet} from 'types/wallet';
+import {Wallet, getColor, getName} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
@@ -18,7 +18,6 @@ import {TransactionInfo} from 'components/TransactionInfo';
  * @category Screens
  */
 
-
 export const WalletDetailsGraph = ({
   navigation,
   route,
@@ -26,18 +25,34 @@ export const WalletDetailsGraph = ({
   navigation: any;
   route: any;
 }) => {
-
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
   const wallets: Array<Wallet> = route.params.wallets;
 
-  //data for graph
-  const currencies = ['Polkadot', 'Kusama'];
-  const currenciesColors = ['#E6007A', '#888888'];
   //arrays for graph
-  const balance = new Array();
-  const graphColor = new Array();
-  const legends = new Array();
+  const defaultGraphicData = [100];
+  const [balanceData, setBalance] = useState(defaultGraphicData);
+  const [colors, setColors] = useState(new Array());
+  const [legendData, setLegends] = useState(new Array());
+  
+  useEffect(() => {
+    let colorsArray = new Array();
+    let balanceArray = new Array();
+    let legendsArray = new Array();
+
+    for (let w of wallets) {
+      if (!w.balance) continue;
+      else {
+        colorsArray.push(getColor(w.currency));
+        balanceArray.push(w.balance);
+        legendsArray.push({name: getName(w.currency), symbol: { fill: getColor(w.currency), type: 'square' }});
+      }
+    }
+    setColors(colorsArray);
+    setBalance(balanceArray);
+    setLegends(legendsArray);
+  },[])
+
   const getDataWithSections = () => {
     let sections = [];
     const now = new Date();
@@ -55,10 +70,6 @@ export const WalletDetailsGraph = ({
           txs.push(tx);
         }
       }
-      //fill arrays for graph
-      balance.push(w.balance);
-      graphColor.push(currenciesColors[w.currency]);
-      legends.push( { name: currencies[w.currency], symbol: { fill: currenciesColors[w.currency], type: 'square' } });
     }
     
     for (let tx of txs.sort((a, b) => b.timestamp - a.timestamp)) {
@@ -87,7 +98,7 @@ export const WalletDetailsGraph = ({
               <VictoryLegend             
                 orientation="vertical"
                 gutter={20}
-                data={legends}
+                data={legendData}
               />
             </View>
           
@@ -95,9 +106,9 @@ export const WalletDetailsGraph = ({
                 <VictoryPie height={230}
                     radius={90}
                     innerRadius={60}
-                    data={balance}
+                    data={balanceData}
                     style={{ labels: { display: "none"}}}
-                    colorScale={graphColor}
+                    colorScale={colors}
                 />
             </View>
             

@@ -14,6 +14,37 @@ export enum Currency {
  * get logo for wallet
  * @category Models
  */
+
+ export function getName(currency: Currency) {
+  let name = '';
+  switch (currency) {
+    case Currency.DOT:
+      name = 'Polkadot';
+      break;
+    case Currency.KSM:
+      name = 'Kusama';
+      break;
+    default:
+      throw new Error('invalid currency');
+  }
+  return name;
+}
+
+ export function getColor(currency: Currency) {
+  let color = '';
+  switch (currency) {
+    case Currency.DOT:
+      color = '#E6007A';
+      break;
+    case Currency.KSM:
+      color = '#888888';
+      break;
+    default:
+      throw new Error('invalid currency');
+  }
+  return color;
+}
+
 export function getLogo(currency: Currency) {
   let logo: ImageSourcePropType;
   switch (currency) {

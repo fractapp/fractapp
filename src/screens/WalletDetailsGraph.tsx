@@ -30,8 +30,7 @@ export const WalletDetailsGraph = ({
   const wallets: Array<Wallet> = route.params.wallets;
 
   //arrays for graph
-  const defaultGraphicData = [100];
-  const [balanceData, setBalance] = useState(defaultGraphicData);
+  const [balanceData, setBalance] = useState(new Array());
   const [colors, setColors] = useState(new Array());
   const [legendData, setLegends] = useState(new Array());
   

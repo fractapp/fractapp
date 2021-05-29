@@ -35,11 +35,11 @@ export const WalletDetailsGraph = ({
     let legendsArray = new Array();
 
     for (let w of wallets) {
-      if (!w.balance) {
+      if (!w.usdValue) {
         continue;
       } else {
         colorsArray.push(getColor(w.currency));
-        balanceArray.push(w.balance);
+        balanceArray.push(w.usdValue);
         legendsArray.push({
           name: getName(w.currency),
           symbol: {fill: getColor(w.currency), type: 'square'},
@@ -148,7 +148,6 @@ export const WalletDetailsGraph = ({
 
 const styles = StyleSheet.create({
   statistics: {
-    flex: 2,
     width: '100%',
   },
   legend: {

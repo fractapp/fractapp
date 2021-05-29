@@ -9,6 +9,7 @@ import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
+import analytics from '@react-native-firebase/analytics';
 
 /**
  * Wallet file import screen
@@ -62,6 +63,13 @@ export const WalletFileImport = ({route}: {route: any}) => {
       }
 
       await DB.createAccounts(seed);
+
+      try {
+        await analytics().logEvent('login', {
+          item: 'importGoogle',
+        });
+      } catch (e) {}
+
       globalContext.dispatch(GlobalStore.signInLocal());
     })();
   }, [isLoading]);

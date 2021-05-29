@@ -6,6 +6,7 @@ import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
+import analytics from '@react-native-firebase/analytics';
 
 /**
  * Confirm save seed phrase screen
@@ -25,9 +26,8 @@ export const ConfirmSaveSeed = ({
   const randomSeed = [...seed].sort(() => 0.5 - Math.random());
 
   const [selectedPhrase, setSelectedPhrase] = useState(new Array<string>());
-  const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(
-    randomSeed,
-  );
+  const [noSelectedPhrase, setNoSelectedPhrase] =
+    useState<Array<string>>(randomSeed);
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const startSaveSeed = async () => {
@@ -42,6 +42,13 @@ export const ConfirmSaveSeed = ({
 
       if (isNewAccount) {
         await DB.createAccounts(seed.join(' '));
+
+        try {
+          await analytics().logEvent('login', {
+            item: 'saveSeed',
+          });
+        } catch (e) {}
+
         await globalContext.dispatch(GlobalStore.signInLocal());
       }
 

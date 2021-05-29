@@ -11,6 +11,7 @@ import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 import passwordValidator from 'password-validator';
 import googleUtil from 'utils/google';
+import analytics from '@react-native-firebase/analytics';
 
 const minPasswordLength = 8;
 const schema = new passwordValidator();
@@ -115,6 +116,13 @@ export const WalletFileBackup = ({
 
       if (!globalContext.state.authInfo.isAuthed) {
         await DB.createAccounts(seed);
+
+        try {
+          await analytics().logEvent('login', {
+            item: 'saveGoogle',
+          });
+        } catch (e) {}
+
         globalContext.dispatch(GlobalStore.signInLocal());
       }
 

@@ -30,7 +30,7 @@
   "unread_messages_title": "Unread messages",
   "choose_wallet_title": "Choose wallet",
 
-  "search_placeholder": "Search",
+  "search_placeholder": "Search by username or email",
   "no_results_title": "No results",
 
   "enter_valid_address_err": "Please enter a valid address",

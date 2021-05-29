@@ -30,7 +30,7 @@
   "unread_messages_title": "Непрочитанные сообщения",
   "choose_wallet_title": "Выберите кошелек",
 
-  "search_placeholder": "Поиск",
+  "search_placeholder": "Поиск по username или email",
   "no_results_title": "Нет результатов",
 
   "enter_valid_address_err": "Введите правильный адрес",

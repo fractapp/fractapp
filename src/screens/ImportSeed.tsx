@@ -6,6 +6,7 @@ import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
+import analytics from '@react-native-firebase/analytics';
 
 /**
  * Import seed screen
@@ -39,6 +40,13 @@ export const ImportSeed = () => {
 
     (async () => {
       await DB.createAccounts(seed);
+
+      try {
+        await analytics().logEvent('login', {
+          item: 'importSeed',
+        });
+      } catch (e) {}
+
       globalContext.dispatch(GlobalStore.signInLocal());
       setLoading(false);
     })();

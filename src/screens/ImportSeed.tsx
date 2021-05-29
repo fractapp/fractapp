@@ -42,8 +42,8 @@ export const ImportSeed = () => {
       await DB.createAccounts(seed);
 
       try {
-        await analytics().logEvent('login', {
-          item: 'importSeed',
+        await analytics().logLogin({
+          method: 'importSeed',
         });
       } catch (e) {}
 

@@ -65,8 +65,8 @@ export const WalletFileImport = ({route}: {route: any}) => {
       await DB.createAccounts(seed);
 
       try {
-        await analytics().logEvent('login', {
-          item: 'importGoogle',
+        await analytics().logLogin({
+          method: 'importGoogle',
         });
       } catch (e) {}
 

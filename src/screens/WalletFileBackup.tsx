@@ -118,8 +118,8 @@ export const WalletFileBackup = ({
         await DB.createAccounts(seed);
 
         try {
-          await analytics().logEvent('login', {
-            item: 'saveGoogle',
+          await analytics().logLogin({
+            method: 'saveGoogle',
           });
         } catch (e) {}
 

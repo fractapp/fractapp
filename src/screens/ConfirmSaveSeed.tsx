@@ -44,8 +44,8 @@ export const ConfirmSaveSeed = ({
         await DB.createAccounts(seed.join(' '));
 
         try {
-          await analytics().logEvent('login', {
-            item: 'saveSeed',
+          await analytics().logLogin({
+            method: 'saveSeed',
           });
         } catch (e) {}
 

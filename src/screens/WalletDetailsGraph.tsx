@@ -1,11 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { VictoryPie, VictoryLegend } from "victory-native";
-import {
-  SectionList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {VictoryPie, VictoryLegend} from 'victory-native';
+import {SectionList, StyleSheet, Text, View} from 'react-native';
 import {Wallet, getColor, getName} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
@@ -33,24 +28,28 @@ export const WalletDetailsGraph = ({
   const [balanceData, setBalance] = useState(new Array());
   const [colors, setColors] = useState(new Array());
   const [legendData, setLegends] = useState(new Array());
-  
+
   useEffect(() => {
     let colorsArray = new Array();
     let balanceArray = new Array();
     let legendsArray = new Array();
 
     for (let w of wallets) {
-      if (!w.balance) continue;
-      else {
+      if (!w.balance) {
+        continue;
+      } else {
         colorsArray.push(getColor(w.currency));
         balanceArray.push(w.balance);
-        legendsArray.push({name: getName(w.currency), symbol: { fill: getColor(w.currency), type: 'square' }});
+        legendsArray.push({
+          name: getName(w.currency),
+          symbol: {fill: getColor(w.currency), type: 'square'},
+        });
       }
     }
     setColors(colorsArray);
     setBalance(balanceArray);
     setLegends(legendsArray);
-  },[])
+  }, []);
 
   const getDataWithSections = () => {
     let sections = [];
@@ -61,8 +60,7 @@ export const WalletDetailsGraph = ({
     for (let w of wallets) {
       if (!chatsContext.state.transactions.has(w.currency)) {
         continue;
-      }
-      else {
+      } else {
         for (let tx of chatsContext.state.transactions
           .get(w.currency)
           ?.transactionById.values()!) {
@@ -70,7 +68,7 @@ export const WalletDetailsGraph = ({
         }
       }
     }
-    
+
     for (let tx of txs.sort((a, b) => b.timestamp - a.timestamp)) {
       let dateValue = stringUtils.toTitle(now, new Date(tx.timestamp));
       if (!txsBySelections.has(dateValue)) {
@@ -90,82 +88,83 @@ export const WalletDetailsGraph = ({
   };
 
   return (
-      <SectionList
-        ListHeaderComponent={() => (
-          <View style={styles.statistics}>
-            <View style={styles.legend}>
-              <VictoryLegend             
-                orientation="vertical"
-                gutter={20}
-                data={legendData}
-              />
-            </View>
-          
-            <View style={{flex: 1}}>
-                <VictoryPie height={230}
-                    radius={90}
-                    innerRadius={60}
-                    data={balanceData}
-                    style={{ labels: { display: "none"}}}
-                    colorScale={colors}
-                />
-            </View>
-            
-            <View style={styles.dividingLine} />
+    <SectionList
+      ListHeaderComponent={() => (
+        <View style={styles.statistics}>
+          <View style={styles.legend}>
+            <VictoryLegend
+              orientation="vertical"
+              gutter={20}
+              data={legendData}
+            />
           </View>
-        )}
-        sections={getDataWithSections()}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({item}) => (
-          <TransactionInfo
-            key={item.id}
-            transaction={item}
-            user={
-              item.userId != null && globalContext.state.users.has(item.userId)
-                ? globalContext.state.users.get(item.userId)!
-                : null
-            }
-              onPress={() =>
-                navigation.navigate('TransactionDetails', {
-                transaction: item,
-                wallet: wallets[item.currency],
-                user:
+
+          <View style={{flex: 1}}>
+            <VictoryPie
+              height={230}
+              radius={90}
+              innerRadius={60}
+              data={balanceData}
+              style={{labels: {display: 'none'}}}
+              colorScale={colors}
+            />
+          </View>
+
+          <View style={styles.dividingLine} />
+        </View>
+      )}
+      sections={getDataWithSections()}
+      keyExtractor={(item) => String(item.id)}
+      renderItem={({item}) => (
+        <TransactionInfo
+          key={item.id}
+          transaction={item}
+          user={
+            item.userId != null && globalContext.state.users.has(item.userId)
+              ? globalContext.state.users.get(item.userId)!
+              : null
+          }
+          onPress={() =>
+            navigation.navigate('TransactionDetails', {
+              transaction: item,
+              wallet: wallets[item.currency],
+              user:
                 item.userId != null &&
-                  globalContext.state.users.has(item.userId)
+                globalContext.state.users.has(item.userId)
                   ? globalContext.state.users.get(item.userId)
                   : null,
-              })
-            }
-          />
-        )}
-        renderSectionHeader={({section: {title}}) => (
-          <View style={{marginTop: 10}}>
-            <Text style={styles.dateTitle}>{title}</Text>
-          </View>
-        )}
-      />
+            })
+          }
+        />
+      )}
+      renderSectionHeader={({section: {title}}) => (
+        <View style={{marginTop: 10}}>
+          <Text style={styles.dateTitle}>{title}</Text>
+        </View>
+      )}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   statistics: {
-    flex:2,
-    width: '100%'
+    flex: 2,
+    width: '100%',
   },
   legend: {
     position: 'absolute',
-    width:'30%',
-    paddingTop: 30
+    width: '30%',
+    paddingTop: 30,
   },
   transactionsInfo: {
-    flex:1,
+    flex: 1,
     alignSelf: 'center',
     width: '85%',
     borderTopColor: 'gray',
     borderTopWidth: 1,
-    paddingTop: '8%'
+    paddingTop: '8%',
   },
-  
+
   dateTitle: {
     fontSize: 17,
     marginBottom: 5,

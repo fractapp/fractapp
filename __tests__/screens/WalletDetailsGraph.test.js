@@ -244,7 +244,7 @@ it('Test view click txs', () => {
       100,
       '1000000000000',
       10,
-      0,
+      1,
     ),
     new Wallet(
       'Wallet KSM',
@@ -253,7 +253,7 @@ it('Test view click txs', () => {
       200,
       '3000000000000',
       20,
-      0,
+      2,
     ),
   ];
   const txs = new Map();
@@ -284,12 +284,24 @@ it('Test view click txs', () => {
     status: TxStatus.Success,
   });
 
+
   const chatsState = ChatsStore.initialState();
-  for (let [key, value] of txs.entries()) {
-    chatsState.transactions.set(key, {
-      transactionById: value,
-    });
-  }
+  chatsState.transactions.set(Currency.DOT, {
+    transactionById: new Map([
+      [
+        '1',
+        txs.get(Currency.DOT),
+      ],
+    ]),
+  });
+  chatsState.transactions.set(Currency.KSM, {
+    transactionById: new Map([
+      [
+        '2',
+        txs.get(Currency.KSM),
+      ],
+    ]),
+  });
 
   const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
@@ -329,18 +341,18 @@ it('Test view click txs', () => {
       }}
     />,
   );
-
   fireEvent.press(component.getByText('address#1'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
-    transaction: txs.get('1'),
-    wallets: wallets[this.transaction.currency],
+    transaction: txs.get(Currency.DOT),
+    wallet: wallets[txs.get(Currency.DOT).currency],
     user: null,
   });
 
   fireEvent.press(component.getByText('name'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
-    transaction: txs.get('2'),
-    wallets: wallets[transaction.currency],
+    transaction: txs.get(Currency.KSM),
+    wallet: wallets[txs.get(Currency.KSM).currency],
     user: globalState.users.get('userId'),
   });
 });
+

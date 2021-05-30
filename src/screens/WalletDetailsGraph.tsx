@@ -60,12 +60,11 @@ export const WalletDetailsGraph = ({
     for (let w of wallets) {
       if (!chatsContext.state.transactions.has(w.currency)) {
         continue;
-      } else {
-        for (let tx of chatsContext.state.transactions
-          .get(w.currency)
-          ?.transactionById.values()!) {
-          txs.push(tx);
-        }
+      }
+      for (let tx of chatsContext.state.transactions
+        .get(w.currency)
+        ?.transactionById.values()!) {
+        txs.push(tx);
       }
     }
 

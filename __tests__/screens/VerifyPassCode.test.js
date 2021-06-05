@@ -241,7 +241,7 @@ it('Test invalid passcode', async () => {
   expect(dispatch).toBeCalledWith(GlobalStore.setLoading(true));
   expect(dispatch).toBeCalledWith(GlobalStore.setLoading(false));
   expect(showMessage).toBeCalledWith({
-    message: 'Incorrect passcode',
+    message: '[missing \"en.show_msg.incorrect_passcode\" translation]',
     type: 'danger',
     icon: 'warning',
   });

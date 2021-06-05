@@ -65,56 +65,64 @@ it('Test view with chats', () => {
     notificationCount: 12,
     timestamp: 222111,
     type: ChatType.WithUser,
-  });
-  useContext.mockReturnValueOnce({
-    state: chats,
+    details: {
+      currency: Currency.KSM,
+      address: 'address#2',
+    },
   });
 
-  const txs = ChatsStore.initialState();
-  txs.transactions.set(
-    Currency.DOT,
-    new Map([
-      [
-        'txOne',
-        {
-          id: 'txOne',
-          userId: null,
-          address: 'address#1',
-          currency: Currency.DOT,
-          txType: TxType.Sent,
-          timestamp: 12123,
-          value: 10000,
-          usdValue: 10001,
-          fee: 10002,
-          usdFee: 10003,
-          status: TxStatus.Success,
-        },
-      ],
-    ]),
+  chats.transactions.set(
+    Currency.DOT,{
+      transactionById: new Map([
+        [
+          'txOne',
+          {
+            id: 'txOne',
+            userId: null,
+            address: 'address#1',
+            currency: Currency.DOT,
+            txType: TxType.Sent,
+            timestamp: 12123,
+            value: 10000,
+            usdValue: 10001,
+            fee: 10002,
+            usdFee: 10003,
+            status: TxStatus.Success,
+          },
+        ],
+      ]),
+    }
   );
-  txs.transactions.set(
-    Currency.KSM,
-    new Map([
-      [
-        'txTwo',
-        {
-          id: 'txTwo',
-          userId: 'userId',
-          address: 'address#2',
-          currency: Currency.KSM,
-          txType: TxType.Sent,
-          timestamp: 121235,
-          value: 100005,
-          usdValue: 100015,
-          fee: 100025,
-          usdFee: 100035,
-          status: TxStatus.Success,
-        },
-      ],
-    ]),
+  chats.transactions.set(
+    Currency.KSM, {
+      transactionById: new Map([
+        [
+          'txTwo',
+          {
+            id: 'txTwo',
+            userId: 'userId',
+            address: 'address#2',
+            currency: Currency.KSM,
+            txType: TxType.Sent,
+            timestamp: 121235,
+            value: 100005,
+            usdValue: 100015,
+            fee: 100025,
+            usdFee: 100035,
+            status: TxStatus.Success,
+          },
+        ],
+      ])
+    },
   );
+  
   useContext.mockReturnValueOnce({
-    state: txs,
+    state: {
+      chatsInfo: chats.chatsInfo,
+      transactions: chats.transactions,
+      isInitialized: true,
+    },
+    dispatch: () => null,
   });
 
   const global = GlobalStore.initialState();
@@ -131,6 +139,7 @@ it('Test view with chats', () => {
   });
   useContext.mockReturnValueOnce({
     state: global,
+    dispatch: () => null,
   });
 
   const tree = renderer

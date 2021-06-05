@@ -9,10 +9,10 @@ jest.mock('storage/DB', () => ({
   disablePasscode: jest.fn(),
   setContacts: jest.fn(),
   setUsers: jest.fn(),
+  setUrls: jest.fn(),
 }));
 
 const initState = () => ({
-  isUpdatingProfile: false,
   profile: {
     id: '',
     name: '',
@@ -23,18 +23,23 @@ const initState = () => ({
     avatarExt: '',
     lastUpdate: 0,
   },
-  contacts: [],
-  users: new Map(),
-  notificationCount: 0,
   authInfo: {
     isSynced: false,
     isAuthed: false,
     isPasscode: false,
     isBiometry: false,
   },
+  
+  lang: null,
+  users: new Map(),
+  urls: new Map(),
+  contacts: [],
+
+  isUpdatingProfile: false,
   isInitialized: false,
   isRegistered: false,
   isLoadingShow: false,
+  isSyncShow: true
 });
 
 it('Test set', async () => {
@@ -131,12 +136,7 @@ it('Test signOutFractapp', async () => {
 it('Test setSynced', async () => {
   expect(GlobalStore.setSynced()).toMatchSnapshot();
 });
-it('Test addNotificationCount', async () => {
-  expect(GlobalStore.addNotificationCount()).toMatchSnapshot();
-});
-it('Test removeNotificationCount', async () => {
-  expect(GlobalStore.removeNotificationCount(10)).toMatchSnapshot();
-});
+
 it('Test enablePasscode', async () => {
   expect(GlobalStore.enablePasscode('111111')).toMatchSnapshot();
 });
@@ -296,33 +296,7 @@ it('Test reducer setSynced', async () => {
     isBiometry: false,
   });
 });
-it('Test reducer addNotificationCount', async () => {
-  let state = initState();
-  state = GlobalStore.reducer(state, GlobalStore.addNotificationCount());
-  expect(state).toMatchSnapshot();
-  expect(DB.setNotificationCount).toBeCalledWith(1);
 
-  expect(
-    GlobalStore.reducer(state, GlobalStore.addNotificationCount()),
-  ).toMatchSnapshot();
-  expect(DB.setNotificationCount).toBeCalledWith(2);
-});
-it('Test reducer removeNotificationCount', async () => {
-  let state = initState();
-  state = GlobalStore.reducer(state, GlobalStore.addNotificationCount());
-  expect(state).toMatchSnapshot();
-  expect(DB.setNotificationCount).toBeCalledWith(1);
-
-  state = GlobalStore.reducer(state, GlobalStore.addNotificationCount());
-  expect(state).toMatchSnapshot();
-  expect(DB.setNotificationCount).toBeCalledWith(2);
-
-  expect(
-    GlobalStore.reducer(state, GlobalStore.removeNotificationCount(2)),
-  ).toMatchSnapshot();
-
-  expect(DB.setNotificationCount).toBeCalledWith(0);
-});
 it('Test reducer enablePasscode', async () => {
   expect(
     GlobalStore.reducer(initState(), GlobalStore.enablePasscode('111111')),

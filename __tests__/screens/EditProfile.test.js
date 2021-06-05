@@ -6,6 +6,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
 import StringUtils from 'utils/string';
+import i18n from 'i18next';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -23,6 +24,7 @@ jest.mock('utils/backend', () => ({
 jest.mock('react-native-image-picker/src/index', () => ({
   launchImageLibrary: jest.fn(),
 }));
+
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

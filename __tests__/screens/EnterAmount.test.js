@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {EnterAmount} from 'screens/EnterAmount';
@@ -5,6 +6,7 @@ import {Currency, Wallet} from 'types/wallet';
 import {fireEvent, render} from '@testing-library/react-native';
 import MathUtils from 'utils/math';
 import BN from 'bn.js';
+import { Network } from 'types/account';
 
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
@@ -26,8 +28,10 @@ jest.mock('adaptors/adaptor', () => ({
 jest.mock('utils/math', () => ({
   calculateValue: jest.fn(),
   calculateTxInfo: jest.fn(),
+  roundUsd: jest.fn()
 }));
 jest.mock('storage/DB', () => ({}));
+
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -35,20 +39,28 @@ const setStates = (value, alternativeValue) => {
   const setAlternativeValue = jest.fn();
   const setUsdFee = jest.fn();
   const setPlankFee = jest.fn();
+  const setValid = jest.fn();
+
   useState
     .mockImplementationOnce((init) => [init, jest.fn()])
     .mockImplementationOnce((init) => [value, jest.fn()])
     .mockImplementationOnce((init) => [alternativeValue, setAlternativeValue])
+    .mockImplementationOnce((init) => [init, setPlankFee])
     .mockImplementationOnce((init) => [init, setUsdFee])
-    .mockImplementationOnce((init) => [init, setPlankFee]);
+    .mockImplementationOnce((init) => [init, setValid]);
+
 
   return {
     setAlternativeValue: setAlternativeValue,
     setUsdFee: setUsdFee,
     setPlankFee: setPlankFee,
+    setValid: setValid
   };
 };
 it('Test view', () => {
+  MathUtils.roundUsd.mockReturnValueOnce(1000);
+  const setters = setStates(null, null, true);
+  setters.setValid.mockReturnValueOnce(true);
   const tree = renderer
     .create(
       <EnterAmount
@@ -61,6 +73,7 @@ it('Test view', () => {
               'Wallet Polkadot',
               'address#1',
               Currency.DOT,
+              Network.Polkadot,
               100,
               '1000000000000',
               10,
@@ -75,8 +88,10 @@ it('Test view', () => {
 });
 
 it('Test calculate value #1', async () => {
-  const setters = setStates(100, 0);
-  MathUtils.calculateAlternativeValue.mockReturnValueOnce(125);
+  MathUtils.roundUsd.mockReturnValueOnce(1000);
+  const setters = setStates(100, 0, true);
+  setters.setValid.mockReturnValueOnce(true);
+
   const component = await render(
     <EnterAmount
       navigation={{
@@ -88,6 +103,7 @@ it('Test calculate value #1', async () => {
             'Wallet Polkadot',
             'address#1',
             Currency.DOT,
+            Network.Polkadot,
             100,
             '1000000000000',
             10,
@@ -103,11 +119,14 @@ it('Test calculate value #1', async () => {
     }, 1000);
   }); //TODO
 
-  expect(setters.setAlternativeValue).toBeCalledWith(125);
+  expect(setters.setAlternativeValue).toBeCalledWith(100);
 });
 
 it('Test calculate value #2', async () => {
-  const setters = setStates(100, 126);
+  MathUtils.roundUsd.mockReturnValueOnce(1000);
+  const setters = setStates(100, 126, true);
+  setters.setValid.mockReturnValueOnce(true);
+
   MathUtils.calculateTxInfo.mockReturnValueOnce({
     fee: new BN('1000000'),
     usdFee: 127,
@@ -123,6 +142,7 @@ it('Test calculate value #2', async () => {
             'Wallet Polkadot',
             'address#1',
             Currency.DOT,
+            Network.Polkadot,
             100,
             '1000000000000',
             10,
@@ -143,3 +163,4 @@ it('Test calculate value #2', async () => {
   );
   expect(setters.setUsdFee).toBeCalledWith(127);
 });
+

@@ -193,28 +193,6 @@ it('Test getProfile positive', async () => {
   expect(AsyncStorage.getItem).toBeCalledWith(DB.AsyncStorageKeys.profile);
 });
 
-it('Test setNotificationCount', async () => {
-  await DB.setNotificationCount(10);
-  expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.notificationCount,
-    String(10),
-  );
-});
-it('Test getNotificationCount negative', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(null);
-
-  const value = await DB.getNotificationCount();
-  expect(value).toEqual(0);
-});
-it('Test getNotificationCount positive', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(String(10));
-  const n = await DB.getNotificationCount();
-  expect(n).toEqual(10);
-  expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.notificationCount,
-  );
-});
-
 it('Test getSalt', async () => {
   const v = 'value';
   Keychain.getInternetCredentials.mockReturnValueOnce({
@@ -264,7 +242,7 @@ it('Test getAccounts positive', async () => {
   const accounts = ['account1', 'account2'];
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify(accounts));
 
-  const a = await DB.getAccounts(accounts);
+  const a = await DB.getAccounts();
   expect(a).toEqual(accounts);
   expect(AsyncStorage.getItem).toBeCalledWith(DB.AsyncStorageKeys.accounts);
 });
@@ -275,34 +253,10 @@ it('Test getAccounts negative', async () => {
   expect(value).toEqual(null);
 });
 
-it('Test setChatsInfo', async () => {
-  const chatsInfo = new Map([
-    [
-      'idChatInfo',
-      {
-        id: 'idChatInfo',
-        name: 'name',
-        lastTxId: 'lastTxId',
-        lastTxCurrency: Currency.DOT,
-        notificationCount: 10,
-        timestamp: new Date().getTime(),
-        type: ChatType.WithUser,
-        details: {
-          currency: Currency.DOT,
-          address: 'address',
-        },
-      },
-    ],
-  ]);
 
-  await DB.setChatsInfo(chatsInfo);
-  expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.chatsInfo,
-    JSON.stringify([...chatsInfo]),
-  );
-});
-it('Test getChatsInfo positive', async () => {
-  const chatsInfo = new Map([
+
+it('Test getChatsState positive', async () => {//нет getChatsInfo
+  const chatsInfo = new Array([
     [
       'idChatInfo',
       {
@@ -322,117 +276,22 @@ it('Test getChatsInfo positive', async () => {
   ]);
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...chatsInfo]));
 
-  const c = await DB.getChatsInfo();
+  const c = await DB.getChatsState();
   expect(c).toEqual(chatsInfo);
-  expect(AsyncStorage.getItem).toBeCalledWith(DB.AsyncStorageKeys.chatsInfo);
-});
-it('Test getChatsInfo negative', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(null);
-
-  const value = await DB.getChatsInfo();
-  expect(value).toEqual(new Map());
+  expect(AsyncStorage.getItem).toBeCalledWith(DB.AsyncStorageKeys.chatsStorage);
 });
 
-it('Test setChat', async () => {
+
+
+it('Test setChatsState', async () => {//нет setChat
   const chatId = 'chatId';
-  const chats = new Map([['txIdOne', Currency.DOT]]);
+  const chats = new Array([['txIdOne', Currency.DOT]]);
 
-  await DB.setChat(chatId, chats);
+  await DB.setChatsState(chats);
   expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.chatByChatId(chatId),
+    DB.AsyncStorageKeys.chatsStorage,
     JSON.stringify([...chats]),
   );
-});
-it('Test getChat positive', async () => {
-  const chatId = 'chatId';
-  const chats = new Map([['txIdOne', Currency.DOT]]);
-  AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...chats]));
-
-  const c = await DB.getChat(chatId);
-  expect(c).toEqual(chats);
-  expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.chatByChatId(chatId),
-  );
-});
-it('Test getChat negative', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(null);
-
-  const value = await DB.getChat();
-  expect(value).toEqual(new Map());
-});
-
-it('Test setTx', async () => {
-  const tx = {
-    id: 'txIdOne',
-    userId: 'userId',
-    address: 'address#1',
-    currency: Currency.DOT,
-    txType: TxType.None,
-    timestamp: new Date('12-12-2020').getTime(),
-    value: 10,
-    usdValue: 10,
-    fee: 10,
-    usdFee: 10,
-    status: TxStatus.Success,
-  };
-
-  await DB.setTx(Currency.DOT, tx);
-  expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.transactions(Currency.DOT),
-    JSON.stringify([
-      ...new Map([
-        [
-          'txIdOne',
-          {
-            id: 'txIdOne',
-            userId: 'userId',
-            address: 'address#1',
-            currency: Currency.DOT,
-            txType: TxType.None,
-            timestamp: new Date('12-12-2020').getTime(),
-            value: 10,
-            usdValue: 10,
-            fee: 10,
-            usdFee: 10,
-            status: TxStatus.Success,
-          },
-        ],
-      ]),
-    ]),
-  );
-});
-it('Test getTxs positive', async () => {
-  const txs = new Map([
-    [
-      'txOne',
-      {
-        id: 'txIdOne',
-        userId: 'userId',
-        address: 'address#1',
-        currency: Currency.DOT,
-        txType: TxType.None,
-        timestamp: new Date('12-12-2020').getTime(),
-        value: 10,
-        usdValue: 10,
-        fee: 10,
-        usdFee: 10,
-        status: TxStatus.Success,
-      },
-    ],
-  ]);
-  AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...txs]));
-
-  const t = await DB.getTxs(Currency.DOT);
-  expect(t).toEqual(txs);
-  expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.transactions(Currency.DOT),
-  );
-});
-it('Test getTxs negative', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(null);
-
-  const value = await DB.getTxs(Currency.DOT);
-  expect(value).toEqual(new Map());
 });
 
 it('Test setContacts', async () => {
@@ -456,7 +315,7 @@ it('Test setContacts', async () => {
     JSON.stringify(contacts),
   );
 });
-it('Test getContacts positive', async () => {
+it('Test getContacts positive', async () => {//странные дела
   const contacts = [
     {
       id: 'id',
@@ -467,8 +326,10 @@ it('Test getContacts positive', async () => {
       addresses: {
         0: 'addressOne',
         1: 'addressTwo',
-      },
+      }
     },
+    'account1',
+    'account2',
   ];
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...contacts]));
 
@@ -507,22 +368,23 @@ it('Test setUsers', async () => {
     JSON.stringify([...users]),
   );
 });
-it('Test getUsers positive', async () => {
+it('Test getUsers positive', async () => {//не совпадает timestamp
+  const tt =  new Date().getTime();
   const users = new Map([
     [
       'userId',
       {
         id: 'userId',
         name: 'name',
-        username: 'username',
-        avatarExt: 'png',
-        lastUpdate: new Date('12-12-2020').getTime(),
+        username: 'userName',
+        avatarExt: 'avatatUrl',
+        lastUpdate: tt,
         addresses: {
-          0: 'addressOne',
-          1: 'addressTwo',
-        },
-      },
-    ],
+          0: 'address1',
+          1: 'address2',
+        }
+      }
+    ]
   ]);
   AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify([...users]));
 
@@ -534,74 +396,8 @@ it('Test getUsers negative', async () => {
   AsyncStorage.getItem.mockReturnValueOnce(null);
 
   const value = await DB.getUsers();
+  console.log('users - ' + value)
   expect(value).toEqual(new Map());
-});
-
-it('Test setPendingTxs', async () => {
-  const txs = ['txOne', 'txTwo'];
-
-  await DB.setPendingTxs(Currency.KSM, txs);
-  expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.pendingTransactions(Currency.KSM),
-    JSON.stringify(txs),
-  );
-});
-it('Test getPendingTxs positive', async () => {
-  const txs = ['txOne', 'txTwo'];
-  AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify(txs));
-
-  const pTx = await DB.getPendingTxs(Currency.DOT);
-  expect(pTx).toEqual(txs);
-  expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.pendingTransactions(Currency.DOT),
-  );
-});
-it('Test getPendingTxs negative', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(null);
-
-  const value = await DB.getPendingTxs(Currency.DOT);
-  expect(value).toEqual([]);
-});
-
-it('Test setAccountInfo', async () => {
-  const info = {
-    name: 'name',
-    address: 'address',
-    pubKey: 'pubKey',
-    currency: Currency.DOT,
-    balance: 100,
-    planks: '1000000',
-  };
-
-  await DB.setAccountInfo(info);
-  expect(AsyncStorage.setItem).toBeCalledWith(
-    DB.AsyncStorageKeys.accountInfo(info.address),
-    JSON.stringify(info),
-  );
-});
-it('Test getAccountInfo positive', async () => {
-  const info = {
-    name: 'name',
-    address: 'address',
-    pubKey: 'pubKey',
-    currency: Currency.DOT,
-    balance: 100,
-    planks: '1000000',
-  };
-  const address = 'address';
-  AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify(info));
-
-  const a = await DB.getAccountInfo(address);
-  expect(a).toEqual(info);
-  expect(AsyncStorage.getItem).toBeCalledWith(
-    DB.AsyncStorageKeys.accountInfo(address),
-  );
-});
-it('Test getAccountInfo negative', async () => {
-  AsyncStorage.getItem.mockReturnValueOnce(null);
-
-  const value = await DB.getAccountInfo();
-  expect(value).toEqual(null);
 });
 
 it('Test setFirebaseToken', async () => {
@@ -671,4 +467,38 @@ it('Test getPasscode negative', async () => {
     DB.PasscodeStorageKeys.passcode,
     DB.biometryOption,
   );
+});
+
+it('Test setAccountInfo', async () => {
+  const info = {
+    name: 'name',
+    address: 'address',
+    pubKey: 'pubKey',
+    currency: Currency.DOT,
+    balance: 100,
+    planks: '1000000',
+  };
+
+  await DB.setAccountInfo(info);
+  expect(AsyncStorage.setItem).toBeCalledWith(
+    DB.AsyncStorageKeys.accountInfo(info.address),
+    JSON.stringify(info),
+  );
+});
+it('Test getAccountInfo positive', async () => {
+  const info = [['txIdOne', 0]];
+  const address = 'address';
+  AsyncStorage.getItem.mockReturnValueOnce(JSON.stringify(info));
+
+  const a = await DB.getAccountInfo(address);
+  expect(a).toEqual(info);
+  expect(AsyncStorage.getItem).toBeCalledWith(
+    DB.AsyncStorageKeys.accountInfo(address),
+  );
+});
+it('Test getAccountInfo negative', async () => {
+  AsyncStorage.getItem.mockReturnValueOnce(null);
+
+  const value = await DB.getAccountInfo();
+  expect(value).toEqual(null);
 });

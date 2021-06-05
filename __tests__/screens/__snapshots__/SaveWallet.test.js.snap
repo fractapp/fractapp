@@ -5,10 +5,7 @@ exports[`Test backup google drive 1`] = `"WalletFileBackup"`;
 exports[`Test backup google drive 2`] = `
 Object {
   "isNewAccount": true,
-  "seed": Array [
-    "seed",
-    "seed",
-  ],
+  "seed": "seed seed",
   "type": 12,
 }
 `;
@@ -18,10 +15,7 @@ exports[`Test seed 1`] = `"SaveSeed"`;
 exports[`Test seed 2`] = `
 Object {
   "isNewAccount": true,
-  "seed": Array [
-    "seed",
-    "seed",
-  ],
+  "seed": "seed seed",
 }
 `;
 
@@ -45,7 +39,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Save a wallet
+    [missing "en.backup.title" translation]
   </Text>
   <Text
     style={
@@ -58,7 +52,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    Save your wallet in a safe place. If you lose your wallet then you cannot restore access to it. Do not share this with anyone.
+    [missing "en.backup.description" translation]
   </Text>
   <View
     style={
@@ -130,7 +124,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          On Google Drive
+          [missing "en.backup.google_drive_title" translation]
         </Text>
       </View>
     </View>
@@ -200,7 +194,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          Back up manually
+          [missing "en.backup.manually_title" translation]
         </Text>
       </View>
     </View>

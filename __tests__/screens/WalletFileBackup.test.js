@@ -8,6 +8,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
+import { NativeModules } from 'react-native';
 
 jest.mock('storage/DB', () => ({
   createAccounts: jest.fn(),
@@ -35,6 +36,10 @@ jest.mock('utils/backup', () => ({
   backup: jest.fn(),
   randomFilename: jest.fn(() => '0xff00ff00'),
 }));
+
+NativeModules.PreventScreenshotModule = {
+  forbid: jest.fn(() => new Promise.resolve({ data: {} }))
+};
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

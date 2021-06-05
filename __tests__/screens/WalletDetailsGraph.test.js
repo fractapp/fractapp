@@ -1,12 +1,11 @@
 import React, {useContext, useState} from 'react';
 import renderer from 'react-test-renderer';
-import {WalletDetails} from 'screens/WalletDetails';
+import {WalletDetailsGraph} from 'screens/WalletDetailsGraph';
 import {Currency, Wallet} from 'types/wallet';
 import GlobalStore, {initialState} from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
 import {fireEvent, render} from '@testing-library/react-native';
-import { Network } from 'types/account';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -20,6 +19,10 @@ jest.mock('react', () => ({
 jest.mock('utils/backend', () => ({
   getImgUrl: jest.fn(() => 'userAvatarMock'),
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
+
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -31,21 +34,34 @@ it('Test view with empty state', () => {
     state: ChatsStore.initialState(),
   });
 
+  const wallets = [
+    new Wallet(
+      'Wallet Polkadot',
+      'address#1',
+      Currency.DOT,
+      100,
+      '1000000000000',
+      10,
+      0,
+    ),
+    new Wallet(
+      'Wallet KSM',
+      'address#2',
+      Currency.KSM,
+      200,
+      '3000000000000',
+      20,
+      0,
+    ),
+  ];
+
   const tree = renderer
     .create(
-      <WalletDetails
+      <WalletDetailsGraph
         navigation={null}
         route={{
           params: {
-            wallet: new Wallet(
-              'Wallet Polkadot',
-              'address#1',
-              Currency.DOT,
-              1,
-              100,
-              '1000000000000',
-              10,
-            ),
+            wallets: wallets,
           },
         }}
       />,
@@ -54,8 +70,103 @@ it('Test view with empty state', () => {
   expect(tree).toMatchSnapshot();
 });
 
+it('Test view with 1 wallet', () => {
+  useContext.mockReturnValueOnce({
+    state: GlobalStore.initialState(),
+  });
+  useContext.mockReturnValueOnce({
+    state: ChatsStore.initialState(),
+  });
+
+  const wallets = [
+    new Wallet(
+      'Wallet Polkadot',
+      'address#1',
+      Currency.DOT,
+      100,
+      '1000000000000',
+      10,
+      0,
+    ),
+  ];
+
+  const txs = new Map();
+  txs.set(Currency.DOT, {
+    id: '1',
+    userId: null,
+    address: 'address#1',
+    currency: Currency.DOT,
+    txType: TxType.Sent,
+    timestamp: new Date('02-12-2020').getTime(),
+    value: 12,
+    usdValue: 12,
+    fee: 12,
+    usdFee: 12,
+    status: TxStatus.Fail,
+  });
+
+  const chatsState = ChatsStore.initialState();
+  chatsState.transactions.set(txs.keys(), {
+    transactionById: txs.values(),
+  });
+  useContext.mockReturnValueOnce({
+    state: {
+      transactions: chatsState.transactions,
+      isInitialized: true,
+    },
+    dispatch: () => null,
+  });
+
+  const tree = renderer
+    .create(
+      <WalletDetailsGraph
+        navigation={null}
+        route={{
+          params: {
+            wallets: wallets,
+          },
+        }}
+      />,
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
 
 it('Test view with txs', () => {
+  const wallets = [
+    new Wallet(
+      'Wallet Polkadot',
+      'address#1',
+      Currency.DOT,
+      100,
+      '1000000000000',
+      10,
+      0,
+    ),
+    new Wallet(
+      'Wallet KSM',
+      'address#2',
+      Currency.KSM,
+      200,
+      '3000000000000',
+      20,
+      0,
+    ),
+  ];
+
+  const globalState = GlobalStore.initialState();
+  globalState.users.set('userId', {
+    id: 'id',
+    name: 'name',
+    username: 'username',
+    avatarExt: 'png',
+    lastUpdate: new Date('12-12-2020').getTime(),
+    addresses: {
+      0: 'address#2DOT',
+      1: 'address#2KSM',
+    },
+  });
+
   const chatsState = ChatsStore.initialState();
   chatsState.transactions.set(Currency.DOT, {
     transactionById: new Map([
@@ -97,18 +208,7 @@ it('Test view with txs', () => {
       ],
     ]),
   });
-  const globalState = GlobalStore.initialState();
-  globalState.users.set('userId', {
-    id: 'id',
-    name: 'name',
-    username: 'username',
-    avatarExt: 'png',
-    lastUpdate: new Date('12-12-2020').getTime(),
-    addresses: {
-      0: 'address#2DOT',
-      1: 'address#2KSM',
-    },
-  });
+
   useContext.mockReturnValueOnce({
     state: globalState,
     dispatch: () => null,
@@ -123,18 +223,11 @@ it('Test view with txs', () => {
 
   const tree = renderer
     .create(
-      <WalletDetails
+      <WalletDetailsGraph
         navigation={null}
         route={{
           params: {
-            wallet: new Wallet(
-              'Wallet Polkadot',
-              'address#1',
-              Currency.DOT,
-              100,
-              '1000000000000',
-              10,
-            ),
+            wallets: wallets,
           },
         }}
       />,
@@ -143,91 +236,27 @@ it('Test view with txs', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test view click send', () => {
-  useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState(),
-  });
-  useContext.mockReturnValueOnce({
-    state: ChatsStore.initialState(),
-  });
-
-  const wallet = new Wallet(
-    'Wallet Polkadot',
-    'address#1',
-    Currency.DOT,
-    100,
-    '1000000000000',
-    10,
-  );
-  const navigate = jest.fn();
-  const component = render(
-    <WalletDetails
-      navigation={{
-        navigate: navigate,
-      }}
-      route={{
-        params: {
-          wallet: wallet,
-        },
-      }}
-    />,
-  );
-
-  fireEvent.press(component.getByTestId('sendBtn'));
-  expect(navigate).toBeCalledWith('Search', {
-    wallet: wallet,
-  });
-});
-
-it('Test view click receive', () => {
-  useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState(),
-  });
-  useContext.mockReturnValueOnce({
-    state: ChatsStore.initialState(),
-  });
-
-  const wallet = new Wallet(
-    'Wallet Polkadot',
-    'address#1',
-    Currency.DOT,
-    100,
-    '1000000000000',
-    10,
-  );
-  const navigate = jest.fn();
-  const component = render(
-    <WalletDetails
-      navigation={{
-        navigate: navigate,
-      }}
-      route={{
-        params: {
-          wallet: wallet,
-        },
-      }}
-    />,
-  );
-
-  fireEvent.press(component.getByTestId('receiveBtn'));
-  expect(navigate).toBeCalledWith('Receive', {
-    address: wallet.address,
-    currency: wallet.currency,
-  });
-});
-
-
 it('Test view click txs', () => {
-  const wallet = new Wallet(
-    'Wallet Polkadot',
-    'address#1',
-    Currency.DOT,
-    Network.Polkadot,
-    100,
-    '1000000000000',
-    10,
-  );
-  
+  const wallets = [
+    new Wallet(
+      'Wallet Polkadot',
+      'address#1',
+      Currency.DOT,
+      100,
+      '1000000000000',
+      10,
+      1,
+    ),
+    new Wallet(
+      'Wallet KSM',
+      'address#2',
+      Currency.KSM,
+      200,
+      '3000000000000',
+      20,
+      2,
+    ),
+  ];
   const txs = new Map();
   txs.set(Currency.DOT, {
     id: '1',
@@ -256,6 +285,7 @@ it('Test view click txs', () => {
     status: TxStatus.Success,
   });
 
+
   const chatsState = ChatsStore.initialState();
   chatsState.transactions.set(Currency.DOT, {
     transactionById: new Map([
@@ -273,7 +303,7 @@ it('Test view click txs', () => {
       ],
     ]),
   });
-  
+
   const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
     id: 'id',
@@ -286,6 +316,7 @@ it('Test view click txs', () => {
       1: 'address#2KSM',
     },
   });
+
   useContext.mockReturnValueOnce({
     state: globalState,
     dispatch: () => null,
@@ -300,29 +331,28 @@ it('Test view click txs', () => {
 
   const navigate = jest.fn();
   const component = render(
-    <WalletDetails
+    <WalletDetailsGraph
       navigation={{
         navigate: navigate,
       }}
       route={{
         params: {
-          wallet: wallet,
+          wallets: wallets,
         },
       }}
     />,
   );
-  
   fireEvent.press(component.getByText('address#1'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
     transaction: txs.get(Currency.DOT),
-    wallet: wallet,
+    wallet: wallets[txs.get(Currency.DOT).currency],
     user: null,
   });
 
   fireEvent.press(component.getByText('name'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
     transaction: txs.get(Currency.KSM),
-    wallet: wallet,
+    wallet: wallets[txs.get(Currency.KSM).currency],
     user: globalState.users.get('userId'),
   });
 });

@@ -1,3 +1,4 @@
+import { Network } from 'types/account';
 import {getSymbol, getLogo, Wallet, Currency} from 'types/wallet';
 
 test('create model #1', () => {
@@ -7,6 +8,7 @@ test('create model #1', () => {
     'name',
     'address',
     Currency.KSM,
+    Network.Kusama,
     balance,
     '10000',
     price,
@@ -25,6 +27,7 @@ test('create model #2', () => {
     'name',
     'address',
     Currency.KSM,
+    Network.Kusama,
     balance,
     '1000',
     price,

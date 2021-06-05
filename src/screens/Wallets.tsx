@@ -16,7 +16,7 @@ export const Wallets = ({navigation}: {navigation: any}) => {
   const wallets = new Array<Wallet>();
   const renderAccounts = () => {
     const result = new Array();
-    
+
     for (let [currency, account] of accountsContext.state.accounts) {
       let price = 0;
       if (priceContext.state.has(currency)) {

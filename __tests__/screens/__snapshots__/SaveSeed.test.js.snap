@@ -834,7 +834,7 @@ exports[`Test save seed #1 2`] = `
       }
     }
   >
-    Your secret phrase
+    [missing "en.save_seed.title" translation]
   </Text>
   <Text
     style={
@@ -847,7 +847,7 @@ exports[`Test save seed #1 2`] = `
       }
     }
   >
-    Write or copy these words in the correct order and keep in a safe place.
+    [missing "en.save_seed.description" translation]
   </Text>
   <View
     style={
@@ -1579,9 +1579,51 @@ exports[`Test save seed #1 2`] = `
           }
         }
       >
-        Next
+        [missing "en.next_btn_title" translation]
       </Text>
     </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#F4FCFF",
+        "borderRadius": 10,
+        "bottom": 120,
+        "justifyContent": "center",
+        "padding": 20,
+        "position": "absolute",
+        "width": "85%",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/info.png",
+        }
+      }
+      style={
+        Object {
+          "height": 35,
+          "width": 35,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#2AB2E2",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 13,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "90%",
+        }
+      }
+    >
+      [missing "en.save_seed.info" translation]
+    </Text>
   </View>
 </View>
 `;

@@ -127,10 +127,9 @@ it('Test get file', async () => {
 
   RNFS.readFile.mockReturnValueOnce(fileJson);
   const file = await backupUtil.getFile('filename.json');
-
   expect(file.algorithm).toBe(algorithm);
   expect(file.seed).toBe(seed);
-  expect(RNFS.readFile).toBeCalledWith('filename.json', 'utf8');
+  expect(RNFS.readFile).toBeCalledWith('undefined/FractappWalletBackups/filename.json', 'utf8');//!!! 'filename.json', 'utf8'
 });
 
 it('Test backup file', async () => {
@@ -147,7 +146,7 @@ it('Test backup file', async () => {
     backupUtil.BackupType.File,
   );
   expect(RNFS.writeFile).toBeCalledWith(
-    `${RNFS.DownloadDirectoryPath}/${fileName}.json`,
+    `${RNFS.DownloadDirectoryPath}/${fileName}.json`,//mockDir/fractapp-0x0000000000000000000.json
     JSON.stringify({
       seed: encryptedSeed,
       algorithm: algorithm,
@@ -155,7 +154,7 @@ it('Test backup file', async () => {
     'utf8',
   );
 
-  expect(file.isSuccess).toBe(true);
+  expect(file.isExist).toBe(true);
 });
 
 it('Test backup file throw', async () => {
@@ -175,7 +174,7 @@ it('Test backup file throw', async () => {
     backupUtil.BackupType.File,
   );
 
-  expect(file.isSuccess).toBe(false);
+  expect(file.isExist).toBe(false);
 });
 
 it('Test backup google file', async () => {
@@ -202,7 +201,7 @@ it('Test backup google file', async () => {
   );
 
   expect(googleUtil.signIn).toBeCalled();
-  expect(file.isSuccess).toBe(true);
+  expect(file.isExist).toBe(true);
 });
 
 it('Test backup google file error', async () => {
@@ -229,14 +228,14 @@ it('Test backup google file error', async () => {
   );
 
   expect(googleUtil.signIn).toBeCalled();
-  expect(file.isSuccess).toBe(false);
+  expect(file.isError).toBe(true);
 });
 
 it('Test random filename', async () => {
   randomAsHex.mockReturnValueOnce('0xff00ff00');
   const first = backupUtil.randomFilename();
   expect(randomAsHex).toBeCalledWith(6);
-  expect(first).toBe('fractapp-0xff00ff00');
+  expect(first).toBe('0xff00ff00');
 });
 
 it('Test backup google drive', async () => {

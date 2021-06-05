@@ -34,16 +34,17 @@ jest.mock('utils/backup', () => ({
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view', () => {
-  const tree = renderer.create(<SaveWallet navigation={null} />).toJSON();
+  const seed = 'seed seed';
+  
+  const tree = renderer.create(<SaveWallet navigation={null} route={{params:{seed: seed}}}/>).toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it('Test backup google drive', async () => {
   const navigate = jest.fn();
   const seed = 'seed seed';
-  mnemonicGenerate.mockReturnValueOnce(seed);
 
-  const component = render(<SaveWallet navigation={{navigate: navigate}} />);
+  const component = render(<SaveWallet navigation={{navigate: navigate}} route={{params:{seed: seed}}} />);
   await fireEvent.press(
     component.getByText(StringUtils.texts.backup.googleDriveTitle),
   );
@@ -56,9 +57,8 @@ it('Test backup google drive', async () => {
 it('Test seed', async () => {
   const navigate = jest.fn();
   const seed = 'seed seed';
-  mnemonicGenerate.mockReturnValueOnce(seed);
 
-  const component = render(<SaveWallet navigation={{navigate: navigate}} />);
+  const component = render(<SaveWallet navigation={{navigate: navigate}} route={{params:{seed: seed}}}/>);
   await fireEvent.press(
     component.getByText(StringUtils.texts.backup.manuallyTitle),
   );

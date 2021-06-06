@@ -24,6 +24,7 @@ namespace BackendApi {
   export enum CheckType {
     Auth = 0,
     Change,
+    а,
   }
   export enum CodeType {
     Phone = 0,

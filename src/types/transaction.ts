@@ -1,4 +1,5 @@
 import {Currency} from './/wallet';
+import {Message} from 'types/message';
 
 /**
  * Transaction type
@@ -37,4 +38,11 @@ export type Transaction = {
   usdFee: number;
 
   status: TxStatus;
+};
+
+export type TxOrMessage = {
+  id: string;
+  isTx: boolean;
+  value: Transaction | Message;
+  timestamp: number;
 };

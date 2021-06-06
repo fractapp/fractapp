@@ -4,6 +4,7 @@ import {ChatInfo, ChatType} from 'types/chatInfo';
 import {Currency} from 'types/wallet';
 import {Transaction, TxStatus} from 'types/transaction';
 import {UserProfile} from 'types/profile';
+import {Message} from 'types/message';
 
 /**
  * @namespace
@@ -32,6 +33,7 @@ namespace ChatsStore {
   };
   export type TransactionsByChat = {
     infoById: Map<TxId, TxInfo>;
+    messages: Array<Message>;
   };
 
   export type State = {
@@ -203,6 +205,7 @@ namespace ChatsStore {
         if (!copy.chats.has(chatId)) {
           copy.chats.set(chatId, {
             infoById: new Map<TxId, TxInfo>(),
+            messages: [],
           });
         }
         copy.chats.get(chatId)!.infoById.set(tx.id, {

@@ -299,6 +299,26 @@ namespace StringUtils {
   /**
    * convert date to string
    */
+  export function forMsg(date: Date): string {
+    let dateValue = '';
+
+    let hours = String(date.getHours());
+    let minutes = String(date.getMinutes());
+    if (hours.length === 1) {
+      hours = '0' + hours;
+    }
+    if (minutes.length === 1) {
+      minutes = '0' + minutes;
+    }
+
+    dateValue = hours + ':' + minutes;
+
+    return dateValue;
+  }
+
+  /**
+   * convert date to string
+   */
   export function forChatInfo(now: Date, date: Date): string {
     let dateValue = '';
     if (

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {PaymentMsg} from 'components/PaymentMsg';
 import {WalletLogo} from 'components/WalletLogo';
-import {Transaction} from 'types/transaction';
+import {Transaction, TxOrMessage} from 'types/transaction';
 import {Currency, Wallet} from 'types/wallet';
 import {ChatInfo, ChatType, DefaultDetails} from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
@@ -19,6 +19,9 @@ import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
 import StringUtils from 'utils/string';
 import backend from 'utils/backend';
+import {Message} from 'types/message';
+import {MessageView} from 'components/MessageView';
+import {ChatButton} from 'components/ChatButton';
 
 /**
  * Chat screen
@@ -35,7 +38,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const chatInfo: ChatInfo = route.params.chatInfo;
 
   const [notificationCount] = useState(chatInfo.notificationCount);
-  const [txs, setTxs] = useState<Array<Transaction>>([]);
+  const [txs, setTxs] = useState<Array<TxOrMessage>>([]);
 
   const getWallet = (currency: Currency) => {
     let account = accountsContext.state.accounts.get(currency);
@@ -58,24 +61,61 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   };
 
   useEffect(() => {
-    const txs = new Array<Transaction>();
+    const txsOrMessages = new Array<TxOrMessage>();
     if (!chatsContext.state.chats.has(chatInfo.id)) {
       return;
     }
-    const ids = chatsContext.state.chats.get(chatInfo.id)!;
+    let ids = chatsContext.state.chats.get(chatInfo.id)!;
+
+    ids.messages = [];
+    ids.messages.push({
+      id: '1000',
+      value: 'Hello',
+      timestamp: 1622716416000,
+    });
+    ids.messages.push({
+      id: '10005',
+      value:
+        'Hello! I am Staking Bot. You can invest to staking with my help. Do you want?',
+      timestamp: 1622716416000,
+    });
+    ids.messages.push({
+      id: '10005',
+      value:
+        '😀 ☝ Hello How are you? Baby?  How are you? Baby?  How are you? Baby? How are you? Baby?  How are you? Baby?  How are you? Baby? How are you? Baby? adsa',
+      timestamp: 1622716416000,
+    });
 
     for (let [id, info] of ids.infoById) {
-      txs.push(
-        chatsContext.state.transactions
-          ?.get(info.currency)
-          ?.transactionById.get(id)!,
-      );
+      const tx = chatsContext.state.transactions
+        ?.get(info.currency)
+        ?.transactionById.get(id)!;
+      txsOrMessages.push({
+        id: tx.id,
+        isTx: true,
+        value: tx,
+        timestamp: tx.timestamp!,
+      });
     }
-    const result = txs.sort((a, b) => b.timestamp - a.timestamp);
+
+    for (let msg of ids.messages) {
+      txsOrMessages.push({
+        id: msg.id,
+        isTx: false,
+        value: {
+          id: msg.id,
+          timestamp: msg.timestamp,
+          value: msg.value,
+        },
+        timestamp: msg.timestamp,
+      });
+    }
+
+    const result = txsOrMessages.sort((a, b) => b.timestamp - a.timestamp);
     setTxs(result);
   }, [chatsContext.state.chats]);
 
-  const renderItem = ({item, index}: {item: Transaction; index: number}) => {
+  const renderItem = ({item, index}: {item: TxOrMessage; index: number}) => {
     let line;
     if (notificationCount !== 0 && index === notificationCount - 1) {
       line = (
@@ -93,30 +133,62 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           </Text>
         </View>
       );
-    }
+    } //TODO: msg
 
-    return (
-      <>
-        <TouchableOpacity
-          style={{
-            scaleY: -1,
-          }}
-          onPress={() =>
-            navigation.navigate('TransactionDetails', {
-              transaction: item,
-              wallet: getWallet(item.currency),
-              user:
-                item.userId != null &&
-                globalContext.state.users.has(item.userId)
-                  ? globalContext.state.users.get(item.userId)!
-                  : null,
-            })
-          }>
-          <PaymentMsg tx={item} />
-        </TouchableOpacity>
-        {line}
-      </>
-    );
+    if (item.isTx) {
+      const tx = item.value as Transaction;
+      return (
+        <>
+          <TouchableOpacity
+            style={{
+              scaleY: -1,
+            }}
+            onPress={() =>
+              navigation.navigate('TransactionDetails', {
+                transaction: item,
+                wallet: getWallet(tx.currency),
+                user:
+                  tx.userId != null && globalContext.state.users.has(tx.userId)
+                    ? globalContext.state.users.get(tx.userId)!
+                    : null,
+              })
+            }>
+            <PaymentMsg tx={tx} />
+          </TouchableOpacity>
+          {line}
+        </>
+      );
+    } else {
+      const message = item.value as Message;
+      return (
+        <View style={{scaleY: -1}}>
+          <MessageView value={message.value} timestamp={message.timestamp} />
+
+          <View
+            style={{
+              paddingTop: 5,
+              paddingBottom: 10,
+              paddingLeft: 20,
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                width: '20%',
+              }}>
+              <ChatButton text={'Send'} onPress={() => console.log('')} />
+            </View>
+
+            <View
+              style={{
+                paddingLeft: 10,
+                width: '20%',
+              }}>
+              <ChatButton text={'Receive'} onPress={() => console.log('')} />
+            </View>
+          </View>
+        </View>
+      );
+    }
   };
 
   useEffect(() => {
@@ -181,7 +253,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: 90}} />}
-        onScrollToIndexFailed={(info) => {
+        onScrollToIndexFailed={() => {
           const wait = new Promise((resolve) => setTimeout(resolve, 100));
           wait.then(() => {
             scroll();

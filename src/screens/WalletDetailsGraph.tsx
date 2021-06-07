@@ -35,8 +35,20 @@ export const WalletDetailsGraph = ({
     let legendsArray = new Array();
 
     for (let w of wallets) {
+<<<<<<< HEAD
       if (w.usdValue === 0) {
         continue;
+=======
+      if (!w.usdValue) {
+        continue;
+      } else {
+        colorsArray.push(getColor(w.currency));
+        balanceArray.push(w.usdValue);
+        legendsArray.push({
+          name: getName(w.currency),
+          symbol: {fill: getColor(w.currency), type: 'square'},
+        });
+>>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
       }
       colorsArray.push(getColor(w.currency));
       balanceArray.push(w.usdValue);
@@ -96,6 +108,7 @@ export const WalletDetailsGraph = ({
               gutter={20}
               data={legendData}
             />
+<<<<<<< HEAD
           </View>
 
           <View style={{flex: 1}}>
@@ -109,6 +122,21 @@ export const WalletDetailsGraph = ({
             />
           </View>
 
+=======
+          </View>
+
+          <View style={{flex: 1}}>
+            <VictoryPie
+              height={230}
+              radius={90}
+              innerRadius={60}
+              data={balanceData}
+              style={{labels: {display: 'none'}}}
+              colorScale={colors}
+            />
+          </View>
+
+>>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
           <View style={styles.dividingLine} />
         </View>
       )}

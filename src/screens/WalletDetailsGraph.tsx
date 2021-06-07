@@ -36,9 +36,12 @@ export const WalletDetailsGraph = ({
 
     for (let w of wallets) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (w.usdValue === 0) {
         continue;
 =======
+=======
+>>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
       if (!w.usdValue) {
         continue;
       } else {
@@ -48,6 +51,9 @@ export const WalletDetailsGraph = ({
           name: getName(w.currency),
           symbol: {fill: getColor(w.currency), type: 'square'},
         });
+<<<<<<< HEAD
+>>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
+=======
 >>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
       }
       colorsArray.push(getColor(w.currency));
@@ -109,6 +115,9 @@ export const WalletDetailsGraph = ({
               data={legendData}
             />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
           </View>
 
           <View style={{flex: 1}}>
@@ -122,6 +131,7 @@ export const WalletDetailsGraph = ({
             />
           </View>
 
+<<<<<<< HEAD
 =======
           </View>
 
@@ -136,6 +146,8 @@ export const WalletDetailsGraph = ({
             />
           </View>
 
+>>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
+=======
 >>>>>>> e70df02efafcf2b564f1ca00c5bd801f4e2da8aa
           <View style={styles.dividingLine} />
         </View>

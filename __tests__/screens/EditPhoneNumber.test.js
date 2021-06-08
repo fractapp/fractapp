@@ -3,6 +3,7 @@ import renderer from 'react-test-renderer';
 import {EditPhoneNumber} from 'screens/EditPhoneNumber';
 import BackendApi from 'utils/backend';
 import {fireEvent, render} from '@testing-library/react-native';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -14,6 +15,9 @@ jest.mock('react', () => ({
 }));
 jest.mock('utils/backend', () => ({
   getLocalByIp: jest.fn(),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test view with empty number', async () => {
@@ -133,7 +137,9 @@ it('Test useEffect with invalid number', async () => {
     />,
   );
 
-  expect(setCountryName).toBeCalledWith('Invalid phone number');
+  expect(setCountryName).toBeCalledWith(
+    StringUtils.texts.edit.invalidPhoneNumber,
+  );
 });
 
 it('Test click selectCountry', async () => {

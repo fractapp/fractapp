@@ -20,7 +20,7 @@ exports[`Test save seed #1 1`] = `
       }
     }
   >
-    [missing "en.save_seed.title" translation]
+    save_seed.title
   </Text>
   <Text
     style={
@@ -33,7 +33,7 @@ exports[`Test save seed #1 1`] = `
       }
     }
   >
-    [missing "en.save_seed.description" translation]
+    save_seed.description
   </Text>
   <View
     style={
@@ -765,7 +765,7 @@ exports[`Test save seed #1 1`] = `
           }
         }
       >
-        [missing "en.next_btn_title" translation]
+        next_btn_title
       </Text>
     </View>
   </View>
@@ -808,7 +808,7 @@ exports[`Test save seed #1 1`] = `
         }
       }
     >
-      [missing "en.save_seed.info" translation]
+      save_seed.info
     </Text>
   </View>
 </View>
@@ -834,7 +834,7 @@ exports[`Test save seed #1 2`] = `
       }
     }
   >
-    [missing "en.save_seed.title" translation]
+    save_seed.title
   </Text>
   <Text
     style={
@@ -847,7 +847,7 @@ exports[`Test save seed #1 2`] = `
       }
     }
   >
-    [missing "en.save_seed.description" translation]
+    save_seed.description
   </Text>
   <View
     style={
@@ -1579,7 +1579,7 @@ exports[`Test save seed #1 2`] = `
           }
         }
       >
-        [missing "en.next_btn_title" translation]
+        next_btn_title
       </Text>
     </View>
   </View>
@@ -1622,7 +1622,7 @@ exports[`Test save seed #1 2`] = `
         }
       }
     >
-      [missing "en.save_seed.info" translation]
+      save_seed.info
     </Text>
   </View>
 </View>

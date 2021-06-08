@@ -58,7 +58,7 @@ exports[`Test receive #1 1`] = `
           }
         }
       >
-        Fractapp Wallet
+        [missing "en.fractapp_wallet_title" translation]
       </Text>
     </View>
     <View>
@@ -92,7 +92,14 @@ exports[`Test receive #1 1`] = `
       }
     }
   >
-    <View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        }
+      }
+    >
       <View
         accessible={true}
         focusable={true}
@@ -148,14 +155,20 @@ exports[`Test receive #1 1`] = `
           }
         }
       >
-        Copy
+        [missing "en.copy_btn" translation]
       </Text>
     </View>
     <View
       style={
-        Object {
-          "marginLeft": 30,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+          Object {
+            "marginLeft": 30,
+          },
+        ]
       }
     >
       <View
@@ -215,7 +228,7 @@ exports[`Test receive #1 1`] = `
           }
         }
       >
-        Share
+        [missing "en.share_btn" translation]
       </Text>
     </View>
   </View>
@@ -280,7 +293,7 @@ exports[`Test receive #2 1`] = `
           }
         }
       >
-        Fractapp Wallet
+        [missing "en.fractapp_wallet_title" translation]
       </Text>
     </View>
     <View>
@@ -314,7 +327,14 @@ exports[`Test receive #2 1`] = `
       }
     }
   >
-    <View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        }
+      }
+    >
       <View
         accessible={true}
         focusable={true}
@@ -370,14 +390,20 @@ exports[`Test receive #2 1`] = `
           }
         }
       >
-        Copy
+        [missing "en.copy_btn" translation]
       </Text>
     </View>
     <View
       style={
-        Object {
-          "marginLeft": 30,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+          Object {
+            "marginLeft": 30,
+          },
+        ]
       }
     >
       <View
@@ -437,7 +463,7 @@ exports[`Test receive #2 1`] = `
           }
         }
       >
-        Share
+        [missing "en.share_btn" translation]
       </Text>
     </View>
   </View>

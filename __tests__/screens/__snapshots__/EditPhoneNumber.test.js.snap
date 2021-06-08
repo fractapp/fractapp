@@ -42,7 +42,7 @@ exports[`Test view with empty number 1`] = `
         }
       }
     >
-      [missing "en.edit.country_title" translation]
+      edit.country_title
     </Text>
     <Text
       style={
@@ -84,7 +84,7 @@ exports[`Test view with empty number 1`] = `
         }
       }
     >
-      [missing "en.edit.phone_title" translation]
+      edit.phone_title
     </Text>
     <View
       style={

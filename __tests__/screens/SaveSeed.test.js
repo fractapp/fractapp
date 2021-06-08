@@ -17,6 +17,9 @@ jest.mock('@react-native-community/clipboard', () => ({
 jest.mock('react-native-flash-message', () => ({
   showMessage: jest.fn(),
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 NativeModules.PreventScreenshotModule = {
   forbid: jest.fn(() => new Promise.resolve({data: {}})),

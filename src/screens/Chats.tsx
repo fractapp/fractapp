@@ -31,6 +31,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
       },
     });
   }, []);
+
   const getChats = () => {
     const chats = Array.from(chatsContext.state.chatsInfo.values())
       .filter(

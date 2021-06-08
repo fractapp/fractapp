@@ -6,6 +6,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
+import {NativeModules} from 'react-native';
 
 jest.mock('react-native-crypto', () => {});
 jest.mock('storage/DB', () => ({
@@ -19,6 +20,9 @@ jest.mock('react', () => ({
   useState: jest.fn(),
   useContext: jest.fn(),
 }));
+NativeModules.PreventScreenshotModule = {
+  forbid: jest.fn(() => new Promise.resolve({data: {}})),
+};
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -85,10 +89,10 @@ it('Test useEffect', async () => {
 });
 
 it('Test useEffect throw', async () => {
-  const setLoading = jest.fn();
+  const setLoading = jest.fn((f) => f);
   useState
     .mockImplementationOnce((init) => ['123123', jest.fn()])
-    .mockImplementationOnce(() => [true, setLoading]);
+    .mockImplementationOnce(() => [true, setLoading(false)]); //это легально?)
 
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({

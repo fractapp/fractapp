@@ -58,7 +58,7 @@ it('Test confirm new passcode', async () => {
   await fireEvent.press(component.getByTestId('btnSubmit'));
 
   expect(setNewPasscode).toBeCalledWith([1, 1, 1, 1, 1, 1]);
-  expect(setDescription).toBeCalledWith('Confirm new passcode');
+  expect(setDescription).toBeCalledWith('Confirm new passcode'); //? "[missing \"en.pass_code.confirm_new_code_description\" translation]"
 });
 
 it('Test success passcode', async () => {

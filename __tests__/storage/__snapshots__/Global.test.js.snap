@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test addNotificationCount 1`] = `
-Object {
-  "type": 6,
-}
-`;
-
 exports[`Test deleteUser 1`] = `
 Object {
   "id": "id",
@@ -38,62 +32,6 @@ Object {
 }
 `;
 
-exports[`Test reducer addNotificationCount 1`] = `
-Object {
-  "authInfo": Object {
-    "isAuthed": false,
-    "isBiometry": false,
-    "isPasscode": false,
-    "isSynced": false,
-  },
-  "contacts": Array [],
-  "isInitialized": false,
-  "isLoadingShow": false,
-  "isRegistered": false,
-  "isUpdatingProfile": false,
-  "notificationCount": 1,
-  "profile": Object {
-    "avatarExt": "",
-    "email": "",
-    "id": "",
-    "isMigratory": false,
-    "lastUpdate": 0,
-    "name": "",
-    "phoneNumber": "",
-    "username": "",
-  },
-  "users": Map {},
-}
-`;
-
-exports[`Test reducer addNotificationCount 2`] = `
-Object {
-  "authInfo": Object {
-    "isAuthed": false,
-    "isBiometry": false,
-    "isPasscode": false,
-    "isSynced": false,
-  },
-  "contacts": Array [],
-  "isInitialized": false,
-  "isLoadingShow": false,
-  "isRegistered": false,
-  "isUpdatingProfile": false,
-  "notificationCount": 2,
-  "profile": Object {
-    "avatarExt": "",
-    "email": "",
-    "id": "",
-    "isMigratory": false,
-    "lastUpdate": 0,
-    "name": "",
-    "phoneNumber": "",
-    "username": "",
-  },
-  "users": Map {},
-}
-`;
-
 exports[`Test reducer deleteUser 1`] = `
 Object {
   "authInfo": Object {
@@ -106,8 +44,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -118,6 +57,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {
     "idOne" => Object {
       "addresses": Object {
@@ -146,8 +86,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -158,6 +99,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {
     "idOne" => Object {
       "addresses": Object {
@@ -197,8 +139,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -209,6 +152,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {
     "idTwo" => Object {
       "addresses": Object {
@@ -237,8 +181,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -249,6 +194,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -265,8 +211,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -277,6 +224,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -293,8 +241,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -305,6 +254,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -321,8 +271,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -333,90 +284,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
-  "users": Map {},
-}
-`;
-
-exports[`Test reducer removeNotificationCount 1`] = `
-Object {
-  "authInfo": Object {
-    "isAuthed": false,
-    "isBiometry": false,
-    "isPasscode": false,
-    "isSynced": false,
-  },
-  "contacts": Array [],
-  "isInitialized": false,
-  "isLoadingShow": false,
-  "isRegistered": false,
-  "isUpdatingProfile": false,
-  "notificationCount": 1,
-  "profile": Object {
-    "avatarExt": "",
-    "email": "",
-    "id": "",
-    "isMigratory": false,
-    "lastUpdate": 0,
-    "name": "",
-    "phoneNumber": "",
-    "username": "",
-  },
-  "users": Map {},
-}
-`;
-
-exports[`Test reducer removeNotificationCount 2`] = `
-Object {
-  "authInfo": Object {
-    "isAuthed": false,
-    "isBiometry": false,
-    "isPasscode": false,
-    "isSynced": false,
-  },
-  "contacts": Array [],
-  "isInitialized": false,
-  "isLoadingShow": false,
-  "isRegistered": false,
-  "isUpdatingProfile": false,
-  "notificationCount": 2,
-  "profile": Object {
-    "avatarExt": "",
-    "email": "",
-    "id": "",
-    "isMigratory": false,
-    "lastUpdate": 0,
-    "name": "",
-    "phoneNumber": "",
-    "username": "",
-  },
-  "users": Map {},
-}
-`;
-
-exports[`Test reducer removeNotificationCount 3`] = `
-Object {
-  "authInfo": Object {
-    "isAuthed": false,
-    "isBiometry": false,
-    "isPasscode": false,
-    "isSynced": false,
-  },
-  "contacts": Array [],
-  "isInitialized": false,
-  "isLoadingShow": false,
-  "isRegistered": false,
-  "isUpdatingProfile": false,
-  "notificationCount": 0,
-  "profile": Object {
-    "avatarExt": "",
-    "email": "",
-    "id": "",
-    "isMigratory": false,
-    "lastUpdate": 0,
-    "name": "",
-    "phoneNumber": "",
-    "username": "",
-  },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -501,8 +369,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -513,6 +382,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -529,8 +399,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": true,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -541,6 +412,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -557,8 +429,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "png",
     "email": "email@email.com",
@@ -569,6 +442,7 @@ Object {
     "phoneNumber": "+123123123",
     "username": "username",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -585,8 +459,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -597,6 +472,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -613,8 +489,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": true,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -625,6 +502,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -641,8 +519,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -653,6 +532,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {
     "id" => Object {
       "addresses": Object {
@@ -681,8 +561,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": true,
+  "isSyncShow": true,
   "isUpdatingProfile": true,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -693,6 +574,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -709,8 +591,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -721,6 +604,7 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
 }
 `;
@@ -737,8 +621,9 @@ Object {
   "isInitialized": false,
   "isLoadingShow": false,
   "isRegistered": false,
+  "isSyncShow": true,
   "isUpdatingProfile": false,
-  "notificationCount": 0,
+  "lang": null,
   "profile": Object {
     "avatarExt": "",
     "email": "",
@@ -749,14 +634,8 @@ Object {
     "phoneNumber": "",
     "username": "",
   },
+  "urls": Map {},
   "users": Map {},
-}
-`;
-
-exports[`Test removeNotificationCount 1`] = `
-Object {
-  "type": 7,
-  "value": 10,
 }
 `;
 

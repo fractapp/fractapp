@@ -65,15 +65,14 @@ it('Test view with chats', () => {
     notificationCount: 12,
     timestamp: 222111,
     type: ChatType.WithUser,
-  });
-  useContext.mockReturnValueOnce({
-    state: chats,
+    details: {
+      currency: Currency.KSM,
+      address: 'address#2',
+    },
   });
 
-  const txs = ChatsStore.initialState();
-  txs.transactions.set(
-    Currency.DOT,
-    new Map([
+  chats.transactions.set(Currency.DOT, {
+    transactionById: new Map([
       [
         'txOne',
         {
@@ -91,10 +90,9 @@ it('Test view with chats', () => {
         },
       ],
     ]),
-  );
-  txs.transactions.set(
-    Currency.KSM,
-    new Map([
+  });
+  chats.transactions.set(Currency.KSM, {
+    transactionById: new Map([
       [
         'txTwo',
         {
@@ -112,9 +110,15 @@ it('Test view with chats', () => {
         },
       ],
     ]),
-  );
+  });
+
   useContext.mockReturnValueOnce({
-    state: txs,
+    state: {
+      chatsInfo: chats.chatsInfo,
+      transactions: chats.transactions,
+      isInitialized: true,
+    },
+    dispatch: () => null,
   });
 
   const global = GlobalStore.initialState();
@@ -131,6 +135,7 @@ it('Test view with chats', () => {
   });
   useContext.mockReturnValueOnce({
     state: global,
+    dispatch: () => null,
   });
 
   const tree = renderer

@@ -72,19 +72,14 @@ it('Test view with empty txs', () => {
 
 it('Test view with txs (ChatType == Address)', () => {
   const accountsStore = AccountsStore.initialState();
-  accountsStore.accounts = new Map([
-    [
-      Currency.DOT,
-      {
-        name: 'accountName',
-        address: 'accountAddress',
-        pubKey: 'pubKeyAddress',
-        currency: Currency.DOT,
-        balance: 10000,
-        planks: '100000000',
-      },
-    ],
-  ]);
+  accountsStore.accounts.set(Currency.DOT, {
+    name: 'accountName',
+    address: 'accountAddress',
+    pubKey: 'pubKeyAddress',
+    currency: Currency.DOT,
+    balance: 10000,
+    planks: '100000000',
+  });
   useContext.mockReturnValueOnce({
     state: accountsStore,
     dispatch: jest.fn(),
@@ -136,21 +131,28 @@ it('Test view with txs (ChatType == Address)', () => {
     ],
   ]);
 
+  const infoById = new Map([
+    ['1', {currency: Currency.DOT}],
+    ['2', {currency: Currency.DOT}],
+  ]);
+
   const chatsState = ChatsStore.initialState();
-  chatsState.chats.set(
-    'idChatInfo',
-    new Map([
-      ['1', Currency.DOT],
-      ['2', Currency.DOT],
-    ]),
-  );
+  chatsState.chats.set('idChatInfo', {infoById: infoById.get('1')});
+  chatsState.chats.set('idChatInfo', {infoById: infoById.get('2')});
+  chatsState.transactions.set(Currency.DOT, {
+    transactionById: new Map([['1', txs.get('1')]]),
+  });
+  chatsState.transactions.set(Currency.DOT, {
+    transactionById: new Map([['2', txs.get('2')]]),
+  });
   useContext.mockReturnValueOnce({
     state: chatsState,
     dispatch: jest.fn(),
   });
+
   useContext.mockReturnValueOnce({
     state: {
-      transactions: new Map([[Currency.DOT, txs]]),
+      transactions: chatsState.transactions,
       isInitialized: true,
     },
     dispatch: jest.fn(),

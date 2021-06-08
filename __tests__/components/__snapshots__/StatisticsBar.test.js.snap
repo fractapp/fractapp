@@ -2,12 +2,22 @@
 
 exports[`Test default color 1`] = `
 <View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "borderColor": "#DADADA",
       "borderRadius": 7,
       "borderWidth": 0.8,
       "marginTop": 17,
+      "opacity": 1,
       "paddingBottom": 13,
       "paddingLeft": 25,
       "paddingRight": 25,
@@ -116,12 +126,22 @@ exports[`Test default color 1`] = `
 
 exports[`Test empty wallet 1`] = `
 <View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "borderColor": "#DADADA",
       "borderRadius": 7,
       "borderWidth": 0.8,
       "marginTop": 17,
+      "opacity": 1,
       "paddingBottom": 13,
       "paddingLeft": 25,
       "paddingRight": 25,
@@ -230,12 +250,22 @@ exports[`Test empty wallet 1`] = `
 
 exports[`Test one currency Kusama 1`] = `
 <View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "borderColor": "#DADADA",
       "borderRadius": 7,
       "borderWidth": 0.8,
       "marginTop": 17,
+      "opacity": 1,
       "paddingBottom": 13,
       "paddingLeft": 25,
       "paddingRight": 25,
@@ -344,12 +374,22 @@ exports[`Test one currency Kusama 1`] = `
 
 exports[`Test one currency Polkadot 1`] = `
 <View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "borderColor": "#DADADA",
       "borderRadius": 7,
       "borderWidth": 0.8,
       "marginTop": 17,
+      "opacity": 1,
       "paddingBottom": 13,
       "paddingLeft": 25,
       "paddingRight": 25,
@@ -458,12 +498,22 @@ exports[`Test one currency Polkadot 1`] = `
 
 exports[`Test two currency 10/90 1`] = `
 <View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "borderColor": "#DADADA",
       "borderRadius": 7,
       "borderWidth": 0.8,
       "marginTop": 17,
+      "opacity": 1,
       "paddingBottom": 13,
       "paddingLeft": 25,
       "paddingRight": 25,
@@ -572,12 +622,22 @@ exports[`Test two currency 10/90 1`] = `
 
 exports[`Test two currency 50/50 1`] = `
 <View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "borderColor": "#DADADA",
       "borderRadius": 7,
       "borderWidth": 0.8,
       "marginTop": 17,
+      "opacity": 1,
       "paddingBottom": 13,
       "paddingLeft": 25,
       "paddingRight": 25,

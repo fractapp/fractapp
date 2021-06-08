@@ -13,13 +13,13 @@ jest.mock('react', () => ({
   })),
 }));
 jest.mock('utils/backend', () => ({
-  getLocal: jest.fn(),
+  getLocalByIp: jest.fn(),
 }));
 
 it('Test view with empty number', async () => {
   useState.mockImplementation((init) => [init, jest.fn()]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD'); //что здесь имеется ввиду?
   const tree = renderer
     .create(
       <EditPhoneNumber
@@ -44,7 +44,7 @@ it('Test useEffect with empty number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD'); //что здесь имеется ввиду?
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}

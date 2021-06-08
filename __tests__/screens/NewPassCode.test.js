@@ -4,6 +4,7 @@ import {NewPassCode} from 'screens/NewPassCode';
 import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import {showMessage} from 'react-native-flash-message';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -61,7 +62,7 @@ it('Test confirm new passcode', async () => {
   await fireEvent.press(component.getByTestId('btnSubmit'));
 
   expect(setNewPasscode).toBeCalledWith([1, 1, 1, 1, 1, 1]);
-  expect(setDescription).toBeCalledWith('Confirm new passcode'); //'pass_code.confirm_new_code_description'
+  expect(setDescription).toBeCalledWith(StringUtils.texts.passCode.confirmNewCodeDescription); //'pass_code.confirm_new_code_description'
 });
 
 it('Test success passcode', async () => {

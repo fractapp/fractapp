@@ -48,7 +48,7 @@ it('Test useEffect with empty number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD'); //что здесь имеется ввиду?
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}

@@ -44,10 +44,13 @@ jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
 
-NativeModules.PreventScreenshotModule = {
-  forbid: jest.fn(() => new Promise.resolve({data: {}})),
-};
-
+jest.mock('react-native', () => ({
+  NativeModules: {
+    PreventScreenshotModule: {
+      forbid: jest.fn(() => new Promise.resolve({data: {}})),
+    },
+  },
+}));
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 const params = {

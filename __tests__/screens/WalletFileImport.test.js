@@ -6,7 +6,6 @@ import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
-import {NativeModules} from 'react-native';
 
 jest.mock('react-native-crypto', () => {});
 jest.mock('storage/DB', () => ({
@@ -20,9 +19,13 @@ jest.mock('react', () => ({
   useState: jest.fn(),
   useContext: jest.fn(),
 }));
-NativeModules.PreventScreenshotModule = {
-  forbid: jest.fn(() => new Promise.resolve({data: {}})),
-};
+jest.mock('react-native', () => ({
+  NativeModules: {
+    PreventScreenshotModule: {
+      forbid: jest.fn(() => new Promise.resolve({data: {}})),
+    },
+  },
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

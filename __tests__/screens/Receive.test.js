@@ -7,6 +7,8 @@ import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
 import Share from 'react-native-share';
 
+jest.mock('storage/DB', () => ({}));
+
 jest.mock('react-native-qrcode-svg', () => ({value, size}) => {
   const React = require('react');
   const ReactNative = require('react-native');

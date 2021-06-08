@@ -16,9 +16,10 @@ jest.mock('storage/DB', () => ({
   createAccounts: jest.fn(),
 }));
 
-const seed = 'run knee code wall merge impact teach grain slim quality patient curve'.split(
-  ' ',
-);
+const seed =
+  'run knee code wall merge impact teach grain slim quality patient curve'.split(
+    ' ',
+  );
 
 it('Test confirm seed start', async () => {
   useState

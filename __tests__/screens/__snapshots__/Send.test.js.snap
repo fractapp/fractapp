@@ -342,7 +342,7 @@ exports[`Test view 1`] = `
             ]
           }
           underlineColorAndroid="transparent"
-          value="Enter amount"
+          value="[missing \\"en.enter_amount_title\\" translation]"
         />
         <Text
           style={
@@ -437,7 +437,7 @@ exports[`Test view 1`] = `
           }
         }
       >
-        Send
+        [missing "en.send_btn" translation]
       </Text>
     </View>
   </View>

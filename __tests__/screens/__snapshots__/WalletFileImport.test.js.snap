@@ -144,6 +144,7 @@ exports[`Test positive 1`] = `
 
 exports[`Test useEffect 1`] = `
 Object {
-  "type": 2,
+  "isLoadingShow": false,
+  "type": 12,
 }
 `;

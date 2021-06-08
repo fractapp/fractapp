@@ -56,7 +56,7 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
   ];
 
   const openFilePicker = async () => {
-    launchImageLibrary(
+    launchImageLibrary( 
       {
         mediaType: 'photo',
         includeBase64: true,

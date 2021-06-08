@@ -31,6 +31,9 @@ jest.mock('components/PassCode', () => ({
 jest.mock('react-native-flash-message', () => ({
   showMessage: jest.fn(),
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -58,7 +61,7 @@ it('Test confirm new passcode', async () => {
   await fireEvent.press(component.getByTestId('btnSubmit'));
 
   expect(setNewPasscode).toBeCalledWith([1, 1, 1, 1, 1, 1]);
-  expect(setDescription).toBeCalledWith('Confirm new passcode');
+  expect(setDescription).toBeCalledWith('Confirm new passcode'); //'pass_code.confirm_new_code_description'
 });
 
 it('Test success passcode', async () => {

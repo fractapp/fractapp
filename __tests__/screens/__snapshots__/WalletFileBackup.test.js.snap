@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test backup 1`] = `"If you lose access to file then you will not be able to restore access to the wallet. File \\"0xff00ff00.json\\" saved in \\"Downloads\\" directory"`;
-
-exports[`Test backup 2`] = `"Success save wallet"`;
-
-exports[`Test backup 3`] = `
-Object {
-  "type": 1,
-}
-`;
-
-exports[`Test backup 4`] = `
-Object {
-  "type": 2,
-}
-`;
-
 exports[`Test empty password 1`] = `
 <View
   style={
@@ -36,7 +20,7 @@ exports[`Test empty password 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.title" translation]
+    wallet_file_backup.title
   </Text>
   <Text
     style={
@@ -49,7 +33,7 @@ exports[`Test empty password 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.description" translation]
+    wallet_file_backup.description
   </Text>
   <View
     style={
@@ -64,7 +48,7 @@ exports[`Test empty password 1`] = `
       autoCompleteType="name"
       defaultValue="0xff00ff00"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.filename_placeholder\\" translation]"
+      placeholder="wallet_file_backup.filename_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={false}
@@ -101,7 +85,7 @@ exports[`Test empty password 1`] = `
       autoCompleteType="password"
       defaultValue=""
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.password_placeholder\\" translation]"
+      placeholder="wallet_file_backup.password_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -139,7 +123,7 @@ exports[`Test empty password 1`] = `
       autoCompleteType="password"
       defaultValue=""
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.confirm_password\\" translation]"
+      placeholder="wallet_file_backup.confirm_password"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -206,7 +190,7 @@ exports[`Test empty password 1`] = `
           }
         }
       >
-        [missing "en.confirm_btn_title" translation]
+        confirm_btn_title
       </Text>
     </View>
   </View>
@@ -252,7 +236,7 @@ exports[`Test minimum password length 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.title" translation]
+    wallet_file_backup.title
   </Text>
   <Text
     style={
@@ -265,7 +249,7 @@ exports[`Test minimum password length 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.description" translation]
+    wallet_file_backup.description
   </Text>
   <View
     style={
@@ -280,7 +264,7 @@ exports[`Test minimum password length 1`] = `
       autoCompleteType="name"
       defaultValue="0xff00ff00"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.filename_placeholder\\" translation]"
+      placeholder="wallet_file_backup.filename_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={false}
@@ -317,7 +301,7 @@ exports[`Test minimum password length 1`] = `
       autoCompleteType="password"
       defaultValue="123"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.password_placeholder\\" translation]"
+      placeholder="wallet_file_backup.password_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -355,7 +339,7 @@ exports[`Test minimum password length 1`] = `
       autoCompleteType="password"
       defaultValue="123"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.confirm_password\\" translation]"
+      placeholder="wallet_file_backup.confirm_password"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -390,7 +374,7 @@ exports[`Test minimum password length 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.pass_len_err" translation]
+    wallet_file_backup.pass_len_err
   </Text>
 </View>
 `;
@@ -415,7 +399,7 @@ exports[`Test password do not match 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.title" translation]
+    wallet_file_backup.title
   </Text>
   <Text
     style={
@@ -428,7 +412,7 @@ exports[`Test password do not match 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.description" translation]
+    wallet_file_backup.description
   </Text>
   <View
     style={
@@ -443,7 +427,7 @@ exports[`Test password do not match 1`] = `
       autoCompleteType="name"
       defaultValue="0xff00ff00"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.filename_placeholder\\" translation]"
+      placeholder="wallet_file_backup.filename_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={false}
@@ -480,7 +464,7 @@ exports[`Test password do not match 1`] = `
       autoCompleteType="password"
       defaultValue="123123"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.password_placeholder\\" translation]"
+      placeholder="wallet_file_backup.password_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -518,7 +502,7 @@ exports[`Test password do not match 1`] = `
       autoCompleteType="password"
       defaultValue="123111"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.confirm_password\\" translation]"
+      placeholder="wallet_file_backup.confirm_password"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -553,7 +537,7 @@ exports[`Test password do not match 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.pass_len_err" translation]
+    wallet_file_backup.pass_len_err
   </Text>
 </View>
 `;
@@ -578,7 +562,7 @@ exports[`Test success password 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.title" translation]
+    wallet_file_backup.title
   </Text>
   <Text
     style={
@@ -591,7 +575,7 @@ exports[`Test success password 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.description" translation]
+    wallet_file_backup.description
   </Text>
   <View
     style={
@@ -606,7 +590,7 @@ exports[`Test success password 1`] = `
       autoCompleteType="name"
       defaultValue="0xff00ff00"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.filename_placeholder\\" translation]"
+      placeholder="wallet_file_backup.filename_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={false}
@@ -643,7 +627,7 @@ exports[`Test success password 1`] = `
       autoCompleteType="password"
       defaultValue="123123"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.password_placeholder\\" translation]"
+      placeholder="wallet_file_backup.password_placeholder"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -681,7 +665,7 @@ exports[`Test success password 1`] = `
       autoCompleteType="password"
       defaultValue="123123"
       onChangeText={[Function]}
-      placeholder="[missing \\"en.wallet_file_backup.confirm_password\\" translation]"
+      placeholder="wallet_file_backup.confirm_password"
       placeholderTextColor="#BFBDBD"
       rejectResponderTermination={true}
       secureTextEntry={true}
@@ -716,7 +700,7 @@ exports[`Test success password 1`] = `
       }
     }
   >
-    [missing "en.wallet_file_backup.pass_len_err" translation]
+    wallet_file_backup.pass_len_err
   </Text>
 </View>
 `;

@@ -6,6 +6,7 @@ import {render, fireEvent} from '@testing-library/react-native';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
 import StringUtils from 'utils/string';
+import {NativeModules} from 'react-native';
 
 jest.mock('react-native-share', () => ({
   open: jest.fn(),
@@ -16,6 +17,14 @@ jest.mock('@react-native-community/clipboard', () => ({
 jest.mock('react-native-flash-message', () => ({
   showMessage: jest.fn(),
 }));
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
+
+NativeModules.PreventScreenshotModule = {
+  forbid: jest.fn(() => new Promise.resolve({data: {}})),
+};
 
 it('Test save seed #1', () => {
   const seed =

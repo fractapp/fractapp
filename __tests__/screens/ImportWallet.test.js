@@ -8,6 +8,8 @@ import DocumentPicker from 'react-native-document-picker';
 import backupUtils from 'utils/backup';
 import BackupUtils from 'utils/backup';
 import StringUtils from 'utils/string';
+import GlobalStore from 'storage/Global';
+import Backup from 'utils/backup';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -42,6 +44,15 @@ jest.mock('react-native-document-picker', () => ({
   },
 }));
 
+jest.mock('utils/backup', () => ({
+  getWalletsFromGoogle: () => {
+    return {
+      wallets: [],
+      ids: [],
+    };
+  },
+}));
+
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view', () => {
@@ -51,6 +62,9 @@ it('Test view', () => {
 
 it('Test backup google drive', async () => {
   const navigate = jest.fn();
+  useContext.mockReturnValueOnce({
+    dispatch: () => null,
+  });
 
   const component = render(<ImportWallet navigation={{navigate: navigate}} />);
   await fireEvent.press(

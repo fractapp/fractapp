@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {Send} from 'screens/Send';
+import {Network} from 'types/account';
 import {Currency, Wallet} from 'types/wallet';
 
 jest.mock('storage/DB', () => ({}));
@@ -13,13 +14,16 @@ jest.mock('react', () => ({
 }));
 jest.mock('utils/backend', () => {});
 jest.mock('utils/tasks', () => {});
+
 jest.mock('@polkadot/util-crypto', () => {});
 jest.mock('adaptors/adaptor', () => ({
   Api: {
     getInstance: async () => jest.fn()(),
   },
+  Adaptors: {
+    get: async () => jest.fn(),
+  },
 }));
-jest.mock('utils/math', () => {});
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -34,6 +38,7 @@ it('Test view', () => {
               'Wallet Polkadot',
               'address#1',
               Currency.DOT,
+              Network.Polkadot,
               100,
               '1000000000000',
               10,

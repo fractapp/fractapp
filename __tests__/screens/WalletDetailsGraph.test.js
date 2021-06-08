@@ -284,23 +284,12 @@ it('Test view click txs', () => {
     status: TxStatus.Success,
   });
 
-
   const chatsState = ChatsStore.initialState();
   chatsState.transactions.set(Currency.DOT, {
-    transactionById: new Map([
-      [
-        '1',
-        txs.get(Currency.DOT),
-      ],
-    ]),
+    transactionById: new Map([['1', txs.get(Currency.DOT)]]),
   });
   chatsState.transactions.set(Currency.KSM, {
-    transactionById: new Map([
-      [
-        '2',
-        txs.get(Currency.KSM),
-      ],
-    ]),
+    transactionById: new Map([['2', txs.get(Currency.KSM)]]),
   });
 
   const globalState = GlobalStore.initialState();
@@ -355,4 +344,3 @@ it('Test view click txs', () => {
     user: globalState.users.get('userId'),
   });
 });
-

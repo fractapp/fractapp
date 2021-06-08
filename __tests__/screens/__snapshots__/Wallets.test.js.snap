@@ -28,12 +28,22 @@ exports[`Test 0 wallets without price 1`] = `
         }
       >
         <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
               "borderColor": "#DADADA",
               "borderRadius": 7,
               "borderWidth": 0.8,
               "marginTop": 17,
+              "opacity": 1,
               "paddingBottom": 13,
               "paddingLeft": 25,
               "paddingRight": 25,
@@ -182,12 +192,22 @@ exports[`Test 1 wallets with price 1`] = `
         }
       >
         <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
               "borderColor": "#DADADA",
               "borderRadius": 7,
               "borderWidth": 0.8,
               "marginTop": 17,
+              "opacity": 1,
               "paddingBottom": 13,
               "paddingLeft": 25,
               "paddingRight": 25,
@@ -484,12 +504,22 @@ exports[`Test 1 wallets without price 1`] = `
         }
       >
         <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
               "borderColor": "#DADADA",
               "borderRadius": 7,
               "borderWidth": 0.8,
               "marginTop": 17,
+              "opacity": 1,
               "paddingBottom": 13,
               "paddingLeft": 25,
               "paddingRight": 25,
@@ -786,12 +816,22 @@ exports[`Test 2 wallets with price 1`] = `
         }
       >
         <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
               "borderColor": "#DADADA",
               "borderRadius": 7,
               "borderWidth": 0.8,
               "marginTop": 17,
+              "opacity": 1,
               "paddingBottom": 13,
               "paddingLeft": 25,
               "paddingRight": 25,
@@ -1235,12 +1275,22 @@ exports[`Test 2 wallets without price 1`] = `
         }
       >
         <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
               "borderColor": "#DADADA",
               "borderRadius": 7,
               "borderWidth": 0.8,
               "marginTop": 17,
+              "opacity": 1,
               "paddingBottom": 13,
               "paddingLeft": 25,
               "paddingRight": 25,

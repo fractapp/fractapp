@@ -6,6 +6,7 @@ import GlobalStore, {initialState} from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
 import {fireEvent, render} from '@testing-library/react-native';
+import {Network} from 'types/account';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -40,6 +41,7 @@ it('Test view with empty state', () => {
               'Wallet Polkadot',
               'address#1',
               Currency.DOT,
+              1,
               100,
               '1000000000000',
               10,
@@ -53,40 +55,47 @@ it('Test view with empty state', () => {
 });
 
 it('Test view with txs', () => {
-  const txs = new Map([
-    [
-      '1',
-      {
-        id: '1',
-        userId: null,
-        address: 'address#1',
-        currency: Currency.DOT,
-        txType: TxType.Sent,
-        timestamp: new Date('02-12-2020').getTime(),
-        value: 12,
-        usdValue: 12,
-        fee: 12,
-        usdFee: 12,
-        status: TxStatus.Fail,
-      },
-    ],
-    [
-      '2',
-      {
-        id: '2',
-        userId: 'userId',
-        address: 'address#2DOT',
-        currency: Currency.DOT,
-        txType: TxType.Sent,
-        timestamp: new Date('03-12-2020').getTime(),
-        value: 10,
-        usdValue: 10,
-        fee: 10,
-        usdFee: 10,
-        status: TxStatus.Success,
-      },
-    ],
-  ]);
+  const chatsState = ChatsStore.initialState();
+  chatsState.transactions.set(Currency.DOT, {
+    transactionById: new Map([
+      [
+        '1',
+        {
+          id: '1',
+          userId: null,
+          address: 'address#1',
+          currency: Currency.DOT,
+          txType: TxType.Sent,
+          timestamp: new Date('02-12-2020').getTime(),
+          value: 12,
+          usdValue: 12,
+          fee: 12,
+          usdFee: 12,
+          status: TxStatus.Fail,
+        },
+      ],
+    ]),
+  });
+  chatsState.transactions.set(Currency.KSM, {
+    transactionById: new Map([
+      [
+        '2',
+        {
+          id: '2',
+          userId: 'userId',
+          address: 'address#2DOT',
+          currency: Currency.KSM,
+          txType: TxType.Sent,
+          timestamp: new Date('03-12-2020').getTime(),
+          value: 10,
+          usdValue: 10,
+          fee: 10,
+          usdFee: 10,
+          status: TxStatus.Success,
+        },
+      ],
+    ]),
+  });
   const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
     id: 'id',
@@ -105,7 +114,7 @@ it('Test view with txs', () => {
   });
   useContext.mockReturnValueOnce({
     state: {
-      transactions: new Map([[Currency.DOT, txs]]),
+      transactions: chatsState.transactions,
       isInitialized: true,
     },
     dispatch: () => null,
@@ -207,40 +216,52 @@ it('Test view click receive', () => {
 });
 
 it('Test view click txs', () => {
-  const txs = new Map([
-    [
-      '1',
-      {
-        id: '1',
-        userId: null,
-        address: 'address#1',
-        currency: Currency.DOT,
-        txType: TxType.Sent,
-        timestamp: new Date('02-12-2020').getTime(),
-        value: 12,
-        usdValue: 12,
-        fee: 12,
-        usdFee: 12,
-        status: TxStatus.Fail,
-      },
-    ],
-    [
-      '2',
-      {
-        id: '2',
-        userId: 'userId',
-        address: 'address#2DOT',
-        currency: Currency.DOT,
-        txType: TxType.Sent,
-        timestamp: new Date('03-12-2020').getTime(),
-        value: 10,
-        usdValue: 10,
-        fee: 10,
-        usdFee: 10,
-        status: TxStatus.Success,
-      },
-    ],
-  ]);
+  const wallet = new Wallet(
+    'Wallet Polkadot',
+    'address#1',
+    Currency.DOT,
+    Network.Polkadot,
+    100,
+    '1000000000000',
+    10,
+  );
+
+  const txs = new Map();
+  txs.set(Currency.DOT, {
+    id: '1',
+    userId: null,
+    address: 'address#1',
+    currency: Currency.DOT,
+    txType: TxType.Sent,
+    timestamp: new Date('02-12-2020').getTime(),
+    value: 12,
+    usdValue: 12,
+    fee: 12,
+    usdFee: 12,
+    status: TxStatus.Fail,
+  });
+  txs.set(Currency.KSM, {
+    id: '2',
+    userId: 'userId',
+    address: 'address#2KSM',
+    currency: Currency.KSM,
+    txType: TxType.Sent,
+    timestamp: new Date('03-12-2020').getTime(),
+    value: 10,
+    usdValue: 10,
+    fee: 10,
+    usdFee: 10,
+    status: TxStatus.Success,
+  });
+
+  const chatsState = ChatsStore.initialState();
+  chatsState.transactions.set(Currency.DOT, {
+    transactionById: new Map([['1', txs.get(Currency.DOT)]]),
+  });
+  chatsState.transactions.set(Currency.KSM, {
+    transactionById: new Map([['2', txs.get(Currency.KSM)]]),
+  });
+
   const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
     id: 'id',
@@ -259,20 +280,12 @@ it('Test view click txs', () => {
   });
   useContext.mockReturnValueOnce({
     state: {
-      transactions: new Map([[Currency.DOT, txs]]),
+      transactions: chatsState.transactions,
       isInitialized: true,
     },
     dispatch: () => null,
   });
 
-  const wallet = new Wallet(
-    'Wallet Polkadot',
-    'address#1',
-    Currency.DOT,
-    100,
-    '1000000000000',
-    10,
-  );
   const navigate = jest.fn();
   const component = render(
     <WalletDetails
@@ -289,14 +302,14 @@ it('Test view click txs', () => {
 
   fireEvent.press(component.getByText('address#1'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
-    transaction: txs.get('1'),
+    transaction: txs.get(Currency.DOT),
     wallet: wallet,
     user: null,
   });
 
   fireEvent.press(component.getByText('name'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
-    transaction: txs.get('2'),
+    transaction: txs.get(Currency.KSM),
     wallet: wallet,
     user: globalState.users.get('userId'),
   });

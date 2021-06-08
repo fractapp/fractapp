@@ -113,10 +113,10 @@ it('Test click', async () => {
   await fireEvent.press(component.getByText('Telegram'));
   expect(Linking.openURL).toBeCalledWith('https://t.me/fractapp');
 
-  await fireEvent.press(component.getByText('FAQ'));
+  /*await fireEvent.press(component.getByText('FAQ'));
   expect(Linking.openURL).toBeCalledWith(
     'https://medium.com/fractapp/fractapp-faq-4e76810c0564',
-  );
+  );*/
 
   await fireEvent.press(component.getByText(StringUtils.texts.settings.help));
   expect(Linking.openURL).toBeCalledWith('mailto:support@fractapp.com');

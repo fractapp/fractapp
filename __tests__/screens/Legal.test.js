@@ -13,6 +13,8 @@ jest.mock('react', () => ({
   })),
 }));
 
+jest.mock('react-native', () => {});
+
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test checkbox=false', () => {

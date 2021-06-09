@@ -396,7 +396,6 @@ it('Test getUsers negative', async () => {
   AsyncStorage.getItem.mockReturnValueOnce(null);
 
   const value = await DB.getUsers();
-  console.log('users - ' + value);
   expect(value).toEqual(new Map());
 });
 

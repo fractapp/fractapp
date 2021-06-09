@@ -2,21 +2,21 @@ import stringUtils from 'utils/string';
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-/*it('Test getMonths', async () => {
-  expect(stringUtils.getMonths(0)).toBe('January');
-  expect(stringUtils.getMonths(1)).toBe('February');
-  expect(stringUtils.getMonths(2)).toBe('March');
-  expect(stringUtils.getMonths(3)).toBe('April');
-  expect(stringUtils.getMonths(4)).toBe('May');
-  expect(stringUtils.getMonths(5)).toBe('June');
-  expect(stringUtils.getMonths(6)).toBe('July');
-  expect(stringUtils.getMonths(7)).toBe('August');
-  expect(stringUtils.getMonths(8)).toBe('September');
-  expect(stringUtils.getMonths(9)).toBe('October');
-  expect(stringUtils.getMonths(10)).toBe('November');
-  expect(stringUtils.getMonths(11)).toBe('December');
+it('Test getMonths', async () => {
+  expect(stringUtils.months[0]).toBe('months.january');
+  expect(stringUtils.months[1]).toBe('months.february');
+  expect(stringUtils.months[2]).toBe('months.march');
+  expect(stringUtils.months[3]).toBe('months.april');
+  expect(stringUtils.months[4]).toBe('months.may');
+  expect(stringUtils.months[5]).toBe('months.june');
+  expect(stringUtils.months[6]).toBe('months.july');
+  expect(stringUtils.months[7]).toBe('months.august');
+  expect(stringUtils.months[8]).toBe('months.september');
+  expect(stringUtils.months[9]).toBe('months.october');
+  expect(stringUtils.months[10]).toBe('months.november');
+  expect(stringUtils.months[11]).toBe('months.december');
 });
-*/
+
 it('Test formatNameOrAddress one', async () => {
   expect(stringUtils.formatNameOrAddress('Name')).toBe('Name');
 });
@@ -61,10 +61,10 @@ it('Test toMsg today', async () => {
 it('Test toMsg yesterday', async () => {
   expect(
     stringUtils.toMsg(
-      new Date('1995-12-17T11:16:00'),
       new Date('1995-12-18T11:16:00'),
+      new Date('1995-12-17T11:16:00'),
     ),
-  ).toBe('17 December 11:16');
+  ).toBe('17 ' + stringUtils.months[11] + ' 11:16');
 });
 
 it('Test toMsg one year', async () => {
@@ -73,7 +73,7 @@ it('Test toMsg one year', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1995-10-15T11:16:00'),
     ),
-  ).toBe('15 October 11:16');
+  ).toBe('15 ' + stringUtils.months[9] + ' 11:16');
 });
 
 it('Test toMsg any date', async () => {
@@ -109,7 +109,7 @@ it('Test forChatInfo yesterday', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1995-12-17T11:16:00'),
     ),
-  ).toBe('yesterday');
+  ).toBe(stringUtils.yesterday);
 });
 
 it('Test forChatInfo one year', async () => {
@@ -118,7 +118,7 @@ it('Test forChatInfo one year', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1995-10-15T11:16:00'),
     ),
-  ).toBe('15 October');
+  ).toBe('15 ' + stringUtils.months[9]);
 });
 
 it('Test forChatInfo any date', async () => {
@@ -136,7 +136,7 @@ it('Test toTitle today', async () => {
       new Date('1995-12-17T11:16:00'),
       new Date('1995-12-17T11:16:00'),
     ),
-  ).toBe('today');
+  ).toBe(stringUtils.today);
 });
 
 it('Test toTitle yesterday', async () => {
@@ -145,7 +145,7 @@ it('Test toTitle yesterday', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1995-12-17T11:16:00'),
     ),
-  ).toBe('Yesterday');
+  ).toBe(stringUtils.yesterday);
 });
 
 it('Test toTitle one year', async () => {
@@ -154,7 +154,7 @@ it('Test toTitle one year', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1995-10-15T11:16:00'),
     ),
-  ).toBe('15 October');
+  ).toBe('15 ' + stringUtils.months[9]);
 });
 
 it('Test toTitle any date', async () => {
@@ -163,5 +163,5 @@ it('Test toTitle any date', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1994-12-18T11:16:00'),
     ),
-  ).toBe('18 December 1994');
+  ).toBe('18 '  + stringUtils.months[11] + ' 1994');
 });

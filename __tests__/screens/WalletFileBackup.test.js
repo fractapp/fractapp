@@ -43,6 +43,7 @@ jest.mock('utils/backup', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
+
 NativeModules.PreventScreenshotModule = {
   forbid: async () => {},
   allow: async () => {},
@@ -232,9 +233,11 @@ it('Test backup', async () => {
 
   const mockNav = jest.fn();
 
-  const component = await render(
+  const component = render(
     <WalletFileBackup route={{params: params}} navigation={{reset: mockNav}} />,
   );
+
+  jest.runAllTimers();
 
   expect(googleUtils.getFileBackup).toBeCalledWith('123123');
   expect(backupUtil.getSeed).toBeCalledWith(

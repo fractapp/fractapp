@@ -6,10 +6,10 @@ import {Currency, getSymbol} from 'types/wallet';
 import I18n from 'react-native-i18n';
 
 namespace StringUtils {
-  const today = I18n.t('today');
-  const yesterday = I18n.t('yesterday');
+  export const today = I18n.t('today');
+  export const yesterday = I18n.t('yesterday');
 
-  const months = [
+  export const months = [
     I18n.t('months.january'),
     I18n.t('months.february'),
     I18n.t('months.march'),

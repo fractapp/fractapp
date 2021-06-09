@@ -22,7 +22,7 @@ exports[`Test checkbox=false 1`] = `
       }
     }
   >
-    Terms & Conditions and Privacy Policy
+    [missing "en.legal.title" translation]
   </Text>
   <View
     style={
@@ -68,7 +68,7 @@ exports[`Test checkbox=false 1`] = `
           }
         }
       >
-        Terms & Conditions
+        [missing "en.legal.tos" translation]
       </Text>
     </View>
     <View
@@ -114,7 +114,7 @@ exports[`Test checkbox=false 1`] = `
             }
           }
         >
-          Privacy Policy
+          [missing "en.legal.privacy_policy" translation]
         </Text>
       </View>
     </View>
@@ -172,7 +172,7 @@ exports[`Test checkbox=false 1`] = `
           }
         }
       >
-         I have read, understood, and agree with the Terms & Conditions and Privacy Policy
+        [missing "en.legal.checkbox" translation]
       </Text>
     </View>
     <View
@@ -208,7 +208,7 @@ exports[`Test checkbox=false 1`] = `
           }
         }
       >
-        Next
+        [missing "en.next_btn_title" translation]
       </Text>
     </View>
   </View>
@@ -237,7 +237,7 @@ exports[`Test checkbox=true 1`] = `
       }
     }
   >
-    Terms & Conditions and Privacy Policy
+    [missing "en.legal.title" translation]
   </Text>
   <View
     style={
@@ -283,7 +283,7 @@ exports[`Test checkbox=true 1`] = `
           }
         }
       >
-        Terms & Conditions
+        [missing "en.legal.tos" translation]
       </Text>
     </View>
     <View
@@ -329,7 +329,7 @@ exports[`Test checkbox=true 1`] = `
             }
           }
         >
-          Privacy Policy
+          [missing "en.legal.privacy_policy" translation]
         </Text>
       </View>
     </View>
@@ -387,7 +387,7 @@ exports[`Test checkbox=true 1`] = `
           }
         }
       >
-         I have read, understood, and agree with the Terms & Conditions and Privacy Policy
+        [missing "en.legal.checkbox" translation]
       </Text>
     </View>
     <View
@@ -423,7 +423,7 @@ exports[`Test checkbox=true 1`] = `
           }
         }
       >
-        Next
+        [missing "en.next_btn_title" translation]
       </Text>
     </View>
   </View>

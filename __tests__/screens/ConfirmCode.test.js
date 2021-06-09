@@ -33,6 +33,9 @@ jest.mock('utils/backend', () => ({
   },
   CodeLength: 6,
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 jest.useFakeTimers();
 useState.mockImplementation((init) => [init, jest.fn()]);

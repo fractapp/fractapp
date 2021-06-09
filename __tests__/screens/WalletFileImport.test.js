@@ -20,6 +20,9 @@ jest.mock('react', () => ({
   useState: jest.fn(),
   useContext: jest.fn(),
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 NativeModules.PreventScreenshotModule = {
   forbid: async () => {},
   allow: async () => {},

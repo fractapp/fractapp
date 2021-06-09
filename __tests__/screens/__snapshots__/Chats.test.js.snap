@@ -269,7 +269,7 @@ exports[`Test view with chats 1`] = `
                         ]
                       }
                     >
-                      [missing "en.sent_title" translation] -
+                      sent_title -
                       $100015 (100005 KSM)
                     </Text>
                   </View>
@@ -474,7 +474,7 @@ exports[`Test view with chats 1`] = `
                         ]
                       }
                     >
-                      [missing "en.sent_title" translation] -
+                      sent_title -
                       $10001 (10000 DOT)
                     </Text>
                   </View>

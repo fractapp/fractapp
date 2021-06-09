@@ -52,6 +52,9 @@ jest.mock('utils/backup', () => ({
     };
   },
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

@@ -15,6 +15,9 @@ jest.mock('react', () => ({
 jest.mock('@polkadot/util-crypto', () => ({
   mnemonicGenerate: jest.fn(() => ''),
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

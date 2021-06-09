@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import renderer from 'react-test-renderer';
 import {Chat} from 'screens/Chat';
 import {Currency} from 'types/wallet';
@@ -13,7 +13,6 @@ jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useContext: jest.fn(),
-  useState: jest.fn(),
   Linking: jest.fn(() => ({
     openURL: jest.fn(),
   })),
@@ -22,8 +21,9 @@ jest.mock('utils/backend', () => {});
 jest.mock('utils/math', () => ({
   floorUsd: jest.fn(() => 0.123),
 }));
-
-useState.mockImplementation((init) => [init, jest.fn()]);
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test view with empty txs', () => {
   useContext.mockReturnValueOnce({
@@ -137,8 +137,9 @@ it('Test view with txs (ChatType == Address)', () => {
   ]);
 
   const chatsState = ChatsStore.initialState();
-  chatsState.chats.set('idChatInfo', {infoById: infoById.get('1')});
-  chatsState.chats.set('idChatInfo', {infoById: infoById.get('2')});
+  chatsState.chats.set('idChatInfo#1', {infoById: infoById.get('1')});
+  chatsState.chats.set('idChatInfo#2', {infoById: infoById.get('2')});
+
   chatsState.transactions.set(Currency.DOT, {
     transactionById: new Map([['1', txs.get('1')]]),
   });
@@ -165,7 +166,7 @@ it('Test view with txs (ChatType == Address)', () => {
         route={{
           params: {
             chatInfo: {
-              id: 'idChatInfo',
+              id: 'idChatInfo#1',
               name: 'name',
               lastTxId: 'lastTxId',
               lastTxCurrency: Currency.DOT,

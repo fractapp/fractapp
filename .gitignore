@@ -1,5 +1,6 @@
 yarn-error.log
 .env
+.vscode
 
 # typescript output directory
 dist/

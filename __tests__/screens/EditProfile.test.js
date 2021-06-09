@@ -25,6 +25,11 @@ jest.mock('react-native-image-picker/src/index', () => ({
   launchImageLibrary: jest.fn(),
 }));
 
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
+
+
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view (empty)', () => {

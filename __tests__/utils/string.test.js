@@ -1,5 +1,7 @@
 import stringUtils from 'utils/string';
-
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 /*it('Test getMonths', async () => {
   expect(stringUtils.getMonths(0)).toBe('January');
   expect(stringUtils.getMonths(1)).toBe('February');
@@ -107,7 +109,7 @@ it('Test forChatInfo yesterday', async () => {
       new Date('1995-12-18T11:16:00'),
       new Date('1995-12-17T11:16:00'),
     ),
-  ).toBe('Yesterday');
+  ).toBe('yesterday');
 });
 
 it('Test forChatInfo one year', async () => {
@@ -134,7 +136,7 @@ it('Test toTitle today', async () => {
       new Date('1995-12-17T11:16:00'),
       new Date('1995-12-17T11:16:00'),
     ),
-  ).toBe('Today');
+  ).toBe('today');
 });
 
 it('Test toTitle yesterday', async () => {

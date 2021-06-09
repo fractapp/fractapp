@@ -87,10 +87,10 @@ it('Test clicks', () => {
   fireEvent.press(component.getByText('@username'));
   expect(nav).toBeCalledWith('EditUsername');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.phoneTitle));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.phoneTitle));
   expect(nav).toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.email));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.email));
   expect(nav).toBeCalledWith('EditEmail');
 });
 

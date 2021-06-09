@@ -23,7 +23,7 @@ jest.mock('react-native-i18n', () => ({
 it('Test view with empty number', async () => {
   useState.mockImplementation((init) => [init, jest.fn()]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD'); //что здесь имеется ввиду?
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
   const tree = renderer
     .create(
       <EditPhoneNumber

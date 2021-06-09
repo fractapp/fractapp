@@ -62,6 +62,10 @@ exports[`Test view with chats 1`] = `
     data={
       Array [
         Object {
+          "details": Object {
+            "address": "address#2",
+            "currency": 1,
+          },
           "id": "chatTwo",
           "lastTxCurrency": 1,
           "lastTxId": "txTwo",
@@ -133,7 +137,7 @@ exports[`Test view with chats 1`] = `
           <View
             style={
               Object {
-                "height": 80,
+                "height": 75,
                 "width": "100%",
               }
             }
@@ -150,21 +154,20 @@ exports[`Test view with chats 1`] = `
               }
             >
               <Image
+                height={55}
                 source={
                   Object {
-                    "testUri": "../../../assets/img/kusama.png",
+                    "uri": undefined,
                   }
                 }
                 style={
                   Object {
-                    "borderColor": "black",
                     "borderRadius": 30,
-                    "borderWidth": 0.8,
-                    "height": 60,
-                    "overflow": "hidden",
-                    "width": 60,
+                    "height": 55,
+                    "width": 55,
                   }
                 }
+                width={55}
               />
               <View
                 style={
@@ -222,7 +225,7 @@ exports[`Test view with chats 1`] = `
                           Object {
                             "color": "#888888",
                             "fontFamily": "Roboto-Regular",
-                            "fontSize": 13,
+                            "fontSize": 12,
                             "fontStyle": "normal",
                           },
                           Object {
@@ -239,7 +242,7 @@ exports[`Test view with chats 1`] = `
                   style={
                     Object {
                       "flexDirection": "row",
-                      "height": 25,
+                      "height": 23,
                     }
                   }
                 >
@@ -256,7 +259,7 @@ exports[`Test view with chats 1`] = `
                           Object {
                             "color": "#888888",
                             "fontFamily": "Roboto-Regular",
-                            "fontSize": 15,
+                            "fontSize": 14,
                             "fontStyle": "normal",
                             "fontWeight": "normal",
                           },
@@ -266,7 +269,8 @@ exports[`Test view with chats 1`] = `
                         ]
                       }
                     >
-                      Sent -$100015 (100005 KSM)
+                      [missing "en.sent_title" translation] -
+                      $100015 (100005 KSM)
                     </Text>
                   </View>
                   <View
@@ -293,7 +297,7 @@ exports[`Test view with chats 1`] = `
                             Object {
                               "color": "white",
                               "fontFamily": "Roboto-Regular",
-                              "fontSize": 13,
+                              "fontSize": 12,
                               "fontStyle": "normal",
                             },
                           ]
@@ -311,7 +315,7 @@ exports[`Test view with chats 1`] = `
         <View
           style={
             Object {
-              "backgroundColor": "#ededed",
+              "backgroundColor": "#f5f5f5",
               "height": 1,
               "marginLeft": 80,
               "width": "100%",
@@ -337,7 +341,7 @@ exports[`Test view with chats 1`] = `
           <View
             style={
               Object {
-                "height": 80,
+                "height": 75,
                 "width": "100%",
               }
             }
@@ -362,11 +366,11 @@ exports[`Test view with chats 1`] = `
                 style={
                   Object {
                     "borderColor": "black",
-                    "borderRadius": 30,
+                    "borderRadius": 27.5,
                     "borderWidth": 0.8,
-                    "height": 60,
+                    "height": 55,
                     "overflow": "hidden",
-                    "width": 60,
+                    "width": 55,
                   }
                 }
               />
@@ -426,7 +430,7 @@ exports[`Test view with chats 1`] = `
                           Object {
                             "color": "#888888",
                             "fontFamily": "Roboto-Regular",
-                            "fontSize": 13,
+                            "fontSize": 12,
                             "fontStyle": "normal",
                           },
                           Object {
@@ -443,7 +447,7 @@ exports[`Test view with chats 1`] = `
                   style={
                     Object {
                       "flexDirection": "row",
-                      "height": 25,
+                      "height": 23,
                     }
                   }
                 >
@@ -460,7 +464,7 @@ exports[`Test view with chats 1`] = `
                           Object {
                             "color": "#888888",
                             "fontFamily": "Roboto-Regular",
-                            "fontSize": 15,
+                            "fontSize": 14,
                             "fontStyle": "normal",
                             "fontWeight": "normal",
                           },
@@ -470,7 +474,8 @@ exports[`Test view with chats 1`] = `
                         ]
                       }
                     >
-                      Sent -$10001 (10000 DOT)
+                      [missing "en.sent_title" translation] -
+                      $10001 (10000 DOT)
                     </Text>
                   </View>
                   <View
@@ -497,7 +502,7 @@ exports[`Test view with chats 1`] = `
                             Object {
                               "color": "white",
                               "fontFamily": "Roboto-Regular",
-                              "fontSize": 13,
+                              "fontSize": 12,
                               "fontStyle": "normal",
                             },
                           ]

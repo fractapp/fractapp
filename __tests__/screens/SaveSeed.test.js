@@ -20,10 +20,11 @@ jest.mock('react-native-flash-message', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-
 NativeModules.PreventScreenshotModule = {
-  forbid: jest.fn(() => new Promise.resolve({data: {}})),
+  forbid: async () => {},
+  allow: async () => {},
 };
+jest.useFakeTimers();
 
 it('Test save seed #1', () => {
   const seed =

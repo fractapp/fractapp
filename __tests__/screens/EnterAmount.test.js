@@ -31,6 +31,7 @@ jest.mock('utils/math', () => ({
 }));
 jest.mock('storage/DB', () => ({}));
 
+jest.useFakeTimers();
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 const setStates = (value, alternativeValue) => {
@@ -110,11 +111,6 @@ it('Test calculate value #1', async () => {
       }}
     />,
   );
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  }); //TODO
 
   expect(setters.setAlternativeValue).toBeCalledWith(100);
 });
@@ -149,11 +145,6 @@ it('Test calculate value #2', async () => {
       }}
     />,
   );
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  }); //TODO
 
   expect(setters.setPlankFee.mock.calls[0][0].toString()).toEqual(
     new BN('1000000').toString(),

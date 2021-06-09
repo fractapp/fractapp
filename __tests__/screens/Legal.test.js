@@ -12,8 +12,9 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-
-jest.mock('react-native', () => {});
+jest.mock('@polkadot/util-crypto', () => ({
+  mnemonicGenerate: jest.fn(() => ''),
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

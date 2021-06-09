@@ -2,13 +2,10 @@ import {Currency} from 'types/wallet';
 import tasks from 'utils/tasks';
 import DB from 'storage/DB';
 import {TxStatus, TxType} from 'types/transaction';
-import {ChatType} from 'types/chatInfo';
-import {Account, Network} from 'types/account';
+import {Network} from 'types/account';
 import PricesStore from 'storage/Prices';
-import {Adaptors} from 'adaptors/adaptor';
 
 global.fetch = jest.fn();
-jest.mock('@react-native-firebase/messaging', () => {});
 jest.mock('react-native-background-timer', () => ({
   runBackgroundTimer: jest.fn(),
 }));

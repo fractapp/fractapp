@@ -43,14 +43,12 @@ jest.mock('utils/backup', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
+NativeModules.PreventScreenshotModule = {
+  forbid: async () => {},
+  allow: async () => {},
+};
+jest.useFakeTimers();
 
-jest.mock('react-native', () => ({
-  NativeModules: {
-    PreventScreenshotModule: {
-      forbid: jest.fn(() => new Promise.resolve({data: {}})),
-    },
-  },
-}));
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 const params = {
@@ -237,12 +235,6 @@ it('Test backup', async () => {
   const component = await render(
     <WalletFileBackup route={{params: params}} navigation={{reset: mockNav}} />,
   );
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  }); //TODO
 
   expect(googleUtils.getFileBackup).toBeCalledWith('123123');
   expect(backupUtil.getSeed).toBeCalledWith(

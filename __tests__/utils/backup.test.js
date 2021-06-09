@@ -135,51 +135,6 @@ it('Test get file', async () => {
   ); //!!! 'filename.json', 'utf8'
 });
 
-it('Test backup file', async () => {
-  const encryptedSeed = 'ecryptedSeed';
-  const seed = 'seed';
-  const password = 'password';
-
-  mockUpdate.mockReturnValueOnce(encryptedSeed);
-  const fileName = `fractapp-${mockHash}`;
-  const file = await backupUtil.backup(
-    seed,
-    password,
-    fileName,
-    backupUtil.BackupType.File,
-  );
-  expect(RNFS.writeFile).toBeCalledWith(
-    `${RNFS.DownloadDirectoryPath}/${fileName}.json`, //mockDir/fractapp-0x0000000000000000000.json
-    JSON.stringify({
-      seed: encryptedSeed,
-      algorithm: algorithm,
-    }),
-    'utf8',
-  );
-
-  expect(file.isExist).toBe(true);
-});
-
-it('Test backup file throw', async () => {
-  const encryptedSeed = 'ecryptedSeed';
-  const seed = 'seed';
-  const password = 'password';
-
-  mockUpdate.mockReturnValueOnce(encryptedSeed);
-  RNFS.writeFile.mockImplementation(() => {
-    throw 'error';
-  });
-  const fileName = `fractapp-${mockHash}`;
-  const file = await backupUtil.backup(
-    seed,
-    password,
-    fileName,
-    backupUtil.BackupType.File,
-  );
-
-  expect(file.isExist).toBe(false);
-});
-
 it('Test backup google file', async () => {
   const encryptedSeed = 'ecryptedSeed';
   const seed = 'seed';

@@ -6,6 +6,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import BackupUtils from 'utils/backup';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
+import { NativeModules } from 'react-native';
 
 jest.mock('react-native-crypto', () => {});
 jest.mock('storage/DB', () => ({
@@ -19,13 +20,11 @@ jest.mock('react', () => ({
   useState: jest.fn(),
   useContext: jest.fn(),
 }));
-jest.mock('react-native', () => ({
-  NativeModules: {
-    PreventScreenshotModule: {
-      forbid: jest.fn(() => new Promise.resolve({data: {}})),
-    },
-  },
-}));
+NativeModules.PreventScreenshotModule = {
+  forbid: async () => {},
+  allow: async () => {},
+};
+jest.useFakeTimers();
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -80,12 +79,6 @@ it('Test useEffect', async () => {
     <WalletFileImport route={{params: {file: file}}} />,
   );
 
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  }); //TODO
-
   expect(BackupUtils.getSeed).toBeCalledWith(file, '123123');
   expect(DB.createAccounts).toBeCalledWith('seed');
   expect(globalDispatch.mock.calls[0][0]).toMatchSnapshot();
@@ -115,11 +108,6 @@ it('Test useEffect throw', async () => {
   const component = await render(
     <WalletFileImport route={{params: {file: file}}} />,
   );
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  }); //TODO
 
   expect(setLoading).toBeCalledWith(false);
 });

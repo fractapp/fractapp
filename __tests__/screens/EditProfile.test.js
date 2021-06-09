@@ -6,7 +6,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
 import StringUtils from 'utils/string';
-import i18n from 'i18next';
+import I18n from 'react-native-i18n';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({

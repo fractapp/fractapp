@@ -58,7 +58,7 @@ exports[`Test receive #1 1`] = `
           }
         }
       >
-        [missing "en.fractapp_wallet_title" translation]
+        fractapp_wallet_title
       </Text>
     </View>
     <View>
@@ -155,7 +155,7 @@ exports[`Test receive #1 1`] = `
           }
         }
       >
-        [missing "en.copy_btn" translation]
+        copy_btn
       </Text>
     </View>
     <View
@@ -228,7 +228,7 @@ exports[`Test receive #1 1`] = `
           }
         }
       >
-        [missing "en.share_btn" translation]
+        share_btn
       </Text>
     </View>
   </View>
@@ -293,7 +293,7 @@ exports[`Test receive #2 1`] = `
           }
         }
       >
-        [missing "en.fractapp_wallet_title" translation]
+        fractapp_wallet_title
       </Text>
     </View>
     <View>
@@ -390,7 +390,7 @@ exports[`Test receive #2 1`] = `
           }
         }
       >
-        [missing "en.copy_btn" translation]
+        copy_btn
       </Text>
     </View>
     <View
@@ -463,7 +463,7 @@ exports[`Test receive #2 1`] = `
           }
         }
       >
-        [missing "en.share_btn" translation]
+        share_btn
       </Text>
     </View>
   </View>

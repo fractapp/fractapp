@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Receive} from 'screens/Receive';
 import renderer from 'react-test-renderer';
 import {Currency, getSymbol} from 'types/wallet';
@@ -6,6 +6,7 @@ import {render, fireEvent} from '@testing-library/react-native';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
 import Share from 'react-native-share';
+import GlobalStore from 'storage/Global';
 
 jest.mock('storage/DB', () => ({}));
 
@@ -27,6 +28,10 @@ jest.mock('@react-native-community/clipboard', () => ({
 }));
 jest.mock('react-native-flash-message', () => ({
   showMessage: jest.fn(),
+}));
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test receive #1', () => {
@@ -65,13 +70,17 @@ it('Test receive click copy', () => {
   fireEvent.press(component.getByTestId('copyBtn'));
   expect(Clipboard.setString).toBeCalledWith(params.address);
   expect(showMessage).toBeCalledWith({
-    message: 'Address copied',
+    message: 'show_msg.address_copied',
     type: 'info',
     icon: 'info',
   });
 });
 
 it('Test receive click share', () => {
+  useContext.mockReturnValueOnce({
+    state: GlobalStore.initialState(),
+    dispatch: jest.fn(),
+  });
   const params = {
     address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
     currency: Currency.KSM,
@@ -80,7 +89,9 @@ it('Test receive click share', () => {
   const component = render(<Receive route={{params: params}} />);
   fireEvent.press(component.getByTestId('shareBtn'));
   expect(Share.open).toBeCalledWith({
-    url: `My address for ${getSymbol(params.currency)}: ${params.address}`,
+    url: `share_text ${getSymbol(params.currency)}: ${params.address}`,
     type: 'text/plain',
+    title: '',
+    message: '',
   });
 });

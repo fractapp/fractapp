@@ -54,10 +54,10 @@ it('Test save click copy', () => {
   const component = render(
     <SaveSeed navigation={null} route={{params: {seed: seed.split(' ')}}} />,
   );
-  fireEvent.press(component.getByText(StringUtils.texts.CopyBtn));
+  fireEvent.press(component.getByText('Copy'));
   expect(Clipboard.setString).toBeCalledWith(seed);
   expect(showMessage).toBeCalledWith({
-    message: "Seed is copied. Don't forget to remove it from your clipboard!",
+    message: 'show_msg.copied_to_clipboard',
     type: 'info',
     icon: 'info',
   });

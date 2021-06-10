@@ -10,7 +10,6 @@ import BackupUtils from 'utils/backup';
 import StringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
 import Backup from 'utils/backup';
-import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({

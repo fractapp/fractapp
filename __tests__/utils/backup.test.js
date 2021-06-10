@@ -28,6 +28,9 @@ jest.mock('utils/google', () => ({
   signIn: jest.fn(),
   safeSave: jest.fn(),
   signOut: jest.fn(),
+  getItems: jest.fn(() => {
+    return [];
+  }),
 }));
 
 const algorithm = 'aes-128-ctr';
@@ -159,7 +162,7 @@ it('Test backup google file', async () => {
   );
 
   expect(googleUtil.signIn).toBeCalled();
-  expect(file.isExist).toBe(true);
+  expect(file.isExist).toBe(false);
 });
 
 it('Test backup google file error', async () => {

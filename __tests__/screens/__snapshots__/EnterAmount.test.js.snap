@@ -96,7 +96,7 @@ exports[`Test view 1`] = `
           "height": 30,
           "opacity": 1,
           "position": "absolute",
-          "right": 20,
+          "right": 15,
           "top": 8,
           "width": 30,
         }
@@ -106,6 +106,41 @@ exports[`Test view 1`] = `
         source={
           Object {
             "testUri": "../../../assets/img/change.png",
+          }
+        }
+        style={
+          Object {
+            "height": 30,
+            "width": 30,
+          }
+        }
+      />
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "height": 30,
+          "left": 15,
+          "opacity": 1,
+          "position": "absolute",
+          "top": 8,
+          "width": 30,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/max.png",
           }
         }
         style={
@@ -153,6 +188,74 @@ exports[`Test view 1`] = `
           }
         }
       />
+    </View>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderRadius": 10,
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "padding": 12,
+          "position": "absolute",
+          "width": "90%",
+        },
+        Object {
+          "bottom": 60,
+        },
+        Object {
+          "borderColor": "#2AB2E2",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "width": "30%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        [missing "en.your_balance_title" translation]
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "width": "70%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        $1000 (100 DOT)
+      </Text>
     </View>
   </View>
 </View>

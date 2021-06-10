@@ -20,8 +20,9 @@ jest.mock('@polkadot/util-crypto', () => ({
 }));
 jest.mock('utils/google', () => ({}));
 jest.mock('adaptors/adaptor', () => ({
-  Api: {
-    getInstance: jest.fn(),
+  Adaptors: {
+    init: jest.fn(),
+    get: jest.fn(),
   },
 }));
 jest.mock('utils/math', () => ({
@@ -70,7 +71,6 @@ const setStates = (value, alternativeValue) => {
 };
 it('Test view', () => {
   MathUtils.roundUsd.mockReturnValueOnce(1000);
-  const setters = setStates(null, null);
   const tree = renderer
     .create(
       <EnterAmount
@@ -146,7 +146,7 @@ it('Test calculate value #2', async () => {
             Currency.DOT,
             Network.Polkadot,
             100,
-            '1000000000000',
+            '1000000',
             10,
           ),
           receiver: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
@@ -155,7 +155,7 @@ it('Test calculate value #2', async () => {
     />,
   );
 
-  expect(setters.setPlankFee.mock.calls[0][0].toString()).toEqual(
+  expect(setters.setPlanksFee.mock.calls[0][0].toString()).toEqual(
     new BN('1000000').toString(),
   );
   expect(setters.setUsdFee).toBeCalledWith(127);

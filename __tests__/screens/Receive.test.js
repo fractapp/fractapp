@@ -80,12 +80,13 @@ it('Test receive click share', () => {
   const params = {
     address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
     currency: Currency.KSM,
+    shareLink: 'https://send.fractapp.com/send.html?user=F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE&type=address&currency=KSM',
   };
 
   const component = render(<Receive route={{params: params}} />);
   fireEvent.press(component.getByTestId('shareBtn'));
   expect(Share.open).toBeCalledWith({
-    url: `share_text ${getSymbol(params.currency)}: ${params.address}`,
+    url: `share_text ${getSymbol(params.currency)}: ${params.address}\n\nshare_link: ${params.shareLink}`,
     type: 'text/plain',
     title: '',
     message: '',

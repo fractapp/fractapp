@@ -18,11 +18,9 @@ jest.mock('utils/tasks', () => {});
 
 jest.mock('@polkadot/util-crypto', () => {});
 jest.mock('adaptors/adaptor', () => ({
-  Api: {
-    getInstance: async () => jest.fn()(),
-  },
   Adaptors: {
-    get: async () => jest.fn(),
+    init: jest.fn(),
+    get: jest.fn(),
   },
 }));
 

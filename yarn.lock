@@ -7358,7 +7358,7 @@ react-native-google-drive-api-wrapper@^1.4.0:
 
 react-native-i18n@^2.0.15:
   version "2.0.15"
-  resolved "https://registry.npmjs.org/react-native-i18n/-/react-native-i18n-2.0.15.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-2.0.15.tgz#09b5a9836116fa7dbd0054c46e2d1014c1ef3c65"
   integrity sha512-V8VwUP0TLda3oJvgt5tdnFaOV7WXPhTjCTLO7sXI3C2SHggSbD4bCUryMzNJhesimJidH21V2Owvj4zAylHoQQ==
   dependencies:
     i18n-js "3.0.11"

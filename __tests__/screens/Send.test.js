@@ -3,6 +3,7 @@ import renderer from 'react-test-renderer';
 import {Send} from 'screens/Send';
 import {Network} from 'types/account';
 import {Currency, Wallet} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -23,6 +24,10 @@ jest.mock('adaptors/adaptor', () => ({
   Adaptors: {
     get: async () => jest.fn(),
   },
+}));
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 useState.mockImplementation((init) => [init, jest.fn()]);

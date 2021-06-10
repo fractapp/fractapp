@@ -5,6 +5,7 @@ import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'types/wallet';
 import {Keyring} from '@polkadot/keyring';
 import { Network } from 'types/account';
+import StringUtils from 'utils/string';
 
 const mockDate = new Date(1466424490000);
 jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
@@ -25,6 +26,9 @@ jest.mock('adaptors/adaptor', () => ({
 }));
 jest.mock('@polkadot/keyring', () => ({
   Keyring: jest.fn(),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test setToken', async () => {

@@ -89,7 +89,7 @@ it('Test clicks', () => {
   fireEvent.press(component.getByText(StringUtils.texts.edit.profile.phoneTitle));
   expect(nav).toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.email));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.emailTitle));
   expect(nav).toBeCalledWith('EditEmail');
 });
 
@@ -183,9 +183,9 @@ it('Test clicks (negative)', () => {
   });
 
   const component = render(<EditProfile navigation={{navigate: nav}} />);
-  fireEvent.press(component.getByText(StringUtils.texts.edit.phoneTitle));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.phoneTitle));
   expect(nav).not.toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.email));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.emailTitle));
   expect(nav).not.toBeCalledWith('EditEmail');
 });

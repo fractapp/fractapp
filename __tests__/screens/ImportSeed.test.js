@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import {mnemonicValidate} from '@polkadot/util-crypto';
 import {ImportSeed} from 'screens/ImportSeed';
 import renderer from 'react-test-renderer';

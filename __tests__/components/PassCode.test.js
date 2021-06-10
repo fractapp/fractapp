@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {PassCode} from 'components/PassCode';
+import StringUtils from 'utils/string';
 
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
@@ -10,6 +11,10 @@ jest.mock('react', () => ({
 useState.mockImplementation((init) => [init, jest.fn()]);
 jest.mock('storage/DB', () => ({
   getPasscode: jest.fn(),
+}));
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test one', () => {

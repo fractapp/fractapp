@@ -6,6 +6,7 @@ import GlobalStore from 'storage/Global';
 import {Currency} from 'types/wallet';
 import {ChatType, DefaultDetails} from 'types/chatInfo';
 import {TxStatus, TxType} from 'types/transaction';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({

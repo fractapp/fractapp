@@ -2,10 +2,14 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {WalletLogo} from 'components/WalletLogo';
 import {Currency, withoutBorder} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 jest.mock('types/wallet', () => ({
   ...jest.requireActual('types/wallet'),
   withoutBorder: jest.fn(),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test with borders', () => {

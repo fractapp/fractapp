@@ -10,6 +10,7 @@ import BackupUtils from 'utils/backup';
 import StringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
 import Backup from 'utils/backup';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -42,6 +43,9 @@ jest.mock('react-native-document-picker', () => ({
   types: {
     allFiles: 'allFiles',
   },
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 jest.mock('utils/backup', () => ({

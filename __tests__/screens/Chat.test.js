@@ -8,6 +8,7 @@ import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({

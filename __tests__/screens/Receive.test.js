@@ -77,10 +77,6 @@ it('Test receive click copy', () => {
 });
 
 it('Test receive click share', () => {
-  useContext.mockReturnValueOnce({
-    state: GlobalStore.initialState(),
-    dispatch: jest.fn(),
-  });
   const params = {
     address: 'F7Zbj7rRJQLQVvQn8tKnWmSByAoFFYKYd17hSxdmYbcZzoE',
     currency: Currency.KSM,

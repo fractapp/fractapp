@@ -37,28 +37,40 @@ useState.mockImplementation((init) => [init, jest.fn()]);
 const setStates = (value, alternativeValue) => {
   const setAlternativeValue = jest.fn();
   const setUsdFee = jest.fn();
-  const setPlankFee = jest.fn();
+  const setPlanksValue = jest.fn();
+  const setPlanksFee = jest.fn();
   const setValid = jest.fn();
+  const setUsdValue = jest.fn();
+  const setValue = jest.fn();
+  const setLoading = jest.fn();
+  const setKeyboardVisible = jest.fn();
 
   useState
-    .mockImplementationOnce((init) => [init, jest.fn()])
-    .mockImplementationOnce((init) => [value, jest.fn()])
+    .mockImplementationOnce((init) => [value, setValue])
+    .mockImplementationOnce((init) => [init, setUsdValue])
     .mockImplementationOnce((init) => [alternativeValue, setAlternativeValue])
-    .mockImplementationOnce((init) => [init, setPlankFee])
     .mockImplementationOnce((init) => [init, setUsdFee])
-    .mockImplementationOnce((init) => [init, setValid]);
+    .mockImplementationOnce((init) => [init, setPlanksValue])
+    .mockImplementationOnce((init) => [init, setPlanksFee])
+    .mockImplementationOnce((init) => [init, setValid])
+    .mockImplementationOnce((init) => [init, setLoading])
+    .mockImplementationOnce((init) => [init, setKeyboardVisible]);
 
   return {
+    setValue: setValue,
+    setUsdValue: setUsdValue,
     setAlternativeValue: setAlternativeValue,
     setUsdFee: setUsdFee,
-    setPlankFee: setPlankFee,
+    setPlanksValue: setPlanksValue,
+    setPlanksFee: setPlanksFee,
     setValid: setValid,
+    setLoading: setLoading,
+    setKeyboardVisible: setKeyboardVisible,
   };
 };
 it('Test view', () => {
   MathUtils.roundUsd.mockReturnValueOnce(1000);
-  const setters = setStates(null, null, true);
-  setters.setValid.mockReturnValueOnce(true);
+  const setters = setStates(null, null);
   const tree = renderer
     .create(
       <EnterAmount
@@ -87,9 +99,7 @@ it('Test view', () => {
 
 it('Test calculate value #1', async () => {
   MathUtils.roundUsd.mockReturnValueOnce(1000);
-  const setters = setStates(100, 0, true);
-  setters.setValid.mockReturnValueOnce(true);
-
+  const setters = setStates(100, 0);
   const component = await render(
     <EnterAmount
       navigation={{
@@ -117,8 +127,7 @@ it('Test calculate value #1', async () => {
 
 it('Test calculate value #2', async () => {
   MathUtils.roundUsd.mockReturnValueOnce(1000);
-  const setters = setStates(100, 126, true);
-  setters.setValid.mockReturnValueOnce(true);
+  const setters = setStates(100, 126);
 
   MathUtils.calculateTxInfo.mockReturnValueOnce({
     fee: new BN('1000000'),

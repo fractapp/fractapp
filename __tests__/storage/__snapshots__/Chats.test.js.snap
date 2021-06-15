@@ -9,6 +9,7 @@ Object {
           "currency": 0,
         },
       },
+      "messages": Array [],
     },
   },
   "chatsInfo": Map {
@@ -69,6 +70,7 @@ Object {
           "currency": 0,
         },
       },
+      "messages": Array [],
     },
   },
   "chatsInfo": Map {
@@ -121,6 +123,7 @@ Object {
           "currency": 0,
         },
       },
+      "messages": Array [],
     },
   },
   "chatsInfo": Map {

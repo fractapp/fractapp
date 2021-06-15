@@ -136,36 +136,76 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
     data={
       Array [
         Object {
-          "address": "address#1",
-          "currency": 0,
-          "fee": 1,
-          "hash": "hash#1",
-          "id": "1",
-          "planckFee": "10000000",
-          "planckValue": "1000000",
-          "status": 2,
-          "timestamp": 1581454800000,
-          "txType": 1,
-          "usdFee": 12,
-          "usdValue": 12,
-          "userId": null,
-          "value": 12,
+          "id": "1000",
+          "isTx": false,
+          "timestamp": 1622716416000,
+          "value": Object {
+            "id": "1000",
+            "timestamp": 1622716416000,
+            "value": "Hello",
+          },
         },
         Object {
-          "address": "address#2",
-          "currency": 0,
-          "fee": 2,
-          "hash": "hash#2",
-          "id": "2",
-          "planckFee": "10000000",
-          "planckValue": "1000000",
-          "status": 1,
+          "id": "10005",
+          "isTx": false,
+          "timestamp": 1622716416000,
+          "value": Object {
+            "id": "10005",
+            "timestamp": 1622716416000,
+            "value": "Hello! I am Staking Bot. You can invest to staking with my help. Do you want?",
+          },
+        },
+        Object {
+          "id": "10005",
+          "isTx": false,
+          "timestamp": 1622716416000,
+          "value": Object {
+            "id": "10005",
+            "timestamp": 1622716416000,
+            "value": "😀 ☝ Hello How are you? Baby?  How are you? Baby?  How are you? Baby? How are you? Baby?  How are you? Baby?  How are you? Baby? How are you? Baby? adsa",
+          },
+        },
+        Object {
+          "id": "1",
+          "isTx": true,
           "timestamp": 1581454800000,
-          "txType": 2,
-          "usdFee": 13,
-          "usdValue": 13,
-          "userId": null,
-          "value": 13,
+          "value": Object {
+            "address": "address#1",
+            "currency": 0,
+            "fee": 1,
+            "hash": "hash#1",
+            "id": "1",
+            "planckFee": "10000000",
+            "planckValue": "1000000",
+            "status": 2,
+            "timestamp": 1581454800000,
+            "txType": 1,
+            "usdFee": 12,
+            "usdValue": 12,
+            "userId": null,
+            "value": 12,
+          },
+        },
+        Object {
+          "id": "2",
+          "isTx": true,
+          "timestamp": 1581454800000,
+          "value": Object {
+            "address": "address#2",
+            "currency": 0,
+            "fee": 2,
+            "hash": "hash#2",
+            "id": "2",
+            "planckFee": "10000000",
+            "planckValue": "1000000",
+            "status": 1,
+            "timestamp": 1581454800000,
+            "txType": 2,
+            "usdFee": 13,
+            "usdValue": 13,
+            "userId": null,
+            "value": 13,
+          },
         },
       ]
     }
@@ -214,6 +254,537 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
             }
           }
         />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            Object {
+              "scaleY": -1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "flex-start",
+                "marginBottom": 5,
+                "marginTop": 5,
+                "paddingLeft": 20,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#9CE5FF",
+                  "borderRadius": 10,
+                  "flexDirection": "row",
+                  "maxWidth": "80%",
+                  "padding": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginRight": 8,
+                    "maxWidth": "70%",
+                  }
+                }
+              >
+                Hello
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "alignSelf": "flex-end",
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 12,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginTop": 7,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                13:33
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "paddingBottom": 10,
+                "paddingLeft": 20,
+                "paddingTop": 5,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "width": "20%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#BFEEFF",
+                    "borderRadius": 10,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginRight": 10,
+                    "marginTop": 5,
+                    "opacity": 1,
+                    "paddingBottom": 10,
+                    "paddingLeft": 20,
+                    "paddingRight": 20,
+                    "paddingTop": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 15,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  Send
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "paddingLeft": 10,
+                  "width": "20%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#BFEEFF",
+                    "borderRadius": 10,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginRight": 10,
+                    "marginTop": 5,
+                    "opacity": 1,
+                    "paddingBottom": 10,
+                    "paddingLeft": 20,
+                    "paddingRight": 20,
+                    "paddingTop": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 15,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  Receive
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            Object {
+              "scaleY": -1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "flex-start",
+                "marginBottom": 5,
+                "marginTop": 5,
+                "paddingLeft": 20,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#9CE5FF",
+                  "borderRadius": 10,
+                  "flexDirection": "row",
+                  "maxWidth": "80%",
+                  "padding": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginRight": 8,
+                    "maxWidth": "70%",
+                  }
+                }
+              >
+                Hello! I am Staking Bot. You can invest to staking with my help. Do you want?
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "alignSelf": "flex-end",
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 12,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginTop": 7,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                13:33
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "paddingBottom": 10,
+                "paddingLeft": 20,
+                "paddingTop": 5,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "width": "20%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#BFEEFF",
+                    "borderRadius": 10,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginRight": 10,
+                    "marginTop": 5,
+                    "opacity": 1,
+                    "paddingBottom": 10,
+                    "paddingLeft": 20,
+                    "paddingRight": 20,
+                    "paddingTop": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 15,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  Send
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "paddingLeft": 10,
+                  "width": "20%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#BFEEFF",
+                    "borderRadius": 10,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginRight": 10,
+                    "marginTop": 5,
+                    "opacity": 1,
+                    "paddingBottom": 10,
+                    "paddingLeft": 20,
+                    "paddingRight": 20,
+                    "paddingTop": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 15,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  Receive
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            Object {
+              "scaleY": -1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "flex-start",
+                "marginBottom": 5,
+                "marginTop": 5,
+                "paddingLeft": 20,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#9CE5FF",
+                  "borderRadius": 10,
+                  "flexDirection": "row",
+                  "maxWidth": "80%",
+                  "padding": 10,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginRight": 8,
+                    "maxWidth": "70%",
+                  }
+                }
+              >
+                😀 ☝ Hello How are you? Baby?  How are you? Baby?  How are you? Baby? How are you? Baby?  How are you? Baby?  How are you? Baby? How are you? Baby? adsa
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "alignSelf": "flex-end",
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 12,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "marginTop": 7,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                13:33
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "paddingBottom": 10,
+                "paddingLeft": 20,
+                "paddingTop": 5,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "width": "20%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#BFEEFF",
+                    "borderRadius": 10,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginRight": 10,
+                    "marginTop": 5,
+                    "opacity": 1,
+                    "paddingBottom": 10,
+                    "paddingLeft": 20,
+                    "paddingRight": 20,
+                    "paddingTop": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 15,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  Send
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "paddingLeft": 10,
+                  "width": "20%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#BFEEFF",
+                    "borderRadius": 10,
+                    "justifyContent": "center",
+                    "marginBottom": 5,
+                    "marginRight": 10,
+                    "marginTop": 5,
+                    "opacity": 1,
+                    "paddingBottom": 10,
+                    "paddingLeft": 20,
+                    "paddingRight": 20,
+                    "paddingTop": 10,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "black",
+                      "fontFamily": "Roboto-Regular",
+                      "fontSize": 15,
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  Receive
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
       <View
         onLayout={[Function]}
@@ -433,35 +1004,6 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
               </View>
             </View>
           </View>
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "marginBottom": 10,
-              "marginTop": 10,
-              "scaleY": -1,
-            }
-          }
-        >
-          <Text
-            style={
-              Object {
-                "backgroundColor": "#51caf5",
-                "color": "white",
-                "fontFamily": "Roboto-Regular",
-                "fontSize": 15,
-                "fontStyle": "normal",
-                "fontWeight": "normal",
-                "textAlign": "center",
-                "width": "100%",
-              }
-            }
-          >
-            unread_messages_title
-          </Text>
         </View>
       </View>
       <View

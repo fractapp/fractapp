@@ -11,6 +11,7 @@ import {Currency} from 'types/wallet';
 import string from 'utils/string';
 import {ChatType} from 'types/chatInfo';
 import {TxStatus, TxType} from 'types/transaction';
+import PasscodeUtil from 'utils/passcode';
 
 jest.mock('react-native-keychain', () => ({
   setInternetCredentials: jest.fn(),
@@ -30,11 +31,14 @@ jest.mock('@polkadot/keyring', () => {});
 jest.mock('@polkadot/util', () => ({
   u8aToHex: jest.fn(),
 }));
-jest.mock('utils/passcode', () => {});
+jest.mock('utils/passcode', () => ({
+  hash: jest.fn(),
+}));
 jest.mock('@polkadot/util-crypto', () => ({
   base64Encode: jest.fn(),
   randomAsU8a: jest.fn(),
 }));
+
 
 it('Test secureOption', async () => {
   expect(DB.secureOption).toMatchSnapshot();
@@ -500,4 +504,49 @@ it('Test getAccountInfo negative', async () => {
 
   const value = await DB.getAccountInfo();
   expect(value).toEqual(null);
+});
+
+it('Test setLang', async () => {
+  const lang = 'eng';
+  await DB.setLang(lang);
+  expect(AsyncStorage.setItem).toBeCalledWith(
+    DB.AsyncStorageKeys.lang,
+    lang,
+  );
+});
+it('Test getLang', async () => {
+  const lang = 'eng';
+  await DB.getLang(lang);
+  expect(AsyncStorage.getItem).toBeCalledWith(
+    DB.AsyncStorageKeys.lang,
+  );
+});
+
+it('Test enablePasscode positive', async () => {
+  const passcode = 'passcode';
+  const isBiometry = true;
+  PasscodeUtil.hash.mockReturnValueOnce('hash');
+  expect(DB.enablePasscode(passcode, isBiometry)).toMatchSnapshot();
+});
+it('Test enablePasscode negative', async () => {
+  const passcode = 'passcode';
+  const isBiometry = true;
+  Keychain.setInternetCredentials.mockReturnValueOnce(false);
+  expect(DB.enablePasscode(passcode, isBiometry)).toMatchSnapshot();
+});
+
+it('Test disablePasscode', async () => {
+  Keychain.setInternetCredentials.mockReturnValueOnce(false);
+  expect(DB.enablePasscode()).toMatchSnapshot();
+});
+
+it('Test setSubstrateUrls', async () => {
+  const urls = new Map();
+  await DB.setSubstrateUrls(urls);
+  expect(AsyncStorage.setItem).toBeCalledWith(DB.AsyncStorageKeys.urls,JSON.stringify([...urls]));
+});
+
+it('Test getSubstrateUrls negative', async () => {
+  await DB.getSubstrateUrls();
+  expect(AsyncStorage.getItem).toBeCalledWith(DB.AsyncStorageKeys.urls);
 });

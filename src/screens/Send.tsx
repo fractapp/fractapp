@@ -32,8 +32,6 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const isEditable: boolean = route.params.isEditable;
   const wallet: Wallet = route.params.wallet;
 
-  const api = Adaptors.get(wallet.network);
-
   const chatInfo: ChatInfo = route.params?.chatInfo;
   const isUSDMode: boolean = route.params?.isUSDMode ?? true;
 
@@ -43,6 +41,8 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const usdFee: number = route.params?.usdFee ?? 0;
   const planksValueString: string = route.params?.planksValue ?? 0;
   const planksFeeString: string = route.params?.planksFee ?? 0;
+
+  const api = Adaptors.get(wallet.network);
 
   const [totalUsd, setTotalUsd] = useState<number>(0);
   const [totalCurrency, setTotalCurrency] = useState<BN>(new BN(0));

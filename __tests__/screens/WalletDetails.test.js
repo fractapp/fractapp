@@ -215,7 +215,7 @@ it('Test view click receive', () => {
   });
 });
 
-it('Test view click txs', () => {
+it('Test view click1 txs', () => {
   const wallet = new Wallet(
     'Wallet Polkadot',
     'address#1',
@@ -240,27 +240,12 @@ it('Test view click txs', () => {
     usdFee: 12,
     status: TxStatus.Fail,
   });
-  txs.set(Currency.KSM, {
-    id: '2',
-    userId: 'userId',
-    address: 'address#2KSM',
-    currency: Currency.KSM,
-    txType: TxType.Sent,
-    timestamp: new Date('03-12-2020').getTime(),
-    value: 10,
-    usdValue: 10,
-    fee: 10,
-    usdFee: 10,
-    status: TxStatus.Success,
-  });
 
   const chatsState = ChatsStore.initialState();
   chatsState.transactions.set(Currency.DOT, {
     transactionById: new Map([['1', txs.get(Currency.DOT)]]),
   });
-  chatsState.transactions.set(Currency.KSM, {
-    transactionById: new Map([['2', txs.get(Currency.KSM)]]),
-  });
+
 
   const globalState = GlobalStore.initialState();
   globalState.users.set('userId', {
@@ -306,10 +291,79 @@ it('Test view click txs', () => {
     wallet: wallet,
     user: null,
   });
+});
 
+it('Test view click2 txs', () => {
+  const wallet = new Wallet(
+    'Wallet Polkadot',
+    'address#1',
+    Currency.DOT,
+    Network.Polkadot,
+    100,
+    '1000000000000',
+    10,
+  );
+
+  const txs = new Map();
+  txs.set(Currency.DOT, {
+    id: '1',
+    userId: 'userId',
+    address: 'address#1',
+    currency: Currency.DOT,
+    txType: TxType.Sent,
+    timestamp: new Date('03-12-2020').getTime(),
+    value: 10,
+    usdValue: 10,
+    fee: 10,
+    usdFee: 10,
+    status: TxStatus.Success,
+  });
+
+  const chatsState = ChatsStore.initialState();
+  chatsState.transactions.set(Currency.DOT, {
+    transactionById: new Map([['1', txs.get(Currency.DOT)]]),
+  });
+
+  const globalState = GlobalStore.initialState();
+  globalState.users.set('userId', {
+    id: 'id',
+    name: 'name',
+    username: 'username',
+    avatarExt: 'png',
+    lastUpdate: new Date('12-12-2020').getTime(),
+    addresses: {
+      0: 'address#2DOT',
+      1: 'address#2KSM',
+    },
+  });
+  useContext.mockReturnValueOnce({
+    state: globalState,
+    dispatch: () => null,
+  });
+  useContext.mockReturnValueOnce({
+    state: {
+      transactions: chatsState.transactions,
+      isInitialized: true,
+    },
+    dispatch: () => null,
+  });
+
+  const navigate = jest.fn();
+  const component = render(
+    <WalletDetails
+      navigation={{
+        navigate: navigate,
+      }}
+      route={{
+        params: {
+          wallet: wallet,
+        },
+      }}
+    />,
+  );
   fireEvent.press(component.getByText('name'));
   expect(navigate).toBeCalledWith('TransactionDetails', {
-    transaction: txs.get(Currency.KSM),
+    transaction: txs.get(Currency.DOT),
     wallet: wallet,
     user: globalState.users.get('userId'),
   });

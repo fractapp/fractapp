@@ -1,14 +1,17 @@
-import React, {useContext, useState} from 'react';
-
+import React, {useState} from 'react';
 import {mnemonicValidate} from '@polkadot/util-crypto';
 import {ImportSeed} from 'screens/ImportSeed';
 import renderer from 'react-test-renderer';
 import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
-import {EditProfile} from 'screens/EditProfile';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
+import { NativeModules } from 'react-native';
 
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useState: jest.fn(),
+}));
 jest.mock('react-native-crypto', () => {});
 jest.mock('storage/DB', () => ({
   createAccounts: jest.fn(),
@@ -17,10 +20,14 @@ jest.mock('storage/DB', () => ({
 jest.mock('@polkadot/util-crypto', () => ({
   mnemonicValidate: jest.fn(),
 }));
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useState: jest.fn(),
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
+NativeModules.PreventScreenshotModule = {
+  forbid: async () => {},
+  allow: async () => {},
+};
+jest.useFakeTimers();
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -132,12 +139,6 @@ it('Test save seed', async () => {
       <ImportSeed />
     </GlobalStore.Context.Provider>,
   );
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  }); //TODO
 
   expect(DB.createAccounts).toBeCalledWith(seed);
   expect(dispatch).toBeCalledWith(GlobalStore.signInLocal());

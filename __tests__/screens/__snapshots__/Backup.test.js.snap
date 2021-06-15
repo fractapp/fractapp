@@ -47,7 +47,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    [missing "en.backup.description" translation]
+    backup.description
   </Text>
   <RCTScrollView
     ItemSeparatorComponent={[Function]}
@@ -68,7 +68,7 @@ exports[`Test view 1`] = `
             }
           />,
           "onClick": [Function],
-          "title": "[missing \\"en.backup.google_drive_title\\" translation]",
+          "title": "backup.google_drive_title",
         },
         Object {
           "img": <Icon
@@ -78,7 +78,7 @@ exports[`Test view 1`] = `
             size={32}
           />,
           "onClick": [Function],
-          "title": "[missing \\"en.backup.manually_title\\" translation]",
+          "title": "backup.manually_title",
         },
       ]
     }
@@ -160,7 +160,7 @@ exports[`Test view 1`] = `
               }
             }
           >
-            [missing "en.backup.google_drive_title" translation]
+            backup.google_drive_title
           </Text>
         </View>
         <View
@@ -229,7 +229,7 @@ exports[`Test view 1`] = `
               }
             }
           >
-            [missing "en.backup.manually_title" translation]
+            backup.manually_title
           </Text>
         </View>
       </View>

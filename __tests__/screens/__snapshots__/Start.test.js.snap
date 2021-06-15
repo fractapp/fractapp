@@ -34,7 +34,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    [missing "en.welcome_title" translation]
+    welcome_title
   </Text>
   <Text
     style={
@@ -46,7 +46,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    [missing "en.welcome_description" translation]
+    welcome_description
   </Text>
   <View
     style={
@@ -90,7 +90,7 @@ exports[`Test positive 1`] = `
           }
         }
       >
-        [missing "en.start_btn_title" translation]
+        start_btn_title
       </Text>
     </View>
   </View>

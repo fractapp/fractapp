@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {Receiver, ReceiverType} from 'components/Receiver';
 import {Currency} from 'types/wallet';
+import StringUtils from 'utils/string';
 
 it('Test one', () => {
   const tree = renderer

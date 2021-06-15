@@ -3,8 +3,12 @@ import renderer from 'react-test-renderer';
 import {PaymentMsg} from 'components/PaymentMsg';
 import {Currency} from 'types/wallet';
 import {TxStatus, TxType} from 'types/transaction';
+import StringUtils from 'utils/string';
 
 jest.mock('adaptors/adaptor', () => {});
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test success sent tx', () => {
   const tree = renderer

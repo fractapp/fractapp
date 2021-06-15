@@ -7,13 +7,13 @@ import {Network} from 'types/account';
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
+import {Adaptors} from 'adaptors/adaptor';
 import {MyProfile} from 'types/myProfile';
 import {UserProfile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import {ServerInfo} from 'types/serverInfo';
-import {Adaptors} from 'adaptors/adaptor';
 import math from 'utils/math';
 
 /**

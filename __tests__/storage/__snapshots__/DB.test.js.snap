@@ -41,6 +41,33 @@ Object {
 }
 `;
 
+exports[`Test disablePasscode 1`] = `
+Promise {
+  "_U": 0,
+  "_V": 0,
+  "_W": null,
+  "_X": null,
+}
+`;
+
+exports[`Test enablePasscode negative 1`] = `
+Promise {
+  "_U": 0,
+  "_V": 0,
+  "_W": null,
+  "_X": null,
+}
+`;
+
+exports[`Test enablePasscode positive 1`] = `
+Promise {
+  "_U": 0,
+  "_V": 0,
+  "_W": null,
+  "_X": null,
+}
+`;
+
 exports[`Test secureOption 1`] = `
 Object {
   "service": "com.fractapp",

@@ -1,6 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {Dialog} from 'components/Dialog';
+import StringUtils from 'utils/string';
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test title="Title #1" && text="Text #1" && visible=true', () => {
   const tree = renderer

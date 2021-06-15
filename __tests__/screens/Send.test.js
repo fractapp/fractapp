@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import renderer from 'react-test-renderer';
+import {fireEvent, render} from '@testing-library/react-native';
 import {Send} from 'screens/Send';
 import {Network} from 'types/account';
 import {Currency, Wallet} from 'types/wallet';
+import { Adaptors } from 'adaptors/adaptor';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -17,19 +18,23 @@ jest.mock('utils/tasks', () => {});
 
 jest.mock('@polkadot/util-crypto', () => {});
 jest.mock('adaptors/adaptor', () => ({
-  Api: {
-    getInstance: async () => jest.fn()(),
-  },
   Adaptors: {
-    get: async () => jest.fn(),
+    get: jest.fn(),
   },
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
-it('Test view', () => {
-  const tree = renderer
-    .create(
+it('Test view', async () => {
+  const ApiMock = {
+    init: jest.fn(),
+  };
+  await Adaptors.get.mockReturnValue(ApiMock);
+
+  const tree = await render(
       <Send
         navigation={null}
         route={{
@@ -43,11 +48,10 @@ it('Test view', () => {
               '1000000000000',
               10,
             ),
+            isEditable: false,
           },
-          isEditable: false,
         }}
       />,
-    )
-    .toJSON();
+    ).toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -2,6 +2,11 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {StatisticsBar} from 'components/StatisticsBar';
 import {Currency} from 'types/wallet';
+import StringUtils from 'utils/string';
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test empty wallet', () => {
   const tree = renderer

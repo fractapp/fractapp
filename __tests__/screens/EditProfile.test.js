@@ -6,7 +6,6 @@ import {fireEvent, render} from '@testing-library/react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
 import backend from 'utils/backend';
 import StringUtils from 'utils/string';
-import i18n from 'i18next';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -24,6 +23,11 @@ jest.mock('utils/backend', () => ({
 jest.mock('react-native-image-picker/src/index', () => ({
   launchImageLibrary: jest.fn(),
 }));
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
+
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -82,10 +86,10 @@ it('Test clicks', () => {
   fireEvent.press(component.getByText('@username'));
   expect(nav).toBeCalledWith('EditUsername');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.phoneTitle));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.phoneTitle));
   expect(nav).toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.email));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.emailTitle));
   expect(nav).toBeCalledWith('EditEmail');
 });
 
@@ -179,9 +183,9 @@ it('Test clicks (negative)', () => {
   });
 
   const component = render(<EditProfile navigation={{navigate: nav}} />);
-  fireEvent.press(component.getByText(StringUtils.texts.edit.phoneTitle));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.phoneTitle));
   expect(nav).not.toBeCalledWith('EditPhoneNumber');
 
-  fireEvent.press(component.getByText(StringUtils.texts.edit.email));
+  fireEvent.press(component.getByText(StringUtils.texts.edit.profile.emailTitle));
   expect(nav).not.toBeCalledWith('EditEmail');
 });

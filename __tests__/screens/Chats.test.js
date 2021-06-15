@@ -6,6 +6,7 @@ import GlobalStore from 'storage/Global';
 import {Currency} from 'types/wallet';
 import {ChatType, DefaultDetails} from 'types/chatInfo';
 import {TxStatus, TxType} from 'types/transaction';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -16,14 +17,16 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-jest.mock('utils/backend', () => {});
+jest.mock('utils/backend', () => ({
+  getImgUrl: jest.fn(),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view empty', () => {
-  useContext.mockReturnValueOnce({
-    state: ChatsStore.initialState(),
-  });
   useContext.mockReturnValueOnce({
     state: ChatsStore.initialState(),
   });
@@ -113,11 +116,7 @@ it('Test view with chats', () => {
   });
 
   useContext.mockReturnValueOnce({
-    state: {
-      chatsInfo: chats.chatsInfo,
-      transactions: chats.transactions,
-      isInitialized: true,
-    },
+    state: chats,
     dispatch: () => null,
   });
 

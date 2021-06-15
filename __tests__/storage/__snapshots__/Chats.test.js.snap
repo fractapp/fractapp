@@ -1,0 +1,305 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test reducer ADD_PENDING_TX 1`] = `
+Object {
+  "chats": Map {
+    "userId" => Object {
+      "infoById": Map {
+        "id" => Object {
+          "currency": 0,
+        },
+      },
+    },
+  },
+  "chatsInfo": Map {
+    "userId" => Object {
+      "details": null,
+      "id": "userId",
+      "lastTxCurrency": 0,
+      "lastTxId": "id",
+      "name": "name",
+      "notificationCount": 0,
+      "timestamp": 1000,
+      "type": 1,
+    },
+  },
+  "isInitialized": false,
+  "pendingTransactions": Map {
+    0 => Object {
+      "idsOfTransactions": Array [
+        "id",
+      ],
+    },
+  },
+  "sentFromFractapp": Map {
+    "id" => true,
+  },
+  "totalNotifications": 0,
+  "transactions": Map {
+    0 => Object {
+      "transactionById": Map {
+        "id" => Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 100,
+          "hash": "hash",
+          "id": "id",
+          "planckFee": "1000",
+          "planckValue": "100000",
+          "status": 0,
+          "timestamp": 1000,
+          "txType": 0,
+          "usdFee": 12,
+          "usdValue": 12,
+          "userId": "userId",
+          "value": 100,
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Test reducer ADD_TX negative 1`] = `
+Object {
+  "chats": Map {
+    "userId" => Object {
+      "infoById": Map {
+        "id" => Object {
+          "currency": 0,
+        },
+      },
+    },
+  },
+  "chatsInfo": Map {
+    "userId" => Object {
+      "details": null,
+      "id": "userId",
+      "lastTxCurrency": 0,
+      "lastTxId": "id",
+      "name": "name",
+      "notificationCount": 1,
+      "timestamp": 1000,
+      "type": 1,
+    },
+  },
+  "isInitialized": false,
+  "pendingTransactions": Map {},
+  "sentFromFractapp": Map {},
+  "totalNotifications": 1,
+  "transactions": Map {
+    0 => Object {
+      "transactionById": Map {
+        "id" => Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 100,
+          "hash": "hash",
+          "id": "id",
+          "planckFee": "1000",
+          "planckValue": "100000",
+          "status": 0,
+          "timestamp": 1000,
+          "txType": 0,
+          "usdFee": 12,
+          "usdValue": 12,
+          "userId": "userId",
+          "value": 100,
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Test reducer ADD_TX positive 1`] = `
+Object {
+  "chats": Map {
+    "userId" => Object {
+      "infoById": Map {
+        "id" => Object {
+          "currency": 0,
+        },
+      },
+    },
+  },
+  "chatsInfo": Map {
+    "userId" => Object {
+      "details": null,
+      "id": "0",
+      "lastTxCurrency": 0,
+      "lastTxId": "id",
+      "name": "name",
+      "notificationCount": 2,
+      "timestamp": 1000,
+      "type": 0,
+    },
+    "0" => Object {
+      "details": null,
+      "id": "0",
+      "lastTxCurrency": 0,
+      "lastTxId": "id",
+      "name": "name",
+      "notificationCount": 2,
+      "timestamp": 1000,
+      "type": 0,
+    },
+  },
+  "isInitialized": false,
+  "pendingTransactions": Map {},
+  "sentFromFractapp": Map {},
+  "totalNotifications": 1,
+  "transactions": Map {
+    0 => Object {
+      "transactionById": Map {
+        "id1" => Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 111,
+          "hash": "hash",
+          "id": "id",
+          "planckFee": "11",
+          "planckValue": "111111",
+          "status": 0,
+          "timestamp": 11,
+          "txType": 0,
+          "usdFee": 11,
+          "usdValue": 11,
+          "userId": "userId",
+          "value": 100,
+        },
+        "id" => Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 100,
+          "hash": "hash",
+          "id": "id",
+          "planckFee": "1000",
+          "planckValue": "100000",
+          "status": 0,
+          "timestamp": 1000,
+          "txType": 0,
+          "usdFee": 12,
+          "usdValue": 12,
+          "userId": "userId",
+          "value": 100,
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Test reducer CONFIRM_PENDING_TX 1`] = `
+Object {
+  "chats": Map {},
+  "chatsInfo": Map {},
+  "isInitialized": false,
+  "pendingTransactions": Map {
+    0 => Object {
+      "idsOfTransactions": Array [
+        "1",
+        "2",
+      ],
+    },
+  },
+  "sentFromFractapp": Map {},
+  "totalNotifications": 0,
+  "transactions": Map {
+    0 => Object {
+      "transactionById": Map {
+        "0" => Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 111,
+          "hash": "hash",
+          "id": "id",
+          "planckFee": "11",
+          "planckValue": "111111",
+          "status": 0,
+          "timestamp": 11,
+          "txType": 0,
+          "usdFee": 11,
+          "usdValue": 11,
+          "userId": "userId",
+          "value": 100,
+        },
+        "id" => Object {
+          "address": "address#1",
+          "currency": 0,
+          "fee": 111,
+          "hash": "hash",
+          "id": "id",
+          "planckFee": "11",
+          "planckValue": "111111",
+          "status": 0,
+          "timestamp": 11,
+          "txType": 0,
+          "usdFee": 11,
+          "usdValue": 11,
+          "userId": "userId",
+          "value": 100,
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`Test reducer REMOVE_NOTIFICATION 1`] = `
+Object {
+  "chats": Map {},
+  "chatsInfo": Map {
+    "0" => Object {
+      "details": null,
+      "id": "0",
+      "lastTxCurrency": 0,
+      "lastTxId": "id1",
+      "name": "name",
+      "notificationCount": 0,
+      "timestamp": 10,
+      "type": 0,
+    },
+  },
+  "isInitialized": false,
+  "pendingTransactions": Map {},
+  "sentFromFractapp": Map {},
+  "totalNotifications": -1,
+  "transactions": Map {},
+}
+`;
+
+exports[`Test reducer RENAME_CHAT 1`] = `
+Object {
+  "chats": Map {},
+  "chatsInfo": Map {
+    "0" => Object {
+      "details": null,
+      "id": "0",
+      "lastTxCurrency": 0,
+      "lastTxId": "id1",
+      "name": "name1",
+      "notificationCount": 1,
+      "timestamp": 10,
+      "type": 0,
+    },
+  },
+  "isInitialized": false,
+  "pendingTransactions": Map {},
+  "sentFromFractapp": Map {},
+  "totalNotifications": 0,
+  "transactions": Map {},
+}
+`;
+
+exports[`Test reducer default 1`] = `
+Object {
+  "chats": Map {},
+  "chatsInfo": Map {},
+  "isInitialized": false,
+  "pendingTransactions": Map {},
+  "sentFromFractapp": Map {},
+  "totalNotifications": 0,
+  "transactions": Map {},
+}
+`;

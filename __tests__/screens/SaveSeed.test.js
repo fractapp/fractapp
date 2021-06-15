@@ -17,14 +17,14 @@ jest.mock('@react-native-community/clipboard', () => ({
 jest.mock('react-native-flash-message', () => ({
   showMessage: jest.fn(),
 }));
-
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-
 NativeModules.PreventScreenshotModule = {
-  forbid: jest.fn(() => new Promise.resolve({data: {}})),
+  forbid: async () => {},
+  allow: async () => {},
 };
+jest.useFakeTimers();
 
 it('Test save seed #1', () => {
   const seed =
@@ -54,10 +54,10 @@ it('Test save click copy', () => {
   const component = render(
     <SaveSeed navigation={null} route={{params: {seed: seed.split(' ')}}} />,
   );
-  fireEvent.press(component.getByText(StringUtils.texts.CopyBtn));
+  fireEvent.press(component.getByText('Copy'));
   expect(Clipboard.setString).toBeCalledWith(seed);
   expect(showMessage).toBeCalledWith({
-    message: "Seed is copied. Don't forget to remove it from your clipboard!",
+    message: 'show_msg.copied_to_clipboard',
     type: 'info',
     icon: 'info',
   });

@@ -5,8 +5,13 @@ import PricesStore from 'storage/Prices';
 import {Currency, Wallet} from 'types/wallet';
 import renderer from 'react-test-renderer';
 import {render, fireEvent} from '@testing-library/react-native';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => {});
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test 0 wallets without price', () => {
   const tree = renderer

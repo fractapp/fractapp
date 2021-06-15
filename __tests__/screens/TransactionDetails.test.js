@@ -20,6 +20,9 @@ jest.mock('react-native-flash-message', () => ({
 jest.mock('@react-native-community/clipboard', () => ({
   setString: jest.fn(),
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test tx details (sent)', () => {
   const tree = renderer

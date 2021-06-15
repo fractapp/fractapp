@@ -27,6 +27,9 @@ jest.mock('utils/backup', () => ({
   checkPermissions: jest.fn(),
 }));
 jest.mock('react-native-crypto', () => ({}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

@@ -58,26 +58,26 @@ exports[`Test view (empty) 1`] = `
         Array [
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.name_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.name_title\\" translation]",
+            "placeholder": "edit.profile.name_placeholder",
+            "title": "edit.profile.name_title",
             "value": "",
           },
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.username_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.username_title\\" translation]",
+            "placeholder": "edit.profile.username_placeholder",
+            "title": "edit.profile.username_title",
             "value": "",
           },
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.phone_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.phone_title\\" translation]",
+            "placeholder": "edit.profile.phone_placeholder",
+            "title": "edit.profile.phone_title",
             "value": "",
           },
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.email_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.email_title\\" translation]",
+            "placeholder": "edit.profile.email_placeholder",
+            "title": "edit.profile.email_title",
             "value": "",
           },
         ]
@@ -147,7 +147,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.name_title" translation]
+                edit.profile.name_title
               </Text>
               <Text
                 style={
@@ -161,7 +161,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.name_placeholder" translation]
+                edit.profile.name_placeholder
               </Text>
             </View>
           </View>
@@ -207,7 +207,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.username_title" translation]
+                edit.profile.username_title
               </Text>
               <Text
                 style={
@@ -221,7 +221,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.username_placeholder" translation]
+                edit.profile.username_placeholder
               </Text>
             </View>
           </View>
@@ -267,7 +267,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.phone_title" translation]
+                edit.profile.phone_title
               </Text>
               <Text
                 style={
@@ -281,7 +281,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.phone_placeholder" translation]
+                edit.profile.phone_placeholder
               </Text>
             </View>
           </View>
@@ -327,7 +327,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.email_title" translation]
+                edit.profile.email_title
               </Text>
               <Text
                 style={
@@ -341,7 +341,7 @@ exports[`Test view (empty) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.email_placeholder" translation]
+                edit.profile.email_placeholder
               </Text>
             </View>
           </View>
@@ -410,26 +410,26 @@ exports[`Test view (full) 1`] = `
         Array [
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.name_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.name_title\\" translation]",
+            "placeholder": "edit.profile.name_placeholder",
+            "title": "edit.profile.name_title",
             "value": "name",
           },
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.username_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.username_title\\" translation]",
+            "placeholder": "edit.profile.username_placeholder",
+            "title": "edit.profile.username_title",
             "value": "@username",
           },
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.phone_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.phone_title\\" translation]",
+            "placeholder": "edit.profile.phone_placeholder",
+            "title": "edit.profile.phone_title",
             "value": "phoneNumber",
           },
           Object {
             "onClick": [Function],
-            "placeholder": "[missing \\"en.edit.profile.email_placeholder\\" translation]",
-            "title": "[missing \\"en.edit.profile.email_title\\" translation]",
+            "placeholder": "edit.profile.email_placeholder",
+            "title": "edit.profile.email_title",
             "value": "email",
           },
         ]
@@ -499,7 +499,7 @@ exports[`Test view (full) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.name_title" translation]
+                edit.profile.name_title
               </Text>
               <Text
                 style={
@@ -559,7 +559,7 @@ exports[`Test view (full) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.username_title" translation]
+                edit.profile.username_title
               </Text>
               <Text
                 style={
@@ -619,7 +619,7 @@ exports[`Test view (full) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.phone_title" translation]
+                edit.profile.phone_title
               </Text>
               <Text
                 style={
@@ -679,7 +679,7 @@ exports[`Test view (full) 1`] = `
                   }
                 }
               >
-                [missing "en.edit.profile.email_title" translation]
+                edit.profile.email_title
               </Text>
               <Text
                 style={

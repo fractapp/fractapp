@@ -3,7 +3,6 @@ import renderer from 'react-test-renderer';
 import {EditEmail} from 'screens/EditEmail';
 import DialogStore from 'storage/Dialog';
 import {fireEvent, render} from '@testing-library/react-native';
-import {WalletDetails} from 'screens/WalletDetails';
 import BackendApi from 'utils/backend';
 import Dialog from 'storage/Dialog';
 

@@ -2,6 +2,11 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {DriveItemView} from 'components/DriveItemView';
 import {DriveItem, Type} from 'types/google';
+import StringUtils from 'utils/string';
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test id=1 && title="Title #1" type=Dir', () => {
   const tree = renderer

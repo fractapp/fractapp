@@ -39,7 +39,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    [missing "en.backup.title" translation]
+    backup.title
   </Text>
   <Text
     style={
@@ -52,7 +52,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    [missing "en.backup.description" translation]
+    backup.description
   </Text>
   <View
     style={
@@ -124,7 +124,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          [missing "en.backup.google_drive_title" translation]
+          backup.google_drive_title
         </Text>
       </View>
     </View>
@@ -194,7 +194,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          [missing "en.backup.manually_title" translation]
+          backup.manually_title
         </Text>
       </View>
     </View>

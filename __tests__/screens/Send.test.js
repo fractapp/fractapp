@@ -3,7 +3,6 @@ import renderer from 'react-test-renderer';
 import {Send} from 'screens/Send';
 import {Network} from 'types/account';
 import {Currency, Wallet} from 'types/wallet';
-import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -19,8 +18,8 @@ jest.mock('utils/tasks', () => {});
 jest.mock('@polkadot/util-crypto', () => {});
 jest.mock('adaptors/adaptor', () => ({
   Adaptors: {
-    init: jest.fn(),
     get: jest.fn(),
+    init: jest.fn(),
   },
 }));
 

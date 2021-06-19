@@ -13,6 +13,10 @@ jest.mock('react', () => ({
   })),
 }));
 
+jest.mock('@react-native-community/async-storage', () =>
+  require('@react-native-community/async-storage/jest/async-storage-mock'),
+);
+
 jest.mock('adaptors/adaptor', () => ({
   Adaptors: {
     init: jest.fn(),

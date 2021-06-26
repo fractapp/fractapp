@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {PassCode} from 'components/PassCode';
 import StringUtils from 'utils/string';
+import { fireEvent, render } from '@testing-library/react-native';
 
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
@@ -10,7 +11,7 @@ jest.mock('react', () => ({
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 jest.mock('storage/DB', () => ({
-  getPasscode: jest.fn(),
+  getPasscode: jest.fn(()=>{ return [1,2]; }),
 }));
 
 jest.mock('react-native-i18n', () => ({
@@ -72,5 +73,18 @@ it('Test four', () => {
       />,
     )
     .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('Test five', () => {
+  const onSubmitMock = jest.fn((passcode) => {});
+  const tree = render(
+      <PassCode
+        isBiometry={false}
+        description={'description'}
+        onSubmit={onSubmitMock}
+      />,
+    );
+  fireEvent.press(tree.getByText('0'));
   expect(tree).toMatchSnapshot();
 });

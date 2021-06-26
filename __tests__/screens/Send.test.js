@@ -263,43 +263,87 @@ it('Test chatInfo AddressOnly', async () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test send', async () => {
+it('Test send 1', async () => {
   useContext.mockReturnValueOnce({
     state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
-  //useState.mockImplementationOnce();
-    const tree = await render(
-      <Send
-        navigation={null}
-        route={{
-          params: {
-            wallet: new Wallet(
-              'Wallet Polkadot',
-              'address#1',
-              Currency.DOT,
-              Network.Polkadot,
-              100,
-              '1000000000000',
-              10,
-            ),
-            chatInfo: {
-              id: 'id',
-              name: 'name',
-              lastTxId: 'lastTxId',
-              lastTxCurrency: Currency.DOT,
-              notificationCount: 1,
-              timestamp: 1,
-              type: 0,
-              details: null,
-            },
-            isEditable: false,
-            usdValue: 0,
-            usdFee: 0,
+  const tree = await render(
+    <Send
+      navigation={null}
+      route={{
+        params: {
+          wallet: new Wallet(
+            'Wallet Polkadot',
+            'address#1',
+            Currency.DOT,
+            Network.Polkadot,
+            100,
+            '1000000000000',
+            10,
+          ),
+          chatInfo: {
+            id: 'id',
+            name: 'name',
+            lastTxId: 'lastTxId',
+            lastTxCurrency: Currency.DOT,
+            notificationCount: 1,
+            timestamp: 1,
+            type: 0,
+            details: null,
           },
-        }}
-      />,
-    ).toJSON();
-    fireEvent.press(tree.getByText('send_btn'));//не понял почему не работает, мб не рендерится?
-    expect(tree).toMatchSnapshot();
+          isEditable: false,
+          usdValue: 0,
+          usdFee: 0,
+        },
+      }}
+    />,
+  );
+  fireEvent.press(tree.getByText('send_btn'));
+  expect(tree).toMatchSnapshot();
+});
+
+it('Test send 2', async () => {
+  const globalContext = {
+    setLoading: jest.fn(),
+  };
+  useContext.mockReturnValueOnce({
+    state: globalContext,
+    dispatch: jest.fn(),
+  });
+  const tree = await render(
+    <Send
+      navigation={null}
+      route={{
+        params: {
+          wallet: new Wallet(
+            'Wallet Polkadot',
+            'address#1',
+            Currency.DOT,
+            Network.Polkadot,
+            100,
+            '1000000000000',
+            10,
+          ),
+          chatInfo: {
+            id: 'id',
+            name: 'name',
+            lastTxId: 'lastTxId',
+            lastTxCurrency: Currency.DOT,
+            notificationCount: 1,
+            timestamp: 1,
+            type: 0,
+            details: null,
+          },
+          isEditable: false,
+          usdValue: 0,
+          usdFee: 0,
+          planksFee: '1',
+          planksValue: '1',
+        },
+      }}
+    />,
+  );
+  fireEvent.press(tree.getByText('send_btn'));
+  expect(tree).toMatchSnapshot();
 });

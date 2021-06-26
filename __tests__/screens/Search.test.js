@@ -15,8 +15,14 @@ jest.mock('react', () => ({
 }));
 jest.mock('storage/DB', () => ({}));
 jest.mock('utils/backend', () => ({
-  myMatchContacts: jest.fn(),
-  myContacts: jest.fn(),
+  myMatchContacts: jest.fn(() => {
+    const contacts = ['0', '1'];
+    return contacts;
+  }),
+  myContacts: jest.fn(() => {
+    const contacts = ['0', '1'];
+    return contacts;
+  }),
   getImgUrl: jest.fn(() => 'uri'),
 }));
 jest.mock('react-native-contacts', () => ({
@@ -77,7 +83,6 @@ it('Test view', () => {
 });
 
 it('Test getMyMatchContacts', () => {//68-100 не работают из-за PermissionsAndroid
-  const users = [];
   const globalContext = {
     profile: {
       id: 'id',
@@ -90,6 +95,8 @@ it('Test getMyMatchContacts', () => {//68-100 не работают из-за Pe
       lastUpdate: 1,
     },
     isRegistered: true,
+    setUser: jest.fn(),
+    setContacts: jest.fn(),
   };
   useContext.mockReturnValueOnce({
     state: globalContext,

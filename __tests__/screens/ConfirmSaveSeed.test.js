@@ -96,3 +96,8 @@ it('Test confirm seed success', async () => {
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
+/*
+it('Test selectPhrase onPress', async () => {
+  
+});
+*/

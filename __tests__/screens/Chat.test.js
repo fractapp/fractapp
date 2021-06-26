@@ -8,7 +8,7 @@ import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 import { ConfirmCode } from 'screens/ConfirmCode';
 import BackendApi from 'utils/backend';
 
@@ -174,3 +174,35 @@ it('Test view with txs (ChatType == Address)', async () => {
   );
   expect(component.toJSON()).toMatchSnapshot();
 });
+
+/*it('Test renderItem', async () => {
+
+  const navigate = jest.fn();
+
+  const component = await render(
+    <Chat
+      navigation={{navigate: navigate,setOptions: jest.fn()}}
+      route={{
+        params: {
+          chatInfo: {
+            id: 'idChatInfo#1',
+            name: 'name',
+            lastTxId: '2',
+            lastTxCurrency: Currency.DOT,
+            notificationCount: 1,
+            timestamp: new Date().getTime(),
+            type: ChatType.AddressOnly,
+            details: {
+              currency: Currency.DOT,
+              address: 'address',
+            },
+          },
+        },
+      }}
+    />
+  );
+
+  //fireEvent.press(component.getAllByTestId('testChat'));
+  expect(navigate).toBeCalledWith('TransactionDetails');
+});*/
+

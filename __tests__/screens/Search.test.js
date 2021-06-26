@@ -75,3 +75,29 @@ it('Test view', () => {
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+it('Test getMyMatchContacts', () => {//68-100 не работают из-за PermissionsAndroid
+  const users = [];
+  const globalContext = {
+    profile: {
+      id: 'id',
+      name: 'name',
+      username: 'username',
+      phoneNumber: 'phoneNumber',
+      email: 'email',
+      isMigratory: 'isMigratory',
+      avatarExt: 'avatarExt',
+      lastUpdate: 1,
+    },
+    isRegistered: true,
+  };
+  useContext.mockReturnValueOnce({
+    state: globalContext,
+    dispatch: jest.fn(),
+  });
+
+  const tree = renderer
+    .create(<Search navigation={null} route={{params: {}}} />)
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});

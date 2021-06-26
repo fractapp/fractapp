@@ -14,9 +14,26 @@ jest.mock('react', () => ({
   useContext: jest.fn(),
 }));
 jest.mock('storage/DB', () => ({}));
+jest.mock('storage/Dialog', () => ({
+  close: jest.fn(),
+  open: jest.fn(),
+}));
 jest.mock('utils/backend', () => ({
   myMatchContacts: jest.fn(() => {
-    const contacts = ['0', '1'];
+    const contacts = [
+      {
+        phoneNumbers: {
+          label: 'label1',
+          number: '+79816545588',
+        },
+      },
+      {
+        phoneNumbers: {
+          label: 'label2',
+          number: '+79816545222',
+        },
+      },
+    ];
     return contacts;
   }),
   myContacts: jest.fn(() => {
@@ -26,18 +43,26 @@ jest.mock('utils/backend', () => ({
   getImgUrl: jest.fn(() => 'uri'),
 }));
 jest.mock('react-native-contacts', () => ({
-  getAll: jest.fn(),
+  getAll: jest.fn(() => {
+    const contacts = [
+      {
+        id: '0',
+      },
+      {
+        id: '1',
+      },
+    ];
+    return contacts;
+  }),
 }));
+
+
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view (empty)', () => {
   useContext.mockReturnValueOnce({
     state: GlobalStore.initialState(),
-    dispatch: jest.fn(),
-  });
-  useContext.mockReturnValueOnce({
-    state: DialogStore.initialState(),
     dispatch: jest.fn(),
   });
 
@@ -71,10 +96,6 @@ it('Test view', () => {
     state: GlobalStore.initialState(),
     dispatch: jest.fn(),
   });
-  useContext.mockReturnValueOnce({
-    state: DialogStore.initialState(),
-    dispatch: jest.fn(),
-  });
 
   const tree = renderer
     .create(<Search navigation={null} route={{params: {}}} />)
@@ -82,7 +103,7 @@ it('Test view', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test getMyMatchContacts', () => {//68-100 не работают из-за PermissionsAndroid
+it('Test getMyMatchContacts', () => {
   const globalContext = {
     profile: {
       id: 'id',

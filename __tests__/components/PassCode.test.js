@@ -76,7 +76,7 @@ it('Test four', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test five', () => {
+it('Test index 12', () => {//not working
   const onSubmitMock = jest.fn((passcode) => {});
   const tree = render(
       <PassCode
@@ -85,6 +85,47 @@ it('Test five', () => {
         onSubmit={onSubmitMock}
       />,
     );
-  fireEvent.press(tree.getByText('0'));
+  fireEvent.press(tree.getByTestId('12'));
+  expect(tree).toMatchSnapshot();
+});
+
+
+it('Test index 10', () => {//not working
+  const onSubmitMock = jest.fn((passcode) => {});
+  const tree = render(
+      <PassCode
+        isBiometry={false}
+        description={'description'}
+        onSubmit={onSubmitMock}
+      />,
+    );
+  fireEvent.press(tree.getByTestId('10'));
+  expect(tree).toMatchSnapshot();
+});
+
+it('Test index 11', () => {//working
+  const onSubmitMock = jest.fn((passcode) => {});
+  const tree = render(
+      <PassCode
+        isBiometry={false}
+        description={'description'}
+        onSubmit={onSubmitMock}
+      />,
+    );
+  fireEvent.press(tree.getByTestId('11'));
+  expect(tree).toMatchSnapshot();
+});
+
+
+it('Test default', () => {//not working
+  const onSubmitMock = jest.fn((passcode) => {});
+  const tree = render(
+      <PassCode
+        isBiometry={true}
+        description={'description'}
+        onSubmit={onSubmitMock}
+      />,
+    );
+  fireEvent.press(tree.getByTestId('default' + 1));
   expect(tree).toMatchSnapshot();
 });

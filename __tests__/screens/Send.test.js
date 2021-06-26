@@ -7,6 +7,8 @@ import { Adaptors } from 'adaptors/adaptor';
 import { ChatType } from 'types/chatInfo';
 import GlobalStore from 'storage/Global';
 import BackendApi from 'utils/backend';
+import BN from 'bn.js';
+import DialogStore from 'storage/Dialog';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -32,7 +34,6 @@ jest.mock('adaptors/adaptor', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -98,14 +99,14 @@ it('Test view 2', async () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test chatInfo WithUser 1', async () => { //глянуть этот тест
+it('Test chatInfo WithUser 1', async () => {
   const ApiMock = {
     init: jest.fn(),
   };
   await Adaptors.get.mockReturnValue(ApiMock);
   await BackendApi.getUserById.mockReturnValueOnce(undefined);
 
-  const state = {
+  const globalContext = {
     users: new Map([
       [
         'id',
@@ -123,9 +124,16 @@ it('Test chatInfo WithUser 1', async () => { //глянуть этот тест
       ],
     ]),
   };
+  const dialogContext = {
+    close: jest.fn(),
+  };
 
   useContext.mockReturnValueOnce({
-    state: state,
+    state: globalContext,
+    dispatch: jest.fn(),
+  });
+  useContext.mockReturnValueOnce({
+    state: dialogContext,
     dispatch: jest.fn(),
   });
   const tree = await render(
@@ -311,6 +319,19 @@ it('Test send 2', async () => {
     state: globalContext,
     dispatch: jest.fn(),
   });
+  useState
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [new BN(1), jest.fn()])
+    .mockImplementationOnce((init) => ['1', jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [true, jest.fn()]);
+
+    const ApiMock = {
+      init: jest.fn(),
+      send: jest.fn(() => 'hash'),
+    };
+    await Adaptors.get.mockReturnValue(ApiMock);
   const tree = await render(
     <Send
       navigation={null}
@@ -340,6 +361,7 @@ it('Test send 2', async () => {
           usdFee: 0,
           planksFee: '1',
           planksValue: '1',
+          value: '50',
         },
       }}
     />,
@@ -347,3 +369,5 @@ it('Test send 2', async () => {
   fireEvent.press(tree.getByText('send_btn'));
   expect(tree).toMatchSnapshot();
 });
+
+

@@ -4,7 +4,7 @@ import {EditProfile} from 'screens/EditProfile';
 import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));

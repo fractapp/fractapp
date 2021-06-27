@@ -1,5 +1,4 @@
 import {Currency} from './/wallet';
-import {Message} from 'types/message';
 
 /**
  * Transaction type
@@ -24,6 +23,7 @@ export type Transaction = {
   id: string;
   hash: string;
   userId: string | null;
+
   address: string;
   currency: Currency;
   txType: TxType;
@@ -40,9 +40,3 @@ export type Transaction = {
   status: TxStatus;
 };
 
-export type TxOrMessage = {
-  id: string;
-  isTx: boolean;
-  value: Transaction | Message;
-  timestamp: number;
-};

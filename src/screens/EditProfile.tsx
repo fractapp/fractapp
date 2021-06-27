@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 

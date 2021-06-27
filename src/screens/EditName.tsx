@@ -3,7 +3,7 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import StringUtils from 'utils/string';
 
 /**

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {EditPhoneNumber} from 'screens/EditPhoneNumber';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import {fireEvent, render} from '@testing-library/react-native';
 import StringUtils from 'utils/string';
 

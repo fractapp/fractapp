@@ -10,7 +10,7 @@ import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
 import { render } from '@testing-library/react-native';
 import { ConfirmCode } from 'screens/ConfirmCode';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({

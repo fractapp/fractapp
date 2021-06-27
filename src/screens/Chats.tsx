@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import {ChatShortInfo} from 'components/ChatShortInfo';
-import {ChatInfo, ChatType} from 'types/chatInfo';
+import {ChatInfo} from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -34,44 +34,49 @@ export const Chats = ({navigation}: {navigation: any}) => {
 
   const getChats = () => {
     const chats = Array.from(chatsContext.state.chatsInfo.values())
-      .filter(
+      /*.filter(
         (value) =>
           chatsContext.state.transactions.has(value.lastTxCurrency) &&
           chatsContext.state.transactions
             ?.get(value.lastTxCurrency)!
-            .transactionById.has(value.lastTxId),
-      )
-      .sort((a, b) => b.timestamp - a.timestamp);
+            .transactionById.has(value.lastTxId), TODO
+      )*/
+      .sort((a, b) => {
+        const msgOne = chatsContext.state.chats.get(a.id)!.messages.get(a.lastMsgId)!;
+        const msgTwo = chatsContext.state.chats.get(b.id)!.messages.get(b.lastMsgId)!;
+
+        return  msgOne.timestamp - msgTwo.timestamp;
+      });
+
+      console.log(chatsContext.state.chatsInfo);
     return chats;
   };
   const renderItem = ({item}: {item: ChatInfo}) => {
-    const tx = chatsContext.state.transactions
+   /* const tx = chatsContext.state.transactions
       .get(item.lastTxCurrency)!
-      .transactionById.get(item.lastTxId)!;
+      .transactionById.get(item.lastTxId)!; TODO */
+    const user = globalContext.state.users.get(item.id)!;
+    const msg = chatsContext.state.chats.get(item.id)!.messages.get(item.lastMsgId)!;
 
     return (
       <TouchableHighlight
         onPress={() => navigation.navigate('Chat', {chatInfo: item})}
         underlayColor="#f8f9fb">
         <ChatShortInfo
-          name={item.name}
           notificationCount={item.notificationCount}
-          tx={tx}
-          user={
-            item.type === ChatType.WithUser
-              ? globalContext.state.users.get(item.id) ?? {
-                  id: '0',
-                  name: 'Deleted',
-                  username: '-',
-                  avatarExt: '',
-                  lastUpdate: 0,
-                  addresses: {
-                    0: 'invalid',
-                    1: 'invalid',
-                  },
-                }
-              : null
-          }
+          message={msg.value}
+          timestamp={msg.timestamp}
+          user={user ?? {
+            isAddressOnly: false,
+            value: {
+              id: '0',
+              name: 'Deleted',
+              username: '-',
+              avatarExt: '',
+              lastUpdate: 0,
+              addresses: new Map(),
+            },
+          }}
         />
       </TouchableHighlight>
     );

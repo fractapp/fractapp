@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Keychain from 'react-native-keychain';
 import GlobalStore from 'storage/Global';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
 

@@ -6,8 +6,8 @@ import { Receiver, ReceiverType } from 'components/Receiver';
 import { EnterAddress } from 'components/EnterAddress';
 import { WalletInfo } from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import backend from 'utils/backend';
-import { ChatInfo, ChatType } from 'types/chatInfo';
+import backend from 'utils/api';
+import { ChatInfo } from 'types/chatInfo';
 import { Currency, getSymbol, Wallet } from 'types/wallet';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
@@ -15,7 +15,7 @@ import DialogStore from 'storage/Dialog';
 import { checkAddress } from '@polkadot/util-crypto';
 import BN from 'bn.js';
 import { Adaptors } from 'adaptors/adaptor';
-import { UserProfile } from 'types/profile';
+import { AddressOnly, Profile } from 'types/profile';
 import math from 'utils/math';
 import { Transaction, TxType, TxStatus } from 'types/transaction';
 import StringUtils from 'utils/string';
@@ -48,7 +48,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const [totalCurrency, setTotalCurrency] = useState<BN>(new BN(0));
 
   const [receiver, setReceiver] = useState<string>('');
-  const [user, setUser] = useState<UserProfile | undefined>(undefined);
+  const [user, setUser] = useState<Profile | undefined>(undefined);
 
   const [isValidReceiver, setValidReceiver] = useState<boolean>(!isEditable);
   const [isWrite, setIsWrite] = useState<boolean>(false);
@@ -66,27 +66,15 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
           return;
         }
 
-        if (chatInfo.type === ChatType.WithUser) {
-          const details = globalContext.state.users.get(chatInfo.id)!;
-          const p = await backend.getUserById(details.id);
-          if (p === undefined) {
+        const user = globalContext.state.users.get(chatInfo.id)!;
+        if (!user.isAddressOnly) {
+          const p = await backend.getUserById((user.value as Profile).id);
+
+          if (p === undefined || p == null) {
             globalContext.dispatch(GlobalStore.setLoading(false));
             dialogContext.dispatch(
               DialogStore.open(
-                StringUtils.texts.UserHasBeenDeletedTitle,
-                '',
-                () => {
-                  dialogContext.dispatch(DialogStore.close());
-                },
-              ),
-            );
-            navigation.goBack();
-            return;
-          } else if (p == null) {
-            globalContext.dispatch(GlobalStore.setLoading(false));
-            dialogContext.dispatch(
-              DialogStore.open(
-                StringUtils.texts.ServiceUnavailableTitle,
+                p === undefined ? StringUtils.texts.UserHasBeenDeletedTitle : StringUtils.texts.ServiceUnavailableTitle,
                 '',
                 () => {
                   dialogContext.dispatch(DialogStore.close());
@@ -96,12 +84,17 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
             navigation.goBack();
             return;
           } else {
-            setReceiver(p.addresses[wallet.currency]);
-            globalContext.dispatch(GlobalStore.setUser(p));
+            setReceiver(p.addresses.get(wallet.currency)!);
+            globalContext.dispatch(GlobalStore.setUser({
+              isAddressOnly: false,
+              value: p,
+              title: user.title,
+            }));
             setUser(p);
           }
-        } else if (chatInfo.type === ChatType.AddressOnly) {
-          const r = chatInfo.details!.address;
+
+        } else {
+          const r = (user.value as AddressOnly).address;
           setReceiver(r);
           setValidReceiver(
             checkAddress(r, wallet.currency === Currency.DOT ? 0 : 2)[0],
@@ -182,7 +175,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
       status: TxStatus.Pending,
     };
 
-    chatsContext.dispatch(ChatsStore.addPendingTx(tx, user));
+    chatsContext.dispatch(ChatsStore.addPendingTx(tx));
 
     globalContext.dispatch(GlobalStore.setLoading(false));
     navigation.reset({
@@ -200,7 +193,8 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
   const renderReceiver = () => {
     if (isValidReceiver && !isWrite) {
-      if (!chatInfo || chatInfo.type === ChatType.AddressOnly) {
+      const user = globalContext.state.users.get(chatInfo.id)!;
+      if (!chatInfo || user.isAddressOnly) {
         return (
           <TouchableOpacity
             style={{ width: '100%' }}
@@ -215,12 +209,12 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
       } else {
         return (
           <Receiver
-            nameOrAddress={chatInfo.name}
+            nameOrAddress={user.title}
             type={ReceiverType.User}
             avatar={{
               uri: backend.getImgUrl(
-                globalContext.state.users.get(chatInfo.id)!.id,
-                globalContext.state.users.get(chatInfo.id)!.lastUpdate,
+                (user.value as Profile).id,
+                (user.value as Profile).lastUpdate,
               ),
             }}
           />

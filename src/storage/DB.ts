@@ -8,7 +8,7 @@ import {Account, Network} from 'types/account';
 import {Currency} from 'types/wallet';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
-import {UserProfile} from 'types/profile';
+import {User} from 'types/profile';
 import BN from 'bn.js';
 import ChatsStore from 'storage/Chats';
 
@@ -284,13 +284,13 @@ namespace DB {
     return JSON.parse(result, mapReviver);
   }
 
-  export async function setContacts(contacts: Array<UserProfile>) {
+  export async function setContacts(contacts: Array<string>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.contacts,
       JSON.stringify(contacts),
     );
   }
-  export async function getContacts(): Promise<Array<UserProfile>> {
+  export async function getContacts(): Promise<Array<string>> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.contacts);
 
     if (result == null) {
@@ -300,20 +300,20 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setUsers(users: Map<string, UserProfile>) {
+  export async function setUsers(users: Map<string, User>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.users,
       JSON.stringify([...users]),
     );
   }
 
-  export async function getUsers(): Promise<Map<string, UserProfile>> {
+  export async function getUsers(): Promise<Map<string, User>> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.users);
 
     if (result == null) {
-      return new Map<string, UserProfile>();
+      return new Map<string, User>();
     }
-    return new Map<string, UserProfile>(JSON.parse(result));
+    return new Map<string, User>(JSON.parse(result));
   }
 
   export async function setSubstrateUrls(urls: Map<Network, string>) {

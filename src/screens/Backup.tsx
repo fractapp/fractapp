@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Dialog from 'storage/Dialog';
 import BackupUtils from 'utils/backup';
 import db from 'storage/DB';
 import StringUtils from 'utils/string';

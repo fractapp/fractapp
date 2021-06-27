@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import {EditUsername} from 'screens/EditUsername';
 import DialogStore from 'storage/Dialog';
 import {fireEvent, render} from '@testing-library/react-native';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 

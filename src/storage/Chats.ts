@@ -1,10 +1,9 @@
-import {createContext, Dispatch} from 'react';
+import { createContext, Dispatch } from 'react';
 import DB from 'storage/DB';
-import {ChatInfo, ChatType} from 'types/chatInfo';
-import {Currency} from 'types/wallet';
-import {Transaction, TxStatus} from 'types/transaction';
-import {UserProfile} from 'types/profile';
-import {Message} from 'types/message';
+import { ChatInfo } from 'types/chatInfo';
+import { Currency } from 'types/wallet';
+import { Transaction, TxStatus } from 'types/transaction';
+import { Message } from 'types/message';
 
 /**
  * @namespace
@@ -17,10 +16,12 @@ namespace ChatsStore {
     ADD_PENDING_TX,
     CONFIRM_PENDING_TX,
     REMOVE_NOTIFICATION,
-    RENAME_CHAT,
+
+    ADD_MESSAGE,
   }
 
   export type TxId = string;
+  export type MsgId = string;
   export type PendingTxs = {
     idsOfTransactions: Array<TxId>;
   };
@@ -33,7 +34,7 @@ namespace ChatsStore {
   };
   export type TransactionsByChat = {
     infoById: Map<TxId, TxInfo>;
-    messages: Array<Message>;
+    messages: Map<MsgId, Message>;
   };
 
   export type State = {
@@ -74,18 +75,15 @@ namespace ChatsStore {
   export const addTx = (
     tx: Transaction,
     isNotify: boolean,
-    user?: UserProfile | null,
   ) => ({
     type: Action.ADD_TX,
     tx: tx,
-    user: user,
     isNotify: isNotify,
   });
 
-  export const addPendingTx = (tx: Transaction, user?: UserProfile) => ({
+  export const addPendingTx = (tx: Transaction) => ({
     type: Action.ADD_PENDING_TX,
     tx: tx,
-    user: user,
     isNotify: false,
   });
 
@@ -107,11 +105,6 @@ namespace ChatsStore {
     chatId: chatId,
   });
 
-  export const renameChat = (chatId: string, newName: string) => ({
-    type: Action.RENAME_CHAT,
-    chatId: chatId,
-    name: newName,
-  });
 
   export function reducer(prevState: State, action: any): State {
     let copy: State = Object.assign({}, prevState);
@@ -132,66 +125,11 @@ namespace ChatsStore {
       // eslint-disable-next-line no-fallthrough
       case Action.ADD_TX:
         const tx: Transaction = action.tx;
-        const user: UserProfile | undefined = action.user;
-        const isNotify: boolean = action.isNotify;
 
-        let isChatWithUser = false;
         let chatId = tx.address;
         if (tx.userId !== null) {
           chatId = tx.userId;
-          isChatWithUser = true;
         }
-
-        // add short chat info
-        if (!copy.chatsInfo.has(chatId)) {
-          let name = tx.address;
-          if (isChatWithUser && user !== null) {
-            name =
-              user!.name !== undefined && user!.name !== ''
-                ? user!.name
-                : user!.username;
-          }
-
-          const newChatInfo: ChatInfo = {
-            id: chatId,
-            name: name,
-            lastTxId: tx.id,
-            lastTxCurrency: tx.currency,
-            notificationCount: 0,
-            timestamp: tx.timestamp,
-            type:
-              isChatWithUser && user != null
-                ? ChatType.WithUser
-                : ChatType.AddressOnly,
-            details:
-              isChatWithUser && user != null
-                ? null
-                : {
-                    currency: tx.currency,
-                    address: tx.address,
-                  },
-          };
-          copy.chatsInfo.set(newChatInfo.id, newChatInfo);
-        }
-        const chatInfo = copy.chatsInfo.get(chatId)!;
-        if (
-          tx.id !== chatInfo.lastTxId &&
-          tx.timestamp >
-            copy.transactions
-              .get(chatInfo.lastTxCurrency)
-              ?.transactionById?.get(chatInfo.lastTxId)?.timestamp!
-        ) {
-          chatInfo.lastTxId = tx.id;
-          chatInfo.lastTxCurrency = tx.currency;
-          chatInfo.timestamp = tx.timestamp;
-        }
-
-        if (isNotify) {
-          chatInfo.notificationCount++;
-          copy.totalNotifications++;
-        }
-
-        copy.chatsInfo.set(chatInfo.id, chatInfo);
 
         // add transaction
         if (!copy.transactions.has(tx.currency)) {
@@ -205,7 +143,7 @@ namespace ChatsStore {
         if (!copy.chats.has(chatId)) {
           copy.chats.set(chatId, {
             infoById: new Map<TxId, TxInfo>(),
-            messages: [],
+            messages: new Map<MsgId, Message>(),
           });
         }
         copy.chats.get(chatId)!.infoById.set(tx.id, {
@@ -247,8 +185,38 @@ namespace ChatsStore {
 
         DB.setChatsState(copy);
         return copy;
-      case Action.RENAME_CHAT:
-        copy.chatsInfo.get(action.chatId)!.name = action.name;
+      case Action.ADD_MESSAGE:
+        const msg: Message = action.msg;
+        const msgChatId = action.chatId;
+
+        if (!copy.chatsInfo.has(msgChatId)) {
+          const newChatInfo: ChatInfo = {
+            id: msgChatId,
+            notificationCount: 0,
+            lastMsgId: msg.id,
+          };
+          copy.chatsInfo.set(newChatInfo.id, newChatInfo);
+        }
+
+        if (!copy.chats.has(msgChatId)) {
+          copy.chats.set(msgChatId, {
+            infoById: new Map<TxId, TxInfo>(),
+            messages: new Map<MsgId, Message>(),
+          });
+        }
+
+        const chat = copy.chats.get(msgChatId)!;
+        chat.messages.set(msg.id, msg);
+
+        const chatInfo = copy.chatsInfo.get(msgChatId)!;
+        if (chatInfo.lastMsgId === '' ||
+          msg.timestamp >
+          chat.messages.get(chatInfo.lastMsgId)!.timestamp
+        ) {
+          chatInfo.lastMsgId = msg.id;
+          chatInfo.notificationCount++;
+          copy.totalNotifications++;
+        }
 
         DB.setChatsState(copy);
         return copy;

@@ -15,6 +15,7 @@ import stringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import StringUtils from 'utils/string';
+import { Profile } from 'types/profile';
 
 /**
  * Screen with wallet details
@@ -125,7 +126,7 @@ export const WalletDetails = ({
             transaction={item}
             user={
               item.userId != null && globalContext.state.users.has(item.userId)
-                ? globalContext.state.users.get(item.userId)!
+                ? (globalContext.state.users.get(item.userId)!.value as Profile)
                 : null
             }
             onPress={() =>

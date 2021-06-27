@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import renderer from 'react-test-renderer';
 import {ConfirmCode} from 'screens/ConfirmCode';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import GlobalStore from 'storage/Global';
 import DialogStore from 'storage/Dialog';
 import {fireEvent, render} from '@testing-library/react-native';

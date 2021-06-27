@@ -1,6 +1,6 @@
 import BackgroundTimer from 'react-native-background-timer';
 import DB from 'storage/DB';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import {Currency} from 'types/wallet';
@@ -96,7 +96,6 @@ namespace Task {
       await updateServerInfo(globalContext, pricesContext);
     }, min);
 
-    sync(accountsContext, globalContext, chatsContext);
     checkPendingTxs(chatsContext);
 
     BackgroundTimer.setInterval(async () => {
@@ -107,13 +106,12 @@ namespace Task {
       }
 
       await checkPendingTxs(chatsContext);
-      await sync(accountsContext, globalContext, chatsContext);
-    }, 3 * sec);
+    }, 10 * sec);
 
-    updateUsersList(globalContext, chatsContext);
+    updateUsersList(globalContext);
     BackgroundTimer.setInterval(async () => {
-      await updateUsersList(globalContext, chatsContext);
-    }, 20 * min);
+      await updateUsersList(globalContext);
+    }, 60 * min);
 
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
@@ -126,7 +124,6 @@ namespace Task {
     globalContext: GlobalStore.ContextType,
     chatsContext: ChatsStore.ContextType,
     tx: Transaction,
-    isNotify: boolean,
   ): Promise<void> {
     let p = null;
     if (tx.userId != null) {
@@ -135,10 +132,14 @@ namespace Task {
 
     if (p != null) {
       console.log('set tx with profile: ' + p.id);
-      globalContext.dispatch(GlobalStore.setUser(p));
+      globalContext.dispatch(GlobalStore.setUser({
+        isAddressOnly: false,
+        title: p.name === '' ? p.username : p.name,
+        value: p,
+      }));
     }
 
-    chatsContext.dispatch(ChatsStore.addTx(tx, isNotify, p));
+    chatsContext.dispatch(ChatsStore.addTx(tx, true));
   }
 
   export async function initPrivateData() {
@@ -146,7 +147,7 @@ namespace Task {
     await backend.getJWT();
   }
 
-  export async function syncByAccount(
+ /* export async function syncByAccount(
     account: Account,
     isSynced: boolean,
     globalContext: GlobalStore.ContextType,
@@ -191,29 +192,7 @@ namespace Task {
 
       await setTx(globalContext, chatsContext, txs[i], isSynced);
     }
-  }
-
-  export async function sync(
-    accountsContext: AccountsStore.ContextType,
-    globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
-  ) {
-    for (let value of accountsContext.state.accounts.values()) {
-      await syncByAccount(
-        value,
-        globalContext.state.authInfo.isSynced,
-        globalContext,
-        chatsContext,
-      );
-    }
-
-    if (!globalContext.state.authInfo.isSynced) {
-      await globalContext.dispatch(GlobalStore.setSynced());
-      console.log('set synced');
-    }
-
-    await globalContext.dispatch(GlobalStore.setSyncShow(false));
-  }
+  }*/
 
   export async function checkPendingTxs(chatsContext: ChatsStore.ContextType) {
     for (let [currency, value] of chatsContext.state.pendingTransactions) {
@@ -238,7 +217,6 @@ namespace Task {
 
   export async function updateUsersList(
     globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
   ) {
     console.log('users update');
 
@@ -247,31 +225,17 @@ namespace Task {
       const user = await backend.getUserById(id);
       if (user === undefined) {
         globalContext.dispatch(GlobalStore.deleteUser(id));
-        chatsContext.dispatch(ChatsStore.renameChat(id, 'Deleted'));
         continue;
       } else if (user == null) {
         continue;
       }
 
-      if (
-        chatsContext.state.chatsInfo.has(id) &&
-        ((user.name !== undefined &&
-          user.name !== '' &&
-          user.name !== chatsContext.state.chatsInfo.get(id)!.name) ||
-          (user.name === '' &&
-            user.username !== chatsContext.state.chatsInfo.get(id)!.name))
-      ) {
-        chatsContext.dispatch(
-          ChatsStore.renameChat(
-            id,
-            user.name !== undefined && user.name !== ''
-              ? user.name
-              : user.username,
-          ),
-        );
-      }
 
-      globalContext.dispatch(GlobalStore.setUser(user));
+      globalContext.dispatch(GlobalStore.setUser({
+        isAddressOnly: false,
+        title: user.name === '' ? user.username : user.name,
+        value: user,
+      }));
     }
   }
 

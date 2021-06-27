@@ -9,8 +9,8 @@ import StringUtils from 'utils/string';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
-import {UserProfile} from 'types/profile';
-import backend from 'utils/backend';
+import {Profile} from 'types/profile';
+import backend from 'utils/api';
 
 /**
  * Screen with transaction details
@@ -19,7 +19,7 @@ import backend from 'utils/backend';
 export const TransactionDetails = ({route}: {route: any}) => {
   const tx: Transaction = route.params.transaction;
   const wallet: Wallet = route.params.wallet;
-  const user: UserProfile = route.params?.user;
+  const user: Profile = route.params?.user;
 
   const renderStatus = () => {
     switch (tx.status) {

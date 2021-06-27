@@ -7,14 +7,12 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
  */
 export const ChatButton = ({
   text,
-  show = true,
   onPress,
 }: {
   text: string;
-  show?: boolean;
   onPress: () => void;
 }) => {
-  return show ? (
+  return (
     <TouchableOpacity
       style={[
         styles.button,
@@ -26,14 +24,12 @@ export const ChatButton = ({
           paddingRight: 20,
           paddingTop: 10,
           paddingBottom: 10,
-          backgroundColor: '#BFEEFF',
+          backgroundColor: 'white',
         },
       ]}
       onPress={onPress}>
       <Text style={styles.buttonText}>{text}</Text>
     </TouchableOpacity>
-  ) : (
-    <View />
   );
 };
 
@@ -43,10 +39,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    color: 'black',
+    color: '#2F2F2F',
   },
   button: {
+    alignSelf: 'flex-start',
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#2AB2E2',
+    borderStyle: 'solid',
     alignItems: 'center',
     justifyContent: 'center',
   },

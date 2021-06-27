@@ -9,31 +9,33 @@ import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
 import {Adaptors} from 'adaptors/adaptor';
 import {MyProfile} from 'types/myProfile';
-import {UserProfile} from 'types/profile';
+import {Profile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import {ServerInfo} from 'types/serverInfo';
 import math from 'utils/math';
+import stringUtils from 'utils/string';
 
 /**
  * @namespace
  * @category Utils
  */
 namespace BackendApi {
+
   export enum CheckType {
     Auth = 0,
     Change,
-    а,
   }
   export enum CodeType {
     Phone = 0,
     Email,
+    CryptoAddress
   }
 
   const cacheTimeout = 36000000; // 10 minutes
 
-  let userById = new Map<string, UserProfile>();
+  let userById = new Map<string, Profile>();
   let timeForCache = new Map<string, number>();
 
   const apiUrl = FRACTAPP_API;
@@ -118,9 +120,9 @@ namespace BackendApi {
   }
 
   export async function auth(
-    value: string,
-    code: string,
     type: CodeType,
+    value: string = '',
+    code: string = '',
   ): Promise<number> {
     const seed = await DB.getSeed();
     const accounts = await DB.getAccounts();
@@ -202,7 +204,7 @@ namespace BackendApi {
     }
   }
 
-  export async function myMatchContacts(): Promise<Array<UserProfile>> {
+  export async function myMatchContacts(): Promise<Array<Profile>> {
     const jwt = await DB.getJWT();
     const response = await fetch(`${apiUrl}/profile/matchContacts`, {
       method: 'GET',
@@ -212,15 +214,20 @@ namespace BackendApi {
       },
     });
 
-    let json = [];
+    let users = [];
     if (response.status === 200) {
-      json = await response.json();
+      users = await response.json();
     }
-    if (json == null) {
+    if (users == null) {
       return [];
     }
 
-    return json;
+    for (let user of users) {
+      user.addresses = stringUtils.objectToMap(user.addresses);
+      console.log(user.addresses);
+    }
+
+    return users;
   }
 
   export async function myContacts(): Promise<Array<string>> {
@@ -298,7 +305,7 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function search(value: string): Promise<Array<UserProfile>> {
+  export async function search(value: string): Promise<Array<Profile>> {
     value = value.toLowerCase().trim();
     if (value.startsWith('@')) {
       value = value.substring(1);
@@ -312,12 +319,21 @@ namespace BackendApi {
     if (response.status !== 200) {
       return [];
     }
-    return await response.json();
+
+
+    const users = await response.json();
+
+    for (let user of users) {
+      user.addresses = stringUtils.objectToMap(user.addresses);
+      console.log(user.addresses);
+    }
+
+    return users;
   }
 
   export async function getUserById(
     id: string,
-  ): Promise<UserProfile | null | undefined> {
+  ): Promise<Profile | null | undefined> {
     if (timeForCache.has(id) && timeForCache.get(id)! >= new Date().getTime()) {
       console.log('user get from cache: ' + id);
       return userById.get(id)!;
@@ -331,12 +347,13 @@ namespace BackendApi {
     } else if (response.status !== 200) {
       return null;
     }
-    const data: UserProfile = await response.json();
+    const user: Profile = await response.json();
+    user.addresses = stringUtils.objectToMap(user.addresses);
 
     timeForCache.set(id, new Date().getTime() + cacheTimeout);
-    userById.set(id, data);
+    userById.set(id, user);
 
-    return data;
+    return user;
   }
 
   export async function isUsernameFree(username: string): Promise<boolean> {

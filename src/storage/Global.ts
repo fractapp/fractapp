@@ -2,7 +2,7 @@ import {createContext, Dispatch} from 'react';
 import DB from 'storage/DB';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
-import {UserProfile} from 'types/profile';
+import {AddressOnly,User, Profile} from 'types/profile';
 import {Network} from 'types/account';
 /**
  * @namespace
@@ -33,7 +33,7 @@ namespace GlobalStore {
   export type State = {
     profile: MyProfile;
     contacts: Array<string>;
-    users: Map<string, UserProfile>;
+    users: Map<string, User>;
     isRegistered: boolean;
     isUpdatingProfile: boolean;
     authInfo: AuthInfo;
@@ -62,7 +62,7 @@ namespace GlobalStore {
       lastUpdate: 0,
     },
     contacts: [],
-    users: new Map<string, UserProfile>(),
+    users: new Map<string, User>(),
     authInfo: {
       isSynced: false,
       isAuthed: false,
@@ -151,7 +151,15 @@ namespace GlobalStore {
         DB.setContacts(action.contacts);
         break;
       case Action.SET_USER:
-        copy.users.set(action.user.id, action.user);
+        let id = '';
+        const u: User = action.user;
+        if (  u.isAddressOnly) {
+          id = (u.value as AddressOnly).address;
+        } else {
+          id = (u.value as Profile).id;
+        }
+
+        copy.users.set(id, u);
         DB.setUsers(copy.users);
         break;
       case Action.DELETE_USER:
@@ -177,8 +185,8 @@ namespace GlobalStore {
     authInfo: AuthInfo,
     isRegistered: boolean,
     isUpdatingProfile: boolean,
-    contacts: Array<UserProfile>,
-    users: Map<string, UserProfile>,
+    contacts: Array<string>,
+    users: Map<string, User>,
     urls: Map<Network, string>,
     lang: string | null,
   ) => ({
@@ -243,7 +251,7 @@ namespace GlobalStore {
     type: Action.SET_CONTACTS,
     contacts: contacts,
   });
-  export const setUser = (user: UserProfile) => ({
+  export const setUser = (user: User) => ({
     type: Action.SET_USER,
     user: user,
   });

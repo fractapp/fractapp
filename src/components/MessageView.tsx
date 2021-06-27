@@ -1,24 +1,34 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import stringUtils from 'utils/string';
-
 /**
  * Message in chats
  * @category Components
  */
-export const MessageView = ({
-  value,
-  timestamp,
-}: {
-  value: string;
-  timestamp: number;
-}) => {
+export const MessageView = (
+  {
+    value,
+    timestamp,
+    isOwner,
+  }: {
+    value: string;
+    timestamp: number;
+    isOwner: boolean
+  }) => {
   return (
-    <View style={styles.box}>
-      <View style={styles.msg}>
-        <Text style={styles.text}>{value}</Text>
+    <View style={[styles.box, {
+      alignItems: isOwner ? 'flex-end' : 'flex-start',
+    }]}>
+      <View style={[styles.msg, {
+        backgroundColor: isOwner ? '#2AB2E2' : '#ECECEC',
+      }]}>
+        <Text style={[styles.text, {
+          color: isOwner ? 'white' : '#2F2F2F',
+        }]}>{value}</Text>
 
-        <Text style={styles.time}>
+        <Text style={[styles.time, {
+          color: isOwner ? 'white' : '#888888',
+        }]}>
           {stringUtils.forMsg(new Date(timestamp))}
         </Text>
       </View>
@@ -28,15 +38,12 @@ export const MessageView = ({
 
 const styles = StyleSheet.create({
   box: {
-    alignItems: 'flex-start',
-    paddingLeft: 20,
     marginTop: 5,
     marginBottom: 5,
   },
   msg: {
     maxWidth: '80%',
     padding: 10,
-    backgroundColor: '#9CE5FF',
     borderRadius: 10,
     flexDirection: 'row',
   },
@@ -46,7 +53,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    color: 'black',
     marginRight: 8,
   },
   time: {
@@ -57,6 +63,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    color: 'black',
   },
 });

@@ -16,9 +16,9 @@ import {
 // @ts-ignore
 import en from 'react-phone-number-input/locale/en';
 import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import Dialog from 'storage/Dialog';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import StringUtils from 'utils/string';
 
 /**

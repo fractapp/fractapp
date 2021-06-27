@@ -1,27 +1,23 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
-import {getSymbol} from 'types/wallet';
-import {Transaction, TxType} from 'types/transaction';
 import stringUtils from 'utils/string';
-import {UserProfile} from 'types/profile';
-import backend from 'utils/backend';
-import StringUtils from 'utils/string';
+import { AddressOnly, Profile, User } from 'types/profile';
+import backend from 'utils/api';
 
 /**
  * Short chat information
  * @category Components
  */
 export const ChatShortInfo = ({
-  name,
   notificationCount,
-  tx,
+  message, timestamp,
   user,
 }: {
-  name: string;
   notificationCount: number;
-  tx: Transaction;
-  user: UserProfile | null;
+  message: string;
+  timestamp: number,
+  user: User;
 }) => {
   const now = new Date();
   return (
@@ -34,41 +30,36 @@ export const ChatShortInfo = ({
           marginLeft: '4%',
           marginRight: '3%',
         }}>
-        {user != null ? (
+        {!user.isAddressOnly ? (
           <Image
             source={{
-              uri: backend.getImgUrl(user.id, user.lastUpdate),
+              uri: backend.getImgUrl((user.value as Profile).id, (user.value as Profile).lastUpdate),
             }}
             width={55}
             height={55}
             style={{width: 55, height: 55, borderRadius: 30}}
           />
         ) : (
-          <WalletLogo currency={tx.currency} size={55} />
+          <WalletLogo currency={(user.value as AddressOnly).currency} size={55} />
         )}
 
         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
           <View style={{height: 25, flexDirection: 'row'}}>
             <View style={{flex: 3}}>
               <Text style={[styles.name, {textAlign: 'left'}]}>
-                {stringUtils.formatNameOrAddress(name)}
+                {stringUtils.formatNameOrAddress(user.title)}
               </Text>
             </View>
             <View style={{flex: 1}}>
               <Text style={[styles.time, {textAlign: 'right'}]}>
-                {stringUtils.forChatInfo(now, new Date(tx.timestamp))}
+                {stringUtils.forChatInfo(now, new Date(timestamp))}
               </Text>
             </View>
           </View>
           <View style={{height: 23, flexDirection: 'row'}}>
             <View style={{flex: 8}}>
-              <Text style={[styles.msg, {textAlign: 'left'}]}>
-                {tx.txType === TxType.Sent
-                  ? StringUtils.texts.SentTitle + ' -'
-                  : StringUtils.texts.ReceivedTitle + ' +'}
-                {tx.usdValue !== 0
-                  ? `$${tx.usdValue} (${tx.value} ${getSymbol(tx.currency)})`
-                  : `${tx.value} ${getSymbol(tx.currency)}`}
+              <Text numberOfLines={1} style={[styles.msg, {textAlign: 'left'}]}>
+                {message}
               </Text>
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>

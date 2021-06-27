@@ -20,9 +20,9 @@ export const VerifyPassCode = ({
 }) => {
   const globalContext = useContext(GlobalStore.Context);
 
-  const isVerify = route.params?.isVerify ?? false; //TODO: change to type
-  const isDisablePasscode = route.params?.isDisablePasscode ?? false; //TODO: change to type
-  const isChangeBiometry = route.params?.isChangeBiometry ?? false; //TODO: change to type
+  const isVerify: boolean = route.params?.isVerify ?? false;
+  const isDisablePasscode: boolean = route.params?.isDisablePasscode ?? false;
+  const isChangeBiometry: boolean = route.params?.isChangeBiometry ?? false;
 
   const action = route.params?.action ?? '';
   const screenKey = route.params?.screenKey ?? '';

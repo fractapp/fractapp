@@ -1,6 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-
 import {
   ActivityIndicator,
   Alert,
@@ -10,6 +9,7 @@ import {
   StatusBar,
   Text,
   View,
+  AppState,
 } from 'react-native';
 import {Dialog} from 'components/Dialog';
 import {PassCode} from 'components/PassCode';
@@ -29,13 +29,17 @@ import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/Prices';
 import ChatsStore from 'storage/Chats';
 import {Loader} from 'components/Loader';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import StringUtils from 'utils/string';
 import {navigate} from 'utils/RootNavigation';
-import {ChatInfo, ChatType} from 'types/chatInfo';
+import {ChatInfo} from 'types/chatInfo';
 import {toCurrency} from 'types/wallet';
+import websocket from 'utils/websocket';
+import BackendApi from 'utils/api';
 
 export default function App() {
+  const appState = useRef(AppState.currentState);
+
   const globalContext = useContext(GlobalStore.Context);
   const dialogContext = useContext(DialogStore.Context);
   const accountsContext = useContext(AccountsStore.Context);
@@ -46,6 +50,7 @@ export default function App() {
   const [isLocked, setLocked] = useState<boolean>(false);
   const [isBiometry, setBiometry] = useState<boolean>(false);
   const [isConnected, setConnected] = useState<boolean>(true);
+  const [isWsLoaded, setWsLoaded] = useState<boolean>(false);
   const [url, setUrl] = useState<string | null>(null);
 
   const netInfo = useNetInfo();
@@ -82,10 +87,50 @@ export default function App() {
   };
 
   useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
     Linking.addEventListener('url', openUrlEvent);
 
-    return () => Linking.removeEventListener('url', openUrlEvent);
+    return () => {
+      Linking.removeEventListener('url', openUrlEvent);
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!isWsLoaded) {
+      return;
+    }
+
+    AppState.addEventListener('change', _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, [ isWsLoaded]);
+
+  const _handleAppStateChange = (nextAppState: any) => {
+    const api = websocket.getWsApi(globalContext, chatsContext);
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      api.open();
+      console.log('App has come to the foreground!');
+    } else if (
+      appState.current === 'active' && (
+      nextAppState === 'inactive' || nextAppState === 'background')
+    ) {
+      api.close();
+      console.log('App has come to the background!');
+    }
+
+    appState.current = nextAppState;
+  };
+
+  const openUrlEvent = (ev: any) => {
+    setUrl(ev?.url);
+    setLoading(true);
+  };
 
   useEffect(() => {
     if (url == null) {
@@ -93,18 +138,6 @@ export default function App() {
     }
     openUrl(url);
   }, [url]);
-
-  const openUrlEvent = (ev: any) => {
-    setUrl(ev?.url);
-    setLoading(true);
-  };
-
-  const onLoaded = () => {
-    Linking.getInitialURL().then((url) => {
-      openUrl(url);
-    });
-  };
-
   const openUrl = async (url: string | null) => {
     console.log('url: ' + url);
     let chat: ChatInfo | null = null;
@@ -149,30 +182,29 @@ export default function App() {
           }
 
           if (type === 'user' && profile !== undefined) {
-            globalContext.dispatch(GlobalStore.setUser(profile!));
+            globalContext.dispatch(GlobalStore.setUser({
+              isAddressOnly: false,
+              title: profile?.name! !== '' ? profile?.name! : profile?.username!,
+              value: profile!,
+            }));
             chat = {
               id: user,
-              name: profile?.name! !== '' ? profile?.name! : profile?.username!,
-              lastTxId: '',
-              lastTxCurrency: 0,
               notificationCount: 0,
-              timestamp: 0,
-              type: ChatType.WithUser,
-              details: null,
+              lastMsgId: '',
             };
           } else if (type === 'address') {
+            globalContext.dispatch(GlobalStore.setUser({
+              isAddressOnly: true,
+              title: user,
+              value: {
+                address: user,
+                currency: toCurrency(currency),
+              },
+            }));
             chat = {
               id: user,
-              name: user,
-              lastTxId: '',
-              lastTxCurrency: 0,
               notificationCount: 0,
-              timestamp: 0,
-              type: ChatType.AddressOnly,
-              details: {
-                currency: toCurrency(currency),
-                address: user,
-              },
+              lastMsgId: '',
             };
           }
         }
@@ -191,6 +223,12 @@ export default function App() {
         chatInfo: chat,
       });
     }
+  };
+
+  const onLoaded = () => {
+    Linking.getInitialURL().then((url) => {
+      openUrl(url);
+    });
   };
 
   useEffect(() => {
@@ -214,12 +252,23 @@ export default function App() {
       setBiometry(authInfo.isBiometry);
 
       console.log('init pub data');
+
       await tasks.init(
         globalContext,
         accountsContext,
         pricesContext,
         chatsContext,
       );
+
+      if (!globalContext.state.isRegistered) {
+        const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
+        console.log(rsCode);
+        switch (rsCode) {
+          case 200:
+            globalContext.dispatch(GlobalStore.signInFractapp());
+            break;
+        }
+      }
       console.log('end pub data');
     });
   }, [globalContext.state.authInfo.isAuthed]);
@@ -238,7 +287,13 @@ export default function App() {
     }
 
     (async () => {
-      tasks.initPrivateData();
+      tasks.initPrivateData().then(() =>
+      {
+        const api = websocket.getWsApi(globalContext, chatsContext);
+        api.open();
+        setWsLoaded(true
+        );
+      });
 
       tasks.createTask(
         accountsContext,
@@ -363,12 +418,12 @@ export default function App() {
             alignItems: 'stretch',
             position: 'absolute',
             backgroundColor: 'white',
-            height: Dimensions.get('window').height,
+            height: Dimensions.get('screen').height,
             width: '100%',
           }}>
           <View
             style={{
-              flex: 1,
+              height: Dimensions.get('window').height,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
@@ -389,13 +444,13 @@ export default function App() {
             alignItems: 'stretch',
             position: 'absolute',
             backgroundColor: 'white',
-            height: Dimensions.get('window').height,
+            height: Dimensions.get('screen').height,
             width: '100%',
           }}>
           <Loader />
         </View>
       )}
-      {!isLocked &&
+      {!isLoading &&
         !isLocked &&
         globalContext.state.isSyncShow &&
         globalContext.state.authInfo.isAuthed && (

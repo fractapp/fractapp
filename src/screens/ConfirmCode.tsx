@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import StringUtils from 'utils/string';
 
 /**
@@ -75,7 +75,7 @@ export const ConfirmCode = ({
         try {
           globalContext.dispatch(GlobalStore.setLoading(true));
 
-          const rsCode = await BackendApi.auth(value, code, type);
+          const rsCode = await BackendApi.auth(type, value, code);
           switch (rsCode) {
             case 400:
               dialogContext.dispatch(

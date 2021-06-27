@@ -108,8 +108,6 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
 const styles = StyleSheet.create({
   message: {
     minWidth: '48%',
-    marginLeft: 20,
-    marginRight: 20,
     justifyContent: 'center',
     borderColor: '#DADADA',
     borderRadius: 10,

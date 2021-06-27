@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
 import StringUtils from 'utils/string';

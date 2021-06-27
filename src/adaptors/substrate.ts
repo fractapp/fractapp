@@ -6,7 +6,7 @@ import {ErrorCode, IAdaptor, TransferValidation} from './adaptor';
 import {Network} from 'types/account';
 import math from 'utils/math';
 import {Currency, getSymbol} from 'types/wallet';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import StringUtils from 'utils/string';
 
 export class SubstrateAdaptor implements IAdaptor {
@@ -146,6 +146,6 @@ export class SubstrateAdaptor implements IAdaptor {
       const provider = new WsProvider(this.url);
       this.substrateApi = await ApiPromise.create({provider});
     }
-    return <ApiPromise>this.substrateApi;
+    return <ApiPromise> this.substrateApi;
   }
 }

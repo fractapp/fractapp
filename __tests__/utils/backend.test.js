@@ -150,3 +150,46 @@ it('Test auth', async () => {
     ),
   );
 });
+//что за результат?
+it('Test getToken', async () => {
+  const account = 'account';
+  DB.getAccounts.mockReturnValueOnce([account]);
+
+  expect(backend.getJWT()).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+});
+
+//broken
+it('Test setToken with empty accounts', async () => {
+  DB.getAccounts.mockReturnValueOnce(null);
+
+  expect(backend.setToken()).toStrictEqual(false);
+});
+//broken
+it('Test auth with empty accounts', async () => {
+  DB.getAccounts.mockReturnValueOnce(null);
+
+  expect(backend.auth()).toStrictEqual(400);
+});
+//???
+it('Test sendCode', async () => {
+  const rq = {
+    type: backend.CodeType.Phone,
+    value: 'value',
+    checkType: backend.CheckType.Auth,
+  };
+
+  expect(fetch).toBeCalledWith(FRACTAPP_API + '/auth/sendCode', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(rq),
+  });
+
+  expect(backend.sendCode('11', backend.CodeType.Phone, backend.CheckType.Auth)).toStrictEqual(false);
+});
+
+//190-498
+
+
+

@@ -55,7 +55,7 @@ export const PassCode = ({
             element = !isBiometry ? (
               <Text style={styles.btnText} testID={'10'}/>
             ) : (
-              <Image
+              <Image  testID={'10'}
                 source={require('assets/img/fingerprint.png')}
                 style={{width: 36, height: 40}}
               />

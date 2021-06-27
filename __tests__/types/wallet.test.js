@@ -1,5 +1,14 @@
 import {Network} from 'types/account';
-import {getSymbol, getLogo, Wallet, Currency} from 'types/wallet';
+import {
+  getSymbol,
+  getLogo,
+  Wallet,
+  Currency,
+  getName,
+  getColor,
+  withoutBorder,
+  toCurrency,
+} from 'types/wallet';
 
 test('create model #1', () => {
   const balance = 100;
@@ -61,4 +70,43 @@ test('get symbol Polkadot', () => {
 
 test('get symbol throw', () => {
   expect(() => getSymbol(999)).toThrow('invalid currency');
+});
+
+test('get name Polkadot', () => {
+  expect(getName(Currency.DOT)).toBe('Polkadot');
+});
+test('get name Kusama', () => {
+  expect(getName(Currency.KSM)).toBe('Kusama');
+});
+test('get name throw', () => {
+  expect(() => getName(999)).toThrow('invalid currency');
+});
+
+test('get color Polkadot', () => {
+  expect(getColor(Currency.DOT)).toBe('#E6007A');
+});
+test('get color Kusama', () => {
+  expect(getColor(Currency.KSM)).toBe('#888888');
+});
+test('get color throw', () => {
+  expect(() => getColor(999)).toThrow('invalid currency');
+});
+
+test('withoutBorder DOT', () => {
+  expect(withoutBorder(Currency.DOT)).toBe(true);
+});
+test('withoutBorder KSM', () => {
+  expect(withoutBorder(Currency.KSM)).toBe(true);
+});
+
+test('toCurrency DOT', () => {
+  expect(toCurrency('DOT')).toBe(Currency.DOT);
+});
+
+test('toCurrency KSM', () => {
+  expect(toCurrency('KSM')).toBe(Currency.KSM);
+});
+
+test('toCurrency throw', () => {
+  expect(() => toCurrency('asd')).toThrow('invalid currency');
 });

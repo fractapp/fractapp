@@ -4,6 +4,7 @@ import {EditPhoneNumber} from 'screens/EditPhoneNumber';
 import BackendApi from 'utils/backend';
 import {fireEvent, render} from '@testing-library/react-native';
 import StringUtils from 'utils/string';
+import { SuccessButton } from 'components/SuccessButton';
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
@@ -167,21 +168,3 @@ it('Test click selectCountry', async () => {
   expect(navigate).toBeCalledWith('SelectCountry');
 });
 
-/*it('Test onSuccess', async () => {
-  const navigate = jest.fn();
-  const setNumber = jest.fn();
-  useState.mockImplementationOnce((init) => ['1319200022', setNumber]);
-
-  BackendApi.getLocalByIp.mockReturnValueOnce('');
-  const component = await render(
-    <EditPhoneNumber
-      navigation={{navigate: navigate, setOptions: jest.fn()}}
-      route={{
-        params: {},
-      }}
-    />,
-  );
-  fireEvent.press(component.getByTestId('successBtn'));
-  expect(navigate).toBeCalledWith('ConfirmCode');
-});
-*/

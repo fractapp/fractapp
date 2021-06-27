@@ -98,6 +98,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     return (
       <>
         <TouchableOpacity
+          testID={'testNavigate'}
           style={{
             scaleY: -1,
           }}
@@ -173,6 +174,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   return (
     <View style={styles.chat} onLayout={() => onLayout()}>
       <FlatList
+        testID={'testFlatList'}
         style={[{scaleY: -1}, styles.messages]}
         ref={flatListRef}
         scrollToOverflowEnabled={true}
@@ -192,6 +194,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         globalContext.state.users.get(chatInfo.id) !== undefined) ||
         chatInfo.type === ChatType.AddressOnly) && (
         <TouchableOpacity
+          testID={'testGetWallet'}
           style={styles.sendBox}
           onPress={() =>
             chatInfo.type === ChatType.WithUser

@@ -10,6 +10,8 @@ import DB from 'storage/DB';
 import StringUtils from 'utils/string';
 import {NativeModules} from 'react-native';
 import googleUtils from 'utils/google';
+import Backup from 'utils/backup';
+import passwordValidator from 'password-validator';
 
 jest.mock('storage/DB', () => ({
   createAccounts: jest.fn(),
@@ -261,3 +263,61 @@ it('Test backup', async () => {
     routes: [{name: 'Home'}],
   });
 });
+
+it('Test res isError', () => {
+  useState
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [true, jest.fn()]);
+  BackupUtils.backup.mockReturnValueOnce({isError: true});
+
+  const tree = render(
+    <WalletFileBackup route={{params: params}} />
+  );
+  expect(tree).toMatchSnapshot();
+});
+
+it('Test res isExist', () => {
+  useState
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [true, jest.fn()]);
+  BackupUtils.backup.mockReturnValueOnce({isExist: true});
+
+  const tree = render(
+    <WalletFileBackup route={{params: params}} />
+  );
+  expect(tree).toMatchSnapshot();
+});
+
+it('Test !isSuccessSave', () => {
+  useState
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => [true, jest.fn()]);
+  BackupUtils.getSeed.mockReturnValueOnce('some seed');
+
+  const tree = render(
+    <WalletFileBackup route={{params: params}} />
+  );
+  expect(tree).toMatchSnapshot();
+});
+
+/*it('Test renderButtonOrError', () => {
+  const schema = new passwordValidator();
+  schema.validate.mockReturnValueOnce(false);
+
+  useState
+    .mockImplementationOnce((init) => [init, jest.fn()])
+    .mockImplementationOnce((init) => ['1234567890', jest.fn()])
+    .mockImplementationOnce((init) => ['1234567890', jest.fn()])
+    .mockImplementationOnce((init) => [true, jest.fn()]);
+
+  const tree = render(
+    <WalletFileBackup route={{params: params}} />
+  );
+  expect(tree).toMatchSnapshot();
+});*/

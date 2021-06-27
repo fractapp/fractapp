@@ -157,3 +157,38 @@ it('Test five', () => {
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+it('Test six', () => {
+  const tree = renderer
+    .create(
+      <TransactionInfo
+        transaction={{
+          id: '4',
+          userId: 'userId',
+          address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
+          currency: Currency.KSM,
+          txType: TxType.Received,
+          timestamp: new Date('02-12-2020').getTime(),
+          value: 10,
+          usdValue: 0,
+          fee: 10,
+          usdFee: 10,
+          status: TxStatus.Pending,
+        }}
+        onPress={() => console.log('test')}
+        user={{
+          id: 'id',
+          name: '',
+          username: 'username',
+          avatarExt: '',
+          lastUpdate: new Date('12-12-2020').getTime(),
+          addresses: {
+            0: 'addressOne',
+            1: 'addressTwo',
+          },
+        }}
+      />,
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});

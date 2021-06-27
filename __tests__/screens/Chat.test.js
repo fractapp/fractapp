@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useRef} from 'react';
 import renderer from 'react-test-renderer';
 import {Chat} from 'screens/Chat';
 import {Currency} from 'types/wallet';
@@ -16,6 +16,7 @@ jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useContext: jest.fn(),
+  useRef: jest.fn(),
   Linking: jest.fn(() => ({
     openURL: jest.fn(),
   })),
@@ -175,13 +176,134 @@ it('Test view with txs (ChatType == Address)', async () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
+
+it('Test getWallet positive', () => {
+  const accountsContext = AccountsStore.initialState();
+  accountsContext.accounts.set(Currency.DOT, {
+    name: 'accountName',
+    address: 'accountAddress',
+    pubKey: 'pubKeyAddress',
+    currency: Currency.DOT,
+    balance: 10000,
+    planks: '100000000',
+  });
+  const priceContext = new Map([
+    [
+      Currency.DOT,
+      1,
+    ],
+  ]);
+  const chatsContext = ChatsStore.initialState();
+  chatsContext.notificationCount = 1;
+
+  const flatList = 
+
+  useContext.mockReturnValueOnce({
+    state: accountsContext,
+    dispatch: jest.fn(),
+  });
+
+  useContext.mockReturnValueOnce({
+    state: priceContext,
+    dispatch: jest.fn(),
+  });
+
+  useContext.mockReturnValueOnce({
+    state: GlobalStore.initialState(),
+    dispatch: jest.fn(),
+  });
+  useContext.mockReturnValue({
+    state: chatsContext,
+    dispatch: jest.fn(),
+  });
+  const navigate = jest.fn();
+  const onLayout = jest.fn();
+  const useRefSpy = jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: { onLayout } });
+
+  const component = render(
+      <Chat
+        navigation={{navigate: navigate, setOptions: jest.fn()}}
+        route={{
+          params: {
+            chatInfo: {
+              id: 'idChatInfo#1',
+              name: 'name',
+              lastTxId: '2',
+              lastTxCurrency: Currency.DOT,
+              notificationCount: 1,
+              timestamp: new Date().getTime(),
+              type: ChatType.AddressOnly,
+              details: {
+                currency: Currency.DOT,
+                address: 'address',
+              },
+            },
+          },
+        }}
+      />,
+    );
+  fireEvent.press(component.getByTestId('testGetWallet'));
+  expect(component).toMatchSnapshot();
+  expect(useRefSpy).toBeCalledTimes(4);//не понимаю, как протестировать onLayout 175 стр 
+});
+
+
+
+/*it('Test getWallet negative', () => {
+  
+  useContext.mockReturnValueOnce({
+    state: AccountsStore.initialState(),
+    dispatch: jest.fn(),
+  });
+
+  useContext.mockReturnValueOnce({
+    state: PricesStore.initialState(),
+    dispatch: jest.fn(),
+  });
+
+  useContext.mockReturnValueOnce({
+    state: GlobalStore.initialState(),
+    dispatch: jest.fn(),
+  });
+  useContext.mockReturnValue({
+    state: ChatsStore.initialState(),
+    dispatch: jest.fn(),
+  });
+  const navigate = jest.fn();
+
+  const component = render(
+      <Chat
+        navigation={{navigate: navigate, setOptions: jest.fn()}}
+        route={{
+          params: {
+            chatInfo: {
+              id: 'idChatInfo#1',
+              name: 'name',
+              lastTxId: '2',
+              lastTxCurrency: Currency.DOT,
+              notificationCount: 1,
+              timestamp: new Date().getTime(),
+              type: ChatType.AddressOnly,
+              details: {
+                currency: Currency.DOT,
+                address: 'address',
+              },
+            },
+          },
+        }}
+      />,
+    );
+  fireEvent.press(component.getByTestId('testGetWallet'));
+  expect(component).toThrowErrorMatchingInlineSnapshot('invalid account');
+});*/
+
 /*it('Test renderItem', async () => {
 
   const navigate = jest.fn();
 
   const component = await render(
     <Chat
-      navigation={{navigate: navigate,setOptions: jest.fn()}}
+      navigation={{navigate: navigate, setOptions: jest.fn()}}
       route={{
         params: {
           chatInfo: {

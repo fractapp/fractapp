@@ -519,6 +519,7 @@ exports[`Test default 1`] = `
               "width": 36,
             }
           }
+          testID="10"
         />
       </View>
       <View
@@ -1706,6 +1707,605 @@ exports[`Test index 10 1`] = `
               "color": "#888888",
               "fontFamily": "Roboto-Regular",
               "fontSize": 30,
+            }
+          }
+          testID="10"
+        />
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="11"
+        >
+          0
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "testUri": "../../../assets/img/backspace.png",
+            }
+          }
+          style={
+            Object {
+              "height": 28,
+              "width": 40,
+            }
+          }
+          testID="12"
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test index 10 and biometry true 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "paddingTop": 100,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/logo.png",
+      }
+    }
+    style={
+      Object {
+        "height": 65,
+        "marginBottom": 0,
+        "marginTop": 80,
+        "width": 65,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignContent": "center",
+        "marginTop": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "#888888",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 17,
+          "marginBottom": 25,
+        }
+      }
+    >
+      description
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#BFBDBD",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#BFBDBD",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#BFBDBD",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#BFBDBD",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#BFBDBD",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#BFBDBD",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "bottom": 20,
+        "position": "absolute",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default1"
+        >
+          1
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default2"
+        >
+          2
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default3"
+        >
+          3
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default4"
+        >
+          4
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default5"
+        >
+          5
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default6"
+        >
+          6
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default7"
+        >
+          7
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default8"
+        >
+          8
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default9"
+        >
+          9
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "testUri": "../../../assets/img/fingerprint.png",
+            }
+          }
+          style={
+            Object {
+              "height": 40,
+              "width": 36,
             }
           }
           testID="10"
@@ -4687,6 +5287,654 @@ exports[`Test two 1`] = `
               "width": 36,
             }
           }
+          testID="10"
+        />
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="11"
+        >
+          0
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "testUri": "../../../assets/img/backspace.png",
+            }
+          }
+          style={
+            Object {
+              "height": 28,
+              "width": 40,
+            }
+          }
+          testID="12"
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "paddingTop": 100,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/logo.png",
+      }
+    }
+    style={
+      Object {
+        "height": 65,
+        "marginBottom": 0,
+        "marginTop": 80,
+        "width": 65,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignContent": "center",
+        "marginTop": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "#888888",
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 17,
+          "marginBottom": 25,
+        }
+      }
+    >
+      description
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "backgroundColor": "#2AB2E2",
+            "borderRadius": 20,
+            "height": 20,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "bottom": 20,
+        "position": "absolute",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default1"
+        >
+          1
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default2"
+        >
+          2
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default3"
+        >
+          3
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default4"
+        >
+          4
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default5"
+        >
+          5
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default6"
+        >
+          6
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default7"
+        >
+          7
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default8"
+        >
+          8
+        </Text>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 30,
+            }
+          }
+          testID="default9"
+        >
+          9
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "marginBottom": 0,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 80,
+            "justifyContent": "center",
+            "marginLeft": 10,
+            "marginRight": 10,
+            "opacity": 1,
+            "width": 80,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "testUri": "../../../assets/img/fingerprint.png",
+            }
+          }
+          style={
+            Object {
+              "height": 40,
+              "width": 36,
+            }
+          }
+          testID="10"
         />
       </View>
       <View

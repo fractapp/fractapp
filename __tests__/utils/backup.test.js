@@ -17,7 +17,10 @@ jest.mock('react-native', () => ({
 jest.mock('react-native-fs', () => ({
   DownloadDirectoryPath: 'mockDir',
   readFile: jest.fn(),
+  readDir: jest.fn(),
   writeFile: jest.fn(),
+  exists: jest.fn(),
+  mkdir: jest.fn(),
 }));
 jest.mock('react-native-share', () => {});
 jest.mock('@polkadot/util-crypto', () => ({
@@ -28,6 +31,7 @@ jest.mock('utils/google', () => ({
   signIn: jest.fn(),
   safeSave: jest.fn(),
   signOut: jest.fn(),
+  getFileBackup: jest.fn(),
   getItems: jest.fn(() => {
     return [];
   }),
@@ -233,3 +237,141 @@ it('Test backupFile never_ask_again', async () => {
   expect(neverAskAgainHandler).toBeCalled();
   expect(grantedHandler).not.toBeCalled();
 });
+
+it('Test backup BackupType.File exist true', async () => {
+  const seed = 'seed';
+  const password = 'password';
+
+  await RNFS.mkdir.mockReturnValueOnce();
+  await RNFS.exists.mockReturnValueOnce(true);
+  const fileName = `fractapp-${mockHash}`;
+  const file = await backupUtil.backup(
+    seed,
+    password,
+    fileName,
+    backupUtil.BackupType.File,
+  );
+  expect(file.isExist).toBe(true);
+});
+
+it('Test backup BackupType.File exist false', async () => {
+  const seed = 'seed';
+  const password = 'password';
+
+  await RNFS.mkdir.mockReturnValueOnce();
+  await RNFS.exists.mockReturnValueOnce(false);
+  await RNFS.writeFile.mockReturnValueOnce();
+
+  const fileName = `fractapp-${mockHash}`;
+  const file = await backupUtil.backup(
+    seed,
+    password,
+    fileName,
+    backupUtil.BackupType.File,
+  );
+  expect(file.isExist).toBe(false);
+});
+
+it('Test backup BackupType.File throw', async () => {
+  const seed = 'seed';
+  const password = 'password';
+
+  await RNFS.mkdir.mockReturnValueOnce();
+  await RNFS.exists.mockReturnValueOnce(false);
+  await RNFS.writeFile.mockImplementationOnce(() => {throw new Error();});
+
+  const fileName = `fractapp-${mockHash}`;
+  const file = await backupUtil.backup(
+    seed,
+    password,
+    fileName,
+    backupUtil.BackupType.File,
+  );
+  expect(file.isExist).toBe(false);
+});
+
+it('Test backup BackupType.File with undefined folder', async () => {
+  const seed = 'seed';
+  const password = 'password';
+  googleUtil.getItems.mockReturnValueOnce([]);
+  googleUtil.safeSave.mockReturnValueOnce(true);
+  const fileName = `fractapp-${mockHash}`;
+  const file = await backupUtil.backup(
+    seed,
+    password,
+    fileName,
+    backupUtil.BackupType.GoogleDrive,
+  );
+
+  expect(googleUtil.signIn).toBeCalled();
+  expect(file.isExist).toBe(false);
+});
+
+it('Test backup google drive file with undefined folder', async () => {
+  const seed = 'seed';
+  const password = 'password';
+  googleUtil.signIn.mockReturnValueOnce();
+  googleUtil.getItems.mockReturnValueOnce([
+    {
+      title: 'FractappWalletBackups',
+      id: 'id',
+    },
+  ]);
+  googleUtil.getItems.mockReturnValueOnce([{}]);
+  const fileName = `fractapp-${mockHash}`;
+  const file = await backupUtil.backup(
+    seed,
+    password,
+    fileName,
+    backupUtil.BackupType.GoogleDrive,
+  );
+
+  expect(file.isExist).toBe(false);
+});
+
+it('Test backup getWalletsFromDevice', async () => {
+  RNFS.readDir.mockReturnValueOnce(
+    {
+      path: 'path',
+      name: 'name',
+    },
+  );
+  RNFS.readFile.mockReturnValueOnce('seed algorithm');
+  expect(await backupUtil.getWalletsFromDevice()).toEqual([]);
+});
+
+
+it('Test backup getWalletsFromDevice exception', async () => {
+  RNFS.readDir.mockReturnValueOnce(
+    {
+      path: 'path',
+      name: 'name',
+    },
+  );
+  RNFS.readFile.mockReturnValueOnce('seed algorithm');
+  expect(await backupUtil.getWalletsFromDevice()).toEqual([]);
+});
+
+it('Test backup getWalletsFromGoogle', async () => {
+  await googleUtil.getItems.mockReturnValueOnce([
+    {
+      title: 'FractappWalletBackups',
+      id: 'id',
+    },
+  ]);
+  await googleUtil.getItems.mockReturnValueOnce([
+    {
+      title: 'FractappWalletBackups',
+      id: 'id',
+    },
+  ]);
+  await googleUtil.getFileBackup.mockReturnValueOnce();
+
+  expect(await backupUtil.getWalletsFromGoogle()).toStrictEqual(
+    {
+      'ids': ['id'],
+      'wallets': ['FractappWalletBackups'],
+    }
+  );
+});
+

@@ -7474,10 +7474,10 @@ react-native-screens@^3.3.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.3.0.tgz#d4464a96620b85d09e46bd6865b5f48456c244f0"
   integrity sha512-ni11jC6I9cFVXdLIDwkgafDHw/STXUNzkR5Fx3w8Wikdzi8gfTEan2kiOm7aS42d2F/LXddZ6i74Z2em0L6LPQ==
 
-react-native-share@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-6.0.1.tgz#e982be50e33490dbd953ec26375230df1188770a"
-  integrity sha512-K7mw2ep4cg++K6GUab32Kic3DeDUveonsQhTElwb6pZyjp0R/TLGQ11+pxcZBVlTiZhdOttyrLdCA6TsMX1lzg==
+react-native-share@^6.1.0:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-6.2.1.tgz#fc28c77fd2f74090b6a5e6302d8f73d25446b96d"
+  integrity sha512-LtT29le01c3k/1sWoumZDyAxigq/JrW4skv8Ri7eySgfIeXrjgnkk1SSR3bt4NrRO74knVngPwtb5xv/UCPP3w==
 
 react-native-splash-screen@^3.2.0:
   version "3.2.0"

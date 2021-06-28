@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Adaptors, IAdaptor } from 'adaptors/adaptor';
+import {Adaptors} from 'adaptors/adaptor';
 import GlobalStore from 'storage/Global';
 import { Network } from 'types/account';
 
@@ -13,6 +13,7 @@ jest.mock('react-native-randombytes', (size) => {
     };
 });
 //этот мок глянуть
+
 jest.mock('readable-stream', () => ({
     Transform: jest.fn(),
 }));
@@ -25,8 +26,8 @@ jest.mock('react', () => ({
       openURL: jest.fn(),
     })),
 }));
-useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Adaptors model #1', async () => {
-
+    const adaptor = new Adaptors();
+    expect(adaptor.init()).toHaveBeenCalledTimes(1);
 });

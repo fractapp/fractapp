@@ -28,28 +28,5 @@ jest.mock('react', () => ({
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Adaptors model #1', async () => {
-    const state = {
-        urls: new Map([
-            [
-                Network.Polkadot, 'url',
-            ],
-        ]),
-    };
 
-    useContext.mockReturnValue({
-        state: state,
-        dispatch: jest.fn(),
-    });
-    const adaptorInterface = {
-        viewDecimals: 1111,
-        network: Network.Polkadot,
-        decimals: 2,
-    };
-    const adaptors = new Map([
-        [
-            Network.Polkadot,
-            adaptorInterface,
-        ],
-    ]);
-    expect(adaptors.get(Network.Polkadot)).toBe(adaptorInterface);
 });

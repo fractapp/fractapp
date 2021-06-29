@@ -3,6 +3,7 @@ import {Adaptors} from 'adaptors/adaptor';
 import GlobalStore from 'storage/Global';
 import { Network } from 'types/account';
 import {SubstrateAdaptor} from 'adaptors/substrate';
+import {DEFAULT_KUSAMA_URL, DEFAULT_POLKADOT_URL} from '@env';
 
 jest.mock('react-native-randombytes', (size) => {
   return {
@@ -36,39 +37,77 @@ jest.mock('react', () => ({
     })),
 }));
 
-it('Adaptors model Polkadot', async () => {
+it('Adaptors test with default values', async () => {
   const globalContext = GlobalStore.initialState();
   globalContext.state = {
-    urls: new Map([
-      [
-        Network.Polkadot,
-        '',
-      ],
-    ]),
+    urls: new Map(),
   };
-  const s = new SubstrateAdaptor('url', Network.Polkadot);
-  const adaptorInit = Adaptors.init(globalContext);
 
-  expect(adaptorInit).toHaveBeenCalledTimes(1);
+  const polkadotUrlFn = jest.fn();
+  const polkadotNetworkFn = jest.fn();
+  const polkadotAdaptor = {
+    name: 'polkadot',
+  };
+
+  const kusamaUrlFn = jest.fn();
+  const kusamaNetworkFn = jest.fn();
+  const kusamaAdaptor = {
+    name: 'kusama',
+  };
+
+  SubstrateAdaptor.mockImplementationOnce((url, network) => {
+    polkadotUrlFn(url);
+    polkadotNetworkFn(network);
+    return polkadotAdaptor;
+  });
+  SubstrateAdaptor.mockImplementationOnce((url, network) => {
+    kusamaUrlFn(url);
+    kusamaNetworkFn(network);
+    return kusamaAdaptor;
+  });
+  Adaptors.init(globalContext);
+
+  expect(polkadotUrlFn).toBeCalledWith(DEFAULT_POLKADOT_URL);
+  expect(polkadotNetworkFn).toBeCalledWith(Network.Polkadot);
+
+  expect(kusamaUrlFn).toBeCalledWith(DEFAULT_KUSAMA_URL);
+  expect(kusamaNetworkFn).toBeCalledWith(Network.Kusama);
+
+  expect(Adaptors.get(Network.Polkadot)).toEqual(polkadotAdaptor);
+  expect(Adaptors.get(Network.Kusama)).toEqual(kusamaAdaptor);
 });
 
-it('Adaptors model Kusama', async () => {
+it('Adaptors test with exist values', async () => {
   const globalContext = GlobalStore.initialState();
+  const polkadotWs = 'polkadotWs';
+  const kusamaWs = 'kusamaWs';
+
   globalContext.state = {
     urls: new Map([
-      [
-        Network.Kusama,
-        '',
-      ],
+      [Network.Polkadot, polkadotWs],
+      [Network.Kusama, kusamaWs],
     ]),
   };
-  const s = new SubstrateAdaptor('url', Network.Kusama);
-  const adaptorInit = Adaptors.init(globalContext);
 
-  expect(adaptorInit).toHaveBeenCalledTimes(1);
-});
+  const polkadotUrlFn = jest.fn();
+  const polkadotNetworkFn = jest.fn();
 
-it('Adaptors get', async () => {
-  expect(Adaptors.get(Network.Polkadot))
-  .toEqual({});
+  const kusamaUrlFn = jest.fn();
+  const kusamaNetworkFn = jest.fn();
+
+  SubstrateAdaptor.mockImplementationOnce((url, network) => {
+    polkadotUrlFn(url);
+    polkadotNetworkFn(network);
+  });
+  SubstrateAdaptor.mockImplementationOnce((url, network) => {
+    kusamaUrlFn(url);
+    kusamaNetworkFn(network);
+  });
+  Adaptors.init(globalContext);
+
+  expect(polkadotUrlFn).toBeCalledWith(polkadotWs);
+  expect(polkadotNetworkFn).toBeCalledWith(Network.Polkadot);
+
+  expect(kusamaUrlFn).toBeCalledWith(kusamaWs);
+  expect(kusamaNetworkFn).toBeCalledWith(Network.Kusama);
 });

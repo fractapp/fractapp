@@ -196,7 +196,7 @@ it('Test getWallet positive', () => {
   const chatsContext = ChatsStore.initialState();
   chatsContext.notificationCount = 1;
 
-  const flatList = 
+  //const flatList =
 
   useContext.mockReturnValueOnce({
     state: accountsContext,
@@ -244,13 +244,13 @@ it('Test getWallet positive', () => {
     );
   fireEvent.press(component.getByTestId('testGetWallet'));
   expect(component).toMatchSnapshot();
-  expect(useRefSpy).toBeCalledTimes(4);//не понимаю, как протестировать onLayout 175 стр 
+  expect(useRefSpy).toBeCalledTimes(4);//не понимаю, как протестировать onLayout 175 стр
 });
 
 
 
 /*it('Test getWallet negative', () => {
-  
+
   useContext.mockReturnValueOnce({
     state: AccountsStore.initialState(),
     dispatch: jest.fn(),

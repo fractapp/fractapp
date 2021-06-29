@@ -27,10 +27,6 @@ jest.mock('adaptors/adaptor', () => ({
     isValidTransfer: jest.fn(),
   },
 }));
-/*jest.mock('bn.js', () => ({
-    cmp: jest.fn(),
-}));*/
-
 
 it('Test AmountInput view 1', () => {
   const wallet = new Wallet(

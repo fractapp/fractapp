@@ -41,6 +41,7 @@ jest.mock('utils/backend', () => ({
     return contacts;
   }),
   getImgUrl: jest.fn(() => 'uri'),
+  search: jest.fn(),
 }));
 jest.mock('react-native-contacts', () => ({
   getAll: jest.fn(() => {
@@ -56,8 +57,6 @@ jest.mock('react-native-contacts', () => ({
   }),
 }));
 
-
-
 useState.mockImplementation((init) => [init, jest.fn()]);
 
 it('Test view (empty)', () => {
@@ -72,7 +71,7 @@ it('Test view (empty)', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test view', () => {
+it('Test view 1', () => {
   const users = [];
   for (let i = 0; i < 5; i++) {
     users.push({
@@ -90,7 +89,10 @@ it('Test view', () => {
 
   useState
     .mockImplementationOnce((init) => [init, jest.fn()])
-    .mockImplementationOnce((init) => [users, jest.fn()]);
+    .mockImplementationOnce((init) => [users, jest.fn()])
+    .mockImplementationOnce((init) => [init, jest.fn()])
+
+    .mockImplementationOnce((init) => [init, jest.fn()]);
 
   useContext.mockReturnValueOnce({
     state: GlobalStore.initialState(),
@@ -115,14 +117,27 @@ it('Test getMyMatchContacts', () => {
       avatarExt: 'avatarExt',
       lastUpdate: 1,
     },
+    contacts: [0],
+    users: new Map([
+      [0, {}],
+    ]),
     isRegistered: true,
     setUser: jest.fn(),
     setContacts: jest.fn(),
   };
+
   useContext.mockReturnValueOnce({
     state: globalContext,
     dispatch: jest.fn(),
   });
+  backend.myMatchContacts.mockReturnValueOnce([
+    {
+      id: '0',
+    },
+    {
+      id: '1',
+    },
+  ]);
 
   const tree = renderer
     .create(<Search navigation={null} route={{params: {}}} />)

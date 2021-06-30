@@ -410,7 +410,7 @@ exports[`Test view (empty) 1`] = `
 </View>
 `;
 
-exports[`Test view 1`] = `
+exports[`Test view 1 1`] = `
 <View
   style={
     Object {

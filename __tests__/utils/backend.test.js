@@ -168,7 +168,7 @@ it('Test auth with empty accounts', async () => {
   expect(await backend.auth()).toStrictEqual(400);
 });
 //???
-it('Test sendCode', async () => {
+/*it('Test sendCode', async () => {
   const isOK = await backend.sendCode('11', backend.CodeType.Phone, backend.CheckType.Auth);
 
   expect(fetch).toBeCalledWith(FRACTAPP_API + '/auth/sendCode', {
@@ -197,7 +197,7 @@ it('Test getInfo', async () => {
   });
 
   expect(isOK).toStrictEqual(false);
-});
+});*/
 
 //190-498
 

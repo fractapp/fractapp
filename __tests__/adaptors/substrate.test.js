@@ -1,15 +1,13 @@
 import React, {useContext, useState} from 'react';
 import { SubstrateAdaptor } from 'adaptors/substrate';
 import {Network} from 'types/account';
-import { BaseNavigationContainer } from '@react-navigation/native';
 import BN from 'bn.js';
 import DB from 'storage/DB';
 import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
-import { ErrorCode } from 'adaptors/adaptor';
-import StringUtils from 'utils/string';
-import {Currency, getSymbol} from 'types/wallet';
 import math from 'utils/math';
+import { ApiPromise } from '@polkadot/api';
+import BackendApi from 'utils/backend';
 
 jest.mock('react', () => ({
     ...jest.requireActual('react'),
@@ -18,10 +16,7 @@ jest.mock('react', () => ({
     Linking: jest.fn(() => ({
       openURL: jest.fn(),
     })),
-}));/*
-jest.mock('bn.js', () => ({
-        cmp: jest.fn(),
-}));*/
+}));
 jest.mock('storage/DB', () => ({
     getSeed: jest.fn(),
 }));
@@ -30,7 +25,8 @@ jest.mock('utils/math', () => ({
     convertFromPlanckToViewDecimals: jest.fn(),
 }));
 jest.mock('utils/backend', () => ({
-    substrateBalance: () => 1,
+    substrateBalance: jest.fn(),
+
 }));
 jest.mock('react-native-i18n', () => ({
     t: (value) => value,
@@ -56,6 +52,9 @@ jest.mock('readable-stream', () => ({
 }));
 jest.mock('adaptors/adaptor', () => ({
     IAdaptor: jest.fn(),
+    ErrorCode: {
+        ServiceUnavailable: 1,
+    },
 }));
 jest.mock('@polkadot/keyring', () => ({
     Keyring: jest.fn(),
@@ -72,13 +71,17 @@ it('SubstrateAdaptor model Kusama', async () => {
 });
 
 it('SubstrateAdaptor init', async () => {
-    const subAdaptor = new SubstrateAdaptor('url', Network.Kusama);
-    expect(subAdaptor.init()).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+    ApiPromise.create.mockReturnValueOnce();
+    const substrate = new SubstrateAdaptor('url',  Network.Polkadot);
+    await substrate.init();
+    expect(ApiPromise.create).toBeCalled();
 });
 
 it('SubstrateAdaptor balance', async () => {
     const subAdaptor = new SubstrateAdaptor('url', Network.Kusama);
-    expect(await subAdaptor.balance()).toStrictEqual(1);
+    BackendApi.substrateBalance.mockReturnValueOnce(1);
+    await subAdaptor.balance();
+    expect(BackendApi.substrateBalance).toBeCalled();
 });
 
 it('SubstrateAdaptor calculateFee', async () => {
@@ -100,12 +103,13 @@ it('SubstrateAdaptor calculateFee', async () => {
             },
         },
     };
-
-    expect(subAdaptor.calculateFee(value, 'receiver')).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+    await subAdaptor.calculateFee(value, 'receiver');
+    expect(ApiPromise.create).toBeCalled();
 });
 
 it('SubstrateAdaptor send Polkadot', async () => {
     const subAdaptor = new SubstrateAdaptor('url', Network.Polkadot);
+    DB.getSeed.mockReturnValueOnce('seed');
     const sign = stringToU8a('sign');
     const signMock = jest.fn().mockReturnValueOnce(sign);
     Keyring.mockImplementationOnce(() => ({
@@ -124,11 +128,13 @@ it('SubstrateAdaptor send Polkadot', async () => {
             },
         },
     };
-    expect(subAdaptor.send()).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+    await subAdaptor.send();
+    expect(DB.getSeed).toBeCalled();
 });
 
 it('SubstrateAdaptor send Kusama', async () => {
     const subAdaptor = new SubstrateAdaptor('url', Network.Kusama);
+    DB.getSeed.mockReturnValueOnce('seed');
     const sign = stringToU8a('sign');
     const signMock = jest.fn().mockReturnValueOnce(sign);
     Keyring.mockImplementationOnce(() => ({
@@ -147,23 +153,34 @@ it('SubstrateAdaptor send Kusama', async () => {
             },
         },
     };
-    expect(subAdaptor.send()).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+    await subAdaptor.send();
+    expect(DB.getSeed).toBeCalled();
 });
 
-/*it('SubstrateAdaptor isValidTransfer', async () => {
+it('SubstrateAdaptor isValidTransfer error', async () => {
+    math.convertToPlanck.mockReturnValueOnce(new BN('1000'));
     const subAdaptor = new SubstrateAdaptor('url', Network.Polkadot);
-    subAdaptor.balance = jest.fn(() => -1);
-
-    expect(await subAdaptor.isValidTransfer('sender', 'receiver', new BN(1), new BN(1))).toEqual({
-        isOk: false,
-        errorCode: 2,
-        errorTitle: StringUtils.texts.MinimumTransferErrorTitle,
-        errorMsg:
-          StringUtils.texts.MinimumTransferErrorText +
-          ` ${math.convertFromPlanckToViewDecimals(
-            this.minTransfer,
-            this.decimals,
-            this.viewDecimals,
-          )} ${getSymbol(Currency.DOT)}`,
+    BackendApi.substrateBalance.mockReturnValueOnce(1000);
+    const res = await subAdaptor.isValidTransfer('sender', 'receiver', new BN(10), new BN(1));
+    expect(BackendApi.substrateBalance).toBeCalled();
+    expect(res).toStrictEqual({
+        'errorCode': 1,
+        'errorMsg': 'Try again',
+        'errorTitle': 'Service unavailable',
+        'isOk': false,
     });
-});*/
+});
+//fix fetch 115-136
+it('SubstrateAdaptor isValidTransfer', async () => {
+    math.convertToPlanck.mockReturnValueOnce(new BN('1000'));
+    const subAdaptor = new SubstrateAdaptor('url', Network.Polkadot);
+    BackendApi.substrateBalance.mockReturnValueOnce(1000);
+    const res = await subAdaptor.isValidTransfer('sender', 'receiver', new BN(10), new BN(1));
+    expect(BackendApi.substrateBalance).toBeCalled();
+    expect(res).toStrictEqual({
+        'errorCode': 1,
+        'errorMsg': 'Try again',
+        'errorTitle': 'Service unavailable',
+        'isOk': false,
+    });
+});

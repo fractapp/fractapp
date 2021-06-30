@@ -13,6 +13,7 @@ import PricesStore from 'storage/Prices';
 import GlobalStore from 'storage/Global';
 import BackendApi from 'utils/backend';
 import { ChatType } from 'types/chatInfo';
+import BackgroundTimer from 'react-native-background-timer';
 
 global.fetch = jest.fn();
 jest.mock('react-native-background-timer', () => ({
@@ -277,14 +278,16 @@ it('Test createTask', async () => {
 
   const pricesContext = {
     state: new Map([[Currency.DOT, 5]]),
+    dispatch: jest.fn(),
   };
 
   const globalContext = {
-
+    dispatch: jest.fn(),
   };
 
   const chatsContext = {
     transactions: new Map(),
+    dispatch: jest.fn(),
   };
   chatsContext.transactions.set(Currency.DOT, {
     transactionById: new Map([
@@ -320,17 +323,20 @@ it('Test createTask', async () => {
       ],
     ]),
   });
-
-  expect(tasks.createTask(accountsContext, pricesContext, globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  BackgroundTimer.setInterval.mockReturnValueOnce();
+  Adaptors.get.mockReturnValueOnce({balance: jest.fn()});
+  await tasks.createTask(accountsContext, pricesContext, globalContext, chatsContext);
+  expect(BackgroundTimer.setInterval).toBeCalled();
 });
 
-it('Test setTx with null users', async () => {
+it('Test setTx with !null users', async () => {
   const globalContext = {
-
+    dispatch: jest.fn(),
   };
   const isNotify = true;
   const chatsContext = {
     transactions: new Map(),
+    dispatch: jest.fn(),
   };
   chatsContext.transactions.set(Currency.DOT, {
     transactionById: new Map([
@@ -386,17 +392,22 @@ it('Test setTx with null users', async () => {
 
     status: TxStatus.Pending,
   };
-  expect(tasks.setTx(globalContext, chatsContext, tx, isNotify)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  BackendApi.getUserById.mockReturnValueOnce();
+  await tasks.setTx(globalContext, chatsContext, tx, isNotify);
+
+  expect(BackendApi.getUserById).toBeCalled();
 });
 
 
 it('Test setTx with users', async () => {
   const globalContext = {
-
+    dispatch: jest.fn(),
   };
   const isNotify = true;
   const chatsContext = {
     transactions: new Map(),
+    dispatch: jest.fn(),
+    addTx: jest.fn(),
   };
   chatsContext.transactions.set(Currency.DOT, {
     transactionById: new Map([
@@ -464,17 +475,19 @@ it('Test setTx with users', async () => {
     },
   };
   BackendApi.getUserById.mockReturnValueOnce(users);
-  expect(tasks.setTx(globalContext, chatsContext, tx, isNotify)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.setTx(globalContext, chatsContext, tx, isNotify);
+  expect(BackendApi.getUserById).toBeCalled();
 });
 
 it('Test initPrivateData', async () => {
   BackendApi.getJWT.mockReturnValueOnce('some data');
-  expect(tasks.initPrivateData()).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.initPrivateData();
+  expect(BackendApi.getJWT).toBeCalled();
 });
 
 it('Test syncByAccount with existed txs 1', async () => {
   const globalContext = {
-
+    dispatch: jest.fn(),
   };
   const chatsContext = {
     state: {
@@ -547,18 +560,20 @@ it('Test syncByAccount with existed txs 1', async () => {
     status: TxStatus.Pending,
   }];
   BackendApi.getTransactions.mockReturnValueOnce(tx);
-  expect(tasks.syncByAccount(account, isSynced, globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.syncByAccount(account, isSynced, globalContext, chatsContext);
+  expect(BackendApi.getTransactions).toBeCalled();
 });
 
 it('Test syncByAccount with existed txs 2', async () => {
   const globalContext = {
-
+    dispatch: jest.fn(),
   };
   const chatsContext = {
     state: {
       transactions: new Map(),
       sentFromFractapp: new Map(),
     },
+    dispatch: jest.fn(),
   };
   chatsContext.state.transactions.set(Currency.DOT, {
     transactionById: new Map([
@@ -625,7 +640,8 @@ it('Test syncByAccount with existed txs 2', async () => {
     status: TxStatus.Pending,
   }];
   BackendApi.getTransactions.mockReturnValueOnce(tx);
-  expect(tasks.syncByAccount(account, isSynced, globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.syncByAccount(account, isSynced, globalContext, chatsContext);
+  expect(BackendApi.getTransactions).toBeCalled();
 });
 
 it('Test syncByAccount with existed txs 3', async () => {
@@ -703,7 +719,8 @@ it('Test syncByAccount with existed txs 3', async () => {
     status: TxStatus.Pending,
   }];
   BackendApi.getTransactions.mockReturnValueOnce(tx);
-  expect(tasks.syncByAccount(account, isSynced, globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.syncByAccount(account, isSynced, globalContext, chatsContext);
+  expect(BackendApi.getTransactions).toBeCalled();
 });
 
 it('Test syncByAccount with empty txs', async () => {
@@ -728,10 +745,11 @@ it('Test syncByAccount with empty txs', async () => {
   const isSynced = true;
   const tx = [];
   BackendApi.getTransactions.mockReturnValueOnce(tx);
-  expect(tasks.syncByAccount(account, isSynced, globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.syncByAccount(account, isSynced, globalContext, chatsContext);
+  expect(BackendApi.getTransactions).toBeCalled();
 });
 
-it('Test sync', async () => {
+it('Test sync isSynced true', async () => {
   const accountsContext = {
     state: {
       accounts: new Map([
@@ -755,17 +773,22 @@ it('Test sync', async () => {
   const globalContext = {
     state: {
       authInfo: {
-        isSynced: false,
+        isSynced: true,
       },
     },
     dispatch: jest.fn(),
+    setSynced: jest.fn(),
+    setSyncShow: jest.fn(),
   };
   const chatsContext = {
     state: {
       transactions: new Map(),
       pendingTransactions: new Map(),
+      sentFromFractapp: new Map(),
     },
   };
+  chatsContext.state.sentFromFractapp.set('idOne', true);
+
   chatsContext.state.pendingTransactions.set(Currency.DOT, {
     idsOfTransactions: ['idOne', 'idTwo'],
   });
@@ -803,7 +826,135 @@ it('Test sync', async () => {
       ],
     ]),
   });
-  expect(tasks.sync(accountsContext, globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  const tx = [{
+    id: 'idOne',
+    hash: 'hash',
+    userId: 'id',
+    address: 'address',
+    currency: Currency.DOT,
+    txType: TxType.None,
+    timestamp: new Date('12-12-2020').getTime(),
+
+    value: 10,
+    planckValue: '1000',
+    usdValue: 10,
+
+    fee: 10,
+    planckFee: '15',
+    usdFee: 10,
+
+    status: TxStatus.Pending,
+  }];
+  BackendApi.getTransactions.mockReturnValueOnce(tx);
+  await tasks.sync(accountsContext, globalContext, chatsContext);
+
+  expect(BackendApi.getTransactions).toBeCalled();
+  expect(globalContext.dispatch).toBeCalled();
+});
+
+it('Test sync isSynced false', async () => {
+  const accountsContext = {
+    state: {
+      accounts: new Map([
+        [
+          Currency.DOT,
+          {
+            name: 'name',
+            address: 'address',
+            pubKey: 'pubKey',
+            currency: Currency.DOT,
+            network: Network.Polkadot,
+            balance: 10000,
+            planks: '10000000',
+          },
+        ],
+      ]),
+      isInitialized: true,
+    },
+    dispatch: jest.fn(),
+  };
+  const globalContext = {
+    state: {
+      authInfo: {
+        isSynced: false,
+      },
+    },
+    dispatch: jest.fn(),
+    setSynced: jest.fn(),
+    setSyncShow: jest.fn(),
+  };
+  const chatsContext = {
+    state: {
+      transactions: new Map(),
+      pendingTransactions: new Map(),
+      sentFromFractapp: new Map(),
+
+    },
+  };
+
+  chatsContext.state.sentFromFractapp.set('idOne', true);
+  chatsContext.state.pendingTransactions.set(Currency.DOT, {
+    idsOfTransactions: ['idOne', 'idTwo'],
+  });
+  chatsContext.state.transactions.set(Currency.DOT, {
+    transactionById: new Map([
+      [ 'idOne',
+        {
+          id: 'idOne',
+          userId: 'userId',
+          address: 'address#1',
+          currency: Currency.DOT,
+          txType: TxType.None,
+          timestamp: new Date('12-12-2020').getTime(),
+          value: 10,
+          usdValue: 10,
+          fee: 10,
+          usdFee: 10,
+          status: TxStatus.Success,
+        } ],
+      [
+        'idTwo',
+        {
+          id: 'idTwo',
+          userId: 'userId',
+          address: 'address#1',
+          currency: Currency.DOT,
+          txType: TxType.None,
+          timestamp: new Date('12-12-2020').getTime(),
+          value: 10,
+          usdValue: 10,
+          fee: 10,
+          usdFee: 10,
+          status: TxStatus.Pending,
+        },
+      ],
+    ]),
+  });
+  const tx = [{
+    id: 'idOne',
+    hash: 'hash',
+    userId: 'id',
+    address: 'address',
+    currency: Currency.DOT,
+    txType: TxType.None,
+    timestamp: new Date('12-12-2020').getTime(),
+
+    value: 10,
+    planckValue: '1000',
+    usdValue: 10,
+
+    fee: 10,
+    planckFee: '15',
+    usdFee: 10,
+
+    status: TxStatus.Pending,
+  }];
+  BackendApi.getTransactions.mockReturnValueOnce(tx);
+  await tasks.sync(accountsContext, globalContext, chatsContext);
+
+  expect(BackendApi.getTransactions).toBeCalled();
+  expect(globalContext.dispatch).toBeCalled();
+  expect(globalContext.dispatch).toBeCalled();
 });
 
 it('Test checkPendingTxs 1', async () => {
@@ -812,6 +963,7 @@ it('Test checkPendingTxs 1', async () => {
       transactions: new Map(),
       pendingTransactions: new Map(),
     },
+    dispatch: jest.fn(),
   };
   chatsContext.state.pendingTransactions.set(Currency.DOT, {
     idsOfTransactions: ['idOne', 'idTwo'],
@@ -851,7 +1003,8 @@ it('Test checkPendingTxs 1', async () => {
     ]),
   });
   BackendApi.getTxStatus.mockReturnValueOnce('hash');
-  expect(tasks.checkPendingTxs(chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.checkPendingTxs(chatsContext);
+  expect(BackendApi.getTxStatus).toBeCalled();
 });
 
 it('Test checkPendingTxs 2', async () => {
@@ -899,7 +1052,8 @@ it('Test checkPendingTxs 2', async () => {
     ]),
   });
   BackendApi.getTxStatus.mockReturnValueOnce(TxStatus.Pending);
-  expect(tasks.checkPendingTxs(chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.checkPendingTxs(chatsContext);
+  expect(BackendApi.getTxStatus).toBeCalled();
 });
 
 it('Test updateUsersList', async () => {
@@ -951,7 +1105,8 @@ it('Test updateUsersList', async () => {
     },
   };
   BackendApi.getUserById.mockReturnValueOnce(user);
-  expect(tasks.updateUsersList(globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.updateUsersList(globalContext, chatsContext);
+  expect(BackendApi.getUserById).toBeCalled();
 });
 
 it('Test updateUsersList with undefined user', async () => {
@@ -993,7 +1148,8 @@ it('Test updateUsersList with undefined user', async () => {
   };
   const user = undefined;
   BackendApi.getUserById.mockReturnValueOnce(user);
-  expect(tasks.updateUsersList(globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.updateUsersList(globalContext, chatsContext);
+  expect(BackendApi.getUserById).toBeCalled();
 });
 
 it('Test updateUsersList with null user', async () => {
@@ -1035,7 +1191,8 @@ it('Test updateUsersList with null user', async () => {
   };
   const user = null;
   BackendApi.getUserById.mockReturnValueOnce(user);
-  expect(tasks.updateUsersList(globalContext, chatsContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+  await tasks.updateUsersList(globalContext, chatsContext);
+  expect(BackendApi.getUserById).toBeCalled();
 });
 
 it('Test updateServerInfo', async () => {
@@ -1064,10 +1221,11 @@ it('Test updateServerInfo', async () => {
     updatePrice: jest.fn(),
   };
 
-  const user = null;
   BackendApi.getInfo.mockReturnValueOnce({
     substrateUrls:['url'],
     prices: [15],
   });
-  expect(tasks.updateServerInfo(globalContext, pricesContext)).toEqual({'_U': 0, '_V': 0, '_W': null, '_X': null});
+
+  await tasks.updateServerInfo(globalContext, pricesContext);
+  expect(BackendApi.getInfo).toBeCalled();
 });

@@ -9,7 +9,9 @@ export enum TxType {
   Sent,
   Received,
 }
-
+export enum TxActionType {
+  Donate = 0,
+}
 export enum TxStatus {
   Pending = 0,
   Success,

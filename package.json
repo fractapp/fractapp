@@ -29,7 +29,7 @@
     "@types/react-native-push-notification": "^7.3.0",
     "@types/react-native-share": "^3.3.2",
     "@types/react-native-vector-icons": "^6.4.6",
-    "@types/react-phone-number-input": "^3.0.6",
+    "@types/react-phone-number-input": "^3.0.7",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-rewrite-require": "^1.14.5",
     "email-validator": "^2.0.4",

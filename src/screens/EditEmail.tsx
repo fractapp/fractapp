@@ -30,8 +30,7 @@ export const EditEmail = ({navigation}: {navigation: any}) => {
     try {
       BackendApi.sendCode(
         email,
-        BackendApi.CodeType.Email,
-        BackendApi.CheckType.Auth,
+        BackendApi.CodeType.Email
       );
     } catch (e) {
       console.log(e);

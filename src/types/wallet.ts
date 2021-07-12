@@ -15,7 +15,7 @@ export enum Currency {
  * @category Models
  */
 
- export function getName(currency: Currency) {
+export function getName(currency: Currency) {
   let name = '';
   switch (currency) {
     case Currency.DOT:
@@ -30,7 +30,7 @@ export enum Currency {
   return name;
 }
 
- export function getColor(currency: Currency) {
+export function getColor(currency: Currency) {
   let color = '';
   switch (currency) {
     case Currency.DOT:

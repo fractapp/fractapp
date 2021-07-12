@@ -131,7 +131,6 @@ export const ConfirmCode = ({
     const rsCode = await BackendApi.sendCode(
       value,
       type,
-      BackendApi.CheckType.Auth,
     );
     switch (rsCode) {
       case 400:

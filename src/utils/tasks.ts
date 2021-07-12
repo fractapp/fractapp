@@ -48,6 +48,7 @@ namespace Task {
 
     const chatsState = await DB.getChatsState();
     chatsState.isInitialized = true;
+
     chatsContext.dispatch(ChatsStore.set(chatsState));
 
     const authInfo = await DB.getAuthInfo();
@@ -96,6 +97,7 @@ namespace Task {
       await updateServerInfo(globalContext, pricesContext);
     }, min);
 
+    sync(accountsContext, globalContext, chatsContext);
     checkPendingTxs(chatsContext);
 
     BackgroundTimer.setInterval(async () => {
@@ -106,12 +108,13 @@ namespace Task {
       }
 
       await checkPendingTxs(chatsContext);
-    }, 10 * sec);
+      await sync(accountsContext, globalContext, chatsContext);
+    }, 3 * sec);
 
     updateUsersList(globalContext);
     BackgroundTimer.setInterval(async () => {
       await updateUsersList(globalContext);
-    }, 60 * min);
+    }, 20 * min);
 
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
@@ -124,6 +127,7 @@ namespace Task {
     globalContext: GlobalStore.ContextType,
     chatsContext: ChatsStore.ContextType,
     tx: Transaction,
+    isNotify: boolean,
   ): Promise<void> {
     let p = null;
     if (tx.userId != null) {
@@ -139,7 +143,7 @@ namespace Task {
       }));
     }
 
-    chatsContext.dispatch(ChatsStore.addTx(tx, true));
+    chatsContext.dispatch(ChatsStore.addTx(tx, isNotify));
   }
 
   export async function initPrivateData() {
@@ -147,7 +151,7 @@ namespace Task {
     await backend.getJWT();
   }
 
- /* export async function syncByAccount(
+  export async function syncByAccount(
     account: Account,
     isSynced: boolean,
     globalContext: GlobalStore.ContextType,
@@ -192,7 +196,29 @@ namespace Task {
 
       await setTx(globalContext, chatsContext, txs[i], isSynced);
     }
-  }*/
+  }
+
+  export async function sync(
+    accountsContext: AccountsStore.ContextType,
+    globalContext: GlobalStore.ContextType,
+    chatsContext: ChatsStore.ContextType,
+  ) {
+    for (let value of accountsContext.state.accounts.values()) {
+      await syncByAccount(
+        value,
+        globalContext.state.authInfo.isSynced,
+        globalContext,
+        chatsContext,
+      );
+    }
+
+    if (!globalContext.state.authInfo.isSynced) {
+      await globalContext.dispatch(GlobalStore.setSynced());
+      console.log('set synced');
+    }
+
+    await globalContext.dispatch(GlobalStore.setSyncShow(false));
+  }
 
   export async function checkPendingTxs(chatsContext: ChatsStore.ContextType) {
     for (let [currency, value] of chatsContext.state.pendingTransactions) {

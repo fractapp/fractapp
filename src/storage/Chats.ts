@@ -16,8 +16,8 @@ namespace ChatsStore {
     ADD_PENDING_TX,
     CONFIRM_PENDING_TX,
     REMOVE_NOTIFICATION,
-
     ADD_MESSAGE,
+    HIDE_BTNS_IN_MSG,
   }
 
   export type TxId = string;
@@ -105,6 +105,17 @@ namespace ChatsStore {
     chatId: chatId,
   });
 
+  export const addMsg = (chatId: string, message: Message) => ({
+    type: Action.ADD_MESSAGE,
+    msg: message,
+    chatId: chatId,
+  });
+
+  export const hideBtnsInMsg = (chatId: string, messageId: string) => ({
+    type: Action.HIDE_BTNS_IN_MSG,
+    chatId: chatId,
+    messageId: messageId,
+  });
 
   export function reducer(prevState: State, action: any): State {
     let copy: State = Object.assign({}, prevState);
@@ -186,13 +197,13 @@ namespace ChatsStore {
         DB.setChatsState(copy);
         return copy;
       case Action.ADD_MESSAGE:
+        const msgChatId: string = action.chatId;
         const msg: Message = action.msg;
-        const msgChatId = action.chatId;
 
         if (!copy.chatsInfo.has(msgChatId)) {
           const newChatInfo: ChatInfo = {
             id: msgChatId,
-            notificationCount: 0,
+            notificationCount: 1,
             lastMsgId: msg.id,
           };
           copy.chatsInfo.set(newChatInfo.id, newChatInfo);
@@ -209,8 +220,7 @@ namespace ChatsStore {
         chat.messages.set(msg.id, msg);
 
         const chatInfo = copy.chatsInfo.get(msgChatId)!;
-        if (chatInfo.lastMsgId === '' ||
-          msg.timestamp >
+        if (msg.timestamp >
           chat.messages.get(chatInfo.lastMsgId)!.timestamp
         ) {
           chatInfo.lastMsgId = msg.id;
@@ -219,6 +229,9 @@ namespace ChatsStore {
         }
 
         DB.setChatsState(copy);
+        return copy;
+      case Action.HIDE_BTNS_IN_MSG:
+        copy.chats.get(action.chatId)!.messages.get(action.messageId)!.hideBtn = true;
         return copy;
       default:
         return prevState;

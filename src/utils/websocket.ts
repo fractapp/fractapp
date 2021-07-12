@@ -6,11 +6,9 @@ import Global from 'storage/Global';
 import GlobalStore from 'storage/Global';
 import { Profile } from 'types/profile';
 import stringUtils from 'utils/string';
-import { Message, MessageAction, MessagesInfo } from 'types/message';
-import { Transaction } from 'types/transaction';
-import { toCurrency } from 'types/wallet';
-import tasks from 'utils/tasks';
+import { Message, MessageRq, MessagesInfo, UndeliveredMessagesInfo } from 'types/message';
 import AccountsStore from 'storage/Accounts';
+import { randomAsHex } from '@polkadot/util-crypto';
 
 /**
  * @namespace
@@ -50,33 +48,43 @@ export class WebsocketApi {
 
     this.isWsForceClosed = false;
     this.wsConnection = new WebSocket(`${FRACTAPP_WS}?jwt=${jwt}`);
+
     this.wsConnection.onopen = function() {
       console.log('WS Fractapp connected...');
     };
 
-    const onMessage = this.onMessage;
+    const thisApi = this;
     this.wsConnection.onmessage = function(e) {
       const rs = JSON.parse(e.data);
-      console.log(rs);
-      onMessage(rs);
+      thisApi.onMessage(rs);
     };
 
     this.wsConnection.onclose = function(e) {
-      const api = WebsocketApi.getWsApi();
-      if (api.isWsForceClosed) {
+      if (thisApi.isWsForceClosed) {
         return;
       }
       console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
       setTimeout(function() {
-        api.open();
+        thisApi.open();
       }, 5000);
     };
 
     this.wsConnection.onerror = function(err) {
-      const api = WebsocketApi.getWsApi();
       console.error('Socket encountered error: ', err.message, 'Closing socket');
-      api!.close();
     };
+  }
+
+
+  public sendMsg(msgRq: MessageRq): Promise<void> {
+    return new Promise<void>((resolve => {
+      this.wsConnection?.send(JSON.stringify({
+        id: randomAsHex(32),
+        method: 'message',
+        message: msgRq,
+      }));
+
+      setTimeout(() => resolve(), 1000);
+    }));
   }
 
   private onMessage(wsMessage: any) {
@@ -84,13 +92,36 @@ export class WebsocketApi {
       case 'message':
         this.message(wsMessage.value);
         break;
+      case 'undelivered':
+        this.undeliveredMessages(wsMessage.value);
+        break;
     }
   }
 
+  public close() {
+    this.isWsForceClosed = true;
+    this.wsConnection!.close();
+    console.log('Fractapp WS disconnected');
+  }
+
   private message(messagesInfo: MessagesInfo) {
+    const user: Profile = messagesInfo.user;
+    const messages: Array<Message> = messagesInfo.messages;
+
+    user.addresses = stringUtils.objectToMap(user.addresses);
+    this.globalContext.dispatch(Global.setUser({
+      isAddressOnly: false,
+      title: user.name === '' ? user.username : user.name,
+      value: user,
+    }));
+
+    for (let message of messages) {
+      this.chatsContext.dispatch(ChatsStore.addMsg(message.sender, message));
+    }
+  }
+  private undeliveredMessages(messagesInfo: UndeliveredMessagesInfo) {
     const users: Map<string, Profile> = stringUtils.objectToMap(messagesInfo.users);
     const messages: Array<Message> = messagesInfo.messages;
-    const transactions: Map<string, Transaction> = stringUtils.objectToMap(messagesInfo.transactions);
 
     for (let [key, user] of users) {
       user.addresses = stringUtils.objectToMap(user.addresses);
@@ -102,61 +133,10 @@ export class WebsocketApi {
     }
 
     for (let message of messages) {
-      if (message.value.startsWith('/')) {
-        const action = message.value.substring(1);
-        switch (action) {
-          case MessageAction.AddTxToChat:
-            if (message.sender !== '') {
-              break;
-            }
-
-            const currency = toCurrency(message.args[0]);
-            const txId = message.args[1];
-
-            if (!transactions.has(txId) || !messagesInfo.transactions.has(txId)) {
-              break;
-            }
-
-            const existTxs = this.chatsContext.state.transactions.get(currency)!;
-            if (
-              existTxs.transactionById.has(txId) ||
-              existTxs.transactionById.has('sent-' + txId)
-            ) {
-              break;
-            }
-
-            const tx = messagesInfo.transactions.get(txId)!;
-
-            tasks.setTx(this.globalContext, this.chatsContext, tx);
-            break;
-          default:
-            this.addMsgToChat(message);
-            break;
-        }
-      } else {
-        this.addMsgToChat(message);
-      }
+      this.chatsContext.dispatch(ChatsStore.addMsg(message.sender, message));
     }
   }
 
-  private addMsgToChat(message: Message) {
-    this.chatsContext.dispatch({
-      type: ChatsStore.Action.ADD_MESSAGE,
-      msg: {
-        id: message.id,
-        value: message.value,
-        timestamp: message.timestamp,
-      },
-      chatId: message.sender,
-    });
-  }
-
-
-  public close() {
-    this.isWsForceClosed = true;
-    this.wsConnection!.close();
-    console.log('Fractapp WS disconnected');
-  }
 }
 
 

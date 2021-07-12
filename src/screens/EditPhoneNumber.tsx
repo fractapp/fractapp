@@ -55,8 +55,7 @@ export const EditPhoneNumber = ({
     try {
       BackendApi.sendCode(
         number,
-        BackendApi.CodeType.Phone,
-        BackendApi.CheckType.Auth,
+        BackendApi.CodeType.Phone
       );
     } catch (e) {
       console.log(e);

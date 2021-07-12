@@ -42,7 +42,7 @@ export default function App() {
 
   const globalContext = useContext(GlobalStore.Context);
   const dialogContext = useContext(DialogStore.Context);
-  const accountsContext = useContext(AccountsStore.Context);
+  const accountsContext = useContext(AccountsStore.Context); //TODO: migrate
   const pricesContext = useContext(PricesStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
 
@@ -109,11 +109,15 @@ export default function App() {
   }, [ isWsLoaded]);
 
   const _handleAppStateChange = (nextAppState: any) => {
+    if (!globalContext.state.isRegistered) {
+      return;
+    }
     const api = websocket.getWsApi(globalContext, chatsContext);
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active'
     ) {
+
       api.open();
       console.log('App has come to the foreground!');
     } else if (
@@ -138,6 +142,7 @@ export default function App() {
     }
     openUrl(url);
   }, [url]);
+
   const openUrl = async (url: string | null) => {
     console.log('url: ' + url);
     let chat: ChatInfo | null = null;
@@ -260,15 +265,6 @@ export default function App() {
         chatsContext,
       );
 
-      if (!globalContext.state.isRegistered) {
-        const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
-        console.log(rsCode);
-        switch (rsCode) {
-          case 200:
-            globalContext.dispatch(GlobalStore.signInFractapp());
-            break;
-        }
-      }
       console.log('end pub data');
     });
   }, [globalContext.state.authInfo.isAuthed]);
@@ -287,13 +283,7 @@ export default function App() {
     }
 
     (async () => {
-      tasks.initPrivateData().then(() =>
-      {
-        const api = websocket.getWsApi(globalContext, chatsContext);
-        api.open();
-        setWsLoaded(true
-        );
-      });
+      tasks.initPrivateData();
 
       tasks.createTask(
         accountsContext,
@@ -301,6 +291,16 @@ export default function App() {
         globalContext,
         chatsContext,
       );
+
+      if (!globalContext.state.isRegistered) {
+        const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
+        console.log(rsCode);
+        switch (rsCode) {
+          case 200:
+            globalContext.dispatch(GlobalStore.signInFractapp());
+            break;
+        }
+      }
 
       if (isBiometry) {
         unlockWithBiometry()
@@ -320,6 +320,7 @@ export default function App() {
 
   useEffect(() => {
     if (
+      !globalContext.state.isRegistered ||
       !globalContext.state.isUpdatingProfile ||
       !globalContext.state.isInitialized ||
       !accountsContext.state.isInitialized ||
@@ -336,6 +337,10 @@ export default function App() {
         globalContext.dispatch(GlobalStore.setProfile(profile));
       }
       globalContext.dispatch(GlobalStore.setUpdatingProfile(false));
+
+      const api = websocket.getWsApi(globalContext, chatsContext);
+      api.open();
+      setWsLoaded(true);
     });
   }, [
     globalContext.state.isUpdatingProfile,
@@ -381,6 +386,8 @@ export default function App() {
       });
     }
   }, [isConnected, globalContext.state.isInitialized]);
+
+  console.log('render');
 
   return (
     <View
@@ -452,7 +459,7 @@ export default function App() {
       )}
       {!isLoading &&
         !isLocked &&
-        globalContext.state.isSyncShow &&
+        !globalContext.state.isSyncShow && //TODO: globalContext.state.isSyncShow
         globalContext.state.authInfo.isAuthed && (
           <View
             style={{

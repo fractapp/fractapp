@@ -45,17 +45,24 @@ export const Chats = ({navigation}: {navigation: any}) => {
         const msgOne = chatsContext.state.chats.get(a.id)!.messages.get(a.lastMsgId)!;
         const msgTwo = chatsContext.state.chats.get(b.id)!.messages.get(b.lastMsgId)!;
 
-        return  msgOne.timestamp - msgTwo.timestamp;
+        return msgOne.timestamp - msgTwo.timestamp;
       });
 
-      console.log(chatsContext.state.chatsInfo);
     return chats;
   };
+
   const renderItem = ({item}: {item: ChatInfo}) => {
    /* const tx = chatsContext.state.transactions
       .get(item.lastTxCurrency)!
-      .transactionById.get(item.lastTxId)!; TODO */
+      .transactionById.get(item.lastTxId)!; TODO*/
+
+    if (item.id === '940f585c01117605285eb21ce22685bc9c52d71bbabbd7e99f1143272fc1733e') {
+      return <View />; //TODO: remove
+    }
     const user = globalContext.state.users.get(item.id)!;
+    if (!globalContext.state.users.has(item.id)) {
+      return <View />; //TODO: get user from server
+    }
     const msg = chatsContext.state.chats.get(item.id)!.messages.get(item.lastMsgId)!;
 
     return (

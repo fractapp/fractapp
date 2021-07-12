@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { WalletLogo } from 'components/WalletLogo';
 import { ChatInfo } from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
@@ -7,12 +7,14 @@ import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
 import StringUtils from 'utils/string';
 import backend from 'utils/api';
-import { Message } from 'types/message';
+import { Button, Message } from 'types/message';
 import { MessageView } from 'components/MessageView';
 import { AddressOnly, Profile } from 'types/profile';
 import { PaymentMsg } from 'components/PaymentMsg';
 import { Currency } from 'types/wallet';
 import { TxStatus, TxType } from 'types/transaction';
+import { randomAsHex } from '@polkadot/util-crypto';
+import websocket from 'utils/websocket';
 
 /**
  * Chat screen
@@ -29,8 +31,32 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const [notificationCount] = useState(chatInfo.notificationCount);
   const [messages, setMessages] = useState<Array<Message>>([]);
+  const [lastHideBtnMsgId, setLastHideBtnMsgId] = useState<string>('');
 
-  useEffect(() => {
+  const data = [ ...chatsContext.state.chats.get(chatInfo.id)!.messages.values() ].sort((a, b) => b.timestamp - a.timestamp);
+  const onPressChatBtn = async (msgId: string, btn: Button) => {
+    const msg = {
+      id: 'answer-' + randomAsHex(32),
+      value: btn.value,
+      args: btn.arguments,
+      rows: [],
+      timestamp: Date.now(),
+      sender: globalContext.state.profile.id,
+      receiver: chatInfo.id,
+      hideBtn: true,
+    };
+    await websocket.getWsApi().sendMsg({
+      version: 1,
+      value: btn.value,
+      receiver: chatInfo.id,
+      args: btn.arguments,
+    });
+    chatsContext.dispatch(ChatsStore.addMsg(chatInfo.id, msg));
+    setLastHideBtnMsgId(msgId);
+    chatsContext.dispatch(ChatsStore.hideBtnsInMsg(chatInfo.id, msgId));
+  };
+
+ /* useEffect(() => {
     const messages = new Array<Message>();
     if (!chatsContext.state.chats.has(chatInfo.id)) {
       return;
@@ -38,24 +64,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     let ids = chatsContext.state.chats.get(chatInfo.id)!;
 
     for (let [id, msg] of ids.messages) {
-      messages.push({
-        id: id,
-        timestamp: msg.timestamp,
-        value: msg.value,
-        sender: msg.sender,
-        args: [],
-      });
+      messages.push(msg);
     }
-    messages.push({
-      id: 'id',
-      timestamp: messages[messages.length - 1].timestamp,
-      value: '/tx',
-      sender: 'sender',
-      args: [],
-    });
     const result = messages.sort((a, b) => b.timestamp - a.timestamp);
     setMessages(result);
-  }, [chatsContext.state]);
+    setLastHideBtnMsgId('');
+  }, [chatsContext.state.chatsInfo]);*/
 
   const renderItem = ({item, index}: {item: Message; index: number}) => {
     let line;
@@ -78,10 +92,11 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
     return (
       <View style={{
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
         scaleY: -1,
       }}>
+        {line}
         {
           item.value === '/tx' ?
             <PaymentMsg tx={{
@@ -102,9 +117,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
               usdFee: 1000,
               status: TxStatus.Pending,
             }} /> :
-            <MessageView value={item.value} timestamp={item.timestamp} isOwner={index % 2 === 0} />
+              (<MessageView isHideAnimation={item.id === lastHideBtnMsgId} message={item} isOwner={item.sender === globalContext.state.profile.id}
+                            onPressChatBtn={onPressChatBtn} />)
         }
-        {line}
       </View>
     );
   };
@@ -163,22 +178,32 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   return (
     <View style={styles.chat} onLayout={() => onLayout()}>
-      <FlatList
+
+      {/*<ScrollView style={{ scaleY: -1 }}>
+        {data.map((value, index) => {
+          if (index < 10) {
+            return renderItem({ item: value, index: index });
+          }
+        })
+        }
+      </ScrollView>*/
+      }
+      {/*<FlatList
         style={[{scaleY: -1}, styles.messages]}
         ref={flatListRef}
         scrollToOverflowEnabled={true}
         initialNumToRender={notificationCount < 10 ? 10 : notificationCount}
-        data={messages}
+        data={data.slice(0, 10)}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={<View style={{marginBottom: 50}} />}
+        keyExtractor={(item, index) => String(index)}
+        ListHeaderComponent={<View style={{marginBottom: 50}}  />}
         onScrollToIndexFailed={() => {
           const wait = new Promise((resolve) => setTimeout(resolve, 100));
           wait.then(() => {
             scroll();
           });
         }}
-      />
+      />*/}
       {/*((chatInfo.type === ChatType.WithUser &&
         globalContext.state.users.get(chatInfo.id) !== undefined) ||
         chatInfo.type === ChatType.AddressOnly) && (

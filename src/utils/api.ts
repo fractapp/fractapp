@@ -3,7 +3,6 @@ import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'types/wallet';
 import {Network} from 'types/account';
-
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
@@ -22,11 +21,6 @@ import stringUtils from 'utils/string';
  * @category Utils
  */
 namespace BackendApi {
-
-  export enum CheckType {
-    Auth = 0,
-    Change,
-  }
   export enum CodeType {
     Phone = 0,
     Email,
@@ -39,7 +33,6 @@ namespace BackendApi {
   let timeForCache = new Map<string, number>();
 
   const apiUrl = FRACTAPP_API;
-  const signTokenMsg = 'It is my firebase token for fractapp:';
   const authMsg = 'It is my fractapp rq:';
   const signAddressMsg = 'It is my auth key for fractapp:';
   export const CodeLength = 6;
@@ -52,7 +45,7 @@ namespace BackendApi {
     return <string>JWTToken;
   }
   export async function setToken(token: string): Promise<boolean> {
-    const accounts = await DB.getAccounts();
+  /*  const accounts = await DB.getAccounts();
     const seed = await DB.getSeed();
 
     if (accounts == null || seed == null) {
@@ -95,14 +88,13 @@ namespace BackendApi {
         ok = response.ok;
       }
     }
-
-    return ok;
+*/ //TODO: fix
+    return true;
   }
 
   export async function sendCode(
     value: string,
     type: CodeType,
-    checkType: CheckType,
   ): Promise<number> {
     const response = await fetch(`${apiUrl}/auth/sendCode`, {
       method: 'POST',
@@ -112,7 +104,6 @@ namespace BackendApi {
       body: JSON.stringify({
         type: type,
         value: value,
-        checkType: checkType,
       }),
     });
 

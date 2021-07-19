@@ -28,23 +28,29 @@ export const WalletDetailsGraph = ({
   const [balanceData, setBalance] = useState(new Array());
   const [colors, setColors] = useState(new Array());
   const [legendData, setLegends] = useState(new Array());
+  const [emptyUsdValue, setEmptyUsdValue] = useState(true);
 
   useEffect(() => {
     let colorsArray = new Array();
     let balanceArray = new Array();
     let legendsArray = new Array();
-
     for (let w of wallets) {
       if (!w.usdValue) {
+        setEmptyUsdValue(true);
         continue;
       } else {
-        colorsArray.push(getColor(w.currency));
+        setEmptyUsdValue(false);
         balanceArray.push(w.usdValue);
+        colorsArray.push(getColor(w.currency));
         legendsArray.push({
           name: getName(w.currency),
           symbol: {fill: getColor(w.currency), type: 'square'},
         });
       }
+    }
+    if (emptyUsdValue) {
+      balanceArray.push(1);
+      colorsArray.push('#cccccc');
     }
     setColors(colorsArray);
     setBalance(balanceArray);
@@ -56,7 +62,7 @@ export const WalletDetailsGraph = ({
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
     const txs = new Array<Transaction>();
-
+    
     for (let w of wallets) {
       if (!chatsContext.state.transactions.has(w.currency)) {
         continue;
@@ -73,15 +79,20 @@ export const WalletDetailsGraph = ({
       if (!txsBySelections.has(dateValue)) {
         txsBySelections.set(dateValue, new Array<Transaction>());
       }
-
       txsBySelections.get(dateValue)?.push(tx);
     }
-
-    for (const [key, value] of txsBySelections) {
+    if (txsBySelections.size === 0) {
       sections.push({
-        title: key,
-        data: value,
+        title: 'You have no transactions',
+        data: [],
       });
+    } else {
+      for (const [key, value] of txsBySelections) {
+        sections.push({
+          title: key,
+          data: value,
+        });
+      }
     }
     return sections;
   };
@@ -108,7 +119,9 @@ export const WalletDetailsGraph = ({
               colorScale={colors}
             />
           </View>
-
+          {emptyUsdValue === true ?
+            <Text style={styles.emptyBalance}>Balance is empty</Text> : false
+          }
           <View style={styles.dividingLine} />
         </View>
       )}
@@ -171,6 +184,10 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     color: 'black',
     marginLeft: '5%',
+  },
+  emptyBalance: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
   },
   dividingLine: {
     alignSelf: 'center',

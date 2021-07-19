@@ -239,17 +239,18 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
               justifyContent: 'center',
               alignContent: 'center',
             }}>
-            <Image
-              source={require('assets/img/not-found.png')}
-              style={{
-                width: 70,
-                height: 70,
-                alignSelf: 'center',
-              }}
-            />
-            <Text style={styles.noResultsText}>
-              {StringUtils.texts.NoResultsTitle}
-            </Text>
+              <Image
+                source={require('assets/img/not-found-bot.png')}
+                style={{
+                  width: 150,
+                  height: 150,
+                  alignSelf: 'center',
+                  marginRight: 20
+                }}
+              />
+              <Text style={styles.noResultsText}>
+                {StringUtils.texts.NoResultsTitle}
+              </Text>
           </View>
         )}
       <FlatList
@@ -319,6 +320,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: '#888888',
+    alignSelf: 'center',
   },
   list: {
     marginTop: 20,

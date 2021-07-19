@@ -1,10 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   SectionList,
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
+  Image,
 } from 'react-native';
 import {Wallet} from 'types/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,6 +31,15 @@ export const WalletDetails = ({
   const globalContext = useContext(GlobalStore.Context);
   const chatsContext = useContext(ChatsStore.Context);
   const wallet: Wallet = route.params.wallet;
+  const [emptyTxs, setEmptyTxs] = useState(true);
+
+  useEffect(() => {
+    if (chatsContext.state.transactions.size === 0) {
+      setEmptyTxs(true);
+    } else {
+      setEmptyTxs(false);
+    }
+  }, []);
 
   const getDataWithSections = () => {
     let sections = [];
@@ -147,6 +157,23 @@ export const WalletDetails = ({
           </View>
         )}
       />
+      {emptyTxs === true ? 
+        <View style={styles.notFound}>
+          <Image
+            source={require('assets/img/not-found-bot.png')}
+            style={{
+              width: 150,
+              height: 150,
+              alignSelf: 'center',
+              marginRight: 20
+            }}
+          /> 
+          <Text style={styles.notFoundText}>
+            {StringUtils.texts.NoTransactionsTitle}
+          </Text>
+        </View> :
+        true
+      }
     </View>
   );
 };
@@ -192,5 +219,16 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 1,
     backgroundColor: '#cccccc',
+  },
+  notFound: {
+    marginTop: 120,
+  },
+  notFoundText: {
+    alignSelf: 'center',
+    marginTop: 10,
+    fontSize: 19,
+    color: '#888888',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
   },
 });

@@ -130,8 +130,8 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getEmptyRouter('VerifyPassCode', VerifyPassCode)}
         {getRouterWithTitle(
           'WalletDetailsGraph',
-          'Statistics',//add title StringUtils.texts.titles.graph,
-          WalletDetailsGraph
+          StringUtils.texts.titles.statistics,
+          WalletDetailsGraph,
           )}
 
         {getRouterWithTitle(

@@ -42,6 +42,7 @@ namespace StringUtils {
 
     SearchPlaceholder: I18n.t('search_placeholder'),
     NoResultsTitle: I18n.t('no_results_title'),
+    NoTransactionsTitle: I18n.t('no_transactions_title'),
 
     EnterValidAddressErr: I18n.t('enter_valid_address_err'),
     SendByAddressBtn: I18n.t('send_by_address_btn'),
@@ -90,6 +91,7 @@ namespace StringUtils {
       receive: I18n.t('titles.receive'),
       settingWallet: I18n.t('titles.setting_wallet'),
       restoreWallet: I18n.t('titles.restore_wallet'),
+      statistics: I18n.t('titles.statistics'),
     },
     passCode: {
       verifyDescription: I18n.t('pass_code.verify_description'),

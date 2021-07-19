@@ -32,6 +32,7 @@
 
   "search_placeholder": "Search",
   "no_results_title": "No results",
+  "no_transactions_title": "No transactions",
 
   "enter_valid_address_err": "Please enter a valid address",
   "send_by_address_btn": "Send to address",
@@ -79,7 +80,8 @@
     "enter_amount": "Enter Amount",
     "receive": "Receive",
     "setting_wallet": "Setting wallet",
-    "restore_wallet": "Restore wallet"
+    "restore_wallet": "Restore wallet",
+    "statistics": "Statistics",
   },
   "pass_code": {
     "verify_description": "Enter passcode",
@@ -98,7 +100,8 @@
   "menu": {
     "chats": "Chats",
     "wallet": "Wallet",
-    "profile": "Profile"
+    "profile": "Profile",
+    "statistics": "Statistics",
   },
   "statuses": {
     "success": "Success",

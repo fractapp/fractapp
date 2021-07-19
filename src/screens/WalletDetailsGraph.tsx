@@ -1,15 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {VictoryPie, VictoryLegend} from 'victory-native';
-import {SectionList, StyleSheet, Text, View} from 'react-native';
+import {SectionList, StyleSheet, Text, View, Image} from 'react-native';
 import {Wallet, getColor, getName} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import {TransactionInfo} from 'components/TransactionInfo';
+import StringUtils from 'utils/string';
 
 /**
- * Screen with wallet details
+ * Screen with wallet details graphic
  * @category Screens
  */
 
@@ -29,6 +30,7 @@ export const WalletDetailsGraph = ({
   const [colors, setColors] = useState(new Array());
   const [legendData, setLegends] = useState(new Array());
   const [emptyUsdValue, setEmptyUsdValue] = useState(true);
+  const [emptyTxs, setEmptyTxs] = useState(true);
 
   useEffect(() => {
     let colorsArray = new Array();
@@ -52,6 +54,12 @@ export const WalletDetailsGraph = ({
       balanceArray.push(1);
       colorsArray.push('#cccccc');
     }
+    if (chatsContext.state.transactions.size === 0) {
+      setEmptyTxs(true);
+    } else {
+      setEmptyTxs(false);
+    }
+
     setColors(colorsArray);
     setBalance(balanceArray);
     setLegends(legendsArray);
@@ -81,80 +89,84 @@ export const WalletDetailsGraph = ({
       }
       txsBySelections.get(dateValue)?.push(tx);
     }
-    if (txsBySelections.size === 0) {
-      sections.push({
-        title: 'You have no transactions',
-        data: [],
-      });
-    } else {
-      for (const [key, value] of txsBySelections) {
-        sections.push({
-          title: key,
-          data: value,
-        });
-      }
-    }
     return sections;
   };
 
   return (
-    <SectionList
-      ListHeaderComponent={() => (
-        <View style={styles.statistics}>
-          <View style={styles.legend}>
-            <VictoryLegend
-              orientation="vertical"
-              gutter={20}
-              data={legendData}
-            />
-          </View>
+    <View>
+      <SectionList
+        ListHeaderComponent={() => (
+          <View style={styles.statistics}>
+            <View style={styles.legend}>
+              <VictoryLegend
+                orientation="vertical"
+                gutter={20}
+                data={legendData}
+              />
+            </View>
 
-          <View style={{flex: 1}}>
-            <VictoryPie
-              height={230}
-              radius={90}
-              innerRadius={60}
-              data={balanceData}
-              style={{labels: {display: 'none'}}}
-              colorScale={colors}
-            />
+            <View style={{flex: 1}}>
+              <VictoryPie
+                height={230}
+                radius={90}
+                innerRadius={60}
+                data={balanceData}
+                style={{labels: {display: 'none'}}}
+                colorScale={colors}
+              />
+            </View>
+            <View style={styles.dividingLine} />
           </View>
-          {emptyUsdValue === true ?
-            <Text style={styles.emptyBalance}>Balance is empty</Text> : false
-          }
-          <View style={styles.dividingLine} />
-        </View>
-      )}
-      sections={getDataWithSections()}
-      keyExtractor={(item) => String(item.id)}
-      renderItem={({item}) => (
-        <TransactionInfo
-          key={item.id}
-          transaction={item}
-          user={
-            item.userId != null && globalContext.state.users.has(item.userId)
-              ? globalContext.state.users.get(item.userId)!
-              : null
-          }
-          onPress={() =>
-            navigation.navigate('TransactionDetails', {
-              transaction: item,
-              wallet: wallets[item.currency],
-              user:
-                item.userId != null &&
-                globalContext.state.users.has(item.userId)
-                  ? globalContext.state.users.get(item.userId)
-                  : null,
-            })
-          }
-        />
-      )}
-      renderSectionHeader={({section: {title}}) => (
-        <View style={{marginTop: 10}}>
-          <Text style={styles.dateTitle}>{title}</Text>
-        </View>
-      )}
-    />
+        )}
+        sections={getDataWithSections()}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({item}) => (
+          <TransactionInfo
+            key={item.id}
+            transaction={item}
+            user={
+              item.userId != null && globalContext.state.users.has(item.userId)
+                ? globalContext.state.users.get(item.userId)!
+                : null
+            }
+            onPress={() =>
+              navigation.navigate('TransactionDetails', {
+                transaction: item,
+                wallet: wallets[item.currency],
+                user:
+                  item.userId != null &&
+                  globalContext.state.users.has(item.userId)
+                    ? globalContext.state.users.get(item.userId)
+                    : null,
+              })
+            }
+          />
+        )}
+        renderSectionHeader={({section: {title}}) => (
+          <View style={{marginTop: 10}}>
+            <Text style={styles.dateTitle}>{title}</Text>
+          </View>
+        )}
+      />
+      {emptyTxs === true ? 
+        <View style={styles.notFound}>
+          <Image
+            source={require('assets/img/not-found-bot.png')}
+            style={{
+              width: 150,
+              height: 150,
+              alignSelf: 'center',
+              marginRight: 20
+            }}
+          /> 
+          <Text style={styles.notFoundText}>
+            {StringUtils.texts.NoTransactionsTitle}
+          </Text>
+        </View> :
+        true
+      }
+    </View>
+    
   );
 };
 
@@ -195,5 +207,16 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 1,
     backgroundColor: '#cccccc',
+  },
+  notFound: {
+    marginTop: 90,
+  },
+  notFoundText: {
+    alignSelf: 'center',
+    marginTop: 10,
+    fontSize: 19,
+    color: '#888888',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
   },
 });

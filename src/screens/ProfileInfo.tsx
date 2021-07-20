@@ -6,18 +6,13 @@ import { ChatInfo, DefaultDetails } from 'types/chatInfo';
 import GlobalStore from 'storage/Global';
 import { UserProfile } from 'types/profile';
 import StringUtils from 'utils/string';
-import { Currency, Wallet } from 'types/wallet';
-import AccountsStore from 'storage/Accounts';
-import PricesStore from 'storage/Prices';
 
 /**
  * Screen with transaction details
  * @category Screens
  */
-export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) => {
+export const ProfileInfo = ({route}: {navigation: any, route: any}) => {
     const globalContext = useContext(GlobalStore.Context);
-    const accountsContext = useContext(AccountsStore.Context);
-    const priceContext = useContext(PricesStore.Context);
 
     const userInfo: UserProfile = route.params?.userInfo;
     const addressInfo: any = route.params?.addressInfo;
@@ -32,27 +27,6 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
         addressTitle = StringUtils.formatNameOrAddress(addressInfo.details.address);
         addressesArray.push(addressInfo.details?.address);
     }
-
-    const getWallet = (currency: Currency) => {
-        let account = accountsContext.state.accounts.get(currency);
-        let price = 0;
-        if (priceContext.state.has(currency)) {
-            price = priceContext.state.get(currency)!;
-        }
-        if (account === undefined) {
-            throw new Error('invalid account');
-        }
-        return new Wallet(
-            account.name,
-            account.address,
-            account.currency,
-            account.network,
-            account.balance,
-            account.planks,
-            price,
-        );
-    };
-
     return (
         <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
             <View style={{paddingLeft: 23, paddingRight: 22, paddingTop: 39}}>

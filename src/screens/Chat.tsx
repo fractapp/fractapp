@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import { WalletLogo } from 'components/WalletLogo';
 import { ChatInfo } from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
@@ -14,26 +14,30 @@ import { PaymentMsg } from 'components/PaymentMsg';
 import { Currency } from 'types/wallet';
 import { TxStatus, TxType } from 'types/transaction';
 import { randomAsHex } from '@polkadot/util-crypto';
+import { useDispatch, useSelector } from 'react-redux';
 import websocket from 'utils/websocket';
+import UsersStore from 'storage/Users';
 
 /**
  * Chat screen
  * @category Screens
  */
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
-  const flatListRef = useRef<FlatList>(null);
-
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const dispatch = useDispatch();
 
   const chatInfo: ChatInfo = route.params.chatInfo;
-  const user = globalContext.state.users.get(chatInfo.id)!;
+
+  const flatListRef = useRef<FlatList>(null);
+
+  const user = usersState.users[chatInfo.id]!;
 
   const [notificationCount] = useState(chatInfo.notificationCount);
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [lastHideBtnMsgId, setLastHideBtnMsgId] = useState<string>('');
 
-  const data = [ ...chatsContext.state.chats.get(chatInfo.id)!.messages.values() ].sort((a, b) => b.timestamp - a.timestamp);
   const onPressChatBtn = async (msgId: string, btn: Button) => {
     const msg = {
       id: 'answer-' + randomAsHex(32),
@@ -41,7 +45,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       args: btn.arguments,
       rows: [],
       timestamp: Date.now(),
-      sender: globalContext.state.profile.id,
+      sender: globalState.profile!.id,
       receiver: chatInfo.id,
       hideBtn: true,
     };
@@ -51,27 +55,65 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       receiver: chatInfo.id,
       args: btn.arguments,
     });
-    chatsContext.dispatch(ChatsStore.addMsg(chatInfo.id, msg));
+    dispatch(ChatsStore.actions.addMessage({
+      chatId: chatInfo.id,
+      msg: msg,
+    }));
     setLastHideBtnMsgId(msgId);
-    chatsContext.dispatch(ChatsStore.hideBtnsInMsg(chatInfo.id, msgId));
   };
 
- /* useEffect(() => {
-    const messages = new Array<Message>();
-    if (!chatsContext.state.chats.has(chatInfo.id)) {
-      return;
+  useEffect(() => {
+    navigation.setOptions({
+      title: stringUtils.formatNameOrAddress(user.title),
+      headerRight: () => {
+          const user = usersState.users[chatInfo.id]!;
+          return user.isAddressOnly ? (
+            <WalletLogo
+              currency={(user.value as AddressOnly).currency}
+              size={45}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: backend.getImgUrl(
+                  (user.value as Profile).id,
+                  (user.value as Profile).lastUpdate,
+                ),
+              }}
+              width={45}
+              height={45}
+              style={{ width: 45, height: 45, borderRadius: 25 }}
+            />
+          );
+      },
+      headerRightContainerStyle: {
+        marginRight: 20,
+      },
+    });
+  }, []);
+  useEffect(() => {
+    setMessages(
+      Object.keys(chatsState.chats[chatInfo.id].messages)
+        .map((key) => chatsState.chats[chatInfo.id].messages[key])
+        .sort((a, b) => b.timestamp - a.timestamp)
+    );
+  }, [chatsState.chats[chatInfo.id].messages]);
+  useEffect(() => {
+    if (chatInfo.notificationCount !== 0) {
+      dispatch(ChatsStore.actions.removeNotification(chatInfo.id));
     }
-    let ids = chatsContext.state.chats.get(chatInfo.id)!;
+  }, [chatInfo.notificationCount]);
 
-    for (let [id, msg] of ids.messages) {
-      messages.push(msg);
+  const onLayout = () => {
+    console.log('layout');
+    if (notificationCount > 0 && flatListRef && flatListRef.current) {
+      console.log('scroll');
+      scroll();
     }
-    const result = messages.sort((a, b) => b.timestamp - a.timestamp);
-    setMessages(result);
-    setLastHideBtnMsgId('');
-  }, [chatsContext.state.chatsInfo]);*/
+  };
 
   const renderItem = ({item, index}: {item: Message; index: number}) => {
+    console.log(index);
     let line;
     if (notificationCount !== 0 && index === notificationCount - 1) {
       line = (
@@ -117,53 +159,15 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
               usdFee: 1000,
               status: TxStatus.Pending,
             }} /> :
-              (<MessageView isHideAnimation={item.id === lastHideBtnMsgId} message={item} isOwner={item.sender === globalContext.state.profile.id}
-                            onPressChatBtn={onPressChatBtn} />)
+            (<MessageView key={index} isHideAnimation={item.id === lastHideBtnMsgId} message={item}
+                          isOwner={item.sender === globalState.profile!.id}
+                          onPressChatBtn={onPressChatBtn} />)
         }
       </View>
     );
   };
 
-  useEffect(() => {
-    navigation.setOptions({
-      title: stringUtils.formatNameOrAddress(user.title),
-      headerRight: () => {
-          const user = globalContext.state.users.get(chatInfo.id)!;
-          return user.isAddressOnly ? (
-            <WalletLogo
-              currency={(user.value as AddressOnly).currency}
-              size={45}
-            />
-          ) : (
-            <Image
-              source={{
-                uri: backend.getImgUrl(
-                  (user.value as Profile).id,
-                  (user.value as Profile).lastUpdate,
-                ),
-              }}
-              width={45}
-              height={45}
-              style={{ width: 45, height: 45, borderRadius: 25 }}
-            />
-          );
-      },
-      headerRightContainerStyle: {
-        marginRight: 20,
-      },
-    });
-  }, []);
-  useEffect(() => {
-    if (chatInfo.notificationCount !== 0) {
-      chatsContext.dispatch(ChatsStore.removeNotification(chatInfo.id));
-    }
-  }, [chatInfo.notificationCount]);
 
-  const onLayout = () => {
-    if (notificationCount > 0 && flatListRef && flatListRef.current) {
-      scroll();
-    }
-  };
   const scroll = () => {
     let index = notificationCount;
     if (notificationCount > messages.length) {
@@ -178,24 +182,17 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   return (
     <View style={styles.chat} onLayout={() => onLayout()}>
-
-      {/*<ScrollView style={{ scaleY: -1 }}>
-        {data.map((value, index) => {
-          if (index < 10) {
-            return renderItem({ item: value, index: index });
-          }
-        })
-        }
-      </ScrollView>*/
-      }
-      {/*<FlatList
+      {<FlatList
         style={[{scaleY: -1}, styles.messages]}
         ref={flatListRef}
-        scrollToOverflowEnabled={true}
-        initialNumToRender={notificationCount < 10 ? 10 : notificationCount}
-        data={data.slice(0, 10)}
+        scrollToOverflowEnabled={false}
+        windowSize={5}
+      //  initialNumToRender={10}
+        data={messages}
+        extraData={chatsState.chats[chatInfo.id].messages}
         renderItem={renderItem}
-        keyExtractor={(item, index) => String(index)}
+        initialScrollIndex={notificationCount - 1}
+        keyExtractor={(item, index) => index.toString()}
         ListHeaderComponent={<View style={{marginBottom: 50}}  />}
         onScrollToIndexFailed={() => {
           const wait = new Promise((resolve) => setTimeout(resolve, 100));
@@ -203,7 +200,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
             scroll();
           });
         }}
-      />*/}
+      />}
       {/*((chatInfo.type === ChatType.WithUser &&
         globalContext.state.users.get(chatInfo.id) !== undefined) ||
         chatInfo.type === ChatType.AddressOnly) && (

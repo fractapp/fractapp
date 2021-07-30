@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { AmountValue } from 'components/AmountValue';
 import { BlueButton } from 'components/BlueButton';
@@ -19,15 +19,17 @@ import { AddressOnly, Profile } from 'types/profile';
 import math from 'utils/math';
 import { Transaction, TxType, TxStatus } from 'types/transaction';
 import StringUtils from 'utils/string';
+import { useDispatch, useSelector } from 'react-redux';
+import UsersStore from 'storage/Users';
 
 /**
  * Screen with sending funds
  * @category Screens
  */
 export const Send = ({ navigation, route }: { navigation: any; route: any }) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
-  const dialogContext = useContext(DialogStore.Context);
+  const dispatch = useDispatch();
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
 
   const isEditable: boolean = route.params.isEditable;
   const wallet: Wallet = route.params.wallet;
@@ -54,7 +56,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const [isWrite, setIsWrite] = useState<boolean>(false);
 
   useEffect(() => {
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
     (async () => {
       try {
         await api
@@ -62,30 +64,30 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
         if (isEditable) {
           setReceiver('');
-          globalContext.dispatch(GlobalStore.setLoading(false));
+          dispatch(GlobalStore.actions.hideLoading());
           return;
         }
 
-        const user = globalContext.state.users.get(chatInfo.id)!;
+        const user = usersState.users[chatInfo.id]!;
         if (!user.isAddressOnly) {
           const p = await backend.getUserById((user.value as Profile).id);
 
           if (p === undefined || p == null) {
-            globalContext.dispatch(GlobalStore.setLoading(false));
-            dialogContext.dispatch(
-              DialogStore.open(
-                p === undefined ? StringUtils.texts.UserHasBeenDeletedTitle : StringUtils.texts.ServiceUnavailableTitle,
-                '',
-                () => {
-                  dialogContext.dispatch(DialogStore.close());
-                },
+            dispatch(GlobalStore.actions.hideLoading());
+            dispatch(
+              DialogStore.actions.showDialog(
+                {
+                  title: p === undefined ? StringUtils.texts.UserHasBeenDeletedTitle : StringUtils.texts.ServiceUnavailableTitle,
+                  text: '',
+                  onPress: () => dispatch(DialogStore.actions.hideDialog()),
+                }
               ),
             );
             navigation.goBack();
             return;
           } else {
-            setReceiver(p.addresses.get(wallet.currency)!);
-            globalContext.dispatch(GlobalStore.setUser({
+            setReceiver(p.addresses[wallet.currency]!);
+            dispatch(UsersStore.actions.setUser({
               isAddressOnly: false,
               value: p,
               title: user.title,
@@ -102,20 +104,19 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
         }
 
         setTimeout(
-          () => globalContext.dispatch(GlobalStore.setLoading(false)),
+          () => dispatch(GlobalStore.actions.hideLoading()),
           500,
         );
 
       } catch (e) {
         console.log('Err: ' + e);
-        globalContext.dispatch(GlobalStore.setLoading(false));
-        dialogContext.dispatch(
-          DialogStore.open(
-            StringUtils.texts.ServiceUnavailableTitle,
-            '',
-            () => {
-              dialogContext.dispatch(DialogStore.close());
-            },
+        dispatch(GlobalStore.actions.hideLoading());
+        dispatch(
+          DialogStore.actions.showDialog({
+              title: StringUtils.texts.ServiceUnavailableTitle,
+              text: '',
+              onPress: () => dispatch(DialogStore.actions.hideDialog()),
+            }
           ),
         );
         navigation.goBack();
@@ -133,15 +134,18 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
       return;
     }
 
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
 
     if (!isValidReceiver) {
-      dialogContext.dispatch(
-        DialogStore.open(StringUtils.texts.EnterValidAddressErr, '', () =>
-          dialogContext.dispatch(DialogStore.close()),
+      dispatch(
+        DialogStore.actions.showDialog({
+            title: StringUtils.texts.EnterValidAddressErr,
+            text: '',
+            onPress: () => dispatch(DialogStore.actions.hideDialog()),
+          },
         ),
       );
-      globalContext.dispatch(GlobalStore.setLoading(false));
+      dispatch(GlobalStore.actions.hideLoading());
       return;
     }
 
@@ -175,17 +179,15 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
       status: TxStatus.Pending,
     };
 
-    chatsContext.dispatch(ChatsStore.addPendingTx(tx));
+    dispatch(ChatsStore.actions.addPendingTx(tx));
 
-    globalContext.dispatch(GlobalStore.setLoading(false));
+    dispatch(GlobalStore.actions.hideLoading());
     navigation.reset({
       index: 1,
       actions: [
         navigation.navigate('Home'),
         navigation.navigate('Chat', {
-          chatInfo: chatsContext.state.chatsInfo.get(
-            tx.userId != null ? tx.userId : tx.address,
-          )!,
+          chatInfo: chatsState.chatsInfo[tx.userId != null ? tx.userId : tx.address]!,
         }),
       ],
     });
@@ -193,7 +195,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
   const renderReceiver = () => {
     if (isValidReceiver && !isWrite) {
-      const user = globalContext.state.users.get(chatInfo.id)!;
+      const user = usersState.users[chatInfo.id]!;
       if (!chatInfo || user.isAddressOnly) {
         return (
           <TouchableOpacity
@@ -254,13 +256,12 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
           width={'95%'}
           onPress={() =>
             !isValidReceiver
-              ? dialogContext.dispatch(
-              DialogStore.open(
-                StringUtils.texts.EnterValidAddressErr,
-                '',
-                () => dialogContext.dispatch(DialogStore.close()),
-              ),
-              )
+              ? dispatch(
+              DialogStore.actions.showDialog({
+                title: StringUtils.texts.EnterValidAddressErr,
+                text: '',
+                onPress: () => dispatch(DialogStore.actions.hideDialog()),
+              }))
               : navigation.navigate('EnterAmount', {
                 isUSDMode: isUSDMode,
                 value: value,

@@ -1,26 +1,28 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {StatisticsBar} from 'components/StatisticsBar';
 import {WalletInfo} from 'components/WalletInfo';
 import {Wallet, Currency} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
-import PricesStore from 'storage/Prices';
+import { useSelector } from 'react-redux';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Screen with all wallets
  * @category Screens
  */
 export const Wallets = ({navigation}: {navigation: any}) => {
-  const accountsContext = useContext(AccountsStore.Context);
-  const priceContext = useContext(PricesStore.Context);
-  const wallets = new Array<Wallet>();
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+
+  const wallets: Array<Wallet> = [];
   const renderAccounts = () => {
     const result = new Array();
 
-    for (let [currency, account] of accountsContext.state.accounts) {
+    for (let [currency, account] of Object.entries(accountState.accounts)) {
       let price = 0;
-      if (priceContext.state.has(currency)) {
-        price = priceContext.state.get(currency)!;
+      if (serverInfoState.prices[account.currency]) {
+        price = serverInfoState.prices[account.currency]!;
       }
 
       wallets.push(
@@ -53,13 +55,13 @@ export const Wallets = ({navigation}: {navigation: any}) => {
   const distribution = () => {
     let distribution = new Map<Currency, number>();
 
-    for (let [currency, account] of accountsContext.state.accounts) {
+    for (let [currency, account] of Object.entries(accountState.accounts)) {
       let price = 0;
-      if (priceContext.state.has(currency)) {
-        price = priceContext.state.get(currency)!;
+      if (serverInfoState.prices[account.currency]) {
+        price = serverInfoState.prices[account.currency]!;
       }
 
-      distribution.set(currency, account.balance * price);
+      distribution.set(account.currency, account.balance * price);
     }
     return distribution;
   };

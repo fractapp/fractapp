@@ -1,13 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {VictoryPie, VictoryLegend} from 'victory-native';
 import {SectionList, StyleSheet, Text, View} from 'react-native';
 import {Wallet, getColor, getName} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
-import GlobalStore from 'storage/Global';
-import ChatsStore from 'storage/Chats';
 import {TransactionInfo} from 'components/TransactionInfo';
 import { Profile } from 'types/profile';
+import { useSelector } from 'react-redux';
+import ChatsStore from 'storage/Chats';
+import UsersStore from 'storage/Users';
 
 /**
  * Screen with wallet details
@@ -21,8 +22,9 @@ export const WalletDetailsGraph = ({
   navigation: any;
   route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+
   const wallets: Array<Wallet> = route.params.wallets;
 
   //arrays for graph
@@ -59,13 +61,12 @@ export const WalletDetailsGraph = ({
     const txs = new Array<Transaction>();
 
     for (let w of wallets) {
-      if (!chatsContext.state.transactions.has(w.currency)) {
+      if (!chatsState.transactions[w.currency]) {
         continue;
       }
-      for (let tx of chatsContext.state.transactions
-        .get(w.currency)
-        ?.transactionById.values()!) {
-        txs.push(tx);
+      const stateTxs = chatsState.transactions[w.currency]?.transactionById!;
+      for (let id in stateTxs) {
+        txs.push(stateTxs[id]);
       }
     }
 
@@ -120,8 +121,8 @@ export const WalletDetailsGraph = ({
           key={item.id}
           transaction={item}
           user={
-            item.userId != null && globalContext.state.users.has(item.userId)
-              ? (globalContext.state.users.get(item.userId)!.value as Profile)
+            item.userId != null && usersState.users[item.userId]
+              ? (usersState.users[item.userId]!.value as Profile)
               : null
           }
           onPress={() =>
@@ -130,8 +131,8 @@ export const WalletDetailsGraph = ({
               wallet: wallets[item.currency],
               user:
                 item.userId != null &&
-                globalContext.state.users.has(item.userId)
-                  ? globalContext.state.users.get(item.userId)
+                usersState.users[item.userId]
+                  ? usersState.users[item.userId]
                   : null,
             })
           }

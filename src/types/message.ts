@@ -55,5 +55,5 @@ export type MessagesInfo = {
  */
 export type UndeliveredMessagesInfo = {
   messages: Array<Message>,
-  users: Map<string, Profile>
+  users: Record<string, Profile>
 };

@@ -5,23 +5,26 @@ import BackendApi from 'utils/api';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Screen with editing email in fractapp
  * @category Screens
  */
 export const EditEmail = ({navigation}: {navigation: any}) => {
-  const dialogContext = useContext(Dialog.Context);
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState<string>('');
 
   const onSuccess = async () => {
     if (!EmailValidator.validate(email)) {
-      dialogContext.dispatch(
-        Dialog.open(
-          StringUtils.texts.InvalidEmailTitle,
-          StringUtils.texts.InvalidEmailText,
-          () => dialogContext.dispatch(Dialog.close()),
+      dispatch(
+        Dialog.actions.showDialog(
+          {
+            title: StringUtils.texts.InvalidEmailTitle,
+            text: StringUtils.texts.InvalidEmailText,
+            onPress: () => dispatch(Dialog.actions.hideDialog()),
+          }
         ),
       );
       return;

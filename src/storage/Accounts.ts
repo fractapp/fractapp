@@ -1,72 +1,51 @@
 import {Account} from 'types/account';
 import {Currency} from 'types/wallet';
-import {createContext, Dispatch} from 'react';
 import db from 'storage/DB';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 /**
  * @namespace
  * @category Storage
  */
-namespace AccountsStore {
-  export enum Action {
-    SET,
-    UPDATE_BALANCE,
-  }
-
+namespace  AccountsStore {
   export type State = {
-    accounts: Map<Currency, Account>;
+    accounts: {
+      [id in Currency]: Account
+    };
     isInitialized: boolean;
   };
 
-  export const initialState = (): State => ({
-    accounts: new Map<Currency, Account>(),
+  export const initialState = (): State => <AccountsStore.State>({
+    accounts: {},
     isInitialized: false,
   });
 
-  export type ContextType = {
-    state: State;
-    dispatch: Dispatch<any>;
-  };
-
-  export const Context = createContext<ContextType>({
-    state: initialState(),
-    dispatch: () => null,
-  });
-
-  export function reducer(prevState: State, action: any): State {
-    let copy: State = Object.assign({}, prevState);
-    switch (action.type) {
-      case Action.SET:
-        copy.accounts = action.accounts;
-        copy.isInitialized = true;
-        return copy;
-      case Action.UPDATE_BALANCE:
-        const account = copy.accounts.get(action.currency);
-        if (account === undefined) {
-          return prevState;
+  const slice = createSlice({
+    name: 'accounts',
+    initialState: initialState(),
+    reducers: {
+      set(state: State, action: PayloadAction<State>): State {
+        state = action.payload;
+        return state;
+      },
+      updateBalance(state: State, action: PayloadAction<{
+        currency: Currency,
+        balance: number,
+        planks: string,
+      }>): State {
+        const account = state.accounts[action.payload.currency];
+        if (!account) {
+          return state;
         }
-        account.balance = action.balance;
-        account.planks = action.planks;
+        account.balance = action.payload.balance;
+        account.planks = action.payload.planks;
         db.setAccountInfo(account);
-        return copy;
-      default:
-        return prevState;
-    }
-  }
+        return state;
+      },
+    },
+  });
 
-  export const updateBalance = (
-    currency: Currency,
-    balance: number,
-    planks: string,
-  ) => ({
-    type: Action.UPDATE_BALANCE,
-    balance: balance,
-    currency: currency,
-    planks: planks,
-  });
-  export const set = (accounts: Map<Currency, Account>) => ({
-    type: Action.SET,
-    accounts: accounts,
-  });
+  export const actions = slice.actions;
+  export const reducer = slice.reducer;
 }
 export default AccountsStore;

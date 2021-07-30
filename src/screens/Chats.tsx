@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -8,17 +8,18 @@ import {
 } from 'react-native';
 import {ChatShortInfo} from 'components/ChatShortInfo';
 import {ChatInfo} from 'types/chatInfo';
-import ChatsStore from 'storage/Chats';
-import GlobalStore from 'storage/Global';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
+import ChatsStore from 'storage/Chats';
+import UsersStore from 'storage/Users';
 
 /**
  * Chat list screen
  * @category Screens
  */
 export const Chats = ({navigation}: {navigation: any}) => {
-  const chatsContext = useContext(ChatsStore.Context);
-  const globalContext = useContext(GlobalStore.Context);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
 
   useEffect(() => {
     navigation.setOptions({
@@ -33,7 +34,7 @@ export const Chats = ({navigation}: {navigation: any}) => {
   }, []);
 
   const getChats = () => {
-    const chats = Array.from(chatsContext.state.chatsInfo.values())
+    const chats = Object.keys(chatsState.chatsInfo).map((key) => chatsState.chatsInfo[key])
       /*.filter(
         (value) =>
           chatsContext.state.transactions.has(value.lastTxCurrency) &&
@@ -42,8 +43,8 @@ export const Chats = ({navigation}: {navigation: any}) => {
             .transactionById.has(value.lastTxId), TODO
       )*/
       .sort((a, b) => {
-        const msgOne = chatsContext.state.chats.get(a.id)!.messages.get(a.lastMsgId)!;
-        const msgTwo = chatsContext.state.chats.get(b.id)!.messages.get(b.lastMsgId)!;
+        const msgOne = chatsState.chats[a.id]!.messages[a.lastMsgId]!;
+        const msgTwo = chatsState.chats[b.id]!.messages[b.lastMsgId]!;
 
         return msgOne.timestamp - msgTwo.timestamp;
       });
@@ -56,14 +57,11 @@ export const Chats = ({navigation}: {navigation: any}) => {
       .get(item.lastTxCurrency)!
       .transactionById.get(item.lastTxId)!; TODO*/
 
-    if (item.id === '940f585c01117605285eb21ce22685bc9c52d71bbabbd7e99f1143272fc1733e') {
-      return <View />; //TODO: remove
-    }
-    const user = globalContext.state.users.get(item.id)!;
-    if (!globalContext.state.users.has(item.id)) {
+    const user = usersState.users[item.id] !;
+    if (!usersState.users[item.id]) {
       return <View />; //TODO: get user from server
     }
-    const msg = chatsContext.state.chats.get(item.id)!.messages.get(item.lastMsgId)!;
+    const msg = chatsState.chats[item.id]!.messages[item.lastMsgId]!;
 
     return (
       <TouchableHighlight

@@ -14,7 +14,7 @@ export type Profile = {
   username: string;
   avatarExt: string;
   lastUpdate: number;
-  addresses: Map<Currency, string>;
+  addresses: Record<Currency, string>;
 };
 
 export type AddressOnly = {

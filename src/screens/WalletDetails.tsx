@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   SectionList,
   StyleSheet,
@@ -12,10 +12,11 @@ import {Transaction} from 'types/transaction';
 import {TransactionInfo} from 'components/TransactionInfo';
 import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
 import stringUtils from 'utils/string';
-import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import StringUtils from 'utils/string';
 import { Profile } from 'types/profile';
+import { useSelector } from 'react-redux';
+import UsersStore from 'storage/Users';
 
 /**
  * Screen with wallet details
@@ -28,8 +29,8 @@ export const WalletDetails = ({
   navigation: any;
   route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
   const wallet: Wallet = route.params.wallet;
 
   const getDataWithSections = () => {
@@ -39,14 +40,13 @@ export const WalletDetails = ({
     let txsBySelections = new Map<string, Array<Transaction>>();
     const txs = new Array<Transaction>();
 
-    if (!chatsContext.state.transactions.has(wallet.currency)) {
+    if (!chatsState.transactions[wallet.currency]) {
       return [];
     }
 
-    for (let tx of chatsContext.state.transactions
-      .get(wallet.currency)
-      ?.transactionById.values()!) {
-      txs.push(tx);
+    const stateTransactions = chatsState.transactions[wallet.currency]?.transactionById!;
+    for (let id in stateTransactions) {
+      txs.push(stateTransactions[id]);
     }
 
     for (let tx of txs.sort((a, b) => b.timestamp - a.timestamp)) {
@@ -125,8 +125,8 @@ export const WalletDetails = ({
             key={item.id}
             transaction={item}
             user={
-              item.userId != null && globalContext.state.users.has(item.userId)
-                ? (globalContext.state.users.get(item.userId)!.value as Profile)
+              item.userId != null && usersState.users[item.userId]
+                ? (usersState.users[item.userId]!.value as Profile)
                 : null
             }
             onPress={() =>
@@ -135,8 +135,8 @@ export const WalletDetails = ({
                 wallet: wallet,
                 user:
                   item.userId != null &&
-                  globalContext.state.users.has(item.userId)
-                    ? globalContext.state.users.get(item.userId)
+                  usersState.users[item.userId]
+                    ? usersState.users[item.userId]
                     : null,
               })
             }

@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {TextInput} from 'components/TextInput';
@@ -11,6 +11,7 @@ import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 import passwordValidator from 'password-validator';
 import googleUtil from 'utils/google';
+import { useDispatch, useSelector } from 'react-redux';
 
 const minPasswordLength = 8;
 const schema = new passwordValidator();
@@ -27,8 +28,8 @@ export const WalletFileBackup = ({
   navigation: any;
   route: any;
 }) => {
-  const dialogContext = useContext(Dialog.Context);
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const [fileName, setFilename] = useState<string>(
     backupUtils.randomFilename(),
@@ -76,12 +77,12 @@ export const WalletFileBackup = ({
       }
 
       if (res.isExist) {
-        dialogContext.dispatch(
-          Dialog.open(
-            StringUtils.texts.FileExistTitle,
-            StringUtils.texts.FileExistText,
-            () => dialogContext.dispatch(Dialog.close()),
-          ),
+        dispatch(
+          Dialog.actions.showDialog({
+            title: StringUtils.texts.FileExistTitle,
+            text: StringUtils.texts.FileExistText,
+            onPress: () => dispatch(Dialog.actions.hideDialog()),
+          })
         );
         setLoading(false);
         return;
@@ -105,17 +106,19 @@ export const WalletFileBackup = ({
       setLoading(false);
 
       if (!isSuccessSave) {
-        dialogContext.dispatch(
-          Dialog.open(StringUtils.texts.ServiceUnavailableTitle, '', () =>
-            dialogContext.dispatch(Dialog.close()),
-          ),
+        dispatch(
+          Dialog.actions.showDialog({
+            title: StringUtils.texts.ServiceUnavailableTitle,
+            text: '',
+            onPress: () => dispatch(Dialog.actions.hideDialog()),
+          })
         );
         return;
       }
 
-      if (!globalContext.state.authInfo.isAuthed) {
+      if (!globalState.authInfo.hasWallet) {
         await DB.createAccounts(seed);
-        globalContext.dispatch(GlobalStore.signInLocal());
+        dispatch(GlobalStore.actions.initWallet());
       }
 
       navigation.reset({

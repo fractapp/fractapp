@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Keyboard,
   StyleSheet,
@@ -11,6 +11,7 @@ import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import BackendApi from 'utils/api';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Confirm code screen
@@ -23,8 +24,7 @@ export const ConfirmCode = ({
   navigation: any;
   route: any;
 }) => {
-  const dialogContext = useContext(Dialog.Context);
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
 
   const [code, setCode] = useState<string>('');
   const [editable, setEditable] = useState<boolean>(true);
@@ -73,14 +73,17 @@ export const ConfirmCode = ({
         setBorderColor('#2AB2E2');
 
         try {
-          globalContext.dispatch(GlobalStore.setLoading(true));
+          dispatch(GlobalStore.actions.showLoading());
 
           const rsCode = await BackendApi.auth(type, value, code);
           switch (rsCode) {
             case 400:
-              dialogContext.dispatch(
-                Dialog.open(StringUtils.texts.ServiceUnavailableTitle, '', () =>
-                  dialogContext.dispatch(Dialog.close()),
+              dispatch(
+                Dialog.actions.showDialog({
+                    title: StringUtils.texts.ServiceUnavailableTitle,
+                    text: '',
+                    onPress: () => dispatch(Dialog.actions.hideDialog()),
+                  },
                 ),
               );
 
@@ -89,9 +92,12 @@ export const ConfirmCode = ({
               break;
             case 403:
               navigation.goBack();
-              dialogContext.dispatch(
-                Dialog.open(StringUtils.texts.DifferentAddressTitle, '', () =>
-                  dialogContext.dispatch(Dialog.close()),
+              dispatch(
+                Dialog.actions.showDialog({
+                    title: StringUtils.texts.DifferentAddressTitle,
+                    text: '',
+                    onPress: () => dispatch(Dialog.actions.hideDialog()),
+                  },
                 ),
               );
               setCode('');
@@ -102,7 +108,7 @@ export const ConfirmCode = ({
               setBorderColor('#EA4335');
               break;
             case 200:
-              globalContext.dispatch(GlobalStore.signInFractapp());
+              dispatch(GlobalStore.actions.signInFractapp());
 
               navigation.reset({
                 index: 1,
@@ -119,7 +125,7 @@ export const ConfirmCode = ({
         }
 
         setEditable(true);
-        globalContext.dispatch(GlobalStore.setLoading(false));
+        dispatch(GlobalStore.actions.hideLoading());
       })();
     }
   }, [code]);
@@ -134,22 +140,26 @@ export const ConfirmCode = ({
     );
     switch (rsCode) {
       case 400:
-        dialogContext.dispatch(
-          Dialog.open(StringUtils.texts.ServiceUnavailableTitle, '', () =>
-            dialogContext.dispatch(Dialog.close()),
+        dispatch(
+          Dialog.actions.showDialog({
+              title: StringUtils.texts.ServiceUnavailableTitle,
+              text: '',
+              onPress: () => dispatch(Dialog.actions.hideDialog()),
+            },
           ),
         );
         break;
       case 404:
-        dialogContext.dispatch(
-          Dialog.open(
-            type === BackendApi.CodeType.Phone
-              ? StringUtils.texts.InvalidPhoneNumberTitle
-              : StringUtils.texts.InvalidEmailTitle,
-            type === BackendApi.CodeType.Phone
-              ? StringUtils.texts.InvalidPhoneNumberText
-              : StringUtils.texts.InvalidEmailText,
-            () => dialogContext.dispatch(Dialog.close()),
+        dispatch(
+          Dialog.actions.showDialog({
+              title:  type === BackendApi.CodeType.Phone
+                ? StringUtils.texts.InvalidPhoneNumberTitle
+                : StringUtils.texts.InvalidEmailTitle,
+              text:  type === BackendApi.CodeType.Phone
+                ? StringUtils.texts.InvalidPhoneNumberText
+                : StringUtils.texts.InvalidEmailText,
+              onPress: () => dispatch(Dialog.actions.hideDialog()),
+            },
           ),
         );
         break;

@@ -213,11 +213,6 @@ namespace BackendApi {
       return [];
     }
 
-    for (let user of users) {
-      user.addresses = stringUtils.objectToMap(user.addresses);
-      console.log(user.addresses);
-    }
-
     return users;
   }
 
@@ -314,11 +309,6 @@ namespace BackendApi {
 
     const users = await response.json();
 
-    for (let user of users) {
-      user.addresses = stringUtils.objectToMap(user.addresses);
-      console.log(user.addresses);
-    }
-
     return users;
   }
 
@@ -339,7 +329,6 @@ namespace BackendApi {
       return null;
     }
     const user: Profile = await response.json();
-    user.addresses = stringUtils.objectToMap(user.addresses);
 
     timeForCache.set(id, new Date().getTime() + cacheTimeout);
     userById.set(id, user);

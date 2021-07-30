@@ -2,13 +2,11 @@
 import {FRACTAPP_WS} from '@env';
 import ChatsStore from 'storage/Chats';
 import api from 'utils/api';
-import Global from 'storage/Global';
-import GlobalStore from 'storage/Global';
 import { Profile } from 'types/profile';
-import stringUtils from 'utils/string';
 import { Message, MessageRq, MessagesInfo, UndeliveredMessagesInfo } from 'types/message';
-import AccountsStore from 'storage/Accounts';
 import { randomAsHex } from '@polkadot/util-crypto';
+import { Dispatch } from 'redux';
+import UsersStore from 'storage/Users';
 
 /**
  * @namespace
@@ -19,25 +17,19 @@ export class WebsocketApi {
 
   private wsConnection: WebSocket | null;
   private isWsForceClosed = false;
-  private chatsContext: ChatsStore.ContextType
-  private globalContext: GlobalStore.ContextType
-  private accountContext: AccountsStore.ContextType
+  private dispatch: Dispatch<any>
 
-  constructor(globalContext: GlobalStore.ContextType, chatsContext: ChatsStore.ContextType, accountContext: AccountsStore.ContextType) {
-    this.globalContext = globalContext;
-    this.chatsContext = chatsContext;
-    this.accountContext = accountContext;
+  constructor(dispatch: Dispatch<any> ) {
+    this.dispatch = dispatch;
     this.wsConnection = null;
   }
 
-  public static getWsApi(globalContext: GlobalStore.ContextType | null = null,
-                         chatsContext: ChatsStore.ContextType | null = null,
-                         accountContext: AccountsStore.ContextType | null = null) {
+  public static getWsApi(dispatch: Dispatch<any> | null = null) {
       if (WebsocketApi.api == null) {
-        if (chatsContext == null || globalContext == null) {
-          throw ('chats or global context equals null');
+        if (dispatch == null) {
+          throw ('dispatcher equals null');
         }
-        WebsocketApi.api = new WebsocketApi(globalContext!, chatsContext!, accountContext!);
+        WebsocketApi.api = new WebsocketApi(dispatch!);
       }
 
       return this.api!;
@@ -108,24 +100,27 @@ export class WebsocketApi {
     const user: Profile = messagesInfo.user;
     const messages: Array<Message> = messagesInfo.messages;
 
-    user.addresses = stringUtils.objectToMap(user.addresses);
-    this.globalContext.dispatch(Global.setUser({
+    this.dispatch(UsersStore.actions.setUser({
       isAddressOnly: false,
       title: user.name === '' ? user.username : user.name,
       value: user,
     }));
 
     for (let message of messages) {
-      this.chatsContext.dispatch(ChatsStore.addMsg(message.sender, message));
+      console.log('message getted: ' + Date.now());
+      this.dispatch(ChatsStore.actions.addMessage({
+        chatId: message.sender,
+        msg: message,
+      }));
     }
   }
   private undeliveredMessages(messagesInfo: UndeliveredMessagesInfo) {
-    const users: Map<string, Profile> = stringUtils.objectToMap(messagesInfo.users);
+    console.log('MessageWs: ' + JSON.stringify(messagesInfo));
+    const users = messagesInfo.users;
     const messages: Array<Message> = messagesInfo.messages;
 
-    for (let [key, user] of users) {
-      user.addresses = stringUtils.objectToMap(user.addresses);
-      this.globalContext.dispatch(Global.setUser({
+    for (let [key, user] of Object.entries(users)) {
+      this.dispatch(UsersStore.actions.setUser({
         isAddressOnly: false,
         title: user.name === '' ? user.username : user.name,
         value: user,
@@ -133,7 +128,10 @@ export class WebsocketApi {
     }
 
     for (let message of messages) {
-      this.chatsContext.dispatch(ChatsStore.addMsg(message.sender, message));
+      this.dispatch(ChatsStore.actions.addMessage({
+        chatId: message.sender,
+        msg: message,
+      }));
     }
   }
 

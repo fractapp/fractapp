@@ -1,7 +1,7 @@
 import React from 'react';
 import {SelectWallet} from 'screens/SelectWallet';
 import AccountsStore from 'storage/Accounts';
-import PricesStore from 'storage/Prices';
+import PricesStore from 'storage/ServerInfo';
 import {Currency, Wallet} from 'types/wallet';
 import renderer from 'react-test-renderer';
 import {render, fireEvent} from '@testing-library/react-native';

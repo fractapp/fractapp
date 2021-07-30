@@ -8,7 +8,7 @@ import { ChatButton } from 'components/ChatButton';
  * Message in chats
  * @category Components
  */
-export const MessageView = (
+const MessageViewComponent = (
   {
     message,
     isOwner,
@@ -30,7 +30,7 @@ export const MessageView = (
       console.log(message.rows == null || message.hideBtn);
       console.log('---------');
     }
-    if (isHideAnimation && message.hideBtn && message.rows != null ) {
+    if (isHideAnimation && message.hideBtn && message.rows != null) {
       Animated.timing(fadeAnim,
         {
           useNativeDriver: false,
@@ -117,6 +117,8 @@ export const MessageView = (
     </View>
   );
 };
+
+export const MessageView = React.memo(MessageViewComponent);
 
 const styles = StyleSheet.create({
   box: {

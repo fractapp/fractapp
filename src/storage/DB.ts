@@ -11,6 +11,7 @@ import {MyProfile} from 'types/myProfile';
 import {User} from 'types/profile';
 import BN from 'bn.js';
 import ChatsStore from 'storage/Chats';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * @namespace
@@ -30,14 +31,12 @@ namespace DB {
   };
 
   export const AsyncStorageKeys = {
-    price: (currency: Currency) => `price_${currency}`,
     profile: 'profile',
     authInfo: 'auth_info',
+    serverInfo: 'server_info',
     accounts: 'accounts',
     contacts: 'contacts',
-    lang: 'lang',
     users: 'users',
-    urls: 'urls',
     accountInfo: (address: string) => `account_${address}`,
     chatsStorage: 'chatsStorage',
   };
@@ -83,25 +82,18 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setPrice(currency: Currency, value: number) {
-    await AsyncStorage.setItem(AsyncStorageKeys.price(currency), String(value));
+  export async function setServerInfo(serverInfo: ServerInfoStore.State) {
+    await AsyncStorage.setItem(AsyncStorageKeys.serverInfo, JSON.stringify(serverInfo));
   }
-  export async function getPrice(currency: Currency): Promise<number> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.price(currency));
+  export async function getServerInfo(): Promise<ServerInfoStore.State | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.serverInfo);
     if (result == null) {
-      return 0;
+      return null;
     }
-    return Number(result);
+    return JSON.parse(result);
   }
 
-  export async function setLang(lang: string) {
-    await AsyncStorage.setItem(AsyncStorageKeys.lang, lang);
-  }
-  export async function getLang(): Promise<string | null> {
-    return await AsyncStorage.getItem(AsyncStorageKeys.lang);
-  }
-
-  export async function setProfile(profile: MyProfile) {
+  export async function setProfile(profile: MyProfile | null) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.profile,
       JSON.stringify(profile),
@@ -134,17 +126,17 @@ namespace DB {
     if (authInfo == null) {
       authInfo = {
         isSynced: false,
-        isAuthed: false,
-        isPasscode: false,
-        isBiometry: false,
+        hasWallet: false,
+        hasPasscode: false,
+        hasBiometry: false,
       };
     }
 
     try {
       await setSecureItem(SecureStorageKeys.salt, salt);
       await setSecureItem(SecureStorageKeys.passcodeHash, hash);
-      authInfo.isPasscode = true;
-      authInfo.isBiometry = isBiometry;
+      authInfo.hasPasscode = true;
+      authInfo.hasBiometry = isBiometry;
     } catch (e) {
       await disablePasscode();
     }
@@ -156,13 +148,13 @@ namespace DB {
     if (authInfo == null) {
       authInfo = {
         isSynced: false,
-        isAuthed: false,
-        isPasscode: false,
-        isBiometry: false,
+        hasWallet: false,
+        hasPasscode: false,
+        hasBiometry: false,
       };
     }
-    authInfo.isPasscode = false;
-    authInfo.isBiometry = false;
+    authInfo.hasPasscode = false;
+    authInfo.hasBiometry = false;
 
     await setAuthInfo(authInfo);
 
@@ -300,37 +292,20 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setUsers(users: Map<string, User>) {
+  export async function setUsers(users: Record<string, User>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.users,
-      JSON.stringify([...users]),
+      JSON.stringify(users),
     );
   }
 
-  export async function getUsers(): Promise<Map<string, User>> {
+  export async function getUsers(): Promise<Record<string, User>> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.users);
 
     if (result == null) {
-      return new Map<string, User>();
+      return {};
     }
-    return new Map<string, User>(JSON.parse(result));
-  }
-
-  export async function setSubstrateUrls(urls: Map<Network, string>) {
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.urls,
-      JSON.stringify([...urls]),
-    );
-  }
-
-  export async function getSubstrateUrls(): Promise<Map<Network, string>> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.urls);
-
-    if (result == null) {
-      return new Map<Network, string>();
-    }
-
-    return new Map<Network, string>(JSON.parse(result));
+    return JSON.parse(result);
   }
 
   export async function setAccountInfo(account: Account) {

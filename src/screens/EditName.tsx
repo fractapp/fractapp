@@ -1,10 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/api';
 import StringUtils from 'utils/string';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Screen with editing name in fractapp
@@ -12,15 +13,15 @@ import StringUtils from 'utils/string';
  */
 export const EditName = ({navigation}: {navigation: any}) => {
   const regExp = new RegExp('[^A-Za-z0-9_-\\s]');
-  const globalContext = useContext(GlobalStore.Context);
-  const dialogContext = useContext(Dialog.Context);
+  const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
-  const [name, setName] = useState<string>(globalContext.state.profile.name);
+  const [name, setName] = useState<string>(globalState.profile!.name);
   const [isErrorName, setNameIsError] = useState<boolean>(false);
 
   const onSuccess = async () => {
     const validName = name.trim();
-    if (validName === globalContext.state.profile.name || validName === '') {
+    if (validName === globalState.profile!.name || validName === '') {
       navigation.goBack();
       return;
     }
@@ -31,20 +32,21 @@ export const EditName = ({navigation}: {navigation: any}) => {
       validName.length > 32 ||
       !(await backend.updateProfile(
         validName,
-        globalContext.state.profile.username,
+        globalState.profile!.username,
       ))
     ) {
-      dialogContext.dispatch(
-        Dialog.open(
-          StringUtils.texts.InvalidNameTitle,
-          StringUtils.texts.InvalidNameText,
-          () => dialogContext.dispatch(Dialog.close()),
+      dispatch(
+        Dialog.actions.showDialog({
+            title: StringUtils.texts.InvalidNameTitle,
+            text: StringUtils.texts.InvalidNameText,
+            onPress: () => dispatch(Dialog.actions.hideDialog()),
+          }
         ),
       );
       return;
     }
 
-    globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
+    dispatch(GlobalStore.actions.setUpdatingProfile(true));
     navigation.goBack();
     return;
   };

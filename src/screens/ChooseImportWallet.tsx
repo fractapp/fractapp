@@ -1,10 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text, FlatList} from 'react-native';
 import GlobalStore from 'storage/Global';
 import {WhiteButton} from 'components/WhiteButton';
 import backup from 'utils/backup';
 import googleUtil from 'utils/google';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Choose import wallet file import screen
@@ -17,14 +18,14 @@ export const ChooseImportWallet = ({
   route: any;
   navigation: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
 
   const type: backup.BackupType = route.params.type;
   const wallets: Array<string> = route.params.wallets;
   const ids: Array<string> = route.params?.ids;
 
   const open = (v: string) => {
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
     if (type === backup.BackupType.File) {
       backup
         .getFile(v)
@@ -33,12 +34,12 @@ export const ChooseImportWallet = ({
             file: file,
           });
           setTimeout(
-            () => globalContext.dispatch(GlobalStore.setLoading(false)),
+            () => dispatch(GlobalStore.actions.hideLoading()),
             500,
           );
         })
-        .catch((e) => {
-          globalContext.dispatch(GlobalStore.setLoading(false));
+        .catch(() => {
+          dispatch(GlobalStore.actions.hideLoading());
         });
     } else if (type === backup.BackupType.GoogleDrive) {
       googleUtil
@@ -48,18 +49,18 @@ export const ChooseImportWallet = ({
             file: file,
           });
           setTimeout(
-            () => globalContext.dispatch(GlobalStore.setLoading(false)),
+            () => dispatch(GlobalStore.actions.hideLoading()),
             500,
           );
         })
-        .catch((e) => {
-          globalContext.dispatch(GlobalStore.setLoading(false));
+        .catch(() => {
+          dispatch(GlobalStore.actions.hideLoading());
         });
     }
   };
 
   useEffect(() => {
-    globalContext.dispatch(GlobalStore.setLoading(false));
+    dispatch(GlobalStore.actions.hideLoading());
   }, []);
 
   return (

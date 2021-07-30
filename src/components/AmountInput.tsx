@@ -9,12 +9,13 @@ import {
   View,
 } from 'react-native';
 import {getSymbol, Wallet} from 'types/wallet';
-import PricesStore from 'storage/Prices';
+import PricesStore from 'storage/ServerInfo';
 import {Adaptors} from 'adaptors/adaptor';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import math from 'utils/math';
 import StringUtils from 'utils/string';
+import { useSelector } from 'react-redux';
 
 /**
  * Text input for amount
@@ -46,7 +47,8 @@ export const AmountInput = ({
   defaultValue: string;
   width?: string;
 }) => {
-  const priceContext = useContext(PricesStore.Context);
+  const priceState: PricesStore.State =  useSelector((state: any) => state.price);
+
   const api = Adaptors.get(wallet.network);
   const textInputRef = useRef<TextInput>(null);
 
@@ -97,7 +99,7 @@ export const AmountInput = ({
       const p = MathUtils.calculatePlanksValue(
         usd,
         api.decimals,
-        priceContext.state.get(wallet.currency) ?? 0,
+        priceState.prices[wallet.currency] ?? 0,
       );
       setPlanksValue(p);
 
@@ -110,7 +112,7 @@ export const AmountInput = ({
       const usd = MathUtils.calculateUsdValue(
         p,
         api.decimals,
-        priceContext.state.get(wallet.currency) ?? 0,
+        priceState.prices[wallet.currency] ?? 0,
       );
       setUSDValue(usd);
 
@@ -216,7 +218,7 @@ export const AmountInput = ({
       const usdFee = await MathUtils.calculateUsdValue(
         fee,
         api.decimals,
-        priceContext.state.get(wallet.currency) ?? 0,
+        priceState.prices[wallet.currency] ?? 0,
       );
       setPlanksFee(fee);
       setUsdFee(usdFee);

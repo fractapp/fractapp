@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {SeedButton} from 'components/SeedButton';
@@ -6,6 +6,7 @@ import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Confirm save seed phrase screen
@@ -18,7 +19,7 @@ export const ConfirmSaveSeed = ({
   navigation: any;
   route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
 
   const seed = route.params.seed;
   const isNewAccount = route.params.isNewAccount;
@@ -42,7 +43,7 @@ export const ConfirmSaveSeed = ({
 
       if (isNewAccount) {
         await DB.createAccounts(seed.join(' '));
-        await globalContext.dispatch(GlobalStore.signInLocal());
+        dispatch(GlobalStore.actions.initWallet());
       }
 
       setLoading(false);
@@ -77,7 +78,7 @@ export const ConfirmSaveSeed = ({
     setSourceState: React.Dispatch<React.SetStateAction<string[]>>,
     setDestinationState: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
-    const buttons = new Array<Element>();
+    const buttons = [];
 
     for (let i = 0; i < source.length; i++) {
       let value = source[i];

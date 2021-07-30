@@ -1,26 +1,26 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {WhiteButton, Img} from 'components/WhiteButton';
 import backup from 'utils/backup';
 import googleUtil from 'utils/google';
 import Backup from 'utils/backup';
-import Global from 'storage/Global';
 import GlobalStore from 'storage/Global';
 import {showMessage} from 'react-native-flash-message';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Import wallet screen
  * @category Screens
  */
 export const ImportWallet = ({navigation}: {navigation: any}) => {
-  const globalContext = useContext(Global.Context);
+  const dispatch = useDispatch();
 
   const openFileGoogleDrivePicker = async () => {
     await googleUtil.signOut();
     await googleUtil.signIn();
 
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
     const files = await backup.getWalletsFromGoogle();
     const wallets = files.wallets;
     const ids = files.ids;
@@ -31,7 +31,7 @@ export const ImportWallet = ({navigation}: {navigation: any}) => {
         type: 'danger',
         icon: 'danger',
       });
-      globalContext.dispatch(GlobalStore.setLoading(false));
+      dispatch(GlobalStore.actions.hideLoading());
     } else if (wallets.length === 1) {
       navigation.navigate('WalletFileImport', {
         file: await googleUtil.getFileBackup(ids[0]),

@@ -45,24 +45,24 @@ export const ChatShortInfo = ({
 
         <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
           <View style={{height: 25, flexDirection: 'row'}}>
-            <View style={{flex: 3}}>
+            <View style={{flex: 10}}>
               <Text style={[styles.name, {textAlign: 'left'}]}>
                 {stringUtils.formatNameOrAddress(user.title)}
               </Text>
             </View>
-            <View style={{flex: 1}}>
-              <Text style={[styles.time, {textAlign: 'right'}]}>
+            <View style={{flex: 2, alignItems: 'center'}}>
+              <Text style={[styles.time, {textAlign: 'center'}]}>
                 {stringUtils.forChatInfo(now, new Date(timestamp))}
               </Text>
             </View>
           </View>
           <View style={{height: 23, flexDirection: 'row'}}>
-            <View style={{flex: 8}}>
+            <View style={{flex: 10}}>
               <Text numberOfLines={1} style={[styles.msg, {textAlign: 'left'}]}>
                 {message}
               </Text>
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <View style={{flex: 2, alignItems: 'center'}}>
               <View style={styles.notification}>
                 {notificationCount !== 0 ? (
                   <Text style={[styles.notificationText]}>

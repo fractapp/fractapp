@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {
   ActivityIndicator,
@@ -15,7 +15,6 @@ import {Dialog} from 'components/Dialog';
 import {PassCode} from 'components/PassCode';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
-import DialogStore from 'storage/Dialog';
 import {Navigation} from 'screens/Navigation';
 import changeNavigationBarColor, {
   hideNavigationBar,
@@ -26,25 +25,31 @@ import {showMessage} from 'react-native-flash-message';
 import DB from 'storage/DB';
 import {useNetInfo} from '@react-native-community/netinfo';
 import AccountsStore from 'storage/Accounts';
-import PricesStore from 'storage/Prices';
-import ChatsStore from 'storage/Chats';
 import {Loader} from 'components/Loader';
 import backend from 'utils/api';
 import StringUtils from 'utils/string';
 import {navigate} from 'utils/RootNavigation';
 import {ChatInfo} from 'types/chatInfo';
-import {toCurrency} from 'types/wallet';
 import websocket from 'utils/websocket';
 import BackendApi from 'utils/api';
+import { useDispatch, useSelector } from 'react-redux';
+import UsersStore from 'storage/Users';
+import ChatsStore from 'storage/Chats';
+import ServerInfoStore from 'storage/ServerInfo';
+import { toCurrency } from 'types/wallet';
+import DialogStore from 'storage/Dialog';
+import { Adaptors } from 'adaptors/adaptor';
 
 export default function App() {
   const appState = useRef(AppState.currentState);
 
-  const globalContext = useContext(GlobalStore.Context);
-  const dialogContext = useContext(DialogStore.Context);
-  const accountsContext = useContext(AccountsStore.Context); //TODO: migrate
-  const pricesContext = useContext(PricesStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
+  const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const accountsState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+  const dialogState: DialogStore.State = useSelector((state: any) => state.dialog);
 
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isLocked, setLocked] = useState<boolean>(false);
@@ -64,6 +69,7 @@ export default function App() {
 
     await onSubmitPasscode(passcodeArray);
   };
+
   const onSubmitPasscode = async (passcode: Array<number>) => {
     let hash = await DB.getPasscodeHash();
     let salt = await DB.getSalt();
@@ -109,10 +115,10 @@ export default function App() {
   }, [ isWsLoaded]);
 
   const _handleAppStateChange = (nextAppState: any) => {
-    if (!globalContext.state.isRegistered) {
+    if (!globalState.isRegisteredInFractapp) {
       return;
     }
-    const api = websocket.getWsApi(globalContext, chatsContext);
+    const api = websocket.getWsApi(dispatch);
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active'
@@ -178,8 +184,8 @@ export default function App() {
         }
         console.log('Open link by user and type: ' + user + ' ' + type);
 
-        if (chatsContext.state.chatsInfo.has(user)) {
-          chat = chatsContext.state.chatsInfo.get(user)!;
+        if (chatsState.chatsInfo[user]) {
+          chat = chatsState.chatsInfo[user]!;
         } else {
           let profile = null;
           if (type === 'user') {
@@ -187,7 +193,7 @@ export default function App() {
           }
 
           if (type === 'user' && profile !== undefined) {
-            globalContext.dispatch(GlobalStore.setUser({
+            dispatch(UsersStore.actions.setUser({
               isAddressOnly: false,
               title: profile?.name! !== '' ? profile?.name! : profile?.username!,
               value: profile!,
@@ -198,7 +204,7 @@ export default function App() {
               lastMsgId: '',
             };
           } else if (type === 'address') {
-            globalContext.dispatch(GlobalStore.setUser({
+            dispatch(UsersStore.actions.setUser({
               isAddressOnly: true,
               title: user,
               value: {
@@ -214,7 +220,8 @@ export default function App() {
           }
         }
       }
-    } catch (e) {}
+    } catch (e) {
+    }
 
     showNavigationBar();
     setLoading(false);
@@ -245,7 +252,7 @@ export default function App() {
     setLoading(true);
 
     DB.getAuthInfo().then(async (authInfo) => {
-      if (authInfo == null || !authInfo.isAuthed) {
+      if (authInfo == null || !authInfo.hasWallet) {
         onLoaded();
 
         console.log('end ' + new Date().toTimeString());
@@ -253,31 +260,32 @@ export default function App() {
         return;
       }
 
-      setLocked(authInfo.isPasscode);
-      setBiometry(authInfo.isBiometry);
+      setLocked(authInfo.hasPasscode);
+      setBiometry(authInfo.hasBiometry);
 
       console.log('init pub data');
 
-      await tasks.init(
-        globalContext,
-        accountsContext,
-        pricesContext,
-        chatsContext,
-      );
+      await tasks.init(dispatch);
+
+      await Adaptors.init(serverInfoState);
 
       console.log('end pub data');
     });
-  }, [globalContext.state.authInfo.isAuthed]);
+  }, [globalState.authInfo.hasWallet]);
 
   useEffect(() => {
-    console.log('Is Global init? ' + globalContext.state.isInitialized);
-    console.log('Is Accounts init? ' + accountsContext.state.isInitialized);
-    console.log('Is Chats init? ' + chatsContext.state.isInitialized);
+    console.log('Is Global init? ' + globalState.isInitialized);
+    console.log('Is Accounts init? ' + accountsState.isInitialized);
+    console.log('Is Users init? ' + usersState.isInitialized);
+    console.log('Is Chats init? ' + chatsState.isInitialized);
+    console.log('Is Server Info init? ' + serverInfoState.isInitialized);
 
     if (
-      !globalContext.state.isInitialized ||
-      !accountsContext.state.isInitialized ||
-      !chatsContext.state.isInitialized
+      !globalState.isInitialized ||
+      !accountsState.isInitialized ||
+      !usersState.isInitialized ||
+      !chatsState.isInitialized ||
+      !serverInfoState.isInitialized
     ) {
       return;
     }
@@ -286,18 +294,24 @@ export default function App() {
       tasks.initPrivateData();
 
       tasks.createTask(
-        accountsContext,
-        pricesContext,
-        globalContext,
-        chatsContext,
+        accountsState,
+        globalState,
+        usersState,
+        chatsState,
+        serverInfoState,
+        dispatch
       );
 
-      if (!globalContext.state.isRegistered) {
+      const api = websocket.getWsApi(dispatch);
+      api.open();
+      setWsLoaded(true);
+
+      if (!globalState.isRegisteredInFractapp) {
         const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
         console.log(rsCode);
         switch (rsCode) {
           case 200:
-            globalContext.dispatch(GlobalStore.signInFractapp());
+            dispatch(GlobalStore.actions.signInFractapp());
             break;
         }
       }
@@ -313,18 +327,24 @@ export default function App() {
       console.log('end ' + new Date().toTimeString());
     })();
   }, [
-    globalContext.state.isInitialized,
-    accountsContext.state.isInitialized,
-    chatsContext.state.isInitialized,
+    globalState.isInitialized,
+    accountsState.isInitialized,
+    usersState.isInitialized,
+    chatsState.isInitialized,
+    serverInfoState.isInitialized,
   ]);
 
   useEffect(() => {
     if (
-      !globalContext.state.isRegistered ||
-      !globalContext.state.isUpdatingProfile ||
-      !globalContext.state.isInitialized ||
-      !accountsContext.state.isInitialized ||
-      !chatsContext.state.isInitialized
+      !globalState.isRegisteredInFractapp ||
+      !globalState.isUpdatingProfile ||
+
+
+      !globalState.isInitialized ||
+      !accountsState.isInitialized ||
+      !usersState.isInitialized ||
+      !chatsState.isInitialized ||
+      !serverInfoState.isInitialized
     ) {
       return;
     }
@@ -332,21 +352,20 @@ export default function App() {
     backend.myProfile().then(([code, profile]) => {
       console.log('update profile: ' + profile?.lastUpdate);
       if (code === 401) {
-        globalContext.dispatch(GlobalStore.signOutFractapp());
+        dispatch(GlobalStore.actions.signOutFractapp());
       } else if (code === 200) {
-        globalContext.dispatch(GlobalStore.setProfile(profile));
+        dispatch(GlobalStore.actions.setProfile(profile));
       }
-      globalContext.dispatch(GlobalStore.setUpdatingProfile(false));
-
-      const api = websocket.getWsApi(globalContext, chatsContext);
-      api.open();
-      setWsLoaded(true);
+      dispatch(GlobalStore.actions.setUpdatingProfile(false));
     });
   }, [
-    globalContext.state.isUpdatingProfile,
-    globalContext.state.isInitialized,
-    accountsContext.state.isInitialized,
-    chatsContext.state.isInitialized,
+    globalState.isRegisteredInFractapp,
+    globalState.isUpdatingProfile,
+    globalState.isInitialized,
+    accountsState.isInitialized,
+    usersState.isInitialized,
+    chatsState.isInitialized,
+    serverInfoState.isInitialized,
   ]);
 
   useEffect(() => {
@@ -356,7 +375,7 @@ export default function App() {
   }, [netInfo.isConnected]);
 
   useEffect(() => {
-    if (!globalContext.state.isInitialized) {
+    if (!globalState.isInitialized) {
       return;
     }
 
@@ -371,7 +390,7 @@ export default function App() {
   }, [isConnected]);
 
   useEffect(() => {
-    if (!globalContext.state.isInitialized) {
+    if (!globalState.isInitialized) {
       return;
     }
 
@@ -385,9 +404,9 @@ export default function App() {
         position: 'top',
       });
     }
-  }, [isConnected, globalContext.state.isInitialized]);
+  }, [isConnected, globalState.isInitialized]);
 
-  console.log('render');
+  console.log('render: ' + Date.now());
 
   return (
     <View
@@ -406,17 +425,17 @@ export default function App() {
           onSubmit={onSubmitPasscode}
         />
       ) : (
-        <Navigation isInitialized={globalContext.state.isInitialized} />
+        <Navigation isInitialized={globalState.isInitialized} />
       )}
       <Dialog
-        visible={dialogContext.state.visible}
+        visible={dialogState.dialog.visible}
         onPress={
-          dialogContext.state.onPress !== undefined
-            ? dialogContext.state.onPress!
+          dialogState.dialog.onPress !== undefined
+            ? dialogState.dialog.onPress!
             : () => console.log('invalid dialog onPress')
         }
-        title={dialogContext.state.title}
-        text={dialogContext.state.text}
+        title={dialogState.dialog.title}
+        text={dialogState.dialog.text}
       />
       {isLoading && (
         <View
@@ -444,7 +463,7 @@ export default function App() {
           </View>
         </View>
       )}
-      {globalContext.state.isLoadingShow && (
+      {globalState.loadInfo.isLoadingShow && (
         <View
           style={{
             display: 'flex',
@@ -459,8 +478,8 @@ export default function App() {
       )}
       {!isLoading &&
         !isLocked &&
-        !globalContext.state.isSyncShow && //TODO: globalContext.state.isSyncShow
-        globalContext.state.authInfo.isAuthed && (
+        globalState.loadInfo.isSyncShow &&
+        globalState.authInfo.hasWallet && (
           <View
             style={{
               position: 'absolute',

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Keyboard} from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
@@ -6,6 +6,7 @@ import {getSymbol, Wallet} from 'types/wallet';
 import BN from 'bn.js';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Screen with the input of the amount to be sent
@@ -18,7 +19,7 @@ export const EnterAmount = ({
   navigation: any;
   route: any;
 }) => {
-  const dialogContext = useContext(Dialog.Context);
+  const dispatch = useDispatch();
 
   const defaultValue = route.params?.value ?? '';
 
@@ -61,9 +62,12 @@ export const EnterAmount = ({
 
   const onSuccess = async () => {
     if (isLoading) {
-      dialogContext.dispatch(
-        Dialog.open(StringUtils.texts.WaitLoadingTitle, '', () =>
-          dialogContext.dispatch(Dialog.close()),
+      dispatch(
+        Dialog.actions.showDialog({
+            title: StringUtils.texts.WaitLoadingTitle,
+            text: '',
+            onPress: () => dispatch(Dialog.actions.hideDialog()),
+          },
         ),
       );
       return;

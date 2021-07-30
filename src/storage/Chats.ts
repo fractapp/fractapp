@@ -1,25 +1,15 @@
-import { createContext, Dispatch } from 'react';
 import DB from 'storage/DB';
 import { ChatInfo } from 'types/chatInfo';
 import { Currency } from 'types/wallet';
 import { Transaction, TxStatus } from 'types/transaction';
 import { Message } from 'types/message';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 /**
  * @namespace
  * @category Storage
  */
 namespace ChatsStore {
-  export enum Action {
-    SET,
-    ADD_TX,
-    ADD_PENDING_TX,
-    CONFIRM_PENDING_TX,
-    REMOVE_NOTIFICATION,
-    ADD_MESSAGE,
-    HIDE_BTNS_IN_MSG,
-  }
-
   export type TxId = string;
   export type MsgId = string;
   export type PendingTxs = {
@@ -28,114 +18,98 @@ namespace ChatsStore {
   export type TxInfo = {
     currency: Currency;
   };
-
   export type Transactions = {
-    transactionById: Map<TxId, Transaction>;
+    transactionById: Record<TxId, Transaction>;
   };
   export type TransactionsByChat = {
-    infoById: Map<TxId, TxInfo>;
-    messages: Map<MsgId, Message>;
+    infoById: {
+      [id in TxId]: TxInfo
+    };
+    messages:  {
+      [id in MsgId]: Message
+    }
   };
 
   export type State = {
-    chats: Map<string, TransactionsByChat>;
-    chatsInfo: Map<string, ChatInfo>;
-    transactions: Map<Currency, Transactions>;
-    pendingTransactions: Map<Currency, PendingTxs>;
-    sentFromFractapp: Map<TxId, boolean>;
+    chats:  {
+      [id in string]: TransactionsByChat
+    },
+    chatsInfo:  {
+      [id in string]: ChatInfo
+    },
+    transactions: {
+      [id in Currency]: Transactions
+    },
+    pendingTransactions: {
+      [id in Currency]: PendingTxs
+    },
+    sentFromFractapp: {
+      [id in TxId]: boolean
+    },
     totalNotifications: number;
     isInitialized: boolean;
   };
 
-  export const initialState = (): State => ({
-    chats: new Map<string, TransactionsByChat>(),
-    chatsInfo: new Map<string, ChatInfo>(),
-    transactions: new Map<Currency, Transactions>(),
-    pendingTransactions: new Map<Currency, PendingTxs>(),
-    sentFromFractapp: new Map<TxId, boolean>(),
+  export const initialState = (): State => <State>({
+    chats: {},
+    chatsInfo: {},
+    transactions: {},
+    pendingTransactions: {},
+    sentFromFractapp: {},
     totalNotifications: 0,
     isInitialized: false,
   });
 
-  export type ContextType = {
-    state: State;
-    dispatch: Dispatch<any>;
-  };
+  const slice = createSlice({
+    name: 'chats',
+    initialState: initialState(),
+    reducers: {
+      set(state: State, action: PayloadAction<State>): State {
+        return action.payload;
+      },
+      addMessage(state: State, action: PayloadAction<{
+        chatId: string,
+        msg: Message
+      }>): State {
+        const msgChatId: string = action.payload.chatId;
+        const msg: Message = action.payload.msg;
 
-  export const Context = createContext<ContextType>({
-    state: initialState(),
-    dispatch: () => null,
-  });
-
-  export const set = (state: State) => ({
-    type: Action.SET,
-    state: state,
-  });
-
-  export const addTx = (
-    tx: Transaction,
-    isNotify: boolean,
-  ) => ({
-    type: Action.ADD_TX,
-    tx: tx,
-    isNotify: isNotify,
-  });
-
-  export const addPendingTx = (tx: Transaction) => ({
-    type: Action.ADD_PENDING_TX,
-    tx: tx,
-    isNotify: false,
-  });
-
-  export const confirmPendingTx = (
-    txId: TxId,
-    status: TxStatus,
-    currency: Currency,
-    index: number,
-  ) => ({
-    type: Action.CONFIRM_PENDING_TX,
-    txId: txId,
-    status: status,
-    currency: currency,
-    index: index,
-  });
-
-  export const removeNotification = (chatId: string) => ({
-    type: Action.REMOVE_NOTIFICATION,
-    chatId: chatId,
-  });
-
-  export const addMsg = (chatId: string, message: Message) => ({
-    type: Action.ADD_MESSAGE,
-    msg: message,
-    chatId: chatId,
-  });
-
-  export const hideBtnsInMsg = (chatId: string, messageId: string) => ({
-    type: Action.HIDE_BTNS_IN_MSG,
-    chatId: chatId,
-    messageId: messageId,
-  });
-
-  export function reducer(prevState: State, action: any): State {
-    let copy: State = Object.assign({}, prevState);
-    switch (action.type) {
-      case Action.SET:
-        return action.state;
-      case Action.ADD_PENDING_TX:
-        const pendingTx: Transaction = action.tx;
-        if (!copy.pendingTransactions.has(pendingTx.currency)) {
-          copy.pendingTransactions.set(pendingTx.currency, {
-            idsOfTransactions: [],
-          });
+        if (!state.chatsInfo[msgChatId]) {
+          const newChatInfo: ChatInfo = {
+            id: msgChatId,
+            notificationCount: 1,
+            lastMsgId: msg.id,
+          };
+          state.chatsInfo[newChatInfo.id] = newChatInfo;
         }
-        copy.pendingTransactions
-          .get(pendingTx.currency)!
-          .idsOfTransactions.push(pendingTx.id);
-        copy.sentFromFractapp.set(pendingTx.id, true); //Without break; Got to ADD_TX
-      // eslint-disable-next-line no-fallthrough
-      case Action.ADD_TX:
-        const tx: Transaction = action.tx;
+
+        if (!state.chats[msgChatId]) {
+          state.chats[msgChatId] = {
+            infoById: {},
+            messages: {},
+          };
+        }
+
+        const chat = state.chats[msgChatId]!;
+        chat.messages[msg.id] = msg;
+
+        const chatInfo = state.chatsInfo[msgChatId]!;
+        if (msg.timestamp >
+          chat.messages[chatInfo.lastMsgId]!.timestamp
+        ) {
+          chatInfo.lastMsgId = msg.id;
+          chatInfo.notificationCount++;
+          state.totalNotifications++;
+        }
+
+        DB.setChatsState(state);
+        return state;
+      },
+      addTx(state: State, action: PayloadAction<{
+        tx: Transaction,
+        isNotify: boolean
+      }>): State {
+        const tx: Transaction = action.payload.tx;
 
         let chatId = tx.address;
         if (tx.userId !== null) {
@@ -143,99 +117,94 @@ namespace ChatsStore {
         }
 
         // add transaction
-        if (!copy.transactions.has(tx.currency)) {
-          copy.transactions.set(tx.currency, {
-            transactionById: new Map<TxId, Transaction>(),
-          });
+        if (!state.transactions[tx.currency]) {
+          state.transactions[tx.currency] = {
+            transactionById: {},
+          };
         }
-        copy.transactions.get(tx.currency)!.transactionById.set(tx.id, tx);
+        state.transactions[tx.currency]!.transactionById[tx.id] = tx;
 
         // add txInfo to chat
-        if (!copy.chats.has(chatId)) {
-          copy.chats.set(chatId, {
-            infoById: new Map<TxId, TxInfo>(),
-            messages: new Map<MsgId, Message>(),
-          });
+        if (!state.chats[chatId]) {
+          state.chats[chatId] = {
+            infoById: {},
+            messages: {},
+          };
         }
-        copy.chats.get(chatId)!.infoById.set(tx.id, {
+        state.chats[chatId]!.infoById[tx.id] = {
           currency: tx.currency,
-        });
+        };
 
-        DB.setChatsState(copy);
-        return copy;
-      case Action.CONFIRM_PENDING_TX:
-        const pendingTxId: TxId = action.txId;
-        const currency: Currency = action.currency;
-        const txStatus: TxStatus = action.status;
-        const index: number = action.index;
+        DB.setChatsState(state);
+        return state;
+      },
+      addPendingTx(state: State, action: PayloadAction<Transaction>): State {
+        const pendingTx: Transaction = action.payload;
+        if (!state.pendingTransactions[pendingTx.currency]) {
+          state.pendingTransactions[pendingTx.currency] = {
+            idsOfTransactions: [],
+          };
+        }
+        state.pendingTransactions[pendingTx.currency]!
+          .idsOfTransactions.push(pendingTx.id);
+        state.sentFromFractapp[pendingTx.id] = true;
 
-        const pTx = copy.transactions
-          .get(currency)!
-          .transactionById.get(pendingTxId)!;
+        const newPayload: PayloadAction<{
+          tx: Transaction,
+          isNotify: boolean
+        }> = {
+          payload: {
+            tx: pendingTx,
+            isNotify: false,
+          },
+          type: '',
+        };
+        return this.addTx(state, newPayload);
+      },
+      confirmPendingTx(state: State, action: PayloadAction<{
+        txId: TxId,
+        currency: Currency,
+        status: TxStatus,
+        index: number
+      }>): State {
+        const pendingTxId: TxId = action.payload.txId;
+        const currency: Currency = action.payload.currency;
+        const txStatus: TxStatus = action.payload.status;
+        const index: number = action.payload.index;
+
+        const pTx = state.transactions
+          [currency]!
+          .transactionById[pendingTxId]!;
 
         pTx.status = txStatus;
-        copy.transactions.get(pTx.currency)!.transactionById.set(pTx.id, pTx);
+        state.transactions[pTx.currency]!.transactionById[pTx.id] = pTx;
 
         let newPTxs =
-          copy.pendingTransactions.get(currency)?.idsOfTransactions!;
+          state.pendingTransactions[currency]?.idsOfTransactions!;
 
         newPTxs.splice(index, 1);
-        copy.pendingTransactions.set(currency, {
+        state.pendingTransactions[currency] = {
           idsOfTransactions: newPTxs,
-        });
+        };
 
-        DB.setChatsState(copy);
-        return copy;
-      case Action.REMOVE_NOTIFICATION:
-        const chatIdForNotification: string = action.chatId;
-        const info = copy.chatsInfo.get(chatIdForNotification)!;
+        DB.setChatsState(state);
+        return state;
+      },
+      removeNotification(state: State, action: PayloadAction<string>) {
+        const chatIdForNotification: string = action.payload;
+        const info = state.chatsInfo[chatIdForNotification]!;
 
-        copy.totalNotifications -= info.notificationCount;
+        state.totalNotifications -= info.notificationCount;
         info.notificationCount = 0;
-        copy.chatsInfo.set(chatIdForNotification, info);
+        state.chatsInfo[chatIdForNotification] = info;
 
-        DB.setChatsState(copy);
-        return copy;
-      case Action.ADD_MESSAGE:
-        const msgChatId: string = action.chatId;
-        const msg: Message = action.msg;
+        DB.setChatsState(state);
+        return state;
+      },
+    },
+  });
 
-        if (!copy.chatsInfo.has(msgChatId)) {
-          const newChatInfo: ChatInfo = {
-            id: msgChatId,
-            notificationCount: 1,
-            lastMsgId: msg.id,
-          };
-          copy.chatsInfo.set(newChatInfo.id, newChatInfo);
-        }
-
-        if (!copy.chats.has(msgChatId)) {
-          copy.chats.set(msgChatId, {
-            infoById: new Map<TxId, TxInfo>(),
-            messages: new Map<MsgId, Message>(),
-          });
-        }
-
-        const chat = copy.chats.get(msgChatId)!;
-        chat.messages.set(msg.id, msg);
-
-        const chatInfo = copy.chatsInfo.get(msgChatId)!;
-        if (msg.timestamp >
-          chat.messages.get(chatInfo.lastMsgId)!.timestamp
-        ) {
-          chatInfo.lastMsgId = msg.id;
-          chatInfo.notificationCount++;
-          copy.totalNotifications++;
-        }
-
-        DB.setChatsState(copy);
-        return copy;
-      case Action.HIDE_BTNS_IN_MSG:
-        copy.chats.get(action.chatId)!.messages.get(action.messageId)!.hideBtn = true;
-        return copy;
-      default:
-        return prevState;
-    }
-  }
+  export const actions = slice.actions;
+  export const reducer = slice.reducer;
 }
 export default ChatsStore;

@@ -91,7 +91,7 @@ export const ConfirmTransaction = ({
         backgroundColor: '#fff',
       }}
     >
-      <Button title='OPEN BOTTOM SHEET' onPress={() => refRBSheet.current.open()} />
+      <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
       <RBSheet
         ref={refRBSheet}
         closeOnPressMask={true}
@@ -171,14 +171,14 @@ export const ConfirmTransaction = ({
               <TouchableOpacity
                 style={styles.buttonCancel}
                 disabled={false}
-                onPress={()=>{onCancel}}>
+                onPress={()=>{onCancel;}}>
                 <Text style={styles.buttonCancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.buttonConfirm}>
               <BlueButton
                 text={'OK'} height={50}
-                onPress={()=>{onConfirm}}
+                onPress={()=>{onConfirm;}}
               />
             </View>
 
@@ -321,7 +321,3 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
 });
-
-/*
-
-*/

@@ -18,6 +18,10 @@ export enum TxStatus {
   Fail,
 }
 
+export enum TxActionType {
+  Donate = 0,
+}
+
 /**
  * @category Models
  */

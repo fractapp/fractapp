@@ -8,7 +8,7 @@ import { WalletInfo } from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import backend from 'utils/api';
 import { ChatInfo } from 'types/chatInfo';
-import { Currency, getSymbol, Wallet } from 'types/wallet';
+import { Currency, getSymbol } from 'types/wallet';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import DialogStore from 'storage/Dialog';
@@ -21,6 +21,8 @@ import { Transaction, TxType, TxStatus } from 'types/transaction';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
+import AccountsStore from 'storage/Accounts';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Screen with sending funds
@@ -28,11 +30,14 @@ import UsersStore from 'storage/Users';
  */
 export const Send = ({ navigation, route }: { navigation: any; route: any }) => {
   const dispatch = useDispatch();
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const isEditable: boolean = route.params.isEditable;
-  const wallet: Wallet = route.params.wallet;
+  const currency: Currency = route.params.currency;
 
   const chatInfo: ChatInfo = route.params?.chatInfo;
   const isUSDMode: boolean = route.params?.isUSDMode ?? true;
@@ -44,7 +49,8 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const planksValueString: string = route.params?.planksValue ?? 0;
   const planksFeeString: string = route.params?.planksFee ?? 0;
 
-  const api = Adaptors.get(wallet.network);
+  const account = accountState.accounts[currency];
+  const api = Adaptors.get(account.network);
 
   const [totalUsd, setTotalUsd] = useState<number>(0);
   const [totalCurrency, setTotalCurrency] = useState<BN>(new BN(0));
@@ -53,15 +59,12 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const [user, setUser] = useState<Profile | undefined>(undefined);
 
   const [isValidReceiver, setValidReceiver] = useState<boolean>(!isEditable);
-  const [isWrite, setIsWrite] = useState<boolean>(false);
+  const [isWrite, setWrite] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(GlobalStore.actions.showLoading());
     (async () => {
       try {
-        await api
-          .init();
-
         if (isEditable) {
           setReceiver('');
           dispatch(GlobalStore.actions.hideLoading());
@@ -79,14 +82,13 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
                 {
                   title: p === undefined ? StringUtils.texts.UserHasBeenDeletedTitle : StringUtils.texts.ServiceUnavailableTitle,
                   text: '',
-                  onPress: () => dispatch(DialogStore.actions.hideDialog()),
                 }
               ),
             );
             navigation.goBack();
             return;
           } else {
-            setReceiver(p.addresses[wallet.currency]!);
+            setReceiver(p.addresses[account.currency]!);
             dispatch(UsersStore.actions.setUser({
               isAddressOnly: false,
               value: p,
@@ -99,7 +101,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
           const r = (user.value as AddressOnly).address;
           setReceiver(r);
           setValidReceiver(
-            checkAddress(r, wallet.currency === Currency.DOT ? 0 : 2)[0],
+            checkAddress(r, account.currency === Currency.DOT ? 0 : 2)[0],
           );
         }
 
@@ -115,7 +117,6 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
           DialogStore.actions.showDialog({
               title: StringUtils.texts.ServiceUnavailableTitle,
               text: '',
-              onPress: () => dispatch(DialogStore.actions.hideDialog()),
             }
           ),
         );
@@ -141,7 +142,6 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
         DialogStore.actions.showDialog({
             title: StringUtils.texts.EnterValidAddressErr,
             text: '',
-            onPress: () => dispatch(DialogStore.actions.hideDialog()),
           },
         ),
       );
@@ -155,9 +155,9 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
     const tx: Transaction = {
       id: 'sent-' + hash,
       hash: hash,
-      userId: user !== undefined ? user.id : null,
+      userId: user !== undefined ? user.id : receiver,
       address: receiver,
-      currency: wallet.currency,
+      currency: account.currency,
       txType: TxType.Sent,
       timestamp: Math.round(new Date().getTime()),
 
@@ -179,7 +179,10 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
       status: TxStatus.Pending,
     };
 
-    dispatch(ChatsStore.actions.addPendingTx(tx));
+    dispatch(ChatsStore.actions.addPendingTx({
+      tx: tx,
+      owner: globalState.profile.id,
+    }));
 
     dispatch(GlobalStore.actions.hideLoading());
     navigation.reset({
@@ -195,14 +198,14 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
   const renderReceiver = () => {
     if (isValidReceiver && !isWrite) {
-      const user = usersState.users[chatInfo.id]!;
-      if (!chatInfo || user.isAddressOnly) {
+      const user = chatInfo === undefined ? undefined : usersState.users[chatInfo.id];
+      if (!user || user.isAddressOnly) {
         return (
           <TouchableOpacity
             style={{ width: '100%' }}
-            onPress={isEditable ? () => setIsWrite(true) : () => true}>
+            onPress={isEditable ? () => setWrite(true) : () => true}>
             <Receiver
-              currency={wallet.currency}
+              currency={account.currency}
               nameOrAddress={receiver}
               type={ReceiverType.Address}
             />
@@ -231,12 +234,12 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
             setReceiver(text);
             const result = checkAddress(
               text,
-              wallet.currency === Currency.DOT ? 0 : 2,
+              account.currency === Currency.DOT ? 0 : 2,
             );
             setValidReceiver(result[0]);
           }}
-          onOk={() => setIsWrite(false)}
-          currency={wallet.currency}
+          onOk={() => setWrite(false)}
+          currency={account.currency}
         />
       );
     }
@@ -244,7 +247,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
   return (
     <View style={styles.chats}>
-      <WalletInfo wallet={wallet} />
+      <WalletInfo account={account} price={serverInfoState.prices[account.currency]} />
       <MaterialIcons name={'keyboard-arrow-down'} size={25} />
 
       {renderReceiver()}
@@ -252,7 +255,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
       <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
         <AmountValue
           value={value}
-          currency={wallet.currency}
+          currency={account.currency}
           width={'95%'}
           onPress={() =>
             !isValidReceiver
@@ -260,12 +263,11 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
               DialogStore.actions.showDialog({
                 title: StringUtils.texts.EnterValidAddressErr,
                 text: '',
-                onPress: () => dispatch(DialogStore.actions.hideDialog()),
               }))
               : navigation.navigate('EnterAmount', {
                 isUSDMode: isUSDMode,
                 value: value,
-                wallet: wallet,
+                currency: account.currency,
                 receiver: receiver,
               })
           }
@@ -283,7 +285,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
                 totalCurrency,
                 api.decimals,
                 api.viewDecimals,
-              )} ${getSymbol(wallet.currency)})`
+              )} ${getSymbol(account.currency)})`
               : '')
           }
           height={55}

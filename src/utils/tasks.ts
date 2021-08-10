@@ -2,17 +2,19 @@ import BackgroundTimer from 'react-native-background-timer';
 import DB from 'storage/DB';
 import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
-import {Currency} from 'types/wallet';
-import {Account} from 'types/account';
-import {Transaction, TxStatus} from 'types/transaction';
+import { Currency } from 'types/wallet';
+import { Account } from 'types/account';
+import { Transaction, TxStatus } from 'types/transaction';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
-import {Adaptors} from 'adaptors/adaptor';
+import { Adaptors } from 'adaptors/adaptor';
 import math from 'utils/math';
-import { Dispatch } from 'redux';
+import MathUtils from 'utils/math';
+import { Dispatch, Store } from 'redux';
 import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
+import Storage from 'storage/Store';
 
 /**
  * @namespace
@@ -23,11 +25,15 @@ namespace Task {
   const min = 60 * sec;
 
   export async function init(dispatch: Dispatch<any>) {
-    const accounts: Record<Currency, Account> = <Record<Currency, Account>>{};
+    const accounts: {
+      [id in Currency]: Account
+    } = <{
+      [id in Currency]: Account
+    }>{};
 
-    const accountsAddress = await DB.getAccounts();
+    let accountsAddress = await DB.getAccounts();
     if (accountsAddress == null || accountsAddress.length === 0) {
-      throw new Error('accounts not found');
+      accountsAddress = [];
     }
 
     for (let i = 0; i < accountsAddress?.length; i++) {
@@ -43,37 +49,14 @@ namespace Task {
       isInitialized: true,
     }));
 
-    const chatsState = ChatsStore.initialState(); //TODO await DB.getChatsState();
+    const chatsState = await DB.getChatsState();
     chatsState.isInitialized = true;
-
     dispatch(ChatsStore.actions.set(chatsState));
 
     const authInfo = await DB.getAuthInfo();
     const profile = await DB.getProfile();
     const contacts = await DB.getContacts();
-    const users = {};//await DB.getUsers();
-
-    let serverInfo = await DB.getServerInfo();
-    if (serverInfo == null) {
-      serverInfo = <ServerInfoStore.State>{
-        prices: {},
-        urls: {},
-        isInitialized: true,
-      };
-    }
-    serverInfo!.isInitialized = true;
-
-    dispatch(
-      GlobalStore.actions.set(
-        {
-          isRegisteredInFractapp: profile != null,
-          isUpdatingProfile: profile != null,
-          profile: profile != null ? profile : GlobalStore.initialState().profile,
-          authInfo: authInfo ?? GlobalStore.initialState().authInfo,
-          loadInfo: GlobalStore.initialState().loadInfo,
-          isInitialized: true,
-        })
-    );
+    const users = await DB.getUsers();
     dispatch(
       UsersStore.actions.set(
         {
@@ -84,54 +67,77 @@ namespace Task {
       )
     );
 
+    let serverInfo = await DB.getServerInfo();
+    if (serverInfo == null) {
+      serverInfo = <ServerInfoStore.State>{
+        prices: {},
+        urls: {},
+        isInitialized: true,
+      };
+    }
+    serverInfo!.isInitialized = true;
     dispatch(
       ServerInfoStore.actions.set(serverInfo!)
     );
+
+    dispatch(
+      GlobalStore.actions.set(
+        {
+          isRegisteredInFractapp: profile != null,
+          isUpdatingProfile: profile != null,
+          profile: profile != null ? profile : GlobalStore.initialState().profile,
+          authInfo: authInfo ?? GlobalStore.initialState().authInfo,
+          loadInfo: {
+            isAllStatesLoaded: false,
+            isSyncShow: true,
+            isLoadingShow: false,
+          },
+          isInitialized: true,
+        })
+    );
+
+    console.log('init task end');
   }
 
   export async function createTask(
-    accountsState: AccountsStore.State,
-    globalState: GlobalStore.State,
-    usersState: UsersStore.State,
-    chatsState: ChatsStore.State,
-    serverInfo: ServerInfoStore.State,
+    store: Store,
+    states: Storage.States,
     dispatch: Dispatch<any>
   ) {
     console.log('start create task');
 
     if (
-      accountsState.accounts == null
+      states.accounts.accounts == null
     ) {
       throw new Error('accounts not found');
     }
 
     const tasks: Array<Promise<void>> = [];
 
-    tasks.push(updateBalances(globalState, accountsState, dispatch));
-    tasks.push(updateServerInfo(serverInfo, dispatch));
+    tasks.push(updateBalances(store, dispatch));
+    tasks.push(updateServerInfo(dispatch));
 
     BackgroundTimer.setInterval(async () => {
-      await updateServerInfo(serverInfo, dispatch);
+      await updateServerInfo(dispatch);
     }, min);
 
-
-    checkPendingTxs(chatsState, dispatch);
-    sync(accountsState, globalState, chatsState, usersState, dispatch);
+    checkPendingTxs(store, dispatch);
+    sync(store, dispatch);
 
     BackgroundTimer.setInterval(async () => {
-      await updateBalances(globalState, accountsState, dispatch);
+      await updateBalances(store, dispatch);
 
-      if (!globalState.authInfo.isSynced) {
+      if (!states.global.authInfo.isSynced) {
         return;
       }
 
-      await checkPendingTxs(chatsState, dispatch);
-      await sync(accountsState, globalState, chatsState, usersState, dispatch);
+      await checkPendingTxs(store, dispatch);
+      await sync(store, dispatch);
     }, 3 * sec);
 
-    updateUsersList(usersState, dispatch);
+    updateUsersList(store, dispatch);
     BackgroundTimer.setInterval(async () => {
-      await updateUsersList(usersState, dispatch);
+      await updateUsersList(store, dispatch);
     }, 20 * min);
 
     for (let i = 0; i < tasks.length; i++) {
@@ -142,9 +148,7 @@ namespace Task {
   }
 
   export async function setTx(
-    globalState: GlobalStore.State,
-    usersState: UsersStore.State,
-    chatsState: ChatsStore.State,
+    owner: string,
     dispatch: Dispatch<any>,
     tx: Transaction,
     isNotify: boolean,
@@ -161,12 +165,22 @@ namespace Task {
         title: p.name === '' ? p.username : p.name,
         value: p,
       }));
+    } else {
+      dispatch(UsersStore.actions.setUser({
+        isAddressOnly: true,
+        title: tx.address,
+        value:  {
+          address: tx.address,
+          currency: tx.currency,
+        },
+      }));
     }
 
     dispatch(ChatsStore.actions.addTx({
+      owner: owner,
       tx: tx,
       isNotify: isNotify,
-    }, ));
+    }));
   }
 
   export async function initPrivateData() {
@@ -175,15 +189,14 @@ namespace Task {
   }
 
   export async function syncByAccount(
+    owner: string,
     account: Account,
     isSynced: boolean,
-    globalState: GlobalStore.State,
-    chatsState: ChatsStore.State,
-    usersState: UsersStore.State,
+    states: Storage.States,
     dispatch: Dispatch<any>,
   ) {
     let existedTxs: ChatsStore.Transactions =
-      chatsState.transactions[account.currency]!;
+      states.chats.transactions[account.currency]!;
     if (existedTxs === undefined) {
       existedTxs = {
         transactionById: {},
@@ -203,7 +216,7 @@ namespace Task {
     for (let i = 0; i < txs.length; i++) {
       if (
         txs[i].status === TxStatus.Fail ||
-        chatsState.sentFromFractapp[txs[i].id]
+        states.chats.sentFromFractapp[txs[i].id]
       ) {
         continue;
       }
@@ -219,29 +232,26 @@ namespace Task {
         }
       }
 
-      await setTx(globalState, usersState, chatsState, dispatch, txs[i], isSynced);
+      await setTx(owner, dispatch, txs[i], isSynced);
     }
   }
 
   export async function sync(
-    accountsState: AccountsStore.State,
-    globalState: GlobalStore.State,
-    chatsState: ChatsStore.State,
-    usersState: UsersStore.State,
+    store: Store,
     dispatch: Dispatch<any>,
   ) {
-    for (let [key, account] of Object.entries(accountsState.accounts)) {
+    const states: Storage.States = store.getState();
+    for (let [key, account] of Object.entries(states.accounts.accounts)) {
       await syncByAccount(
+        states.global.profile.id,
         account,
-        globalState.authInfo.isSynced,
-        globalState,
-        chatsState,
-        usersState,
+        states.global.authInfo.isSynced,
+        states,
         dispatch,
       );
     }
 
-    if (!globalState.authInfo.isSynced) {
+    if (!states.global.authInfo.isSynced) {
       dispatch(GlobalStore.actions.setSynced());
       console.log('set synced');
     }
@@ -250,25 +260,23 @@ namespace Task {
   }
 
   export async function checkPendingTxs(
-    chatsState: ChatsStore.State,
+    store: Store,
     dispatch: Dispatch<any>
   ) {
-    for (let [key, value] of Object.entries(chatsState.pendingTransactions)) {
+    const states: Storage.States = store.getState();
+    for (let [key, value] of Object.entries(states.chats.pendingTransactions)) {
       let currency: Currency = Number(key);
       for (let i = 0; i < value.idsOfTransactions.length; i++) {
-        let tx = chatsState.transactions[currency]?.transactionById[value.idsOfTransactions[i]]!;
-
+        const tx = states.chats.transactions[currency]?.transactionById[value.idsOfTransactions[i]]!;
         const status = await backend.getTxStatus(tx.hash);
-
         if (status == null || status === TxStatus.Pending) {
           continue;
         }
 
-        tx.status = status;
         dispatch(
           ChatsStore.actions.confirmPendingTx({
             txId: tx.id,
-            status: tx.status,
+            status: status,
             currency: tx.currency,
             index: i,
           }),
@@ -278,12 +286,14 @@ namespace Task {
   }
 
   export async function updateUsersList(
-    usersState: UsersStore.State,
+    store: Store,
     dispatch: Dispatch<any>,
   ) {
+    const states: Storage.States = store.getState();
+
     console.log('users update');
 
-    for (let id of Object.keys(usersState.users)) {
+    for (let id of Object.keys(states.users.users)) {
       console.log('update user: ' + id);
       const user = await backend.getUserById(id);
       if (user === undefined) {
@@ -302,11 +312,12 @@ namespace Task {
   }
 
   export async function updateBalances(
-    globalState: GlobalStore.State,
-    accountsState: AccountsStore.State,
+    store: Store,
     dispatch: Dispatch<any>,
   ) {
-    for (let [key, account] of Object.entries(accountsState.accounts)) {
+    const states: Storage.States = store.getState();
+
+    for (let [key, account] of Object.entries(states.accounts.accounts)) {
       const api = Adaptors.get(account.network);
       const planks = await api.balance(account.address);
       if (planks == null) {
@@ -322,14 +333,11 @@ namespace Task {
         new BN(account.planks).cmp(planks) !== 0 ||
         account.balance !== viewBalance
       ) {
-        account.balance = viewBalance;
-        account.planks = planks.toString();
-
         dispatch(
           AccountsStore.actions.updateBalance({
             currency: account.currency,
-            balance: account.balance,
-            planks: account.planks,
+            balance: viewBalance,
+            planks: planks.toString(),
           }),
         );
       }
@@ -337,7 +345,6 @@ namespace Task {
   }
 
   export async function updateServerInfo(
-    serverState: ServerInfoStore.State,
     dispatch: Dispatch<any>,
   ) {
     const info = await backend.getInfo();
@@ -357,7 +364,7 @@ namespace Task {
       dispatch(
         ServerInfoStore.actions.updatePrice({
           currency: priceInfo.currency,
-          price: priceInfo.value,
+          price: MathUtils.roundUsd(priceInfo.value),
         }),
       );
     }

@@ -19,12 +19,12 @@ import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import {Profile} from 'types/profile';
-import {Wallet} from 'types/wallet';
 import {ChatInfo} from 'types/chatInfo';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import ChatsStore from 'storage/Chats';
+import { Account } from 'types/account';
 
 /**
  * Users search screen
@@ -36,7 +36,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
 
-  const wallet: Wallet = route.params?.wallet;
+  const account: Account = route.params?.wallet;
 
   const [searchString, setSearchString] = useState<string>('');
   const [users, setUsers] = useState<Array<Profile>>();
@@ -58,7 +58,6 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           Dialog.actions.showDialog({
               title: StringUtils.texts.OpenSettingsTitle,
               text: StringUtils.texts.OpenSettingsForContactsText,
-              onPress: () => dispatch(Dialog.actions.hideDialog()),
             }
           ),
         );
@@ -263,14 +262,14 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           searchString.length === 0 ? (
             <TouchableHighlight
               onPress={() => {
-                if (wallet == null) {
+                if (account == null) {
                   navigation.navigate('SelectWallet', {
                     isEditable: true,
                   });
                 } else {
                   navigation.navigate('Send', {
                     isEditable: true,
-                    wallet: wallet,
+                    currency: account.currency,
                   });
                 }
               }}

@@ -47,7 +47,6 @@ export const EditPhoneNumber = ({
         Dialog.actions.showDialog({
           title: StringUtils.texts.InvalidPhoneNumberTitle,
           text: StringUtils.texts.InvalidPhoneNumberText,
-          onPress: () => dispatch(Dialog.actions.hideDialog()),
         }),
       );
       return;

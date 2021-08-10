@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {VictoryPie, VictoryLegend} from 'victory-native';
 import {SectionList, StyleSheet, Text, View} from 'react-native';
-import {Wallet, getColor, getName} from 'types/wallet';
+import {getColor, getName} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
 import {TransactionInfo} from 'components/TransactionInfo';
@@ -9,6 +9,9 @@ import { Profile } from 'types/profile';
 import { useSelector } from 'react-redux';
 import ChatsStore from 'storage/Chats';
 import UsersStore from 'storage/Users';
+import { Account } from 'types/account';
+import AccountsStore from 'storage/Accounts';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Screen with wallet details
@@ -17,15 +20,15 @@ import UsersStore from 'storage/Users';
 
 export const WalletDetailsGraph = ({
   navigation,
-  route,
 }: {
   navigation: any;
-  route: any;
 }) => {
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
 
-  const wallets: Array<Wallet> = route.params.wallets;
+  const accounts: Array<Account> = Object.entries(accountState.accounts).map((value: [string, Account]) => value[1]);
 
   //arrays for graph
   const [balanceData, setBalance] = useState(new Array());
@@ -37,15 +40,22 @@ export const WalletDetailsGraph = ({
     let balanceArray = new Array();
     let legendsArray = new Array();
 
-    for (let w of wallets) {
-      if (!w.usdValue) {
+    for (let account of accounts) {
+      let usdValue = 0;
+      if (serverInfoState.prices[account.currency]) {
+        const price = serverInfoState.prices[account.currency]!;
+
+        usdValue = account.balance * price;
+      }
+
+      if (!usdValue) {
         continue;
       } else {
-        colorsArray.push(getColor(w.currency));
-        balanceArray.push(w.usdValue);
+        colorsArray.push(getColor(account.currency));
+        balanceArray.push(usdValue);
         legendsArray.push({
-          name: getName(w.currency),
-          symbol: {fill: getColor(w.currency), type: 'square'},
+          name: getName(account.currency),
+          symbol: { fill: getColor(account.currency), type: 'square' },
         });
       }
     }
@@ -60,7 +70,7 @@ export const WalletDetailsGraph = ({
     let txsBySelections = new Map<string, Array<Transaction>>();
     const txs = new Array<Transaction>();
 
-    for (let w of wallets) {
+    for (let w of accounts) {
       if (!chatsState.transactions[w.currency]) {
         continue;
       }
@@ -89,61 +99,57 @@ export const WalletDetailsGraph = ({
   };
 
   return (
-    <SectionList
-      ListHeaderComponent={() => (
-        <View style={styles.statistics}>
-          <View style={styles.legend}>
-            <VictoryLegend
-              orientation="vertical"
-              gutter={20}
-              data={legendData}
-            />
-          </View>
+    <View style={{ width: '100%' }}>
+      <SectionList
+        ListHeaderComponent={() => (
+          <View style={styles.statistics}>
+            <View style={styles.legend}>
+              <VictoryLegend
+                orientation="vertical"
+                gutter={20}
+                data={legendData}
+              />
+            </View>
 
-          <View style={{flex: 1}}>
-            <VictoryPie
-              height={230}
-              radius={90}
-              innerRadius={60}
-              data={balanceData}
-              style={{labels: {display: 'none'}}}
-              colorScale={colors}
-            />
-          </View>
+            <View style={{ flex: 1 }}>
+              <VictoryPie
+                height={230}
+                radius={90}
+                innerRadius={60}
+                data={balanceData}
+                style={{ labels: { display: 'none' } }}
+                colorScale={colors}
+              />
+            </View>
 
-          <View style={styles.dividingLine} />
-        </View>
-      )}
-      sections={getDataWithSections()}
-      keyExtractor={(item) => String(item.id)}
-      renderItem={({item}) => (
-        <TransactionInfo
-          key={item.id}
-          transaction={item}
-          user={
-            item.userId != null && usersState.users[item.userId]
-              ? (usersState.users[item.userId]!.value as Profile)
-              : null
-          }
-          onPress={() =>
-            navigation.navigate('TransactionDetails', {
-              transaction: item,
-              wallet: wallets[item.currency],
-              user:
-                item.userId != null &&
-                usersState.users[item.userId]
-                  ? usersState.users[item.userId]
-                  : null,
-            })
-          }
-        />
-      )}
-      renderSectionHeader={({section: {title}}) => (
-        <View style={{marginTop: 10}}>
-          <Text style={styles.dateTitle}>{title}</Text>
-        </View>
-      )}
-    />
+            <View style={styles.dividingLine} />
+          </View>
+        )}
+        sections={getDataWithSections()}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <TransactionInfo
+            key={item.id}
+            transaction={item}
+            user={
+              item.userId != null && usersState.users[item.userId]
+                ? (usersState.users[item.userId]!.value as Profile)
+                : null
+            }
+            onPress={() =>
+              navigation.navigate('TransactionDetails', {
+                transaction: item,
+              })
+            }
+          />
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <View style={{ marginTop: 10 }}>
+            <Text style={styles.dateTitle}>{title}</Text>
+          </View>
+        )}
+      />
+    </View>
   );
 };
 
@@ -153,16 +159,8 @@ const styles = StyleSheet.create({
   },
   legend: {
     position: 'absolute',
-    width: '30%',
+    paddingLeft: 20,
     paddingTop: 30,
-  },
-  transactionsInfo: {
-    flex: 1,
-    alignSelf: 'center',
-    width: '85%',
-    borderTopColor: 'gray',
-    borderTopWidth: 1,
-    paddingTop: '8%',
   },
 
   dateTitle: {

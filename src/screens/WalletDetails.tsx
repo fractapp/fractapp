@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import {Wallet} from 'types/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Transaction} from 'types/transaction';
 import {TransactionInfo} from 'components/TransactionInfo';
@@ -17,6 +16,10 @@ import StringUtils from 'utils/string';
 import { Profile } from 'types/profile';
 import { useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
+import { Currency } from 'types/wallet';
+import AccountsStore from 'storage/Accounts';
+import { Account } from 'types/account';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Screen with wallet details
@@ -29,22 +32,26 @@ export const WalletDetails = ({
   navigation: any;
   route: any;
 }) => {
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
-  const wallet: Wallet = route.params.wallet;
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+
+  const currency: Currency = route.params.currency;
+  const account: Account = accountState.accounts[currency];
 
   const getDataWithSections = () => {
     let sections = [];
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    const txs = new Array<Transaction>();
+    const txs: Array<Transaction> = [];
 
-    if (!chatsState.transactions[wallet.currency]) {
+    if (!chatsState.transactions[account.currency]) {
       return [];
     }
 
-    const stateTransactions = chatsState.transactions[wallet.currency]?.transactionById!;
+    const stateTransactions = chatsState.transactions[account.currency]?.transactionById!;
     for (let id in stateTransactions) {
       txs.push(stateTransactions[id]);
     }
@@ -73,14 +80,14 @@ export const WalletDetails = ({
       <SectionList
         ListHeaderComponent={() => (
           <View>
-            <WalletDetailsInfo wallet={wallet} />
+            <WalletDetailsInfo account={account} price={serverInfoState.prices[currency]} />
             <View style={styles.btns}>
               <View style={styles.btn}>
                 <TouchableHighlight
                   testID={'sendBtn'}
                   onPress={() =>
                     navigation.navigate('Search', {
-                      wallet: wallet,
+                      currency: account.currency,
                     })
                   }
                   underlayColor="#f8f9fb"
@@ -98,8 +105,8 @@ export const WalletDetails = ({
                   testID={'receiveBtn'}
                   onPress={() =>
                     navigation.navigate('Receive', {
-                      address: wallet.address,
-                      currency: wallet.currency,
+                      address: account.address,
+                      currency: account.currency,
                     })
                   }
                   underlayColor="#f8f9fb"
@@ -132,12 +139,7 @@ export const WalletDetails = ({
             onPress={() =>
               navigation.navigate('TransactionDetails', {
                 transaction: item,
-                wallet: wallet,
-                user:
-                  item.userId != null &&
-                  usersState.users[item.userId]
-                    ? usersState.users[item.userId]
-                    : null,
+                currency: account.currency,
               })
             }
           />

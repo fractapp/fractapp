@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
-import {getSymbol, Wallet} from 'types/wallet';
+import { getSymbol } from 'types/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {WalletInfo} from 'components/WalletInfo';
 import {WalletLogo} from 'components/WalletLogo';
@@ -9,17 +9,27 @@ import StringUtils from 'utils/string';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
-import {Profile} from 'types/profile';
+import { Profile, User } from 'types/profile';
 import backend from 'utils/api';
+import AccountsStore from 'storage/Accounts';
+import { useSelector } from 'react-redux';
+import ServerInfoStore from 'storage/ServerInfo';
+import { Account } from 'types/account';
+import UsersStore from 'storage/Users';
 
 /**
  * Screen with transaction details
  * @category Screens
  */
 export const TransactionDetails = ({route}: {route: any}) => {
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+
   const tx: Transaction = route.params.transaction;
-  const wallet: Wallet = route.params.wallet;
-  const user: Profile = route.params?.user;
+
+  const user: User = usersState.users[tx.userId == null ? tx.address : tx.userId];
+  const account: Account = accountState.accounts[tx.currency];
 
   const renderStatus = () => {
     switch (tx.status) {
@@ -66,21 +76,21 @@ export const TransactionDetails = ({route}: {route: any}) => {
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
-        {user != null ? (
+        {user.isAddressOnly ? (
+            <WalletLogo currency={tx.currency} size={80} />
+        ) : (
           <Image
             source={{
-              uri: backend.getImgUrl(user.id, user.lastUpdate),
+              uri: backend.getImgUrl((user.value as Profile).id, (user.value as Profile).lastUpdate),
             }}
             width={80}
             height={80}
             style={{width: 80, height: 80, borderRadius: 45}}
           />
-        ) : (
-          <WalletLogo currency={tx.currency} size={80} />
         )}
         <Text
           onPress={() => {
-            Clipboard.setString(user != null ? user.username : tx.address);
+            Clipboard.setString(user.isAddressOnly != null ? tx.address : (user.value as Profile).username);
             showMessage({
               message: StringUtils.texts.showMsg.copiedToClipboard,
               type: 'info',
@@ -88,11 +98,14 @@ export const TransactionDetails = ({route}: {route: any}) => {
             });
           }}
           style={styles.address}>
-          {user != null
-            ? user.name !== undefined && user.name !== ''
-              ? user.name
-              : user.username
-            : tx.address}
+          {user.isAddressOnly
+            ? tx.address
+            : (
+              (user.value as Profile).name !== undefined && (user.value as Profile).name !== ''
+                ? (user.value as Profile).name
+                : (user.value as Profile).username
+            )
+          }
         </Text>
         <Text style={[styles.value, {color: amountColor()}]}>
           {tx.usdValue !== 0
@@ -115,7 +128,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
             ? StringUtils.texts.WriteOffAccountTitle
             : StringUtils.texts.ReceivingAccountTitle}
         </Text>
-        <WalletInfo wallet={wallet} />
+        <WalletInfo account={account} price={serverInfoState.prices[account.currency]} />
       </View>
 
       <View style={{width: '100%', flexDirection: 'row', marginTop: 20}}>
@@ -137,7 +150,7 @@ export const TransactionDetails = ({route}: {route: any}) => {
               </Text>
               {tx.usdFee === 0 ? (
                 <Text style={styles.dateAndFee}>
-                  {tx.fee} {getSymbol(wallet.currency)}
+                  {tx.fee} {getSymbol(account.currency)}
                 </Text>
               ) : (
                 <Text style={styles.dateAndFee}>${tx.usdFee}</Text>

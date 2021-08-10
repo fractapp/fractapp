@@ -1,6 +1,6 @@
 import {Account} from 'types/account';
 import {Currency} from 'types/wallet';
-import db from 'storage/DB';
+import DB from 'storage/DB';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 /**
@@ -39,7 +39,7 @@ namespace  AccountsStore {
         }
         account.balance = action.payload.balance;
         account.planks = action.payload.planks;
-        db.setAccountInfo(account);
+        DB.setAccountInfo(account);
         return state;
       },
     },

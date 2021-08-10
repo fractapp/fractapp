@@ -54,7 +54,6 @@ export const WalletFileImport = ({route}: {route: any}) => {
           Dialog.actions.showDialog({
               title: StringUtils.texts.walletFileImport.invalidPasswordTitle,
               text: '',
-              onPress: () => dispatch(Dialog.actions.hideDialog()),
             }
           ),
         );
@@ -64,6 +63,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
 
       await DB.createAccounts(seed);
       dispatch(GlobalStore.actions.initWallet());
+      dispatch(GlobalStore.actions.setAllStatesLoaded(false));
     })();
   }, [isLoading]);
 

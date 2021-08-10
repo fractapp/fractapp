@@ -38,6 +38,9 @@ export class WebsocketApi {
   public async open() {
     const jwt = await api.getJWT();
 
+    if (jwt == null) {
+      return;
+    }
     this.isWsForceClosed = false;
     this.wsConnection = new WebSocket(`${FRACTAPP_WS}?jwt=${jwt}`);
 
@@ -75,7 +78,7 @@ export class WebsocketApi {
         message: msgRq,
       }));
 
-      setTimeout(() => resolve(), 1000);
+      setTimeout(() => resolve(), 500);
     }));
   }
 
@@ -100,19 +103,26 @@ export class WebsocketApi {
     const user: Profile = messagesInfo.user;
     const messages: Array<Message> = messagesInfo.messages;
 
+    //TODO: many user update
     this.dispatch(UsersStore.actions.setUser({
-      isAddressOnly: false,
-      title: user.name === '' ? user.username : user.name,
-      value: user,
-    }));
+       isAddressOnly: false,
+       title: user.name === '' ? user.username : user.name,
+       value: user,
+     }));
 
+    const payload: Array<{
+      chatId: string,
+      msg: Message,
+    }> = [];
     for (let message of messages) {
       console.log('message getted: ' + Date.now());
-      this.dispatch(ChatsStore.actions.addMessage({
+      payload.push({
         chatId: message.sender,
         msg: message,
-      }));
+      });
     }
+
+    this.dispatch(ChatsStore.actions.addMessages(payload));
   }
   private undeliveredMessages(messagesInfo: UndeliveredMessagesInfo) {
     console.log('MessageWs: ' + JSON.stringify(messagesInfo));
@@ -127,12 +137,19 @@ export class WebsocketApi {
       }));
     }
 
+    const payload: Array<{
+      chatId: string,
+      msg: Message,
+    }> = [];
     for (let message of messages) {
-      this.dispatch(ChatsStore.actions.addMessage({
+      console.log('message getted: ' + Date.now());
+      payload.push({
         chatId: message.sender,
         msg: message,
-      }));
+      });
     }
+
+    this.dispatch(ChatsStore.actions.addMessages(payload));
   }
 
 }

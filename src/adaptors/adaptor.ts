@@ -24,9 +24,8 @@ export interface IAdaptor {
   network: Network;
   decimals: number;
 
-  init(): Promise<void>;
   balance(address: string): Promise<BN>;
-  calculateFee(value: BN, receiver: string): Promise<BN>;
+  calculateFee(sender: string, value: BN, receiver: string): Promise<BN>;
   send(receiver: string, value: BN): Promise<string>;
   isValidTransfer(
     sender: string,

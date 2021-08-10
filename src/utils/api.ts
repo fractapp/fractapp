@@ -12,9 +12,8 @@ import {Profile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
-import {ServerInfo} from 'types/serverInfo';
+import { FeeInfo, ServerInfo } from 'types/serverInfo';
 import math from 'utils/math';
-import stringUtils from 'utils/string';
 
 /**
  * @namespace
@@ -44,6 +43,7 @@ namespace BackendApi {
     }
     return <string>JWTToken;
   }
+
   export async function setToken(token: string): Promise<boolean> {
   /*  const accounts = await DB.getAccounts();
     const seed = await DB.getSeed();
@@ -87,8 +87,8 @@ namespace BackendApi {
       if (!response.ok) {
         ok = response.ok;
       }
-    }
-*/ //TODO: fix
+    }TODO: fix
+*/ //
     return true;
   }
 
@@ -153,16 +153,21 @@ namespace BackendApi {
     };
 
     const sign = createAuthPubKeyHeaderWithKeyAndTime(rq, authKey, time);
-    const response = await fetch(`${apiUrl}/auth/signIn`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Sign-Timestamp': String(time),
-        Sign: sign,
-        'Auth-Key': authPubKey,
-      },
-      body: JSON.stringify(rq),
-    });
+    const tasks =  Promise.race([
+      fetch(`${apiUrl}/auth/signIn`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Sign-Timestamp': String(time),
+          Sign: sign,
+          'Auth-Key': authPubKey,
+        },
+        body: JSON.stringify(rq),
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000)),
+    ]);
+
+    const response: any = await tasks;
 
     if (response.ok) {
       const json = await response.json();
@@ -189,6 +194,24 @@ namespace BackendApi {
     });
 
     if (response.status === 200) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function calculateSubstrateFee(sender: string,receiver: string,value: string, currency: Currency): Promise<FeeInfo | null> {
+    let response = await fetch(
+      `${apiUrl}/profile/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
       return await response.json();
     } else {
       return null;
@@ -384,7 +407,7 @@ namespace BackendApi {
     network: Network,
     currency: Currency,
   ): Promise<Array<Transaction>> {
-    let transactions = new Array<Transaction>();
+    let transactions: Array<Transaction> = [];
     const api = Adaptors.get(network);
 
     let rs = await fetch(

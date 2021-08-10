@@ -7,6 +7,7 @@ import GlobalStore from 'storage/Global';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
 import { useDispatch } from 'react-redux';
+import tasks from 'utils/tasks';
 
 /**
  * Import seed screen
@@ -42,6 +43,7 @@ export const ImportSeed = () => {
     (async () => {
       await DB.createAccounts(seed);
       dispatch(GlobalStore.actions.initWallet());
+      dispatch(GlobalStore.actions.setAllStatesLoaded(false));
       setLoading(false);
     })();
   }, [isSaveSeed]);

@@ -17,6 +17,7 @@ export type MessageRq = {
 export type Message = {
   id: string;
   value: string;
+  action: string | null;
   args: Array<string>;
   rows: Array<Row>;
   timestamp: number;
@@ -55,5 +56,7 @@ export type MessagesInfo = {
  */
 export type UndeliveredMessagesInfo = {
   messages: Array<Message>,
-  users: Record<string, Profile>
+  users: {
+    [id in string]: Profile
+  }
 };

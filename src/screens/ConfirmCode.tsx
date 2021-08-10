@@ -82,7 +82,6 @@ export const ConfirmCode = ({
                 Dialog.actions.showDialog({
                     title: StringUtils.texts.ServiceUnavailableTitle,
                     text: '',
-                    onPress: () => dispatch(Dialog.actions.hideDialog()),
                   },
                 ),
               );
@@ -96,7 +95,6 @@ export const ConfirmCode = ({
                 Dialog.actions.showDialog({
                     title: StringUtils.texts.DifferentAddressTitle,
                     text: '',
-                    onPress: () => dispatch(Dialog.actions.hideDialog()),
                   },
                 ),
               );
@@ -144,7 +142,6 @@ export const ConfirmCode = ({
           Dialog.actions.showDialog({
               title: StringUtils.texts.ServiceUnavailableTitle,
               text: '',
-              onPress: () => dispatch(Dialog.actions.hideDialog()),
             },
           ),
         );
@@ -158,7 +155,6 @@ export const ConfirmCode = ({
               text:  type === BackendApi.CodeType.Phone
                 ? StringUtils.texts.InvalidPhoneNumberText
                 : StringUtils.texts.InvalidEmailText,
-              onPress: () => dispatch(Dialog.actions.hideDialog()),
             },
           ),
         );

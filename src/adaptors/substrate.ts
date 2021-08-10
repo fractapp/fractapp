@@ -1,13 +1,15 @@
 import BN from 'bn.js';
-import {ApiPromise, WsProvider} from '@polkadot/api';
 import DB from 'storage/DB';
-import {Keyring} from '@polkadot/keyring';
-import {ErrorCode, IAdaptor, TransferValidation} from './adaptor';
-import {Network} from 'types/account';
+import { Keyring } from '@polkadot/keyring';
+import { ErrorCode, IAdaptor, TransferValidation } from './adaptor';
+import { Network } from 'types/account';
 import math from 'utils/math';
-import {Currency, getSymbol} from 'types/wallet';
+import { Currency, getSymbol } from 'types/wallet';
 import backend from 'utils/api';
 import StringUtils from 'utils/string';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { construct, createMetadata, getRegistry, methods, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
+import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
 
 export class SubstrateAdaptor implements IAdaptor {
   public readonly viewDecimals: number;
@@ -17,12 +19,10 @@ export class SubstrateAdaptor implements IAdaptor {
   public readonly currency: Currency;
   private readonly minTransfer: BN;
   private readonly url: string;
-  private substrateApi: ApiPromise | null;
 
   public constructor(url: string, network: Network) {
     this.url = url;
     this.network = network;
-    this.substrateApi = null;
 
     switch (this.network) {
       case Network.Polkadot:
@@ -40,44 +40,136 @@ export class SubstrateAdaptor implements IAdaptor {
     }
   }
 
-  public async init(): Promise<void> {
-    await this.getSubstrateApi();
+  private sign(
+    pair: KeyringPair,
+    signingPayload: string,
+    options: OptionsWithMeta
+  ): string {
+    const { registry, metadataRpc } = options;
+    registry.setMetadata(createMetadata(registry, metadataRpc));
+
+    const { signature } = registry
+      .createType('ExtrinsicPayload', signingPayload, {
+        version: EXTRINSIC_VERSION,
+      })
+      .sign(pair);
+
+    return signature;
   }
 
-  public async balance(address: string): Promise<BN> {
-    return (await backend.substrateBalance(address, this.currency))!;
+  private async callJsonRPC(
+    method: string,
+    params: any[] = []
+  ): Promise<any> {
+    return fetch(this.url, {
+      body: JSON.stringify({
+        id: 1,
+        jsonrpc: '2.0',
+        method,
+        params,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+      .then((response) => response.json())
+      .then(({ error, result }) => {
+        if (error) {
+          throw new Error(
+            `${error.code} ${error.message}: ${JSON.stringify(error.data)}`
+          );
+        }
+
+        return result;
+      });
   }
 
-  public async calculateFee(value: BN, receiver: string): Promise<BN> {
-    const api = await this.getSubstrateApi();
+  private async createTx(account: KeyringPair, value: BN, receiver: string): Promise<string> {
+    const { block } = await this.callJsonRPC('chain_getBlock');
+    const blockHash = await this.callJsonRPC('chain_getBlockHash');
+    const genesisHash = await this.callJsonRPC('chain_getBlockHash', [0]);
+    const metadataRpc = await this.callJsonRPC('state_getMetadata');
+    const { specVersion, transactionVersion, specName } = await this.callJsonRPC(
+      'state_getRuntimeVersion'
+    );
+    const nonce = await this.callJsonRPC('system_accountNextIndex', [account.address]);
 
-    const info = await api.tx.balances
-      .transfer(receiver, value)
-      .paymentInfo(receiver);
+    const registry = getRegistry({
+      chainName: this.network === Network.Polkadot ? 'Polkadot' : 'Kusama',
+      specName,
+      specVersion,
+      metadataRpc,
+    });
 
-    return info.partialFee.toBn();
+    const unsigned = methods.balances.transfer(
+      {
+        value: value.toString(10),
+        dest: receiver,
+      },
+      {
+        address: account.address,
+        blockHash,
+        blockNumber: registry
+          .createType('BlockNumber', block.header.number)
+          .toNumber(),
+        eraPeriod: 10,
+        genesisHash,
+        metadataRpc,
+        nonce: nonce,
+        specVersion,
+        tip: 0,
+        transactionVersion,
+      },
+      {
+        metadataRpc,
+        registry,
+      }
+    );
+
+    const signature = this.sign(account, construct.signingPayload(unsigned, { registry }), {
+      metadataRpc,
+      registry,
+    });
+
+    return construct.signedTx(unsigned, signature, {
+      metadataRpc,
+      registry,
+    });
   }
 
-  public async send(receiver: string, value: BN): Promise<string> {
+  private async getAccount(): Promise<KeyringPair> {
     const seed = (await DB.getSeed())!;
 
-    let key;
+    let account;
     switch (this.network) {
       case Network.Polkadot:
-        key = new Keyring({type: 'sr25519'}).addFromUri(seed);
+        account = new Keyring({type: 'sr25519'}).addFromUri(seed);
         break;
       case Network.Kusama:
-        key = new Keyring({
+        account = new Keyring({
           type: 'sr25519',
           ss58Format: 2,
         }).addFromUri(seed);
     }
 
-    const substrateApi = await this.getSubstrateApi();
-    const tx = await substrateApi.tx.balances.transfer(receiver, value);
-    const hash = await tx.signAndSend(key);
+    return account;
+  }
 
-    return hash.toHex();
+
+  public async balance(address: string): Promise<BN> {
+    return (await backend.substrateBalance(address, this.currency))!;
+  }
+
+  public async calculateFee(sender: string, value: BN, receiver: string): Promise<BN> {
+    const info = await backend.calculateSubstrateFee(sender,  receiver, value.toString(), this.currency);
+    return new BN(info?.fee ?? 0);
+  }
+
+  public async send(receiver: string, value: BN): Promise<string> {
+    const account = await this.getAccount();
+    const hexTx = await this.createTx(account, value, receiver);
+    return await this.callJsonRPC('author_submitExtrinsic', [hexTx]);
   }
 
   public async isValidTransfer(
@@ -87,6 +179,16 @@ export class SubstrateAdaptor implements IAdaptor {
     fee: BN,
   ): Promise<TransferValidation> {
     const balanceReceiver = await this.balance(receiver);
+    const balanceSender = await this.balance(sender);
+    if (balanceReceiver == null || balanceSender == null) {
+      return {
+        isOk: false,
+        errorCode: ErrorCode.ServiceUnavailable,
+        errorTitle: 'Service unavailable',
+        errorMsg: 'Try again',
+      };
+    }
+
     if (new BN(balanceReceiver).add(value).cmp(this.minTransfer) < 0) {
       return {
         isOk: false,
@@ -102,22 +204,12 @@ export class SubstrateAdaptor implements IAdaptor {
       };
     }
 
-    const balanceSender = await this.balance(sender);
-    if (balanceSender == null) {
-      return {
-        isOk: false,
-        errorCode: ErrorCode.ServiceUnavailable,
-        errorTitle: 'Service unavailable',
-        errorMsg: 'Try again',
-      };
-    }
 
     const balanceAfterBalance = balanceSender?.sub(value).sub(fee);
     if (
       balanceAfterBalance.cmp(this.minTransfer) < 0 &&
       balanceAfterBalance.cmp(new BN(0)) !== 0
     ) {
-      const v = math.convertFromPlanckToString(value.sub(fee), this.decimals);
       return {
         isOk: false,
         errorCode: ErrorCode.NeedFullBalance,
@@ -139,13 +231,5 @@ export class SubstrateAdaptor implements IAdaptor {
       errorTitle: '',
       errorMsg: '',
     };
-  }
-
-  private async getSubstrateApi(): Promise<ApiPromise> {
-    if (this.substrateApi == null) {
-      const provider = new WsProvider(this.url);
-      this.substrateApi = await ApiPromise.create({provider});
-    }
-    return <ApiPromise> this.substrateApi;
   }
 }

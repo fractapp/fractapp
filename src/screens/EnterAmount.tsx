@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, Keyboard} from 'react-native';
+import { StyleSheet, View, Text, Keyboard, Alert } from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
-import {getSymbol, Wallet} from 'types/wallet';
+import { Currency, getSymbol } from 'types/wallet';
 import BN from 'bn.js';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import ServerInfoStore from 'storage/ServerInfo';
+import MathUtils from 'utils/math';
+import AccountsStore from 'storage/Accounts';
+import { EnterAmountInfo } from 'types/inputs';
 
 /**
  * Screen with the input of the amount to be sent
@@ -19,12 +23,9 @@ export const EnterAmount = ({
   navigation: any;
   route: any;
 }) => {
-  const dispatch = useDispatch();
-
-  const defaultValue = route.params?.value ?? '';
-
-  const wallet: Wallet = route.params.wallet;
+  const currency: Currency = route.params.currency;
   const receiver: string = route.params.receiver;
+  const defaultValue = route.params?.value ?? '';
 
   const [isUSDMode, setUSDMode] = useState<boolean>(
     route.params?.isUSDMode ?? true,
@@ -37,8 +38,14 @@ export const EnterAmount = ({
   const [planksFee, setPlanksFee] = useState<string>('');
   const [isValid, setValid] = useState<boolean>(true);
   const [isLoading, setLoading] = useState<boolean>(false);
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  const dispatch = useDispatch();
+  const serverInfo: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+
+  const account = accountState.accounts[currency];
+  const price = serverInfo.prices[account.currency] ?? 0;
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -66,7 +73,6 @@ export const EnterAmount = ({
         Dialog.actions.showDialog({
             title: StringUtils.texts.WaitLoadingTitle,
             text: '',
-            onPress: () => dispatch(Dialog.actions.hideDialog()),
           },
         ),
       );
@@ -85,23 +91,16 @@ export const EnterAmount = ({
   };
 
   const onChangeValues = (
-    value: string,
-    usdValue: number,
-    alternativeValue: number,
-    planksValue: BN,
-    planksFee: BN,
-    usdFee: number,
-    usdMode: boolean,
-    isValid: boolean,
+    enterAmountInfo: EnterAmountInfo
   ) => {
-    setValue(value);
-    setUsdValue(usdValue);
-    setAlternativeValue(alternativeValue);
-    setPlanksValue(planksValue.toString());
-    setPlanksFee(planksFee.toString());
-    setUsdFee(usdFee);
-    setUSDMode(usdMode);
-    setValid(isValid);
+    setValue(enterAmountInfo.value);
+    setUsdValue(enterAmountInfo.usdValue);
+    setAlternativeValue(enterAmountInfo.alternativeValue);
+    setPlanksValue(enterAmountInfo.planksValue);
+    setPlanksFee(enterAmountInfo.planksFee);
+    setUsdFee(enterAmountInfo.usdFee);
+    setUSDMode(enterAmountInfo.isUSDMode);
+    setValid(enterAmountInfo.isValid);
   };
 
   useEffect(() => {
@@ -110,17 +109,18 @@ export const EnterAmount = ({
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
-  }, [value, alternativeValue, usdFee, isUSDMode]);
+  }, [isLoading]);
   return (
     <View style={styles.chats}>
       <AmountInput
         width={'95%'}
-        wallet={wallet}
+        account={account}
         receiver={receiver}
-        usdMode={isUSDMode}
+        price={price}
         onChangeValues={onChangeValues}
-        onSetLoading={(isLoading: boolean) => setLoading(isLoading)}
+        onSetLoading={(isLoading: boolean) => setLoading(isLoading) }
         defaultValue={defaultValue}
+        defaultUsdMode={isUSDMode}
       />
       <View
         style={[
@@ -132,12 +132,12 @@ export const EnterAmount = ({
             : {
                 bottom: 60,
               },
-          isValid
+          !isValid && !isLoading
             ? {
-                borderColor: '#2AB2E2',
+                borderColor: '#EA4335',
               }
             : {
-                borderColor: '#EA4335',
+                borderColor: '#2AB2E2',
               },
         ]}>
         <View style={{width: '30%', alignItems: 'flex-start'}}>
@@ -146,9 +146,9 @@ export const EnterAmount = ({
           </Text>
         </View>
         <View style={{width: '70%', alignItems: 'flex-end'}}>
-          <Text style={styles.balanceText}>{`$${wallet.usdValue} (${
-            wallet.balance
-          } ${getSymbol(wallet.currency)})`}</Text>
+          <Text style={styles.balanceText}>{`$${MathUtils.roundUsd(account.balance * price)} (${
+            account.balance
+          } ${getSymbol(account.currency)})`}</Text>
         </View>
       </View>
     </View>

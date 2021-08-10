@@ -39,7 +39,6 @@ export const EditName = ({navigation}: {navigation: any}) => {
         Dialog.actions.showDialog({
             title: StringUtils.texts.InvalidNameTitle,
             text: StringUtils.texts.InvalidNameText,
-            onPress: () => dispatch(Dialog.actions.hideDialog()),
           }
         ),
       );

@@ -13,7 +13,7 @@ export default function Root() {
   return (
     <SafeAreaProvider style={styles.container}>
       <Provider store={store}>
-        <App />
+        <App store={store} />
       </Provider>
       <FlashMessage position="bottom" />
     </SafeAreaProvider>

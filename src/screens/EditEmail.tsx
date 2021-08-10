@@ -23,7 +23,6 @@ export const EditEmail = ({navigation}: {navigation: any}) => {
           {
             title: StringUtils.texts.InvalidEmailTitle,
             text: StringUtils.texts.InvalidEmailText,
-            onPress: () => dispatch(Dialog.actions.hideDialog()),
           }
         ),
       );

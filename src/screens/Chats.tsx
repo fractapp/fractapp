@@ -35,13 +35,6 @@ export const Chats = ({navigation}: {navigation: any}) => {
 
   const getChats = () => {
     const chats = Object.keys(chatsState.chatsInfo).map((key) => chatsState.chatsInfo[key])
-      /*.filter(
-        (value) =>
-          chatsContext.state.transactions.has(value.lastTxCurrency) &&
-          chatsContext.state.transactions
-            ?.get(value.lastTxCurrency)!
-            .transactionById.has(value.lastTxId), TODO
-      )*/
       .sort((a, b) => {
         const msgOne = chatsState.chats[a.id]!.messages[a.lastMsgId]!;
         const msgTwo = chatsState.chats[b.id]!.messages[b.lastMsgId]!;
@@ -53,11 +46,8 @@ export const Chats = ({navigation}: {navigation: any}) => {
   };
 
   const renderItem = ({item}: {item: ChatInfo}) => {
-   /* const tx = chatsContext.state.transactions
-      .get(item.lastTxCurrency)!
-      .transactionById.get(item.lastTxId)!; TODO*/
+    const user = usersState.users[item.id]!;
 
-    const user = usersState.users[item.id] !;
     if (!usersState.users[item.id]) {
       return <View />; //TODO: get user from server
     }

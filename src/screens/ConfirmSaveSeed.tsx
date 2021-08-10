@@ -7,6 +7,7 @@ import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 import { useDispatch } from 'react-redux';
+import tasks from 'utils/tasks';
 
 /**
  * Confirm save seed phrase screen
@@ -44,6 +45,7 @@ export const ConfirmSaveSeed = ({
       if (isNewAccount) {
         await DB.createAccounts(seed.join(' '));
         dispatch(GlobalStore.actions.initWallet());
+        dispatch(GlobalStore.actions.setAllStatesLoaded(false));
       }
 
       setLoading(false);

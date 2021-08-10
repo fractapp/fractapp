@@ -23,5 +23,13 @@ namespace Store {
       },
     });
   };
+  export type States = {
+    global: GlobalStore.State,
+    accounts: AccountsStore.State,
+    chats: ChatsStore.State,
+    dialog: DialogStore.State,
+    serverInfo: ServerInfoStore.State,
+    users: UsersStore.State,
+  }
 }
 export default Store;

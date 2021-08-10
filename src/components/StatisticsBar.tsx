@@ -3,11 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Currency, Wallet} from 'types/wallet';
+import { Currency, getColor } from 'types/wallet';
 import StringUtils from 'utils/string';
 
 /**
@@ -16,11 +15,9 @@ import StringUtils from 'utils/string';
  */
 export const StatisticsBar = ({
   distribution,
-  wallets,
   onPress,
 }: {
   distribution: Map<Currency, number>;
-  wallets: any;
   onPress?: () => void;
 }) => {
   const defaultColor = '#CCCCCC';
@@ -30,21 +27,6 @@ export const StatisticsBar = ({
     total += value;
   }
   total = +total.toFixed(2);
-  const getColorByCurrency = (currency: Currency) => {
-    let color = '';
-    switch (currency) {
-      case Currency.DOT:
-        color = '#E6007A';
-        break;
-      case Currency.KSM:
-        color = '#888888';
-        break;
-      default:
-        color = defaultColor;
-        break;
-    }
-    return color;
-  };
 
   const renderDistribution = () => {
     const end = {x: -1, y: 0};
@@ -60,7 +42,7 @@ export const StatisticsBar = ({
         if (end.x === -1) {
           end.x = size;
         }
-        colors.push(getColorByCurrency(currency));
+        colors.push(getColor(currency));
       }
       if (colors.length < 2) {
         colors.push(colors[0]);

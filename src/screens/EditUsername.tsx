@@ -44,7 +44,6 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
           Dialog.actions.showDialog({
               title: StringUtils.texts.UsernameIsExistTitle,
               text: StringUtils.texts.UsernameIsExistText,
-              onPress: () => dispatch(Dialog.actions.hideDialog()),
             }
           ),
         );
@@ -53,7 +52,6 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
           Dialog.actions.showDialog({
               title: StringUtils.texts.InvalidUsernameTitle,
               text: StringUtils.texts.InvalidUsernameText,
-              onPress: () => dispatch(Dialog.actions.hideDialog()),
             }
           ),
         );

@@ -9,7 +9,6 @@ namespace DialogStore {
     title: string,
     text: string;
     visible: boolean;
-    onPress?: () => void;
   }
   export type State = {
     dialog: Dialog
@@ -30,13 +29,11 @@ namespace DialogStore {
       showDialog(state: State, action: PayloadAction<{
         title: string,
         text: string;
-        onPress?: () => void;
       }>): State {
         state.dialog = {
           title: action.payload.title,
           text: action.payload.text,
           visible: true,
-          onPress: action.payload.onPress,
         };
         return state;
       },

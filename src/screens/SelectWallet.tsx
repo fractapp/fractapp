@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {WalletInfo} from 'components/WalletInfo';
-import {Wallet} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
 import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
@@ -22,41 +21,28 @@ export const SelectWallet = ({
 
   const renderAccounts = () => {
     const result = [];
-    const wallets: Array<Wallet> = [];
     for (let [key, account] of Object.entries(accountsState.accounts)) {
       let price = 0;
       if (serverInfo.prices[account.currency]) {
         price = serverInfo.prices[account.currency]!;
       }
 
-      wallets.push(
-        new Wallet(
-          account.name,
-          account.address,
-          account.currency,
-          account.network,
-          account.balance,
-          account.planks,
-          price,
-        ),
-      );
-    }
-
-    for (let i = 0; i < wallets.length; i++) {
       result.push(
         <WalletInfo
-          key={wallets[i].address}
-          wallet={wallets[i]}
+          key={account.address}
+          account={account}
+          price={price}
           onPress={() =>
             navigation.navigate('Send', {
               isEditable: route.params?.isEditable ?? false,
-              wallet: wallets[i],
+              currency: account.currency,
               chatInfo: route.params?.chatInfo,
             })
           }
         />,
       );
     }
+
     return result;
   };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WalletLogo } from 'components/WalletLogo';
 import { ChatInfo } from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
@@ -11,8 +11,7 @@ import { Button, Message } from 'types/message';
 import { MessageView } from 'components/MessageView';
 import { AddressOnly, Profile } from 'types/profile';
 import { PaymentMsg } from 'components/PaymentMsg';
-import { Currency } from 'types/wallet';
-import { TxStatus, TxType } from 'types/transaction';
+import { toCurrency } from 'types/wallet';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { useDispatch, useSelector } from 'react-redux';
 import websocket from 'utils/websocket';
@@ -36,12 +35,12 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const [notificationCount] = useState(chatInfo.notificationCount);
   const [messages, setMessages] = useState<Array<Message>>([]);
-  const [lastHideBtnMsgId, setLastHideBtnMsgId] = useState<string>('');
 
   const onPressChatBtn = async (msgId: string, btn: Button) => {
     const msg = {
       id: 'answer-' + randomAsHex(32),
       value: btn.value,
+      action: null,
       args: btn.arguments,
       rows: [],
       timestamp: Date.now(),
@@ -55,18 +54,20 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       receiver: chatInfo.id,
       args: btn.arguments,
     });
-    dispatch(ChatsStore.actions.addMessage({
+    dispatch(ChatsStore.actions.hideBtns({
+      chatId: chatInfo.id,
+      msgId: msg.id,
+    }));
+    dispatch(ChatsStore.actions.addMessages([{
       chatId: chatInfo.id,
       msg: msg,
-    }));
-    setLastHideBtnMsgId(msgId);
+    }]));
   };
 
   useEffect(() => {
     navigation.setOptions({
       title: stringUtils.formatNameOrAddress(user.title),
       headerRight: () => {
-          const user = usersState.users[chatInfo.id]!;
           return user.isAddressOnly ? (
             <WalletLogo
               currency={(user.value as AddressOnly).currency}
@@ -91,6 +92,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       },
     });
   }, []);
+
   useEffect(() => {
     setMessages(
       Object.keys(chatsState.chats[chatInfo.id].messages)
@@ -98,6 +100,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         .sort((a, b) => b.timestamp - a.timestamp)
     );
   }, [chatsState.chats[chatInfo.id].messages]);
+
   useEffect(() => {
     if (chatInfo.notificationCount !== 0) {
       dispatch(ChatsStore.actions.removeNotification(chatInfo.id));
@@ -105,7 +108,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   }, [chatInfo.notificationCount]);
 
   const onLayout = () => {
-    console.log('layout');
     if (notificationCount > 0 && flatListRef && flatListRef.current) {
       console.log('scroll');
       scroll();
@@ -113,7 +115,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   };
 
   const renderItem = ({item, index}: {item: Message; index: number}) => {
-    console.log(index);
     let line;
     if (notificationCount !== 0 && index === notificationCount - 1) {
       line = (
@@ -140,60 +141,69 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       }}>
         {line}
         {
-          item.value === '/tx' ?
-            <PaymentMsg tx={{
-              id: 'id',
-              hash: 'hash',
-              userId: 'userId',
-              address: 'address',
-              currency: Currency.DOT,
-              txType: TxType.Received,
-              timestamp: 100000000,
+          item.action === '/tx' &&
+          item.args.length >= 2 &&
+          chatsState.transactions[toCurrency(item.args[0])].transactionById[item.args[1]] ?
+            (() => {
+              const tx = chatsState.transactions[toCurrency(item.args[0])].transactionById[item.args[1]];
+              return <PaymentMsg
+                onPress={() =>
+                  navigation.navigate('TransactionDetails', {
+                    transaction: tx,
+                  })}
+                tx={{
+                  id: tx.id,
+                  hash: tx.hash,
+                  userId: tx.userId,
+                  address: tx.address,
+                  currency: tx.currency,
+                  txType: tx.txType,
+                  timestamp: tx.timestamp,
 
-              value: 1000,
-              planckValue: '100000',
-              usdValue: 100,
+                  value: tx.value,
+                  planckValue: tx.planckValue,
+                  usdValue: tx.usdValue,
 
-              fee: 1000,
-              planckFee: '1000',
-              usdFee: 1000,
-              status: TxStatus.Pending,
-            }} /> :
-            (<MessageView key={index} isHideAnimation={item.id === lastHideBtnMsgId} message={item}
-                          isOwner={item.sender === globalState.profile!.id}
+                  fee: tx.fee,
+                  planckFee: tx.planckFee,
+                  usdFee: tx.usdFee,
+                  status: tx.status,
+                }} />;
+            })() :
+            (<MessageView key={index} message={item} isOwner={item.sender === globalState.profile!.id}
                           onPressChatBtn={onPressChatBtn} />)
         }
       </View>
     );
   };
 
-
   const scroll = () => {
     let index = notificationCount;
     if (notificationCount > messages.length) {
       index = messages.length;
     }
-    flatListRef.current?.scrollToIndex({
+  /*  flatListRef.current?.scrollToIndex({
       index: index - 1,
       viewPosition: 0.7,
       animated: true,
     });
+
+    //TODO:
+   */
   };
 
   return (
     <View style={styles.chat} onLayout={() => onLayout()}>
       {<FlatList
-        style={[{scaleY: -1}, styles.messages]}
+        style={[{scaleY: -1 }, styles.messages]}
         ref={flatListRef}
         scrollToOverflowEnabled={false}
         windowSize={5}
-      //  initialNumToRender={10}
         data={messages}
         extraData={chatsState.chats[chatInfo.id].messages}
         renderItem={renderItem}
-        initialScrollIndex={notificationCount - 1}
         keyExtractor={(item, index) => index.toString()}
-        ListHeaderComponent={<View style={{marginBottom: 50}}  />}
+        ListHeaderComponent={<View style={{marginBottom: user.isAddressOnly || !(user.value as Profile).isChatBot ? 80 : 50}}  />}
         onScrollToIndexFailed={() => {
           const wait = new Promise((resolve) => setTimeout(resolve, 100));
           wait.then(() => {
@@ -201,22 +211,18 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           });
         }}
       />}
-      {/*((chatInfo.type === ChatType.WithUser &&
-        globalContext.state.users.get(chatInfo.id) !== undefined) ||
-        chatInfo.type === ChatType.AddressOnly) && (
+      {((user.isAddressOnly || !(user.value as Profile).isChatBot) &&
         <TouchableOpacity
           style={styles.sendBox}
           onPress={() =>
-            chatInfo.type === ChatType.WithUser
+            !user.isAddressOnly
               ? navigation.navigate('SelectWallet', {
                   chatInfo: chatInfo,
                 })
               : navigation.navigate('Send', {
                   isEditable: false,
                   chatInfo: chatInfo,
-                  wallet: getWallet(
-                    (chatInfo.details as DefaultDetails).currency,
-                  ),
+                  currency: (user.value as AddressOnly).currency,
                 })
           }>
           <Image
@@ -224,7 +230,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
             style={{width: 16, height: 25}}
           />
         </TouchableOpacity>
-      )*/}
+      )}
     </View>
   );
 };

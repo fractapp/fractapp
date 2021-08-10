@@ -17,7 +17,6 @@ import ServerInfoStore from 'storage/ServerInfo';
  * @namespace
  * @category Storage
  */
-
 namespace DB {
   export const secureOption = {
     service: 'com.fractapp',
@@ -61,6 +60,12 @@ namespace DB {
     if (result === false) {
       throw new Error(`invalid set ${key}`);
     }
+  }
+  export async function deleteSecureItem(key: string) {
+    await Keychain.resetInternetCredentials(
+      key,
+      secureOption,
+    );
   }
   export async function getSecureItem(key: string): Promise<string | null> {
     const result = await Keychain.getInternetCredentials(key, secureOption);
@@ -242,38 +247,18 @@ namespace DB {
   }
 
   export async function setChatsState(state: ChatsStore.State) {
-    const mapReplacer = (key: any, value: any) => {
-      if (value instanceof Map) {
-        return {
-          dataType: 'Map',
-          value: Array.from(value.entries()), // or with spread: value: [...value]
-        };
-      } else {
-        return value;
-      }
-    };
-
     await AsyncStorage.setItem(
       AsyncStorageKeys.chatsStorage,
-      JSON.stringify(state, mapReplacer),
+      JSON.stringify(state),
     );
   }
   export async function getChatsState(): Promise<ChatsStore.State> {
-    const mapReviver = (key: any, value: any) => {
-      if (typeof value === 'object' && value !== null) {
-        if (value.dataType === 'Map') {
-          return new Map(value.value);
-        }
-      }
-      return value;
-    };
-
     const result = await AsyncStorage.getItem(AsyncStorageKeys.chatsStorage);
 
     if (result == null) {
       return ChatsStore.initialState();
     }
-    return JSON.parse(result, mapReviver);
+    return JSON.parse(result);
   }
 
   export async function setContacts(contacts: Array<string>) {
@@ -292,14 +277,18 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setUsers(users: Record<string, User>) {
+  export async function setUsers(users: {
+    [id in string]: User
+  }) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.users,
       JSON.stringify(users),
     );
   }
 
-  export async function getUsers(): Promise<Record<string, User>> {
+  export async function getUsers(): Promise<{
+    [id in string]: User
+  }> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.users);
 
     if (result == null) {
@@ -333,8 +322,12 @@ namespace DB {
     return await getSecureItem(SecureStorageKeys.firebaseToken);
   }
 
-  export async function setJWT(token: string) {
-    await setSecureItem(SecureStorageKeys.authJWT, token);
+  export async function setJWT(token: string | null) {
+    if (token == null) {
+      await deleteSecureItem(SecureStorageKeys.authJWT);
+    } else {
+      await setSecureItem(SecureStorageKeys.authJWT, token);
+    }
   }
   export async function getJWT(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.authJWT);

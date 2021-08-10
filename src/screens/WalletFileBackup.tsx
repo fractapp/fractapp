@@ -12,6 +12,7 @@ import StringUtils from 'utils/string';
 import passwordValidator from 'password-validator';
 import googleUtil from 'utils/google';
 import { useDispatch, useSelector } from 'react-redux';
+import tasks from 'utils/tasks';
 
 const minPasswordLength = 8;
 const schema = new passwordValidator();
@@ -81,7 +82,6 @@ export const WalletFileBackup = ({
           Dialog.actions.showDialog({
             title: StringUtils.texts.FileExistTitle,
             text: StringUtils.texts.FileExistText,
-            onPress: () => dispatch(Dialog.actions.hideDialog()),
           })
         );
         setLoading(false);
@@ -110,7 +110,6 @@ export const WalletFileBackup = ({
           Dialog.actions.showDialog({
             title: StringUtils.texts.ServiceUnavailableTitle,
             text: '',
-            onPress: () => dispatch(Dialog.actions.hideDialog()),
           })
         );
         return;
@@ -119,6 +118,7 @@ export const WalletFileBackup = ({
       if (!globalState.authInfo.hasWallet) {
         await DB.createAccounts(seed);
         dispatch(GlobalStore.actions.initWallet());
+        dispatch(GlobalStore.actions.setAllStatesLoaded(false));
       }
 
       navigation.reset({

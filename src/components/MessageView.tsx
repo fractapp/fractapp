@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, Animated, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Animated } from 'react-native';
 import stringUtils from 'utils/string';
 import { Button, Message, Row } from 'types/message';
 import { ChatButton } from 'components/ChatButton';
@@ -8,39 +8,20 @@ import { ChatButton } from 'components/ChatButton';
  * Message in chats
  * @category Components
  */
-const MessageViewComponent = (
+export const MessageView = (
   {
     message,
     isOwner,
-    isHideAnimation,
     onPressChatBtn,
   }: {
     message: Message,
-    isHideAnimation: boolean,
     isOwner: boolean,
     onPressChatBtn: (msgId: string, btn: Button) => Promise<void>
   }) => {
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-
   const [rows, setRows] = useState<Array<Row>>([]);
 
   useEffect(() => {
-    if (message.value.startsWith('lol')) {
-      console.log(isHideAnimation && message.hideBtn && message.rows != null);
-      console.log(message.rows == null || message.hideBtn);
-      console.log('---------');
-    }
-    if (isHideAnimation && message.hideBtn && message.rows != null) {
-      Animated.timing(fadeAnim,
-        {
-          useNativeDriver: false,
-          toValue: 0,
-          duration: 500,
-        }).start(() => setRows([]));
-      setRows(message.rows);
-      setRows([]);
-      return;
-    } else if (message.rows == null || message.hideBtn) {
+    if (message.rows == null || message.hideBtn) {
       setRows([]);
       return;
     }
@@ -76,9 +57,9 @@ const MessageViewComponent = (
       }
 
       result.push(
-        <Animated.View style={{ flexDirection: 'row', opacity: fadeAnim }}>
+        <View style={{ flexDirection: 'row' }}>
           {btns}
-        </Animated.View>
+        </View>
       );
       rowIndex++;
     }
@@ -117,8 +98,6 @@ const MessageViewComponent = (
     </View>
   );
 };
-
-export const MessageView = React.memo(MessageViewComponent);
 
 const styles = StyleSheet.create({
   box: {

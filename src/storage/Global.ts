@@ -12,7 +12,7 @@ namespace GlobalStore {
     isRegisteredInFractapp: boolean;
     isUpdatingProfile: boolean;
 
-    profile: MyProfile | null;
+    profile: MyProfile;
     authInfo: AuthInfo;
     loadInfo: LoadInfo;
 
@@ -22,7 +22,15 @@ namespace GlobalStore {
   export const initialState = (): State => ({
     isRegisteredInFractapp: false,
     isUpdatingProfile: false,
-    profile: null,
+    profile: {
+      id: '',
+      name: '',
+      username: '',
+      phoneNumber: '',
+      email: '',
+      avatarExt: '',
+      lastUpdate: 0,
+    },
     authInfo:  {
       isSynced: false,
       hasWallet: false,
@@ -45,6 +53,10 @@ namespace GlobalStore {
       set(state: State, action: PayloadAction<State>): State {
         return action.payload;
       },
+      setAllStatesLoaded(state: State, action: PayloadAction<boolean>): State {
+        state.loadInfo.isAllStatesLoaded = action.payload;
+        return state;
+      },
       setProfile(state: State, action: PayloadAction<MyProfile>): State {
         state.profile = action.payload;
         DB.setProfile(state.profile);
@@ -61,9 +73,18 @@ namespace GlobalStore {
         return state;
       },
       signOutFractapp(state: State): State {
-        state.profile = null;
+        state.profile = {
+          id: '',
+          name: '',
+          username: '',
+          phoneNumber: '',
+          email: '',
+          avatarExt: '',
+          lastUpdate: 0,
+        };
         state.isRegisteredInFractapp = false;
-        DB.setProfile(state.profile);
+        DB.setProfile(null);
+        DB.setJWT(null);
         return state;
       },
       setUpdatingProfile(state: State, action: PayloadAction<boolean>): State {
@@ -102,7 +123,7 @@ namespace GlobalStore {
         return state;
       },
       hideLoading(state: State): State {
-        state.loadInfo.isLoadingShow = true;
+        state.loadInfo.isLoadingShow = false;
         return state;
       },
       showSync(state: State): State {
@@ -110,11 +131,7 @@ namespace GlobalStore {
         return state;
       },
       hideSync(state: State): State {
-        state.loadInfo.isSyncShow = true;
-        return state;
-      },
-      setAllStatesLoaded(state: State): State {
-        state.loadInfo.isAllStatesLoaded = true;
+        state.loadInfo.isSyncShow = false;
         return state;
       },
     },

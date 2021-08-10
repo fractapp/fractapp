@@ -5,5 +5,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'react-hooks/exhaustive-deps': 'off',
+    'prettier/prettier': 0,
   },
 };

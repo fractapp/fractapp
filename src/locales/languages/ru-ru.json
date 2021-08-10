@@ -81,7 +81,7 @@
     "receive": "Получить",
     "setting_wallet": "Настройка кошелька",
     "restore_wallet": "Восстановление кошелька",
-    "statistics": "Статистика",
+    "statistics": "Статистика"
   },
   "pass_code": {
     "verify_description": "Введите пароль",

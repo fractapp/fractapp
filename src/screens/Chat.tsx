@@ -124,22 +124,40 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       title: stringUtils.formatNameOrAddress(chatInfo.name),
       headerRight: () => {
         return chatInfo.type === ChatType.AddressOnly ? (
-          <WalletLogo
-            currency={(chatInfo.details as DefaultDetails).currency}
-            size={45}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ProfileInfo', {
+                addressInfo: chatInfo,
+                userInfo: {},
+              })
+            }
+          >
+            <WalletLogo
+              currency={(chatInfo.details as DefaultDetails).currency}
+              size={45}
+            />
+          </TouchableOpacity>
         ) : (
-          <Image
-            source={{
-              uri: backend.getImgUrl(
-                globalContext.state.users.get(chatInfo.id)?.id ?? '0',
-                globalContext.state.users.get(chatInfo.id)?.lastUpdate ?? 0,
-              ),
-            }}
-            width={45}
-            height={45}
-            style={{width: 45, height: 45, borderRadius: 25}}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ProfileInfo', {
+                addressInfo: null,
+                userInfo: globalContext.state.users.get(chatInfo.id),
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: backend.getImgUrl(
+                  globalContext.state.users.get(chatInfo.id)?.id ?? '0',
+                  globalContext.state.users.get(chatInfo.id)?.lastUpdate ?? 0,
+                ),
+              }}
+              width={45}
+              height={45}
+              style={{width: 45, height: 45, borderRadius: 25}}
+            />
+          </TouchableOpacity>
         );
       },
       headerRightContainerStyle: {

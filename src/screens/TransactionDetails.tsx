@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import {getSymbol, Wallet} from 'types/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -11,15 +11,42 @@ import Clipboard from '@react-native-community/clipboard';
 import {showMessage} from 'react-native-flash-message';
 import {UserProfile} from 'types/profile';
 import backend from 'utils/backend';
+import { ChatInfo, ChatType, DefaultDetails } from 'types/chatInfo';
 
 /**
  * Screen with transaction details
  * @category Screens
  */
-export const TransactionDetails = ({route}: {route: any}) => {
+export const TransactionDetails = ({navigation, route}: {navigation: any; route: any}) => {
   const tx: Transaction = route.params.transaction;
   const wallet: Wallet = route.params.wallet;
   const user: UserProfile = route.params?.user;
+  let addressInfo: ChatInfo = {
+    id: '',
+    name: '',
+    lastTxId: '',
+    lastTxCurrency: 0,
+    notificationCount: 0,
+    timestamp: 0,
+    type: ChatType.AddressOnly,
+    details: {
+      currency: 0,
+      address: '',
+    },
+  };
+  if (user === null) {
+    addressInfo.id = 'id';
+    addressInfo.name = 'name';
+    addressInfo.lastTxId = 'string';
+    addressInfo.lastTxCurrency = tx.currency;
+    addressInfo.notificationCount = 0;
+    addressInfo.timestamp = tx.timestamp;
+    addressInfo.type = ChatType.AddressOnly;
+    addressInfo.details = {
+      currency: tx.currency,
+      address: tx.address,
+    };
+  }
 
   const renderStatus = () => {
     switch (tx.status) {
@@ -66,17 +93,38 @@ export const TransactionDetails = ({route}: {route: any}) => {
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
-        {user != null ? (
-          <Image
-            source={{
-              uri: backend.getImgUrl(user.id, user.lastUpdate),
-            }}
-            width={80}
-            height={80}
-            style={{width: 80, height: 80, borderRadius: 45}}
+      {user === null ? (
+        <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ProfileInfo', {
+                addressInfo: addressInfo,
+                userInfo: {},
+              })
+            }
+        >
+          <WalletLogo
+            currency={(addressInfo.details as DefaultDetails).currency}
+            size={80}
           />
+        </TouchableOpacity>
         ) : (
-          <WalletLogo currency={tx.currency} size={80} />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ProfileInfo', {
+                addressInfo: null,
+                userInfo: user,
+              })
+            }
+          >
+            <Image
+              source={{
+                uri: backend.getImgUrl(user.id ?? '0', user.lastUpdate ?? 0),
+              }}
+              width={80}
+              height={80}
+              style={{width: 80, height: 80, borderRadius: 45}}
+            />
+          </TouchableOpacity>
         )}
         <Text
           onPress={() => {

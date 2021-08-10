@@ -81,7 +81,7 @@
     "receive": "Receive",
     "setting_wallet": "Setting wallet",
     "restore_wallet": "Restore wallet",
-    "statistics": "Statistics",
+    "statistics": "Statistics"
   },
   "pass_code": {
     "verify_description": "Enter passcode",

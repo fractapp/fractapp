@@ -13,6 +13,7 @@ import {
   ConfirmSaveSeed,
   WalletFileBackup,
   WalletDetailsGraph,
+  ProfileInfo,
   SaveSeed,
   WalletDetails,
   ImportSeed,
@@ -133,7 +134,11 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
           StringUtils.texts.titles.statistics,
           WalletDetailsGraph,
           )}
-
+        {getRouterWithTitle(
+          'ProfileInfo',
+          'Profile',//TODO: add title StringUtils.texts.titles,
+          ProfileInfo
+        )}
         {getRouterWithTitle(
           'WalletDetails',
           StringUtils.texts.titles.details,

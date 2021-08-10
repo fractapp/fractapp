@@ -3,17 +3,16 @@ import {Keyring} from '@polkadot/keyring';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'types/wallet';
 import {Network} from 'types/account';
-
 // @ts-ignore
 import {FRACTAPP_API} from '@env';
 import {KeyringPair} from '@polkadot/keyring/types';
+import {Adaptors} from 'adaptors/adaptor';
 import {MyProfile} from 'types/myProfile';
-import {UserProfile} from 'types/profile';
+import {Profile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
-import {ServerInfo} from 'types/serverInfo';
-import {Adaptors} from 'adaptors/adaptor';
+import { FeeInfo, ServerInfo } from 'types/serverInfo';
 import math from 'utils/math';
 
 /**
@@ -21,22 +20,18 @@ import math from 'utils/math';
  * @category Utils
  */
 namespace BackendApi {
-  export enum CheckType {
-    Auth = 0,
-    Change,
-  }
   export enum CodeType {
     Phone = 0,
     Email,
+    CryptoAddress
   }
 
   const cacheTimeout = 36000000; // 10 minutes
 
-  let userById = new Map<string, UserProfile>();
+  let userById = new Map<string, Profile>();
   let timeForCache = new Map<string, number>();
 
   const apiUrl = FRACTAPP_API;
-  const signTokenMsg = 'It is my firebase token for fractapp:';
   const authMsg = 'It is my fractapp rq:';
   const signAddressMsg = 'It is my auth key for fractapp:';
   export const CodeLength = 6;
@@ -48,8 +43,9 @@ namespace BackendApi {
     }
     return <string>JWTToken;
   }
+
   export async function setToken(token: string): Promise<boolean> {
-    const accounts = await DB.getAccounts();
+  /*  const accounts = await DB.getAccounts();
     const seed = await DB.getSeed();
 
     if (accounts == null || seed == null) {
@@ -91,15 +87,14 @@ namespace BackendApi {
       if (!response.ok) {
         ok = response.ok;
       }
-    }
-
-    return ok;
+    }TODO: fix
+*/ //
+    return true;
   }
 
   export async function sendCode(
     value: string,
     type: CodeType,
-    checkType: CheckType,
   ): Promise<number> {
     const response = await fetch(`${apiUrl}/auth/sendCode`, {
       method: 'POST',
@@ -109,7 +104,6 @@ namespace BackendApi {
       body: JSON.stringify({
         type: type,
         value: value,
-        checkType: checkType,
       }),
     });
 
@@ -117,9 +111,9 @@ namespace BackendApi {
   }
 
   export async function auth(
-    value: string,
-    code: string,
     type: CodeType,
+    value: string = '',
+    code: string = '',
   ): Promise<number> {
     const seed = await DB.getSeed();
     const accounts = await DB.getAccounts();
@@ -159,16 +153,21 @@ namespace BackendApi {
     };
 
     const sign = createAuthPubKeyHeaderWithKeyAndTime(rq, authKey, time);
-    const response = await fetch(`${apiUrl}/auth/signIn`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Sign-Timestamp': String(time),
-        Sign: sign,
-        'Auth-Key': authPubKey,
-      },
-      body: JSON.stringify(rq),
-    });
+    const tasks =  Promise.race([
+      fetch(`${apiUrl}/auth/signIn`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Sign-Timestamp': String(time),
+          Sign: sign,
+          'Auth-Key': authPubKey,
+        },
+        body: JSON.stringify(rq),
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000)),
+    ]);
+
+    const response: any = await tasks;
 
     if (response.ok) {
       const json = await response.json();
@@ -201,7 +200,25 @@ namespace BackendApi {
     }
   }
 
-  export async function myMatchContacts(): Promise<Array<UserProfile>> {
+  export async function calculateSubstrateFee(sender: string,receiver: string,value: string, currency: Currency): Promise<FeeInfo | null> {
+    let response = await fetch(
+      `${apiUrl}/profile/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function myMatchContacts(): Promise<Array<Profile>> {
     const jwt = await DB.getJWT();
     const response = await fetch(`${apiUrl}/profile/matchContacts`, {
       method: 'GET',
@@ -211,15 +228,15 @@ namespace BackendApi {
       },
     });
 
-    let json = [];
+    let users = [];
     if (response.status === 200) {
-      json = await response.json();
+      users = await response.json();
     }
-    if (json == null) {
+    if (users == null) {
       return [];
     }
 
-    return json;
+    return users;
   }
 
   export async function myContacts(): Promise<Array<string>> {
@@ -297,7 +314,7 @@ namespace BackendApi {
     return response.status;
   }
 
-  export async function search(value: string): Promise<Array<UserProfile>> {
+  export async function search(value: string): Promise<Array<Profile>> {
     value = value.toLowerCase().trim();
     if (value.startsWith('@')) {
       value = value.substring(1);
@@ -311,12 +328,16 @@ namespace BackendApi {
     if (response.status !== 200) {
       return [];
     }
-    return await response.json();
+
+
+    const users = await response.json();
+
+    return users;
   }
 
   export async function getUserById(
     id: string,
-  ): Promise<UserProfile | null | undefined> {
+  ): Promise<Profile | null | undefined> {
     if (timeForCache.has(id) && timeForCache.get(id)! >= new Date().getTime()) {
       console.log('user get from cache: ' + id);
       return userById.get(id)!;
@@ -330,12 +351,12 @@ namespace BackendApi {
     } else if (response.status !== 200) {
       return null;
     }
-    const data: UserProfile = await response.json();
+    const user: Profile = await response.json();
 
     timeForCache.set(id, new Date().getTime() + cacheTimeout);
-    userById.set(id, data);
+    userById.set(id, user);
 
-    return data;
+    return user;
   }
 
   export async function isUsernameFree(username: string): Promise<boolean> {
@@ -386,7 +407,7 @@ namespace BackendApi {
     network: Network,
     currency: Currency,
   ): Promise<Array<Transaction>> {
-    let transactions = new Array<Transaction>();
+    let transactions: Array<Transaction> = [];
     const api = Adaptors.get(network);
 
     let rs = await fetch(

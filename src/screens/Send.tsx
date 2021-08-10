@@ -1,38 +1,43 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {AmountValue} from 'components/AmountValue';
-import {BlueButton} from 'components/BlueButton';
-import {Receiver, ReceiverType} from 'components/Receiver';
-import {EnterAddress} from 'components/EnterAddress';
-import {WalletInfo} from 'components/WalletInfo';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { AmountValue } from 'components/AmountValue';
+import { BlueButton } from 'components/BlueButton';
+import { Receiver, ReceiverType } from 'components/Receiver';
+import { EnterAddress } from 'components/EnterAddress';
+import { WalletInfo } from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import backend from 'utils/backend';
-import {ChatInfo, ChatType} from 'types/chatInfo';
-import {Currency, getSymbol, Wallet} from 'types/wallet';
+import backend from 'utils/api';
+import { ChatInfo } from 'types/chatInfo';
+import { Currency, getSymbol } from 'types/wallet';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import DialogStore from 'storage/Dialog';
-import {checkAddress} from '@polkadot/util-crypto';
+import { checkAddress } from '@polkadot/util-crypto';
 import BN from 'bn.js';
-import {Adaptors} from 'adaptors/adaptor';
-import {UserProfile} from 'types/profile';
+import { Adaptors } from 'adaptors/adaptor';
+import { AddressOnly, Profile } from 'types/profile';
 import math from 'utils/math';
-import {Transaction, TxType, TxStatus} from 'types/transaction';
+import { Transaction, TxType, TxStatus } from 'types/transaction';
 import StringUtils from 'utils/string';
+import { useDispatch, useSelector } from 'react-redux';
+import UsersStore from 'storage/Users';
+import AccountsStore from 'storage/Accounts';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Screen with sending funds
  * @category Screens
  */
-export const Send = ({navigation, route}: {navigation: any; route: any}) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
-  const dialogContext = useContext(DialogStore.Context);
+export const Send = ({ navigation, route }: { navigation: any; route: any }) => {
+  const dispatch = useDispatch();
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const isEditable: boolean = route.params.isEditable;
-  const wallet: Wallet = route.params.wallet;
-
-  const api = Adaptors.get(wallet.network);
+  const currency: Currency = route.params.currency;
 
   const chatInfo: ChatInfo = route.params?.chatInfo;
   const isUSDMode: boolean = route.params?.isUSDMode ?? true;
@@ -44,87 +49,80 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
   const planksValueString: string = route.params?.planksValue ?? 0;
   const planksFeeString: string = route.params?.planksFee ?? 0;
 
+  const account = accountState.accounts[currency];
+  const api = Adaptors.get(account.network);
+
   const [totalUsd, setTotalUsd] = useState<number>(0);
   const [totalCurrency, setTotalCurrency] = useState<BN>(new BN(0));
 
   const [receiver, setReceiver] = useState<string>('');
-  const [user, setUser] = useState<UserProfile | undefined>(undefined);
+  const [user, setUser] = useState<Profile | undefined>(undefined);
 
   const [isValidReceiver, setValidReceiver] = useState<boolean>(!isEditable);
-  const [isWrite, setIsWrite] = useState<boolean>(false);
+  const [isWrite, setWrite] = useState<boolean>(false);
 
   useEffect(() => {
-    globalContext.dispatch(GlobalStore.setLoading(true));
-    api
-      .init()
-      .then(async () => {
+    dispatch(GlobalStore.actions.showLoading());
+    (async () => {
+      try {
         if (isEditable) {
           setReceiver('');
-          globalContext.dispatch(GlobalStore.setLoading(false));
+          dispatch(GlobalStore.actions.hideLoading());
           return;
         }
 
-        if (chatInfo.type === ChatType.WithUser) {
-          const details = globalContext.state.users.get(chatInfo.id)!;
-          const p = await backend.getUserById(details.id);
-          if (p === undefined) {
-            globalContext.dispatch(GlobalStore.setLoading(false));
-            dialogContext.dispatch(
-              DialogStore.open(
-                StringUtils.texts.UserHasBeenDeletedTitle,
-                '',
-                () => {
-                  dialogContext.dispatch(DialogStore.close());
-                },
-              ),
-            );
-            navigation.goBack();
-            return;
-          } else if (p == null) {
-            globalContext.dispatch(GlobalStore.setLoading(false));
-            dialogContext.dispatch(
-              DialogStore.open(
-                StringUtils.texts.ServiceUnavailableTitle,
-                '',
-                () => {
-                  dialogContext.dispatch(DialogStore.close());
-                },
+        const user = usersState.users[chatInfo.id]!;
+        if (!user.isAddressOnly) {
+          const p = await backend.getUserById((user.value as Profile).id);
+
+          if (p === undefined || p == null) {
+            dispatch(GlobalStore.actions.hideLoading());
+            dispatch(
+              DialogStore.actions.showDialog(
+                {
+                  title: p === undefined ? StringUtils.texts.UserHasBeenDeletedTitle : StringUtils.texts.ServiceUnavailableTitle,
+                  text: '',
+                }
               ),
             );
             navigation.goBack();
             return;
           } else {
-            setReceiver(p.addresses[wallet.currency]);
-            globalContext.dispatch(GlobalStore.setUser(p));
+            setReceiver(p.addresses[account.currency]!);
+            dispatch(UsersStore.actions.setUser({
+              isAddressOnly: false,
+              value: p,
+              title: user.title,
+            }));
             setUser(p);
           }
-        } else if (chatInfo.type === ChatType.AddressOnly) {
-          const r = chatInfo.details!.address;
+
+        } else {
+          const r = (user.value as AddressOnly).address;
           setReceiver(r);
           setValidReceiver(
-            checkAddress(r, wallet.currency === Currency.DOT ? 0 : 2)[0],
+            checkAddress(r, account.currency === Currency.DOT ? 0 : 2)[0],
           );
         }
 
         setTimeout(
-          () => globalContext.dispatch(GlobalStore.setLoading(false)),
+          () => dispatch(GlobalStore.actions.hideLoading()),
           500,
         );
-      })
-      .catch((e: Error) => {
+
+      } catch (e) {
         console.log('Err: ' + e);
-        globalContext.dispatch(GlobalStore.setLoading(false));
-        dialogContext.dispatch(
-          DialogStore.open(
-            StringUtils.texts.ServiceUnavailableTitle,
-            '',
-            () => {
-              dialogContext.dispatch(DialogStore.close());
-            },
+        dispatch(GlobalStore.actions.hideLoading());
+        dispatch(
+          DialogStore.actions.showDialog({
+              title: StringUtils.texts.ServiceUnavailableTitle,
+              text: '',
+            }
           ),
         );
         navigation.goBack();
-      });
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -137,15 +135,17 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       return;
     }
 
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
 
     if (!isValidReceiver) {
-      dialogContext.dispatch(
-        DialogStore.open(StringUtils.texts.EnterValidAddressErr, '', () =>
-          dialogContext.dispatch(DialogStore.close()),
+      dispatch(
+        DialogStore.actions.showDialog({
+            title: StringUtils.texts.EnterValidAddressErr,
+            text: '',
+          },
         ),
       );
-      globalContext.dispatch(GlobalStore.setLoading(false));
+      dispatch(GlobalStore.actions.hideLoading());
       return;
     }
 
@@ -155,9 +155,9 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
     const tx: Transaction = {
       id: 'sent-' + hash,
       hash: hash,
-      userId: user !== undefined ? user.id : null,
+      userId: user !== undefined ? user.id : receiver,
       address: receiver,
-      currency: wallet.currency,
+      currency: account.currency,
       txType: TxType.Sent,
       timestamp: Math.round(new Date().getTime()),
 
@@ -179,17 +179,18 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       status: TxStatus.Pending,
     };
 
-    chatsContext.dispatch(ChatsStore.addPendingTx(tx, user));
+    dispatch(ChatsStore.actions.addPendingTx({
+      tx: tx,
+      owner: globalState.profile.id,
+    }));
 
-    globalContext.dispatch(GlobalStore.setLoading(false));
+    dispatch(GlobalStore.actions.hideLoading());
     navigation.reset({
       index: 1,
       actions: [
         navigation.navigate('Home'),
         navigation.navigate('Chat', {
-          chatInfo: chatsContext.state.chatsInfo.get(
-            tx.userId != null ? tx.userId : tx.address,
-          )!,
+          chatInfo: chatsState.chatsInfo[tx.userId != null ? tx.userId : tx.address]!,
         }),
       ],
     });
@@ -197,13 +198,14 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
   const renderReceiver = () => {
     if (isValidReceiver && !isWrite) {
-      if (!chatInfo || chatInfo.type === ChatType.AddressOnly) {
+      const user = chatInfo === undefined ? undefined : usersState.users[chatInfo.id];
+      if (!user || user.isAddressOnly) {
         return (
           <TouchableOpacity
-            style={{width: '100%'}}
-            onPress={isEditable ? () => setIsWrite(true) : () => true}>
+            style={{ width: '100%' }}
+            onPress={isEditable ? () => setWrite(true) : () => true}>
             <Receiver
-              currency={wallet.currency}
+              currency={account.currency}
               nameOrAddress={receiver}
               type={ReceiverType.Address}
             />
@@ -212,12 +214,12 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
       } else {
         return (
           <Receiver
-            nameOrAddress={chatInfo.name}
+            nameOrAddress={user.title}
             type={ReceiverType.User}
             avatar={{
               uri: backend.getImgUrl(
-                globalContext.state.users.get(chatInfo.id)!.id,
-                globalContext.state.users.get(chatInfo.id)!.lastUpdate,
+                (user.value as Profile).id,
+                (user.value as Profile).lastUpdate,
               ),
             }}
           />
@@ -232,12 +234,12 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
             setReceiver(text);
             const result = checkAddress(
               text,
-              wallet.currency === Currency.DOT ? 0 : 2,
+              account.currency === Currency.DOT ? 0 : 2,
             );
             setValidReceiver(result[0]);
           }}
-          onOk={() => setIsWrite(false)}
-          currency={wallet.currency}
+          onOk={() => setWrite(false)}
+          currency={account.currency}
         />
       );
     }
@@ -245,47 +247,45 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
   return (
     <View style={styles.chats}>
-      <WalletInfo wallet={wallet} />
+      <WalletInfo account={account} price={serverInfoState.prices[account.currency]} />
       <MaterialIcons name={'keyboard-arrow-down'} size={25} />
 
       {renderReceiver()}
 
-      <View style={{width: '100%', marginTop: 40, alignItems: 'center'}}>
+      <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
         <AmountValue
           value={value}
-          currency={wallet.currency}
+          currency={account.currency}
           width={'95%'}
           onPress={() =>
             !isValidReceiver
-              ? dialogContext.dispatch(
-                  DialogStore.open(
-                    StringUtils.texts.EnterValidAddressErr,
-                    '',
-                    () => dialogContext.dispatch(DialogStore.close()),
-                  ),
-                )
+              ? dispatch(
+              DialogStore.actions.showDialog({
+                title: StringUtils.texts.EnterValidAddressErr,
+                text: '',
+              }))
               : navigation.navigate('EnterAmount', {
-                  isUSDMode: isUSDMode,
-                  value: value,
-                  wallet: wallet,
-                  receiver: receiver,
-                })
+                isUSDMode: isUSDMode,
+                value: value,
+                currency: account.currency,
+                receiver: receiver,
+              })
           }
           alternativeValue={alternativeValue}
           fee={usdFee}
           isUSDMode={isUSDMode}
         />
       </View>
-      <View style={{width: '85%', marginTop: 60}}>
+      <View style={{ width: '85%', marginTop: 60 }}>
         <BlueButton
           text={
             StringUtils.texts.SendBtn +
             (totalUsd > 0
               ? ` $${totalUsd} (${math.convertFromPlanckToViewDecimals(
-                  totalCurrency,
-                  api.decimals,
-                  api.viewDecimals,
-                )} ${getSymbol(wallet.currency)})`
+                totalCurrency,
+                api.decimals,
+                api.viewDecimals,
+              )} ${getSymbol(account.currency)})`
               : '')
           }
           height={55}

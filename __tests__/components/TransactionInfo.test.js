@@ -3,9 +3,14 @@ import renderer from 'react-test-renderer';
 import {TransactionInfo} from 'components/TransactionInfo';
 import {Currency} from 'types/wallet';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
+import StringUtils from 'utils/string';
 
 jest.mock('utils/backend', () => ({
   getImgUrl: jest.fn(),
+}));
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test one', () => {

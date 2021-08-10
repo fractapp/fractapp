@@ -6,6 +6,8 @@ import PasscodeUtil from 'utils/passcode';
 import GlobalStore from 'storage/Global';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
+import UsersStore from 'storage/Users';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Passcode verification screen
@@ -18,24 +20,25 @@ export const VerifyPassCode = ({
   navigation: any;
   route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
-  const isVerify = route.params?.isVerify ?? false; //TODO: change to type
-  const isDisablePasscode = route.params?.isDisablePasscode ?? false; //TODO: change to type
-  const isChangeBiometry = route.params?.isChangeBiometry ?? false; //TODO: change to type
+  const isVerify: boolean = route.params?.isVerify ?? false;
+  const isDisablePasscode: boolean = route.params?.isDisablePasscode ?? false;
+  const isChangeBiometry: boolean = route.params?.isChangeBiometry ?? false;
 
   const action = route.params?.action ?? '';
   const screenKey = route.params?.screenKey ?? '';
 
   const onSubmit = async (passcode: Array<number>) => {
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
 
     let hash = await DB.getPasscodeHash();
     if (
       hash === PasscodeUtil.hash(passcode.join(''), (await DB.getSalt()) ?? '')
     ) {
       if (isVerify) {
-        globalContext.dispatch(GlobalStore.setLoading(false));
+        dispatch(GlobalStore.actions.hideLoading());
 
         navigation.dispatch({
           ...CommonActions.setParams({
@@ -47,25 +50,25 @@ export const VerifyPassCode = ({
         navigation.goBack();
         return;
       } else if (isDisablePasscode) {
-        globalContext.dispatch(GlobalStore.disablePasscode());
+        dispatch(GlobalStore.actions.disablePasscode());
       } else if (isChangeBiometry) {
         await DB.disablePasscode();
         await DB.enablePasscode(
           passcode.join(''),
-          !globalContext.state.authInfo.isBiometry,
+          !globalState.authInfo.hasBiometry,
         );
 
-        globalContext.dispatch(
-          globalContext.state.authInfo.isBiometry
-            ? GlobalStore.disableBiometry()
-            : GlobalStore.enableBiometry(),
+        dispatch(
+          globalState.authInfo.hasBiometry
+            ? GlobalStore.actions.disableBiometry()
+            : GlobalStore.actions.enableBiometry(),
         );
       }
 
-      globalContext.dispatch(GlobalStore.setLoading(false));
+      dispatch(GlobalStore.actions.hideLoading());
       navigation.goBack();
     } else {
-      globalContext.dispatch(GlobalStore.setLoading(false));
+      dispatch(GlobalStore.actions.hideLoading());
 
       showMessage({
         message: StringUtils.texts.showMsg.incorrectPasscode,
@@ -77,7 +80,7 @@ export const VerifyPassCode = ({
 
   return (
     <PassCode
-      isBiometry={globalContext.state.authInfo.isBiometry}
+      isBiometry={globalState.authInfo.hasBiometry}
       description={StringUtils.texts.passCode.verifyDescription}
       onSubmit={onSubmit}
     />

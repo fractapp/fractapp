@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {StyleSheet, View, Image, Text, TouchableHighlight} from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import {Currency} from 'types/wallet';
@@ -8,13 +8,14 @@ import Share from 'react-native-share';
 import {showMessage} from 'react-native-flash-message';
 import StringUtils from 'utils/string';
 import GlobalStore from 'storage/Global';
+import { useSelector } from 'react-redux';
 
 /**
  * Screen with receiver information and qr code
  * @category Screens
  */
 export const Receive = ({route}: {route: any}) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const address: string = route.params.address;
   const currency: Currency = route.params.currency;
@@ -66,7 +67,7 @@ export const Receive = ({route}: {route: any}) => {
                 url: StringUtils.texts.MyAddressForShare(
                   currency,
                   address,
-                  globalContext.state.profile?.id,
+                  globalState.profile!.id,
                 ),
                 type: 'text/plain',
               })

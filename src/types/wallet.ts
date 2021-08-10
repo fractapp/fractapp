@@ -1,6 +1,4 @@
 import {ImageSourcePropType} from 'react-native';
-import {Network} from 'types/account';
-import math from 'utils/math';
 
 /**
  * @category Models
@@ -15,7 +13,7 @@ export enum Currency {
  * @category Models
  */
 
- export function getName(currency: Currency) {
+export function getName(currency: Currency) {
   let name = '';
   switch (currency) {
     case Currency.DOT:
@@ -30,14 +28,14 @@ export enum Currency {
   return name;
 }
 
- export function getColor(currency: Currency) {
+export function getColor(currency: Currency) {
   let color = '';
   switch (currency) {
     case Currency.DOT:
       color = '#E6007A';
       break;
     case Currency.KSM:
-      color = '#888888';
+      color = '#434C74';
       break;
     default:
       throw new Error('invalid currency');
@@ -102,9 +100,23 @@ export function toCurrency(currency: string): Currency {
   }
 }
 
+
 /**
+ * currency to string
  * @category Models
  */
+export function fromCurrency(currency: Currency): string {
+  switch (currency) {
+    case Currency.DOT:
+      return 'DOT';
+    case Currency.KSM:
+      return 'KSM';
+    default:
+      throw new Error('invalid currency');
+  }
+}
+
+/*
 export class Wallet {
   name: string;
   address: string;
@@ -132,3 +144,4 @@ export class Wallet {
     this.usdValue = math.roundUsd(balance * price);
   }
 }
+*/

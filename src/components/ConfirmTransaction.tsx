@@ -1,87 +1,44 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, Button, TouchableOpacity} from 'react-native';
-import { useContext } from 'react';
-import { Currency, Wallet, getSymbol } from 'types/wallet';
-import { TxActionType } from 'types/transaction';
+import { Currency, getSymbol } from 'types/wallet';
+import { getNameTxAction, TxActionType } from 'types/transaction';
 import { useRef } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { useEffect } from 'react';
-import PricesStore from 'storage/Prices';
-import { useState } from 'react';
-import AccountsStore from 'storage/Accounts';
 import {WalletInfo} from 'components/WalletInfo';
 import StringUtils from 'utils/string';
-import math from 'utils/math';
-import backend from 'utils/backend';
-import GlobalStore from 'storage/Global';
-import { UserProfile } from 'types/profile';
-import {WalletLogo} from 'components/WalletLogo';
-import warningIcon from 'assets/img/warningIcon.png';
+import backend from 'utils/api';
 import { BlueButton } from './BlueButton';
+import { Profile } from 'types/profile';
+import { Account } from 'types/account';
+import MathUtils from 'utils/math';
 /**
  * Popup dialog component with 1 button
  * @category Components
  */
 export const ConfirmTransaction = ({
-  type = TxActionType.Donate,
-  value = 10.1234,
-  currency = Currency.KSM,
-  actionUser = '93b665d09f9dd25d6fcf288afc53d503baf17ab9dfc56eb80cff32744fd539e3',
-  fee = 1,
-  warningText = 'warningText warningText warningText warningText warningText ',
+  action,
+  value,
+  currency,
+  profile,
+  price,
+  account,
+  fee,
+  warningText,
   onCancel,
   onConfirm,
 }: {
-  type: number;
+  action: TxActionType;
   value: number;
   currency: Currency;
-  actionUser: string;
+  profile: Profile;
+  price: number;
+  account: Account;
   fee: number;
   warningText: string;
   onCancel: () => void;
   onConfirm: () => void;
 }) => {
   const refRBSheet = useRef();
-
-  const accountsContext = useContext(AccountsStore.Context);
-  const priceContext = useContext(PricesStore.Context);
-  const globalContext = useContext(GlobalStore.Context);
-
-  const [valueUsd, setValueUsd] = useState<number>();
-  const [txType, setTxType] = useState<string>();
-  const [wallet, setWallet] = useState<Wallet>();
-  const [user, setUser] = useState<UserProfile>();
-
-  useEffect(() => {
-    let price = 0;
-    if (accountsContext.state.accounts.has(currency)) {
-      if (priceContext.state.has(currency)) {
-        price = priceContext.state.get(currency)!;
-      }
-      let account = accountsContext.state.accounts.get(currency)!;
-      setWallet(
-        new Wallet(
-        account.name,
-        account.address,
-        account.currency,
-        account.network,
-        account.balance,
-        account.planks,
-        price,
-      ));
-    }
-    setValueUsd(math.roundUsd(price * value));
-    setUser(globalContext.state.users.get(actionUser)!);
-
-    switch (type) {
-      case TxActionType.Donate:
-        setTxType('Donate');
-        break;
-      default:
-        break;
-    }
-  },[]);
-  value = math.round(value, 3);
   return (
     <View
       style={{
@@ -91,7 +48,7 @@ export const ConfirmTransaction = ({
         backgroundColor: '#fff',
       }}
     >
-      <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current.open()} />
+      <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current?.open()} />
       <RBSheet
         ref={refRBSheet}
         closeOnPressMask={true}
@@ -110,31 +67,29 @@ export const ConfirmTransaction = ({
         <View style={{flexDirection: 'column', flex: 1}}>
           <View style={styles.user}>
             <View>
-              {user != null ? (
-                  <Image
-                    source={{
-                      uri: backend.getImgUrl(user.id, user.lastUpdate),
-                    }}
-                    width={50}
-                    height={50}
-                    style={styles.img}
-                  />
-                ) : (
-                  <WalletLogo currency={currency} size={50} />
-              )}
+              {
+                <Image
+                  source={{
+                    uri: backend.getImgUrl(profile.id, profile.lastUpdate),
+                  }}
+                  width={50}
+                  height={50}
+                  style={styles.img}
+                />
+              }
             </View>
             <View style={styles.userTitle}>
-              <Text style={styles.name}>{user.name}</Text>
-              <Text style={styles.userName}>@{user.username}</Text>
+              <Text style={styles.name}>{profile.name /*TODO: empty name*/}</Text>
+              <Text style={styles.userName}>@{profile.username}</Text>
             </View>
           </View>
           <View style={styles.infoBlock}>
             <View style={styles.info}>
               <View style={styles.type}>
-                  <Text style={styles.typeText}>{txType}</Text>
+                  <Text style={styles.typeText}>{getNameTxAction(action)}</Text>
               </View>
                 <Text style={styles.valueUsd}>
-                  ${valueUsd}
+                  ${MathUtils.roundUsd(value * price)}
                 </Text>
                 <Text>
                   ({value} {getSymbol(currency)})
@@ -142,7 +97,7 @@ export const ConfirmTransaction = ({
               <View style={styles.warning}>
                 <View style={styles.warningImgBlock}>
                   <Image
-                    source={warningIcon}
+                    source={require('assets/img/warning-icon.png')}
                     width={50}
                     height={50}
                     style={styles.warningImg}
@@ -158,7 +113,7 @@ export const ConfirmTransaction = ({
             <Text style={styles.writeOff}>
               {StringUtils.texts.WriteOffAccountTitle}
             </Text>
-            <WalletInfo wallet={wallet!} />
+            <WalletInfo account={account} price={price} />
           </View>
           <View style={styles.fee}>
             <Text style={styles.feeTitle}>Fee</Text>
@@ -171,14 +126,14 @@ export const ConfirmTransaction = ({
               <TouchableOpacity
                 style={styles.buttonCancel}
                 disabled={false}
-                onPress={()=>{onCancel;}}>
+                onPress={onCancel}>
                 <Text style={styles.buttonCancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.buttonConfirm}>
               <BlueButton
                 text={'OK'} height={50}
-                onPress={()=>{onConfirm;}}
+                onPress={onConfirm}
               />
             </View>
 

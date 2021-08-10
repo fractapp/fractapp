@@ -43,6 +43,9 @@ jest.mock('react-native-document-picker', () => ({
     allFiles: 'allFiles',
   },
 }));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 jest.mock('utils/backup', () => ({
   getWalletsFromGoogle: () => {
@@ -51,6 +54,9 @@ jest.mock('utils/backup', () => ({
       ids: [],
     };
   },
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 useState.mockImplementation((init) => [init, jest.fn()]);

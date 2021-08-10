@@ -1,119 +1,75 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
-import backend from 'utils/backend';
-import { ChatInfo, DefaultDetails } from 'types/chatInfo';
-import GlobalStore from 'storage/Global';
-import { UserProfile } from 'types/profile';
-import StringUtils from 'utils/string';
+import backend from 'utils/api';
+import { AddressOnly, Profile, User } from 'types/profile';
+import UsersStore from 'storage/Users';
+import { useSelector } from 'react-redux';
 
 /**
  * Screen with transaction details
  * @category Screens
  */
 export const ProfileInfo = ({route}: {navigation: any, route: any}) => {
-    const globalContext = useContext(GlobalStore.Context);
+    const usersState: UsersStore.State = useSelector((state: any) => state.users);
 
-    const userInfo: UserProfile = route.params?.userInfo;
-    const addressInfo: any = route.params?.addressInfo;
-    const addressesArray = [];
-    let addressTitle = '';
+    const user: User = usersState.users[route.userId]!;
 
-    if (addressInfo === null) {
-        for (let key in userInfo.addresses) {
-            addressesArray.push(userInfo.addresses[key]);
-        }
-    } else {
-        addressTitle = StringUtils.formatNameOrAddress(addressInfo.details.address);
-        addressesArray.push(addressInfo.details?.address);
-    }
+    const name = user.isAddressOnly ? user.title : (user.value as Profile).name;
+    const username = user.isAddressOnly ? '' : ((user.value as Profile).name === '' ? (user.value as Profile).username : '');
+
     return (
-        <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
-            <View style={{paddingLeft: 23, paddingRight: 22, paddingTop: 39}}>
-                <Image
-                    source={{
-                        uri: backend.getImgUrl(
-                            globalContext.state.users.get(userInfo.id)?.id ?? '0',
-                            globalContext.state.users.get(userInfo.id)?.lastUpdate ?? 0,
-                        ),
-                    }}
-                    width={130}
-                    height={130}
-                    style={styles.image}
-                />
-                <View style={{alignItems: 'center', marginTop: 10}}>
-                    {addressInfo === null ? (
-                        <View style={{alignItems: 'center'}}>
-                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>{userInfo.name}</Text>
-                            <Text style={{marginTop: 4, fontSize: 15, color: '#888888'}}>@{userInfo.username}</Text>
-                        </View>
-
-                    ) : (
-                        <Text style={{fontSize: 15, fontWeight: 'bold'}}>{addressTitle}</Text>
-                    )}
-                </View>
-                {addressInfo === null ? (
-                    <View style={styles.buttonsBlock}>
-                        <TouchableOpacity style={styles.sendBtn}>
-                            <Text style={styles.btnText}>Send</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.muteBtn}>
-                            <Text style={styles.btnText}>Mute</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                ) : (
-                    <View style={styles.buttonsBlock}>
-                        <TouchableOpacity  style={styles.sendBtnAddress}>
-                            <Text style={styles.btnText}>Send</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.muteBtnAddress}>
-                            <Text style={styles.btnText}>Mute</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.addAddress}>
-                            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                                <Image
-                                    source={require('assets/img/plus.png')}
-                                    width={10}
-                                    height={10}
-                                    style={styles.imagePlus}
-                                />
-                                <Image
-                                    source={require('assets/img/human.png')}
-                                    width={10}
-                                    height={10}
-                                    style={styles.imageHuman}
-                                />
+      <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
+          <View style={{ paddingLeft: 23, paddingRight: 22, paddingTop: 39 }}>
+              <Image
+                source={{
+                    uri: backend.getImgUrl((user.value as Profile).id, (user.value as Profile).lastUpdate),
+                }}
+                width={130}
+                height={130}
+                style={styles.image}
+              />
+              <View style={{ alignItems: 'center', marginTop: 10 }}>
+                  {
+                      <View style={{ alignItems: 'center' }}>
+                          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{name}</Text>
+                          {
+                              username !== '' ?
+                                <Text style={{ marginTop: 4, fontSize: 15, color: '#888888' }}>@{username}</Text> :
+                                <View />
+                          }
+                      </View>
+                  }
+              </View>
+              <View style={styles.buttonsBlock}>
+                  <TouchableOpacity style={styles.sendBtn}>
+                      <Text style={styles.btnText}>Send</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.muteBtn}>
+                      <Text style={styles.btnText}>Mute</Text>
+                  </TouchableOpacity>
+              </View>
+              <Text style={styles.addressTitle}>Address</Text>
+              <View style={styles.addressBlock}>
+                  {
+                      user.isAddressOnly ?
+                        <View style={styles.address} key={0}>
+                            <WalletLogo currency={(user.value as AddressOnly).currency} size={40} />
+                            <View style={{ width: '90%', flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={styles.addressText}>{(user.value as AddressOnly).address}</Text>
                             </View>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                <Text style={styles.addressTitle}>Address</Text>
-                <View style={styles.addressBlock}>
-                    {addressInfo === null ? (
-                        addressesArray.map((address, index) => {
-                            return (
-                                <View style={styles.address} key={index}>
-                                    <WalletLogo currency={index} size={40} />
-                                    <View style={{width: '90%',flexDirection: 'row' , alignItems: 'center'}}>
-                                        <Text style={styles.addressText}>{address}</Text>
-                                    </View>
-                                </View>
-                            );
-                        })
-                    ) : (
-                        addressesArray.map((address, index) => (
-                            <View style={styles.address} key={index}>
-                                <WalletLogo currency={addressInfo.details?.currency!} size={40} />
-                                <View style={{width: '90%',flexDirection: 'row' , alignItems: 'center'}}>
-                                    <Text style={styles.addressText}>{address}</Text>
-                                </View>
-                            </View>
-                        ))
-                    )}
-                </View>
-            </View>
-        </View>
+                        </View> : Object.entries((user.value as Profile).addresses).map((pair) =>
+                          (<View style={styles.address} key={pair[0]}>
+                              <WalletLogo currency={Number(pair[0])} size={40} />
+                              <View style={{ width: '90%', flexDirection: 'row', alignItems: 'center' }}>
+                                  <Text style={styles.addressText}>{pair[1]}</Text>
+                              </View>
+                          </View>)
+                        )
+                  }
+              </View>
+          </View>
+      </View>
     );
 };
 
@@ -168,25 +124,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: 15,
         justifyContent: 'center',
-    },
-
-    sendBtnAddress: {
-        borderColor: '#2AB2E2',
-        borderWidth: 1,
-        width: 100,
-        height: 43,
-        borderRadius: 10,
-        justifyContent: 'center',
-        marginRight: 16,
-    },
-    muteBtnAddress: {
-        borderColor: '#2AB2E2',
-        borderWidth: 1,
-        width: 100,
-        height: 43,
-        borderRadius: 10,
-        justifyContent: 'center',
-        marginRight: 16,
     },
     addAddress: {
         borderColor: '#2AB2E2',

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WalletLogo} from 'components/WalletLogo';
 import {getSymbol} from 'types/wallet';
@@ -11,7 +11,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
  * Payment message in chat
  * @category Components
  */
-export const PaymentMsg = ({tx}: {tx: Transaction}) => {
+export const PaymentMsg = ({tx, onPress}: {tx: Transaction, onPress: () => void}) => {
   const now = new Date();
 
   const renderStatus = () => {
@@ -56,7 +56,8 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
     }
   };
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         styles.message,
         {
@@ -101,15 +102,13 @@ export const PaymentMsg = ({tx}: {tx: Transaction}) => {
 
         <View style={{flex: 1}}>{renderStatus()}</View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   message: {
     minWidth: '48%',
-    marginLeft: 20,
-    marginRight: 20,
     justifyContent: 'center',
     borderColor: '#DADADA',
     borderRadius: 10,

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import Keychain from 'react-native-keychain';
 import GlobalStore from 'storage/Global';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
+import {useSelector} from 'react-redux';
 
 /**
  * Settings screen
@@ -25,7 +26,8 @@ export const Settings = ({
   navigation: any;
   route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
+
   const isSuccessUnlock = route.params?.isSuccessUnlock ?? false;
   const action = route.params?.action ?? '';
 
@@ -45,7 +47,7 @@ export const Settings = ({
       img: require('assets/img/edit-profile.png'),
       title: StringUtils.texts.settings.editProfile,
       onClick: () =>
-        globalContext.state.isRegistered
+        globalState.isRegisteredInFractapp
           ? navigation.navigate('EditProfile')
           : navigation.navigate('Connecting'),
     },
@@ -53,7 +55,7 @@ export const Settings = ({
       img: require('assets/img/backup.png'),
       title: StringUtils.texts.settings.backup,
       onClick: async () => {
-        if (globalContext.state.authInfo.isPasscode) {
+        if (globalState.authInfo.hasPasscode) {
           navigation.navigate('VerifyPassCode', {
             isVerify: true,
             returnScreen: route.name,
@@ -67,11 +69,11 @@ export const Settings = ({
     },
     {
       img: require('assets/img/safety.png'),
-      title: globalContext.state.authInfo.isPasscode
+      title: globalState.authInfo.hasPasscode
         ? StringUtils.texts.settings.disablePasscode
         : StringUtils.texts.settings.enablePasscode,
       onClick: async () => {
-        if (globalContext.state.authInfo.isPasscode) {
+        if (globalState.authInfo.hasPasscode) {
           navigation.navigate('VerifyPassCode', {
             isDisablePasscode: true,
           });
@@ -82,7 +84,7 @@ export const Settings = ({
     },
     {
       img: require('assets/img/biometry-btn.png'),
-      title: globalContext.state.authInfo.isBiometry
+      title: globalState.authInfo.hasBiometry
         ? StringUtils.texts.settings.disableBiometry
         : StringUtils.texts.settings.enableBiometry,
       onClick: async () => {
@@ -92,7 +94,7 @@ export const Settings = ({
       },
       isDisable:
         (Keychain.getSupportedBiometryType() != null &&
-          !globalContext.state.authInfo.isPasscode) ||
+          !globalState.authInfo.hasPasscode) ||
         Keychain.getSupportedBiometryType() == null,
     },
     {
@@ -138,7 +140,7 @@ export const Settings = ({
         style={styles.account}
         testID={'avatarBtn'}
         onPress={() => {
-          globalContext.state.isRegistered
+          globalState.isRegisteredInFractapp
             ? navigation.navigate('EditProfile')
             : navigation.navigate('Connecting');
         }}>
@@ -146,8 +148,8 @@ export const Settings = ({
           <Image
             source={{
               uri: backend.getImgUrl(
-                globalContext.state.profile.id,
-                globalContext.state.profile.lastUpdate,
+                globalState.profile!.id,
+                globalState.profile!.lastUpdate,
               ),
             }}
             style={styles.avatar}
@@ -156,17 +158,17 @@ export const Settings = ({
           />
         </View>
         <View style={styles.name}>
-          {globalContext.state.profile.name !== '' ? (
+          {globalState.profile!.name !== '' ? (
             <Text style={[styles.nameText, {color: 'black'}]}>
-              {globalContext.state.profile.name}
+              {globalState.profile!.name}
             </Text>
           ) : (
             <Text style={[styles.nameText, {color: '#888888'}]}>Name</Text>
           )}
 
-          {globalContext.state.profile.username !== '' ? (
+          {globalState.profile!.username !== '' ? (
             <Text style={[styles.nickText, {color: 'black'}]}>
-              @{globalContext.state.profile.username}
+              @{globalState.profile!.username}
             </Text>
           ) : (
             <Text style={[styles.nickText, {color: '#888888'}]}>Username</Text>

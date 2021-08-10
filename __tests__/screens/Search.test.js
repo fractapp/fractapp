@@ -4,7 +4,7 @@ import {Search} from 'screens/Search';
 import GlobalStore from 'storage/Global';
 import DialogStore from 'storage/Dialog';
 import {render} from '@testing-library/react-native';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import {PermissionsAndroid} from 'react-native';
 import Dialog from 'storage/Dialog';
 

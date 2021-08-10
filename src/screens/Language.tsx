@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -8,15 +8,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import GlobalStore from 'storage/Global';
 
 /**
  * Backup screen
  * @category Screens
  */
-export const Language = ({navigation}: {navigation: any}) => {
-  const globalContext = useContext(GlobalStore.Context);
-
+export const Language = () => {
   const menuItems = [
     {
       img: (
@@ -27,7 +24,7 @@ export const Language = ({navigation}: {navigation: any}) => {
       ),
       title: 'English',
       onClick: () => {
-        globalContext.dispatch(GlobalStore.setLang('en'));
+       // dispatch(GlobalStore.actions.setLang('en'));
       },
     },
     {
@@ -36,7 +33,7 @@ export const Language = ({navigation}: {navigation: any}) => {
       ),
       title: 'Русский',
       onClick: () => {
-        globalContext.dispatch(GlobalStore.setLang('ru'));
+       //  dispatch(GlobalStore.setLang('ru'));
       },
     },
   ];

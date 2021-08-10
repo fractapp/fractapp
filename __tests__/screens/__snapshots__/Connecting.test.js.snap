@@ -19,7 +19,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    [missing "en.connecting.title" translation]
+    connecting.title
   </Text>
   <Text
     style={
@@ -32,7 +32,7 @@ exports[`Test positive 1`] = `
       }
     }
   >
-    [missing "en.connecting.description" translation]
+    connecting.description
   </Text>
   <View
     style={
@@ -97,7 +97,7 @@ exports[`Test positive 1`] = `
           }
         }
       >
-        [missing "en.connecting.phone" translation]
+        connecting.phone
       </Text>
     </View>
     <View
@@ -162,7 +162,7 @@ exports[`Test positive 1`] = `
             }
           }
         >
-          [missing "en.connecting.email" translation]
+          connecting.email
         </Text>
       </View>
     </View>

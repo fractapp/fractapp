@@ -3,8 +3,9 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import StringUtils from 'utils/string';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Screen with editing username in fractapp
@@ -12,56 +13,56 @@ import StringUtils from 'utils/string';
  */
 export const EditUsername = ({navigation}: {navigation: any}) => {
   const regExp = new RegExp('[^A-Za-z0-9_-]');
-  const globalContext = useContext(GlobalStore.Context);
-  const dialogContext = useContext(Dialog.Context);
+  const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const [username, setUsername] = useState<string>(
-    globalContext.state.profile.username,
+    globalState.profile!.username,
   );
   const [isExist, setUsernameExist] = useState<boolean>(false);
 
   const onSuccess = async () => {
     if (
-      username.toLowerCase() === globalContext.state.profile.username ||
+      username.toLowerCase() === globalState.profile!.username ||
       username === ''
     ) {
       navigation.goBack();
       return;
     }
 
-    globalContext.dispatch(GlobalStore.setLoading(true));
+    dispatch(GlobalStore.actions.showLoading());
     if (
       regExp.test(username) ||
       !(await backend.isUsernameFree(username.toLowerCase())) ||
       !(await backend.updateProfile(
-        globalContext.state.profile.name,
+        globalState.profile!.name,
         username.toLowerCase(),
       ))
     ) {
       if (!(await backend.isUsernameFree(username))) {
-        dialogContext.dispatch(
-          Dialog.open(
-            StringUtils.texts.UsernameIsExistTitle,
-            StringUtils.texts.UsernameIsExistText,
-            () => dialogContext.dispatch(Dialog.close()),
+        dispatch(
+          Dialog.actions.showDialog({
+              title: StringUtils.texts.UsernameIsExistTitle,
+              text: StringUtils.texts.UsernameIsExistText,
+            }
           ),
         );
       } else {
-        dialogContext.dispatch(
-          Dialog.open(
-            StringUtils.texts.InvalidUsernameTitle,
-            StringUtils.texts.InvalidUsernameText,
-            () => dialogContext.dispatch(Dialog.close()),
+        dispatch(
+          Dialog.actions.showDialog({
+              title: StringUtils.texts.InvalidUsernameTitle,
+              text: StringUtils.texts.InvalidUsernameText,
+            }
           ),
         );
       }
 
-      globalContext.dispatch(GlobalStore.setLoading(false));
+      dispatch(GlobalStore.actions.hideLoading());
       return;
     }
 
-    globalContext.dispatch(GlobalStore.setLoading(false));
-    globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
+    dispatch(GlobalStore.actions.hideLoading());
+    dispatch(GlobalStore.actions.setUpdatingProfile(true));
     navigation.goBack();
   };
 
@@ -77,7 +78,7 @@ export const EditUsername = ({navigation}: {navigation: any}) => {
       return;
     }
 
-    if (username.toLowerCase() === globalContext.state.profile.username) {
+    if (username.toLowerCase() === globalState.profile!.username) {
       setUsernameExist(false);
       return;
     }

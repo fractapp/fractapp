@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -7,18 +7,19 @@ import {
   View,
 } from 'react-native';
 import {ChatShortInfo} from 'components/ChatShortInfo';
-import {ChatInfo, ChatType} from 'types/chatInfo';
-import ChatsStore from 'storage/Chats';
-import GlobalStore from 'storage/Global';
+import {ChatInfo} from 'types/chatInfo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
+import ChatsStore from 'storage/Chats';
+import UsersStore from 'storage/Users';
 
 /**
  * Chat list screen
  * @category Screens
  */
 export const Chats = ({navigation}: {navigation: any}) => {
-  const chatsContext = useContext(ChatsStore.Context);
-  const globalContext = useContext(GlobalStore.Context);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
 
   useEffect(() => {
     navigation.setOptions({
@@ -33,45 +34,44 @@ export const Chats = ({navigation}: {navigation: any}) => {
   }, []);
 
   const getChats = () => {
-    const chats = Array.from(chatsContext.state.chatsInfo.values())
-      .filter(
-        (value) =>
-          chatsContext.state.transactions.has(value.lastTxCurrency) &&
-          chatsContext.state.transactions
-            ?.get(value.lastTxCurrency)!
-            .transactionById.has(value.lastTxId),
-      )
-      .sort((a, b) => b.timestamp - a.timestamp);
+    const chats = Object.keys(chatsState.chatsInfo).map((key) => chatsState.chatsInfo[key])
+      .sort((a, b) => {
+        const msgOne = chatsState.chats[a.id]!.messages[a.lastMsgId]!;
+        const msgTwo = chatsState.chats[b.id]!.messages[b.lastMsgId]!;
+
+        return msgOne.timestamp - msgTwo.timestamp;
+      });
+
     return chats;
   };
+
   const renderItem = ({item}: {item: ChatInfo}) => {
-    const tx = chatsContext.state.transactions
-      .get(item.lastTxCurrency)!
-      .transactionById.get(item.lastTxId)!;
+    const user = usersState.users[item.id]!;
+
+    if (!usersState.users[item.id]) {
+      return <View />; //TODO: get user from server
+    }
+    const msg = chatsState.chats[item.id]!.messages[item.lastMsgId]!;
 
     return (
       <TouchableHighlight
         onPress={() => navigation.navigate('Chat', {chatInfo: item})}
         underlayColor="#f8f9fb">
         <ChatShortInfo
-          name={item.name}
           notificationCount={item.notificationCount}
-          tx={tx}
-          user={
-            item.type === ChatType.WithUser
-              ? globalContext.state.users.get(item.id) ?? {
-                  id: '0',
-                  name: 'Deleted',
-                  username: '-',
-                  avatarExt: '',
-                  lastUpdate: 0,
-                  addresses: {
-                    0: 'invalid',
-                    1: 'invalid',
-                  },
-                }
-              : null
-          }
+          message={msg.value}
+          timestamp={msg.timestamp}
+          user={user ?? {
+            isAddressOnly: false,
+            value: {
+              id: '0',
+              name: 'Deleted',
+              username: '-',
+              avatarExt: '',
+              lastUpdate: 0,
+              addresses: new Map(),
+            },
+          }}
         />
       </TouchableHighlight>
     );

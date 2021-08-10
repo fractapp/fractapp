@@ -2,6 +2,11 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {WalletInfo} from 'components/WalletInfo';
 import {Currency, Wallet} from 'types/wallet';
+import StringUtils from 'utils/string';
+
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 it('Test Polkadot wallet', () => {
   const tree = renderer

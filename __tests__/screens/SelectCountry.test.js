@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {SelectCountry} from 'screens/SelectCountry';
+import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -9,6 +10,9 @@ jest.mock('react', () => ({
   Linking: jest.fn(() => ({
     openURL: jest.fn(),
   })),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 jest.mock('utils/backend', () => {});
 

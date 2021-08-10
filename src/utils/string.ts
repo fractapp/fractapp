@@ -6,10 +6,10 @@ import {Currency, getSymbol} from 'types/wallet';
 import I18n from 'react-native-i18n';
 
 namespace StringUtils {
-  const today = I18n.t('today');
-  const yesterday = I18n.t('yesterday');
+  export const today = I18n.t('today');
+  export const yesterday = I18n.t('yesterday');
 
-  const months = [
+  export const months = [
     I18n.t('months.january'),
     I18n.t('months.february'),
     I18n.t('months.march'),
@@ -301,6 +301,26 @@ namespace StringUtils {
   /**
    * convert date to string
    */
+  export function forMsg(date: Date): string {
+    let dateValue = '';
+
+    let hours = String(date.getHours());
+    let minutes = String(date.getMinutes());
+    if (hours.length === 1) {
+      hours = '0' + hours;
+    }
+    if (minutes.length === 1) {
+      minutes = '0' + minutes;
+    }
+
+    dateValue = hours + ':' + minutes;
+
+    return dateValue;
+  }
+
+  /**
+   * convert date to string
+   */
   export function forChatInfo(now: Date, date: Date): string {
     let dateValue = '';
     if (
@@ -395,6 +415,14 @@ namespace StringUtils {
           value.length - 11,
           value.length,
         )}`;
+  }
+
+  export function objectToMap(obj: any) {
+    let strMap = new Map();
+    for (let k of Object.keys(obj)) {
+      strMap.set(k, obj[k]);
+    }
+    return strMap;
   }
 }
 

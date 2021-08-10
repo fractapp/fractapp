@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {EditPhoneNumber} from 'screens/EditPhoneNumber';
-import BackendApi from 'utils/backend';
+import BackendApi from 'utils/api';
 import {fireEvent, render} from '@testing-library/react-native';
 import StringUtils from 'utils/string';
 
@@ -23,7 +23,7 @@ jest.mock('react-native-i18n', () => ({
 it('Test view with empty number', async () => {
   useState.mockImplementation((init) => [init, jest.fn()]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD'); //что здесь имеется ввиду?
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
   const tree = renderer
     .create(
       <EditPhoneNumber
@@ -48,7 +48,7 @@ it('Test useEffect with empty number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD'); //что здесь имеется ввиду?
+  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}

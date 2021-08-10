@@ -1,17 +1,16 @@
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import DB from 'storage/DB';
 import {FRACTAPP_API} from '@env';
 import {stringToU8a, u8aToHex} from '@polkadot/util';
 import {Currency} from 'types/wallet';
 import {Keyring} from '@polkadot/keyring';
+import { Network } from 'types/account';
+import StringUtils from 'utils/string';
 
 const mockDate = new Date(1466424490000);
 jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
 global.fetch = jest.fn();
-jest.mock('react-native-crypto', () => ({
-  createCipher: jest.fn(),
-  createDecipher: jest.fn(),
-}));
+jest.mock('react-native-crypto', () => jest.fn());
 jest.mock('storage/DB', () => ({
   getJWT: jest.fn(),
   setJWT: jest.fn(),
@@ -20,8 +19,16 @@ jest.mock('storage/DB', () => ({
     'tomato fetch occur boost beach brand lawsuit frozen magic rookie equip source',
   getAccountInfo: jest.fn(),
 }));
+jest.mock('adaptors/adaptor', () => ({
+  Adaptors: {
+    get: jest.fn(),
+  },
+}));
 jest.mock('@polkadot/keyring', () => ({
   Keyring: jest.fn(),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
 }));
 
 it('Test setToken', async () => {
@@ -59,7 +66,7 @@ it('Test setToken', async () => {
     body: JSON.stringify({
       pubKey: accountInfo.pubKey,
       address: accountInfo.address,
-      network: backend.Network.Polkadot,
+      network: Network.Polkadot,
       sign: u8aToHex(sign),
       token: token,
       timestamp: Math.round(mockDate.getTime() / 1000),

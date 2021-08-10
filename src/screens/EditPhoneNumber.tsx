@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -6,6 +6,12 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import {SuccessButton} from 'components/SuccessButton';
+import BackendApi from 'utils/api';
+import Dialog from 'storage/Dialog';
+import backend from 'utils/api';
+import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 // @ts-ignore
 import {
   formatPhoneNumberIntl,
@@ -15,11 +21,6 @@ import {
 } from 'react-phone-number-input';
 // @ts-ignore
 import en from 'react-phone-number-input/locale/en';
-import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/backend';
-import Dialog from 'storage/Dialog';
-import backend from 'utils/backend';
-import StringUtils from 'utils/string';
 
 /**
  * Screen with editing phone number in fractapp
@@ -32,7 +33,7 @@ export const EditPhoneNumber = ({
   navigation: any;
   route: any;
 }) => {
-  const dialogContext = useContext(Dialog.Context);
+  const dispatch = useDispatch();
 
   const [countryCode, setCountryCode] = useState<string>('US');
   const [number, setNumber] = useState<string>('1');
@@ -42,12 +43,11 @@ export const EditPhoneNumber = ({
 
   const onSuccess = async () => {
     if (!isValidPhoneNumber('+' + number)) {
-      dialogContext.dispatch(
-        Dialog.open(
-          StringUtils.texts.InvalidPhoneNumberTitle,
-          StringUtils.texts.InvalidPhoneNumberText,
-          () => dialogContext.dispatch(Dialog.close()),
-        ),
+      dispatch(
+        Dialog.actions.showDialog({
+          title: StringUtils.texts.InvalidPhoneNumberTitle,
+          text: StringUtils.texts.InvalidPhoneNumberText,
+        }),
       );
       return;
     }
@@ -55,8 +55,7 @@ export const EditPhoneNumber = ({
     try {
       BackendApi.sendCode(
         number,
-        BackendApi.CodeType.Phone,
-        BackendApi.CheckType.Auth,
+        BackendApi.CodeType.Phone
       );
     } catch (e) {
       console.log(e);

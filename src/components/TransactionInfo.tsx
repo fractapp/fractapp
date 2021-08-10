@@ -6,8 +6,8 @@ import {WalletLogo} from 'components/WalletLogo';
 import stringUtils from 'utils/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {UserProfile} from 'types/profile';
-import backend from 'utils/backend';
+import {Profile} from 'types/profile';
+import backend from 'utils/api';
 
 /**
  * Component with transaction information
@@ -19,7 +19,7 @@ export const TransactionInfo = ({
   onPress,
 }: {
   transaction: Transaction;
-  user: UserProfile | null;
+  user: Profile | null;
   onPress: () => void;
 }) => {
   let prefix: string;

@@ -8,15 +8,15 @@ import {Account, Network} from 'types/account';
 import {Currency} from 'types/wallet';
 import {AuthInfo} from 'types/authInfo';
 import {MyProfile} from 'types/myProfile';
-import {UserProfile} from 'types/profile';
+import {User} from 'types/profile';
 import BN from 'bn.js';
 import ChatsStore from 'storage/Chats';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * @namespace
  * @category Storage
  */
-
 namespace DB {
   export const secureOption = {
     service: 'com.fractapp',
@@ -30,14 +30,12 @@ namespace DB {
   };
 
   export const AsyncStorageKeys = {
-    price: (currency: Currency) => `price_${currency}`,
     profile: 'profile',
     authInfo: 'auth_info',
+    serverInfo: 'server_info',
     accounts: 'accounts',
     contacts: 'contacts',
-    lang: 'lang',
     users: 'users',
-    urls: 'urls',
     accountInfo: (address: string) => `account_${address}`,
     chatsStorage: 'chatsStorage',
   };
@@ -63,6 +61,12 @@ namespace DB {
       throw new Error(`invalid set ${key}`);
     }
   }
+  export async function deleteSecureItem(key: string) {
+    await Keychain.resetInternetCredentials(
+      key,
+      secureOption,
+    );
+  }
   export async function getSecureItem(key: string): Promise<string | null> {
     const result = await Keychain.getInternetCredentials(key, secureOption);
     if (result === false) {
@@ -83,25 +87,18 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setPrice(currency: Currency, value: number) {
-    await AsyncStorage.setItem(AsyncStorageKeys.price(currency), String(value));
+  export async function setServerInfo(serverInfo: ServerInfoStore.State) {
+    await AsyncStorage.setItem(AsyncStorageKeys.serverInfo, JSON.stringify(serverInfo));
   }
-  export async function getPrice(currency: Currency): Promise<number> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.price(currency));
+  export async function getServerInfo(): Promise<ServerInfoStore.State | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.serverInfo);
     if (result == null) {
-      return 0;
+      return null;
     }
-    return Number(result);
+    return JSON.parse(result);
   }
 
-  export async function setLang(lang: string) {
-    await AsyncStorage.setItem(AsyncStorageKeys.lang, lang);
-  }
-  export async function getLang(): Promise<string | null> {
-    return await AsyncStorage.getItem(AsyncStorageKeys.lang);
-  }
-
-  export async function setProfile(profile: MyProfile) {
+  export async function setProfile(profile: MyProfile | null) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.profile,
       JSON.stringify(profile),
@@ -134,17 +131,17 @@ namespace DB {
     if (authInfo == null) {
       authInfo = {
         isSynced: false,
-        isAuthed: false,
-        isPasscode: false,
-        isBiometry: false,
+        hasWallet: false,
+        hasPasscode: false,
+        hasBiometry: false,
       };
     }
 
     try {
       await setSecureItem(SecureStorageKeys.salt, salt);
       await setSecureItem(SecureStorageKeys.passcodeHash, hash);
-      authInfo.isPasscode = true;
-      authInfo.isBiometry = isBiometry;
+      authInfo.hasPasscode = true;
+      authInfo.hasBiometry = isBiometry;
     } catch (e) {
       await disablePasscode();
     }
@@ -156,13 +153,13 @@ namespace DB {
     if (authInfo == null) {
       authInfo = {
         isSynced: false,
-        isAuthed: false,
-        isPasscode: false,
-        isBiometry: false,
+        hasWallet: false,
+        hasPasscode: false,
+        hasBiometry: false,
       };
     }
-    authInfo.isPasscode = false;
-    authInfo.isBiometry = false;
+    authInfo.hasPasscode = false;
+    authInfo.hasBiometry = false;
 
     await setAuthInfo(authInfo);
 
@@ -250,47 +247,27 @@ namespace DB {
   }
 
   export async function setChatsState(state: ChatsStore.State) {
-    const mapReplacer = (key: any, value: any) => {
-      if (value instanceof Map) {
-        return {
-          dataType: 'Map',
-          value: Array.from(value.entries()), // or with spread: value: [...value]
-        };
-      } else {
-        return value;
-      }
-    };
-
     await AsyncStorage.setItem(
       AsyncStorageKeys.chatsStorage,
-      JSON.stringify(state, mapReplacer),
+      JSON.stringify(state),
     );
   }
   export async function getChatsState(): Promise<ChatsStore.State> {
-    const mapReviver = (key: any, value: any) => {
-      if (typeof value === 'object' && value !== null) {
-        if (value.dataType === 'Map') {
-          return new Map(value.value);
-        }
-      }
-      return value;
-    };
-
     const result = await AsyncStorage.getItem(AsyncStorageKeys.chatsStorage);
 
     if (result == null) {
       return ChatsStore.initialState();
     }
-    return JSON.parse(result, mapReviver);
+    return JSON.parse(result);
   }
 
-  export async function setContacts(contacts: Array<UserProfile>) {
+  export async function setContacts(contacts: Array<string>) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.contacts,
       JSON.stringify(contacts),
     );
   }
-  export async function getContacts(): Promise<Array<UserProfile>> {
+  export async function getContacts(): Promise<Array<string>> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.contacts);
 
     if (result == null) {
@@ -300,37 +277,24 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setUsers(users: Map<string, UserProfile>) {
+  export async function setUsers(users: {
+    [id in string]: User
+  }) {
     await AsyncStorage.setItem(
       AsyncStorageKeys.users,
-      JSON.stringify([...users]),
+      JSON.stringify(users),
     );
   }
 
-  export async function getUsers(): Promise<Map<string, UserProfile>> {
+  export async function getUsers(): Promise<{
+    [id in string]: User
+  }> {
     const result = await AsyncStorage.getItem(AsyncStorageKeys.users);
 
     if (result == null) {
-      return new Map<string, UserProfile>();
+      return {};
     }
-    return new Map<string, UserProfile>(JSON.parse(result));
-  }
-
-  export async function setSubstrateUrls(urls: Map<Network, string>) {
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.urls,
-      JSON.stringify([...urls]),
-    );
-  }
-
-  export async function getSubstrateUrls(): Promise<Map<Network, string>> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.urls);
-
-    if (result == null) {
-      return new Map<Network, string>();
-    }
-
-    return new Map<Network, string>(JSON.parse(result));
+    return JSON.parse(result);
   }
 
   export async function setAccountInfo(account: Account) {
@@ -358,8 +322,12 @@ namespace DB {
     return await getSecureItem(SecureStorageKeys.firebaseToken);
   }
 
-  export async function setJWT(token: string) {
-    await setSecureItem(SecureStorageKeys.authJWT, token);
+  export async function setJWT(token: string | null) {
+    if (token == null) {
+      await deleteSecureItem(SecureStorageKeys.authJWT);
+    } else {
+      await setSecureItem(SecureStorageKeys.authJWT, token);
+    }
   }
   export async function getJWT(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.authJWT);

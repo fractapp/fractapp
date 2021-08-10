@@ -4,7 +4,7 @@ exports[`Test resend (400) 1`] = `
 Object {
   "onPress": [Function],
   "text": "",
-  "title": "[missing \\"en.service_unavailable_title\\" translation]",
+  "title": "service_unavailable_title",
   "type": 0,
 }
 `;
@@ -12,8 +12,8 @@ Object {
 exports[`Test resend (404/email) 1`] = `
 Object {
   "onPress": [Function],
-  "text": "[missing \\"en.invalid_email_text\\" translation]",
-  "title": "[missing \\"en.invalid_email_title\\" translation]",
+  "text": "invalid_email_text",
+  "title": "invalid_email_title",
   "type": 0,
 }
 `;
@@ -21,8 +21,8 @@ Object {
 exports[`Test resend (404/phone) 1`] = `
 Object {
   "onPress": [Function],
-  "text": "[missing \\"en.invalid_phone_number_text\\" translation]",
-  "title": "[missing \\"en.invalid_phone_number_title\\" translation]",
+  "text": "invalid_phone_number_text",
+  "title": "invalid_phone_number_title",
   "type": 0,
 }
 `;
@@ -50,7 +50,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    [missing "en.confirmation_code_phone_number_text" translation]
+    confirmation_code_phone_number_text
   </Text>
   <Text
     style={
@@ -297,7 +297,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    [missing "en.resend_text" translation] 1:00
+    resend_text 1:00
   </Text>
 </View>
 `;
@@ -306,7 +306,7 @@ exports[`Test with code (full / 400) 1`] = `
 Object {
   "onPress": [Function],
   "text": "",
-  "title": "[missing \\"en.service_unavailable_title\\" translation]",
+  "title": "service_unavailable_title",
   "type": 0,
 }
 `;
@@ -315,7 +315,7 @@ exports[`Test with code (full / 403) 1`] = `
 Object {
   "onPress": [Function],
   "text": "",
-  "title": "[missing \\"en.different_address_title\\" translation]",
+  "title": "different_address_title",
   "type": 0,
 }
 `;
@@ -343,7 +343,7 @@ exports[`Test with code (not full) 1`] = `
       }
     }
   >
-    [missing "en.confirmation_code_email_text" translation]
+    confirmation_code_email_text
   </Text>
   <Text
     style={
@@ -591,7 +591,7 @@ exports[`Test with code (not full) 1`] = `
       }
     }
   >
-    [missing "en.resend_text" translation] 1:00
+    resend_text 1:00
   </Text>
 </View>
 `;

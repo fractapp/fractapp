@@ -1,6 +1,6 @@
 import {Currency} from 'types/wallet';
 import DB from 'storage/DB';
-import Prices from 'storage/Prices';
+import Prices from 'storage/ServerInfo';
 
 jest.mock('storage/DB', () => ({
   setPrice: jest.fn(),

@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {PasswordInput} from 'components/PasswordInput';
@@ -9,14 +9,14 @@ import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Wallet file import screen
  * @category Screens
  */
 export const WalletFileImport = ({route}: {route: any}) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const dialogContext = useContext(Dialog.Context);
+  const dispatch = useDispatch();
 
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -28,7 +28,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
   };
 
   useEffect(() => {
-    globalContext.dispatch(GlobalStore.setLoading(false));
+    dispatch(GlobalStore.actions.showLoading());
 
     NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
       console.log(result),
@@ -50,11 +50,11 @@ export const WalletFileImport = ({route}: {route: any}) => {
       try {
         seed = await backupUtil.getSeed(file, password);
       } catch (e) {
-        dialogContext.dispatch(
-          Dialog.open(
-            StringUtils.texts.walletFileImport.invalidPasswordTitle,
-            '',
-            () => dialogContext.dispatch(Dialog.close()),
+        dispatch(
+          Dialog.actions.showDialog({
+              title: StringUtils.texts.walletFileImport.invalidPasswordTitle,
+              text: '',
+            }
           ),
         );
         setLoading(false);
@@ -62,7 +62,8 @@ export const WalletFileImport = ({route}: {route: any}) => {
       }
 
       await DB.createAccounts(seed);
-      globalContext.dispatch(GlobalStore.signInLocal());
+      dispatch(GlobalStore.actions.initWallet());
+      dispatch(GlobalStore.actions.setAllStatesLoaded(false));
     })();
   }, [isLoading]);
 

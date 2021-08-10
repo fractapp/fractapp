@@ -20,7 +20,7 @@ exports[`Test empty seed 1`] = `
       }
     }
   >
-    Import secret phrase
+    import_seed.title
   </Text>
   <Text
     style={
@@ -34,7 +34,7 @@ exports[`Test empty seed 1`] = `
       }
     }
   >
-    Import your secret phrase. (12 or 14 words)
+    import_seed.description
   </Text>
   <TextInput
     allowFontScaling={true}
@@ -82,7 +82,7 @@ exports[`Test invalid seed 1`] = `
       }
     }
   >
-    Import secret phrase
+    import_seed.title
   </Text>
   <Text
     style={
@@ -96,7 +96,7 @@ exports[`Test invalid seed 1`] = `
       }
     }
   >
-    Import your secret phrase. (12 or 14 words)
+    import_seed.description
   </Text>
   <TextInput
     allowFontScaling={true}
@@ -131,7 +131,7 @@ exports[`Test invalid seed 1`] = `
       }
     }
   >
-    Invalid secret phrase
+    import_seed.invalid_secret_phrase_err
   </Text>
 </View>
 `;
@@ -175,7 +175,7 @@ exports[`Test valid seed 1`] = `
       }
     }
   >
-    Import secret phrase
+    import_seed.title
   </Text>
   <Text
     style={
@@ -189,7 +189,7 @@ exports[`Test valid seed 1`] = `
       }
     }
   >
-    Import your secret phrase. (12 or 14 words)
+    import_seed.description
   </Text>
   <TextInput
     allowFontScaling={true}
@@ -256,7 +256,7 @@ exports[`Test valid seed 1`] = `
           }
         }
       >
-        Next
+        next_btn_title
       </Text>
     </View>
   </View>

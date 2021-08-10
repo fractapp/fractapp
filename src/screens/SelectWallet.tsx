@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import {WalletInfo} from 'components/WalletInfo';
-import {Wallet} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
-import PricesStore from 'storage/Prices';
+import { useSelector } from 'react-redux';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Select wallet screen
@@ -16,46 +16,33 @@ export const SelectWallet = ({
   navigation: any;
   route: any;
 }) => {
-  const accountsContext = useContext(AccountsStore.Context);
-  const priceContext = useContext(PricesStore.Context);
+  const accountsState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const serverInfo: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
 
   const renderAccounts = () => {
     const result = [];
-    const wallets = new Array<Wallet>();
-    for (let [currency, account] of accountsContext.state.accounts) {
+    for (let [key, account] of Object.entries(accountsState.accounts)) {
       let price = 0;
-      if (priceContext.state.has(currency)) {
-        price = priceContext.state.get(currency)!;
+      if (serverInfo.prices[account.currency]) {
+        price = serverInfo.prices[account.currency]!;
       }
 
-      wallets.push(
-        new Wallet(
-          account.name,
-          account.address,
-          account.currency,
-          account.network,
-          account.balance,
-          account.planks,
-          price,
-        ),
-      );
-    }
-
-    for (let i = 0; i < wallets.length; i++) {
       result.push(
         <WalletInfo
-          key={wallets[i].address}
-          wallet={wallets[i]}
+          key={account.address}
+          account={account}
+          price={price}
           onPress={() =>
             navigation.navigate('Send', {
               isEditable: route.params?.isEditable ?? false,
-              wallet: wallets[i],
+              currency: account.currency,
               chatInfo: route.params?.chatInfo,
             })
           }
         />,
       );
     }
+
     return result;
   };
 

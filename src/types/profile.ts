@@ -1,16 +1,27 @@
 /**
  * @category Models
  */
-export type UserProfile = {
+import { Currency } from 'types/wallet';
+
+export type User = {
+  isAddressOnly: boolean
+  title: string;
+  value: Profile | AddressOnly
+}
+export type Profile = {
   id: string;
   name: string;
   username: string;
   avatarExt: string;
   lastUpdate: number;
   addresses: {
-    0: string;
-    1: string;
+    [id in Currency]: string
   };
+  isChatBot: boolean;
 };
 
-//TODO: "addresses" to currency enum
+export type AddressOnly = {
+  address: string
+  currency: Currency
+}
+

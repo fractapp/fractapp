@@ -8,55 +8,58 @@ import {
   Image,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Screen with editing profile in fractapp
  * @category Screens
  */
 export const EditProfile = ({navigation}: {navigation: any}) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
+  const globalState = useSelector((state: any) => state.global);
+
   const Inputs = [
     {
       title: StringUtils.texts.edit.profile.nameTitle,
-      value: globalContext.state.profile.name,
+      value: globalState.profile.name,
       placeholder: StringUtils.texts.edit.profile.namePlaceholder,
       onClick: () => navigation.navigate('EditName'),
     },
     {
       title: StringUtils.texts.edit.profile.usernameTitle,
-      value: !globalContext.state.profile.username
+      value: !globalState.profile.username
         ? ''
-        : '@' + globalContext.state.profile.username,
+        : '@' + globalState.profile.username,
       placeholder: StringUtils.texts.edit.profile.usernamePlaceholder,
       onClick: () => navigation.navigate('EditUsername'),
     },
     {
       title: StringUtils.texts.edit.profile.phoneTitle,
-      value: globalContext.state.profile.phoneNumber,
+      value: globalState.profile.phoneNumber,
       placeholder: StringUtils.texts.edit.profile.phonePlaceholder,
       onClick: () =>
-        globalContext.state.profile.phoneNumber !== '' &&
-        globalContext.state.profile.phoneNumber !== undefined
+        globalState.profile.phoneNumber !== '' &&
+        globalState.profile.phoneNumber !== undefined
           ? null
           : navigation.navigate('EditPhoneNumber'),
     },
     {
       title: StringUtils.texts.edit.profile.emailTitle,
-      value: globalContext.state.profile.email,
+      value: globalState.profile.email,
       placeholder: StringUtils.texts.edit.profile.emailPlaceholder,
       onClick: () =>
-        globalContext.state.profile.email !== '' &&
-        globalContext.state.profile.email !== undefined
+        globalState.profile.email !== '' &&
+        globalState.profile.email !== undefined
           ? null
           : navigation.navigate('EditEmail'),
     },
   ];
 
   const openFilePicker = async () => {
-    launchImageLibrary( 
+    launchImageLibrary(
       {
         mediaType: 'photo',
         includeBase64: true,
@@ -67,12 +70,11 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
         if (rs.base64 === undefined) {
           return;
         }
-        globalContext.dispatch(GlobalStore.setLoading(true));
+        dispatch(GlobalStore.actions.showLoading());
 
         await backend.uploadAvatar(rs.base64, rs.type!);
-        await globalContext.dispatch(GlobalStore.setUpdatingProfile(true));
-
-        globalContext.dispatch(GlobalStore.setLoading(false));
+        dispatch(GlobalStore.actions.setUpdatingProfile(true));
+        dispatch(GlobalStore.actions.hideLoading());
       },
     );
   };
@@ -99,8 +101,8 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
         <Image
           source={{
             uri: backend.getImgUrl(
-              globalContext.state.profile.id,
-              globalContext.state.profile.lastUpdate,
+              globalState.profile.id,
+              globalState.profile.lastUpdate,
             ),
           }}
           style={styles.avatar}

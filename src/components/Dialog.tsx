@@ -2,21 +2,23 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import PopDialog, {DialogContent} from 'react-native-popup-dialog';
+import { Dispatch } from 'redux';
+import DialogStore from 'storage/Dialog';
 
 /**
  * Popup dialog component with 1 button
  * @category Components
  */
 export const Dialog = ({
+  dispatch,
   title,
   text,
   visible,
-  onPress,
 }: {
+  dispatch: Dispatch,
   title: string;
   text: string;
   visible: boolean;
-  onPress: () => void;
 }) => {
   return (
     <PopDialog
@@ -25,7 +27,7 @@ export const Dialog = ({
       dialogTitle={<Text style={styles.title}>{title}</Text>}
       footer={
         <View style={styles.btnImg}>
-          <BlueButton text={'OK'} height={40} onPress={onPress} />
+          <BlueButton text={'OK'} height={40} onPress={() => dispatch(DialogStore.actions.hideDialog())} />
         </View>
       }>
       <DialogContent style={styles.dialog}>

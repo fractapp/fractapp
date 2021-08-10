@@ -1,65 +1,65 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {VictoryPie, VictoryLegend} from 'victory-native';
-import {SectionList, StyleSheet, Text, View, Image} from 'react-native';
-import {Wallet, getColor, getName} from 'types/wallet';
+import { Image, SectionList, StyleSheet, Text, View } from 'react-native';
+import {getColor, getName} from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
-import GlobalStore from 'storage/Global';
-import ChatsStore from 'storage/Chats';
 import {TransactionInfo} from 'components/TransactionInfo';
+import { Profile } from 'types/profile';
+import { useSelector } from 'react-redux';
+import ChatsStore from 'storage/Chats';
+import UsersStore from 'storage/Users';
+import { Account } from 'types/account';
+import AccountsStore from 'storage/Accounts';
+import ServerInfoStore from 'storage/ServerInfo';
 import StringUtils from 'utils/string';
 
 /**
- * Screen with wallet details graphic
+ * Screen with wallet details
  * @category Screens
  */
 
 export const WalletDetailsGraph = ({
   navigation,
-  route,
 }: {
   navigation: any;
-  route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
-  const wallets: Array<Wallet> = route.params.wallets;
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+
+  const accounts: Array<Account> = Object.entries(accountState.accounts).map((value: [string, Account]) => value[1]);
 
   //arrays for graph
   const [balanceData, setBalance] = useState(new Array());
   const [colors, setColors] = useState(new Array());
   const [legendData, setLegends] = useState(new Array());
-  const [emptyUsdValue, setEmptyUsdValue] = useState(true);
-  const [emptyTxs, setEmptyTxs] = useState(true);
 
   useEffect(() => {
     let colorsArray = new Array();
     let balanceArray = new Array();
     let legendsArray = new Array();
-    for (let w of wallets) {
-      if (!w.usdValue) {
-        setEmptyUsdValue(true);
+
+    for (let account of accounts) {
+      let usdValue = 0;
+      if (serverInfoState.prices[account.currency]) {
+        const price = serverInfoState.prices[account.currency]!;
+
+        usdValue = account.balance * price;
+      }
+
+      if (!usdValue) {
         continue;
       } else {
-        setEmptyUsdValue(false);
-        balanceArray.push(w.usdValue);
-        colorsArray.push(getColor(w.currency));
+        colorsArray.push(getColor(account.currency));
+        balanceArray.push(usdValue);
         legendsArray.push({
-          name: getName(w.currency),
-          symbol: {fill: getColor(w.currency), type: 'square'},
+          name: getName(account.currency),
+          symbol: { fill: getColor(account.currency), type: 'square' },
         });
       }
     }
-    if (emptyUsdValue) {
-      balanceArray.push(1);
-      colorsArray.push('#cccccc');
-    }
-    if (chatsContext.state.transactions.size === 0) {
-      setEmptyTxs(true);
-    } else {
-      setEmptyTxs(false);
-    }
-
     setColors(colorsArray);
     setBalance(balanceArray);
     setLegends(legendsArray);
@@ -70,15 +70,14 @@ export const WalletDetailsGraph = ({
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
     const txs = new Array<Transaction>();
-    
-    for (let w of wallets) {
-      if (!chatsContext.state.transactions.has(w.currency)) {
+
+    for (let w of accounts) {
+      if (!chatsState.transactions[w.currency]) {
         continue;
       }
-      for (let tx of chatsContext.state.transactions
-        .get(w.currency)
-        ?.transactionById.values()!) {
-        txs.push(tx);
+      const stateTxs = chatsState.transactions[w.currency]?.transactionById!;
+      for (let id in stateTxs) {
+        txs.push(stateTxs[id]);
       }
     }
 
@@ -87,13 +86,21 @@ export const WalletDetailsGraph = ({
       if (!txsBySelections.has(dateValue)) {
         txsBySelections.set(dateValue, new Array<Transaction>());
       }
+
       txsBySelections.get(dateValue)?.push(tx);
+    }
+
+    for (const [key, value] of txsBySelections) {
+      sections.push({
+        title: key,
+        data: value,
+      });
     }
     return sections;
   };
-
+  const data = getDataWithSections();
   return (
-    <View>
+    <View style={{ width: '100%' }}>
       <SectionList
         ListHeaderComponent={() => (
           <View style={styles.statistics}>
@@ -105,50 +112,51 @@ export const WalletDetailsGraph = ({
               />
             </View>
 
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <VictoryPie
                 height={230}
                 radius={90}
                 innerRadius={60}
                 data={balanceData}
-                style={{labels: {display: 'none'}}}
+                style={{ labels: { display: 'none' } }}
                 colorScale={colors}
               />
             </View>
+
             <View style={styles.dividingLine} />
           </View>
         )}
-        sections={getDataWithSections()}
+        sections={data}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <TransactionInfo
             key={item.id}
             transaction={item}
             user={
-              item.userId != null && globalContext.state.users.has(item.userId)
-                ? globalContext.state.users.get(item.userId)!
+              item.userId != null && usersState.users[item.userId]
+                ? (usersState.users[item.userId]!.value as Profile)
                 : null
             }
             onPress={() =>
               navigation.navigate('TransactionDetails', {
                 transaction: item,
-                wallet: wallets[item.currency],
+                currency: item.currency,
                 user:
                   item.userId != null &&
-                  globalContext.state.users.has(item.userId)
-                    ? globalContext.state.users.get(item.userId)
+                  usersState.users[item.userId]
+                    ? usersState.users[item.userId]
                     : null,
               })
             }
           />
         )}
-        renderSectionHeader={({section: {title}}) => (
-          <View style={{marginTop: 10}}>
+        renderSectionHeader={({ section: { title } }) => (
+          <View style={{ marginTop: 10 }}>
             <Text style={styles.dateTitle}>{title}</Text>
           </View>
         )}
       />
-      {emptyTxs === true ? 
+      {data.length === 0 ?
         <View style={styles.notFound}>
           <Image
             source={require('assets/img/not-found-bot.png')}
@@ -156,17 +164,16 @@ export const WalletDetailsGraph = ({
               width: 150,
               height: 150,
               alignSelf: 'center',
-              marginRight: 20
+              marginRight: 20,
             }}
-          /> 
+          />
           <Text style={styles.notFoundText}>
             {StringUtils.texts.NoTransactionsTitle}
           </Text>
         </View> :
-        true
+        <View />
       }
     </View>
-    
   );
 };
 
@@ -176,16 +183,8 @@ const styles = StyleSheet.create({
   },
   legend: {
     position: 'absolute',
-    width: '30%',
+    paddingLeft: 10,
     paddingTop: 30,
-  },
-  transactionsInfo: {
-    flex: 1,
-    alignSelf: 'center',
-    width: '85%',
-    borderTopColor: 'gray',
-    borderTopWidth: 1,
-    paddingTop: '8%',
   },
 
   dateTitle: {
@@ -197,10 +196,6 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: '5%',
   },
-  emptyBalance: {
-    alignSelf: 'center',
-    fontWeight: 'bold',
-  },
   dividingLine: {
     alignSelf: 'center',
     marginTop: 15,
@@ -209,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#cccccc',
   },
   notFound: {
-    marginTop: 90,
+    marginTop: 120,
   },
   notFoundText: {
     alignSelf: 'center',

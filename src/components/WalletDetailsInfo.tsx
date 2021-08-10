@@ -1,33 +1,35 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {getSymbol, Wallet} from 'types/wallet';
+import {getSymbol} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
+import { Account } from 'types/account';
+import MathUtils from 'utils/math';
 
 /**
  * Component with wallet information for details screen
  * @category Components
  */
-export const WalletDetailsInfo = ({wallet}: {wallet: Wallet}) => {
+export const WalletDetailsInfo = ({account, price}: {account: Account, price: number | undefined}) => {
   return (
     <View style={styles.accountInfo}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <WalletLogo currency={wallet.currency} size={50} />
+        <WalletLogo currency={account.currency} size={50} />
         <View
           style={{
             flex: 1,
             alignSelf: 'center',
             marginLeft: 15,
           }}>
-          <Text style={styles.name}>{wallet.name}</Text>
+          <Text style={styles.name}>{account.name}</Text>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'left'}]}>
-                {wallet.balance} {getSymbol(wallet.currency)}
+                {account.balance} {getSymbol(account.currency)}
               </Text>
             </View>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'right'}]}>
-                ${wallet.usdValue}
+                ${price !== undefined ? MathUtils.roundUsd(account.balance * price) : 0}
               </Text>
             </View>
           </View>

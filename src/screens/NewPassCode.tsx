@@ -3,15 +3,16 @@ import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components/PassCode';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
 
 /**
  * Screen with entering new passcode
  * @category Screens
  */
 export const NewPassCode = ({navigation}: {navigation: any}) => {
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
 
-  const [newPasscode, setNewPasscode] = useState<Array<number>>(new Array());
+  const [newPasscode, setNewPasscode] = useState<Array<number>>([]);
   const [description, setDescription] = useState<string>(
     StringUtils.texts.passCode.newCodeDescription,
   );
@@ -30,7 +31,7 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
       }
 
       if (isEquals) {
-        globalContext.dispatch(GlobalStore.enablePasscode(passcode.join('')));
+        dispatch(GlobalStore.actions.enablePasscode(passcode.join('')));
         navigation.goBack();
       } else {
         showMessage({

@@ -1,16 +1,20 @@
 import BackgroundTimer from 'react-native-background-timer';
 import DB from 'storage/DB';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
-import PricesStore from 'storage/Prices';
-import {Currency} from 'types/wallet';
-import {Account} from 'types/account';
-import {Transaction, TxStatus} from 'types/transaction';
+import { Currency } from 'types/wallet';
+import { Account } from 'types/account';
+import { Transaction, TxStatus } from 'types/transaction';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import BN from 'bn.js';
-import {Adaptors} from 'adaptors/adaptor';
+import { Adaptors } from 'adaptors/adaptor';
 import math from 'utils/math';
+import MathUtils from 'utils/math';
+import { Dispatch, Store } from 'redux';
+import UsersStore from 'storage/Users';
+import ServerInfoStore from 'storage/ServerInfo';
+import Storage from 'storage/Store';
 
 /**
  * @namespace
@@ -20,17 +24,16 @@ namespace Task {
   const sec = 1000;
   const min = 60 * sec;
 
-  export async function init(
-    globalContext: GlobalStore.ContextType,
-    accountsContext: AccountsStore.ContextType,
-    pricesContext: PricesStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
-  ) {
-    const accounts = new Map<Currency, Account>();
+  export async function init(dispatch: Dispatch<any>) {
+    const accounts: {
+      [id in Currency]: Account
+    } = <{
+      [id in Currency]: Account
+    }>{};
 
-    const accountsAddress = await DB.getAccounts();
+    let accountsAddress = await DB.getAccounts();
     if (accountsAddress == null || accountsAddress.length === 0) {
-      throw new Error('accounts not found');
+      accountsAddress = [];
     }
 
     for (let i = 0; i < accountsAddress?.length; i++) {
@@ -39,80 +42,102 @@ namespace Task {
       if (account == null) {
         continue;
       }
-      accounts.set(account.currency, account);
-
-      const price = await DB.getPrice(account.currency);
-      pricesContext.dispatch(PricesStore.set(account.currency, price));
+      accounts[account.currency] = account;
     }
-    accountsContext.dispatch(AccountsStore.set(accounts));
+    dispatch(AccountsStore.actions.set({
+      accounts: accounts,
+      isInitialized: true,
+    }));
 
     const chatsState = await DB.getChatsState();
     chatsState.isInitialized = true;
-    chatsContext.dispatch(ChatsStore.set(chatsState));
+    dispatch(ChatsStore.actions.set(chatsState));
 
     const authInfo = await DB.getAuthInfo();
     const profile = await DB.getProfile();
     const contacts = await DB.getContacts();
     const users = await DB.getUsers();
-    const urls = await DB.getSubstrateUrls();
-    const lang = await DB.getLang();
-
-    globalContext.dispatch(
-      GlobalStore.set(
-        profile != null ? profile : GlobalStore.initialState().profile,
-        authInfo ?? GlobalStore.initialState().authInfo,
-        profile != null,
-        profile != null,
-        contacts,
-        users,
-        urls,
-        lang,
-      ),
+    dispatch(
+      UsersStore.actions.set(
+        {
+          contacts: contacts,
+          users: users,
+          isInitialized: true,
+        }
+      )
     );
-    Adaptors.init(globalContext);
+
+    let serverInfo = await DB.getServerInfo();
+    if (serverInfo == null) {
+      serverInfo = <ServerInfoStore.State>{
+        prices: {},
+        urls: {},
+        isInitialized: true,
+      };
+    }
+    serverInfo!.isInitialized = true;
+    dispatch(
+      ServerInfoStore.actions.set(serverInfo!)
+    );
+
+    dispatch(
+      GlobalStore.actions.set(
+        {
+          isRegisteredInFractapp: profile != null,
+          isUpdatingProfile: profile != null,
+          profile: profile != null ? profile : GlobalStore.initialState().profile,
+          authInfo: authInfo ?? GlobalStore.initialState().authInfo,
+          loadInfo: {
+            isAllStatesLoaded: false,
+            isSyncShow: true,
+            isLoadingShow: false,
+          },
+          isInitialized: true,
+        })
+    );
+
+    console.log('init task end');
   }
 
   export async function createTask(
-    accountsContext: AccountsStore.ContextType,
-    pricesContext: PricesStore.ContextType,
-    globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
+    store: Store,
+    states: Storage.States,
+    dispatch: Dispatch<any>
   ) {
     console.log('start create task');
 
     if (
-      accountsContext.state.accounts == null ||
-      accountsContext.state.accounts.size === 0
+      states.accounts.accounts == null
     ) {
       throw new Error('accounts not found');
     }
 
-    const tasks = new Array<Promise<void>>();
+    const tasks: Array<Promise<void>> = [];
 
-    tasks.push(updateBalances(globalContext, accountsContext));
-    tasks.push(updateServerInfo(globalContext, pricesContext));
+    tasks.push(updateBalances(store, dispatch));
+    tasks.push(updateServerInfo(dispatch));
 
     BackgroundTimer.setInterval(async () => {
-      await updateServerInfo(globalContext, pricesContext);
+      await updateServerInfo(dispatch);
     }, min);
 
-    sync(accountsContext, globalContext, chatsContext);
-    checkPendingTxs(chatsContext);
+    checkPendingTxs(store, dispatch);
+    sync(store, dispatch);
 
     BackgroundTimer.setInterval(async () => {
-      await updateBalances(globalContext, accountsContext);
+      await updateBalances(store, dispatch);
 
-      if (!globalContext.state.authInfo.isSynced) {
+      if (!states.global.authInfo.isSynced) {
         return;
       }
 
-      await checkPendingTxs(chatsContext);
-      await sync(accountsContext, globalContext, chatsContext);
+      await checkPendingTxs(store, dispatch);
+      await sync(store, dispatch);
     }, 3 * sec);
 
-    updateUsersList(globalContext, chatsContext);
+    updateUsersList(store, dispatch);
     BackgroundTimer.setInterval(async () => {
-      await updateUsersList(globalContext, chatsContext);
+      await updateUsersList(store, dispatch);
     }, 20 * min);
 
     for (let i = 0; i < tasks.length; i++) {
@@ -123,8 +148,8 @@ namespace Task {
   }
 
   export async function setTx(
-    globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
+    owner: string,
+    dispatch: Dispatch<any>,
     tx: Transaction,
     isNotify: boolean,
   ): Promise<void> {
@@ -135,10 +160,27 @@ namespace Task {
 
     if (p != null) {
       console.log('set tx with profile: ' + p.id);
-      globalContext.dispatch(GlobalStore.setUser(p));
+      dispatch(UsersStore.actions.setUser({
+        isAddressOnly: false,
+        title: p.name === '' ? p.username : p.name,
+        value: p,
+      }));
+    } else {
+      dispatch(UsersStore.actions.setUser({
+        isAddressOnly: true,
+        title: tx.address,
+        value:  {
+          address: tx.address,
+          currency: tx.currency,
+        },
+      }));
     }
 
-    chatsContext.dispatch(ChatsStore.addTx(tx, isNotify, p));
+    dispatch(ChatsStore.actions.addTx({
+      owner: owner,
+      tx: tx,
+      isNotify: isNotify,
+    }));
   }
 
   export async function initPrivateData() {
@@ -147,16 +189,17 @@ namespace Task {
   }
 
   export async function syncByAccount(
+    owner: string,
     account: Account,
     isSynced: boolean,
-    globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
+    states: Storage.States,
+    dispatch: Dispatch<any>,
   ) {
     let existedTxs: ChatsStore.Transactions =
-      chatsContext.state.transactions.get(account.currency)!;
+      states.chats.transactions[account.currency]!;
     if (existedTxs === undefined) {
       existedTxs = {
-        transactionById: new Map<ChatsStore.TxId, Transaction>(),
+        transactionById: {},
       };
     }
 
@@ -173,14 +216,14 @@ namespace Task {
     for (let i = 0; i < txs.length; i++) {
       if (
         txs[i].status === TxStatus.Fail ||
-        chatsContext.state.sentFromFractapp.has(txs[i].id)
+        states.chats.sentFromFractapp[txs[i].id]
       ) {
         continue;
       }
 
       if (
-        existedTxs.transactionById.has(txs[i].id) ||
-        existedTxs.transactionById.has('sent-' + txs[i].hash)
+        existedTxs.transactionById[txs[i].id] ||
+        existedTxs.transactionById['sent-' + txs[i].hash]
       ) {
         if (isSynced) {
           return;
@@ -189,97 +232,92 @@ namespace Task {
         }
       }
 
-      await setTx(globalContext, chatsContext, txs[i], isSynced);
+      await setTx(owner, dispatch, txs[i], isSynced);
     }
   }
 
   export async function sync(
-    accountsContext: AccountsStore.ContextType,
-    globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
+    store: Store,
+    dispatch: Dispatch<any>,
   ) {
-    for (let value of accountsContext.state.accounts.values()) {
+    const states: Storage.States = store.getState();
+    for (let [key, account] of Object.entries(states.accounts.accounts)) {
       await syncByAccount(
-        value,
-        globalContext.state.authInfo.isSynced,
-        globalContext,
-        chatsContext,
+        states.global.profile.id,
+        account,
+        states.global.authInfo.isSynced,
+        states,
+        dispatch,
       );
     }
 
-    if (!globalContext.state.authInfo.isSynced) {
-      await globalContext.dispatch(GlobalStore.setSynced());
+    if (!states.global.authInfo.isSynced) {
+      dispatch(GlobalStore.actions.setSynced());
       console.log('set synced');
     }
 
-    await globalContext.dispatch(GlobalStore.setSyncShow(false));
+    await dispatch(GlobalStore.actions.hideSync());
   }
 
-  export async function checkPendingTxs(chatsContext: ChatsStore.ContextType) {
-    for (let [currency, value] of chatsContext.state.pendingTransactions) {
+  export async function checkPendingTxs(
+    store: Store,
+    dispatch: Dispatch<any>
+  ) {
+    const states: Storage.States = store.getState();
+    for (let [key, value] of Object.entries(states.chats.pendingTransactions)) {
+      let currency: Currency = Number(key);
       for (let i = 0; i < value.idsOfTransactions.length; i++) {
-        let tx = chatsContext.state.transactions
-          ?.get(currency)
-          ?.transactionById.get(value.idsOfTransactions[i])!;
-
+        const tx = states.chats.transactions[currency]?.transactionById[value.idsOfTransactions[i]]!;
         const status = await backend.getTxStatus(tx.hash);
-
         if (status == null || status === TxStatus.Pending) {
           continue;
         }
 
-        tx.status = status;
-        chatsContext.dispatch(
-          ChatsStore.confirmPendingTx(tx.id, tx.status, tx.currency, i),
+        dispatch(
+          ChatsStore.actions.confirmPendingTx({
+            txId: tx.id,
+            status: status,
+            currency: tx.currency,
+            index: i,
+          }),
         );
       }
     }
   }
 
   export async function updateUsersList(
-    globalContext: GlobalStore.ContextType,
-    chatsContext: ChatsStore.ContextType,
+    store: Store,
+    dispatch: Dispatch<any>,
   ) {
+    const states: Storage.States = store.getState();
+
     console.log('users update');
 
-    for (let id of globalContext.state.users.keys()) {
+    for (let id of Object.keys(states.users.users)) {
       console.log('update user: ' + id);
       const user = await backend.getUserById(id);
       if (user === undefined) {
-        globalContext.dispatch(GlobalStore.deleteUser(id));
-        chatsContext.dispatch(ChatsStore.renameChat(id, 'Deleted'));
+        //TODO: dispatch(UsersStore.actions.deleteUser(id));
         continue;
       } else if (user == null) {
         continue;
       }
 
-      if (
-        chatsContext.state.chatsInfo.has(id) &&
-        ((user.name !== undefined &&
-          user.name !== '' &&
-          user.name !== chatsContext.state.chatsInfo.get(id)!.name) ||
-          (user.name === '' &&
-            user.username !== chatsContext.state.chatsInfo.get(id)!.name))
-      ) {
-        chatsContext.dispatch(
-          ChatsStore.renameChat(
-            id,
-            user.name !== undefined && user.name !== ''
-              ? user.name
-              : user.username,
-          ),
-        );
-      }
-
-      globalContext.dispatch(GlobalStore.setUser(user));
+      dispatch(UsersStore.actions.setUser({
+        isAddressOnly: false,
+        title: user.name === '' ? user.username : user.name,
+        value: user,
+      }));
     }
   }
 
   export async function updateBalances(
-    globalContext: GlobalStore.ContextType,
-    accountsContext: AccountsStore.ContextType,
+    store: Store,
+    dispatch: Dispatch<any>,
   ) {
-    for (let account of accountsContext.state.accounts.values()) {
+    const states: Storage.States = store.getState();
+
+    for (let [key, account] of Object.entries(states.accounts.accounts)) {
       const api = Adaptors.get(account.network);
       const planks = await api.balance(account.address);
       if (planks == null) {
@@ -295,23 +333,19 @@ namespace Task {
         new BN(account.planks).cmp(planks) !== 0 ||
         account.balance !== viewBalance
       ) {
-        account.balance = viewBalance;
-        account.planks = planks.toString();
-
-        accountsContext.dispatch(
-          AccountsStore.updateBalance(
-            account.currency,
-            account.balance,
-            account.planks,
-          ),
+        dispatch(
+          AccountsStore.actions.updateBalance({
+            currency: account.currency,
+            balance: viewBalance,
+            planks: planks.toString(),
+          }),
         );
       }
     }
   }
 
   export async function updateServerInfo(
-    globalContext: GlobalStore.ContextType,
-    pricesContext: PricesStore.ContextType,
+    dispatch: Dispatch<any>,
   ) {
     const info = await backend.getInfo();
     if (info == null) {
@@ -319,12 +353,19 @@ namespace Task {
     }
 
     for (let url of info.substrateUrls) {
-      globalContext.dispatch(GlobalStore.setSubstrateUrl(url.network, url.url));
+      dispatch(ServerInfoStore.actions.setUrl({
+          network: url.network,
+          url: url.url,
+        })
+      );
     }
 
     for (let priceInfo of info.prices) {
-      pricesContext.dispatch(
-        PricesStore.updatePrice(priceInfo.currency, priceInfo.value),
+      dispatch(
+        ServerInfoStore.actions.updatePrice({
+          currency: priceInfo.currency,
+          price: MathUtils.roundUsd(priceInfo.value),
+        }),
       );
     }
   }

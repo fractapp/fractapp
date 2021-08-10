@@ -1,20 +1,24 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
-import {getSymbol, Wallet} from 'types/wallet';
+import {getSymbol} from 'types/wallet';
 import {WalletLogo} from 'components/WalletLogo';
+import { Account } from 'types/account';
+import MathUtils from 'utils/math';
 
 /**
  * Component with wallet information
  * @category Components
  */
 export const WalletInfo = ({
-  wallet,
+  account,
+  price,
   onPress,
 }: {
-  wallet: Wallet;
+  account: Account;
+  price: number | undefined,
   onPress?: () => void;
 }) => {
-  const symbol = getSymbol(wallet.currency);
+  const symbol = getSymbol(account.currency);
   return (
     <View style={{width: '100%', justifyContent: 'center'}}>
       <TouchableHighlight
@@ -23,7 +27,7 @@ export const WalletInfo = ({
         underlayColor="#f8f9fb">
         <View style={styles.account}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <WalletLogo currency={wallet.currency} size={50} />
+            <WalletLogo currency={account.currency} size={50} />
             <View
               style={{
                 flex: 1,
@@ -33,16 +37,16 @@ export const WalletInfo = ({
               <View style={{height: 25, flexDirection: 'row'}}>
                 <View style={{flex: 1}}>
                   <Text style={[styles.balance, {textAlign: 'left'}]}>
-                    {wallet.balance} {symbol}
+                    {account.balance} {symbol}
                   </Text>
                 </View>
                 <View style={{flex: 1}}>
                   <Text style={[styles.balance, {textAlign: 'right'}]}>
-                    ${wallet.usdValue}
+                    ${price !== undefined ? MathUtils.roundUsd(account.balance * price) : 0}
                   </Text>
                 </View>
               </View>
-              <Text style={styles.accountName}>{wallet.name}</Text>
+              <Text style={styles.accountName}>{account.name}</Text>
             </View>
           </View>
         </View>

@@ -12,8 +12,12 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-
-jest.mock('react-native', () => {});
+jest.mock('@polkadot/util-crypto', () => ({
+  mnemonicGenerate: jest.fn(() => ''),
+}));
+jest.mock('react-native-i18n', () => ({
+  t: (value) => value,
+}));
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 
@@ -49,10 +53,10 @@ it('Test click Privacy Policy', () => {
 it('Test click next', () => {
   useState.mockImplementationOnce(() => [true, jest.fn()]);
   const mockNav = jest.fn();
-  const component = render(<Legal navigation={{navigate: mockNav}} />);
+  const component = render(<Legal navigation={{reset: mockNav}} />);
 
   fireEvent.press(component.getByText(StringUtils.texts.NextBtnTitle));
-  expect(mockNav).toBeCalledWith('SettingWallet');
+  expect(mockNav).toBeCalledWith({index: 0, routes: [{name: 'SettingWallet', params: {seed: ['']}}]});
 });
 
 it('Test click checkbox', () => {
@@ -64,9 +68,7 @@ it('Test click checkbox', () => {
   const component = render(<Legal navigation={{navigate: mockNav}} />);
 
   fireEvent.press(
-    component.getByText(
-      'I have read, understood, and agree with the Terms & Conditions and Privacy Policy',
-    ),
+    component.getByText(StringUtils.texts.legal.checkbox),
   );
   expect(setToggleCheckBox).toBeCalledWith(true);
 });

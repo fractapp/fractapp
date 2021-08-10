@@ -17,10 +17,14 @@ export enum TxStatus {
   Success,
   Fail,
 }
-
-export enum TxActionType {
-  Donate = 0,
-}
+export const getNameTxAction = (action: TxActionType): string => {
+  switch (action) {
+    case TxActionType.Donate:
+      return 'Donate';
+    default:
+      throw new Error('invalid action');
+  }
+};
 
 /**
  * @category Models
@@ -29,6 +33,7 @@ export type Transaction = {
   id: string;
   hash: string;
   userId: string | null;
+
   address: string;
   currency: Currency;
   txType: TxType;
@@ -44,3 +49,4 @@ export type Transaction = {
 
   status: TxStatus;
 };
+

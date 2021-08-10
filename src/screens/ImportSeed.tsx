@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TextInput, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {Loader} from 'components/Loader';
@@ -6,13 +6,16 @@ import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
+import { useDispatch } from 'react-redux';
+import tasks from 'utils/tasks';
 
 /**
  * Import seed screen
  * @category Screens
  */
 export const ImportSeed = () => {
-  const globalContext = useContext(GlobalStore.Context);
+  const dispatch = useDispatch();
+
   const [seed, setSeed] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isSaveSeed, setSaveSeed] = useState<boolean>(false);
@@ -39,7 +42,8 @@ export const ImportSeed = () => {
 
     (async () => {
       await DB.createAccounts(seed);
-      globalContext.dispatch(GlobalStore.signInLocal());
+      dispatch(GlobalStore.actions.initWallet());
+      dispatch(GlobalStore.actions.setAllStatesLoaded(false));
       setLoading(false);
     })();
   }, [isSaveSeed]);

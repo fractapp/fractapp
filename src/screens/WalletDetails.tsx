@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {
   SectionList,
   StyleSheet,
@@ -7,15 +7,20 @@ import {
   View,
   Image,
 } from 'react-native';
-import {Wallet} from 'types/wallet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Transaction} from 'types/transaction';
 import {TransactionInfo} from 'components/TransactionInfo';
 import {WalletDetailsInfo} from 'components/WalletDetailsInfo';
 import stringUtils from 'utils/string';
-import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import StringUtils from 'utils/string';
+import { Profile } from 'types/profile';
+import { useSelector } from 'react-redux';
+import UsersStore from 'storage/Users';
+import { Currency } from 'types/wallet';
+import AccountsStore from 'storage/Accounts';
+import { Account } from 'types/account';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Screen with wallet details
@@ -28,34 +33,28 @@ export const WalletDetails = ({
   navigation: any;
   route: any;
 }) => {
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
-  const wallet: Wallet = route.params.wallet;
-  const [emptyTxs, setEmptyTxs] = useState(true);
+  const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
 
-  useEffect(() => {
-    if (chatsContext.state.transactions.size === 0) {
-      setEmptyTxs(true);
-    } else {
-      setEmptyTxs(false);
-    }
-  }, []);
+  const currency: Currency = route.params.currency;
+  const account: Account = accountState.accounts[currency];
 
   const getDataWithSections = () => {
     let sections = [];
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    const txs = new Array<Transaction>();
+    const txs: Array<Transaction> = [];
 
-    if (!chatsContext.state.transactions.has(wallet.currency)) {
+    if (!chatsState.transactions[account.currency]) {
       return [];
     }
 
-    for (let tx of chatsContext.state.transactions
-      .get(wallet.currency)
-      ?.transactionById.values()!) {
-      txs.push(tx);
+    const stateTransactions = chatsState.transactions[account.currency]?.transactionById!;
+    for (let id in stateTransactions) {
+      txs.push(stateTransactions[id]);
     }
 
     for (let tx of txs.sort((a, b) => b.timestamp - a.timestamp)) {
@@ -76,20 +75,21 @@ export const WalletDetails = ({
     }
     return sections;
   };
+  const data = getDataWithSections();
 
   return (
     <View style={{width: '100%'}}>
       <SectionList
         ListHeaderComponent={() => (
           <View>
-            <WalletDetailsInfo wallet={wallet} />
+            <WalletDetailsInfo account={account} price={serverInfoState.prices[currency]} />
             <View style={styles.btns}>
               <View style={styles.btn}>
                 <TouchableHighlight
                   testID={'sendBtn'}
                   onPress={() =>
                     navigation.navigate('Search', {
-                      wallet: wallet,
+                      currency: account.currency,
                     })
                   }
                   underlayColor="#f8f9fb"
@@ -107,8 +107,8 @@ export const WalletDetails = ({
                   testID={'receiveBtn'}
                   onPress={() =>
                     navigation.navigate('Receive', {
-                      address: wallet.address,
-                      currency: wallet.currency,
+                      address: account.address,
+                      currency: account.currency,
                     })
                   }
                   underlayColor="#f8f9fb"
@@ -127,26 +127,21 @@ export const WalletDetails = ({
             <View style={styles.dividingLine} />
           </View>
         )}
-        sections={getDataWithSections()}
+        sections={data}
         keyExtractor={(item) => String(item.id)}
         renderItem={({item}) => (
           <TransactionInfo
             key={item.id}
             transaction={item}
             user={
-              item.userId != null && globalContext.state.users.has(item.userId)
-                ? globalContext.state.users.get(item.userId)!
+              item.userId != null && usersState.users[item.userId]
+                ? (usersState.users[item.userId]!.value as Profile)
                 : null
             }
             onPress={() =>
               navigation.navigate('TransactionDetails', {
                 transaction: item,
-                wallet: wallet,
-                user:
-                  item.userId != null &&
-                  globalContext.state.users.has(item.userId)
-                    ? globalContext.state.users.get(item.userId)
-                    : null,
+                currency: account.currency,
               })
             }
           />
@@ -157,7 +152,7 @@ export const WalletDetails = ({
           </View>
         )}
       />
-      {emptyTxs === true ? 
+      {data.length === 0 ?
         <View style={styles.notFound}>
           <Image
             source={require('assets/img/not-found-bot.png')}
@@ -165,14 +160,14 @@ export const WalletDetails = ({
               width: 150,
               height: 150,
               alignSelf: 'center',
-              marginRight: 20
+              marginRight: 20,
             }}
-          /> 
+          />
           <Text style={styles.notFoundText}>
             {StringUtils.texts.NoTransactionsTitle}
           </Text>
         </View> :
-        true
+        <View />
       }
     </View>
   );

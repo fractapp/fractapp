@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -15,34 +15,36 @@ import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Contact} from 'components/Contact';
 import {SendBy} from 'components/SendBy';
-import backend from 'utils/backend';
+import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
-import DialogStore from 'storage/Dialog';
-import {UserProfile} from 'types/profile';
-import {Wallet} from 'types/wallet';
-import {ChatInfo, ChatType} from 'types/chatInfo';
-import ChatsStore from 'storage/Chats';
+import {Profile} from 'types/profile';
+import {ChatInfo} from 'types/chatInfo';
 import StringUtils from 'utils/string';
+import { useDispatch, useSelector } from 'react-redux';
+import UsersStore from 'storage/Users';
+import ChatsStore from 'storage/Chats';
+import { Account } from 'types/account';
 
 /**
  * Users search screen
  * @category Screens
  */
 export const Search = ({navigation, route}: {navigation: any; route: any}) => {
-  const wallet: Wallet = route.params?.wallet;
+  const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
+  const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
 
-  const globalContext = useContext(GlobalStore.Context);
-  const chatsContext = useContext(ChatsStore.Context);
-  const dialogContext = useContext(DialogStore.Context);
+  const account: Account = route.params?.wallet;
 
   const [searchString, setSearchString] = useState<string>('');
-  const [users, setUsers] = useState<Array<UserProfile>>();
+  const [users, setUsers] = useState<Array<Profile>>();
   const [isLoading, setLoading] = useState<boolean>();
   const [lastSearch, setLastSearch] = useState<string>();
 
   useEffect(() => {
-    if (!globalContext.state.isRegistered) {
+    if (!globalState.isRegisteredInFractapp) {
       return;
     }
     getMyMatchContacts();
@@ -52,11 +54,11 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
         PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
       );
       if (status === 'never_ask_again') {
-        dialogContext.dispatch(
-          Dialog.open(
-            StringUtils.texts.OpenSettingsTitle,
-            StringUtils.texts.OpenSettingsForContactsText,
-            () => dialogContext.dispatch(Dialog.close()),
+        dispatch(
+          Dialog.actions.showDialog({
+              title: StringUtils.texts.OpenSettingsTitle,
+              text: StringUtils.texts.OpenSettingsForContactsText,
+            }
           ),
         );
         return;
@@ -106,16 +108,20 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
     let contacts = await backend.myMatchContacts();
 
     contacts = contacts.filter(
-      (user) => user.id !== globalContext.state.profile.id,
+      (user) => user.id !== globalState.profile!.id,
     );
     setUsers(contacts);
     const ids = new Array<string>();
     for (let user of contacts) {
-      globalContext.dispatch(GlobalStore.setUser(user));
+      dispatch(UsersStore.actions.setUser({
+        title: user?.name! !== '' ? user?.name! : user?.username!,
+        isAddressOnly: false,
+        value: user,
+      }));
       ids.push(user.id);
     }
 
-    globalContext.dispatch(GlobalStore.setContacts(ids));
+    dispatch(UsersStore.actions.setContacts(ids));
   };
 
   useEffect(() => {
@@ -130,48 +136,47 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
     setLastSearch(searchString);
 
     if (searchString.length === 0) {
-      const contacts = new Array<UserProfile>();
-      for (let id of globalContext.state.contacts) {
-        if (!globalContext.state.users.has(id)) {
+      const contacts: Array<Profile> = [];
+      for (let id of usersState.contacts) {
+        if (!usersState.users[id]) {
           continue;
         }
-        contacts.push(globalContext.state.users.get(id)!);
+        contacts.push((usersState.users[id]!.value as Profile));
       }
       setUsers(contacts);
       setLoading(false);
     } else {
       backend
         .search(searchString)
-        .then((users: UserProfile[]) => {
+        .then((users: Profile[]) => {
           setUsers(
-            users.filter((user) => user.id !== globalContext.state.profile.id),
+            users.filter((user) => user.id !== globalState.profile!.id),
           );
           setTimeout(() => setLoading(false), 1000);
         })
-        .catch((e) => setTimeout(() => setLoading(false), 1000));
+        .catch(() => setTimeout(() => setLoading(false), 1000));
     }
   }, [searchString, isLoading]);
 
-  const renderItem = ({item}: {item: UserProfile}) => {
+  const renderItem = ({item}: {item: Profile}) => {
     return (
       <TouchableHighlight
         onPress={() => {
-          globalContext.dispatch(GlobalStore.setUser(item));
+          dispatch(UsersStore.actions.setUser({
+            title: item?.name! !== '' ? item?.name! : item?.username!,
+            isAddressOnly: false,
+            value: item,
+          }));
 
           let chatInfo: ChatInfo;
-          if (!chatsContext.state.chatsInfo.has(item.id)) {
+          if (!chatsState.chatsInfo[item.id]) {
             chatInfo = {
               id: item.id,
-              name: item.name !== '' ? item.name : item.username,
-              lastTxId: '',
-              lastTxCurrency: 0,
               notificationCount: 0,
-              timestamp: 0,
-              type: ChatType.WithUser,
-              details: null,
+              lastMsgId: '',
             };
           } else {
-            chatInfo = chatsContext.state.chatsInfo.get(item.id)!;
+            chatInfo = chatsState.chatsInfo[item.id]!;
           }
 
           navigation.navigate('Chat', {
@@ -258,14 +263,14 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
           searchString.length === 0 ? (
             <TouchableHighlight
               onPress={() => {
-                if (wallet == null) {
+                if (account == null) {
                   navigation.navigate('SelectWallet', {
                     isEditable: true,
                   });
                 } else {
                   navigation.navigate('Send', {
                     isEditable: true,
-                    wallet: wallet,
+                    currency: account.currency,
                   });
                 }
               }}

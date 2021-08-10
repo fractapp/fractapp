@@ -24,7 +24,7 @@ exports[`Test view 1`] = `
       }
     }
   >
-    [missing "en.titles.restore_wallet" translation]
+    titles.restore_wallet
   </Text>
   <View
     style={
@@ -96,7 +96,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          [missing "en.import_wallet.google_drive_title" translation]
+          import_wallet.google_drive_title
         </Text>
       </View>
     </View>
@@ -166,7 +166,7 @@ exports[`Test view 1`] = `
             }
           }
         >
-          [missing "en.import_wallet.manually_title" translation]
+          import_wallet.manually_title
         </Text>
       </View>
     </View>

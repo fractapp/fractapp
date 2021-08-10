@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,6 +8,7 @@ import {Settings} from 'screens/Settings';
 import {Chats} from 'screens/Chats';
 import ChatsStore from 'storage/Chats';
 import StringUtils from 'utils/string';
+import { useSelector } from 'react-redux';
 
 /**
  * All Tab Navigator
@@ -47,7 +48,7 @@ const MenuTabs = {
  * @category Components
  */
 export const TabMenu = () => {
-  const chatsContext = useContext(ChatsStore.Context);
+const chatsState =  useSelector((state: any) => state.chats);
 
   return (
     <Tab.Navigator
@@ -73,9 +74,9 @@ export const TabMenu = () => {
         component={ChatsTab}
         options={{
           tabBarBadge:
-            chatsContext.state.totalNotifications === 0
+            chatsState.totalNotifications === 0
               ? undefined
-              : chatsContext.state.totalNotifications,
+              : chatsState.totalNotifications,
           tabBarBadgeStyle: {
             backgroundColor: '#FF3B30',
             color: 'white',

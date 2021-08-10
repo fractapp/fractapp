@@ -212,7 +212,7 @@ namespace Backup {
       const files = await googleUtil.getItems(folder.id);
       for (let file of files) {
         try {
-          const f = await googleUtil.getFileBackup(file.id);
+          await googleUtil.getFileBackup(file.id);
           wallets.push(file.title);
           ids.push(file.id);
         } catch (e) {

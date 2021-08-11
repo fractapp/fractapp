@@ -1729,10 +1729,10 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
-"@types/react-native-push-notification@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@types/react-native-push-notification/-/react-native-push-notification-7.3.0.tgz#5c998134347c1e8a2ddb28524349acf12cfbb243"
-  integrity sha512-11p6U/6atLJQcuBiwO+QR5NzAWyxowj9yiQ5hcRwfH9lwD06jKyG2nr/b4MUT7HALMF3JUZUn/qZ1gR6DgfnFQ==
+"@types/react-native-push-notification@^7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-push-notification/-/react-native-push-notification-7.3.1.tgz#32e06bf685b4058a5c5b8f9abc8e34f600e205f6"
+  integrity sha512-6oEj6E73geW5L5QgZytM8zVBD+VDZgDn0vDQXDF6bqSWxWRRU4ow6zJAU2M5ElssoVwo9Ne7z/4+GpslS+p/SA==
 
 "@types/react-native-share@^3.3.2":
   version "3.3.2"

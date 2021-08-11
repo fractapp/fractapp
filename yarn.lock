@@ -1734,10 +1734,10 @@
   resolved "https://registry.yarnpkg.com/@types/react-native-push-notification/-/react-native-push-notification-7.3.0.tgz#5c998134347c1e8a2ddb28524349acf12cfbb243"
   integrity sha512-11p6U/6atLJQcuBiwO+QR5NzAWyxowj9yiQ5hcRwfH9lwD06jKyG2nr/b4MUT7HALMF3JUZUn/qZ1gR6DgfnFQ==
 
-"@types/react-native-share@^3.3.2":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-3.3.2.tgz#d2c8af2c708d93a8d8916f4c272a3e974fd4381a"
-  integrity sha512-D/kIZvafsCFBONYZ37pekeE7/b/Zs+K0mRtT05SJ0aGZjSDnPyRmazrfyOrzOOIufEBH/vXrlb3yFkmdbCkwaA==
+"@types/react-native-share@^3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-3.3.3.tgz#95e1087ad1d7972c85223dbfa52450455f604c9c"
+  integrity sha512-aZNKQjXtsuooG21wSsT8WUMkD+TiSNGi6i1XEKHLEFD3CSRUGAJI/PFXPzdWGsPw7Z0z4xW3IDKCbjyu0grRVg==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"

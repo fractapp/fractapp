@@ -1721,10 +1721,10 @@
   dependencies:
     "@types/i18n-js" "*"
 
-"@types/react-native-popup-dialog@^0.16.2":
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/@types/react-native-popup-dialog/-/react-native-popup-dialog-0.16.2.tgz#127da20c746652a76308a22a9130983fecf9e811"
-  integrity sha512-wmrleiZO3QqYgFGPLHhJgesR7PICQ6SMDQoXZU7lOBcqd3vh6nop3SMLrM7DMxXvt5jzVURVWG7O2RfG1OVwUw==
+"@types/react-native-popup-dialog@^0.16.3":
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/@types/react-native-popup-dialog/-/react-native-popup-dialog-0.16.3.tgz#7dcad61b2b57e2df8b4da7f6215ed0fac224b8a6"
+  integrity sha512-p0V2ch6fNV4U60EHWx3oVCVgSyZtpkFXZNhwK5YNpkVWd9AxjeU2HXsnJktyTv021K5Nerg5Hy+i/0nzD35+ew==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"

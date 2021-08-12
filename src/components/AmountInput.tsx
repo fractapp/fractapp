@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -9,241 +9,266 @@ import {
   View,
 } from 'react-native';
 import {getSymbol, Wallet} from 'types/wallet';
-import PricesStore from 'storage/Prices';
 import {Adaptors} from 'adaptors/adaptor';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import math from 'utils/math';
 import StringUtils from 'utils/string';
+import {EnterAmountInfo} from 'types/inputs';
 
 /**
  * Text input for amount
  * @category Components
  */
 export const AmountInput = ({
-  wallet,
+  account,
   receiver,
-  usdMode,
+  price,
   onChangeValues,
   onSetLoading,
   defaultValue,
+  defaultUsdMode,
   width = '100%',
 }: {
-  wallet: Wallet;
+  account: Wallet;
   receiver: string;
-  usdMode: boolean;
-  onChangeValues: (
-    value: string,
-    usdValue: number,
-    alternativeValue: number,
-    planksValue: BN,
-    planksFee: BN,
-    usdFee: number,
-    usdMode: boolean,
-    isValid: boolean,
-  ) => void;
+  price: number;
+  onChangeValues: (newEnterAmount: EnterAmountInfo) => void;
   onSetLoading: (isLoading: boolean) => void;
   defaultValue: string;
+  defaultUsdMode: boolean;
   width?: string;
 }) => {
-  const priceContext = useContext(PricesStore.Context);
-  const api = Adaptors.get(wallet.network);
+  const api = Adaptors.get(account.network);
   const textInputRef = useRef<TextInput>(null);
 
-  const [isValid, setValid] = useState<boolean>(true);
   const [errorText, setErrorText] = useState<string>('');
 
   const [isFeeLoading, setFeeLoading] = useState<boolean>(false);
-  const [isUSDMode, setUSDMode] = useState<boolean>(usdMode);
-
-  const [usdValue, setUSDValue] = useState<number>(0);
-  const [planksValue, setPlanksValue] = useState<BN>(new BN(0));
-
   const [value, setValue] = useState<string>(defaultValue);
+  const [forceValue, setForceValue] = useState<string | null>(null);
+  const [usdMode, setUsdMode] = useState<boolean>(defaultUsdMode);
 
-  const [alternativeValue, setAlternativeValue] = useState<number>(0);
+  const [isLoadingEnd, setLoadingEnd] = useState<boolean>(false);
+  const [isRecall, setRecall] = useState<boolean>(false);
 
-  const [usdFee, setUsdFee] = useState<number>(0);
-  const [planksFee, setPlanksFee] = useState<BN>(new BN(0));
+  const [enterAmountInfo, setEnterAmountInfo] = useState<EnterAmountInfo>({
+    value: defaultValue,
+    alternativeValue: 0,
+    usdValue: 0,
+    usdFee: 0,
+    planksValue: '0',
+    planksFee: '0',
+    isUSDMode: defaultUsdMode,
+    isValid: true,
+  });
 
-  const [tick, setTick] = useState<number>(0);
+  const calculateValues = (value: string, isForce: boolean) => {
+    if (isFeeLoading && !isForce) {
+      setRecall(true);
+      return;
+    }
 
-  const onChangeText = (text: string, usdMode: boolean) => {
-    setValue(text);
-    setUSDMode(usdMode);
-    resetValues(true, '');
+    const newEnterAmount: EnterAmountInfo = resetValues(true, '');
+    onChangeValues(newEnterAmount);
+    newEnterAmount.value = value;
+    newEnterAmount.isUSDMode = usdMode;
 
-    if (text.length > 0) {
-      const v = parseFloat(text);
-      const p = new BN(math.convertToPlanck(text, api.decimals));
+    setFeeLoading(true);
+
+    if (value.length > 0) {
+      const v = parseFloat(value);
+      const p = new BN(math.convertToPlanck(value, api.decimals));
       if (
-        (usdMode && (isNaN(v) || v <= 0)) ||
-        (!usdMode && p.cmp(new BN(0)) <= 0)
+        (newEnterAmount.isUSDMode && (isNaN(v) || v <= 0)) ||
+        (!newEnterAmount.isUSDMode && p.cmp(new BN(0)) <= 0)
       ) {
-        setValid(false);
-        onChangeValues('', 0, 0, new BN(0), new BN(0), 0, isUSDMode, false);
+        const emptyValue = resetValues(false, '');
+        onChangeValues(emptyValue);
+        setEnterAmountInfo(emptyValue);
+        setLoadingEnd(true);
         return;
       }
     }
 
-    setValid(true);
+    newEnterAmount.isValid = true;
     setErrorText('');
 
-    if (usdMode) {
-      const v = parseFloat(text);
+    if (newEnterAmount.isUSDMode) {
+      const v = parseFloat(value);
       const usd = isNaN(v) ? 0 : v;
-      setUSDValue(usd);
+      newEnterAmount.usdValue = usd;
 
-      const p = MathUtils.calculatePlanksValue(
-        usd,
-        api.decimals,
-        priceContext.state.get(wallet.currency) ?? 0,
-      );
-      setPlanksValue(p);
-
-      onSetLoading(true);
-      setFeeLoading(true);
+      const p = MathUtils.calculatePlanksValue(usd, api.decimals, price);
+      newEnterAmount.planksValue = p.toString();
     } else {
-      const p = new BN(math.convertToPlanck(text, api.decimals));
-      setPlanksValue(p);
+      const p = new BN(math.convertToPlanck(value, api.decimals));
+      newEnterAmount.planksValue = p.toString();
 
-      const usd = MathUtils.calculateUsdValue(
+      newEnterAmount.usdValue = MathUtils.calculateUsdValue(
         p,
         api.decimals,
-        priceContext.state.get(wallet.currency) ?? 0,
+        price,
       );
-      setUSDValue(usd);
-
-      onSetLoading(true);
-      setFeeLoading(true);
     }
+
+    const planksValue = new BN(newEnterAmount.planksValue);
+    api
+      .calculateFee(account.address, planksValue, receiver)
+      .then(async (fee) => {
+        newEnterAmount.planksFee = fee.toString();
+        const validateInfo = await validateParams(
+          newEnterAmount.value,
+          planksValue,
+          newEnterAmount.usdValue,
+          newEnterAmount.isUSDMode,
+          fee,
+        );
+        if (!validateInfo.isValid) {
+          const emptyValue = resetValues(
+            validateInfo.isBeforeResetValid,
+            validateInfo.err,
+          );
+          onChangeValues(emptyValue);
+          setEnterAmountInfo(emptyValue);
+          setErrorText(validateInfo.err);
+          setLoadingEnd(true);
+          return;
+        }
+
+        newEnterAmount.alternativeValue = newEnterAmount.isUSDMode
+          ? MathUtils.convertFromPlanckToViewDecimals(
+              planksValue,
+              api.decimals,
+              api.viewDecimals,
+              true,
+            )
+          : newEnterAmount.usdValue;
+
+        newEnterAmount.usdFee = await MathUtils.calculateUsdValue(
+          fee,
+          api.decimals,
+          price,
+        );
+
+        setErrorText('');
+
+        setEnterAmountInfo(newEnterAmount);
+        onChangeValues(newEnterAmount);
+        setLoadingEnd(true);
+      });
   };
 
-  const resetValues = (isValid: boolean, errorText: string) => {
-    setValid(isValid);
+  useEffect(() => {
+    calculateValues(value, false);
+  }, [value]);
+  useEffect(() => {
+    if (forceValue == null) {
+      return;
+    }
+    calculateValues(forceValue, true);
+  }, [forceValue]);
+
+  useEffect(() => {
+    onSetLoading(isFeeLoading);
+  }, [isFeeLoading]);
+
+  useEffect(() => {
+    if (!isLoadingEnd) {
+      return;
+    }
+
+    setLoadingEnd(false);
+    if (isRecall) {
+      setForceValue(value);
+      setRecall(false);
+    } else {
+      setFeeLoading(false);
+    }
+  }, [isLoadingEnd]);
+
+  const resetValues = (
+    isValid: boolean,
+    errorText: string,
+  ): EnterAmountInfo => {
+    const newEnterAmount: EnterAmountInfo = Object.create(enterAmountInfo);
+
+    newEnterAmount.isValid = isValid;
     setErrorText(errorText);
 
-    setPlanksValue(new BN(0));
-    setUSDValue(0);
+    newEnterAmount.value = '';
+    newEnterAmount.planksValue = new BN(0).toString();
+    newEnterAmount.usdValue = 0;
+    newEnterAmount.alternativeValue = 0;
+    newEnterAmount.usdFee = 0;
+    newEnterAmount.planksFee = '0';
 
-    setAlternativeValue(0);
-    setUsdFee(0);
-    setPlanksFee(new BN(0));
-
-    onSetLoading(false);
-    setFeeLoading(false);
-
-    onChangeValues('', 0, 0, new BN(0), new BN(0), 0, isUSDMode, isValid);
+    return newEnterAmount;
   };
 
-  const validateParams = async (): Promise<boolean> => {
+  const validateParams = async (
+    value: string,
+    planksValue: BN,
+    usdValue: number,
+    isUSDMode: boolean,
+    fee: BN,
+  ): Promise<{
+    isBeforeResetValid: boolean;
+    isValid: boolean;
+    err: string;
+  }> => {
     const plankViewValue = MathUtils.convertFromPlanckToViewDecimals(
       planksValue,
       api.decimals,
       api.viewDecimals,
       true,
     );
+
     if (
       planksValue!.cmp(new BN(0)) <= 0 ||
       usdValue <= 0 ||
       (isUSDMode && plankViewValue <= 0)
     ) {
-      resetValues(!(value.length > 0), '');
-      return false;
+      return {
+        isBeforeResetValid: !(value.length > 0),
+        isValid: false,
+        err: '',
+      };
     }
 
-    if (new BN(wallet.planks).cmp(planksValue.add(planksFee)) < 0) {
-      resetValues(false, StringUtils.texts.NotEnoughBalanceErr);
-      return false;
+    if (new BN(account.planks).cmp(planksValue.add(fee)) < 0) {
+      return {
+        isBeforeResetValid: false,
+        isValid: false,
+        err: StringUtils.texts.NotEnoughBalanceErr,
+      };
     }
 
     const transferValidation = await api.isValidTransfer(
-      wallet.address,
+      account.address,
       receiver,
       planksValue,
-      planksFee,
+      fee,
     );
 
     if (!transferValidation.isOk) {
-      resetValues(false, transferValidation.errorMsg);
-      return false;
+      return {
+        isBeforeResetValid: false,
+        isValid: false,
+        err: transferValidation.errorMsg,
+      };
     }
 
-    return true;
+    return {
+      isBeforeResetValid: true,
+      isValid: true,
+      err: '',
+    };
   };
 
   useEffect(() => {
     textInputRef?.current?.focus();
   }, [textInputRef]);
-  useEffect(() => {
-    console.log('default value: ' + defaultValue);
-    if (defaultValue === undefined || defaultValue === '') {
-      return;
-    }
-
-    onChangeText(defaultValue, isUSDMode);
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setTick((prevTick: number) => prevTick + 1);
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  useEffect(() => {
-    console.log('tick: ' + tick);
-
-    if (tick === 0 || !isValid) {
-      return;
-    }
-    validateParams().then(async (isValidValue) => {
-      if (!isValidValue) {
-        return;
-      }
-
-      const aValue = isUSDMode
-        ? MathUtils.convertFromPlanckToViewDecimals(
-            planksValue,
-            api.decimals,
-            api.viewDecimals,
-            true,
-          )
-        : usdValue;
-      setAlternativeValue(aValue);
-
-      const fee = await api.calculateFee(planksValue, receiver);
-      const usdFee = await MathUtils.calculateUsdValue(
-        fee,
-        api.decimals,
-        priceContext.state.get(wallet.currency) ?? 0,
-      );
-      setPlanksFee(fee);
-      setUsdFee(usdFee);
-
-      const isValidValueStill = validateParams();
-      if (!isValidValueStill) {
-        return false;
-      }
-
-      setValid(true);
-      setErrorText('');
-
-      onSetLoading(false);
-      setFeeLoading(false);
-
-      onChangeValues(
-        value,
-        usdValue,
-        aValue,
-        planksValue,
-        fee,
-        usdFee,
-        isUSDMode,
-        true,
-      );
-    });
-  }, [tick]);
 
   return (
     <View style={{width: width, alignItems: 'center'}}>
@@ -252,7 +277,7 @@ export const AmountInput = ({
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Text style={styles.value}>{isUSDMode && '$'}</Text>
+        <Text style={styles.value}>{usdMode && '$'}</Text>
         <TextInput
           style={[
             styles.value,
@@ -268,7 +293,7 @@ export const AmountInput = ({
           ref={textInputRef}
           autoFocus={true}
           onChangeText={(text) => {
-            onChangeText(text, isUSDMode);
+            setValue(text);
           }}
           textAlign={'center'}
           keyboardType={'decimal-pad'}
@@ -276,7 +301,7 @@ export const AmountInput = ({
           value={value}
         />
         <Text style={styles.valueCurrency}>
-          {!isUSDMode && ' ' + getSymbol(wallet.currency)}
+          {!usdMode && ' ' + getSymbol(account.currency)}
         </Text>
       </View>
 
@@ -289,8 +314,8 @@ export const AmountInput = ({
           top: 8,
         }}
         onPress={() => {
-          onChangeText(String(alternativeValue), !isUSDMode);
-          setUSDMode(!isUSDMode);
+          setUsdMode(!enterAmountInfo.isUSDMode);
+          setValue(String(enterAmountInfo.alternativeValue));
         }}>
         <Image
           source={require('assets/img/change.png')}
@@ -307,48 +332,48 @@ export const AmountInput = ({
           top: 8,
         }}
         onPress={async () => {
-          onSetLoading(true);
-          setFeeLoading(true);
-
-          let v = new BN(wallet.planks);
-
-          setValue(
-            math.convertFromPlanckToString(v.sub(planksFee), api.decimals),
-          );
-          await api.calculateFee(v, receiver).then((fee) => {
-            v = v.sub(fee);
-            onChangeText(
-              math.convertFromPlanckToString(v, api.decimals),
-              false,
-            );
-          });
+          let v = new BN(account.planks);
+          setUsdMode(false);
+          setValue(math.convertFromPlanckToString(v, api.decimals));
+          const fee = await api.calculateFee(account.address, v, receiver);
+          v = v.sub(fee);
+          setValue(math.convertFromPlanckToString(v, api.decimals));
         }}>
         <Image
           source={require('assets/img/max.png')}
           style={{width: 30, height: 30}}
         />
       </TouchableOpacity>
-      <View style={[isValid ? styles.line : styles.redLine, {width: width}]} />
+      <View
+        style={[
+          !enterAmountInfo.isValid && !isFeeLoading
+            ? styles.redLine
+            : styles.line,
+          {width: width},
+        ]}
+      />
       <View style={{flexDirection: 'row', width: width}}>
         {isFeeLoading ? (
           <ActivityIndicator testID="loader" size={25} color="#2AB2E2" />
-        ) : !isValid ? (
+        ) : !enterAmountInfo.isValid ? (
           <Text style={styles.errorText}>{errorText}</Text>
         ) : (
           <>
             <View style={{width: '50%', alignItems: 'flex-start'}}>
-              {usdFee !== 0 && (
+              {enterAmountInfo.usdFee !== 0 && (
                 <Text style={[styles.subValue]}>
-                  {StringUtils.texts.FeeTitle} ${usdFee}
+                  {StringUtils.texts.FeeTitle} ${enterAmountInfo.usdFee}
                 </Text>
               )}
             </View>
             <View style={{width: '50%', alignItems: 'flex-end'}}>
-              {!isFeeLoading && alternativeValue !== 0 && (
+              {!isFeeLoading && enterAmountInfo.alternativeValue !== 0 && (
                 <Text style={styles.subValue}>
-                  {isUSDMode
-                    ? `${alternativeValue} ${getSymbol(wallet.currency)}`
-                    : `$${alternativeValue}`}
+                  {usdMode
+                    ? `${enterAmountInfo.alternativeValue} ${getSymbol(
+                        account.currency,
+                      )}`
+                    : `$${enterAmountInfo.alternativeValue}`}
                 </Text>
               )}
             </View>

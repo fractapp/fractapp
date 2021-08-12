@@ -31,7 +31,11 @@ namespace MathUtils {
     const d = new BN(10).pow(new BN(decimals));
     const ud = new BN(10).pow(new BN(USDDecimals));
     return roundUsd(
-      value.mul(ud).mul(new BN(price)).div(d).toNumber() / ud.toNumber(), //TODO: add price cent
+      value
+        .mul(ud)
+        .mul(new BN(price * ud.toNumber()))
+        .div(d.mul(ud))
+        .toNumber() / ud.toNumber(), //TODO: add price cent
     );
   }
 
@@ -42,9 +46,12 @@ namespace MathUtils {
   ): BN {
     const d = new BN(10).pow(new BN(decimals));
     const ud = new BN(10).pow(new BN(USDDecimals));
-    return new BN(usdValue * ud.toNumber())
-      .mul(d)
-      .div(new BN(price * ud.toNumber()));
+
+    return price === 0
+      ? new BN(0)
+      : new BN(usdValue * ud.toNumber())
+          .mul(d)
+          .div(new BN(price * ud.toNumber()));
   }
 
   export function convertFromPlanckToViewDecimals(

@@ -55,9 +55,8 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
 
   useEffect(() => {
     globalContext.dispatch(GlobalStore.setLoading(true));
-    api
-      .init()
-      .then(async () => {
+    try {
+      (async () => {
         if (isEditable) {
           setReceiver('');
           globalContext.dispatch(GlobalStore.setLoading(false));
@@ -110,21 +109,17 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
           () => globalContext.dispatch(GlobalStore.setLoading(false)),
           500,
         );
-      })
-      .catch((e: Error) => {
-        console.log('Err: ' + e);
-        globalContext.dispatch(GlobalStore.setLoading(false));
-        dialogContext.dispatch(
-          DialogStore.open(
-            StringUtils.texts.ServiceUnavailableTitle,
-            '',
-            () => {
-              dialogContext.dispatch(DialogStore.close());
-            },
-          ),
-        );
-        navigation.goBack();
-      });
+      })();
+    } catch (e) {
+      console.log('Err: ' + e);
+      globalContext.dispatch(GlobalStore.setLoading(false));
+      dialogContext.dispatch(
+        DialogStore.open(StringUtils.texts.ServiceUnavailableTitle, '', () => {
+          dialogContext.dispatch(DialogStore.close());
+        }),
+      );
+      navigation.goBack();
+    }
   }, []);
 
   useEffect(() => {
@@ -150,49 +145,61 @@ export const Send = ({navigation, route}: {navigation: any; route: any}) => {
     }
 
     const pValue = new BN(planksValueString);
-    const hash = await api.send(receiver, pValue);
+    try {
+      const hash = await api.send(receiver, pValue);
 
-    const tx: Transaction = {
-      id: 'sent-' + hash,
-      hash: hash,
-      userId: user !== undefined ? user.id : null,
-      address: receiver,
-      currency: wallet.currency,
-      txType: TxType.Sent,
-      timestamp: Math.round(new Date().getTime()),
+      const tx: Transaction = {
+        id: 'sent-' + hash,
+        hash: hash,
+        userId: user !== undefined ? user.id : null,
+        address: receiver,
+        currency: wallet.currency,
+        txType: TxType.Sent,
+        timestamp: Math.round(new Date().getTime()),
 
-      value: math.convertFromPlanckToViewDecimals(
-        pValue,
-        api.decimals,
-        api.viewDecimals,
-      ),
-      planckValue: pValue.toString(),
-      usdValue: usdValue,
+        value: math.convertFromPlanckToViewDecimals(
+          pValue,
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckValue: pValue.toString(),
+        usdValue: usdValue,
 
-      fee: math.convertFromPlanckToViewDecimals(
-        new BN(planksFeeString),
-        api.decimals,
-        api.viewDecimals,
-      ),
-      planckFee: planksFeeString,
-      usdFee: usdFee,
-      status: TxStatus.Pending,
-    };
+        fee: math.convertFromPlanckToViewDecimals(
+          new BN(planksFeeString),
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckFee: planksFeeString,
+        usdFee: usdFee,
+        status: TxStatus.Pending,
+      };
 
-    chatsContext.dispatch(ChatsStore.addPendingTx(tx, user));
+      chatsContext.dispatch(ChatsStore.addPendingTx(tx, user));
 
-    globalContext.dispatch(GlobalStore.setLoading(false));
-    navigation.reset({
-      index: 1,
-      actions: [
-        navigation.navigate('Home'),
-        navigation.navigate('Chat', {
-          chatInfo: chatsContext.state.chatsInfo.get(
-            tx.userId != null ? tx.userId : tx.address,
-          )!,
+      globalContext.dispatch(GlobalStore.setLoading(false));
+      try {
+        navigation.reset({
+          index: 1,
+          actions: [
+            navigation.navigate('Home'),
+            navigation.navigate('Chat', {
+              chatInfo: chatsContext.state.chatsInfo.get(
+                tx.userId != null ? tx.userId : tx.address,
+              )!,
+            }),
+          ],
+        });
+      } catch (e) {}
+    } catch (e) {
+      console.log('e: ' + e);
+      globalContext.dispatch(GlobalStore.setLoading(false));
+      dialogContext.dispatch(
+        DialogStore.open(StringUtils.texts.ServiceUnavailableTitle, '', () => {
+          dialogContext.dispatch(DialogStore.close());
         }),
-      ],
-    });
+      );
+    }
   };
 
   const renderReceiver = () => {

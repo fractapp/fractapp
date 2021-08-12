@@ -6,6 +6,8 @@ import {getSymbol, Wallet} from 'types/wallet';
 import BN from 'bn.js';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
+import {EnterAmountInfo} from 'types/inputs';
+import PricesStore from 'storage/Prices';
 
 /**
  * Screen with the input of the amount to be sent
@@ -19,6 +21,7 @@ export const EnterAmount = ({
   route: any;
 }) => {
   const dialogContext = useContext(Dialog.Context);
+  const priceContext = useContext(PricesStore.Context);
 
   const defaultValue = route.params?.value ?? '';
 
@@ -80,24 +83,15 @@ export const EnterAmount = ({
     });
   };
 
-  const onChangeValues = (
-    value: string,
-    usdValue: number,
-    alternativeValue: number,
-    planksValue: BN,
-    planksFee: BN,
-    usdFee: number,
-    usdMode: boolean,
-    isValid: boolean,
-  ) => {
-    setValue(value);
-    setUsdValue(usdValue);
-    setAlternativeValue(alternativeValue);
-    setPlanksValue(planksValue.toString());
-    setPlanksFee(planksFee.toString());
-    setUsdFee(usdFee);
-    setUSDMode(usdMode);
-    setValid(isValid);
+  const onChangeValues = (enterAmountInfo: EnterAmountInfo) => {
+    setValue(enterAmountInfo.value);
+    setUsdValue(enterAmountInfo.usdValue);
+    setAlternativeValue(enterAmountInfo.alternativeValue);
+    setPlanksValue(enterAmountInfo.planksValue);
+    setPlanksFee(enterAmountInfo.planksFee);
+    setUsdFee(enterAmountInfo.usdFee);
+    setUSDMode(enterAmountInfo.isUSDMode);
+    setValid(enterAmountInfo.isValid);
   };
 
   useEffect(() => {
@@ -106,17 +100,19 @@ export const EnterAmount = ({
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
-  }, [value, alternativeValue, usdFee, isUSDMode]);
+  }, [isLoading]);
+
   return (
     <View style={styles.chats}>
       <AmountInput
         width={'95%'}
-        wallet={wallet}
+        account={wallet}
         receiver={receiver}
-        usdMode={isUSDMode}
+        price={priceContext.state.get(wallet.currency) ?? 0}
         onChangeValues={onChangeValues}
-        onSetLoading={(isLoading: boolean) => setLoading(isLoading)}
+        onSetLoading={(loading: boolean) => setLoading(loading)}
         defaultValue={defaultValue}
+        defaultUsdMode={isUSDMode}
       />
       <View
         style={[

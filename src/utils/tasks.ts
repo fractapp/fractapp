@@ -318,10 +318,6 @@ namespace Task {
       return;
     }
 
-    for (let url of info.substrateUrls) {
-      globalContext.dispatch(GlobalStore.setSubstrateUrl(url.network, url.url));
-    }
-
     for (let priceInfo of info.prices) {
       pricesContext.dispatch(
         PricesStore.updatePrice(priceInfo.currency, priceInfo.value),

@@ -12,7 +12,7 @@ import {UserProfile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
-import {ServerInfo} from 'types/serverInfo';
+import {FeeInfo, ServerInfo, SubstrateTxBase} from 'types/serverInfo';
 import {Adaptors} from 'adaptors/adaptor';
 import math from 'utils/math';
 
@@ -48,6 +48,7 @@ namespace BackendApi {
     }
     return <string>JWTToken;
   }
+
   export async function setToken(token: string): Promise<boolean> {
     const accounts = await DB.getAccounts();
     const seed = await DB.getSeed();
@@ -496,6 +497,74 @@ namespace BackendApi {
 
   export function getImgUrl(id: string, lastUpdate: number): string {
     return `${apiUrl}/profile/avatar/${id}` + '#' + lastUpdate;
+  }
+
+  export async function calculateSubstrateFee(
+    sender: string,
+    receiver: string,
+    value: string,
+    currency: Currency,
+  ): Promise<FeeInfo | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function getSubstrateTxBase(
+    sender: string,
+    receiver: string,
+    value: string,
+    currency: Currency,
+  ): Promise<SubstrateTxBase | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/base?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function broadcastSubstrateTx(
+    tx: string,
+    currency: Currency,
+  ): Promise<string | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/broadcast?tx=${tx}&currency=${currency}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      const info = await response.json();
+      return info.hash;
+    } else {
+      return null;
+    }
   }
 }
 export default BackendApi;

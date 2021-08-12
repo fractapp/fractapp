@@ -27,7 +27,6 @@ namespace GlobalStore {
     SET_CONTACTS,
     SET_USER,
     DELETE_USER,
-    SET_SUBSTRATE_URL,
   }
 
   export type State = {
@@ -40,7 +39,6 @@ namespace GlobalStore {
     isInitialized: boolean;
     isSyncShow: boolean;
     isLoadingShow: boolean;
-    urls: Map<Network, string>;
     lang: string | null;
   };
 
@@ -73,7 +71,6 @@ namespace GlobalStore {
     isInitialized: false,
     isRegistered: false,
     isLoadingShow: false,
-    urls: new Map<Network, string>(),
     lang: null,
   });
   export const Context = createContext<ContextType>({
@@ -94,7 +91,6 @@ namespace GlobalStore {
           isLoadingShow: false,
           contacts: action.contacts,
           users: action.users,
-          urls: action.urls,
           isSyncShow: true,
           lang: action.lang,
         };
@@ -157,10 +153,6 @@ namespace GlobalStore {
       case Action.DELETE_USER:
         copy.users.delete(action.id);
         DB.setUsers(copy.users);
-        break;
-      case Action.SET_SUBSTRATE_URL:
-        copy.urls.set(action.network, action.url);
-        DB.setSubstrateUrls(copy.urls);
         break;
       case Action.SET_SYNC_SHOW:
         copy.isSyncShow = action.isSyncShow;
@@ -250,11 +242,6 @@ namespace GlobalStore {
   export const deleteUser = (id: string) => ({
     type: Action.DELETE_USER,
     id: id,
-  });
-  export const setSubstrateUrl = (network: Network, url: string) => ({
-    type: Action.SET_SUBSTRATE_URL,
-    url: url,
-    network: network,
   });
 }
 export default GlobalStore;

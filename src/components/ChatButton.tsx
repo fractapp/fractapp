@@ -28,7 +28,8 @@ export const ChatButton = ({
         style={[styles.button, { marginRight: isLast ? 0 : 10 }]}
         onPress={async () => {
           setLoading(true);
-          onPress().then(() => setLoading(false));
+          await onPress();
+          setLoading(false);
         }}>
         {
           isImgExist &&

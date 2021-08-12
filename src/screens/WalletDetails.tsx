@@ -155,13 +155,14 @@ export const WalletDetails = ({
       {data.length === 0 ?
         <View style={styles.notFound}>
           <Image
-            source={require('assets/img/not-found-bot.png')}
+            source={require('assets/img/not-transactions.png')}
             style={{
-              width: 150,
-              height: 150,
+              width: 200,
+              height: 200,
               alignSelf: 'center',
-              marginRight: 20,
+              marginRight: 25,
             }}
+            resizeMode="center"
           />
           <Text style={styles.notFoundText}>
             {StringUtils.texts.NoTransactionsTitle}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {
   ActivityIndicator,
@@ -8,7 +8,6 @@ import {
   StatusBar,
   Text,
   View,
-  AppState,
 } from 'react-native';
 import {Dialog} from 'components/Dialog';
 import {PassCode} from 'components/PassCode';
@@ -27,15 +26,12 @@ import backend from 'utils/api';
 import StringUtils from 'utils/string';
 import {navigate} from 'utils/RootNavigation';
 import {ChatInfo} from 'types/chatInfo';
-import websocket from 'utils/websocket';
 import { useDispatch, useSelector } from 'react-redux';
 import DialogStore from 'storage/Dialog';
 import Init from './Init';
 import { Store } from 'redux';
 
 const App = ({store}: {store: Store}) => {
-  const appState = useRef(AppState.currentState);
-
   const dispatch = useDispatch();
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
   const dialogState: DialogStore.State = useSelector((state: any) => state.dialog);
@@ -78,29 +74,6 @@ const App = ({store}: {store: Store}) => {
     }
   };
 
-  const _handleAppStateChange = (nextAppState: any) => {
-    if (!globalState.isRegisteredInFractapp) {
-      return;
-    }
-
-    const api = websocket.getWsApi(dispatch);
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === 'active'
-    ) {
-
-      api.open();
-      console.log('App has come to the foreground!');
-    } else if (
-      appState.current === 'active' && (
-      nextAppState === 'inactive' || nextAppState === 'background')
-    ) {
-      api.close();
-      console.log('App has come to the background!');
-    }
-
-    appState.current = nextAppState;
-  };
   // start app
   const openUrlEvent = (ev: any) => {
     setUrl(ev?.url);
@@ -207,6 +180,7 @@ const App = ({store}: {store: Store}) => {
       Linking.removeEventListener('url', openUrlEvent);
     };
   }, []);
+
   // locking
   useEffect(() => {
     if (!globalState.loadInfo.isAllStatesLoaded) {
@@ -224,14 +198,10 @@ const App = ({store}: {store: Store}) => {
       onLoaded();
     }
 
-    AppState.addEventListener('change', _handleAppStateChange);
-
-    return () => {
-      AppState.removeEventListener('change', _handleAppStateChange);
-    };
   }, [
     globalState.loadInfo.isAllStatesLoaded,
   ]);
+
   // open by url
   useEffect(() => {
     if (url == null) {

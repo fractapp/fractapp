@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 export const ProfileInfo = ({route}: {navigation: any, route: any}) => {
     const usersState: UsersStore.State = useSelector((state: any) => state.users);
 
-    const user: User = usersState.users[route.userId]!;
+    const user: User = usersState.users[route.params.userId]!;
 
     const name = user.isAddressOnly ? user.title : (user.value as Profile).name;
     const username = user.isAddressOnly ? '' : ((user.value as Profile).name === '' ? (user.value as Profile).username : '');

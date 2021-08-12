@@ -7,6 +7,7 @@ import { Profile } from 'types/profile';
 export type MessageRq = {
   version: number,
   value: string,
+  action: string,
   receiver: string,
   args: Array<string>
 };

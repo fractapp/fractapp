@@ -5,7 +5,6 @@ import GlobalStore from 'storage/Global';
 import AccountsStore from 'storage/Accounts';
 import backend from 'utils/api';
 import BackendApi from 'utils/api';
-import websocket from 'utils/websocket';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import ChatsStore from 'storage/Chats';
@@ -66,9 +65,6 @@ const Init = ({store}: {store: Store}) => {
         store.getState(),
         dispatch
       );
-
-      const wsApi = websocket.getWsApi(dispatch);
-      wsApi.open();
 
       console.log('globalState.isRegisteredInFractapp: ' + globalState.isRegisteredInFractapp);
       if (!globalState.isRegisteredInFractapp) {

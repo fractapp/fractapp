@@ -1,14 +1,14 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Transaction, TxStatus, TxType} from 'types/transaction';
-import { getSymbol } from 'types/wallet';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Transaction, TxActionType, TxStatus, TxType } from 'types/transaction';
+import { Currency, getSymbol } from 'types/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {WalletInfo} from 'components/WalletInfo';
-import {WalletLogo} from 'components/WalletLogo';
+import { WalletInfo } from 'components/WalletInfo';
+import { WalletLogo } from 'components/WalletLogo';
 import StringUtils from 'utils/string';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Clipboard from '@react-native-community/clipboard';
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 import { Profile, User } from 'types/profile';
 import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
 import { Account } from 'types/account';
 import UsersStore from 'storage/Users';
+import { ConfirmTransaction } from 'components/ConfirmTransaction';
 
 /**
  * Screen with transaction details

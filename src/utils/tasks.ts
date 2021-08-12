@@ -15,6 +15,7 @@ import { Dispatch, Store } from 'redux';
 import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
 import Storage from 'storage/Store';
+import { Message, UndeliveredMessagesInfo } from 'types/message';
 
 /**
  * @namespace
@@ -133,7 +134,7 @@ namespace Task {
 
       await checkPendingTxs(store, dispatch);
       await sync(store, dispatch);
-    }, 3 * sec);
+    }, sec);
 
     updateUsersList(store, dispatch);
     BackgroundTimer.setInterval(async () => {
@@ -251,12 +252,51 @@ namespace Task {
       );
     }
 
+    await updateMessages(dispatch);
     if (!states.global.authInfo.isSynced) {
       dispatch(GlobalStore.actions.setSynced());
       console.log('set synced');
     }
 
     await dispatch(GlobalStore.actions.hideSync());
+  }
+
+  async function updateMessages(
+    dispatch: Dispatch<any>,
+  ) {
+    const messagesInfo = await backend.getUnreadMessages();
+    if (messagesInfo == null) {
+      return;
+    }
+
+    if (messagesInfo.messages.length === 0) {
+      return;
+    }
+    for (let [key, user] of Object.entries(messagesInfo.users)) { //TODO; update many
+      dispatch(UsersStore.actions.setUser({
+        isAddressOnly: false,
+        title: user.name === '' ? user.username : user.name,
+        value: user,
+      }));
+    }
+
+    const readMsg = [];
+    const payload: Array<{
+      chatId: string,
+      msg: Message,
+    }> = [];
+    for (let message of messagesInfo.messages) {
+      console.log('message getted: ' + Date.now());
+      payload.push({
+        chatId: message.sender,
+        msg: message,
+      });
+      readMsg.push(message.id);
+    }
+
+    await backend.setRead(readMsg);
+
+    dispatch(ChatsStore.actions.addMessages(payload));
   }
 
   export async function checkPendingTxs(

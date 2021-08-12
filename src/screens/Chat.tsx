@@ -14,7 +14,6 @@ import { PaymentMsg } from 'components/PaymentMsg';
 import { toCurrency } from 'types/wallet';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { useDispatch, useSelector } from 'react-redux';
-import websocket from 'utils/websocket';
 import UsersStore from 'storage/Users';
 
 /**
@@ -35,12 +34,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const [notificationCount] = useState(chatInfo.notificationCount);
   const [messages, setMessages] = useState<Array<Message>>([]);
+  const [messagesBBB, setMessagesBBB] = useState<Array<Message>>([]);
 
   const onPressChatBtn = async (msgId: string, btn: Button) => {
     const msg = {
       id: 'answer-' + randomAsHex(32),
       value: btn.value,
-      action: null,
+      action: btn.action,
       args: btn.arguments,
       rows: [],
       timestamp: Date.now(),
@@ -48,15 +48,20 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       receiver: chatInfo.id,
       hideBtn: true,
     };
-    await websocket.getWsApi().sendMsg({
+    const isOk = await backend.sendMsg({
       version: 1,
       value: btn.value,
+      action: btn.action,
       receiver: chatInfo.id,
       args: btn.arguments,
     });
+    if (isOk) {
+      return;
+    }
+
     dispatch(ChatsStore.actions.hideBtns({
       chatId: chatInfo.id,
-      msgId: msg.id,
+      msgId: msgId,
     }));
     dispatch(ChatsStore.actions.addMessages([{
       chatId: chatInfo.id,
@@ -97,6 +102,14 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         marginRight: 20,
       },
     });
+  }, []);
+
+  useEffect(() => {
+    setMessagesBBB(
+      Object.keys(chatsState.chats[chatInfo.id].messages)
+        .map((key) => chatsState.chats[chatInfo.id].messages[key])
+        .sort((a, b) => b.timestamp - a.timestamp)
+    );
   }, []);
 
   useEffect(() => {
@@ -186,25 +199,25 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     if (notificationCount > messages.length) {
       index = messages.length;
     }
-  /*  flatListRef.current?.scrollToIndex({
+    flatListRef.current?.scrollToIndex({
       index: index - 1,
       viewPosition: 0.7,
       animated: true,
     });
-
-    //TODO:
-   */
   };
 
   return (
     <View style={styles.chat} onLayout={() => onLayout()}>
       {<FlatList
         style={[{scaleY: -1 }, styles.messages]}
+        getItemLayout={ (data, index) => (
+          { length: 50, offset: 50 * index, index }
+        )}
         ref={flatListRef}
         scrollToOverflowEnabled={false}
         windowSize={5}
-        data={messages}
-        extraData={chatsState.chats[chatInfo.id].messages}
+        data={messagesBBB}
+        extraData={messages}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         ListHeaderComponent={<View style={{marginBottom: user.isAddressOnly || !(user.value as Profile).isChatBot ? 80 : 50}}  />}

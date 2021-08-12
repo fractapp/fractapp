@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image, Button} from 'react-native';
 import { Currency, getSymbol } from 'types/wallet';
 import { getNameTxAction, TxActionType } from 'types/transaction';
 import { useRef } from 'react';
@@ -11,6 +11,7 @@ import { BlueButton } from './BlueButton';
 import { Profile } from 'types/profile';
 import { Account } from 'types/account';
 import MathUtils from 'utils/math';
+import { WhiteButton } from 'components/WhiteButton';
 /**
  * Popup dialog component with 1 button
  * @category Components
@@ -123,12 +124,10 @@ export const ConfirmTransaction = ({
           </View>
           <View style={styles.buttonsBlock}>
             <View style={styles.buttonCancelBlock}>
-              <TouchableOpacity
-                style={styles.buttonCancel}
-                disabled={false}
-                onPress={onCancel}>
-                <Text style={styles.buttonCancelText}>Cancel</Text>
-              </TouchableOpacity>
+              <WhiteButton
+                text={'Cancel'} height={50}
+                onPress={onCancel}
+              />
             </View>
             <View style={styles.buttonConfirm}>
               <BlueButton

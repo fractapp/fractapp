@@ -14,6 +14,7 @@ import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import { FeeInfo, ServerInfo } from 'types/serverInfo';
 import math from 'utils/math';
+import { MessageRq, UndeliveredMessagesInfo } from 'types/message';
 
 /**
  * @namespace
@@ -45,50 +46,50 @@ namespace BackendApi {
   }
 
   export async function setToken(token: string): Promise<boolean> {
-  /*  const accounts = await DB.getAccounts();
-    const seed = await DB.getSeed();
+    /*  const accounts = await DB.getAccounts();
+      const seed = await DB.getSeed();
 
-    if (accounts == null || seed == null) {
-      return false;
-    }
-
-    let key = new Keyring({type: 'sr25519'}).addFromUri(seed);
-    let ok = true;
-    for (let account of accounts) {
-      const accountInfo = (await DB.getAccountInfo(account))!;
-
-      const time = Math.round(new Date().getTime() / 1000);
-      const msg = signTokenMsg + token + time;
-      let network = Network.Polkadot;
-      switch (accountInfo.currency) {
-        case Currency.DOT:
-          network = Network.Polkadot;
-          break;
-        case Currency.KSM:
-          network = Network.Kusama;
-          break;
+      if (accounts == null || seed == null) {
+        return false;
       }
 
-      const response = await fetch(`${apiUrl}/notification/subscribe`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          pubKey: accountInfo.pubKey,
-          address: accountInfo.address,
-          network: network,
-          sign: u8aToHex(key.sign(stringToU8a(msg))),
-          token: token,
-          timestamp: time,
-        }),
-      });
+      let key = new Keyring({type: 'sr25519'}).addFromUri(seed);
+      let ok = true;
+      for (let account of accounts) {
+        const accountInfo = (await DB.getAccountInfo(account))!;
 
-      if (!response.ok) {
-        ok = response.ok;
-      }
-    }TODO: fix
-*/ //
+        const time = Math.round(new Date().getTime() / 1000);
+        const msg = signTokenMsg + token + time;
+        let network = Network.Polkadot;
+        switch (accountInfo.currency) {
+          case Currency.DOT:
+            network = Network.Polkadot;
+            break;
+          case Currency.KSM:
+            network = Network.Kusama;
+            break;
+        }
+
+        const response = await fetch(`${apiUrl}/notification/subscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            pubKey: accountInfo.pubKey,
+            address: accountInfo.address,
+            network: network,
+            sign: u8aToHex(key.sign(stringToU8a(msg))),
+            token: token,
+            timestamp: time,
+          }),
+        });
+
+        if (!response.ok) {
+          ok = response.ok;
+        }
+      }TODO: fix
+  */ //
     return true;
   }
 
@@ -122,9 +123,9 @@ namespace BackendApi {
       return 400;
     }
 
-    let key = new Keyring({type: 'sr25519'}).addFromUri(seed);
+    let key = new Keyring({ type: 'sr25519' }).addFromUri(seed);
 
-    let authKey = new Keyring({type: 'sr25519'}).addFromUri(seed + '//auth');
+    let authKey = new Keyring({ type: 'sr25519' }).addFromUri(seed + '//auth');
 
     let accountsRq = {};
     const time = Math.round(new Date().getTime() / 1000);
@@ -153,7 +154,7 @@ namespace BackendApi {
     };
 
     const sign = createAuthPubKeyHeaderWithKeyAndTime(rq, authKey, time);
-    const tasks =  Promise.race([
+    const tasks = Promise.race([
       fetch(`${apiUrl}/auth/signIn`, {
         method: 'POST',
         headers: {
@@ -200,7 +201,7 @@ namespace BackendApi {
     }
   }
 
-  export async function calculateSubstrateFee(sender: string,receiver: string,value: string, currency: Currency): Promise<FeeInfo | null> {
+  export async function calculateSubstrateFee(sender: string, receiver: string, value: string, currency: Currency): Promise<FeeInfo | null> {
     let response = await fetch(
       `${apiUrl}/profile/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
       {
@@ -517,6 +518,51 @@ namespace BackendApi {
 
   export function getImgUrl(id: string, lastUpdate: number): string {
     return `${apiUrl}/profile/avatar/${id}` + '#' + lastUpdate;
+  }
+
+  export async function getUnreadMessages(): Promise<UndeliveredMessagesInfo | null> {
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/message/unread`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  }
+
+  export async function setRead(readMsgs: Array<string>): Promise<boolean> {
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/message/read`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+      body: JSON.stringify(readMsgs),
+    });
+
+    return response.ok;
+  }
+
+  export async function sendMsg(msg: MessageRq): Promise<boolean> {
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/message/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+      body: JSON.stringify(msg),
+    });
+
+    return response.ok;
   }
 }
 export default BackendApi;

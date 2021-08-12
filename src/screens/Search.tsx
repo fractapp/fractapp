@@ -247,11 +247,12 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
               <Image
                 source={require('assets/img/not-found-bot.png')}
                 style={{
-                  width: 150,
-                  height: 150,
+                  width: 200,
+                  height: 200,
                   alignSelf: 'center',
-                  marginRight: 20
+                  marginRight: 25,
                 }}
+                resizeMode="center"
               />
               <Text style={styles.noResultsText}>
                 {StringUtils.texts.NoResultsTitle}

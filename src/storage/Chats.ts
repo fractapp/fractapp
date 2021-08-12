@@ -130,6 +130,12 @@ namespace ChatsStore {
     }
 
     const chat = state.chats[chatId]!;
+
+    if (chat.messages[message.id]) {
+      console.log('message is exist');
+      return state;
+    }
+
     chat.messages[message.id] = message;
 
     const chatInfo = state.chatsInfo[chatId]!;

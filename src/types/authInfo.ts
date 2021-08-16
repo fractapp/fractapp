@@ -2,7 +2,7 @@
  * @category Models
  */
 export type AuthInfo = {
-  isSynced: boolean;
+  isFirstSync: boolean;
   hasWallet: boolean;
   hasPasscode: boolean;
   hasBiometry: boolean;

@@ -1,5 +1,5 @@
 import BackgroundTimer from 'react-native-background-timer';
-import DB from 'storage/DB';
+import DB  from 'storage/DB';
 import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
 import { Currency } from 'types/wallet';
@@ -16,6 +16,7 @@ import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
 import Storage from 'storage/Store';
 import { Message } from 'types/message';
+import { Profile, User } from 'types/profile';
 
 /**
  * @namespace
@@ -24,6 +25,7 @@ import { Message } from 'types/message';
 namespace Task {
   const sec = 1000;
   const min = 60 * sec;
+
 
   let tasksIds: Array<number> = [];
 
@@ -60,8 +62,14 @@ namespace Task {
   }
 
   export async function init(dispatch: Dispatch<any>) {
-    await initAccounts(dispatch);
+    const v = await DB.getVersion();
+    if (v == null || DB.NowDBVersion !== await DB.getVersion()) {
+      await clearDB();
+      const seed = await DB.getSeed();
+      await createAccount(seed!, dispatch);
+    }
 
+    await initAccounts(dispatch);
     const chatsState = await DB.getChatsState();
     chatsState.isInitialized = true;
     dispatch(ChatsStore.actions.set(chatsState));
@@ -111,6 +119,26 @@ namespace Task {
     console.log('init task end');
   }
 
+  export async function clearDB() {
+    console.log('reset data start');
+    await DB.deleteItem(DB.AsyncStorageKeys.authInfo);
+    await DB.deleteItem(DB.AsyncStorageKeys.serverInfo);
+    await DB.deleteItem(DB.AsyncStorageKeys.profile);
+    let accountsAddress = await DB.getAccounts();
+    if (accountsAddress != null) {
+      for (let i = 0; i < accountsAddress?.length; i++) {
+        await DB.deleteItem(DB.AsyncStorageKeys.accountInfo(accountsAddress[i]));
+      }
+    }
+    await DB.deleteItem(DB.AsyncStorageKeys.accounts);
+
+    await DB.deleteItem(DB.AsyncStorageKeys.chatsStorage);
+    await DB.deleteItem(DB.AsyncStorageKeys.contacts);
+    await DB.deleteItem(DB.AsyncStorageKeys.users);
+
+    console.log('reset data end');
+  }
+
   export async function createTasks(
     store: Store,
     dispatch: Dispatch<any>
@@ -141,7 +169,7 @@ namespace Task {
       const s: Storage.States = store.getState();
       await updateBalances(store, dispatch);
 
-      if (!s.global.authInfo.isSynced) {
+      if (!s.global.authInfo.isFirstSync) {
         return;
       }
 
@@ -183,20 +211,20 @@ namespace Task {
 
     if (p != null) {
       console.log('set tx with profile: ' + p.id);
-      dispatch(UsersStore.actions.setUser({
+      dispatch(UsersStore.actions.setUsers([{
         isAddressOnly: false,
         title: p.name === '' ? p.username : p.name,
         value: p,
-      }));
+      }]));
     } else {
-      dispatch(UsersStore.actions.setUser({
+      dispatch(UsersStore.actions.setUsers([{
         isAddressOnly: true,
         title: tx.address,
         value:  {
           address: tx.address,
           currency: tx.currency,
         },
-      }));
+      }])); //TODO: update many
     }
 
     dispatch(ChatsStore.actions.addTx({
@@ -268,14 +296,14 @@ namespace Task {
       await syncByAccount(
         states.global.profile.id,
         account,
-        states.global.authInfo.isSynced,
+        states.global.authInfo.isFirstSync,
         states,
         dispatch,
       );
     }
 
     await updateMessages(dispatch);
-    if (!states.global.authInfo.isSynced) {
+    if (!states.global.authInfo.isFirstSync) {
       dispatch(GlobalStore.actions.setSynced());
       console.log('set synced');
     }
@@ -294,13 +322,16 @@ namespace Task {
     if (messagesInfo.messages.length === 0) {
       return;
     }
-    for (let [key, user] of Object.entries(messagesInfo.users)) { //TODO; update many
-      dispatch(UsersStore.actions.setUser({
+
+    const users: Array<User> = [];
+    for (let [key, user] of Object.entries(messagesInfo.users)) {
+      users.push({
         isAddressOnly: false,
         title: user.name === '' ? user.username : user.name,
         value: user,
-      }));
+      });
     }
+    dispatch(UsersStore.actions.setUsers(users));
 
     const readMsg = [];
     const payload: Array<{
@@ -355,6 +386,7 @@ namespace Task {
 
     console.log('users update');
 
+    const users: Array<User> = [];
     for (let id of Object.keys(states.users.users)) {
       if (states.users.users[id].isAddressOnly) {
         continue;
@@ -368,12 +400,14 @@ namespace Task {
         continue;
       }
 
-      dispatch(UsersStore.actions.setUser({
+      users.push({
         isAddressOnly: false,
         title: user.name === '' ? user.username : user.name,
         value: user,
-      }));
+      });
     }
+
+    dispatch(UsersStore.actions.setUsers(users));
   }
 
   export async function updateBalances(

@@ -34,16 +34,18 @@ namespace UsersStore {
         DB.setContacts(state.contacts);
         return state;
       },
-      setUser(state: State, action: PayloadAction<User>): State {
+      setUsers(state: State, action: PayloadAction<Array<User>>): State {
         let id = '';
-        const u: User = action.payload;
-        if (u.isAddressOnly) {
-          id = (u.value as AddressOnly).address;
-        } else {
-          id = (u.value as Profile).id;
+        for (const u of action.payload) {
+          if (u.isAddressOnly) {
+            id = (u.value as AddressOnly).address;
+          } else {
+            id = (u.value as Profile).id;
+          }
+
+          state.users[id] = u;
         }
 
-        state.users[id] = u;
         DB.setUsers(state.users);
         return state;
       },

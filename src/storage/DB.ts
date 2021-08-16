@@ -18,6 +18,8 @@ import ServerInfoStore from 'storage/ServerInfo';
  * @category Storage
  */
 namespace DB {
+  export const NowDBVersion = 1;
+
   export const secureOption = {
     service: 'com.fractapp',
   };
@@ -30,6 +32,7 @@ namespace DB {
   };
 
   export const AsyncStorageKeys = {
+    version: 'version',
     profile: 'profile',
     authInfo: 'auth_info',
     serverInfo: 'server_info',
@@ -74,6 +77,20 @@ namespace DB {
     }
 
     return result.password;
+  }
+  export async function deleteItem(key: string) {
+    await AsyncStorage.removeItem(key);
+  }
+
+  export async function setVersion(version: number) {
+    await AsyncStorage.setItem(AsyncStorageKeys.version, String(version));
+  }
+  export async function getVersion(): Promise<number | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.version);
+    if (result == null) {
+      return null;
+    }
+    return Number(result);
   }
 
   export async function setAuthInfo(auth: AuthInfo) {
@@ -130,7 +147,7 @@ namespace DB {
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
       authInfo = {
-        isSynced: false,
+        isFirstSync: false,
         hasWallet: false,
         hasPasscode: false,
         hasBiometry: false,
@@ -152,7 +169,7 @@ namespace DB {
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
       authInfo = {
-        isSynced: false,
+        isFirstSync: false,
         hasWallet: false,
         hasPasscode: false,
         hasBiometry: false,
@@ -227,6 +244,8 @@ namespace DB {
     }
     await setAccounts(accounts);
     await setSecureItem(SecureStorageKeys.seed, seed);
+
+   // await DB.setVersion(DB.NowDBVersion); //TODO
   }
   export async function getSeed(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.seed);

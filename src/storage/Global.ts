@@ -32,7 +32,7 @@ namespace GlobalStore {
       lastUpdate: 0,
     },
     authInfo:  {
-      isSynced: false,
+      isFirstSync: false,
       hasWallet: false,
       hasPasscode: false,
       hasBiometry: false,
@@ -92,7 +92,7 @@ namespace GlobalStore {
         return state;
       },
       setSynced(state: State): State {
-        state.authInfo.isSynced = true;
+        state.authInfo.isFirstSync = true;
         DB.setAuthInfo(state.authInfo);
         return state;
       },

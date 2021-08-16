@@ -3,13 +3,10 @@ import { Dimensions, StatusBar, View } from 'react-native';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
 import AccountsStore from 'storage/Accounts';
-import backend from 'utils/api';
-import BackendApi from 'utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import ChatsStore from 'storage/Chats';
 import ServerInfoStore from 'storage/ServerInfo';
-import { Adaptors } from 'adaptors/adaptor';
 import { Store } from 'redux';
 import { Loader } from 'components/Loader';
 

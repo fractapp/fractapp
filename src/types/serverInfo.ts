@@ -11,12 +11,11 @@ export type Price = {
 };
 
 export type ServerInfo = {
-  substrateUrls: Array<SubstrateUrl>;
   prices: Array<Price>;
 };
 
 export type FeeInfo = {
-  fee: string,
+  fee: string;
 };
 
 export type SubstrateTxBase = {

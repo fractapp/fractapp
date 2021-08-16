@@ -196,7 +196,6 @@ export class SubstrateAdaptor implements IAdaptor {
       };
     }
 
-
     const balanceAfterBalance = balanceSender?.sub(value).sub(fee);
     if (
       balanceAfterBalance.cmp(this.minTransfer) < 0 &&

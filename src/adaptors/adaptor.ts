@@ -32,10 +32,9 @@ export interface IAdaptor {
 }
 
 export class Adaptors {
-  private static adaptors: Map<Network, IAdaptor> = new Map<
-    Network,
-    IAdaptor
-    >();
+  private static adaptors: Map<Network, IAdaptor> = new Map<Network,
+    IAdaptor>();
+
   public static init() {
     const polkadotAdaptor = new SubstrateAdaptor(Network.Polkadot);
     this.adaptors.set(Network.Polkadot, polkadotAdaptor);

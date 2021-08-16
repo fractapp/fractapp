@@ -31,7 +31,7 @@ namespace MathUtils {
     const d = new BN(10).pow(new BN(decimals));
     const ud = new BN(10).pow(new BN(USDDecimals));
     return roundUsd(
-      value.mul(ud).mul(new BN(price * ud.toNumber())).div(d.mul(ud)).toNumber() / ud.toNumber(), //TODO: add price cent
+      value.mul(ud).mul(new BN(price * ud.toNumber())).div(d.mul(ud)).toNumber() / ud.toNumber(),
     );
   }
 

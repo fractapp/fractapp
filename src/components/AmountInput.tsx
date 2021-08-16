@@ -58,7 +58,6 @@ export const AmountInput = ({
     isValid: true,
   });
 
-
   const calculateValues = (value: string, isForce: boolean) => {
     if (isFeeLoading && !isForce) {
       setRecall(true);

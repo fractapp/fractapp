@@ -109,7 +109,6 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
           () => dispatch(GlobalStore.actions.hideLoading()),
           500,
         );
-
       } catch (e) {
         console.log('Err: ' + e);
         dispatch(GlobalStore.actions.hideLoading());
@@ -150,50 +149,64 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
     }
 
     const pValue = new BN(planksValueString);
-    const hash = await api.send(receiver, pValue);
+    try {
+      const hash = await api.send(receiver, pValue);
 
-    const tx: Transaction = {
-      id: 'sent-' + hash,
-      hash: hash,
-      userId: user !== undefined ? user.id : receiver,
-      address: receiver,
-      currency: account.currency,
-      txType: TxType.Sent,
-      timestamp: Math.round(new Date().getTime()),
+      const tx: Transaction = {
+        id: 'sent-' + hash,
+        hash: hash,
+        userId: user !== undefined ? user.id : null,
+        address: receiver,
+        currency: account.currency,
+        txType: TxType.Sent,
+        timestamp: Math.round(new Date().getTime()),
 
-      value: math.convertFromPlanckToViewDecimals(
-        pValue,
-        api.decimals,
-        api.viewDecimals,
-      ),
-      planckValue: pValue.toString(),
-      usdValue: usdValue,
+        value: math.convertFromPlanckToViewDecimals(
+          pValue,
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckValue: pValue.toString(),
+        usdValue: usdValue,
 
-      fee: math.convertFromPlanckToViewDecimals(
-        new BN(planksFeeString),
-        api.decimals,
-        api.viewDecimals,
-      ),
-      planckFee: planksFeeString,
-      usdFee: usdFee,
-      status: TxStatus.Pending,
-    };
+        fee: math.convertFromPlanckToViewDecimals(
+          new BN(planksFeeString),
+          api.decimals,
+          api.viewDecimals,
+        ),
+        planckFee: planksFeeString,
+        usdFee: usdFee,
+        status: TxStatus.Pending,
+      };
 
-    dispatch(ChatsStore.actions.addPendingTx({
-      tx: tx,
-      owner: globalState.profile.id,
-    }));
+      dispatch(ChatsStore.actions.addPendingTx({
+        tx: tx,
+        owner: globalState.profile.id,
+      }));
 
-    dispatch(GlobalStore.actions.hideLoading());
-    navigation.reset({
-      index: 1,
-      actions: [
-        navigation.navigate('Home'),
-        navigation.navigate('Chat', {
-          chatInfo: chatsState.chatsInfo[tx.userId != null ? tx.userId : tx.address]!,
+      dispatch(GlobalStore.actions.hideLoading());
+      try {
+        navigation.reset({
+          index: 1,
+          actions: [
+            navigation.navigate('Home'),
+            navigation.navigate('Chat', {
+              chatInfo: chatsState.chatsInfo[tx.userId != null ? tx.userId : tx.address]!,
+            }),
+          ],
+        });
+      } catch (e) {
+      }
+    } catch (e) {
+      dispatch(GlobalStore.actions.hideLoading());
+      console.log('e: ' + e);
+      dispatch(
+        DialogStore.actions.showDialog({
+          title: StringUtils.texts.ServiceUnavailableTitle,
+          text: '',
         }),
-      ],
-    });
+      );
+    }
   };
 
   const renderReceiver = () => {

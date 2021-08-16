@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, View, Text, Keyboard, Alert } from 'react-native';
+import { StyleSheet, View, Text, Keyboard } from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
 import { Currency, getSymbol } from 'types/wallet';
-import BN from 'bn.js';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
 import MathUtils from 'utils/math';
 import AccountsStore from 'storage/Accounts';
-import { EnterAmountInfo } from 'types/inputs';
+import {EnterAmountInfo} from 'types/inputs';
 
 /**
  * Screen with the input of the amount to be sent
@@ -110,6 +109,7 @@ export const EnterAmount = ({
       },
     });
   }, [isLoading]);
+
   return (
     <View style={styles.chats}>
       <AmountInput
@@ -118,7 +118,7 @@ export const EnterAmount = ({
         receiver={receiver}
         price={price}
         onChangeValues={onChangeValues}
-        onSetLoading={(isLoading: boolean) => setLoading(isLoading) }
+        onSetLoading={(loading: boolean) => setLoading(loading)}
         defaultValue={defaultValue}
         defaultUsdMode={isUSDMode}
       />

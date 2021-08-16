@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import {
   ActivityIndicator,
   Alert,
+  AppState,
   Dimensions,
   Linking,
   StatusBar,
@@ -30,8 +31,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import DialogStore from 'storage/Dialog';
 import Init from './Init';
 import { Store } from 'redux';
+import tasks from 'utils/tasks';
+import { Adaptors } from 'adaptors/adaptor';
+import BackendApi from 'utils/api';
 
 const App = ({store}: {store: Store}) => {
+  const appState = useRef(AppState.currentState);
+
   const dispatch = useDispatch();
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
   const dialogState: DialogStore.State = useSelector((state: any) => state.dialog);
@@ -74,11 +80,29 @@ const App = ({store}: {store: Store}) => {
     }
   };
 
-  // start app
-  const openUrlEvent = (ev: any) => {
-    setUrl(ev?.url);
-    dispatch(GlobalStore.actions.showLoading());
+  const _handleAppStateChange = (nextAppState: any) => {
+    if (!globalState.isRegisteredInFractapp) {
+      return;
+    }
+
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      tasks.createTasks(store, dispatch);
+      console.log('App has come to the foreground!');
+    } else if (
+      appState.current === 'active' && (
+      nextAppState === 'inactive' || nextAppState === 'background')
+    ) {
+      tasks.cancelTasks();
+      console.log('App has come to the background!');
+    }
+
+    appState.current = nextAppState;
   };
+
+  // start app
   const openUrl = async (url: string | null) => {
     console.log('open url: ' + url);
     let chat: ChatInfo | null = null;
@@ -160,11 +184,15 @@ const App = ({store}: {store: Store}) => {
     changeNavigationBarColor('#FFFFFF', true, true);
     SplashScreen.hide();
 
-    if (chat != null) {
+    if (chat !== null) {
       navigate('Chat', {
         chatInfo: chat,
       });
     }
+  };
+  const openUrlEvent = (ev: any) => {
+    setUrl(ev?.url);
+    dispatch(GlobalStore.actions.showLoading());
   };
   const onLoaded = () => {
     Linking.getInitialURL().then((url) => {
@@ -172,7 +200,7 @@ const App = ({store}: {store: Store}) => {
     });
   };
 
-  // init
+  // init url
   useEffect(() => {
     Linking.addEventListener('url', openUrlEvent);
 
@@ -180,6 +208,13 @@ const App = ({store}: {store: Store}) => {
       Linking.removeEventListener('url', openUrlEvent);
     };
   }, []);
+  // open by url
+  useEffect(() => {
+    if (url == null) {
+      return;
+    }
+    openUrl(url);
+  }, [url]);
 
   // locking
   useEffect(() => {
@@ -198,17 +233,52 @@ const App = ({store}: {store: Store}) => {
       onLoaded();
     }
 
+    AppState.addEventListener('change', _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, [
     globalState.loadInfo.isAllStatesLoaded,
   ]);
 
-  // open by url
+  //start task
   useEffect(() => {
-    if (url == null) {
+    if (!globalState.loadInfo.isAllStatesLoaded || !globalState.authInfo.hasWallet) {
       return;
     }
-    openUrl(url);
-  }, [url]);
+
+    (async () => {
+      Adaptors.init();
+
+      tasks.initPrivateData();
+
+      tasks.createTasks(
+        store,
+        dispatch
+      );
+
+      console.log('globalState.isRegisteredInFractapp: ' + globalState.isRegisteredInFractapp);
+      if (!globalState.isRegisteredInFractapp) {
+        try {
+          const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
+          console.log('rsCode: ' + rsCode);
+          switch (rsCode) {
+            case 200:
+              dispatch(GlobalStore.actions.signInFractapp());
+              break;
+            case 401:
+              dispatch(GlobalStore.actions.signOutFractapp());
+              break;
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      dispatch(GlobalStore.actions.hideLoading());
+    })();
+  }, [globalState.loadInfo.isAllStatesLoaded, globalState.authInfo.hasWallet]);
 
   //updating profile
   useEffect(() => {
@@ -272,8 +342,8 @@ const App = ({store}: {store: Store}) => {
     }
   }, [isConnected, globalState.isInitialized]);
 
-  console.log('render: ' + Date.now());
-  console.log('lobalState.loadInfo.isAllStatesLoaded: ' + globalState.loadInfo.isAllStatesLoaded);
+ // console.log('render: ' + Date.now());
+ // console.log('lobalState.loadInfo.isAllStatesLoaded: ' + globalState.loadInfo.isAllStatesLoaded);
 
   if (!globalState.loadInfo.isAllStatesLoaded) {
     return (<Init store={store} />);

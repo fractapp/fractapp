@@ -1,10 +1,6 @@
 import {Network} from 'types/account';
 import BN from 'bn.js';
-
-// @ts-ignore
-import {DEFAULT_KUSAMA_URL, DEFAULT_POLKADOT_URL} from '@env';
 import {SubstrateAdaptor} from './substrate';
-import ServerInfoStore from 'storage/ServerInfo';
 
 export enum ErrorCode {
   None,
@@ -39,25 +35,12 @@ export class Adaptors {
   private static adaptors: Map<Network, IAdaptor> = new Map<
     Network,
     IAdaptor
-  >();
-  public static init(serverInfoStore: ServerInfoStore.State) {
-    let polkadotUrl = '';
-    if (serverInfoStore.urls[Network.Polkadot]) {
-      polkadotUrl = serverInfoStore.urls[Network.Polkadot]!;
-    } else {
-      polkadotUrl = DEFAULT_POLKADOT_URL;
-    }
-
-    const polkadotAdaptor = new SubstrateAdaptor(polkadotUrl, Network.Polkadot);
+    >();
+  public static init() {
+    const polkadotAdaptor = new SubstrateAdaptor(Network.Polkadot);
     this.adaptors.set(Network.Polkadot, polkadotAdaptor);
 
-    let kusamaUrl = '';
-    if (serverInfoStore.urls[Network.Kusama]) {
-      kusamaUrl = serverInfoStore.urls[Network.Kusama]!;
-    } else {
-      kusamaUrl = DEFAULT_KUSAMA_URL;
-    }
-    const kusamaAdaptor = new SubstrateAdaptor(kusamaUrl, Network.Kusama);
+    const kusamaAdaptor = new SubstrateAdaptor(Network.Kusama);
     this.adaptors.set(Network.Kusama, kusamaAdaptor);
   }
 

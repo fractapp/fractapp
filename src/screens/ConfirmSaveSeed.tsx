@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {SeedButton} from 'components/SeedButton';
-import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import AccountsStore from 'storage/Accounts';
 import tasks from 'utils/tasks';
 
 /**
@@ -21,6 +22,7 @@ export const ConfirmSaveSeed = ({
   route: any;
 }) => {
   const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const seed = route.params.seed;
   const isNewAccount = route.params.isNewAccount;
@@ -30,32 +32,27 @@ export const ConfirmSaveSeed = ({
   const [noSelectedPhrase, setNoSelectedPhrase] = useState<Array<string>>(
     randomSeed,
   );
-  const [isLoading, setLoading] = useState<boolean>(false);
 
   const startSaveSeed = async () => {
-    setLoading(true);
+    dispatch(GlobalStore.actions.showLoading());
   };
 
   useEffect(() => {
     (async () => {
-      if (!isLoading) {
+      if (!globalState.loadInfo.isLoadingShow) {
         return;
       }
 
       if (isNewAccount) {
-        await DB.createAccounts(seed.join(' '));
-        dispatch(GlobalStore.actions.initWallet());
-        dispatch(GlobalStore.actions.setAllStatesLoaded(false));
+        await tasks.createAccount(seed.join(' '), dispatch);
       }
-
-      setLoading(false);
 
       navigation.reset({
         index: 0,
         routes: [{name: 'Home'}],
       });
     })();
-  }, [isLoading]);
+  }, [globalState.loadInfo.isLoadingShow]);
 
   const selectPhrase = (
     index: number,
@@ -147,10 +144,6 @@ export const ConfirmSaveSeed = ({
       </View>
     );
   };
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <View

@@ -36,7 +36,7 @@ export const SelectWallet = ({
             navigation.navigate('Send', {
               isEditable: route.params?.isEditable ?? false,
               currency: account.currency,
-              chatInfo: route.params?.chatInfo,
+              chatId: route.params?.chatId,
             })
           }
         />,

@@ -39,7 +39,8 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const isEditable: boolean = route.params.isEditable;
   const currency: Currency = route.params.currency;
 
-  const chatInfo: ChatInfo = route.params?.chatInfo;
+  const chatId: string | undefined = route.params?.chatId;
+  const chatInfo: ChatInfo | undefined = chatId === undefined ? undefined : chatsState.chatsInfo[chatId];
   const isUSDMode: boolean = route.params?.isUSDMode ?? true;
 
   const value: string = route.params?.value ?? '';
@@ -65,7 +66,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
     dispatch(GlobalStore.actions.showLoading());
     (async () => {
       try {
-        if (isEditable) {
+        if (isEditable || chatInfo === undefined) {
           setReceiver('');
           dispatch(GlobalStore.actions.hideLoading());
           return;
@@ -96,7 +97,6 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
             }));
             setUser(p);
           }
-
         } else {
           const r = (user.value as AddressOnly).address;
           setReceiver(r);

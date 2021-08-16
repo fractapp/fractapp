@@ -60,9 +60,14 @@ export const WalletDetailsGraph = ({
         });
       }
     }
-    setColors(colorsArray);
-    setBalance(balanceArray);
-    setLegends(legendsArray);
+    if (balanceArray.length === 0) {
+      setColors(['#CCCCCC']);
+      setBalance([ 100 ]);
+    } else {
+      setColors(colorsArray);
+      setBalance(balanceArray);
+      setLegends(legendsArray);
+    }
   }, []);
 
   const getDataWithSections = () => {

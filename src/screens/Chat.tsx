@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WalletLogo } from 'components/WalletLogo';
-import { ChatInfo } from 'types/chatInfo';
 import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
@@ -26,15 +25,14 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
   const dispatch = useDispatch();
 
-  const chatInfo: ChatInfo = route.params.chatInfo;
+  const chatId: string = route.params.chatId;
 
-  const flatListRef = useRef<FlatList>(null);
-
-  const user: User = usersState.users[chatInfo.id]!;
+  const chatInfo = chatsState.chatsInfo[chatId]!;
+  const user: User = usersState.users[chatId]!;
 
   const [notificationCount] = useState(chatInfo.notificationCount);
   const [messages, setMessages] = useState<Array<Message>>([]);
-  const [messagesBBB, setMessagesBBB] = useState<Array<Message>>([]);
+  const [lengthOffset, setLengthOffset] = useState<number>(0);
 
   const onPressChatBtn = async (msgId: string, btn: Button) => {
     const msg = {
@@ -55,7 +53,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       receiver: chatInfo.id,
       args: btn.arguments,
     });
-    if (isOk) {
+    if (!isOk) {
       return;
     }
 
@@ -105,19 +103,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   }, []);
 
   useEffect(() => {
-    setMessagesBBB(
+    const newMessages =
       Object.keys(chatsState.chats[chatInfo.id].messages)
-        .map((key) => chatsState.chats[chatInfo.id].messages[key])
-        .sort((a, b) => b.timestamp - a.timestamp)
-    );
-  }, []);
+      .map((key) => chatsState.chats[chatInfo.id].messages[key])
+      .sort((a, b) => b.timestamp - a.timestamp);
 
-  useEffect(() => {
-    setMessages(
-      Object.keys(chatsState.chats[chatInfo.id].messages)
-        .map((key) => chatsState.chats[chatInfo.id].messages[key])
-        .sort((a, b) => b.timestamp - a.timestamp)
-    );
+    setMessages(newMessages);
+    setLengthOffset(messages.length === 0 ? 0 : lengthOffset + (messages.length - newMessages.length));
   }, [chatsState.chats[chatInfo.id].messages]);
 
   useEffect(() => {
@@ -126,16 +118,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     }
   }, [chatInfo.notificationCount]);
 
-  const onLayout = () => {
-    if (notificationCount > 0 && flatListRef && flatListRef.current) {
-      console.log('scroll');
-      scroll();
-    }
-  };
-
   const renderItem = ({item, index}: {item: Message; index: number}) => {
     let line;
-    if (notificationCount !== 0 && index === notificationCount - 1) {
+    if (notificationCount !== 0 && index === notificationCount - lengthOffset - 1) {
       line = (
         <View
           style={{
@@ -153,7 +138,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     }
 
     return (
-      <View style={{
+      <View
+        key={item.id}
+        style={{
         paddingLeft: 15,
         paddingRight: 15,
         scaleY: -1,
@@ -187,46 +174,25 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
                   status: tx.status,
                 }} />;
             })() :
-            (<MessageView key={index} message={item} isOwner={item.sender === globalState.profile!.id}
+            (<MessageView key={item.id} message={item} isOwner={item.sender === globalState.profile!.id}
                           onPressChatBtn={onPressChatBtn} />)
         }
       </View>
     );
   };
 
-  const scroll = () => {
-    let index = notificationCount;
-    if (notificationCount > messages.length) {
-      index = messages.length;
-    }
-    flatListRef.current?.scrollToIndex({
-      index: index - 1,
-      viewPosition: 0.7,
-      animated: true,
-    });
-  };
-
   return (
-    <View style={styles.chat} onLayout={() => onLayout()}>
+    <View style={styles.chat}>
       {<FlatList
         style={[{scaleY: -1 }, styles.messages]}
         getItemLayout={ (data, index) => (
           { length: 50, offset: 50 * index, index }
         )}
-        ref={flatListRef}
-        scrollToOverflowEnabled={false}
         windowSize={5}
-        data={messagesBBB}
-        extraData={messages}
+        data={messages}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: user.isAddressOnly || !(user.value as Profile).isChatBot ? 80 : 50}}  />}
-        onScrollToIndexFailed={() => {
-          const wait = new Promise((resolve) => setTimeout(resolve, 100));
-          wait.then(() => {
-            scroll();
-          });
-        }}
       />}
       {((user.isAddressOnly || !(user.value as Profile).isChatBot) &&
         <TouchableOpacity
@@ -234,13 +200,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           onPress={() =>
             !user.isAddressOnly
               ? navigation.navigate('SelectWallet', {
-                  chatInfo: chatInfo,
-                })
+                chatId: chatInfo.id,
+              })
               : navigation.navigate('Send', {
-                  isEditable: false,
-                  chatInfo: chatInfo,
-                  currency: (user.value as AddressOnly).currency,
-                })
+                isEditable: false,
+                chatId: chatInfo.id,
+                currency: (user.value as AddressOnly).currency,
+              })
           }>
           <Image
             source={require('assets/img/send.png')}

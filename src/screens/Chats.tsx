@@ -35,11 +35,12 @@ export const Chats = ({navigation}: {navigation: any}) => {
 
   const getChats = () => {
     const chats = Object.keys(chatsState.chatsInfo).map((key) => chatsState.chatsInfo[key])
+      .filter((value) => value.lastMsgId != null)
       .sort((a, b) => {
-        const msgOne = chatsState.chats[a.id]!.messages[a.lastMsgId]!;
-        const msgTwo = chatsState.chats[b.id]!.messages[b.lastMsgId]!;
+        const msgOne = chatsState.chats[a.id]!.messages[a.lastMsgId!]!;
+        const msgTwo = chatsState.chats[b.id]!.messages[b.lastMsgId!]!;
 
-        return msgOne.timestamp - msgTwo.timestamp;
+        return msgTwo.timestamp - msgOne.timestamp;
       });
 
     return chats;
@@ -51,11 +52,11 @@ export const Chats = ({navigation}: {navigation: any}) => {
     if (!usersState.users[item.id]) {
       return <View />; //TODO: get user from server
     }
-    const msg = chatsState.chats[item.id]!.messages[item.lastMsgId]!;
+    const msg = chatsState.chats[item.id]!.messages[item.lastMsgId!]!;
 
     return (
       <TouchableHighlight
-        onPress={() => navigation.navigate('Chat', {chatInfo: item})}
+        onPress={() => navigation.navigate('Chat', {chatId: item.id})}
         underlayColor="#f8f9fb">
         <ChatShortInfo
           notificationCount={item.notificationCount}

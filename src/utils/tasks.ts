@@ -15,7 +15,7 @@ import { Dispatch, Store } from 'redux';
 import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
 import Storage from 'storage/Store';
-import { Message, UndeliveredMessagesInfo } from 'types/message';
+import { Message } from 'types/message';
 
 /**
  * @namespace
@@ -25,7 +25,15 @@ namespace Task {
   const sec = 1000;
   const min = 60 * sec;
 
-  export async function init(dispatch: Dispatch<any>) {
+  let tasksIds: Array<number> = [];
+
+  export async function createAccount(seed: string, dispatch: Dispatch<any>) {
+    await DB.createAccounts(seed);
+    await initAccounts(dispatch);
+    dispatch(GlobalStore.actions.initWallet());
+  }
+
+  export async function initAccounts(dispatch: Dispatch<any>) {
     const accounts: {
       [id in Currency]: Account
     } = <{
@@ -49,6 +57,10 @@ namespace Task {
       accounts: accounts,
       isInitialized: true,
     }));
+  }
+
+  export async function init(dispatch: Dispatch<any>) {
+    await initAccounts(dispatch);
 
     const chatsState = await DB.getChatsState();
     chatsState.isInitialized = true;
@@ -72,7 +84,6 @@ namespace Task {
     if (serverInfo == null) {
       serverInfo = <ServerInfoStore.State>{
         prices: {},
-        urls: {},
         isInitialized: true,
       };
     }
@@ -100,11 +111,11 @@ namespace Task {
     console.log('init task end');
   }
 
-  export async function createTask(
+  export async function createTasks(
     store: Store,
-    states: Storage.States,
     dispatch: Dispatch<any>
   ) {
+    const states: Storage.States = store.getState();
     console.log('start create task');
 
     if (
@@ -118,34 +129,45 @@ namespace Task {
     tasks.push(updateBalances(store, dispatch));
     tasks.push(updateServerInfo(dispatch));
 
-    BackgroundTimer.setInterval(async () => {
+    const priceTask = BackgroundTimer.setInterval(async () => {
       await updateServerInfo(dispatch);
     }, min);
+    tasksIds.push(priceTask);
 
     checkPendingTxs(store, dispatch);
     sync(store, dispatch);
 
-    BackgroundTimer.setInterval(async () => {
+    const balanceTask = BackgroundTimer.setInterval(async () => {
+      const s: Storage.States = store.getState();
       await updateBalances(store, dispatch);
 
-      if (!states.global.authInfo.isSynced) {
+      if (!s.global.authInfo.isSynced) {
         return;
       }
 
       await checkPendingTxs(store, dispatch);
       await sync(store, dispatch);
     }, sec);
+    tasksIds.push(balanceTask);
 
     updateUsersList(store, dispatch);
-    BackgroundTimer.setInterval(async () => {
+    const usersTask = BackgroundTimer.setInterval(async () => {
       await updateUsersList(store, dispatch);
     }, 20 * min);
+    tasksIds.push(usersTask);
 
     for (let i = 0; i < tasks.length; i++) {
       await tasks[i];
     }
 
     console.log('end create task');
+  }
+
+  export async function cancelTasks() {
+    for (const id of tasksIds) {
+      BackgroundTimer.clearInterval(id);
+    }
+    tasksIds = [];
   }
 
   export async function setTx(
@@ -334,6 +356,9 @@ namespace Task {
     console.log('users update');
 
     for (let id of Object.keys(states.users.users)) {
+      if (states.users.users[id].isAddressOnly) {
+        continue;
+      }
       console.log('update user: ' + id);
       const user = await backend.getUserById(id);
       if (user === undefined) {
@@ -390,14 +415,6 @@ namespace Task {
     const info = await backend.getInfo();
     if (info == null) {
       return;
-    }
-
-    for (let url of info.substrateUrls) {
-      dispatch(ServerInfoStore.actions.setUrl({
-          network: url.network,
-          url: url.url,
-        })
-      );
     }
 
     for (let priceInfo of info.prices) {

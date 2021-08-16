@@ -12,7 +12,7 @@ import {Profile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
-import { FeeInfo, ServerInfo } from 'types/serverInfo';
+import { FeeInfo, ServerInfo, SubstrateTxBase } from 'types/serverInfo';
 import math from 'utils/math';
 import { MessageRq, UndeliveredMessagesInfo } from 'types/message';
 
@@ -155,7 +155,7 @@ namespace BackendApi {
 
     const sign = createAuthPubKeyHeaderWithKeyAndTime(rq, authKey, time);
     const tasks = Promise.race([
-      fetch(`${apiUrl}/auth/signIn`, {
+      fetch(`${apiUrl}/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -195,24 +195,6 @@ namespace BackendApi {
     });
 
     if (response.status === 200) {
-      return await response.json();
-    } else {
-      return null;
-    }
-  }
-
-  export async function calculateSubstrateFee(sender: string, receiver: string, value: string, currency: Currency): Promise<FeeInfo | null> {
-    let response = await fetch(
-      `${apiUrl}/profile/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-
-    if (response.ok) {
       return await response.json();
     } else {
       return null;
@@ -500,7 +482,7 @@ namespace BackendApi {
     currency: Currency,
   ): Promise<BN | null> {
     let rs = await fetch(
-      `${apiUrl}/profile/substrate/balance?address=${address}&currency=${currency}`,
+      `${apiUrl}/substrate/balance?address=${address}&currency=${currency}`,
       {
         method: 'GET',
         headers: {
@@ -563,6 +545,74 @@ namespace BackendApi {
     });
 
     return response.ok;
+  }
+
+  export async function calculateSubstrateFee(
+    sender: string,
+    receiver: string,
+    value: string,
+    currency: Currency,
+  ): Promise<FeeInfo | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function getSubstrateTxBase(
+    sender: string,
+    receiver: string,
+    value: string,
+    currency: Currency,
+  ): Promise<SubstrateTxBase | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/base?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function broadcastSubstrateTx(
+    tx: string,
+    currency: Currency,
+  ): Promise<string | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/broadcast?tx=${tx}&currency=${currency}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      const info = await response.json();
+      return info.hash;
+    } else {
+      return null;
+    }
   }
 }
 export default BackendApi;

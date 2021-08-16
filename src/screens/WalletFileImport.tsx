@@ -2,14 +2,16 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {PasswordInput} from 'components/PasswordInput';
-import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import backupUtil from 'utils/backup';
 import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import AccountsStore from 'storage/Accounts';
+import tasks from 'utils/tasks';
 
 /**
  * Wallet file import screen
@@ -17,14 +19,14 @@ import { useDispatch } from 'react-redux';
  */
 export const WalletFileImport = ({route}: {route: any}) => {
   const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const [password, setPassword] = useState<string>('');
-  const [isLoading, setLoading] = useState<boolean>(false);
 
   const file: FileBackup = route.params.file;
 
   const startImport = async () => {
-    setLoading(true);
+    dispatch(GlobalStore.actions.showLoading());
   };
 
   useEffect(() => {
@@ -41,7 +43,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!globalState.loadInfo.isLoadingShow) {
       return;
     }
 
@@ -57,19 +59,13 @@ export const WalletFileImport = ({route}: {route: any}) => {
             }
           ),
         );
-        setLoading(false);
+        dispatch(GlobalStore.actions.hideLoading());
         return;
       }
 
-      await DB.createAccounts(seed);
-      dispatch(GlobalStore.actions.initWallet());
-      dispatch(GlobalStore.actions.setAllStatesLoaded(false));
+      await tasks.createAccount(seed, dispatch);
     })();
-  }, [isLoading]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  }, [globalState.loadInfo.isLoadingShow]);
 
   return (
     <View

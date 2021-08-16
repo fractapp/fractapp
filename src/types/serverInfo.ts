@@ -19,3 +19,14 @@ export type FeeInfo = {
   fee: string,
 };
 
+export type SubstrateTxBase = {
+  blockNumber: string;
+  blockHash: string;
+  genesisHash: string;
+  metadata: string;
+
+  specVersion: number;
+  transactionVersion: number;
+
+  nonce: number;
+};

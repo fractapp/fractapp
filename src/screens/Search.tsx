@@ -19,7 +19,6 @@ import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import {Profile} from 'types/profile';
-import {ChatInfo} from 'types/chatInfo';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
@@ -168,19 +167,14 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
             value: item,
           }));
 
-          let chatInfo: ChatInfo;
           if (!chatsState.chatsInfo[item.id]) {
-            chatInfo = {
-              id: item.id,
-              notificationCount: 0,
-              lastMsgId: '',
-            };
-          } else {
-            chatInfo = chatsState.chatsInfo[item.id]!;
+            dispatch(ChatsStore.actions.addEmptyChat({
+              chatId: item.id,
+            }));
           }
 
           navigation.navigate('Chat', {
-            chatInfo: chatInfo,
+            chatId: item.id,
           });
         }}
         underlayColor="#f8f9fb">

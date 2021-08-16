@@ -4,5 +4,5 @@
 export type ChatInfo = {
   id: string;
   notificationCount: number;
-  lastMsgId: string
+  lastMsgId: string | null
 };

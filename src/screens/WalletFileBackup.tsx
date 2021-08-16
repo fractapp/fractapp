@@ -3,7 +3,6 @@ import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {TextInput} from 'components/TextInput';
 import {PasswordInput} from 'components/PasswordInput';
-import {Loader} from 'components/Loader';
 import DB from 'storage/DB';
 import backupUtils from 'utils/backup';
 import Dialog from 'storage/Dialog';
@@ -12,6 +11,8 @@ import StringUtils from 'utils/string';
 import passwordValidator from 'password-validator';
 import googleUtil from 'utils/google';
 import { useDispatch, useSelector } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import AccountsStore from 'storage/Accounts';
 import tasks from 'utils/tasks';
 
 const minPasswordLength = 8;
@@ -37,13 +38,12 @@ export const WalletFileBackup = ({
   );
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [isLoading, setLoading] = useState<boolean>(false);
 
   const seed: string = route.params.seed.join(' ');
   const type: backupUtils.BackupType = route.params.type;
 
   const startBackup = async () => {
-    setLoading(true);
+    dispatch(GlobalStore.actions.showLoading());
   };
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export const WalletFileBackup = ({
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!globalState.loadInfo.isLoadingShow) {
       return;
     }
 
@@ -73,7 +73,7 @@ export const WalletFileBackup = ({
       const files = await backupUtils.getWalletsFromGoogle();
 
       if (res.isError) {
-        setLoading(false);
+        dispatch(GlobalStore.actions.hideLoading());
         return;
       }
 
@@ -84,7 +84,7 @@ export const WalletFileBackup = ({
             text: StringUtils.texts.FileExistText,
           })
         );
-        setLoading(false);
+        dispatch(GlobalStore.actions.hideLoading());
         return;
       }
 
@@ -103,7 +103,7 @@ export const WalletFileBackup = ({
         }
       }
 
-      setLoading(false);
+      dispatch(GlobalStore.actions.hideLoading());
 
       if (!isSuccessSave) {
         dispatch(
@@ -116,9 +116,7 @@ export const WalletFileBackup = ({
       }
 
       if (!globalState.authInfo.hasWallet) {
-        await DB.createAccounts(seed);
-        dispatch(GlobalStore.actions.initWallet());
-        dispatch(GlobalStore.actions.setAllStatesLoaded(false));
+        await tasks.createAccount(seed, dispatch);
       }
 
       navigation.reset({
@@ -126,7 +124,7 @@ export const WalletFileBackup = ({
         routes: [{name: 'Home'}],
       });
     })();
-  }, [isLoading]);
+  }, [globalState.loadInfo.isLoadingShow]);
 
   const renderButtonOrError = () => {
     if (password.length < minPasswordLength && password !== '') {
@@ -159,10 +157,6 @@ export const WalletFileBackup = ({
       </View>
     );
   };
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <View

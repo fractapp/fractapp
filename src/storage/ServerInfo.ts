@@ -1,5 +1,4 @@
 import {Currency} from 'types/wallet';
-import { Network } from 'types/account';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import DB from 'storage/DB';
 
@@ -12,14 +11,10 @@ namespace ServerInfoStore {
     prices: {
       [id in Currency]: number
     },
-    urls: {
-      [id in Network]: string
-    },
     isInitialized: boolean
   }
   export const initialState = (): State => <State>({
     prices: {},
-    urls: {},
     isInitialized: false,
   });
 
@@ -35,14 +30,6 @@ namespace ServerInfoStore {
         price: number
       }>): State {
         state.prices[action.payload.currency] = action.payload.price;
-        DB.setServerInfo(state);
-        return state;
-      },
-      setUrl(state: State, action: PayloadAction<{
-        network: Network,
-        url: string
-      }>): State {
-        state.urls[action.payload.network] = action.payload.url;
         DB.setServerInfo(state);
         return state;
       },

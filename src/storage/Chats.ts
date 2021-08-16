@@ -64,7 +64,7 @@ namespace ChatsStore {
     isInitialized: false,
   });
 
-  const addTx = (state: State, owner: string, tx: Transaction): State => {
+  const addTx = (state: State, owner: string, tx: Transaction, isNotify: boolean): State => {
     let chatId = tx.address;
     if (tx.userId !== null) {
       chatId = tx.userId;
@@ -107,19 +107,19 @@ namespace ChatsStore {
       sender: tx.txType === TxType.Sent ? owner : chatId,
       receiver: tx.txType === TxType.Sent ? chatId : owner,
       hideBtn: false,
-    });
+    }, isNotify);
     return state;
   };
 
-  const addMessage = (state: State, chatId: string, message: Message): State => {
+  const addMessage = (state: State, chatId: string, message: Message, isNotify: boolean): State => {
+    let isNew = false;
     if (!state.chatsInfo[chatId]) {
-      const newChatInfo: ChatInfo = {
+      isNew = true;
+      state.chatsInfo[chatId] = {
         id: chatId,
-        notificationCount: 1,
+        notificationCount: 0,
         lastMsgId: message.id,
       };
-      state.totalNotifications++;
-      state.chatsInfo[newChatInfo.id] = newChatInfo;
     }
 
     if (!state.chats[chatId]) {
@@ -130,7 +130,6 @@ namespace ChatsStore {
     }
 
     const chat = state.chats[chatId]!;
-
     if (chat.messages[message.id]) {
       console.log('message is exist');
       return state;
@@ -139,12 +138,17 @@ namespace ChatsStore {
     chat.messages[message.id] = message;
 
     const chatInfo = state.chatsInfo[chatId]!;
-    if (message.timestamp >
-      chat.messages[chatInfo.lastMsgId]!.timestamp
+    if (
+      chatInfo.lastMsgId == null ||
+      message.timestamp > chat.messages[chatInfo.lastMsgId]!.timestamp
+      || isNew
     ) {
       chatInfo.lastMsgId = message.id;
-      chatInfo.notificationCount++;
-      state.totalNotifications++;
+
+      if (isNotify) {
+        chatInfo.notificationCount++;
+        state.totalNotifications++;
+      }
     }
 
     return state;
@@ -165,6 +169,23 @@ namespace ChatsStore {
         DB.setChatsState(state);
         return state;
       },
+      addEmptyChat(state: State, action: PayloadAction<{
+        chatId: string
+      }>): State {
+        const chatId = action.payload.chatId;
+        state.chats[chatId] = {
+          infoById: {},
+          messages: {},
+        };
+        state.chatsInfo[chatId] = {
+          id: chatId,
+          notificationCount: 0,
+          lastMsgId: null,
+        };
+
+        DB.setChatsState(state);
+        return state;
+      },
       addMessages(state: State, action: PayloadAction<Array<{
         chatId: string,
         msg: Message
@@ -173,7 +194,7 @@ namespace ChatsStore {
           const msgChatId: string = payload.chatId;
           const msg: Message = payload.msg;
 
-          state = addMessage(state, msgChatId, msg);
+          state = addMessage(state, msgChatId, msg, true);
         }
         DB.setChatsState(state);
         return state;
@@ -185,8 +206,10 @@ namespace ChatsStore {
       }>): State {
         const tx: Transaction = action.payload.tx;
         const owner: string = action.payload.owner;
+        const isNotify: boolean = action.payload.isNotify;
 
-        state = addTx(state, owner, tx);
+        console.log('isNotify: ' + isNotify);
+        state = addTx(state, owner, tx, isNotify);
         DB.setChatsState(state);
         return state;
       },
@@ -206,7 +229,7 @@ namespace ChatsStore {
           .idsOfTransactions.push(pendingTx.id);
         state.sentFromFractapp[pendingTx.id] = true;
 
-        state = addTx(state,owner, pendingTx);
+        state = addTx(state,owner, pendingTx, false);
         DB.setChatsState(state);
         return state;
       },

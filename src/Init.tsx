@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, View } from 'react-native';
+import { Dimensions, StatusBar, View } from 'react-native';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
 import AccountsStore from 'storage/Accounts';
@@ -11,6 +11,7 @@ import ChatsStore from 'storage/Chats';
 import ServerInfoStore from 'storage/ServerInfo';
 import { Adaptors } from 'adaptors/adaptor';
 import { Store } from 'redux';
+import { Loader } from 'components/Loader';
 
 const Init = ({store}: {store: Store}) => {
   const dispatch = useDispatch();
@@ -51,40 +52,7 @@ const Init = ({store}: {store: Store}) => {
         return;
       }
 
-      if (!globalState.authInfo.hasWallet) {
-        dispatch(GlobalStore.actions.setAllStatesLoaded(true));
-        return;
-      }
-
-      Adaptors.init(serverInfoState);
-
-      tasks.initPrivateData();
-
-      tasks.createTask(
-        store,
-        store.getState(),
-        dispatch
-      );
-
-      console.log('globalState.isRegisteredInFractapp: ' + globalState.isRegisteredInFractapp);
-      if (!globalState.isRegisteredInFractapp) {
-        try {
-          const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
-          switch (rsCode) {
-            case 200:
-              dispatch(GlobalStore.actions.signInFractapp());
-              break;
-            case 401:
-              dispatch(GlobalStore.actions.signOutFractapp());
-              break;
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
       dispatch(GlobalStore.actions.setAllStatesLoaded(true));
-      console.log('end ' + new Date().toTimeString());
     })();
   }, [
     globalState.isInitialized,
@@ -96,8 +64,6 @@ const Init = ({store}: {store: Store}) => {
     globalState.authInfo.hasWallet,
   ]);
 
-  console.log('render init: ' + Date.now());
-
   return (
     <View
       style={{
@@ -108,6 +74,19 @@ const Init = ({store}: {store: Store}) => {
         barStyle={'dark-content'}
         hidden={false}
       />
+      {globalState.loadInfo.isLoadingShow && (
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'stretch',
+            position: 'absolute',
+            backgroundColor: 'white',
+            height: Dimensions.get('screen').height,
+            width: '100%',
+          }}>
+          <Loader />
+        </View>
+      )}
     </View>
   );
 };

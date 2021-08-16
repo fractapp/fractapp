@@ -10,6 +10,7 @@ import StringUtils from 'utils/string';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { construct, createMetadata, getRegistry, methods, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
 import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
+import { SubstrateTxBase } from 'types/serverInfo';
 
 export class SubstrateAdaptor implements IAdaptor {
   public readonly viewDecimals: number;
@@ -18,10 +19,8 @@ export class SubstrateAdaptor implements IAdaptor {
 
   public readonly currency: Currency;
   private readonly minTransfer: BN;
-  private readonly url: string;
 
-  public constructor(url: string, network: Network) {
-    this.url = url;
+  public constructor(network: Network) {
     this.network = network;
 
     switch (this.network) {
@@ -43,12 +42,12 @@ export class SubstrateAdaptor implements IAdaptor {
   private sign(
     pair: KeyringPair,
     signingPayload: string,
-    options: OptionsWithMeta
+    options: OptionsWithMeta,
   ): string {
-    const { registry, metadataRpc } = options;
+    const {registry, metadataRpc} = options;
     registry.setMetadata(createMetadata(registry, metadataRpc));
 
-    const { signature } = registry
+    const {signature} = registry
       .createType('ExtrinsicPayload', signingPayload, {
         version: EXTRINSIC_VERSION,
       })
@@ -57,49 +56,26 @@ export class SubstrateAdaptor implements IAdaptor {
     return signature;
   }
 
-  private async callJsonRPC(
-    method: string,
-    params: any[] = []
-  ): Promise<any> {
-    return fetch(this.url, {
-      body: JSON.stringify({
-        id: 1,
-        jsonrpc: '2.0',
-        method,
-        params,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
-      .then((response) => response.json())
-      .then(({ error, result }) => {
-        if (error) {
-          throw new Error(
-            `${error.code} ${error.message}: ${JSON.stringify(error.data)}`
-          );
-        }
-
-        return result;
-      });
-  }
-
-  private async createTx(account: KeyringPair, value: BN, receiver: string): Promise<string> {
-    const { block } = await this.callJsonRPC('chain_getBlock');
-    const blockHash = await this.callJsonRPC('chain_getBlockHash');
-    const genesisHash = await this.callJsonRPC('chain_getBlockHash', [0]);
-    const metadataRpc = await this.callJsonRPC('state_getMetadata');
-    const { specVersion, transactionVersion, specName } = await this.callJsonRPC(
-      'state_getRuntimeVersion'
+  private async createTx(
+    account: KeyringPair,
+    value: BN,
+    receiver: string,
+  ): Promise<string> {
+    const txBase: SubstrateTxBase | null = await backend.getSubstrateTxBase(
+      account.address,
+      receiver,
+      value.toString(),
+      this.currency,
     );
-    const nonce = await this.callJsonRPC('system_accountNextIndex', [account.address]);
+    if (txBase == null) {
+      throw new Error('invalid tx base loading');
+    }
 
     const registry = getRegistry({
       chainName: this.network === Network.Polkadot ? 'Polkadot' : 'Kusama',
-      specName,
-      specVersion,
-      metadataRpc,
+      specName: this.network === Network.Polkadot ? 'polkadot' : 'kusama',
+      specVersion: txBase.specVersion,
+      metadataRpc: txBase.metadata,
     });
 
     const unsigned = methods.balances.transfer(
@@ -109,31 +85,35 @@ export class SubstrateAdaptor implements IAdaptor {
       },
       {
         address: account.address,
-        blockHash,
+        blockHash: txBase.blockHash,
         blockNumber: registry
-          .createType('BlockNumber', block.header.number)
+          .createType('BlockNumber', txBase.blockNumber)
           .toNumber(),
         eraPeriod: 10,
-        genesisHash,
-        metadataRpc,
-        nonce: nonce,
-        specVersion,
+        genesisHash: txBase.genesisHash,
+        metadataRpc: txBase.metadata,
+        nonce: txBase.nonce,
+        specVersion: txBase.specVersion,
         tip: 0,
-        transactionVersion,
+        transactionVersion: txBase.transactionVersion,
       },
       {
-        metadataRpc,
+        metadataRpc: txBase.metadata,
         registry,
-      }
+      },
     );
 
-    const signature = this.sign(account, construct.signingPayload(unsigned, { registry }), {
-      metadataRpc,
-      registry,
-    });
+    const signature = this.sign(
+      account,
+      construct.signingPayload(unsigned, {registry}),
+      {
+        metadataRpc: txBase.metadata,
+        registry,
+      },
+    );
 
     return construct.signedTx(unsigned, signature, {
-      metadataRpc,
+      metadataRpc: txBase.metadata,
       registry,
     });
   }
@@ -156,20 +136,32 @@ export class SubstrateAdaptor implements IAdaptor {
     return account;
   }
 
-
   public async balance(address: string): Promise<BN> {
     return (await backend.substrateBalance(address, this.currency))!;
   }
 
-  public async calculateFee(sender: string, value: BN, receiver: string): Promise<BN> {
-    const info = await backend.calculateSubstrateFee(sender,  receiver, value.toString(), this.currency);
+  public async calculateFee(
+    sender: string,
+    value: BN,
+    receiver: string,
+  ): Promise<BN> {
+    const info = await backend.calculateSubstrateFee(
+      sender,
+      receiver,
+      value.toString(),
+      this.currency,
+    );
     return new BN(info?.fee ?? 0);
   }
 
   public async send(receiver: string, value: BN): Promise<string> {
     const account = await this.getAccount();
     const hexTx = await this.createTx(account, value, receiver);
-    return await this.callJsonRPC('author_submitExtrinsic', [hexTx]);
+    const hash = await backend.broadcastSubstrateTx(hexTx, this.currency);
+    if (hash == null) {
+      throw new Error('invalid send tx');
+    }
+    return hash;
   }
 
   public async isValidTransfer(

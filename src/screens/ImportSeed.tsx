@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TextInput, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
-import {Loader} from 'components/Loader';
 import {mnemonicValidate} from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
 import DB from 'storage/DB';
 import StringUtils from 'utils/string';
 import { useDispatch } from 'react-redux';
+import AccountsStore from 'storage/Accounts';
 import tasks from 'utils/tasks';
 
 /**
@@ -17,11 +17,10 @@ export const ImportSeed = () => {
   const dispatch = useDispatch();
 
   const [seed, setSeed] = useState<string>('');
-  const [isLoading, setLoading] = useState<boolean>(false);
   const [isSaveSeed, setSaveSeed] = useState<boolean>(false);
 
   const startSaveSeed = async () => {
-    setLoading(true);
+    dispatch(GlobalStore.actions.showLoading());
     setSaveSeed(true);
   };
 
@@ -35,16 +34,14 @@ export const ImportSeed = () => {
         console.log(result),
       );
   }, []);
+
   useEffect(() => {
     if (!isSaveSeed) {
       return;
     }
 
     (async () => {
-      await DB.createAccounts(seed);
-      dispatch(GlobalStore.actions.initWallet());
-      dispatch(GlobalStore.actions.setAllStatesLoaded(false));
-      setLoading(false);
+      await tasks.createAccount(seed, dispatch);
     })();
   }, [isSaveSeed]);
 
@@ -71,10 +68,6 @@ export const ImportSeed = () => {
       </View>
     );
   };
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <View

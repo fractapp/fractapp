@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Transaction, TxActionType, TxStatus, TxType } from 'types/transaction';
-import { Currency, getSymbol } from 'types/wallet';
+import { Transaction, TxStatus, TxType } from 'types/transaction';
+import { getSymbol } from 'types/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { WalletInfo } from 'components/WalletInfo';
 import { WalletLogo } from 'components/WalletLogo';
@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
 import { Account } from 'types/account';
 import UsersStore from 'storage/Users';
-import { ConfirmTransaction } from 'components/ConfirmTransaction';
 
 /**
  * Screen with transaction details
@@ -212,7 +211,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statusText: {
-    fontSize: 18,
+    marginLeft: 3,
+    fontSize: 17,
     fontFamily: 'Roboto-Regular',
     color: '#888888',
   },

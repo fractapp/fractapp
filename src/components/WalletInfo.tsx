@@ -13,10 +13,14 @@ export const WalletInfo = ({
   account,
   price,
   onPress,
+  width = '95%',
+  paddingLeft = '5%',
 }: {
   account: Account;
   price: number | undefined,
   onPress?: () => void;
+  width?: string,
+  paddingLeft?: string,
 }) => {
   const symbol = getSymbol(account.currency);
   return (
@@ -25,7 +29,10 @@ export const WalletInfo = ({
         key={symbol}
         onPress={onPress}
         underlayColor="#f8f9fb">
-        <View style={styles.account}>
+        <View style={[styles.account, {
+          paddingLeft: paddingLeft,
+          width: width,
+        }]}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <WalletLogo currency={account.currency} size={50} />
             <View
@@ -58,8 +65,6 @@ export const WalletInfo = ({
 const styles = StyleSheet.create({
   account: {
     height: 50,
-    paddingLeft: '5%',
-    width: '95%',
     marginTop: 10,
     marginBottom: 10,
   },

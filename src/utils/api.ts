@@ -12,7 +12,7 @@ import {Profile} from 'types/profile';
 import {Transaction, TxStatus, TxType} from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
-import { FeeInfo, ServerInfo, SubstrateTxBase } from 'types/serverInfo';
+import { FeeInfo, ServerInfo, SubstrateBase, SubstrateTxBase } from 'types/serverInfo';
 import math from 'utils/math';
 import { MessageRq, UndeliveredMessagesInfo } from 'types/message';
 
@@ -46,51 +46,19 @@ namespace BackendApi {
   }
 
   export async function setToken(token: string): Promise<boolean> {
-    /*  const accounts = await DB.getAccounts();
-      const seed = await DB.getSeed();
+    const jwt = await DB.getJWT();
+    const response = await fetch(`${apiUrl}/notification/updateProfile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BEARER ' + jwt,
+      },
+      body: JSON.stringify({
+        token: token,
+      }),
+    });
 
-      if (accounts == null || seed == null) {
-        return false;
-      }
-
-      let key = new Keyring({type: 'sr25519'}).addFromUri(seed);
-      let ok = true;
-      for (let account of accounts) {
-        const accountInfo = (await DB.getAccountInfo(account))!;
-
-        const time = Math.round(new Date().getTime() / 1000);
-        const msg = signTokenMsg + token + time;
-        let network = Network.Polkadot;
-        switch (accountInfo.currency) {
-          case Currency.DOT:
-            network = Network.Polkadot;
-            break;
-          case Currency.KSM:
-            network = Network.Kusama;
-            break;
-        }
-
-        const response = await fetch(`${apiUrl}/notification/subscribe`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            pubKey: accountInfo.pubKey,
-            address: accountInfo.address,
-            network: network,
-            sign: u8aToHex(key.sign(stringToU8a(msg))),
-            token: token,
-            timestamp: time,
-          }),
-        });
-
-        if (!response.ok) {
-          ok = response.ok;
-        }
-      }TODO: fix
-  */ //
-    return true;
+    return response.status === 200;
   }
 
   export async function sendCode(
@@ -391,7 +359,7 @@ namespace BackendApi {
     currency: Currency,
   ): Promise<Array<Transaction>> {
     let transactions: Array<Transaction> = [];
-    const api = Adaptors.get(network);
+    const api = Adaptors.get(network)!;
 
     let rs = await fetch(
       `${apiUrl}/profile/transactions?address=${address}&currency=${currency}`,
@@ -533,7 +501,7 @@ namespace BackendApi {
     return response.ok;
   }
 
-  export async function sendMsg(msg: MessageRq): Promise<boolean> {
+  export async function sendMsg(msg: MessageRq): Promise<number | null> {
     const jwt = await DB.getJWT();
     const response = await fetch(`${apiUrl}/message/send`, {
       method: 'POST',
@@ -544,17 +512,39 @@ namespace BackendApi {
       body: JSON.stringify(msg),
     });
 
-    return response.ok;
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()).timestamp;
   }
 
   export async function calculateSubstrateFee(
-    sender: string,
-    receiver: string,
-    value: string,
-    currency: Currency,
+    tx: string,
+    network: Network,
   ): Promise<FeeInfo | null> {
     let response = await fetch(
-      `${apiUrl}/substrate/fee?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      `${apiUrl}/substrate/fee?tx=${tx}&network=${network}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
+  export async function getSubstrateBase(
+    network: Network,
+  ): Promise<SubstrateBase | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/base?network=${network}`,
       {
         method: 'GET',
         headers: {
@@ -572,12 +562,10 @@ namespace BackendApi {
 
   export async function getSubstrateTxBase(
     sender: string,
-    receiver: string,
-    value: string,
-    currency: Currency,
+    network: Network,
   ): Promise<SubstrateTxBase | null> {
     let response = await fetch(
-      `${apiUrl}/substrate/base?sender=${sender}&receiver=${receiver}&value=${value}&currency=${currency}`,
+      `${apiUrl}/substrate/txBase?sender=${sender}&network=${network}`,
       {
         method: 'GET',
         headers: {
@@ -595,10 +583,10 @@ namespace BackendApi {
 
   export async function broadcastSubstrateTx(
     tx: string,
-    currency: Currency,
+    network: Network,
   ): Promise<string | null> {
     let response = await fetch(
-      `${apiUrl}/substrate/broadcast?tx=${tx}&currency=${currency}`,
+      `${apiUrl}/substrate/broadcast?tx=${tx}&network=${network}`,
       {
         method: 'POST',
         headers: {

@@ -15,7 +15,8 @@ import { EnterAmountInfo } from 'types/inputs';
  */
 export const AmountInput = ({
   account,
-  receiver,
+  args,
+  isChatBotRequest,
   price,
   onChangeValues,
   onSetLoading,
@@ -24,7 +25,8 @@ export const AmountInput = ({
   width = '100%',
 }: {
   account: Account;
-  receiver: string;
+  args: Array<string>;
+  isChatBotRequest: boolean;
   price: number;
   onChangeValues: (
     newEnterAmount: EnterAmountInfo
@@ -34,7 +36,7 @@ export const AmountInput = ({
   defaultUsdMode: boolean;
   width?: string;
 }) => {
-  const api = Adaptors.get(account.network);
+  const api = Adaptors.get(account.network)!;
   const textInputRef = useRef<TextInput>(null);
 
   const [errorText, setErrorText] = useState<string>('');
@@ -57,6 +59,14 @@ export const AmountInput = ({
     isUSDMode: defaultUsdMode,
     isValid: true,
   });
+
+  const calculateFee = async (sender: string, value: BN): Promise<BN | undefined> => {
+    if (isChatBotRequest) {
+      return new BN(args[0]);
+    } else {
+      return await api.calculateTransferFee(account.address, value, args[0]);
+    }
+  };
 
   const calculateValues = (value: string, isForce: boolean) => {
     if (isFeeLoading && !isForce) {
@@ -112,7 +122,16 @@ export const AmountInput = ({
     }
 
     const planksValue = new BN(newEnterAmount.planksValue);
-    api.calculateFee(account.address, planksValue, receiver).then(async (fee) => {
+
+    calculateFee(account.address, planksValue).then(async (fee) => {
+      if (fee === undefined) {
+        const emptyValue = resetValues(false, 'Invalid connection. Please, try again.'); //TODO go to string
+        onChangeValues(emptyValue);
+        setEnterAmountInfo(emptyValue);
+        setErrorText('Invalid connection. Please, try again.');
+        setLoadingEnd(true);
+        return;
+      }
       newEnterAmount.planksFee = fee.toString();
       const validateInfo = await validateParams(newEnterAmount.value, planksValue, newEnterAmount.usdValue, newEnterAmount.isUSDMode, fee);
       if (!validateInfo.isValid) {
@@ -147,6 +166,13 @@ export const AmountInput = ({
   };
 
   useEffect(() => {
+    if (value === '') {
+      const emptyValue = resetValues(true, '');
+      setFeeLoading(false);
+      onChangeValues(emptyValue);
+      setEnterAmountInfo(emptyValue);
+      return;
+    }
     calculateValues(value, false);
   }, [value]);
   useEffect(() => {
@@ -214,17 +240,9 @@ export const AmountInput = ({
       };
     }
 
-    if (new BN(account.planks).cmp(planksValue.add(fee)) < 0) {
-      return {
-        isBeforeResetValid: false,
-        isValid: false,
-        err: StringUtils.texts.NotEnoughBalanceErr,
-      };
-    }
-
-    const transferValidation = await api.isValidTransfer(
+    const transferValidation = await api.isTxValid(
       account.address,
-      receiver,
+      isChatBotRequest ? null : args[0],
       planksValue,
       fee,
     );
@@ -244,9 +262,6 @@ export const AmountInput = ({
     };
   };
 
-  useEffect(() => {
-    textInputRef?.current?.focus();
-  }, [textInputRef]);
 
   return (
     <View style={{width: width, alignItems: 'center'}}>
@@ -257,6 +272,7 @@ export const AmountInput = ({
         }}>
         <Text style={styles.value}>{usdMode && '$'}</Text>
         <TextInput
+          onLayout={() => textInputRef?.current?.focus()}
           style={[
             styles.value,
             {
@@ -269,7 +285,6 @@ export const AmountInput = ({
             },
           ]}
           ref={textInputRef}
-          autoFocus={true}
           onChangeText={(text) => {
             setValue(text);
           }}
@@ -313,7 +328,16 @@ export const AmountInput = ({
           let v = new BN(account.planks);
           setUsdMode(false);
           setValue(math.convertFromPlanckToString(v, api.decimals));
-          const fee = await api.calculateFee(account.address, v, receiver);
+          const fee = await calculateFee(account.address, v);
+          if (fee === undefined) {
+            const emptyValue = resetValues(false, 'Invalid connection. Please, try again.'); //TODO go to string
+            onChangeValues(emptyValue);
+            setEnterAmountInfo(emptyValue);
+            setErrorText('Invalid connection. Please, try again.');
+            setLoadingEnd(true);
+            return;
+          }
+
           v = v.sub(fee);
           setValue(math.convertFromPlanckToString(v, api.decimals));
         }}>

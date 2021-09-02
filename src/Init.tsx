@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Dimensions, StatusBar, View } from 'react-native';
+import { Alert, Dimensions, StatusBar, View } from 'react-native';
 import tasks from 'utils/tasks';
 import GlobalStore from 'storage/Global';
 import AccountsStore from 'storage/Accounts';
@@ -9,6 +9,9 @@ import ChatsStore from 'storage/Chats';
 import ServerInfoStore from 'storage/ServerInfo';
 import { Store } from 'redux';
 import { Loader } from 'components/Loader';
+import { Adaptors } from 'adaptors/adaptor';
+import SplashScreen from 'react-native-splash-screen';
+import StringUtils from 'utils/string';
 
 const Init = ({store}: {store: Store}) => {
   const dispatch = useDispatch();
@@ -27,7 +30,12 @@ const Init = ({store}: {store: Store}) => {
   //  hideNavigationBar();
 
     (async () => {
-      await tasks.init(dispatch);
+      try {
+        await Adaptors.init();
+        await tasks.init(dispatch);
+      } catch (e) {
+        Alert.alert(StringUtils.texts.showMsg.invalidConnection);
+      }
     })();
   }, []);
 

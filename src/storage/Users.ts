@@ -9,9 +9,7 @@ import DB from 'storage/DB';
 namespace UsersStore {
   export type State = {
     contacts: Array<string>;
-    users: {
-      [id in string]: User
-    },
+    users: Record<string, User>,
     isInitialized: boolean,
   };
 

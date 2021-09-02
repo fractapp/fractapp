@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Loader } from 'components/Loader';
 
 /**
  * Chat style button

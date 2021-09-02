@@ -14,9 +14,7 @@ export type Profile = {
   username: string;
   avatarExt: string;
   lastUpdate: number;
-  addresses: {
-    [id in Currency]: string
-  };
+  addresses: Record<Currency, string> | null,
   isChatBot: boolean;
 };
 

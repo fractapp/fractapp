@@ -245,7 +245,7 @@ namespace DB {
     await setAccounts(accounts);
     await setSecureItem(SecureStorageKeys.seed, seed);
 
-   // await DB.setVersion(DB.NowDBVersion); //TODO
+   await DB.setVersion(DB.NowDBVersion); //TODO
   }
   export async function getSeed(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.seed);

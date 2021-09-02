@@ -35,7 +35,7 @@ export const Wallets = ({navigation}: {navigation: any}) => {
           onPress={() =>
             navigation.navigate('WalletDetails', {currency: account.currency})
           }
-        />,
+        />
       );
     }
 

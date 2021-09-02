@@ -1,277 +1,245 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image, Button} from 'react-native';
-import { Currency, getSymbol } from 'types/wallet';
-import { getNameTxAction, TxActionType } from 'types/transaction';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { getSymbol } from 'types/wallet';
 import { useRef } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {WalletInfo} from 'components/WalletInfo';
 import StringUtils from 'utils/string';
 import backend from 'utils/api';
 import { BlueButton } from './BlueButton';
-import { Profile } from 'types/profile';
-import { Account } from 'types/account';
 import MathUtils from 'utils/math';
 import { WhiteButton } from 'components/WhiteButton';
+import { ConfirmTxInfo, getNameTxAction } from 'types/inputs';
+import { useDispatch, useSelector } from 'react-redux';
+import DialogStore from 'storage/Dialog';
+import ServerInfoStore from 'storage/ServerInfo';
+import { Adaptors } from 'adaptors/adaptor';
+import BN from 'bn.js';
+
 /**
  * Popup dialog component with 1 button
  * @category Components
  */
 export const ConfirmTransaction = ({
-  action,
-  value,
-  currency,
-  profile,
-  price,
-  account,
-  fee,
-  warningText,
-  onCancel,
+  isShow,
+  confirmTxInfo,
   onConfirm,
 }: {
-  action: TxActionType;
-  value: number;
-  currency: Currency;
-  profile: Profile;
-  price: number;
-  account: Account;
-  fee: number;
-  warningText: string;
-  onCancel: () => void;
+  isShow: boolean,
+  confirmTxInfo: ConfirmTxInfo,
   onConfirm: () => void;
 }) => {
-  const refRBSheet = useRef();
+  const dispatch = useDispatch();
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
+  const price = serverInfoState.prices[confirmTxInfo.sender.currency] ?? 0;
+  const api = Adaptors.get(confirmTxInfo.sender.network);
+
+  const tokenValue =
+    api === undefined ?
+      0 :
+      MathUtils.convertFromPlanckToViewDecimals(new BN(confirmTxInfo.planksValue), api.decimals, api.viewDecimals);
+  const usdValue = api === undefined ?
+    0 :
+    MathUtils.roundUsd(tokenValue * price);
+  const tokenFee = api === undefined ?
+    0 :
+    MathUtils.convertFromPlanckToViewDecimals(new BN(confirmTxInfo.planksFee), api.decimals, api.viewDecimals);
+  const usdFee = api === undefined ?
+    0 :
+    MathUtils.roundUsd(tokenFee * price);
+
+  let popupRef = useRef<RBSheet>(null);
+
+  useEffect(() => {
+    console.log('show: ' + isShow);
+    if (isShow) {
+      popupRef.current!.open();
+    }
+  }, [popupRef.current, isShow]);
+
   return (
-    <View
-      style={{
-        flex:1,
-        justifyContent:'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
+    <RBSheet
+      ref={popupRef}
+      height={Dimensions.get('window').height * 0.9}
+      onClose={() => dispatch(DialogStore.actions.hideConfirmTxInfo())}
+      customStyles={{
+        container: {
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+        },
       }}
     >
-      <Button title="OPEN BOTTOM SHEET" onPress={() => refRBSheet.current?.open()} />
-      <RBSheet
-        ref={refRBSheet}
-        closeOnPressMask={true}
-        height={610}
-        customStyles={{
-          wrapper: {
-            backgroundColor: 'gray',
-          },
-          container: {
-            borderTopRightRadius: 20,
-            borderTopLeftRadius: 20,
-
-          },
-        }}
-      >
-        <View style={{flexDirection: 'column', flex: 1}}>
-          <View style={styles.user}>
-            <View>
-              {
-                <Image
-                  source={{
-                    uri: backend.getImgUrl(profile.id, profile.lastUpdate),
-                  }}
-                  width={50}
-                  height={50}
-                  style={styles.img}
-                />
-              }
-            </View>
-            <View style={styles.userTitle}>
-              <Text style={styles.name}>{profile.name /*TODO: empty name*/}</Text>
-              <Text style={styles.userName}>@{profile.username}</Text>
-            </View>
-          </View>
-          <View style={styles.infoBlock}>
-            <View style={styles.info}>
-              <View style={styles.type}>
-                  <Text style={styles.typeText}>{getNameTxAction(action)}</Text>
+      <View style={{ flex: 1, paddingLeft: 15, paddingRight: 15 }}>
+        <View style={{ height: Dimensions.get('window').height * 0.8 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 25,
+            }}>
+            <Image
+              source={{ uri: backend.getImgUrl(confirmTxInfo.creator.id, confirmTxInfo.creator.lastUpdate) }}
+              style={{
+                borderRadius: 55,
+                width: 55,
+                height: 55,
+              }}
+            />
+            <View style={{ flex: 1, flexDirection: 'column', marginLeft: 10 }}>
+              <View style={{ height: 23, flexDirection: 'row' }}>
+                <Text style={{
+                  fontSize: 15,
+                  fontFamily: 'Roboto-Regular',
+                  fontStyle: 'normal',
+                  fontWeight: 'normal',
+                  color: 'black',
+                  textAlign: 'left',
+                }}>
+                  {confirmTxInfo.creator.name.trim() === '' ? '@' + confirmTxInfo.creator.username : confirmTxInfo.creator.name}
+                </Text>
               </View>
-                <Text style={styles.valueUsd}>
-                  ${MathUtils.roundUsd(value * price)}
-                </Text>
-                <Text>
-                  ({value} {getSymbol(currency)})
-                </Text>
-              <View style={styles.warning}>
-                <View style={styles.warningImgBlock}>
-                  <Image
-                    source={require('assets/img/warning-icon.png')}
-                    width={50}
-                    height={50}
-                    style={styles.warningImg}
-                  />
+              {confirmTxInfo.creator.name.trim() !== '' ? (
+                <View style={{ height: 23, flexDirection: 'row' }}>
+                  <Text style={[{
+                    fontSize: 15,
+                    fontFamily: 'Roboto-Regular',
+                    fontStyle: 'normal',
+                    fontWeight: 'normal',
+                    color: '#888888',
+                    textAlign: 'left',
+                  }]}>
+                    {confirmTxInfo.creator.username}
+                  </Text>
                 </View>
-                <Text style={styles.warningText}>
-                  {warningText}
+              ) : (
+                <></>
+              )}
+            </View>
+          </View>
+          <View style={[styles.info, { marginTop: 30 }]}>
+            <View style={styles.type}>
+              <Text style={styles.typeText}>{getNameTxAction(confirmTxInfo.action)}</Text>
+            </View>
+            <Text style={styles.valueUsd}>
+              ${usdValue}
+            </Text>
+            <Text style={styles.tokenValue}>
+              ({tokenValue} {getSymbol(confirmTxInfo.sender.currency)})
+            </Text>
+            {(confirmTxInfo.warningText != null || confirmTxInfo.errorText != null) &&
+            (
+              <View style={[styles.warning, { borderColor: confirmTxInfo.errorText != null ? '#EA4335' : '#F39B34'  }]}>
+                <Text style={[styles.warningText, {color: confirmTxInfo.errorText != null ? '#EA4335' : '#F39B34' }]}>
+                  {confirmTxInfo.errorText != null ? confirmTxInfo.errorText : confirmTxInfo.warningText}
                 </Text>
               </View>
-            </View>
+            )
+            }
           </View>
-          <View style={styles.transaction}>
-            <Text style={styles.writeOff}>
-              {StringUtils.texts.WriteOffAccountTitle}
+          <View style={{ marginTop: 30 }}>
+            <Text style={styles.title}>{StringUtils.texts.WriteOffAccountTitle}</Text>
+            <WalletInfo width={'100%'} paddingLeft={'0%'} account={confirmTxInfo.sender} price={price} />
+          </View>
+          <View style={{ width: '100%', flexDirection: 'column', marginTop: 20 }}>
+            <Text style={[styles.title, { marginBottom: 5 }]}>
+              {StringUtils.texts.FeeTitle}
             </Text>
-            <WalletInfo account={account} price={price} />
-          </View>
-          <View style={styles.fee}>
-            <Text style={styles.feeTitle}>Fee</Text>
-            <Text>
-              {fee} {getSymbol(currency)} (${fee})
-            </Text>
-          </View>
-          <View style={styles.buttonsBlock}>
-            <View style={styles.buttonCancelBlock}>
-              <WhiteButton
-                text={'Cancel'} height={50}
-                onPress={onCancel}
-              />
-            </View>
-            <View style={styles.buttonConfirm}>
-              <BlueButton
-                text={'OK'} height={50}
-                onPress={onConfirm}
-              />
-            </View>
-
+            <Text style={styles.fee}>${usdFee}</Text>
           </View>
         </View>
-      </RBSheet>
-    </View>
+        <View style={[styles.buttonsBlock]}>
+          <WhiteButton
+            width={'40%'}
+            color={'#888888'}
+            text={'Cancel'}
+            height={50}
+            onPress={() => popupRef.current!.close()}
+          />
+          <View style={{ width: '40%', marginLeft: 40 }}>
+            <BlueButton
+              text={'OK'}
+              height={50}
+              onPress={onConfirm}
+            />
+          </View>
+        </View>
+      </View>
+    </RBSheet>
   );
 };
 
 const styles = StyleSheet.create({
-  user: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width:'100%',
-    marginTop: 20,
-    paddingLeft: 15,
-  },
-  name: {
-    fontWeight: 'bold',
-  },
-  userName: {
-    color: '#888888',
-  },
-  img: {
-    width: 50,
-    height: 50,
-    borderRadius: 45,
-  },
-  userTitle: {
-    marginLeft: 10,
-  },
-  infoBlock: {
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
-  info: {
-    width: '98%',
-    marginTop: 30,
-    paddingTop: 10,
-    paddingBottom: 20,
-    borderColor: '#888888',
-    borderWidth: 0.5,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf:'center',
-  },
-  type: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '28%',
-    paddingTop: 2,
-    paddingBottom: 2,
-    borderColor: '#2AB2E2',
-    borderWidth: 0.5,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  typeText: {
-    fontWeight: 'bold',
-    fontSize: 13,
-    color: '#2AB2E2',
-  },
-  valueUsd:{
-    marginTop: 10,
-    fontSize: 30,
-    color: '#888888',
-  },
-  warning: {
-    width: '90%',
-    marginTop: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderColor: '#F39B34',
-    borderWidth: 0.5,
-    borderRadius: 10,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  warningImgBlock: {
-    width: '100%',
-    alignItems: 'flex-start',
-    position: 'absolute',
-    alignSelf: 'center',
-    paddingLeft: 10,
-  },
-  warningImg: {
-    width: 15,
-    height: 15,
-  },
-  warningText:{
-    color: '#F39B34',
-    textAlign: 'center',
-    paddingLeft:15,
-  },
-  transaction: {
-    width: '100%',
-    marginTop: 30,
-  },
-  writeOff: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 10,
+  title: {
     alignSelf: 'flex-start',
     fontSize: 17,
     fontFamily: 'Roboto-Regular',
     color: '#888888',
   },
   fee: {
-    marginTop: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
+    alignSelf: 'flex-start',
+    fontSize: 17,
+    fontFamily: 'Roboto-Regular',
+    color: 'black',
   },
-  feeTitle: {
-    color: '#888888',
-  },
-  buttonsBlock: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '100%',
-    justifyContent: 'center',
-    marginTop: 30,
-  },
-  buttonCancelBlock: {
-    width: '40%',
+  info: {
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    padding: 20,
+    borderColor: '#888888',
     borderWidth: 0.5,
     borderRadius: 10,
-    borderColor: '#888888',
   },
-  buttonCancelText: {
+  type: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderColor: '#2AB2E2',
+    borderWidth: 0.5,
+    borderRadius: 30,
+  },
+  typeText: {
+    fontSize: 15,
+    fontFamily: 'Roboto-Medium',
+    fontStyle: 'normal',
+    color: '#2AB2E2',
+  },
+  valueUsd:{
+    marginTop: 15,
+    fontSize: 40,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
     color: '#888888',
   },
-  buttonConfirm: {
-    width: '40%',
-    marginLeft: 30,
+  tokenValue:{
+    fontSize: 20,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    color: 'black',
+  },
+  warning: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginTop: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderWidth: 0.5,
+    borderRadius: 10,
+  },
+  warningText:{
+    textAlign: 'center',
+    fontFamily: 'Roboto-Medium',
+    fontStyle: 'normal',
+  },
+  buttonsBlock: {
+    width: '100%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });

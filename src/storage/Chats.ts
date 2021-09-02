@@ -273,6 +273,17 @@ namespace ChatsStore {
         DB.setChatsState(state);
         return state;
       },
+      removeChat(state: State, action: PayloadAction<string>) {
+        const deleteChatId: string = action.payload;
+
+        state.totalNotifications -= state.chatsInfo[deleteChatId]!.notificationCount;
+        state.chatsInfo[deleteChatId].notificationCount = 0;
+        state.chatsInfo[deleteChatId].lastMsgId = null;
+        state.chats[deleteChatId] = { infoById: {}, messages: {} };
+
+        DB.setChatsState(state);
+        return state;
+      },
     },
   });
 

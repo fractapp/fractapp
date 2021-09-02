@@ -136,7 +136,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
             ? StringUtils.texts.WriteOffAccountTitle
             : StringUtils.texts.ReceivingAccountTitle}
         </Text>
-        <WalletInfo account={account} price={serverInfoState.prices[account.currency]} />
+          <WalletInfo account={account} price={serverInfoState.prices[account.currency]} />
       </View>
 
       <View style={{width: '100%', flexDirection: 'row', marginTop: 20}}>

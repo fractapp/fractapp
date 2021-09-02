@@ -136,7 +136,7 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
           )}
         {getRouterWithTitle(
           'ProfileInfo',
-          'Profile',//TODO: add title StringUtils.texts.titles,
+          '',
           ProfileInfo
         )}
         {getRouterWithTitle(

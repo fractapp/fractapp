@@ -1,28 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
 import backend from 'utils/api';
 import { AddressOnly, Profile, User } from 'types/profile';
 import UsersStore from 'storage/Users';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Clipboard from '@react-native-community/clipboard';
 import { showMessage } from 'react-native-flash-message';
 import StringUtils from 'utils/string';
 import { Currency } from 'types/wallet';
 import formatNameOrAddress = StringUtils.formatNameOrAddress;
+import ChatsStore from 'storage/Chats';
 
 /**
  * Screen with transaction details
  * @category Screens
  */
 export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) => {
+    const dispatch = useDispatch();
     const usersState: UsersStore.State = useSelector((state: any) => state.users);
+    const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
 
     const user: User = usersState.users[route.params.userId]!;
 
     const id = user.isAddressOnly ? (user.value as AddressOnly).address : (user.value as Profile).id;
+    const isChatBot = !user.isAddressOnly && (user.value as Profile).isChatBot;
     const name = user.isAddressOnly ? user.title : (user.value as Profile).name;
     const username = user.isAddressOnly ? '' : (user.value as Profile).username;
+
+    useEffect(() => {
+        navigation.setOptions({
+            title: name !== '' ? name : username,
+        });
+    }, []);
 
     const renderAddress = (address: string, currency: Currency) => {
         return (
@@ -70,32 +80,55 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
                     style={styles.btn}
                     onPress={() =>
                       !user.isAddressOnly
-                        ? navigation.navigate('SelectWallet', {
-                            chatId: id,
-                        })
+                        ? (
+                          isChatBot ?
+                            navigation.reset({
+                                index: 1,
+                                routes: [
+                                    { name: 'Home' },
+                                    { name: 'Chat', params: { chatId: id } },
+                                ],
+                            }) :
+                            navigation.navigate('SelectWallet', {
+                                chatId: id,
+                            })
+                        )
                         : navigation.navigate('Send', {
                             isEditable: false,
                             chatId: id,
                             currency: (user.value as AddressOnly).currency,
                         })
                     }>
-                      <Text style={styles.btnText}>Send</Text>
+                      <Text style={styles.btnText}>{isChatBot ? StringUtils.texts.profile.startBtn : StringUtils.texts.profile.sendBtn}</Text>
                   </TouchableOpacity>
               </View>
               <View style={{ alignItems: 'flex-end', width: '50%'  }}>
-                  <TouchableOpacity style={styles.btn}>
-                      <Text style={styles.btnText}>Mute</Text>
+                  <TouchableOpacity
+                    disabled={chatsState.chatsInfo[id].lastMsgId === null}
+                    style={chatsState.chatsInfo[id].lastMsgId === null ? styles.disabledBtn : styles.btn}
+                    onPress={() => {
+                        console.log('delete');
+                        dispatch(ChatsStore.actions.removeChat(id));
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }],
+                        });
+                    }}
+                  >
+                      <Text style={chatsState.chatsInfo[id].lastMsgId === null ? styles.disabledBtnText : styles.btnText}>
+                          {StringUtils.texts.profile.deleteBtn}
+                      </Text>
                   </TouchableOpacity>
               </View>
           </View>
           <View style={{ width: '100%', marginTop: 30 }}>
-              <Text style={styles.addressTitle}>Address</Text>
+              <Text style={styles.addressTitle}>{StringUtils.texts.profile.addressesTitle}</Text>
                   {
                       user.isAddressOnly
                         ?
                             renderAddress((user.value as AddressOnly).address, (user.value as AddressOnly).currency)
                         :
-                            Object.entries((user.value as Profile).addresses).map((pair) => renderAddress(pair[1], Number(pair[0])))
+                            Object.entries((user.value as Profile)!.addresses ?? []).map((pair) => renderAddress(pair[1], Number(pair[0])))
                   }
               </View>
       </View>
@@ -125,6 +158,22 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: '#2AB2E2',
+        fontSize: 16,
+        fontFamily: 'Roboto-Regular',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+    },
+    disabledBtn: {
+        borderColor: '#BFBDBD',
+        borderWidth: 1,
+        width: '95%',
+        height: 50,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    disabledBtnText: {
+        color: '#BFBDBD',
         fontSize: 16,
         fontFamily: 'Roboto-Regular',
         fontStyle: 'normal',

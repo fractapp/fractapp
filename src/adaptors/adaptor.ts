@@ -1,12 +1,19 @@
-import {Network} from 'types/account';
+import { Account, Network } from 'types/account';
 import BN from 'bn.js';
-import {SubstrateAdaptor} from './substrate';
+import { SubstrateAdaptor } from './substrate';
+import { Profile } from 'types/profile';
+import { ConfirmTxInfo } from 'types/inputs';
+import { SubstrateBase, SubstrateTxBase } from 'types/serverInfo';
+import backend from 'utils/api';
+import { getRegistry } from '@substrate/txwrapper-polkadot';
+import { Currency } from 'types/wallet';
 
 export enum ErrorCode {
   None,
   ServiceUnavailable,
   MinBalance,
   NeedFullBalance,
+  NotEnoughBalanceErr
 }
 export type TransferValidation = {
   isOk: boolean;
@@ -21,29 +28,61 @@ export interface IAdaptor {
   decimals: number;
 
   balance(address: string): Promise<BN>;
-  calculateFee(sender: string, value: BN, receiver: string): Promise<BN>;
-  send(receiver: string, value: BN): Promise<string>;
-  isValidTransfer(
+  calculateTransferFee(
     sender: string,
-    receiver: string,
+    value: BN,
+    receiver: string
+  ): Promise<BN | undefined>;
+  send(receiver: string, value: BN, sendFull: boolean): Promise<string>;
+  isTxValid(
+    sender: string,
+    receiver: string | null,
     value: BN,
     fee: BN,
   ): Promise<TransferValidation>;
+  parseTx(creator: Profile, sender: Account, unsignedTx: any): Promise<ConfirmTxInfo>
 }
 
 export class Adaptors {
   private static adaptors: Map<Network, IAdaptor> = new Map<Network,
     IAdaptor>();
 
-  public static init() {
-    const polkadotAdaptor = new SubstrateAdaptor(Network.Polkadot);
-    this.adaptors.set(Network.Polkadot, polkadotAdaptor);
+  public static init(): Promise<void> {
+    return (async () => {
+      const polkadotTxBasePromise = this.getSubstrateBase(Network.Polkadot);
+      const kusamaTxBasePromise = this.getSubstrateBase(Network.Kusama);
 
-    const kusamaAdaptor = new SubstrateAdaptor(Network.Kusama);
-    this.adaptors.set(Network.Kusama, kusamaAdaptor);
+      const polkadotAdaptor = new SubstrateAdaptor(Network.Polkadot, await polkadotTxBasePromise);
+      this.adaptors.set(Network.Polkadot, polkadotAdaptor);
+
+      const kusamaAdaptor = new SubstrateAdaptor(Network.Kusama, await kusamaTxBasePromise);
+      this.adaptors.set(Network.Kusama, kusamaAdaptor);
+    })();
   }
 
-  public static get(network: Network): IAdaptor {
+  private static async getSubstrateBase(network: Network): Promise<SubstrateBase> {
+    const substrateBase: SubstrateBase | null = await backend.getSubstrateBase(network);
+    if (substrateBase == null) {
+      throw new Error('invalid tx base loading');
+    }
+
+    const registry = getRegistry({
+      chainName: network === Network.Polkadot ? 'Polkadot' : 'Kusama',
+      specName: network == Network.Polkadot ? 'polkadot' : 'kusama',
+      specVersion: substrateBase.specVersion,
+      metadataRpc: substrateBase.metadata,
+    });
+
+    return {
+      genesisHash: substrateBase.genesisHash,
+      metadata: substrateBase.metadata,
+      specVersion: substrateBase.specVersion,
+      transactionVersion: substrateBase.transactionVersion,
+      registry: registry,
+    };
+  }
+
+  public static get(network: Network): IAdaptor | undefined {
     return this.adaptors.get(network)!;
   }
 }

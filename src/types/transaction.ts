@@ -9,22 +9,11 @@ export enum TxType {
   Sent,
   Received,
 }
-export enum TxActionType {
-  Donate = 0,
-}
 export enum TxStatus {
   Pending = 0,
   Success,
   Fail,
 }
-export const getNameTxAction = (action: TxActionType): string => {
-  switch (action) {
-    case TxActionType.Donate:
-      return 'Donate';
-    default:
-      throw new Error('invalid action');
-  }
-};
 
 /**
  * @category Models

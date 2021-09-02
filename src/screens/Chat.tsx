@@ -10,10 +10,14 @@ import { Button, Message } from 'types/message';
 import { MessageView } from 'components/MessageView';
 import { AddressOnly, Profile, User } from 'types/profile';
 import { PaymentMsg } from 'components/PaymentMsg';
-import { toCurrency } from 'types/wallet';
+import { Currency, getNetwork, toCurrency } from 'types/wallet';
 import { randomAsHex } from '@polkadot/util-crypto';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
+import DialogStore from 'storage/Dialog';
+import AccountsStore from 'storage/Accounts';
+import { Adaptors } from 'adaptors/adaptor';
+import { Network } from 'types/account';
 
 /**
  * Chat screen
@@ -22,7 +26,9 @@ import UsersStore from 'storage/Users';
 export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
+  const accountsState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+
   const dispatch = useDispatch();
 
   const chatId: string = route.params.chatId;
@@ -35,36 +41,71 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const [lengthOffset, setLengthOffset] = useState<number>(0);
 
   const onPressChatBtn = async (msgId: string, btn: Button) => {
-    const msg = {
-      id: 'answer-' + randomAsHex(32),
-      value: btn.value,
-      action: btn.action,
-      args: btn.arguments,
-      rows: [],
-      timestamp: Date.now(),
-      sender: globalState.profile!.id,
-      receiver: chatInfo.id,
-      hideBtn: true,
-    };
-    const isOk = await backend.sendMsg({
-      version: 1,
-      value: btn.value,
-      action: btn.action,
-      receiver: chatInfo.id,
-      args: btn.arguments,
-    });
-    if (!isOk) {
-      return;
-    }
+    switch (btn.action) {
+      case '/enterAmount':
+        if (btn.arguments.length < 3) {
+          return;
+        }
 
-    dispatch(ChatsStore.actions.hideBtns({
-      chatId: chatInfo.id,
-      msgId: msgId,
-    }));
-    dispatch(ChatsStore.actions.addMessages([{
-      chatId: chatInfo.id,
-      msg: msg,
-    }]));
+        const currencyEnterAmount: Currency = Number(btn.arguments[0]);
+
+        navigation.navigate('EnterAmount', {
+          chatId: chatId,
+          msgId: msgId,
+          isChatBotRequest: true,
+          isUSDMode: true,
+          value: '',
+          currency: currencyEnterAmount,
+          args: btn.arguments.slice(1, btn.arguments.length),
+        });
+        break;
+      case '/broadcast':
+        if (btn.arguments.length < 2) {
+          return;
+        }
+
+        const tx = JSON.parse(btn.arguments[0]);
+        const currency: Currency = Number(btn.arguments[1]);
+        const network: Network = getNetwork(currency);
+        const api = Adaptors.get(network)!;
+
+        dispatch(DialogStore.actions.showConfirmTxInfo(await api.parseTx((user.value as Profile), accountsState.accounts[currency], tx)));
+        break;
+      default:
+        let msg = {
+          id: 'answer-' + randomAsHex(32),
+          value: btn.value,
+          action: btn.action,
+          args: btn.arguments,
+          rows: [],
+          timestamp: Date.now(),
+          sender: globalState.profile!.id,
+          receiver: chatInfo.id,
+          hideBtn: true,
+        };
+        const timestamp = await backend.sendMsg({
+          version: 1,
+          value: btn.value,
+          action: btn.action,
+          receiver: chatInfo.id,
+          args: btn.arguments,
+        });
+        if (timestamp == null) {
+          return;
+        }
+
+        msg.timestamp = timestamp;
+
+        dispatch(ChatsStore.actions.hideBtns({
+          chatId: chatInfo.id,
+          msgId: msgId,
+        }));
+        dispatch(ChatsStore.actions.addMessages([{
+          chatId: chatInfo.id,
+          msg: msg,
+        }]));
+        break;
+    }
   };
 
   useEffect(() => {
@@ -214,6 +255,41 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           />
         </TouchableOpacity>
       )}
+      {(!user.isAddressOnly && (user.value as Profile).isChatBot) && messages.length == 0 &&
+        <TouchableOpacity
+          style={styles.sendBox}
+          onPress={() => {
+            const msg = {
+              id: 'answer-' + randomAsHex(32),
+              value: 'Start',
+              action: '/init',
+              args: [],
+              rows: [],
+              timestamp: Date.now(),
+              sender: globalState.profile!.id,
+              receiver: chatInfo.id,
+              hideBtn: true,
+            };
+            backend.sendMsg({
+              version: 1,
+              value: msg.value,
+              action: msg.action,
+              receiver: chatInfo.id,
+              args: msg.args,
+            }).then((timestamp) => {
+              if (timestamp != null) {
+                msg.timestamp = timestamp;
+                dispatch(ChatsStore.actions.addMessages([{
+                  chatId: chatInfo.id,
+                  msg: msg,
+                }]));
+              }
+            });
+          }}
+        >
+          <Text style={styles.startBtnText}>Start</Text>
+        </TouchableOpacity>
+      }
     </View>
   );
 };
@@ -260,6 +336,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '100%',
     backgroundColor: '#51caf5',
+    fontSize: 15,
+    fontFamily: 'Roboto-Regular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    color: 'white',
+  },
+  startBtnText: {
     fontSize: 15,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',

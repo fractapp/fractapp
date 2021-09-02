@@ -52,6 +52,13 @@
   "write_off_account_title": "Счет списания",
   "receiving_account_title": "Счет получения",
 
+  "profile": {
+    "start_btn": "Начать",
+    "send_btn": "Отправить",
+    "delete_btn": "Удалить",
+    "addresses_title": "Адреса"
+  },
+
   "settings": {
     "language": "Язык",
     "edit_profile": "Редактировать",

@@ -29,12 +29,14 @@ export const WhiteButton = ({
   onPress,
   img = Img.None,
   width = '100%',
+  color = 'black',
 }: {
   text: string;
   height: number;
+  onPress: () => void;
   img?: Img;
   width?: string;
-  onPress: () => void;
+  color?: string;
 }) => {
   let imageView: any;
   switch (img) {
@@ -42,7 +44,7 @@ export const WhiteButton = ({
       imageView = (
         <Image
           source={require('assets/img/google-drive.png')}
-          style={[styles.img, {width: 30, height: 30}]}
+          style={[styles.img, { width: 30, height: 30 }]}
         />
       );
       break;
@@ -80,7 +82,7 @@ export const WhiteButton = ({
       imageView = (
         <Image
           source={require('assets/img/phone.png')}
-          style={[styles.img, {width: 30, height: 30}]}
+          style={[styles.img, { width: 30, height: 30 }]}
         />
       );
       break;
@@ -88,7 +90,7 @@ export const WhiteButton = ({
       imageView = (
         <Image
           source={require('assets/img/mail.png')}
-          style={[styles.img, {width: 30, height: 30}]}
+          style={[styles.img, { width: 30, height: 30 }]}
         />
       );
       break;
@@ -96,7 +98,7 @@ export const WhiteButton = ({
       imageView = (
         <Image
           source={require('assets/img/twitter-round.png')}
-          style={[styles.img, {width: 30, height: 30}]}
+          style={[styles.img, { width: 30, height: 30 }]}
         />
       );
       break;
@@ -104,10 +106,11 @@ export const WhiteButton = ({
 
   return (
     <TouchableOpacity
-      style={[styles.button, {height: height, width: width}]}
-      onPress={onPress}>
+      style={[styles.button, { height: height, width: width, borderColor: color }]}
+      onPress={onPress}
+    >
       {imageView}
-      <Text style={styles.buttonText}>{text}</Text>
+      <Text style={[styles.buttonText, {color: color}]}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -122,10 +125,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    color: 'black',
   },
   button: {
-    borderColor: 'black',
     borderWidth: 0.5,
     backgroundColor: 'white',
     borderRadius: 10,

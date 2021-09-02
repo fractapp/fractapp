@@ -28,18 +28,18 @@ export const SelectWallet = ({
       }
 
       result.push(
-        <WalletInfo
-          key={account.address}
-          account={account}
-          price={price}
-          onPress={() =>
-            navigation.navigate('Send', {
-              isEditable: route.params?.isEditable ?? false,
-              currency: account.currency,
-              chatId: route.params?.chatId,
-            })
-          }
-        />,
+          <WalletInfo
+            key={account.address}
+            account={account}
+            price={price}
+            onPress={() =>
+              navigation.navigate('Send', {
+                isEditable: route.params?.isEditable ?? false,
+                currency: account.currency,
+                chatId: route.params?.chatId,
+              })
+            }
+          />
       );
     }
 

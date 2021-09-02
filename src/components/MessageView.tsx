@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Animated } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import stringUtils from 'utils/string';
 import { Button, Message, Row } from 'types/message';
 import { ChatButton } from 'components/ChatButton';
@@ -49,7 +49,7 @@ export const MessageView = (
         btns.push(<ChatButton
           key={message.id + '-' + rowIndex + '-' + i}
           isLast={i === btnCount - 1}
-          width={100 / btnCount + '%'}
+          width={(100 / btnCount) + '%'}
           text={btn.value}
           imageUrl={btn.imageUrl}
           onPress={() => onPressChatBtn(message.id, btn) }
@@ -71,6 +71,7 @@ export const MessageView = (
   };
 
   return (
+    <View>
     <View style={[styles.box, { alignSelf: isOwner ? 'flex-end' : 'flex-start'}]}>
       <View style={[styles.msgBox, {
       }]}>
@@ -94,7 +95,10 @@ export const MessageView = (
           </Text>
         </View>
       </View>
+    </View>
+    <View style={[{ maxWidth: '80%' }, { alignSelf: 'flex-end'}]}>
       {renderBtns()}
+    </View>
     </View>
   );
 };

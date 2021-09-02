@@ -51,7 +51,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const planksFeeString: string = route.params?.planksFee ?? 0;
 
   const account = accountState.accounts[currency];
-  const api = Adaptors.get(account.network);
+  const api = Adaptors.get(account.network)!;
 
   const [totalUsd, setTotalUsd] = useState<number>(0);
   const [totalCurrency, setTotalCurrency] = useState<BN>(new BN(0));
@@ -76,7 +76,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
         if (!user.isAddressOnly) {
           const p = await backend.getUserById((user.value as Profile).id);
 
-          if (p === undefined || p == null) {
+          if (p === undefined || p == null || p.addresses == null) {
             dispatch(GlobalStore.actions.hideLoading());
             dispatch(
               DialogStore.actions.showDialog(
@@ -90,11 +90,11 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
             return;
           } else {
             setReceiver(p.addresses[account.currency]!);
-            dispatch(UsersStore.actions.setUser({
+            dispatch(UsersStore.actions.setUsers([{
               isAddressOnly: false,
               value: p,
               title: user.title,
-            }));
+            }]));
             setUser(p);
           }
         } else {
@@ -150,7 +150,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
     const pValue = new BN(planksValueString);
     try {
-      const hash = await api.send(receiver, pValue);
+      const hash = await api.send(receiver, pValue, pValue.add(new BN(planksFeeString)).cmp(new BN(account.planks)) === 0);
 
       const tx: Transaction = {
         id: 'sent-' + hash,
@@ -278,10 +278,10 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
                 text: '',
               }))
               : navigation.navigate('EnterAmount', {
-                isUSDMode: isUSDMode,
-                value: value,
-                currency: account.currency,
-                receiver: receiver,
+                  isUSDMode: isUSDMode,
+                  value: value,
+                  currency: account.currency,
+                  args: [receiver],
               })
           }
           alternativeValue={alternativeValue}

@@ -61,7 +61,12 @@ namespace StringUtils {
     RestoreBtn: I18n.t('restore_btn'),
     WriteOffAccountTitle: I18n.t('write_off_account_title'),
     ReceivingAccountTitle: I18n.t('receiving_account_title'),
-
+    profile: {
+      startBtn: I18n.t('profile.start_btn'),
+      sendBtn: I18n.t('profile.send_btn'),
+      deleteBtn: I18n.t('profile.delete_btn'),
+      addressesTitle: I18n.t('profile.addresses_title'),
+    },
     settings: {
       editProfile: I18n.t('settings.edit_profile'),
       backup: I18n.t('settings.backup'),

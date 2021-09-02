@@ -16,7 +16,9 @@ import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
 import Storage from 'storage/Store';
 import { Message } from 'types/message';
-import { Profile, User } from 'types/profile';
+import { AddressOnly, Profile, User } from 'types/profile';
+// @ts-ignore
+import {MAIN_BOT_ID} from '@env';
 
 /**
  * @namespace
@@ -26,8 +28,7 @@ namespace Task {
   const sec = 1000;
   const min = 60 * sec;
 
-
-  let tasksIds: Array<number> = [];
+  const tasksIds: Array<number> = [];
 
   export async function createAccount(seed: string, dispatch: Dispatch<any>) {
     await DB.createAccounts(seed);
@@ -63,9 +64,10 @@ namespace Task {
 
   export async function init(dispatch: Dispatch<any>) {
     const v = await DB.getVersion();
-    if (v == null || DB.NowDBVersion !== await DB.getVersion()) {
+    const seed = await DB.getSeed();
+    if (seed != null && (v == null || DB.NowDBVersion !== await DB.getVersion())) {
       await clearDB();
-      const seed = await DB.getSeed();
+
       await createAccount(seed!, dispatch);
     }
 
@@ -167,14 +169,19 @@ namespace Task {
 
     const balanceTask = BackgroundTimer.setInterval(async () => {
       const s: Storage.States = store.getState();
-      await updateBalances(store, dispatch);
-
+      try {
+        await updateBalances(store, dispatch);
+      } catch (e) {}
       if (!s.global.authInfo.isFirstSync) {
         return;
       }
 
-      await checkPendingTxs(store, dispatch);
-      await sync(store, dispatch);
+      try {
+        await checkPendingTxs(store, dispatch);
+      } catch (e){}
+      try {
+        await sync(store, dispatch);
+      } catch (e){}
     }, sec);
     tasksIds.push(balanceTask);
 
@@ -191,11 +198,11 @@ namespace Task {
     console.log('end create task');
   }
 
-  export async function cancelTasks() {
+  export function cancelTasks() {
+    console.log('cancel tasks');
     for (const id of tasksIds) {
       BackgroundTimer.clearInterval(id);
     }
-    tasksIds = [];
   }
 
   export async function setTx(
@@ -224,7 +231,7 @@ namespace Task {
           address: tx.address,
           currency: tx.currency,
         },
-      }])); //TODO: update many
+      }])); //TODO: update many transactions by one iteration
     }
 
     dispatch(ChatsStore.actions.addTx({
@@ -292,31 +299,51 @@ namespace Task {
     dispatch: Dispatch<any>,
   ) {
     const states: Storage.States = store.getState();
-    for (let [key, account] of Object.entries(states.accounts.accounts)) {
-      await syncByAccount(
-        states.global.profile.id,
-        account,
-        states.global.authInfo.isFirstSync,
-        states,
-        dispatch,
-      );
-    }
+    try {
+      for (let [key, account] of Object.entries(states.accounts.accounts)) {
+        await syncByAccount(
+          states.global.profile.id,
+          account,
+          states.global.authInfo.isFirstSync,
+          states,
+          dispatch,
+        );
+      }
 
-    await updateMessages(dispatch);
-    if (!states.global.authInfo.isFirstSync) {
-      dispatch(GlobalStore.actions.setSynced());
-      console.log('set synced');
-    }
+      await updateMessages(store, dispatch);
+      if (!states.global.authInfo.isFirstSync) {
+        dispatch(GlobalStore.actions.setSynced());
+        console.log('set synced');
+      }
 
-    await dispatch(GlobalStore.actions.hideSync());
+      await dispatch(GlobalStore.actions.hideSync());
+    } catch (e) {
+      await updateMessages(store, dispatch);
+    }
   }
 
   async function updateMessages(
+    store: Store,
     dispatch: Dispatch<any>,
   ) {
+    const states: Storage.States = store.getState();
+    if (!states.global.isRegisteredInFractapp) {
+      return;
+    }
+
     const messagesInfo = await backend.getUnreadMessages();
     if (messagesInfo == null) {
       return;
+    }
+
+    if (!states.chats.chatsInfo[MAIN_BOT_ID] && !messagesInfo.users[MAIN_BOT_ID]) {
+      await backend.sendMsg({
+        version: 1,
+        value: '',
+        action: '/init',
+        receiver: MAIN_BOT_ID,
+        args: [],
+      });
     }
 
     if (messagesInfo.messages.length === 0) {
@@ -394,7 +421,21 @@ namespace Task {
       console.log('update user: ' + id);
       const user = await backend.getUserById(id);
       if (user === undefined) {
-        //TODO: dispatch(UsersStore.actions.deleteUser(id));
+        dispatch(UsersStore.actions.setUsers([
+          {
+            isAddressOnly: false,
+            title: 'Deleted',
+            value: {
+              id: id,
+              name: 'Deleted',
+              username: '@deleted',
+              avatarExt: '',
+              lastUpdate: 0,
+              addresses: null,
+              isChatBot: false,
+            },
+          },
+        ]));
         continue;
       } else if (user == null) {
         continue;
@@ -417,7 +458,7 @@ namespace Task {
     const states: Storage.States = store.getState();
 
     for (let [key, account] of Object.entries(states.accounts.accounts)) {
-      const api = Adaptors.get(account.network);
+      const api = Adaptors.get(account.network)!;
       const planks = await api.balance(account.address);
       if (planks == null) {
         continue;

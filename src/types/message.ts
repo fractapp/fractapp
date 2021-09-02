@@ -47,14 +47,6 @@ export type Button = {
 /**
  * @category Models
  */
-export type MessagesInfo = {
-  messages: Array<Message>,
-  user: Profile
-};
-
-/**
- * @category Models
- */
 export type UndeliveredMessagesInfo = {
   messages: Array<Message>,
   users: {

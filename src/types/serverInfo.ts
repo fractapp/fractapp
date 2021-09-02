@@ -1,5 +1,6 @@
 import {Currency} from 'types/wallet';
 import {Network} from 'types/account';
+import { TypeRegistry } from '@substrate/txwrapper-core';
 
 export type SubstrateUrl = {
   network: Network;
@@ -21,11 +22,14 @@ export type FeeInfo = {
 export type SubstrateTxBase = {
   blockNumber: string;
   blockHash: string;
+  nonce: number;
+};
+
+export type SubstrateBase = {
   genesisHash: string;
   metadata: string;
-
   specVersion: number;
   transactionVersion: number;
 
-  nonce: number;
-};
+  registry: TypeRegistry
+}

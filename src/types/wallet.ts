@@ -1,4 +1,5 @@
-import {ImageSourcePropType} from 'react-native';
+import { ImageSourcePropType } from 'react-native';
+import { Network } from 'types/account';
 
 /**
  * @category Models
@@ -7,6 +8,24 @@ export enum Currency {
   DOT = 0,
   KSM,
 }
+
+
+/**
+ * get network by currency
+ * @category Models
+ */
+
+export function getNetwork(currency: Currency): Network {
+  switch (currency) {
+    case Currency.DOT:
+      return Network.Polkadot;
+    case Currency.KSM:
+      return Network.Kusama;
+    default:
+      return Network.Polkadot;
+  }
+}
+
 
 /**
  * get logo for wallet
@@ -116,32 +135,3 @@ export function fromCurrency(currency: Currency): string {
   }
 }
 
-/*
-export class Wallet {
-  name: string;
-  address: string;
-  balance: number;
-  planks: string;
-  currency: Currency;
-  network: Network;
-  usdValue: number;
-
-  constructor(
-    name: string,
-    address: string,
-    currency: Currency,
-    network: Network,
-    balance: number,
-    planks: string,
-    price: number,
-  ) {
-    this.name = name;
-    this.address = address;
-    this.balance = balance;
-    this.planks = planks;
-    this.currency = currency;
-    this.network = network;
-    this.usdValue = math.roundUsd(balance * price);
-  }
-}
-*/

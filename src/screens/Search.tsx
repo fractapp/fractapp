@@ -18,12 +18,14 @@ import {SendBy} from 'components/SendBy';
 import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
-import {Profile} from 'types/profile';
+import { Profile, User } from 'types/profile';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import ChatsStore from 'storage/Chats';
 import { Account } from 'types/account';
+// @ts-ignore
+import {MAIN_BOT_ID} from '@env';
 
 /**
  * Users search screen
@@ -42,7 +44,14 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const [isLoading, setLoading] = useState<boolean>();
   const [lastSearch, setLastSearch] = useState<string>();
 
+  const [bot, setBot] = useState<Profile | null>(null);
+
   useEffect(() => {
+    backend.getUserById(MAIN_BOT_ID).then((p) => {
+      if (p != null) {
+        setBot(p);
+      }
+    });
     if (!globalState.isRegisteredInFractapp) {
       return;
     }
@@ -111,15 +120,17 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
     );
     setUsers(contacts);
     const ids = new Array<string>();
+    const users = new Array<User>();
     for (let user of contacts) {
-      dispatch(UsersStore.actions.setUser({
+      users.push({
         title: user?.name! !== '' ? user?.name! : user?.username!,
         isAddressOnly: false,
         value: user,
-      }));
+      });
       ids.push(user.id);
     }
 
+    dispatch(UsersStore.actions.setUsers(users));
     dispatch(UsersStore.actions.setContacts(ids));
   };
 
@@ -161,11 +172,11 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
     return (
       <TouchableHighlight
         onPress={() => {
-          dispatch(UsersStore.actions.setUser({
+          dispatch(UsersStore.actions.setUsers([{
             title: item?.name! !== '' ? item?.name! : item?.username!,
             isAddressOnly: false,
             value: item,
-          }));
+          }]));
 
           if (!chatsState.chatsInfo[item.id]) {
             dispatch(ChatsStore.actions.addEmptyChat({
@@ -256,25 +267,28 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
       <FlatList
         ListHeaderComponent={
           searchString.length === 0 ? (
-            <TouchableHighlight
-              onPress={() => {
-                if (account == null) {
-                  navigation.navigate('SelectWallet', {
-                    isEditable: true,
-                  });
-                } else {
-                  navigation.navigate('Send', {
-                    isEditable: true,
-                    currency: account.currency,
-                  });
-                }
-              }}
-              underlayColor="#f8f9fb">
-              <SendBy
-                title={StringUtils.texts.SendByAddressBtn}
-                img={require('assets/img/address.png')}
-              />
-            </TouchableHighlight>
+            <View>
+              <TouchableHighlight
+                onPress={() => {
+                  if (account == null) {
+                    navigation.navigate('SelectWallet', {
+                      isEditable: true,
+                    });
+                  } else {
+                    navigation.navigate('Send', {
+                      isEditable: true,
+                      currency: account.currency,
+                    });
+                  }
+                }}
+                underlayColor="#f8f9fb">
+                <SendBy
+                  title={StringUtils.texts.SendByAddressBtn}
+                  img={require('assets/img/address.png')}
+                />
+              </TouchableHighlight>
+              {bot != null && renderItem({ item: bot })}
+            </View>
           ) : (
             <View />
           )

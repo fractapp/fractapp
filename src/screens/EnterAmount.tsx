@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, Text, Keyboard } from 'react-native';
 import {AmountInput} from 'components/AmountInput';
 import {SuccessButton} from 'components/SuccessButton';
-import { Currency, getSymbol } from 'types/wallet';
+import { Currency, fromCurrency, getSymbol } from 'types/wallet';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,12 @@ import ServerInfoStore from 'storage/ServerInfo';
 import MathUtils from 'utils/math';
 import AccountsStore from 'storage/Accounts';
 import {EnterAmountInfo} from 'types/inputs';
+import { randomAsHex } from '@polkadot/util-crypto';
+import backend from 'utils/api';
+import ChatsStore from 'storage/Chats';
+import GlobalStore from 'storage/Global';
+import BN from 'bn.js';
+import { Adaptors } from 'adaptors/adaptor';
 
 /**
  * Screen with the input of the amount to be sent
@@ -23,8 +29,11 @@ export const EnterAmount = ({
   route: any;
 }) => {
   const currency: Currency = route.params.currency;
-  const receiver: string = route.params.receiver;
+  const args: Array<string> = route.params.args;
   const defaultValue = route.params?.value ?? '';
+  const isChatBotRequest: boolean = route.params?.isChatBotRequest ?? false;
+  const chatId: string | null = route.params?.chatId ?? null;
+  const msgId: string | null = route.params?.msgId ?? null;
 
   const [isUSDMode, setUSDMode] = useState<boolean>(
     route.params?.isUSDMode ?? true,
@@ -37,14 +46,18 @@ export const EnterAmount = ({
   const [planksFee, setPlanksFee] = useState<string>('');
   const [isValid, setValid] = useState<boolean>(true);
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoadingAnswer, setLoadingAnswer] = useState<boolean>(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   const dispatch = useDispatch();
   const serverInfo: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
   const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const account = accountState.accounts[currency];
   const price = serverInfo.prices[account.currency] ?? 0;
+
+  const api = Adaptors.get(account.network)!;
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -67,7 +80,7 @@ export const EnterAmount = ({
   }, []);
 
   const onSuccess = async () => {
-    if (isLoading) {
+    if (isLoading || isLoadingAnswer) {
       dispatch(
         Dialog.actions.showDialog({
             title: StringUtils.texts.WaitLoadingTitle,
@@ -78,15 +91,59 @@ export const EnterAmount = ({
       return;
     }
 
-    navigation.navigate('Send', {
-      isUSDMode: isUSDMode,
-      value: value,
-      usdValue: usdValue,
-      alternativeValue: alternativeValue,
-      usdFee: usdFee,
-      planksValue: planksValue,
-      planksFee: planksFee,
-    });
+    if (isChatBotRequest) {
+      const msg = {
+        id: 'answer-' + randomAsHex(32),
+        value: isUSDMode
+          ? usdValue + '$'
+          : MathUtils.convertFromPlanckToString(new BN(planksValue), api.decimals) + ' ' + fromCurrency(currency),
+        action: args[1],
+        args: [ planksValue, ...args.slice(2, args.length) ] ,
+        rows: [],
+        timestamp: Date.now(),
+        sender: globalState.profile!.id,
+        receiver: chatId!,
+        hideBtn: true,
+      };
+
+      setLoadingAnswer(true);
+      try {
+        const timestamp = await backend.sendMsg({
+          version: 1,
+          value: msg.value,
+          action: msg.action,
+          receiver: chatId!,
+          args: msg.args,
+        });
+
+        if (timestamp != null) {
+          msg.timestamp = timestamp;
+          dispatch(ChatsStore.actions.addMessages([{
+            chatId: chatId!,
+            msg: msg,
+          }]));
+          dispatch(ChatsStore.actions.hideBtns({
+            chatId: chatId!,
+            msgId: msgId!,
+          }));
+
+          navigation.goBack();
+        }
+      } catch (e) {
+        console.log('error');
+        setLoadingAnswer(false);
+      }
+    } else {
+      navigation.navigate('Send', {
+        isUSDMode: isUSDMode,
+        value: value,
+        usdValue: usdValue,
+        alternativeValue: alternativeValue,
+        usdFee: usdFee,
+        planksValue: planksValue,
+        planksFee: planksFee,
+      });
+    }
   };
 
   const onChangeValues = (
@@ -108,14 +165,15 @@ export const EnterAmount = ({
         return <SuccessButton size={35} onPress={onSuccess} />;
       },
     });
-  }, [isLoading]);
+  }, [isLoading, isLoadingAnswer]);
 
   return (
     <View style={styles.chats}>
       <AmountInput
         width={'95%'}
         account={account}
-        receiver={receiver}
+        args={args}
+        isChatBotRequest={isChatBotRequest}
         price={price}
         onChangeValues={onChangeValues}
         onSetLoading={(loading: boolean) => setLoading(loading)}

@@ -51,7 +51,12 @@
   "restore_btn": "Restore",
   "write_off_account_title": "Write-off account",
   "receiving_account_title": "Receiving account",
-
+  "profile": {
+    "start_btn": "Start",
+    "send_btn": "Send",
+    "delete_btn": "Delete",
+    "addresses_title": "Addresses"
+  },
   "settings": {
     "language": "Language",
     "edit_profile": "Edit profile",

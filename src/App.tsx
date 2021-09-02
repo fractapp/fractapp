@@ -1,39 +1,28 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import {
-  ActivityIndicator,
-  Alert,
-  AppState,
-  Dimensions,
-  Linking,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
-import {Dialog} from 'components/Dialog';
-import {PassCode} from 'components/PassCode';
+import { ActivityIndicator, Alert, AppState, Dimensions, Linking, StatusBar, Text, View } from 'react-native';
+import { Dialog } from 'components/Dialog';
+import { PassCode } from 'components/PassCode';
 import GlobalStore from 'storage/Global';
-import {Navigation} from 'screens/Navigation';
-import changeNavigationBarColor, {
-  hideNavigationBar,
-  showNavigationBar,
-} from 'react-native-navigation-bar-color';
+import { Navigation } from 'screens/Navigation';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import PasscodeUtil from 'utils/passcode';
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 import DB from 'storage/DB';
-import {useNetInfo} from '@react-native-community/netinfo';
-import {Loader} from 'components/Loader';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { Loader } from 'components/Loader';
 import backend from 'utils/api';
+import BackendApi from 'utils/api';
 import StringUtils from 'utils/string';
-import {navigate} from 'utils/RootNavigation';
-import {ChatInfo} from 'types/chatInfo';
+import { navigate } from 'utils/RootNavigation';
+import { ChatInfo } from 'types/chatInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import DialogStore from 'storage/Dialog';
 import Init from './Init';
 import { Store } from 'redux';
 import tasks from 'utils/tasks';
 import { Adaptors } from 'adaptors/adaptor';
-import BackendApi from 'utils/api';
+import { ConfirmTransaction } from 'components/ConfirmTransaction';
 
 const App = ({store}: {store: Store}) => {
   const appState = useRef(AppState.currentState);
@@ -89,6 +78,7 @@ const App = ({store}: {store: Store}) => {
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active'
     ) {
+      dispatch(GlobalStore.actions.showSync());
       tasks.createTasks(store, dispatch);
       console.log('App has come to the foreground!');
     } else if (
@@ -178,6 +168,7 @@ const App = ({store}: {store: Store}) => {
       }*/
 
     //showNavigationBar();
+
     dispatch(GlobalStore.actions.hideLoading());
     setUrl(null);
     console.log('loading off');
@@ -249,14 +240,9 @@ const App = ({store}: {store: Store}) => {
     }
 
     (async () => {
-      Adaptors.init();
-
       tasks.initPrivateData();
 
-      tasks.createTasks(
-        store,
-        dispatch
-      );
+      tasks.createTasks(store, dispatch);
 
       console.log('globalState.isRegisteredInFractapp: ' + globalState.isRegisteredInFractapp);
       if (!globalState.isRegisteredInFractapp) {
@@ -342,8 +328,8 @@ const App = ({store}: {store: Store}) => {
     }
   }, [isConnected, globalState.isInitialized]);
 
- // console.log('render: ' + Date.now());
- // console.log('lobalState.loadInfo.isAllStatesLoaded: ' + globalState.loadInfo.isAllStatesLoaded);
+  // console.log('render: ' + Date.now());
+  // console.log('lobalState.loadInfo.isAllStatesLoaded: ' + globalState.loadInfo.isAllStatesLoaded);
 
   if (!globalState.loadInfo.isAllStatesLoaded) {
     return (<Init store={store} />);
@@ -368,6 +354,11 @@ const App = ({store}: {store: Store}) => {
       ) : (
         <Navigation isInitialized={globalState.authInfo.hasWallet} />
       )}
+      {<ConfirmTransaction
+        isShow={dialogState.confirmTxInfo.isShow}
+        confirmTxInfo={dialogState.confirmTxInfo.info}
+        onConfirm={() => console.log('close')}
+      />}
       <Dialog
         visible={dialogState.dialog.visible}
         dispatch={dispatch}

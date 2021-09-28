@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker/src/index';
+import {launchImageLibrary} from 'react-native-image-picker';
 import backend from 'utils/api';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
@@ -67,12 +67,13 @@ export const EditProfile = ({navigation}: {navigation: any}) => {
         maxHeight: 400,
       },
       async (rs) => {
-        if (rs.base64 === undefined) {
+        if (rs.assets?.length !== 1 || rs.assets[0] === undefined || rs.assets[0].base64 === undefined) {
           return;
         }
         dispatch(GlobalStore.actions.showLoading());
 
-        await backend.uploadAvatar(rs.base64, rs.type!);
+        const asset = rs.assets[0];
+        await backend.uploadAvatar(asset.base64!, asset.type!);
         dispatch(GlobalStore.actions.setUpdatingProfile(true));
         dispatch(GlobalStore.actions.hideLoading());
       },

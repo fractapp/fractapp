@@ -6,7 +6,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Wallets} from 'screens/Wallets';
 import {Settings} from 'screens/Settings';
 import {Chats} from 'screens/Chats';
-import ChatsStore from 'storage/Chats';
 import StringUtils from 'utils/string';
 import { useSelector } from 'react-redux';
 

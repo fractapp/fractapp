@@ -47,7 +47,7 @@ namespace BackendApi {
 
   export async function setToken(token: string): Promise<boolean> {
     const jwt = await DB.getJWT();
-    const response = await fetch(`${apiUrl}/firebase/update`, {
+    const response = await fetch(`${apiUrl}/profile/firebase/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

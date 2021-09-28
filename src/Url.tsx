@@ -82,7 +82,7 @@ const Url = ({navigation, route}: {navigation: any; route: any}) => {
           }
         }
       } catch (e) {
-        console.log('Url err: ' + e.toString());
+        console.log('Url err: ' + (e as Error).toString());
       }
 
       dispatch(GlobalStore.actions.hideLoading());

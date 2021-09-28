@@ -15,7 +15,6 @@ import backend from 'utils/api';
 import BackendApi from 'utils/api';
 import StringUtils from 'utils/string';
 import { navigate } from 'utils/RootNavigation';
-import { ChatInfo } from 'types/chatInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import DialogStore from 'storage/Dialog';
 import Init from './Init';

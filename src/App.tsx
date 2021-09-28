@@ -21,7 +21,6 @@ import DialogStore from 'storage/Dialog';
 import Init from './Init';
 import { Store } from 'redux';
 import tasks from 'utils/tasks';
-import { Adaptors } from 'adaptors/adaptor';
 import { ConfirmTransaction } from 'components/ConfirmTransaction';
 
 const App = ({store}: {store: Store}) => {
@@ -95,77 +94,6 @@ const App = ({store}: {store: Store}) => {
   // start app
   const openUrl = async (url: string | null) => {
     console.log('open url: ' + url);
-    let chat: ChatInfo | null = null;
-
-    /*  try {
-        if (
-          url !== null &&
-          url !== undefined &&
-          (url?.startsWith('fractapp://chat') ||
-            url?.startsWith('https://send.fractapp.com/send.html'))
-        ) {
-          let user = '';
-          let type = '';
-          let currency = '';
-          if (url?.startsWith('fractapp://chat')) {
-            url = url.replace('fractapp://chat/', '');
-            const params = url.split('/');
-            type = params[0];
-            user = params[1];
-            currency = params[2];
-          } else {
-            url = url.replace('https://send.fractapp.com/send.html?', '');
-            const urlParams = url.split('&');
-            for (let p of urlParams) {
-              if (p.startsWith('type')) {
-                type = p.replace('type=', '');
-              } else if (p.startsWith('user')) {
-                user = p.replace('user=', '');
-              } else if (p.startsWith('currency')) {
-                currency = p.replace('currency=', '');
-              }
-            }
-          }
-          console.log('Open link by user and type: ' + user + ' ' + type);
-
-          if (chatsState.chatsInfo[user]) {
-            chat = chatsState.chatsInfo[user]!;
-          } else {
-            let profile = null;
-            if (type === 'user') {
-              profile = await backend.getUserById(user);
-            }
-
-            if (type === 'user' && profile !== undefined) {
-              dispatch(UsersStore.actions.setUser({
-                isAddressOnly: false,
-                title: profile?.name! !== '' ? profile?.name! : profile?.username!,
-                value: profile!,
-              }));
-              chat = {
-                id: user,
-                notificationCount: 0,
-                lastMsgId: '',
-              };
-            } else if (type === 'address') {
-              dispatch(UsersStore.actions.setUser({
-                isAddressOnly: true,
-                title: user,
-                value: {
-                  address: user,
-                  currency: toCurrency(currency),
-                },
-              }));
-              chat = {
-                id: user,
-                notificationCount: 0,
-                lastMsgId: '',
-              };
-            }
-          }
-        }
-      } catch (e) {
-      }*/
 
     //showNavigationBar();
 
@@ -175,16 +103,21 @@ const App = ({store}: {store: Store}) => {
     changeNavigationBarColor('#FFFFFF', true, true);
     SplashScreen.hide();
 
-    if (chat !== null) {
-      navigate('Chat', {
-        chatInfo: chat,
-      });
+    if (
+      url !== null &&
+      url !== undefined &&
+      (url?.startsWith('fractapp://chat') ||
+        url?.startsWith('https://send.fractapp.com/send.html'))
+    ) {
+        navigate('Url', { url: url });
     }
   };
+
   const openUrlEvent = (ev: any) => {
     setUrl(ev?.url);
     dispatch(GlobalStore.actions.showLoading());
   };
+
   const onLoaded = () => {
     Linking.getInitialURL().then((url) => {
       openUrl(url);
@@ -199,6 +132,7 @@ const App = ({store}: {store: Store}) => {
       Linking.removeEventListener('url', openUrlEvent);
     };
   }, []);
+
   // open by url
   useEffect(() => {
     if (url == null) {
@@ -332,7 +266,7 @@ const App = ({store}: {store: Store}) => {
   // console.log('lobalState.loadInfo.isAllStatesLoaded: ' + globalState.loadInfo.isAllStatesLoaded);
 
   if (!globalState.loadInfo.isAllStatesLoaded) {
-    return (<Init store={store} />);
+    return (<Init />);
   }
 
   return (
@@ -354,11 +288,14 @@ const App = ({store}: {store: Store}) => {
       ) : (
         <Navigation isInitialized={globalState.authInfo.hasWallet} />
       )}
-      {<ConfirmTransaction
-        isShow={dialogState.confirmTxInfo.isShow}
-        confirmTxInfo={dialogState.confirmTxInfo.info}
-        onConfirm={() => console.log('close')}
-      />}
+      {
+        globalState.authInfo.hasWallet &&
+        !globalState.loadInfo.isLoadingShow &&
+        <ConfirmTransaction
+          isShow={dialogState.confirmTxInfo.isShow}
+          confirmTxInfo={dialogState.confirmTxInfo.info}
+        />
+      }
       <Dialog
         visible={dialogState.dialog.visible}
         dispatch={dispatch}

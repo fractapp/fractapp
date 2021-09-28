@@ -1,13 +1,12 @@
 import BackgroundTimer from 'react-native-background-timer';
-import DB  from 'storage/DB';
+import DB from 'storage/DB';
 import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
 import { Currency } from 'types/wallet';
-import { Account } from 'types/account';
+import { Account, AccountType, BalanceRs } from 'types/account';
 import { Transaction, TxStatus } from 'types/transaction';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
-import BN from 'bn.js';
 import { Adaptors } from 'adaptors/adaptor';
 import math from 'utils/math';
 import MathUtils from 'utils/math';
@@ -16,9 +15,10 @@ import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
 import Storage from 'storage/Store';
 import { Message } from 'types/message';
-import { AddressOnly, Profile, User } from 'types/profile';
+import { User } from 'types/profile';
 // @ts-ignore
-import {MAIN_BOT_ID} from '@env';
+import { MAIN_BOT_ID } from '@env';
+import BN from 'bn.js';
 
 /**
  * @namespace
@@ -37,29 +37,16 @@ namespace Task {
   }
 
   export async function initAccounts(dispatch: Dispatch<any>) {
-    const accounts: {
-      [id in Currency]: Account
-    } = <{
-      [id in Currency]: Account
-    }>{};
-
-    let accountsAddress = await DB.getAccounts();
-    if (accountsAddress == null || accountsAddress.length === 0) {
-      accountsAddress = [];
+    let accountsStore = (await DB.getAccountStore());
+    if (accountsStore == null) {
+      dispatch(AccountsStore.actions.set(<AccountsStore.State>{
+        accounts: {},
+        isInitialized: true,
+      }));
+      return;
     }
-
-    for (let i = 0; i < accountsAddress?.length; i++) {
-      const account = await DB.getAccountInfo(accountsAddress[i]);
-
-      if (account == null) {
-        continue;
-      }
-      accounts[account.currency] = account;
-    }
-    dispatch(AccountsStore.actions.set({
-      accounts: accounts,
-      isInitialized: true,
-    }));
+    accountsStore.isInitialized = true;
+    dispatch(AccountsStore.actions.set(accountsStore));
   }
 
   export async function init(dispatch: Dispatch<any>) {
@@ -126,13 +113,7 @@ namespace Task {
     await DB.deleteItem(DB.AsyncStorageKeys.authInfo);
     await DB.deleteItem(DB.AsyncStorageKeys.serverInfo);
     await DB.deleteItem(DB.AsyncStorageKeys.profile);
-    let accountsAddress = await DB.getAccounts();
-    if (accountsAddress != null) {
-      for (let i = 0; i < accountsAddress?.length; i++) {
-        await DB.deleteItem(DB.AsyncStorageKeys.accountInfo(accountsAddress[i]));
-      }
-    }
-    await DB.deleteItem(DB.AsyncStorageKeys.accounts);
+    await DB.deleteItem(DB.AsyncStorageKeys.accountsStore);
 
     await DB.deleteItem(DB.AsyncStorageKeys.chatsStorage);
     await DB.deleteItem(DB.AsyncStorageKeys.contacts);
@@ -231,7 +212,7 @@ namespace Task {
           address: tx.address,
           currency: tx.currency,
         },
-      }])); //TODO: update many transactions by one iteration
+      }])); //TODO: next release update many transactions by one iteration
     }
 
     dispatch(ChatsStore.actions.addTx({
@@ -253,12 +234,13 @@ namespace Task {
     states: Storage.States,
     dispatch: Dispatch<any>,
   ) {
-    let existedTxs: ChatsStore.Transactions =
-      states.chats.transactions[account.currency]!;
-    if (existedTxs === undefined) {
+    let existedTxs: ChatsStore.Transactions;
+    if (states.chats.transactions[account.currency] === undefined) {
       existedTxs = {
         transactionById: {},
       };
+    } else {
+      existedTxs = states.chats.transactions[account.currency];
     }
 
     let txs = await backend.getTransactions(
@@ -300,7 +282,7 @@ namespace Task {
   ) {
     const states: Storage.States = store.getState();
     try {
-      for (let [key, account] of Object.entries(states.accounts.accounts)) {
+      for (let [key, account] of Object.entries(states.accounts.accounts[AccountType.Main])) {
         await syncByAccount(
           states.global.profile.id,
           account,
@@ -318,6 +300,7 @@ namespace Task {
 
       await dispatch(GlobalStore.actions.hideSync());
     } catch (e) {
+      console.log('error sync account: ' + e);
       await updateMessages(store, dispatch);
     }
   }
@@ -457,27 +440,42 @@ namespace Task {
   ) {
     const states: Storage.States = store.getState();
 
-    for (let [key, account] of Object.entries(states.accounts.accounts)) {
+    for (let [key, account] of Object.entries(states.accounts.accounts[AccountType.Main])) {
       const api = Adaptors.get(account.network)!;
-      const planks = await api.balance(account.address);
-      if (planks == null) {
+      const balance: BalanceRs = await api.balance(account.address);
+      if (balance == null) {
         continue;
       }
 
       const viewBalance = math.convertFromPlanckToViewDecimals(
-        planks,
+        new BN(balance.transferable),
         api.decimals,
         api.viewDecimals,
       );
-      if (
-        new BN(account.planks).cmp(planks) !== 0 ||
-        account.balance !== viewBalance
-      ) {
+      dispatch(
+        AccountsStore.actions.updateBalance({
+          currency: account.currency,
+          viewBalance: viewBalance,
+          balance: {
+            total: balance.total,
+            transferable: balance.transferable,
+            payableForFee: balance.payableForFee,
+          },
+        }),
+      );
+
+      if (new BN(balance.staking).cmp(new BN(0)) > 0) {
+        const viewStakingBalance = math.convertFromPlanckToViewDecimals(
+          new BN(balance.staking),
+          api.decimals,
+          api.viewDecimals,
+        );
         dispatch(
-          AccountsStore.actions.updateBalance({
+          AccountsStore.actions.updateBalanceSubAccount({
+            accountType: AccountType.Staking,
             currency: account.currency,
-            balance: viewBalance,
-            planks: planks.toString(),
+            viewBalance: viewStakingBalance,
+            balance: balance.staking,
           }),
         );
       }

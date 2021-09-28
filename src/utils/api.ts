@@ -1,19 +1,19 @@
 import DB from 'storage/DB';
-import {Keyring} from '@polkadot/keyring';
-import {stringToU8a, u8aToHex} from '@polkadot/util';
-import {Currency} from 'types/wallet';
-import {Network} from 'types/account';
+import { Keyring } from '@polkadot/keyring';
+import { stringToU8a, u8aToHex } from '@polkadot/util';
+import { Currency } from 'types/wallet';
+import { AccountType, BalanceRs, Network } from 'types/account';
 // @ts-ignore
-import {FRACTAPP_API} from '@env';
-import {KeyringPair} from '@polkadot/keyring/types';
-import {Adaptors} from 'adaptors/adaptor';
-import {MyProfile} from 'types/myProfile';
-import {Profile} from 'types/profile';
-import {Transaction, TxStatus, TxType} from 'types/transaction';
+import { FRACTAPP_API } from '@env';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { Adaptors } from 'adaptors/adaptor';
+import { MyProfile } from 'types/myProfile';
+import { Profile } from 'types/profile';
+import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
-import { FeeInfo, ServerInfo, SubstrateBase, SubstrateTxBase } from 'types/serverInfo';
 import math from 'utils/math';
+import { FeeInfo, ServerInfo, SubstrateBase, SubstrateTxBase } from 'types/serverInfo';
 import { MessageRq, UndeliveredMessagesInfo } from 'types/message';
 
 /**
@@ -47,7 +47,7 @@ namespace BackendApi {
 
   export async function setToken(token: string): Promise<boolean> {
     const jwt = await DB.getJWT();
-    const response = await fetch(`${apiUrl}/notification/updateProfile`, {
+    const response = await fetch(`${apiUrl}/firebase/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,11 +82,11 @@ namespace BackendApi {
   export async function auth(
     type: CodeType,
     value: string = '',
-    code: string = '',
+    code: string = ''
   ): Promise<number> {
     const seed = await DB.getSeed();
-    const accounts = await DB.getAccounts();
 
+    const accounts = (await DB.getAccountStore())?.accounts[AccountType.Main];
     if (accounts == null || seed == null) {
       return 400;
     }
@@ -98,18 +98,13 @@ namespace BackendApi {
     let accountsRq = {};
     const time = Math.round(new Date().getTime() / 1000);
     const authPubKey = u8aToHex(authKey.publicKey);
-    for (let account of accounts) {
-      const accountInfo = await DB.getAccountInfo(account);
-
-      if (accountInfo == null) {
-        continue;
-      }
-
+    for (let keyValue of Object.entries(accounts)) {
+      const account = keyValue[1];
       const msg = signAddressMsg + authPubKey + time;
       // @ts-ignore
-      accountsRq[accountInfo.currency] = {
-        Address: accountInfo.address,
-        PubKey: accountInfo.pubKey,
+      accountsRq[account.currency] = {
+        Address: account.address,
+        PubKey: account.pubKey,
         Sign: u8aToHex(key.sign(stringToU8a(msg))),
       };
     }
@@ -386,7 +381,19 @@ namespace BackendApi {
       let member = '';
 
       let userId = null;
-      if (address === tx.from) {
+      if (tx.action === TxAction.StakingWithdrawn) {
+        txType = TxType.Received;
+        member = tx.to;
+        if (tx.userTo !== '') {
+          userId = tx.userTo;
+        }
+      } else if (tx.action === TxAction.StakingReward) {
+        txType = TxType.Received;
+        member = tx.to;
+        if (tx.userTo !== '') {
+          userId = tx.userTo;
+        }
+      } else if (address === tx.from) {
         txType = TxType.Sent;
         member = tx.to;
         if (tx.userTo !== '') {
@@ -405,6 +412,7 @@ namespace BackendApi {
         userId: userId,
         address: member,
         currency: currency,
+        action: tx.action,
         txType: txType,
         timestamp: tx.timestamp,
 
@@ -415,7 +423,10 @@ namespace BackendApi {
         ),
         planckValue: tx.value,
         usdValue: MathUtils.floorUsd(tx.usdValue),
-
+        fullValue: math.convertFromPlanckToString(
+          new BN(tx.value),
+          api.decimals
+        ),
         fee: math.convertFromPlanckToViewDecimals(
           new BN(tx.fee, 10),
           api.decimals,
@@ -448,7 +459,7 @@ namespace BackendApi {
   export async function substrateBalance(
     address: string,
     currency: Currency,
-  ): Promise<BN | null> {
+  ): Promise<BalanceRs | null> {
     let rs = await fetch(
       `${apiUrl}/substrate/balance?address=${address}&currency=${currency}`,
       {
@@ -463,7 +474,7 @@ namespace BackendApi {
     }
 
     const balance = await rs.json();
-    return new BN(balance.value);
+    return balance;
   }
 
   export function getImgUrl(id: string, lastUpdate: number): string {

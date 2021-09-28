@@ -9,6 +9,17 @@ export enum TxType {
   Sent,
   Received,
 }
+
+/**
+ * Transaction action type
+ * @category Models
+ */
+export enum TxAction {
+  Transfer = 0,
+  StakingReward,
+  StakingWithdrawn,
+  Staking = 3
+}
 export enum TxStatus {
   Pending = 0,
   Success,
@@ -25,12 +36,14 @@ export type Transaction = {
 
   address: string;
   currency: Currency;
+  action: TxAction,
   txType: TxType;
   timestamp: number;
 
   value: number;
   planckValue: string;
   usdValue: number;
+  fullValue: string;
 
   fee: number;
   planckFee: string;

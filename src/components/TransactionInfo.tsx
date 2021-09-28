@@ -1,13 +1,14 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableHighlight, Image} from 'react-native';
-import {Transaction, TxStatus, TxType} from 'types/transaction';
-import {getSymbol} from 'types/wallet';
-import {WalletLogo} from 'components/WalletLogo';
-import stringUtils from 'utils/string';
+import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
+import { getSymbol } from 'types/wallet';
+import { WalletLogo } from 'components/WalletLogo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Profile} from 'types/profile';
+import { Profile } from 'types/profile';
 import backend from 'utils/api';
+import stringUtils from 'utils/string';
+import { getTxName } from 'types/inputs';
 
 /**
  * Component with transaction information
@@ -57,6 +58,7 @@ export const TransactionInfo = ({
     }
   };
 
+
   return (
     <TouchableHighlight
       onPress={onPress}
@@ -86,22 +88,26 @@ export const TransactionInfo = ({
               marginLeft: 10,
             }}>
             <Text numberOfLines={1} style={styles.member}>
-              {stringUtils.formatNameOrAddress(
-                user != null
-                  ? user.name !== undefined && user.name !== ''
-                    ? user.name
-                    : user.username
-                  : transaction.address,
-              )}
+              {transaction.action === TxAction.Transfer ?
+                stringUtils.formatNameOrAddress(
+                  user != null
+                    ? (
+                      user.name !== undefined && user.name !== ''
+                        ? user.name
+                        : user.username
+                    )
+                    : transaction.address,
+                ) : getTxName(transaction.action)
+              }
             </Text>
             <Text style={[styles.balance, {textAlign: 'left', color: color}]}>
               {prefix}
-              {transaction.value} {getSymbol(transaction.currency)}
+              {transaction.fullValue} {getSymbol(transaction.currency)}
             </Text>
           </View>
           {transaction.usdValue !== 0 ? (
             <Text style={[styles.balance, {alignSelf: 'center', color: color}]}>
-              {prefix}${transaction.usdValue}
+              {prefix}${(String(transaction.usdValue).length < 3 ? transaction.usdValue.toFixed(2) : transaction.usdValue)}
             </Text>
           ) : (
             <View />

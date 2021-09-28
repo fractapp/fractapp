@@ -82,7 +82,7 @@ export const PaymentMsg = ({tx, onPress}: {tx: Transaction, onPress: () => void}
         <WalletLogo currency={tx.currency} size={40} />
         <Text style={[styles.usdText, {color: amountColor()}]}>
           {tx.usdValue !== 0
-            ? `$${tx.usdValue}`
+            ? `$${String(tx.usdValue).length < 3 ? tx.usdValue.toFixed(2) : tx.usdValue}`
             : `${tx.value} ${getSymbol(tx.currency)}`}
         </Text>
       </View>

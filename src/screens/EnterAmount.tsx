@@ -16,6 +16,7 @@ import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import BN from 'bn.js';
 import { Adaptors } from 'adaptors/adaptor';
+import { AccountType } from 'types/account';
 
 /**
  * Screen with the input of the amount to be sent
@@ -54,7 +55,7 @@ export const EnterAmount = ({
   const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
-  const account = accountState.accounts[currency];
+  const account = accountState.accounts[AccountType.Main][currency];
   const price = serverInfo.prices[account.currency] ?? 0;
 
   const api = Adaptors.get(account.network)!;
@@ -105,6 +106,7 @@ export const EnterAmount = ({
         receiver: chatId!,
         hideBtn: true,
       };
+      console.log(JSON.stringify(msg));
 
       setLoadingAnswer(true);
       try {
@@ -130,9 +132,10 @@ export const EnterAmount = ({
           navigation.goBack();
         }
       } catch (e) {
-        console.log('error');
-        setLoadingAnswer(false);
+        console.log('error ');
       }
+
+      setLoadingAnswer(false);
     } else {
       navigation.navigate('Send', {
         isUSDMode: isUSDMode,
@@ -204,8 +207,8 @@ export const EnterAmount = ({
           </Text>
         </View>
         <View style={{width: '70%', alignItems: 'flex-end'}}>
-          <Text style={styles.balanceText}>{`$${MathUtils.roundUsd(account.balance * price)} (${
-            account.balance
+          <Text style={styles.balanceText}>{`$${MathUtils.roundUsd(account.viewBalance * price)} (${
+            account.viewBalance
           } ${getSymbol(account.currency)})`}</Text>
         </View>
       </View>

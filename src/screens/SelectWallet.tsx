@@ -4,6 +4,7 @@ import {WalletInfo} from 'components/WalletInfo';
 import AccountsStore from 'storage/Accounts';
 import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
+import { AccountType } from 'types/account';
 
 /**
  * Select wallet screen
@@ -21,7 +22,7 @@ export const SelectWallet = ({
 
   const renderAccounts = () => {
     const result = [];
-    for (let [key, account] of Object.entries(accountsState.accounts)) {
+    for (let [key, account] of Object.entries(accountsState.accounts[AccountType.Main])) {
       let price = 0;
       if (serverInfo.prices[account.currency]) {
         price = serverInfo.prices[account.currency]!;

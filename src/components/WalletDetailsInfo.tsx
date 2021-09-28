@@ -24,12 +24,12 @@ export const WalletDetailsInfo = ({account, price}: {account: Account, price: nu
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'left'}]}>
-                {account.balance} {getSymbol(account.currency)}
+                {account.viewBalance} {getSymbol(account.currency)}
               </Text>
             </View>
             <View style={{flex: 1}}>
               <Text style={[styles.balance, {textAlign: 'right'}]}>
-                ${price !== undefined ? MathUtils.roundUsd(account.balance * price) : 0}
+                ${price !== undefined ? MathUtils.roundUsd(account.viewBalance * price) : 0}
               </Text>
             </View>
           </View>

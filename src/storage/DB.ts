@@ -1,17 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Keychain from 'react-native-keychain';
-import {base64Encode, randomAsU8a} from '@polkadot/util-crypto';
+import { base64Encode, randomAsU8a } from '@polkadot/util-crypto';
 import PasscodeUtil from 'utils/passcode';
-import {Keyring} from '@polkadot/keyring';
-import {u8aToHex} from '@polkadot/util';
-import {Account, Network} from 'types/account';
-import {Currency} from 'types/wallet';
-import {AuthInfo} from 'types/authInfo';
-import {MyProfile} from 'types/myProfile';
-import {User} from 'types/profile';
-import BN from 'bn.js';
+import { Keyring } from '@polkadot/keyring';
+import { u8aToHex } from '@polkadot/util';
+import { Account, AccountType, Network } from 'types/account';
+import { Currency } from 'types/wallet';
+import { AuthInfo } from 'types/authInfo';
+import { MyProfile } from 'types/myProfile';
+import { User } from 'types/profile';
 import ChatsStore from 'storage/Chats';
 import ServerInfoStore from 'storage/ServerInfo';
+import AccountsStore from 'storage/Accounts';
 
 /**
  * @namespace
@@ -36,10 +36,9 @@ namespace DB {
     profile: 'profile',
     authInfo: 'auth_info',
     serverInfo: 'server_info',
-    accounts: 'accounts',
+    accountsStore: 'accounts_store',
     contacts: 'contacts',
     users: 'users',
-    accountInfo: (address: string) => `account_${address}`,
     chatsStorage: 'chatsStorage',
   };
   export const SecureStorageKeys = {
@@ -213,56 +212,66 @@ namespace DB {
       type: 'sr25519',
       ss58Format: 0,
     }).addFromUri(seed);
-    let kusamaWallet = new Keyring({type: 'sr25519', ss58Format: 2}).addFromUri(
+    let kusamaWallet = new Keyring({ type: 'sr25519', ss58Format: 2 }).addFromUri(
       seed,
     );
-    let accountsInfo = new Array<Account>(
-      {
-        name: 'Polkadot wallet',
-        address: polkadotWallet.address,
-        pubKey: u8aToHex(polkadotWallet.publicKey),
-        currency: Currency.DOT,
-        balance: 0,
-        planks: new BN(0).toString(),
-        network: Network.Polkadot,
+    let accountsByCurrency: {
+      [id in Currency]: Account
+    } = <{
+      [id in Currency]: Account
+    }>{};
+
+    accountsByCurrency[Currency.DOT] = {
+      name: 'Polkadot',
+      address: polkadotWallet.address,
+      pubKey: u8aToHex(polkadotWallet.publicKey),
+      currency: Currency.DOT,
+      viewBalance: 0,
+      type: AccountType.Main,
+      balance: {
+        total: '0',
+        transferable: '0',
+        payableForFee: '0',
       },
-      {
-        name: 'Kusama wallet',
-        address: kusamaWallet.address,
-        pubKey: u8aToHex(kusamaWallet.publicKey),
-        currency: Currency.KSM,
-        balance: 0,
-        planks: new BN(0).toString(),
-        network: Network.Kusama,
+      network: Network.Polkadot,
+    };
+    accountsByCurrency[Currency.KSM] = {
+      name: 'Kusama',
+      address: kusamaWallet.address,
+      pubKey: u8aToHex(kusamaWallet.publicKey),
+      currency: Currency.KSM,
+      viewBalance: 0,
+      type: AccountType.Main,
+      balance: {
+        total: '0',
+        transferable: '0',
+        payableForFee: '0',
       },
-    );
-    let accounts = new Array<string>();
-    for (let i = 0; i < accountsInfo.length; i++) {
-      const account = accountsInfo[i];
-      accounts.push(account.address);
-      await setAccountInfo(account);
-    }
-    await setAccounts(accounts);
+      network: Network.Kusama,
+    };
+
+    const accounts: {
+      [type in AccountType]: {
+        [id in Currency]: Account
+      }
+    } = <{
+      [type in AccountType]: {
+        [id in Currency]: Account
+      }
+    }>{};
+
+    accounts[AccountType.Main] = accountsByCurrency;
+
+    await setAccountStore(<AccountsStore.State>{
+      accounts: accounts,
+      isInitialized: true,
+    });
     await setSecureItem(SecureStorageKeys.seed, seed);
 
-   await DB.setVersion(DB.NowDBVersion); //TODO
+    await DB.setVersion(DB.NowDBVersion);
   }
   export async function getSeed(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.seed);
-  }
-
-  export async function setAccounts(accounts: Array<string>) {
-    await AsyncStorage.setItem(
-      AsyncStorageKeys.accounts,
-      JSON.stringify(accounts),
-    );
-  }
-  export async function getAccounts(): Promise<Array<string> | null> {
-    const result = await AsyncStorage.getItem(AsyncStorageKeys.accounts);
-    if (result == null) {
-      return null;
-    }
-    return JSON.parse(result);
   }
 
   export async function setChatsState(state: ChatsStore.State) {
@@ -316,17 +325,15 @@ namespace DB {
     return JSON.parse(result);
   }
 
-  export async function setAccountInfo(account: Account) {
+  export async function setAccountStore(state: AccountsStore.State) {
     await AsyncStorage.setItem(
-      AsyncStorageKeys.accountInfo(account.address),
-      JSON.stringify(account),
+      AsyncStorageKeys.accountsStore,
+      JSON.stringify(state),
     );
   }
-  export async function getAccountInfo(
-    address: string,
-  ): Promise<Account | null> {
+  export async function getAccountStore(): Promise<AccountsStore.State | null> {
     const result = await AsyncStorage.getItem(
-      AsyncStorageKeys.accountInfo(address),
+      AsyncStorageKeys.accountsStore
     );
     if (result == null) {
       return null;

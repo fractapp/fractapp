@@ -1,5 +1,6 @@
 import { ImageSourcePropType } from 'react-native';
-import { Network } from 'types/account';
+import { AccountType, Network } from 'types/account';
+import { Transaction, TxAction } from 'types/transaction';
 
 /**
  * @category Models
@@ -32,7 +33,7 @@ export function getNetwork(currency: Currency): Network {
  * @category Models
  */
 
-export function getName(currency: Currency) {
+export function getFullCurrencyName(currency: Currency) {
   let name = '';
   switch (currency) {
     case Currency.DOT:
@@ -135,3 +136,17 @@ export function fromCurrency(currency: Currency): string {
   }
 }
 
+/**
+ * filter Tx by wallet
+ * @category Models
+ */
+export function filterTxsByAccountType(txs: Array<Transaction>, action: AccountType): Array<Transaction>  {
+  switch (action) {
+    case AccountType.Main:
+      return txs.filter((tx) => tx.action === TxAction.Transfer || tx.action === TxAction.Staking || tx.action === TxAction.StakingWithdrawn);
+    case AccountType.Staking:
+      return txs.filter((tx) => tx.action === TxAction.Staking || tx.action === TxAction.StakingWithdrawn || tx.action === TxAction.StakingReward);
+    default:
+      throw new Error('invalid action type');
+  }
+}

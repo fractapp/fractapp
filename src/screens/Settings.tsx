@@ -13,7 +13,7 @@ import GlobalStore from 'storage/Global';
 import backend from 'utils/api';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 /**
  * Settings screen
@@ -26,7 +26,6 @@ export const Settings = ({
   navigation: any;
   route: any;
 }) => {
-  const dispatch = useDispatch();
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
   const isSuccessUnlock = route.params?.isSuccessUnlock ?? false;

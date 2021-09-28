@@ -49,11 +49,13 @@
   "send_btn": "Отправить",
   "receive_btn": "Получить",
   "restore_btn": "Восстановить",
+  "withdraw_btn": "Вывод",
+  "invest_btn": "Добавить",
   "write_off_account_title": "Счет списания",
   "receiving_account_title": "Счет получения",
 
   "profile": {
-    "start_btn": "Начать",
+    "restart_btn": "Перезапуск",
     "send_btn": "Отправить",
     "delete_btn": "Удалить",
     "addresses_title": "Адреса"

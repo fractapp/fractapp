@@ -1,12 +1,12 @@
-import { Account, Network } from 'types/account';
+import { Account, BalanceRs, Network } from 'types/account';
 import BN from 'bn.js';
 import { SubstrateAdaptor } from './substrate';
 import { Profile } from 'types/profile';
 import { ConfirmTxInfo } from 'types/inputs';
-import { SubstrateBase, SubstrateTxBase } from 'types/serverInfo';
+import { SubstrateBase } from 'types/serverInfo';
 import backend from 'utils/api';
 import { getRegistry } from '@substrate/txwrapper-polkadot';
-import { Currency } from 'types/wallet';
+import { TxType } from 'types/transaction';
 
 export enum ErrorCode {
   None,
@@ -27,20 +27,22 @@ export interface IAdaptor {
   network: Network;
   decimals: number;
 
-  balance(address: string): Promise<BN>;
+  balance(address: string): Promise<BalanceRs>;
   calculateTransferFee(
     sender: string,
     value: BN,
     receiver: string
   ): Promise<BN | undefined>;
   send(receiver: string, value: BN, sendFull: boolean): Promise<string>;
+  broadcast(unsignedTx: any): Promise<string>;
   isTxValid(
     sender: string,
     receiver: string | null,
+    txType: TxType,
     value: BN,
     fee: BN,
   ): Promise<TransferValidation>;
-  parseTx(creator: Profile, sender: Account, unsignedTx: any): Promise<ConfirmTxInfo>
+  parseTx(creator: Profile, sender: Account, msgId: string, msgArgs: Array<string>, unsignedTx: any, price: number): Promise<ConfirmTxInfo>
 }
 
 export class Adaptors {
@@ -68,7 +70,7 @@ export class Adaptors {
 
     const registry = getRegistry({
       chainName: network === Network.Polkadot ? 'Polkadot' : 'Kusama',
-      specName: network == Network.Polkadot ? 'polkadot' : 'kusama',
+      specName: network === Network.Polkadot ? 'polkadot' : 'kusama',
       specVersion: substrateBase.specVersion,
       metadataRpc: substrateBase.metadata,
     });

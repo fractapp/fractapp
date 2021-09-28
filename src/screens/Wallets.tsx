@@ -6,7 +6,7 @@ import {Currency} from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
 import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
-import { Account } from 'types/account';
+import { Account, AccountType } from 'types/account';
 
 /**
  * Screen with all wallets
@@ -16,7 +16,7 @@ export const Wallets = ({navigation}: {navigation: any}) => {
   const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
 
-  const accounts: Array<Account> = Object.entries(accountState.accounts).map((value: [string, Account]) => value[1]);
+  const accounts: Array<Account> = Object.entries(accountState.accounts[AccountType.Main]).map((value: [string, Account]) => value[1]);
 
   const renderAccounts = () => {
     const result = [];
@@ -33,7 +33,29 @@ export const Wallets = ({navigation}: {navigation: any}) => {
           account={account}
           price={price}
           onPress={() =>
-            navigation.navigate('WalletDetails', {currency: account.currency})
+            navigation.navigate('WalletDetails', { currency: account.currency, type: account.type })
+          }
+        />
+      );
+    }
+
+    if (accountState.accounts[AccountType.Staking] === undefined) {
+      return result;
+    }
+    for (let keyValue of Object.entries(accountState.accounts[AccountType.Staking])) {
+      const subAccount = keyValue[1];
+      let price = 0;
+      if (serverInfoState.prices[subAccount.currency]) {
+        price = serverInfoState.prices[subAccount.currency]!;
+      }
+
+      result.push(
+        <WalletInfo
+          key={String(AccountType.Staking) + '-' + subAccount.address}
+          account={subAccount}
+          price={price}
+          onPress={() =>
+            navigation.navigate('WalletDetails', { currency: subAccount.currency, type: subAccount.type })
           }
         />
       );
@@ -47,11 +69,15 @@ export const Wallets = ({navigation}: {navigation: any}) => {
 
     for (let account of accounts) {
       let price = 0;
+      let stakingValue = accountState.accounts[AccountType.Staking] !== undefined
+        && accountState.accounts[AccountType.Staking][account.currency] !== undefined ?
+        accountState.accounts[AccountType.Staking][account.currency].viewBalance : 0;
+
       if (serverInfoState.prices[account.currency]) {
         price = serverInfoState.prices[account.currency]!;
       }
 
-      distribution.set(account.currency, account.balance * price);
+      distribution.set(account.currency, (account.viewBalance + stakingValue) * price);
     }
     return distribution;
   };

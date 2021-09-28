@@ -59,10 +59,12 @@ namespace StringUtils {
     SendBtn: I18n.t('send_btn'),
     ReceiveBtn: I18n.t('receive_btn'),
     RestoreBtn: I18n.t('restore_btn'),
+    WithdrawBtn: I18n.t('withdraw_btn'),
+    InvestBtn: I18n.t('invest_btn'),
     WriteOffAccountTitle: I18n.t('write_off_account_title'),
     ReceivingAccountTitle: I18n.t('receiving_account_title'),
     profile: {
-      startBtn: I18n.t('profile.start_btn'),
+      restartBtn: I18n.t('profile.restart_btn'),
       sendBtn: I18n.t('profile.send_btn'),
       deleteBtn: I18n.t('profile.delete_btn'),
       addressesTitle: I18n.t('profile.addresses_title'),

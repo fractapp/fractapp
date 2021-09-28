@@ -43,6 +43,7 @@ import {TabMenu} from 'components/TabMenu';
 import {getSymbol} from 'types/wallet';
 import StringUtils from 'utils/string';
 import {Language} from 'screens/Language';
+import Url from '../Url';
 
 /**
  * Main navigation stack
@@ -210,6 +211,7 @@ export const Navigation = ({isInitialized}: {isInitialized: boolean}) => {
         {getRouterWithTitle('Connecting', '', Connecting)}
         {getRouterWithTitle('Chat', '', Chat)}
         {getEmptyRouter('Search', Search)}
+        {getEmptyRouter('Url', Url)}
       </>
     );
   };

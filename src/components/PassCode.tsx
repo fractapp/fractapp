@@ -31,7 +31,7 @@ export const PassCode = ({
   };
   const numpadClick = async (index: number) => {
     if (index === 12) {
-      setPasscode(passcode.slice(0, passcode.length - 1));
+      setPasscode(passcode.slice(0, passcode.length - 1)); //drop last character
     } else if (index === 10 && isBiometry) {
       unlockWithBiometry();
     } else if (index === 11) {

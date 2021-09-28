@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WalletLogo } from 'components/WalletLogo';
 import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
@@ -17,7 +17,8 @@ import UsersStore from 'storage/Users';
 import DialogStore from 'storage/Dialog';
 import AccountsStore from 'storage/Accounts';
 import { Adaptors } from 'adaptors/adaptor';
-import { Network } from 'types/account';
+import { AccountType, Network } from 'types/account';
+import ServerInfoStore from 'storage/ServerInfo';
 
 /**
  * Chat screen
@@ -28,6 +29,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const accountsState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+  const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
 
   const dispatch = useDispatch();
 
@@ -47,7 +49,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           return;
         }
 
-        const currencyEnterAmount: Currency = Number(btn.arguments[0]);
+        const currencyEnterAmount: Currency = toCurrency(btn.arguments[0]);
 
         navigation.navigate('EnterAmount', {
           chatId: chatId,
@@ -59,17 +61,37 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           args: btn.arguments.slice(1, btn.arguments.length),
         });
         break;
-      case '/broadcast':
-        if (btn.arguments.length < 2) {
+      case '/openUrl':
+        if (btn.arguments.length < 1) {
           return;
         }
+        await Linking.openURL(btn.arguments[0]); //TODO: next release alert (any site)
+        break;
+      case '/broadcast':
+        try {
+          if (btn.arguments.length < 2) {
+            return;
+          }
 
-        const tx = JSON.parse(btn.arguments[0]);
-        const currency: Currency = Number(btn.arguments[1]);
-        const network: Network = getNetwork(currency);
-        const api = Adaptors.get(network)!;
+          const tx = JSON.parse(btn.arguments[0]);
+          const currency: Currency = toCurrency(btn.arguments[1]);
 
-        dispatch(DialogStore.actions.showConfirmTxInfo(await api.parseTx((user.value as Profile), accountsState.accounts[currency], tx)));
+          const network: Network = getNetwork(currency);
+          const api = Adaptors.get(network)!;
+
+          dispatch(DialogStore.actions.showConfirmTxInfo(
+            await api.parseTx((user.value as Profile),
+              accountsState.accounts[AccountType.Main][currency],
+              msgId,
+              btn.arguments.slice(2, btn.arguments.length),
+              tx,
+              serverInfoState.prices[currency])
+            )
+          );
+        } catch (e) {
+          console.log('broadcast err: ' + e);
+          return;
+        }
         break;
       default:
         let msg = {
@@ -201,8 +223,10 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
                 tx={{
                   id: tx.id,
                   hash: tx.hash,
+                  fullValue: tx.fullValue,
                   userId: tx.userId,
                   address: tx.address,
+                  action: tx.action,
                   currency: tx.currency,
                   txType: tx.txType,
                   timestamp: tx.timestamp,

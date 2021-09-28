@@ -7,13 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import ChatsStore from 'storage/Chats';
 import ServerInfoStore from 'storage/ServerInfo';
-import { Store } from 'redux';
 import { Loader } from 'components/Loader';
 import { Adaptors } from 'adaptors/adaptor';
-import SplashScreen from 'react-native-splash-screen';
 import StringUtils from 'utils/string';
 
-const Init = ({store}: {store: Store}) => {
+const Init = () => {
   const dispatch = useDispatch();
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
@@ -34,6 +32,7 @@ const Init = ({store}: {store: Store}) => {
         await Adaptors.init();
         await tasks.init(dispatch);
       } catch (e) {
+        console.log('e: ' + e);
         Alert.alert(StringUtils.texts.showMsg.invalidConnection);
       }
     })();

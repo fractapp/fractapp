@@ -1,5 +1,16 @@
 import {Currency} from './wallet';
 
+/**
+ * @category Models
+ */
+export enum AccountType {
+  Main,
+  Staking
+}
+
+/**
+ * @category Models
+ */
 export enum Network {
   Polkadot = 0,
   Kusama,
@@ -14,6 +25,26 @@ export type Account = {
   pubKey: string;
   currency: Currency;
   network: Network;
-  balance: number;
-  planks: string;
+  viewBalance: number;
+  balance: Balance;
+  type: AccountType
 };
+
+/**
+ * @category Models
+ */
+export type BalanceRs = {
+  total: string,
+  transferable: string,
+  payableForFee: string,
+  staking: string
+}
+
+/**
+ * @category Models
+ */
+export type Balance = {
+  total: string,
+  transferable: string,
+  payableForFee: string
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Transaction, TxStatus, TxType } from 'types/transaction';
+import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import { getSymbol } from 'types/wallet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { WalletInfo } from 'components/WalletInfo';
@@ -14,8 +14,9 @@ import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
 import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
-import { Account } from 'types/account';
+import { Account, AccountType } from 'types/account';
 import UsersStore from 'storage/Users';
+import { getNameTxAction, getTxName } from 'types/inputs';
 
 /**
  * Screen with transaction details
@@ -29,7 +30,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
   const tx: Transaction = route.params.transaction;
 
   const user: User = usersState.users[tx.userId == null ? tx.address : tx.userId];
-  const account: Account = accountState.accounts[tx.currency];
+  const account: Account = accountState.accounts[AccountType.Main][tx.currency];
 
   const renderStatus = () => {
     switch (tx.status) {
@@ -73,6 +74,20 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
     }
   };
 
+  const mainValue = tx.usdValue !== 0
+    ? String(String(tx.usdValue).length < 3 ? tx.usdValue.toFixed(2) : tx.usdValue)
+    : tx.fullValue;
+
+  const name = tx.action === TxAction.Transfer ? (
+    user.isAddressOnly
+      ? tx.address
+      : (
+        (user.value as Profile).name !== undefined && (user.value as Profile).name !== ''
+          ? (user.value as Profile).name
+          : (user.value as Profile).username
+      )
+  ) : getTxName(tx.action);
+
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
@@ -106,23 +121,16 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
             });
           }}
           style={styles.address}>
-          {user.isAddressOnly
-            ? tx.address
-            : (
-              (user.value as Profile).name !== undefined && (user.value as Profile).name !== ''
-                ? (user.value as Profile).name
-                : (user.value as Profile).username
-            )
-          }
+          {name}
         </Text>
-        <Text style={[styles.value, {color: amountColor()}]}>
+        <Text style={[styles.value, {color: amountColor(), fontSize: 40 - (mainValue.length - 1)}]}>
           {tx.usdValue !== 0
-            ? '$' + tx.usdValue
-            : `${tx.value} ${getSymbol(tx.currency)}`}
+            ? '$' + mainValue
+            : `${mainValue} ${getSymbol(tx.currency)}`}
         </Text>
         {tx.usdValue !== 0 ? (
-          <Text style={styles.subValue}>
-            ({tx.value} {getSymbol(tx.currency)})
+          <Text style={[styles.subValue, { fontSize: 20 }]}>
+            ({tx.fullValue} {getSymbol(tx.currency)})
           </Text>
         ) : (
           <></>
@@ -194,13 +202,11 @@ const styles = StyleSheet.create({
   value: {
     marginTop: 10,
     textAlign: 'center',
-    fontSize: 40,
     fontFamily: 'Roboto-Regular',
     color: 'black',
   },
   subValue: {
     textAlign: 'center',
-    fontSize: 20,
     fontFamily: 'Roboto-Regular',
     color: 'black',
   },

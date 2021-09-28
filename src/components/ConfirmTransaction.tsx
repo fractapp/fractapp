@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import { getSymbol } from 'types/wallet';
-import { useRef } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {WalletInfo} from 'components/WalletInfo';
+import { WalletInfo } from 'components/WalletInfo';
 import StringUtils from 'utils/string';
 import backend from 'utils/api';
 import { BlueButton } from './BlueButton';
-import MathUtils from 'utils/math';
 import { WhiteButton } from 'components/WhiteButton';
 import { ConfirmTxInfo, getNameTxAction } from 'types/inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import DialogStore from 'storage/Dialog';
 import ServerInfoStore from 'storage/ServerInfo';
+import GlobalStore from 'storage/Global';
+import ChatsStore from 'storage/Chats';
 import { Adaptors } from 'adaptors/adaptor';
-import BN from 'bn.js';
+import { TxStatus } from 'types/transaction';
+import AccountsStore from 'storage/Accounts';
+import { AccountType } from 'types/account';
+import { randomAsHex } from '@polkadot/util-crypto';
 
 /**
  * Popup dialog component with 1 button
@@ -23,30 +26,86 @@ import BN from 'bn.js';
 export const ConfirmTransaction = ({
   isShow,
   confirmTxInfo,
-  onConfirm,
 }: {
   isShow: boolean,
-  confirmTxInfo: ConfirmTxInfo,
-  onConfirm: () => void;
+  confirmTxInfo: ConfirmTxInfo
 }) => {
   const dispatch = useDispatch();
+  const globalState: GlobalStore.State = useSelector((state: any) => state.global);
   const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
-  const price = serverInfoState.prices[confirmTxInfo.sender.currency] ?? 0;
-  const api = Adaptors.get(confirmTxInfo.sender.network);
+  const accountsState: AccountsStore.State = useSelector((state: any) => state.accounts);
 
-  const tokenValue =
-    api === undefined ?
-      0 :
-      MathUtils.convertFromPlanckToViewDecimals(new BN(confirmTxInfo.planksValue), api.decimals, api.viewDecimals);
-  const usdValue = api === undefined ?
-    0 :
-    MathUtils.roundUsd(tokenValue * price);
-  const tokenFee = api === undefined ?
-    0 :
-    MathUtils.convertFromPlanckToViewDecimals(new BN(confirmTxInfo.planksFee), api.decimals, api.viewDecimals);
-  const usdFee = api === undefined ?
-    0 :
-    MathUtils.roundUsd(tokenFee * price);
+  const sender = accountsState.accounts[AccountType.Main][confirmTxInfo.accountCurrency];
+  const api = Adaptors.get(sender.network)!;
+  const price = serverInfoState.prices[sender.currency] ?? 0;
+  const creator = confirmTxInfo.creator;
+
+  const tokenValue = confirmTxInfo.tx.fullValue;
+  const usdValue = confirmTxInfo.tx.usdValue;
+  const usdFee = confirmTxInfo.tx.usdFee;
+
+  const onConfirm = async () => {
+    console.log('confirm');
+    console.log('isLoadingShow: ' + globalState.loadInfo.isLoadingShow);
+    if (globalState.loadInfo.isLoadingShow) {
+      return;
+    }
+    console.log('send');
+
+    dispatch(GlobalStore.actions.showLoading());
+    popupRef.current!.close();
+
+    let isError = false;
+    try {
+      const hash = await api.broadcast(confirmTxInfo.unsignedTx);
+
+      const tx = confirmTxInfo.tx;
+
+      console.log('tx hash: ' + hash);
+      tx.hash = hash;
+      tx.id = 'sent-' + hash;
+      tx.status = TxStatus.Pending;
+      dispatch(ChatsStore.actions.addPendingTx({
+        tx: tx,
+        owner: globalState.profile.id,
+      }));
+    } catch (e) {
+      isError = true;
+      console.log('error send tx');
+    }
+
+    try {
+      const msg = {
+        id: 'answer-' + randomAsHex(32),
+        value: '',
+        action: confirmTxInfo.msgArgs[isError ? 1 : 0],
+        args: confirmTxInfo.msgArgs.slice(2, confirmTxInfo.msgArgs.length),
+        rows: [],
+        timestamp: Date.now(),
+        sender: globalState.profile!.id,
+        receiver: confirmTxInfo.creator.id,
+        hideBtn: true,
+      };
+
+      await backend.sendMsg({
+        version: 1,
+        value: '',
+        action: msg.action,
+        receiver: msg.receiver,
+        args: msg.args,
+      });
+    } catch (e) {
+      console.log('error send msg');
+    }
+
+    dispatch(ChatsStore.actions.hideBtns({
+      chatId: confirmTxInfo.creator.id,
+      msgId: confirmTxInfo.msgId,
+    }));
+
+    dispatch(GlobalStore.actions.hideLoading());
+    dispatch(DialogStore.actions.hideConfirmTxInfo());
+  };
 
   let popupRef = useRef<RBSheet>(null);
 
@@ -56,6 +115,7 @@ export const ConfirmTransaction = ({
       popupRef.current!.open();
     }
   }, [popupRef.current, isShow]);
+
 
   return (
     <RBSheet
@@ -78,7 +138,7 @@ export const ConfirmTransaction = ({
               marginTop: 25,
             }}>
             <Image
-              source={{ uri: backend.getImgUrl(confirmTxInfo.creator.id, confirmTxInfo.creator.lastUpdate) }}
+              source={{ uri: backend.getImgUrl(creator.id, creator.lastUpdate) }}
               style={{
                 borderRadius: 55,
                 width: 55,
@@ -95,10 +155,10 @@ export const ConfirmTransaction = ({
                   color: 'black',
                   textAlign: 'left',
                 }}>
-                  {confirmTxInfo.creator.name.trim() === '' ? '@' + confirmTxInfo.creator.username : confirmTxInfo.creator.name}
+                  {creator.name.trim() === '' ? '@' + creator.username : creator.name}
                 </Text>
               </View>
-              {confirmTxInfo.creator.name.trim() !== '' ? (
+              {creator.name.trim() !== '' ? (
                 <View style={{ height: 23, flexDirection: 'row' }}>
                   <Text style={[{
                     fontSize: 15,
@@ -108,7 +168,7 @@ export const ConfirmTransaction = ({
                     color: '#888888',
                     textAlign: 'left',
                   }]}>
-                    {confirmTxInfo.creator.username}
+                    {creator.username}
                   </Text>
                 </View>
               ) : (
@@ -124,11 +184,11 @@ export const ConfirmTransaction = ({
               ${usdValue}
             </Text>
             <Text style={styles.tokenValue}>
-              ({tokenValue} {getSymbol(confirmTxInfo.sender.currency)})
+              ({tokenValue} {getSymbol(sender.currency)})
             </Text>
             {(confirmTxInfo.warningText != null || confirmTxInfo.errorText != null) &&
             (
-              <View style={[styles.warning, { borderColor: confirmTxInfo.errorText != null ? '#EA4335' : '#F39B34'  }]}>
+              <View style={[styles.warning, { borderColor: confirmTxInfo.errorText != null ? '#ea4335' : '#F39B34'  }]}>
                 <Text style={[styles.warningText, {color: confirmTxInfo.errorText != null ? '#EA4335' : '#F39B34' }]}>
                   {confirmTxInfo.errorText != null ? confirmTxInfo.errorText : confirmTxInfo.warningText}
                 </Text>
@@ -138,7 +198,7 @@ export const ConfirmTransaction = ({
           </View>
           <View style={{ marginTop: 30 }}>
             <Text style={styles.title}>{StringUtils.texts.WriteOffAccountTitle}</Text>
-            <WalletInfo width={'100%'} paddingLeft={'0%'} account={confirmTxInfo.sender} price={price} />
+            <WalletInfo width={'100%'} paddingLeft={'0%'} account={sender} price={price} />
           </View>
           <View style={{ width: '100%', flexDirection: 'column', marginTop: 20 }}>
             <Text style={[styles.title, { marginBottom: 5 }]}>
@@ -150,7 +210,7 @@ export const ConfirmTransaction = ({
         <View style={[styles.buttonsBlock]}>
           <WhiteButton
             width={'40%'}
-            color={'#888888'}
+            color={'black'}
             text={'Cancel'}
             height={50}
             onPress={() => popupRef.current!.close()}

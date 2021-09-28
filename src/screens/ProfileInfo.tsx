@@ -11,6 +11,8 @@ import StringUtils from 'utils/string';
 import { Currency } from 'types/wallet';
 import formatNameOrAddress = StringUtils.formatNameOrAddress;
 import ChatsStore from 'storage/Chats';
+import { randomAsHex } from '@polkadot/util-crypto';
+import GlobalStore from 'storage/Global';
 
 /**
  * Screen with transaction details
@@ -20,6 +22,7 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
     const dispatch = useDispatch();
     const usersState: UsersStore.State = useSelector((state: any) => state.users);
     const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
+    const globalState: GlobalStore.State = useSelector((state: any) => state.global);
 
     const user: User = usersState.users[route.params.userId]!;
 
@@ -33,6 +36,42 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
             title: name !== '' ? name : username,
         });
     }, []);
+
+    const restartChatBot = () => {
+        const msg = {
+            id: 'answer-' + randomAsHex(32),
+            value: 'Start',
+            action: '/init',
+            args: [],
+            rows: [],
+            timestamp: Date.now(),
+            sender: globalState.profile!.id,
+            receiver: id,
+            hideBtn: true,
+        };
+        backend.sendMsg({
+            version: 1,
+            value: msg.value,
+            action: msg.action,
+            receiver: id,
+            args: msg.args,
+        }).then((timestamp) => {
+            if (timestamp != null) {
+                msg.timestamp = timestamp;
+                dispatch(ChatsStore.actions.addMessages([{
+                    chatId: id,
+                    msg: msg,
+                }]));
+                navigation.reset({
+                    index: 1,
+                    routes: [
+                        { name: 'Home' },
+                        { name: 'Chat', params: { chatId: id } },
+                    ],
+                });
+            }
+        });
+    };
 
     const renderAddress = (address: string, currency: Currency) => {
         return (
@@ -82,14 +121,8 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
                       !user.isAddressOnly
                         ? (
                           isChatBot ?
-                            navigation.reset({
-                                index: 1,
-                                routes: [
-                                    { name: 'Home' },
-                                    { name: 'Chat', params: { chatId: id } },
-                                ],
-                            }) :
-                            navigation.navigate('SelectWallet', {
+                            restartChatBot()
+                            : navigation.navigate('SelectWallet', {
                                 chatId: id,
                             })
                         )
@@ -99,7 +132,7 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
                             currency: (user.value as AddressOnly).currency,
                         })
                     }>
-                      <Text style={styles.btnText}>{isChatBot ? StringUtils.texts.profile.startBtn : StringUtils.texts.profile.sendBtn}</Text>
+                      <Text style={styles.btnText}>{isChatBot ? StringUtils.texts.profile.restartBtn : StringUtils.texts.profile.sendBtn}</Text>
                   </TouchableOpacity>
               </View>
               <View style={{ alignItems: 'flex-end', width: '50%'  }}>

@@ -8,6 +8,7 @@ import math from 'utils/math';
 import StringUtils from 'utils/string';
 import { Account } from 'types/account';
 import { EnterAmountInfo } from 'types/inputs';
+import { TxType } from 'types/transaction';
 
 /**
  * Text input for amount
@@ -243,6 +244,7 @@ export const AmountInput = ({
     const transferValidation = await api.isTxValid(
       account.address,
       isChatBotRequest ? null : args[0],
+      isChatBotRequest ? TxType.None : TxType.Sent, //TODO: next release
       planksValue,
       fee,
     );
@@ -325,7 +327,7 @@ export const AmountInput = ({
           top: 8,
         }}
         onPress={async () => {
-          let v = new BN(account.planks);
+          let v = new BN(account.balance.transferable);
           setUsdMode(false);
           setValue(math.convertFromPlanckToString(v, api.decimals));
           const fee = await calculateFee(account.address, v);

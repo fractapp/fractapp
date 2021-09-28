@@ -1,20 +1,21 @@
 import BN from 'bn.js';
 import DB from 'storage/DB';
 import { Keyring } from '@polkadot/keyring';
-import { ErrorCode, IAdaptor, TransferValidation } from './adaptor';
-import { Account, Network } from 'types/account';
+import { Adaptors, ErrorCode, IAdaptor, TransferValidation } from './adaptor';
+import { Account, Balance, BalanceRs, Network } from 'types/account';
 import math from 'utils/math';
+import MathUtils from 'utils/math';
 import { Currency, getSymbol } from 'types/wallet';
 import backend from 'utils/api';
+import api from 'utils/api';
 import StringUtils from 'utils/string';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { construct, createMetadata, methods, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
+import { construct, createMetadata, decode, methods, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
 import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
-import { ConfirmTxInfo, TxActionType } from 'types/inputs';
+import { ConfirmTxInfo, ConfirmTxType } from 'types/inputs';
 import { Profile } from 'types/profile';
-import { decode } from '@substrate/txwrapper-polkadot';
 import { SubstrateBase } from 'types/serverInfo';
-import api from 'utils/api';
+import { TxAction, TxStatus, TxType } from 'types/transaction';
 
 export class SubstrateAdaptor implements IAdaptor {
   public readonly viewDecimals: number;
@@ -32,13 +33,13 @@ export class SubstrateAdaptor implements IAdaptor {
       case Network.Polkadot:
         this.viewDecimals = 3;
         this.decimals = 10;
-        this.minTransfer = math.convertToPlanck('1', this.decimals); //TODO
+        this.minTransfer = math.convertToPlanck('1', this.decimals); //TODO: next release
         this.currency = Currency.DOT;
         break;
       case Network.Kusama:
         this.viewDecimals = 4;
         this.decimals = 12;
-        this.minTransfer = math.convertToPlanck('0.002', this.decimals); //TODO
+        this.minTransfer = math.convertToPlanck('0.002', this.decimals); //TODO: next release
         this.currency = Currency.KSM;
         break;
     }
@@ -135,7 +136,7 @@ export class SubstrateAdaptor implements IAdaptor {
     return account;
   }
 
-  public async balance(address: string): Promise<BN> {
+  public async balance(address: string): Promise<BalanceRs> {
     return (await backend.substrateBalance(address, this.currency))!;
   }
 
@@ -159,17 +160,34 @@ export class SubstrateAdaptor implements IAdaptor {
     return hash;
   }
 
+  public async broadcast(unsignedTx: any): Promise<string> {
+    const opt = {
+      metadataRpc: this.substrateBase.metadata,
+      registry: this.substrateBase.registry,
+    };
+    const signature = this.sign(
+      await this.getAccount(),
+      construct.signingPayload(unsignedTx, { registry: this.substrateBase.registry }),
+      opt
+    );
+    const hexTx = construct.signedTx(unsignedTx, signature, opt);
+    const hash = await backend.broadcastSubstrateTx(hexTx, this.network);
+    if (hash == null) {
+      throw new Error('invalid send tx');
+    }
+    return hash;
+  }
+
   public async isTxValid(
     sender: string,
     receiver: string | null,
+    txType: TxType,
     value: BN,
     fee: BN,
   ): Promise<TransferValidation> {
-    //TODO: check locked balance
-    //TODO: action (staking not check min balance)
-    const balanceReceiver = receiver == null ? 0 : await this.balance(receiver);
-    const balanceSender = await this.balance(sender);
-    if (balanceReceiver == null || balanceSender == null) {
+    const balanceReceiver: Balance | null = receiver == null ? null : await this.balance(receiver);
+    const balanceSender: Balance = await this.balance(sender);
+    if ((receiver != null && balanceReceiver == null) || balanceSender == null) {
       return {
         isOk: false,
         errorCode: ErrorCode.ServiceUnavailable,
@@ -178,7 +196,7 @@ export class SubstrateAdaptor implements IAdaptor {
       };
     }
 
-    if (balanceSender.cmp(value.add(fee)) < 0) {
+    if (new BN(balanceSender.transferable).cmp(value.add(fee)) < 0 || new BN(balanceSender.payableForFee).cmp(value.add(fee)) < 0 ) {
       return {
         isOk: false,
         errorCode: ErrorCode.NotEnoughBalanceErr,
@@ -189,7 +207,7 @@ export class SubstrateAdaptor implements IAdaptor {
 
     console.log('receiver: ' + receiver);
     if (receiver != null) {
-      if (new BN(balanceReceiver).add(value).cmp(this.minTransfer) < 0) {
+      if (new BN(balanceReceiver!.total).add(value).cmp(this.minTransfer) < 0) {
         return {
           isOk: false,
           errorCode: ErrorCode.MinBalance,
@@ -204,8 +222,9 @@ export class SubstrateAdaptor implements IAdaptor {
         };
       }
 
-      const balanceAfterBalance = balanceSender?.sub(value).sub(fee);
+      const balanceAfterBalance = new BN(balanceSender.total).sub(value).sub(fee);
       if (
+        txType === TxType.Sent &&
         balanceAfterBalance.cmp(this.minTransfer) < 0 &&
         balanceAfterBalance.cmp(new BN(0)) !== 0
       ) {
@@ -223,7 +242,6 @@ export class SubstrateAdaptor implements IAdaptor {
           ),
         };
       }
-
     }
 
     return {
@@ -234,7 +252,7 @@ export class SubstrateAdaptor implements IAdaptor {
     };
   }
 
-  public async parseTx(creator: Profile, sender: Account, unsignedTx: any): Promise<ConfirmTxInfo> {
+  public async parseTx(creator: Profile, sender: Account, msgId: string, msgArgs: Array<string>, unsignedTx: any, price: number): Promise<ConfirmTxInfo> {
     console.log('test load: ' + new Date());
     const opt = {
       metadataRpc: this.substrateBase.metadata,
@@ -256,27 +274,79 @@ export class SubstrateAdaptor implements IAdaptor {
 
     console.log(txInfo.method.args.value);
     console.log(txInfo.method.name);
+    const api = Adaptors.get(sender.network)!;
+
     switch (txInfo.method.name) {
-      case 'transfer':
-      case 'transferKeepAlive':
-        const value = new BN(String(txInfo.method.args.value));
+      case 'batchAll':
+        const calls: Array<any> = <Array<any>>txInfo.method.args.calls;
+        if (
+          calls.length !== 2 ||
+
+          calls[0].args.targets === undefined ||
+          Object.keys(calls[0].args).length !== 1 ||
+
+          calls[1].args.controller === undefined ||
+          calls[1].args.payee === undefined ||
+          calls[1].args.value === undefined ||
+          Object.keys(calls[1].args).length !== 3
+        ) {
+          break;
+        }
+
+        const planksFee = new BN(String(txInfo.tip)).add(new BN(feeInfo.fee));
+        const value = new BN(String(calls[1].args.value));
         const transferValidation = await this.isTxValid(
           sender.address,
-          null, //TODO
+          null, //TODO: test. is ok?
+          TxType.None,
           value,
           new BN(feeInfo.fee),
         );
+
+        const viewValue = math.convertFromPlanckToViewDecimals(
+          value,
+          api.decimals,
+          api.viewDecimals,
+        );
+        const fee = math.convertFromPlanckToViewDecimals(
+          planksFee,
+          api.decimals,
+          api.viewDecimals,
+        );
+
         return {
-          action: TxActionType.Donate,
-          planksValue: value.toString(),
+          msgId: msgId,
+          unsignedTx: unsignedTx,
+          tx: {
+            id: '',
+            hash: '',
+            fullValue: math.convertFromPlanckToString(
+              value,
+              api.decimals
+            ),
+            userId: creator.id,
+            address: creator.addresses![sender.currency],
+            currency: sender.currency,
+            txType: TxType.None,
+            timestamp: Math.round(new Date().getTime()),
+            action: TxAction.Staking,
+
+            value: viewValue,
+            planckValue: value.toString(),
+            usdValue: MathUtils.roundUsd(viewValue * price),
+
+            fee: fee,
+            planckFee: planksFee.toString(),
+            usdFee: MathUtils.roundUsd(fee * price),
+            status: TxStatus.Pending,
+          },
+          action: ConfirmTxType.Staking,
           creator: creator,
-          sender: sender,
-          planksFee: new BN(String(txInfo.tip)).add(new BN(feeInfo.fee)).toString(),
-          warningText: 'На данный момент вы совершаете пожертвование. Убедитесь, что вы хотите совершить пожертвование.', //TODO: go to string
+          msgArgs: msgArgs,
+          accountCurrency: sender.currency,
+          warningText: null,
           errorText: transferValidation.isOk ? null : transferValidation.errorMsg,
         };
-      case 'batchAll':
-        break;
     }
 
     throw new Error('undefined transaction type');

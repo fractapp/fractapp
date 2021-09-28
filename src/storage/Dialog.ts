@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ConfirmTxInfo, TxActionType } from 'types/inputs';
+import { ConfirmTxInfo, ConfirmTxType } from 'types/inputs';
 import { Currency } from 'types/wallet';
-import { Network } from 'types/account';
+import { TxAction, TxStatus, TxType } from 'types/transaction';
 
 /**
  * @namespace
@@ -31,9 +31,31 @@ namespace DialogStore {
     confirmTxInfo: {
       isShow: false,
       info: {
-        action: TxActionType.Undefined,
-        planksValue: '0',
-        planksFee: '0',
+        msgId: '',
+        unsignedTx: '',
+        tx: {
+          id: '',
+          hash: '',
+          userId: '',
+          fullValue: '',
+          action: TxAction.Transfer,
+          address: '',
+          currency: Currency.DOT,
+          txType: TxType.Sent,
+          timestamp: 0,
+
+          value: 0,
+          planckValue: '0',
+          usdValue: 0,
+
+          fee: 0,
+          planckFee: '0',
+          usdFee: 0,
+
+          status: TxStatus.Success,
+        },
+        action: ConfirmTxType.Undefined,
+        msgArgs: [],
         errorText: null,
         warningText: null,
         creator: {
@@ -45,15 +67,7 @@ namespace DialogStore {
           addresses: null,
           isChatBot: false,
         },
-        sender: {
-          name: '',
-          address: '',
-          pubKey: '',
-          currency: Currency.DOT,
-          network: Network.Polkadot,
-          balance: 0,
-          planks: '',
-        },
+        accountCurrency: Currency.DOT,
       },
     },
   });

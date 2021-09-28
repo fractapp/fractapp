@@ -84,13 +84,22 @@ namespace MathUtils {
       }
     }
 
-    value =
-      value.substr(0, value.length - decimals) +
-      '.' +
-      value.substr(value.length - decimals);
+    let lastPart = value.substr(value.length - decimals);
+    let newLastPart = lastPart;
+    for (let i = lastPart.length - 1; i >= 0; i--) {
+      if (lastPart[i] !== '0') {
+        break;
+      }
+      newLastPart = newLastPart.slice(0, i);
+    }
+
+    value = value.substr(0, value.length - decimals) + '.' + newLastPart;
 
     if (value.startsWith('.')) {
       value = '0' + value;
+    }
+    if (value.endsWith('.')) {
+      value = value.slice(0, value.length - 1);
     }
 
     return value;

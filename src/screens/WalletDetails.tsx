@@ -15,12 +15,16 @@ import stringUtils from 'utils/string';
 import ChatsStore from 'storage/Chats';
 import StringUtils from 'utils/string';
 import { Profile } from 'types/profile';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
-import { Currency } from 'types/wallet';
+import { Currency, filterTxsByAccountType, fromCurrency } from 'types/wallet';
 import AccountsStore from 'storage/Accounts';
-import { Account } from 'types/account';
+import { Account, AccountType } from 'types/account';
 import ServerInfoStore from 'storage/ServerInfo';
+import { randomAsHex } from '@polkadot/util-crypto';
+import backend from 'utils/api';
+// @ts-ignore
+import {MAIN_BOT_ID} from '@env';
 
 /**
  * Screen with wallet details
@@ -33,22 +37,26 @@ export const WalletDetails = ({
   navigation: any;
   route: any;
 }) => {
+  const dispatch = useDispatch();
+  const globalState = useSelector((state: any) => state.global);
+
   const accountState: AccountsStore.State = useSelector((state: any) => state.accounts);
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
   const serverInfoState: ServerInfoStore.State = useSelector((state: any) => state.serverInfo);
 
   const currency: Currency = route.params.currency;
-  const account: Account = accountState.accounts[currency];
+  const type: AccountType = route.params.type;
+  const account: Account = accountState.accounts[type][currency];
 
   const getDataWithSections = () => {
     let sections = [];
 
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    const txs: Array<Transaction> = [];
+    let txs: Array<Transaction> = [];
 
-    if (!chatsState.transactions[account.currency]) {
+    if (!chatsState.transactions[type] || !chatsState.transactions[account.currency]) {
       return [];
     }
 
@@ -57,6 +65,7 @@ export const WalletDetails = ({
       txs.push(stateTransactions[id]);
     }
 
+    txs = filterTxsByAccountType(txs, account.type);
     for (let tx of txs.sort((a, b) => b.timestamp - a.timestamp)) {
       let dateValue = stringUtils.toTitle(now, new Date(tx.timestamp));
       if (!txsBySelections.has(dateValue)) {
@@ -71,11 +80,151 @@ export const WalletDetails = ({
         title: key,
         data: value,
       });
-
     }
+
     return sections;
   };
   const data = getDataWithSections();
+
+  const generateBtns = () => {
+    switch (account.type) {
+      case AccountType.Main:
+        return (<View style={styles.btns}>
+          <View style={styles.btn}>
+            <TouchableHighlight
+              testID={'sendBtn'}
+              onPress={() =>
+                navigation.navigate('Search', {
+                  currency: account.currency,
+                })
+              }
+              underlayColor="#f8f9fb"
+              style={styles.btnImg}>
+              <MaterialCommunityIcons
+                name="upload-outline"
+                size={24}
+                color="#666666"
+              />
+            </TouchableHighlight>
+            <Text style={styles.btnText}>{StringUtils.texts.SendBtn}</Text>
+          </View>
+          <View style={[styles.btn, { marginLeft: 30 }]}>
+            <TouchableHighlight
+              testID={'receiveBtn'}
+              onPress={() =>
+                navigation.navigate('Receive', {
+                  address: account.address,
+                  currency: account.currency,
+                })
+              }
+              underlayColor="#f8f9fb"
+              style={[styles.btnImg]}>
+              <MaterialCommunityIcons
+                name="download-outline"
+                size={24}
+                color="#666666"
+              />
+            </TouchableHighlight>
+            <Text style={styles.btnText}>
+              {StringUtils.texts.ReceiveBtn}
+            </Text>
+          </View>
+        </View>);
+      case AccountType.Staking:
+        return (<View style={styles.btns}>
+          <View style={styles.btn}>
+            <TouchableHighlight
+              testID={'withdrawBtn'}
+              onPress={() => {
+                const msg = {
+                  id: 'answer-' + randomAsHex(32),
+                  value: 'Withdraw',
+                  action: '/withdraw',
+                  args: [ fromCurrency(account.currency) ],
+                  rows: [],
+                  timestamp: Date.now(),
+                  sender: globalState.profile!.id,
+                  receiver: MAIN_BOT_ID,
+                  hideBtn: true,
+                };
+                backend.sendMsg({
+                  version: 1,
+                  value: msg.value,
+                  action: msg.action,
+                  receiver: MAIN_BOT_ID,
+                  args: msg.args,
+                }).then((timestamp) => {
+                  if (timestamp != null) {
+                    msg.timestamp = timestamp;
+                    dispatch(ChatsStore.actions.addMessages([{
+                      chatId: MAIN_BOT_ID,
+                      msg: msg,
+                    }]));
+                    navigation.navigate('Chat', {
+                      chatId: MAIN_BOT_ID,
+                    });
+                  }
+                });
+              }}
+              underlayColor="#f8f9fb"
+              style={styles.btnImg}>
+              <MaterialCommunityIcons
+                name="upload-outline"
+                size={24}
+                color="#666666"
+              />
+            </TouchableHighlight>
+            <Text style={styles.btnText}>{StringUtils.texts.WithdrawBtn}</Text>
+          </View>
+          <View style={[styles.btn, { marginLeft: 30 }]}>
+            <TouchableHighlight
+              testID={'investBtn'}
+              onPress={() => {
+                const msg = {
+                  id: 'answer-' + randomAsHex(32),
+                  value: 'Invest',
+                  action: '/invest',
+                  args: [ fromCurrency(account.currency) ],
+                  rows: [],
+                  timestamp: Date.now(),
+                  sender: globalState.profile!.id,
+                  receiver: MAIN_BOT_ID,
+                  hideBtn: true,
+                };
+                backend.sendMsg({
+                  version: 1,
+                  value: msg.value,
+                  action: msg.action,
+                  receiver: MAIN_BOT_ID,
+                  args: msg.args,
+                }).then((timestamp) => {
+                  if (timestamp != null) {
+                    msg.timestamp = timestamp;
+                    dispatch(ChatsStore.actions.addMessages([{
+                      chatId: MAIN_BOT_ID,
+                      msg: msg,
+                    }]));
+                    navigation.navigate('Chat', {
+                      chatId: MAIN_BOT_ID,
+                    });
+                  }
+                });
+              }}
+              underlayColor="#f8f9fb"
+              style={[styles.btnImg]}>
+              <MaterialCommunityIcons
+                name="download-outline"
+                size={24}
+                color="#666666"
+              />
+            </TouchableHighlight>
+            <Text style={styles.btnText}>
+              {StringUtils.texts.InvestBtn}
+            </Text>
+          </View>
+        </View>);
+    }
+  };
 
   return (
     <View style={{width: '100%'}}>
@@ -83,47 +232,7 @@ export const WalletDetails = ({
         ListHeaderComponent={() => (
           <View>
             <WalletDetailsInfo account={account} price={serverInfoState.prices[currency]} />
-            <View style={styles.btns}>
-              <View style={styles.btn}>
-                <TouchableHighlight
-                  testID={'sendBtn'}
-                  onPress={() =>
-                    navigation.navigate('Search', {
-                      currency: account.currency,
-                    })
-                  }
-                  underlayColor="#f8f9fb"
-                  style={styles.btnImg}>
-                  <MaterialCommunityIcons
-                    name="upload-outline"
-                    size={24}
-                    color="#666666"
-                  />
-                </TouchableHighlight>
-                <Text style={styles.btnText}>{StringUtils.texts.SendBtn}</Text>
-              </View>
-              <View style={[styles.btn, {marginLeft: 30}]}>
-                <TouchableHighlight
-                  testID={'receiveBtn'}
-                  onPress={() =>
-                    navigation.navigate('Receive', {
-                      address: account.address,
-                      currency: account.currency,
-                    })
-                  }
-                  underlayColor="#f8f9fb"
-                  style={[styles.btnImg]}>
-                  <MaterialCommunityIcons
-                    name="download-outline"
-                    size={24}
-                    color="#666666"
-                  />
-                </TouchableHighlight>
-                <Text style={styles.btnText}>
-                  {StringUtils.texts.ReceiveBtn}
-                </Text>
-              </View>
-            </View>
+            {generateBtns()}
             <View style={styles.dividingLine} />
           </View>
         )}

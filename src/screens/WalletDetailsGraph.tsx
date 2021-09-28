@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {VictoryPie, VictoryLegend} from 'victory-native';
 import { Image, SectionList, StyleSheet, Text, View } from 'react-native';
-import {getColor, getName} from 'types/wallet';
+import { filterTxsByAccountType, getColor, getFullCurrencyName } from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
 import {TransactionInfo} from 'components/TransactionInfo';
@@ -9,7 +9,7 @@ import { Profile } from 'types/profile';
 import { useSelector } from 'react-redux';
 import ChatsStore from 'storage/Chats';
 import UsersStore from 'storage/Users';
-import { Account } from 'types/account';
+import { Account, AccountType } from 'types/account';
 import AccountsStore from 'storage/Accounts';
 import ServerInfoStore from 'storage/ServerInfo';
 import StringUtils from 'utils/string';
@@ -29,7 +29,7 @@ export const WalletDetailsGraph = ({
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
 
-  const accounts: Array<Account> = Object.entries(accountState.accounts).map((value: [string, Account]) => value[1]);
+  const accounts: Array<Account> = Object.entries(accountState.accounts[AccountType.Main]).map((value: [string, Account]) => value[1]);
 
   //arrays for graph
   const [balanceData, setBalance] = useState(new Array());
@@ -43,10 +43,15 @@ export const WalletDetailsGraph = ({
 
     for (let account of accounts) {
       let usdValue = 0;
+      let stakingValue = accountState.accounts[AccountType.Staking] !== undefined
+        && accountState.accounts[AccountType.Staking][account.currency] !== undefined ?
+        accountState.accounts[AccountType.Staking][account.currency].viewBalance : 0;
+
+      console.log('stakingValue: ' + stakingValue);
       if (serverInfoState.prices[account.currency]) {
         const price = serverInfoState.prices[account.currency]!;
 
-        usdValue = account.balance * price;
+        usdValue = (account.viewBalance + stakingValue) * price;
       }
 
       if (!usdValue) {
@@ -55,7 +60,7 @@ export const WalletDetailsGraph = ({
         colorsArray.push(getColor(account.currency));
         balanceArray.push(usdValue);
         legendsArray.push({
-          name: getName(account.currency),
+          name: getFullCurrencyName(account.currency),
           symbol: { fill: getColor(account.currency), type: 'square' },
         });
       }
@@ -74,7 +79,7 @@ export const WalletDetailsGraph = ({
     let sections = [];
     const now = new Date();
     let txsBySelections = new Map<string, Array<Transaction>>();
-    const txs = new Array<Transaction>();
+    let txs = new Array<Transaction>();
 
     for (let w of accounts) {
       if (!chatsState.transactions[w.currency]) {

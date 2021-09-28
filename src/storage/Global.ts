@@ -110,12 +110,12 @@ namespace GlobalStore {
       },
       enableBiometry(state: State): State {
         state.authInfo.hasBiometry = true;
-        //TODO: DB.enablePasscode what? In anyother code file we use DB.enablePasscode
+        //TODO: next release DB.enablePasscode what? In anyother code file we use DB.enablePasscode
         return state;
       },
       disableBiometry(state: State): State {
         state.authInfo.hasBiometry = false;
-        //TODO: DB.disablePasscode what? In anyother code file we use DB.disablePasscode
+        //TODO: next release DB.disablePasscode what? In anyother code file we use DB.disablePasscode
         return state;
       },
       showLoading(state: State): State {

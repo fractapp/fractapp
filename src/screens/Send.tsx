@@ -17,12 +17,13 @@ import BN from 'bn.js';
 import { Adaptors } from 'adaptors/adaptor';
 import { AddressOnly, Profile } from 'types/profile';
 import math from 'utils/math';
-import { Transaction, TxType, TxStatus } from 'types/transaction';
+import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import AccountsStore from 'storage/Accounts';
 import ServerInfoStore from 'storage/ServerInfo';
+import { AccountType } from 'types/account';
 
 /**
  * Screen with sending funds
@@ -50,7 +51,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
   const planksValueString: string = route.params?.planksValue ?? 0;
   const planksFeeString: string = route.params?.planksFee ?? 0;
 
-  const account = accountState.accounts[currency];
+  const account = accountState.accounts[AccountType.Main][currency];
   const api = Adaptors.get(account.network)!;
 
   const [totalUsd, setTotalUsd] = useState<number>(0);
@@ -150,7 +151,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
 
     const pValue = new BN(planksValueString);
     try {
-      const hash = await api.send(receiver, pValue, pValue.add(new BN(planksFeeString)).cmp(new BN(account.planks)) === 0);
+      const hash = await api.send(receiver, pValue, pValue.add(new BN(planksFeeString)).cmp(new BN(account.balance.transferable)) === 0);
 
       const tx: Transaction = {
         id: 'sent-' + hash,
@@ -160,12 +161,16 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
         currency: account.currency,
         txType: TxType.Sent,
         timestamp: Math.round(new Date().getTime()),
-
+        fullValue: math.convertFromPlanckToString(
+          pValue,
+          api.decimals
+        ),
         value: math.convertFromPlanckToViewDecimals(
           pValue,
           api.decimals,
           api.viewDecimals,
         ),
+        action: TxAction.Transfer,
         planckValue: pValue.toString(),
         usdValue: usdValue,
 
@@ -191,7 +196,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
           actions: [
             navigation.navigate('Home'),
             navigation.navigate('Chat', {
-              chatInfo: chatsState.chatsInfo[tx.userId != null ? tx.userId : tx.address]!,
+              chatId: tx.userId != null ? tx.userId : tx.address,
             }),
           ],
         });
@@ -277,7 +282,8 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
                 title: StringUtils.texts.EnterValidAddressErr,
                 text: '',
               }))
-              : navigation.navigate('EnterAmount', {
+              :
+              navigation.navigate('EnterAmount', {
                   isUSDMode: isUSDMode,
                   value: value,
                   currency: account.currency,

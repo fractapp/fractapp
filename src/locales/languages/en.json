@@ -49,10 +49,12 @@
   "send_btn": "Send",
   "receive_btn": "Receive",
   "restore_btn": "Restore",
+  "withdraw_btn": "Withdraw",
+  "invest_btn": "Invest",
   "write_off_account_title": "Write-off account",
   "receiving_account_title": "Receiving account",
   "profile": {
-    "start_btn": "Start",
+    "restart_btn": "Restart",
     "send_btn": "Send",
     "delete_btn": "Delete",
     "addresses_title": "Addresses"

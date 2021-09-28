@@ -1,7 +1,7 @@
 import DB from 'storage/DB';
 import { ChatInfo } from 'types/chatInfo';
 import { Currency, fromCurrency, getSymbol } from 'types/wallet';
-import { Transaction, TxStatus, TxType } from 'types/transaction';
+import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import { Message } from 'types/message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import StringUtils from 'utils/string';
@@ -42,10 +42,10 @@ namespace ChatsStore {
       [id in string]: ChatInfo
     },
     transactions: {
-      [id in Currency]: Transactions
+        [id in Currency]: Transactions
     },
     pendingTransactions: {
-      [id in Currency]: PendingTxs
+        [id in Currency]: PendingTxs
     },
     sentFromFractapp: {
       [id in TxId]: boolean
@@ -77,6 +77,10 @@ namespace ChatsStore {
       };
     }
     state.transactions[tx.currency]!.transactionById[tx.id] = tx;
+
+    if (tx.action !== TxAction.Transfer) {
+      return state;
+    }
 
     // add txInfo to chat
     if (!state.chats[chatId]) {
@@ -225,6 +229,7 @@ namespace ChatsStore {
             idsOfTransactions: [],
           };
         }
+
         state.pendingTransactions[pendingTx.currency]!
           .idsOfTransactions.push(pendingTx.id);
         state.sentFromFractapp[pendingTx.id] = true;
@@ -244,12 +249,11 @@ namespace ChatsStore {
         const txStatus: TxStatus = action.payload.status;
         const index: number = action.payload.index;
 
-        const pTx = state.transactions
-          [currency]!
+        const confirmedTx = state.transactions[currency]!
           .transactionById[pendingTxId]!;
 
-        pTx.status = txStatus;
-        state.transactions[pTx.currency]!.transactionById[pTx.id] = pTx;
+        confirmedTx.status = txStatus;
+        state.transactions[confirmedTx.currency]!.transactionById[confirmedTx.id] = confirmedTx;
 
         let newPTxs =
           state.pendingTransactions[currency]?.idsOfTransactions!;

@@ -1,37 +1,20 @@
 import { Transaction, TxAction } from 'types/transaction';
 import { Currency } from 'types/wallet';
 import { Profile } from 'types/profile';
-
-/**
- * @category Models
- */
-export enum ConfirmTxType {
-  Donate = 0,
-  Staking = 1,
-  Undefined
-}
-
-export const getNameTxAction = (action: ConfirmTxType): string => {
-  switch (action) {
-    case ConfirmTxType.Donate:
-      return 'Donate';
-    case ConfirmTxType.Staking:
-      return 'Staking';
-    case ConfirmTxType.Undefined:
-      return 'Undefined';
-    default:
-      throw new Error('invalid action');
-  }
-};
+import { BroadcastArgs } from 'types/message';
 
 export const getTxName = (action: TxAction) => {
   switch (action) {
-    case TxAction.Staking:
-      return 'Transfer to deposit'; //TODO go to string
+    case TxAction.StakingOpenDeposit:
+      return 'Open deposit'; //TODO go to string
+    case TxAction.StakingAddAmount:
+      return 'Add amount to deposit'; //TODO go to string
     case TxAction.StakingReward:
       return 'Reward'; //TODO go to string
     case TxAction.StakingWithdrawn:
-      return 'Withdrawn from deposit'; //TODO  go to string
+      return 'Create withdrawn request'; //TODO  go to string
+    default:
+      return 'Transaction';
   }
 };
 
@@ -56,8 +39,7 @@ export type ConfirmTxInfo = {
   msgId: string,
   unsignedTx: any,
   tx: Transaction,
-  msgArgs: Array<string>,
-  action: ConfirmTxType;
+  args: BroadcastArgs,
   creator: Profile;
   accountCurrency: Currency;
   warningText: string | null;

@@ -3,9 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WalletLogo} from 'components/WalletLogo';
 import {getSymbol} from 'types/wallet';
-import {Transaction, TxStatus, TxType} from 'types/transaction';
+import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import StringUtils from 'utils/string';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { getTxName } from 'types/inputs';
 
 /**
  * Payment message in chat
@@ -55,27 +56,57 @@ export const PaymentMsg = ({tx, onPress}: {tx: Transaction, onPress: () => void}
       return '#67D44D';
     }
   };
+
+  const alignSelf = () => {
+    switch (tx.txType) {
+      case TxType.Received:
+        return 'flex-start';
+      case TxType.None:
+      case TxType.Sent:
+        return 'flex-end';
+    }
+  };
+  const icon = () => {
+    switch (tx.txType) {
+      case TxType.Received:
+        return 'download-outline';
+      case TxType.None:
+        return 'apps';
+      case TxType.Sent:
+        return 'upload-outline';
+    }
+  };
+  const text = () => {
+    if (tx.action === TxAction.Transfer) {
+      switch (tx.txType) {
+        case TxType.None:
+          return 'Transaction'; //TODO: string
+        case TxType.Sent:
+          return StringUtils.texts.YouSentTitle;
+        case TxType.Received:
+          return StringUtils.texts.YouReceivedTitle;
+      }
+    } else {
+      return getTxName(tx.action);
+    }
+  };
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[
         styles.message,
         {
-          alignSelf: tx.txType === TxType.Sent ? 'flex-end' : 'flex-start',
+          alignSelf: alignSelf(),
         },
       ]}>
       <View style={[styles.cardRow, {marginBottom: 5}]}>
         <MaterialCommunityIcons
-          name={
-            tx.txType === TxType.Sent ? 'upload-outline' : 'download-outline'
-          }
+          name={icon()}
           size={20}
           color="#888888"
         />
         <Text style={styles.msgText}>
-          {tx.txType === TxType.Sent
-            ? StringUtils.texts.YouSentTitle
-            : StringUtils.texts.YouReceivedTitle}
+          {text()}
         </Text>
       </View>
       <View style={styles.cardRow}>

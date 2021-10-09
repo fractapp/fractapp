@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ConfirmTxInfo, ConfirmTxType } from 'types/inputs';
+import { ConfirmTxInfo } from 'types/inputs';
 import { Currency } from 'types/wallet';
 import { TxAction, TxStatus, TxType } from 'types/transaction';
 
@@ -54,8 +54,13 @@ namespace DialogStore {
 
           status: TxStatus.Success,
         },
-        action: ConfirmTxType.Undefined,
-        msgArgs: [],
+        args: {
+          unsignedTx: '',
+          currency: '',
+          success: '',
+          error: '',
+          arguments: '',
+        },
         errorText: null,
         warningText: null,
         creator: {

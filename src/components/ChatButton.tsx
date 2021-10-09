@@ -1,34 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useDispatch } from 'react-redux';
+import GlobalStore from 'storage/Global';
 
 /**
  * Chat style button
  * @category Components
  */
 export const ChatButton = ({
+    action,
     width,
     isLast,
     text,
     imageUrl,
     onPress,
   }: {
+    action: string,
     width: string,
     isLast: boolean,
     text: string;
     imageUrl: string;
     onPress: () => Promise<void>;
   }) => {
+
+  const dispatch = useDispatch();
+
   const [isLoading, setLoading] = useState<boolean>();
 
   const isImgExist = imageUrl !== undefined && imageUrl !== null && imageUrl !== '';
+
+  useEffect(() => {
+    if (!isLoading) {
+      return;
+    }
+
+    console.log('press');
+    onPress().finally(() =>  setLoading(false));
+  }, [isLoading]);
   return (
     <View style={{ width: width }}>
       <TouchableOpacity
         style={[styles.button, { marginRight: isLast ? 0 : 10 }]}
-        onPress={async () => {
+        onPress={() => {
+          if (action === '/broadcast') { //TODO: remove
+            dispatch(GlobalStore.actions.showLoading());
+          }
           setLoading(true);
-          await onPress();
-          setLoading(false);
         }}>
         {
           isImgExist &&
@@ -65,6 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
+    textAlign: 'center',
     fontSize: 15,
     fontFamily: 'Roboto-Regular',
     fontStyle: 'normal',

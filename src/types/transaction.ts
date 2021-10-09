@@ -18,7 +18,8 @@ export enum TxAction {
   Transfer = 0,
   StakingReward,
   StakingWithdrawn,
-  Staking = 3
+  StakingOpenDeposit = 3,
+  StakingAddAmount
 }
 export enum TxStatus {
   Pending = 0,
@@ -49,6 +50,31 @@ export type Transaction = {
   planckFee: string;
   usdFee: number;
 
+  status: TxStatus;
+};
+
+
+/**
+ * @category Models
+ */
+export type ApiTransaction = {
+  id: string;
+  hash: string;
+  currency: Currency;
+
+  from: string;
+  userFrom: string;
+
+  action: TxAction,
+
+  to: string;
+  userTo: string;
+
+  value: string;
+  fee: string;
+  price: number
+
+  timestamp: number;
   status: TxStatus;
 };
 

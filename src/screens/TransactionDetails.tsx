@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
 import { Account, AccountType } from 'types/account';
 import UsersStore from 'storage/Users';
-import { getNameTxAction, getTxName } from 'types/inputs';
+import { getTxName } from 'types/inputs';
 
 /**
  * Screen with transaction details
@@ -88,6 +88,16 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
       )
   ) : getTxName(tx.action);
 
+  const accountTitle = () => {
+    switch (tx.txType) {
+      case TxType.None:
+        return StringUtils.texts.AccountTitle;
+      case TxType.Sent:
+        return StringUtils.texts.WriteOffAccountTitle;
+      case TxType.Received:
+        return StringUtils.texts.ReceivingAccountTitle;
+    }
+  };
   return (
     <View style={{flexDirection: 'column', flex: 1, alignItems: 'center'}}>
       <View style={styles.info}>
@@ -140,9 +150,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
 
       <View style={{width: '100%', marginTop: 30}}>
         <Text style={[styles.title, {marginBottom: 10}]}>
-          {tx.txType === TxType.Sent
-            ? StringUtils.texts.WriteOffAccountTitle
-            : StringUtils.texts.ReceivingAccountTitle}
+          {accountTitle()}
         </Text>
           <WalletInfo account={account} price={serverInfoState.prices[account.currency]} />
       </View>
@@ -159,7 +167,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
           </Text>
         </View>
         <View style={{flex: 1, alignItems: 'flex-end'}}>
-          {tx.txType === TxType.Sent && (
+          {(tx.txType === TxType.Sent || tx.txType === TxType.None) && (
             <View>
               <Text style={[styles.title, {marginBottom: 5}]}>
                 {StringUtils.texts.FeeTitle}

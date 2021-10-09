@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {VictoryPie, VictoryLegend} from 'victory-native';
 import { Image, SectionList, StyleSheet, Text, View } from 'react-native';
-import { filterTxsByAccountType, getColor, getFullCurrencyName } from 'types/wallet';
+import { getColor, getFullCurrencyName } from 'types/wallet';
 import {Transaction} from 'types/transaction';
 import stringUtils from 'utils/string';
 import {TransactionInfo} from 'components/TransactionInfo';

@@ -47,6 +47,7 @@ export const MessageView = (
       for (let i = 0; i < btnCount; i++) {
         const btn = row.buttons[i];
         btns.push(<ChatButton
+          action={btn.action}
           key={message.id + '-' + rowIndex + '-' + i}
           isLast={i === btnCount - 1}
           width={(100 / btnCount) + '%'}

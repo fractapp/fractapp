@@ -26,6 +26,7 @@ import ChatsStore from 'storage/Chats';
 import { Account } from 'types/account';
 // @ts-ignore
 import {MAIN_BOT_ID} from '@env';
+import { Currency } from 'types/wallet';
 
 /**
  * Users search screen
@@ -37,7 +38,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const usersState: UsersStore.State = useSelector((state: any) => state.users);
   const chatsState: ChatsStore.State = useSelector((state: any) => state.chats);
 
-  const account: Account = route.params?.wallet;
+  const currency: Currency | undefined = route.params?.currency;
 
   const [searchString, setSearchString] = useState<string>('');
   const [users, setUsers] = useState<Array<Profile>>();
@@ -270,14 +271,14 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
             <View>
               <TouchableHighlight
                 onPress={() => {
-                  if (account == null) {
+                  if (currency === undefined) {
                     navigation.navigate('SelectWallet', {
                       isEditable: true,
                     });
                   } else {
                     navigation.navigate('Send', {
                       isEditable: true,
-                      currency: account.currency,
+                      currency: currency,
                     });
                   }
                 }}

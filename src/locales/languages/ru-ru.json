@@ -51,6 +51,7 @@
   "restore_btn": "Восстановить",
   "withdraw_btn": "Вывод",
   "invest_btn": "Добавить",
+  "account_title": "Счет",
   "write_off_account_title": "Счет списания",
   "receiving_account_title": "Счет получения",
 
@@ -65,10 +66,10 @@
     "language": "Язык",
     "edit_profile": "Редактировать",
     "backup": "Сохранить кошелек",
-    "enable_passcode": "Добавить пароль",
-    "disable_passcode": "Отключить пароль",
-    "enable_biometry": "Подключить биометрию",
-    "disable_biometry": "Отключить биометрию",
+    "enable_passcode": "Добавить PIN-код",
+    "disable_passcode": "Удалить PIN-код",
+    "enable_biometry": "Включить блокировку по отпечатку",
+    "disable_biometry": "Отключить блокировку по отпечатку",
     "help": "Помощь",
     "about_us": "О нас"
   },
@@ -93,9 +94,9 @@
     "statistics": "Статистика"
   },
   "pass_code": {
-    "verify_description": "Введите пароль",
-    "new_code_description": "Введите новый пароль",
-    "confirm_new_code_description": "Введите новый пароль еще раз"
+    "verify_description": "Введите PIN-код",
+    "new_code_description": "Введите PIN-код пароль",
+    "confirm_new_code_description": "Введите новый PIN-код еще раз"
   },
   "show_msg": {
     "wallet_not_found": "Кошелек не найден",
@@ -226,6 +227,9 @@
   "need_full_balance_err_title": "Сумма",
   "need_full_balance_err_text_part_one": "Оставьте на балансе больше, чем",
   "need_full_balance_err_text_part_two": "или отправьте весь баланс",
+
+  "need_withdraw_staking_err_text_part_one": "Оставьте на балансе больше, чем",
+  "need_withdraw_staking_err_text_part_two": "или выведите все сумму с депозита",
 
   "share_text": "Мой адрес для",
   "share_link": "Ссылка для отправки через Fractapp"

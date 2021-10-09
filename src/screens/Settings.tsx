@@ -13,7 +13,7 @@ import GlobalStore from 'storage/Global';
 import backend from 'utils/api';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Settings screen

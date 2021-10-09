@@ -51,6 +51,7 @@
   "restore_btn": "Restore",
   "withdraw_btn": "Withdraw",
   "invest_btn": "Invest",
+  "account_title": "Account",
   "write_off_account_title": "Write-off account",
   "receiving_account_title": "Receiving account",
   "profile": {
@@ -63,10 +64,10 @@
     "language": "Language",
     "edit_profile": "Edit profile",
     "backup": "Backup",
-    "disable_passcode": "Disable passcode",
-    "enable_passcode": "Enable passcode",
-    "disable_biometry": "Disable biometry",
-    "enable_biometry": "Enable biometry",
+    "enable_passcode": "Enable pin code",
+    "disable_passcode": "Disable pin code",
+    "enable_biometry": "Enable fingerprint",
+    "disable_biometry": "Disable fingerprint",
     "help": "Help",
     "about_us": "About us"
   },
@@ -91,9 +92,9 @@
     "statistics": "Statistics"
   },
   "pass_code": {
-    "verify_description": "Enter passcode",
-    "new_code_description": "Enter new passcode",
-    "confirm_new_code_description": "Confirm new passcode"
+    "verify_description": "Enter pin code",
+    "new_code_description": "Enter new pin code",
+    "confirm_new_code_description": "Confirm new pin code"
   },
   "show_msg": {
     "wallet_not_found": "Wallet not found",
@@ -225,6 +226,9 @@
   "need_full_balance_err_title": "Amount",
   "need_full_balance_err_text_part_one": "Leave more than",
   "need_full_balance_err_text_part_two": "on your balance or send the whole balance",
+
+  "need_withdraw_staking_err_text_part_one": "Leave more than",
+  "need_withdraw_staking_err_text_part_two": "on your balance or withdraw from deposit",
 
   "share_text": "My address for",
   "share_link": "Link for sending via Fractapp"

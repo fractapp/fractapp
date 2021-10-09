@@ -298,7 +298,9 @@ namespace Task {
         console.log('set synced');
       }
 
-      await dispatch(GlobalStore.actions.hideSync());
+      if (states.global.loadInfo.isSyncShow) {
+        await dispatch(GlobalStore.actions.hideSync());
+      }
     } catch (e) {
       console.log('error sync account: ' + e);
       await updateMessages(store, dispatch);
@@ -325,7 +327,7 @@ namespace Task {
         value: '',
         action: '/init',
         receiver: MAIN_BOT_ID,
-        args: [],
+        args: {},
       });
     }
 
@@ -403,6 +405,7 @@ namespace Task {
       }
       console.log('update user: ' + id);
       const user = await backend.getUserById(id);
+      console.log('user: ' + user);
       if (user === undefined) {
         dispatch(UsersStore.actions.setUsers([
           {
@@ -411,7 +414,7 @@ namespace Task {
             value: {
               id: id,
               name: 'Deleted',
-              username: '@deleted',
+              username: 'deleted',
               avatarExt: '',
               lastUpdate: 0,
               addresses: null,
@@ -464,7 +467,10 @@ namespace Task {
         }),
       );
 
-      if (new BN(balance.staking).cmp(new BN(0)) > 0) {
+      if (new BN(balance.staking).cmp(new BN(0)) > 0 || (
+        states.accounts.accounts[AccountType.Staking] !== undefined &&
+        states.accounts.accounts[AccountType.Staking][account.currency] !== undefined
+      )) {
         const viewStakingBalance = math.convertFromPlanckToViewDecimals(
           new BN(balance.staking),
           api.decimals,

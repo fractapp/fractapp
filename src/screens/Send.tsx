@@ -189,6 +189,16 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
         owner: globalState.profile.id,
       }));
 
+      if (isEditable && isValidReceiver) {
+        dispatch(UsersStore.actions.setUsers([{
+          isAddressOnly: true,
+          title: receiver,
+          value: {
+            address: receiver,
+            currency: currency,
+          },
+        }]));
+      }
       dispatch(GlobalStore.actions.hideLoading());
       try {
         navigation.reset({
@@ -287,7 +297,9 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
                   isUSDMode: isUSDMode,
                   value: value,
                   currency: account.currency,
-                  args: [receiver],
+                  args: {
+                    receiver: receiver,
+                  },
               })
           }
           alternativeValue={alternativeValue}

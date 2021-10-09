@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getSymbol } from 'types/wallet';
-import { Adaptors } from 'adaptors/adaptor';
+import { Adaptors, TransferValidationArgs } from 'adaptors/adaptor';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import math from 'utils/math';
 import StringUtils from 'utils/string';
 import { Account } from 'types/account';
 import { EnterAmountInfo } from 'types/inputs';
-import { TxType } from 'types/transaction';
+import { TxAction } from 'types/transaction';
+import { EnterAmountArgs } from 'types/message';
 
 /**
  * Text input for amount
@@ -23,10 +24,11 @@ export const AmountInput = ({
   onSetLoading,
   defaultValue,
   defaultUsdMode,
+  isChatBotLimit,
   width = '100%',
 }: {
   account: Account;
-  args: Array<string>;
+  args: EnterAmountArgs | TransferValidationArgs;
   isChatBotRequest: boolean;
   price: number;
   onChangeValues: (
@@ -35,10 +37,14 @@ export const AmountInput = ({
   onSetLoading: (isLoading: boolean) => void;
   defaultValue: string;
   defaultUsdMode: boolean;
+  isChatBotLimit: boolean;
   width?: string;
 }) => {
   const api = Adaptors.get(account.network)!;
   const textInputRef = useRef<TextInput>(null);
+
+  const [calculatedFee, setCalculatedFee] = useState(isChatBotRequest ? new BN((args as EnterAmountArgs).fee) : null);
+  const limit = isChatBotLimit ? new BN((args as EnterAmountArgs).limit!) : new BN(account.balance.transferable);
 
   const [errorText, setErrorText] = useState<string>('');
 
@@ -62,10 +68,15 @@ export const AmountInput = ({
   });
 
   const calculateFee = async (sender: string, value: BN): Promise<BN | undefined> => {
-    if (isChatBotRequest) {
-      return new BN(args[0]);
+    if (calculatedFee == null) {
+      const fee = await api.calculateTransferFee(account.address, value, (args as TransferValidationArgs).receiver);
+      if (fee === undefined) {
+        return undefined;
+      }
+      setCalculatedFee(fee);
+      return fee;
     } else {
-      return await api.calculateTransferFee(account.address, value, args[0]);
+      return calculatedFee;
     }
   };
 
@@ -241,12 +252,15 @@ export const AmountInput = ({
       };
     }
 
+
     const transferValidation = await api.isTxValid(
       account.address,
-      isChatBotRequest ? null : args[0],
-      isChatBotRequest ? TxType.None : TxType.Sent, //TODO: next release
+      isChatBotRequest ? null : TxAction.Transfer,
+      isChatBotRequest ? {
+        limit: limit,
+      } : (args as TransferValidationArgs),
       planksValue,
-      fee,
+      fee
     );
 
     if (!transferValidation.isOk) {
@@ -327,21 +341,23 @@ export const AmountInput = ({
           top: 8,
         }}
         onPress={async () => {
-          let v = new BN(account.balance.transferable);
+          let v = limit;
           setUsdMode(false);
           setValue(math.convertFromPlanckToString(v, api.decimals));
-          const fee = await calculateFee(account.address, v);
-          if (fee === undefined) {
-            const emptyValue = resetValues(false, 'Invalid connection. Please, try again.'); //TODO go to string
-            onChangeValues(emptyValue);
-            setEnterAmountInfo(emptyValue);
-            setErrorText('Invalid connection. Please, try again.');
-            setLoadingEnd(true);
-            return;
-          }
+          if (!isChatBotLimit) {
+            const fee = await calculateFee(account.address, v);
+            if (fee === undefined) {
+              const emptyValue = resetValues(false, 'Invalid connection. Please, try again.'); //TODO go to string
+              onChangeValues(emptyValue);
+              setEnterAmountInfo(emptyValue);
+              setErrorText('Invalid connection. Please, try again.');
+              setLoadingEnd(true);
+              return;
+            }
 
-          v = v.sub(fee);
-          setValue(math.convertFromPlanckToString(v, api.decimals));
+            v = v.sub(fee);
+            setValue(math.convertFromPlanckToString(v, api.decimals));
+          }
         }}>
         <Image
           source={require('assets/img/max.png')}
@@ -357,7 +373,7 @@ export const AmountInput = ({
         ) : (
           <>
             <View style={{width: '50%', alignItems: 'flex-start'}}>
-              {enterAmountInfo.usdFee !== 0 && (
+              {!isChatBotLimit && enterAmountInfo.usdFee !== 0 && (
                 <Text style={[styles.subValue]}>
                   {StringUtils.texts.FeeTitle} ${enterAmountInfo.usdFee}
                 </Text>

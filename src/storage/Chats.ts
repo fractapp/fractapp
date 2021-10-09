@@ -5,6 +5,7 @@ import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import { Message } from 'types/message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import StringUtils from 'utils/string';
+import { getTxName } from 'types/inputs';
 
 /**
  * @namespace
@@ -70,6 +71,8 @@ namespace ChatsStore {
       chatId = tx.userId;
     }
 
+    console.log(state.transactions[tx.currency]);
+    console.log(!state.transactions[tx.currency]);
     // add transaction
     if (!state.transactions[tx.currency]) {
       state.transactions[tx.currency] = {
@@ -78,7 +81,7 @@ namespace ChatsStore {
     }
     state.transactions[tx.currency]!.transactionById[tx.id] = tx;
 
-    if (tx.action !== TxAction.Transfer) {
+    if (tx.action === TxAction.StakingReward) {
       return state;
     }
 
@@ -93,25 +96,56 @@ namespace ChatsStore {
       currency: tx.currency,
     };
 
+    let sender = owner;
+    let receiver = chatId;
+    switch (tx.txType) {
+      case TxType.Sent:
+      case TxType.None:
+        sender = owner;
+        receiver = chatId;
+        break;
+      case TxType.Received:
+        sender = chatId;
+        receiver = owner;
+        break;
+    }
+
+    let value = '';
+    let amount = (tx.usdValue !== 0
+      ? ` $${tx.usdValue}`
+      : ` ${tx.value} ${getSymbol(tx.currency)}`);
+
+    if (tx.action === TxAction.Transfer) {
+      switch (tx.txType) {
+        case TxType.None:
+          value = 'Transaction'; //TODO: string
+          break;
+        case TxType.Sent:
+          value = StringUtils.texts.YouSentTitle + amount;
+          break;
+        case TxType.Received:
+          value = StringUtils.texts.YouReceivedTitle + amount;
+          break;
+      }
+    } else {
+      value = getTxName(tx.action);
+    }
+
     state = addMessage(state, chatId, {
       id: tx.id,
-      value: (tx.txType === TxType.Sent
-        ? StringUtils.texts.YouSentTitle
-        : StringUtils.texts.YouReceivedTitle) +
-        (tx.usdValue !== 0
-          ? ` $${tx.usdValue}`
-          : ` ${tx.value} ${getSymbol(tx.currency)}`),
+      value: value,
       action: '/tx',
-      args: [
-        fromCurrency(tx.currency),
-        tx.id,
-      ],
+      args: {
+        currency: fromCurrency(tx.currency),
+        id: tx.id,
+      },
       rows: [],
       timestamp: tx.timestamp,
-      sender: tx.txType === TxType.Sent ? owner : chatId,
-      receiver: tx.txType === TxType.Sent ? chatId : owner,
+      sender: sender,
+      receiver: receiver,
       hideBtn: false,
     }, isNotify);
+
     return state;
   };
 

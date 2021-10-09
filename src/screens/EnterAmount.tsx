@@ -15,8 +15,9 @@ import backend from 'utils/api';
 import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import BN from 'bn.js';
-import { Adaptors } from 'adaptors/adaptor';
+import { Adaptors, TransferValidationArgs } from 'adaptors/adaptor';
 import { AccountType } from 'types/account';
+import { EnterAmountArgs, Message } from 'types/message';
 
 /**
  * Screen with the input of the amount to be sent
@@ -30,7 +31,7 @@ export const EnterAmount = ({
   route: any;
 }) => {
   const currency: Currency = route.params.currency;
-  const args: Array<string> = route.params.args;
+  const args: EnterAmountArgs | TransferValidationArgs = route.params.args;
   const defaultValue = route.params?.value ?? '';
   const isChatBotRequest: boolean = route.params?.isChatBotRequest ?? false;
   const chatId: string | null = route.params?.chatId ?? null;
@@ -59,6 +60,9 @@ export const EnterAmount = ({
   const price = serverInfo.prices[account.currency] ?? 0;
 
   const api = Adaptors.get(account.network)!;
+
+  const isChatBotLimit = isChatBotRequest && (args as EnterAmountArgs).limit !== undefined && (args as EnterAmountArgs).limit !== '';
+  const balance = isChatBotLimit ? MathUtils.convertFromPlanckToViewDecimals(new BN((args as EnterAmountArgs).limit!), api.decimals, api.viewDecimals) : account.viewBalance;
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -93,13 +97,16 @@ export const EnterAmount = ({
     }
 
     if (isChatBotRequest) {
-      const msg = {
+      const msg: Message = {
         id: 'answer-' + randomAsHex(32),
         value: isUSDMode
           ? usdValue + '$'
           : MathUtils.convertFromPlanckToString(new BN(planksValue), api.decimals) + ' ' + fromCurrency(currency),
-        action: args[1],
-        args: [ planksValue, ...args.slice(2, args.length) ] ,
+        action: (args as EnterAmountArgs).next,
+        args: {
+          value: planksValue,
+          arguments: (args as EnterAmountArgs).arguments,
+        },
         rows: [],
         timestamp: Date.now(),
         sender: globalState.profile!.id,
@@ -113,7 +120,7 @@ export const EnterAmount = ({
         const timestamp = await backend.sendMsg({
           version: 1,
           value: msg.value,
-          action: msg.action,
+          action: msg.action!,
           receiver: chatId!,
           args: msg.args,
         });
@@ -176,6 +183,7 @@ export const EnterAmount = ({
         width={'95%'}
         account={account}
         args={args}
+        isChatBotLimit={isChatBotLimit}
         isChatBotRequest={isChatBotRequest}
         price={price}
         onChangeValues={onChangeValues}
@@ -207,8 +215,8 @@ export const EnterAmount = ({
           </Text>
         </View>
         <View style={{width: '70%', alignItems: 'flex-end'}}>
-          <Text style={styles.balanceText}>{`$${MathUtils.roundUsd(account.viewBalance * price)} (${
-            account.viewBalance
+          <Text style={styles.balanceText}>{`$${MathUtils.roundUsd(balance * price)} (${
+            balance
           } ${getSymbol(account.currency)})`}</Text>
         </View>
       </View>

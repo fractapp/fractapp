@@ -1,8 +1,8 @@
 import BN from 'bn.js';
 import DB from 'storage/DB';
 import { Keyring } from '@polkadot/keyring';
-import { Adaptors, ErrorCode, IAdaptor, TransferValidation } from './adaptor';
-import { Account, Balance, BalanceRs, Network } from 'types/account';
+import { BotValidationArgs, ErrorCode, IAdaptor, TransferValidationArgs, TxValidationResult } from './adaptor';
+import { Account, BalanceRs, Network } from 'types/account';
 import math from 'utils/math';
 import MathUtils from 'utils/math';
 import { Currency, getSymbol } from 'types/wallet';
@@ -12,16 +12,17 @@ import StringUtils from 'utils/string';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { construct, createMetadata, decode, methods, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
 import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
-import { ConfirmTxInfo, ConfirmTxType } from 'types/inputs';
+import { ConfirmTxInfo } from 'types/inputs';
 import { Profile } from 'types/profile';
 import { SubstrateBase } from 'types/serverInfo';
 import { TxAction, TxStatus, TxType } from 'types/transaction';
+import { BroadcastArgs } from 'types/message';
 
 export class SubstrateAdaptor implements IAdaptor {
   public readonly viewDecimals: number;
   public readonly network: Network;
   public readonly decimals: number;
-  private readonly substrateBase: SubstrateBase;
+  private substrateBase: SubstrateBase;
 
   public readonly currency: Currency;
   private readonly minTransfer: BN;
@@ -31,13 +32,13 @@ export class SubstrateAdaptor implements IAdaptor {
     this.substrateBase = substrateBase;
     switch (this.network) {
       case Network.Polkadot:
-        this.viewDecimals = 3;
+        this.viewDecimals = 4;
         this.decimals = 10;
         this.minTransfer = math.convertToPlanck('1', this.decimals); //TODO: next release
         this.currency = Currency.DOT;
         break;
       case Network.Kusama:
-        this.viewDecimals = 4;
+        this.viewDecimals = 5;
         this.decimals = 12;
         this.minTransfer = math.convertToPlanck('0.002', this.decimals); //TODO: next release
         this.currency = Currency.KSM;
@@ -86,7 +87,7 @@ export class SubstrateAdaptor implements IAdaptor {
       blockNumber: this.substrateBase.registry
         .createType('BlockNumber', txBase.blockNumber)
         .toNumber(),
-      eraPeriod: 10,
+      eraPeriod: 128,
       genesisHash: this.substrateBase.genesisHash,
       metadataRpc: this.substrateBase.metadata,
       nonce: txBase.nonce,
@@ -180,68 +181,97 @@ export class SubstrateAdaptor implements IAdaptor {
 
   public async isTxValid(
     sender: string,
-    receiver: string | null,
-    txType: TxType,
+    action: TxAction | null,
+    args: TransferValidationArgs | BotValidationArgs,
     value: BN,
     fee: BN,
-  ): Promise<TransferValidation> {
-    const balanceReceiver: Balance | null = receiver == null ? null : await this.balance(receiver);
-    const balanceSender: Balance = await this.balance(sender);
-    if ((receiver != null && balanceReceiver == null) || balanceSender == null) {
-      return {
-        isOk: false,
-        errorCode: ErrorCode.ServiceUnavailable,
-        errorTitle: 'Service unavailable',
-        errorMsg: 'Try again',
-      };
+  ): Promise<TxValidationResult> {
+    const balanceSender: BalanceRs = await this.balance(sender);
+
+    switch (action) {
+      case TxAction.Transfer:
+        const transferArgs = args as TransferValidationArgs;
+        const balanceReceiver: BalanceRs = await this.balance(transferArgs.receiver);
+        if (balanceReceiver == null || balanceSender == null) {
+          return {
+            isOk: false,
+            errorCode: ErrorCode.ServiceUnavailable,
+            errorTitle: 'Service unavailable',
+            errorMsg: 'Try again',
+          };
+        }
+
+        if (value.add(fee).cmp(new BN(balanceSender.transferable)) > 0) {
+          return {
+            isOk: false,
+            errorCode: ErrorCode.NotEnoughBalanceErr,
+            errorTitle: '',
+            errorMsg: StringUtils.texts.NotEnoughBalanceErr,
+          };
+        }
+
+        console.log('receiver: ' + transferArgs.receiver);
+        if (new BN(balanceReceiver!.total).add(value).cmp(this.minTransfer) < 0) {
+          return {
+            isOk: false,
+            errorCode: ErrorCode.MinBalance,
+            errorTitle: StringUtils.texts.MinimumTransferErrorTitle,
+            errorMsg:
+              StringUtils.texts.MinimumTransferErrorText +
+              ` ${math.convertFromPlanckToViewDecimals(
+                this.minTransfer,
+                this.decimals,
+                this.viewDecimals,
+              )} ${getSymbol(this.currency)}`,
+          };
+        }
+
+        const balanceAfterSend = new BN(balanceSender.total).sub(value).sub(fee);
+        if (
+          balanceAfterSend.cmp(this.minTransfer) < 0 &&
+          balanceAfterSend.cmp(new BN(0)) !== 0
+        ) {
+          const isStakingBalanceEmpty = new BN(balanceSender.staking).cmp(new BN(0)) === 0;
+          return {
+            isOk: false,
+            errorCode: ErrorCode.NeedFullBalance,
+            errorTitle: StringUtils.texts.NeedFullBalanceErrTitle,
+            errorMsg: StringUtils.texts.NeedFullBalanceErrText(
+              math.convertFromPlanckToViewDecimals(
+                this.minTransfer,
+                this.decimals,
+                this.viewDecimals,
+              ),
+              this.currency,
+              isStakingBalanceEmpty
+            ),
+          };
+        }
+        break;
+      default:
+        const botArgs = args as BotValidationArgs;
+        const isLimit = botArgs.limit == null ?
+          value.add(fee).cmp(new BN(balanceSender.transferable)) > 0 :
+          value.cmp(botArgs.limit) > 0;
+
+        if (isLimit) {
+          return {
+            isOk: false,
+            errorCode: ErrorCode.NotEnoughBalanceErr,
+            errorTitle: '',
+            errorMsg: StringUtils.texts.NotEnoughBalanceErr,
+          };
+        }
+        break;
     }
 
-    if (new BN(balanceSender.transferable).cmp(value.add(fee)) < 0 || new BN(balanceSender.payableForFee).cmp(value.add(fee)) < 0 ) {
+    if (fee.cmp(new BN(balanceSender.payableForFee)) > 0 ) {
       return {
         isOk: false,
         errorCode: ErrorCode.NotEnoughBalanceErr,
         errorTitle: '',
         errorMsg: StringUtils.texts.NotEnoughBalanceErr,
       };
-    }
-
-    console.log('receiver: ' + receiver);
-    if (receiver != null) {
-      if (new BN(balanceReceiver!.total).add(value).cmp(this.minTransfer) < 0) {
-        return {
-          isOk: false,
-          errorCode: ErrorCode.MinBalance,
-          errorTitle: StringUtils.texts.MinimumTransferErrorTitle,
-          errorMsg:
-            StringUtils.texts.MinimumTransferErrorText +
-            ` ${math.convertFromPlanckToViewDecimals(
-              this.minTransfer,
-              this.decimals,
-              this.viewDecimals,
-            )} ${getSymbol(this.currency)}`,
-        };
-      }
-
-      const balanceAfterBalance = new BN(balanceSender.total).sub(value).sub(fee);
-      if (
-        txType === TxType.Sent &&
-        balanceAfterBalance.cmp(this.minTransfer) < 0 &&
-        balanceAfterBalance.cmp(new BN(0)) !== 0
-      ) {
-        return {
-          isOk: false,
-          errorCode: ErrorCode.NeedFullBalance,
-          errorTitle: StringUtils.texts.NeedFullBalanceErrTitle,
-          errorMsg: StringUtils.texts.NeedFullBalanceErrText(
-            math.convertFromPlanckToViewDecimals(
-              this.minTransfer,
-              this.decimals,
-              this.viewDecimals,
-            ),
-            this.currency,
-          ),
-        };
-      }
     }
 
     return {
@@ -252,103 +282,151 @@ export class SubstrateAdaptor implements IAdaptor {
     };
   }
 
-  public async parseTx(creator: Profile, sender: Account, msgId: string, msgArgs: Array<string>, unsignedTx: any, price: number): Promise<ConfirmTxInfo> {
-    console.log('test load: ' + new Date());
+  public async parseTx(creator: Profile, sender: Account, msgId: string, args: BroadcastArgs, unsignedTx: any, price: number): Promise<ConfirmTxInfo> {
     const opt = {
       metadataRpc: this.substrateBase.metadata,
       registry: this.substrateBase.registry,
     };
+
     const txInfo = decode(unsignedTx, opt);
+
+    console.log('test load end: ' + new Date());
+
+    console.log('tx info: ' + JSON.stringify(txInfo));
+
+    let decodedTx = null;
+    switch (txInfo.method.name) {
+      case 'unbond':
+        if (
+          Object.keys(txInfo.method.args).length !== 1 ||
+          txInfo.method.args.value === undefined
+        ) {
+          break;
+        }
+
+        decodedTx = {
+          value: new BN((<any>txInfo.method.args).value),
+          txType: TxType.None,
+          action: TxAction.StakingWithdrawn,
+        };
+        break;
+      case 'batchAll':
+        const calls: Array<any> = <Array<any>>txInfo.method.args.calls;
+        console.log('calls: ' + JSON.stringify(calls));
+        if (
+          calls.length === 2 &&
+
+          calls[0].args.controller !== undefined &&
+          calls[0].args.payee !== undefined &&
+          calls[0].args.value !== undefined &&
+          Object.keys(calls[0].args).length === 3 &&
+
+          calls[1].args.targets !== undefined &&
+          Object.keys(calls[1].args).length === 1
+        ) {
+          decodedTx = {
+            value: new BN(String(calls[0].args.value)),
+            txType: TxType.None,
+            action: TxAction.StakingOpenDeposit,
+          };
+        } else if (calls.length >= 1 && calls.length <= 2 &&
+          calls[0].args.max_additional !== undefined &&
+          Object.keys(calls[0].args).length === 1 &&
+
+          (calls.length === 1 ||
+            (
+              calls.length === 2 && calls[1].args.targets !== undefined &&
+              Object.keys(calls[1].args).length === 1
+            )
+          )
+        ) {
+          decodedTx = {
+            value: new BN(String(calls[0].args.max_additional)),
+            txType: TxType.None,
+            action: TxAction.StakingAddAmount,
+          };
+        } else if (calls.length === 2 && calls[0].callIndex === '0x0606'
+          && calls[1].callIndex === '0x0602' &&  calls[1].args.value !== undefined
+        ) {
+          decodedTx = {
+            value: new BN((<any>calls[1].args).value),
+            txType: TxType.None,
+            action: TxAction.StakingWithdrawn,
+          };
+        }
+
+        break;
+    }
+
+    if (decodedTx == null) {
+      throw new Error('undefined transaction type');
+    }
 
     const signature = this.sign(
       new Keyring().addFromUri('fake'),
       construct.signingPayload(unsignedTx, { registry: this.substrateBase.registry }),
       opt
     );
+
     const tx = construct.signedTx(unsignedTx, signature, opt);
     const feeInfo = await backend.calculateSubstrateFee(tx, this.network);
     if (feeInfo == null) {
       throw new Error('fee is undefined');
     }
-    console.log('test load end: ' + new Date());
 
-    console.log(txInfo.method.args.value);
-    console.log(txInfo.method.name);
-    const api = Adaptors.get(sender.network)!;
+    const planksFee = new BN(String(txInfo.tip)).add(new BN(feeInfo.fee));
+    const transferValidation = await this.isTxValid(
+      sender.address,
+      null,
+      {
+        limit: null,
+      },
+      decodedTx.value,
+      new BN(feeInfo.fee)
+    );
 
-    switch (txInfo.method.name) {
-      case 'batchAll':
-        const calls: Array<any> = <Array<any>>txInfo.method.args.calls;
-        if (
-          calls.length !== 2 ||
+    const viewValue = math.convertFromPlanckToViewDecimals(
+      decodedTx.value,
+      this.decimals,
+      this.viewDecimals,
+    );
+    const fee = math.convertFromPlanckToViewDecimals(
+      planksFee,
+      this.decimals,
+      this.viewDecimals,
+    );
 
-          calls[0].args.targets === undefined ||
-          Object.keys(calls[0].args).length !== 1 ||
+    return {
+      msgId: msgId,
+      unsignedTx: unsignedTx,
+      tx: {
+        id: '',
+        hash: '',
+        fullValue: math.convertFromPlanckToString(
+          decodedTx.value,
+          this.decimals
+        ),
+        userId: creator.id,
+        address: creator.addresses![sender.currency],
+        currency: sender.currency,
+        txType: TxType.None,
+        timestamp: Math.round(new Date().getTime()),
+        action: decodedTx.action,
 
-          calls[1].args.controller === undefined ||
-          calls[1].args.payee === undefined ||
-          calls[1].args.value === undefined ||
-          Object.keys(calls[1].args).length !== 3
-        ) {
-          break;
-        }
+        value: viewValue,
+        planckValue: decodedTx.value.toString(),
+        usdValue: MathUtils.calculateUsdValue(decodedTx.value, this.decimals, price),
 
-        const planksFee = new BN(String(txInfo.tip)).add(new BN(feeInfo.fee));
-        const value = new BN(String(calls[1].args.value));
-        const transferValidation = await this.isTxValid(
-          sender.address,
-          null, //TODO: test. is ok?
-          TxType.None,
-          value,
-          new BN(feeInfo.fee),
-        );
-
-        const viewValue = math.convertFromPlanckToViewDecimals(
-          value,
-          api.decimals,
-          api.viewDecimals,
-        );
-        const fee = math.convertFromPlanckToViewDecimals(
-          planksFee,
-          api.decimals,
-          api.viewDecimals,
-        );
-
-        return {
-          msgId: msgId,
-          unsignedTx: unsignedTx,
-          tx: {
-            id: '',
-            hash: '',
-            fullValue: math.convertFromPlanckToString(
-              value,
-              api.decimals
-            ),
-            userId: creator.id,
-            address: creator.addresses![sender.currency],
-            currency: sender.currency,
-            txType: TxType.None,
-            timestamp: Math.round(new Date().getTime()),
-            action: TxAction.Staking,
-
-            value: viewValue,
-            planckValue: value.toString(),
-            usdValue: MathUtils.roundUsd(viewValue * price),
-
-            fee: fee,
-            planckFee: planksFee.toString(),
-            usdFee: MathUtils.roundUsd(fee * price),
-            status: TxStatus.Pending,
-          },
-          action: ConfirmTxType.Staking,
-          creator: creator,
-          msgArgs: msgArgs,
-          accountCurrency: sender.currency,
-          warningText: null,
-          errorText: transferValidation.isOk ? null : transferValidation.errorMsg,
-        };
-    }
-
-    throw new Error('undefined transaction type');
+        fee: fee,
+        planckFee: planksFee.toString(),
+        usdFee: MathUtils.calculateUsdValue(planksFee, this.decimals, price),
+        status: TxStatus.Pending,
+      },
+      creator: creator,
+      args: args,
+      accountCurrency: sender.currency,
+      warningText: null,
+      errorText: transferValidation.isOk ? null : transferValidation.errorMsg,
+    };
   }
 }

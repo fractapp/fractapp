@@ -26,7 +26,7 @@ export type Account = {
   currency: Currency;
   network: Network;
   viewBalance: number;
-  balance: Balance;
+  balance: AccountBalance;
   type: AccountType
 };
 
@@ -43,7 +43,7 @@ export type BalanceRs = {
 /**
  * @category Models
  */
-export type Balance = {
+export type AccountBalance = {
   total: string,
   transferable: string,
   payableForFee: string

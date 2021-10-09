@@ -61,6 +61,7 @@ namespace StringUtils {
     RestoreBtn: I18n.t('restore_btn'),
     WithdrawBtn: I18n.t('withdraw_btn'),
     InvestBtn: I18n.t('invest_btn'),
+    AccountTitle: I18n.t('account_title'),
     WriteOffAccountTitle: I18n.t('write_off_account_title'),
     ReceivingAccountTitle: I18n.t('receiving_account_title'),
     profile: {
@@ -241,12 +242,17 @@ namespace StringUtils {
 
     NeedFullBalanceErrTitle: I18n.t('need_full_balance_err_title'),
 
-    NeedFullBalanceErrText: (minBalance: number, currency: Currency) =>
-      `${I18n.t(
+    NeedFullBalanceErrText: (minBalance: number, currency: Currency, isStakingBalanceEmpty: boolean) => {
+      return isStakingBalanceEmpty ? `${I18n.t(
         'need_full_balance_err_text_part_one',
       )} ${minBalance} ${getSymbol(currency)} ${I18n.t(
         'need_full_balance_err_text_part_two',
-      )}`,
+      )}` : `${I18n.t(
+        'need_withdraw_staking_err_text_part_one',
+      )} ${minBalance} ${getSymbol(currency)} ${I18n.t(
+        'need_withdraw_staking_err_text_part_two',
+      )}`;
+    },
 
     MyAddressForShare: (
       currency: Currency,

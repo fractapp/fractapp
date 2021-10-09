@@ -1,6 +1,5 @@
 import { Profile } from 'types/profile';
 
-
 /**
  * @category Models
  */
@@ -9,7 +8,9 @@ export type MessageRq = {
   value: string,
   action: string,
   receiver: string,
-  args: Array<string>
+  args: {
+    [key in string]: string
+  }
 };
 
 /**
@@ -19,7 +20,9 @@ export type Message = {
   id: string;
   value: string;
   action: string | null;
-  args: Array<string>;
+  args: {
+    [key in string]: string
+  },
   rows: Array<Row>;
   timestamp: number;
   sender: string;
@@ -40,7 +43,9 @@ export type Row = {
 export type Button = {
   value:    string
   action:    string
-  arguments: Array<string>
+  arguments: {
+    [key in string]: string
+  },
   imageUrl: string,
 };
 
@@ -52,4 +57,42 @@ export type UndeliveredMessagesInfo = {
   users: {
     [id in string]: Profile
   }
+};
+
+/**
+ * @category Models
+ */
+export type OpenLinkArgs = {
+  link: string
+};
+
+/**
+ * @category Models
+ */
+export type EnterAmountArgs = {
+  limit: string | undefined,
+  currency: string,
+  fee: string,
+  next: string,
+  arguments: string
+};
+
+/**
+ * @category Models
+ */
+export type BroadcastArgs = {
+  unsignedTx: string,
+  currency: string,
+  success: string,
+  error: string,
+  arguments: string
+};
+
+
+/**
+ * @category Models
+ */
+export type TransactionViewArgs = {
+  currency: string,
+  id: string
 };

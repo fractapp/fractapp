@@ -6,7 +6,8 @@ import { ConfirmTxInfo } from 'types/inputs';
 import { SubstrateBase } from 'types/serverInfo';
 import backend from 'utils/api';
 import { getRegistry } from '@substrate/txwrapper-polkadot';
-import { TxType } from 'types/transaction';
+import { TxAction } from 'types/transaction';
+import { BroadcastArgs } from 'types/message';
 
 export enum ErrorCode {
   None,
@@ -15,7 +16,16 @@ export enum ErrorCode {
   NeedFullBalance,
   NotEnoughBalanceErr
 }
-export type TransferValidation = {
+
+export type TransferValidationArgs = {
+  receiver: string
+};
+
+export type BotValidationArgs = {
+  limit: BN | null
+};
+
+export type TxValidationResult = {
   isOk: boolean;
   errorCode: ErrorCode;
   errorTitle: string;
@@ -37,12 +47,12 @@ export interface IAdaptor {
   broadcast(unsignedTx: any): Promise<string>;
   isTxValid(
     sender: string,
-    receiver: string | null,
-    txType: TxType,
+    action: TxAction | null,
+    args: TransferValidationArgs | BotValidationArgs,
     value: BN,
     fee: BN,
-  ): Promise<TransferValidation>;
-  parseTx(creator: Profile, sender: Account, msgId: string, msgArgs: Array<string>, unsignedTx: any, price: number): Promise<ConfirmTxInfo>
+  ): Promise<TxValidationResult>;
+  parseTx(creator: Profile, sender: Account, msgId: string, args: BroadcastArgs, unsignedTx: any, price: number): Promise<ConfirmTxInfo>
 }
 
 export class Adaptors {
@@ -62,7 +72,7 @@ export class Adaptors {
     })();
   }
 
-  private static async getSubstrateBase(network: Network): Promise<SubstrateBase> {
+  public static async getSubstrateBase(network: Network): Promise<SubstrateBase> {
     const substrateBase: SubstrateBase | null = await backend.getSubstrateBase(network);
     if (substrateBase == null) {
       throw new Error('invalid tx base loading');

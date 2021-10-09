@@ -6,6 +6,7 @@ import BN from 'bn.js';
  */
 namespace MathUtils {
   const USDDecimals = 2;
+  const Accuracy = 5;
 
   export function floor(value: number, decimals: number): number {
     return Math.floor(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
@@ -29,10 +30,17 @@ namespace MathUtils {
     price: number,
   ): number {
     const d = new BN(10).pow(new BN(decimals));
-    const ud = new BN(10).pow(new BN(USDDecimals));
-    return roundUsd(
-      value.mul(ud).mul(new BN(price * ud.toNumber())).div(d.mul(ud)).toNumber() / ud.toNumber(),
-    );
+    const ud = new BN(10).pow(new BN(Accuracy));
+    const v = value.mul(ud).mul(new BN(price * ud.toNumber())).div(d.mul(ud)).toNumber() / ud.toNumber();
+    let rounded = roundUsd(v);
+
+    if (rounded === 0 && value.cmp(new BN(0)) !== 0) {
+      console.log('0: ' + rounded);
+      rounded = round(v, 4);
+      console.log('1: ' + rounded);
+    }
+
+    return rounded;
   }
 
   export function calculatePlanksValue(

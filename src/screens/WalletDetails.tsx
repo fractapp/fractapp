@@ -25,6 +25,7 @@ import { randomAsHex } from '@polkadot/util-crypto';
 import backend from 'utils/api';
 // @ts-ignore
 import {MAIN_BOT_ID} from '@env';
+import { Message} from 'types/message';
 
 /**
  * Screen with wallet details
@@ -56,7 +57,7 @@ export const WalletDetails = ({
     let txsBySelections = new Map<string, Array<Transaction>>();
     let txs: Array<Transaction> = [];
 
-    if (!chatsState.transactions[type] || !chatsState.transactions[account.currency]) {
+    if (!chatsState.transactions[account.currency]) {
       return [];
     }
 
@@ -136,11 +137,13 @@ export const WalletDetails = ({
             <TouchableHighlight
               testID={'withdrawBtn'}
               onPress={() => {
-                const msg = {
+                const msg: Message = {
                   id: 'answer-' + randomAsHex(32),
                   value: 'Withdraw',
                   action: '/withdraw',
-                  args: [ fromCurrency(account.currency) ],
+                  args: {
+                    currency: fromCurrency(account.currency),
+                  },
                   rows: [],
                   timestamp: Date.now(),
                   sender: globalState.profile!.id,
@@ -150,7 +153,7 @@ export const WalletDetails = ({
                 backend.sendMsg({
                   version: 1,
                   value: msg.value,
-                  action: msg.action,
+                  action: msg.action!,
                   receiver: MAIN_BOT_ID,
                   args: msg.args,
                 }).then((timestamp) => {
@@ -180,11 +183,13 @@ export const WalletDetails = ({
             <TouchableHighlight
               testID={'investBtn'}
               onPress={() => {
-                const msg = {
+                const msg: Message = {
                   id: 'answer-' + randomAsHex(32),
                   value: 'Invest',
                   action: '/invest',
-                  args: [ fromCurrency(account.currency) ],
+                  args: {
+                    currency: fromCurrency(account.currency),
+                  },
                   rows: [],
                   timestamp: Date.now(),
                   sender: globalState.profile!.id,
@@ -194,7 +199,7 @@ export const WalletDetails = ({
                 backend.sendMsg({
                   version: 1,
                   value: msg.value,
-                  action: msg.action,
+                  action: msg.action!,
                   receiver: MAIN_BOT_ID,
                   args: msg.args,
                 }).then((timestamp) => {

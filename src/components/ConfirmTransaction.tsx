@@ -7,17 +7,18 @@ import StringUtils from 'utils/string';
 import backend from 'utils/api';
 import { BlueButton } from './BlueButton';
 import { WhiteButton } from 'components/WhiteButton';
-import { ConfirmTxInfo, getNameTxAction } from 'types/inputs';
+import { ConfirmTxInfo, getTxName } from 'types/inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import DialogStore from 'storage/Dialog';
 import ServerInfoStore from 'storage/ServerInfo';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import { Adaptors } from 'adaptors/adaptor';
-import { TxStatus } from 'types/transaction';
+import { Transaction, TxStatus, TxType } from 'types/transaction';
 import AccountsStore from 'storage/Accounts';
 import { AccountType } from 'types/account';
 import { randomAsHex } from '@polkadot/util-crypto';
+import { Message } from 'types/message';
 
 /**
  * Popup dialog component with 1 button
@@ -59,27 +60,29 @@ export const ConfirmTransaction = ({
     try {
       const hash = await api.broadcast(confirmTxInfo.unsignedTx);
 
-      const tx = confirmTxInfo.tx;
+      let tx: Transaction = Object.assign({}, confirmTxInfo.tx);
 
       console.log('tx hash: ' + hash);
       tx.hash = hash;
+
       tx.id = 'sent-' + hash;
       tx.status = TxStatus.Pending;
+
       dispatch(ChatsStore.actions.addPendingTx({
         tx: tx,
         owner: globalState.profile.id,
       }));
     } catch (e) {
       isError = true;
-      console.log('error send tx');
+      console.log('error send tx: ' + (e as Error).toString());
     }
 
     try {
-      const msg = {
+      const msg: Message = {
         id: 'answer-' + randomAsHex(32),
         value: '',
-        action: confirmTxInfo.msgArgs[isError ? 1 : 0],
-        args: confirmTxInfo.msgArgs.slice(2, confirmTxInfo.msgArgs.length),
+        action: isError ? confirmTxInfo.args.error : confirmTxInfo.args.success,
+        args: confirmTxInfo.args.arguments == undefined ? {} : JSON.parse(confirmTxInfo.args.arguments),
         rows: [],
         timestamp: Date.now(),
         sender: globalState.profile!.id,
@@ -90,12 +93,12 @@ export const ConfirmTransaction = ({
       await backend.sendMsg({
         version: 1,
         value: '',
-        action: msg.action,
+        action: msg.action!,
         receiver: msg.receiver,
         args: msg.args,
       });
     } catch (e) {
-      console.log('error send msg');
+      console.log('error send msg: ' + (e as Error).toString());
     }
 
     dispatch(ChatsStore.actions.hideBtns({
@@ -115,6 +118,17 @@ export const ConfirmTransaction = ({
       popupRef.current!.open();
     }
   }, [popupRef.current, isShow]);
+
+  const accountTitle = () => {
+    switch (confirmTxInfo.tx.txType) {
+      case TxType.None:
+        return StringUtils.texts.AccountTitle;
+      case TxType.Sent:
+        return StringUtils.texts.WriteOffAccountTitle;
+      case TxType.Received:
+        return StringUtils.texts.ReceivingAccountTitle;
+    }
+  };
 
 
   return (
@@ -178,7 +192,7 @@ export const ConfirmTransaction = ({
           </View>
           <View style={[styles.info, { marginTop: 30 }]}>
             <View style={styles.type}>
-              <Text style={styles.typeText}>{getNameTxAction(confirmTxInfo.action)}</Text>
+              <Text style={styles.typeText}>{getTxName(confirmTxInfo.tx.action)}</Text>
             </View>
             <Text style={styles.valueUsd}>
               ${usdValue}
@@ -197,7 +211,7 @@ export const ConfirmTransaction = ({
             }
           </View>
           <View style={{ marginTop: 30 }}>
-            <Text style={styles.title}>{StringUtils.texts.WriteOffAccountTitle}</Text>
+            <Text style={styles.title}>{accountTitle()}</Text>
             <WalletInfo width={'100%'} paddingLeft={'0%'} account={sender} price={price} />
           </View>
           <View style={{ width: '100%', flexDirection: 'column', marginTop: 20 }}>

@@ -6,7 +6,7 @@ import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
 import StringUtils from 'utils/string';
 import backend from 'utils/api';
-import { Button, Message } from 'types/message';
+import { BroadcastArgs, Button, EnterAmountArgs, Message, OpenLinkArgs, TransactionViewArgs } from 'types/message';
 import { MessageView } from 'components/MessageView';
 import { AddressOnly, Profile, User } from 'types/profile';
 import { PaymentMsg } from 'components/PaymentMsg';
@@ -45,11 +45,10 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   const onPressChatBtn = async (msgId: string, btn: Button) => {
     switch (btn.action) {
       case '/enterAmount':
-        if (btn.arguments.length < 3) {
-          return;
-        }
+        const enterAmountArgs = btn.arguments as EnterAmountArgs;
+        //TODO: next release (normal validator)
 
-        const currencyEnterAmount: Currency = toCurrency(btn.arguments[0]);
+        const currencyEnterAmount: Currency = toCurrency(enterAmountArgs.currency);
 
         navigation.navigate('EnterAmount', {
           chatId: chatId,
@@ -58,36 +57,40 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           isUSDMode: true,
           value: '',
           currency: currencyEnterAmount,
-          args: btn.arguments.slice(1, btn.arguments.length),
+          args: enterAmountArgs,
         });
         break;
       case '/openUrl':
-        if (btn.arguments.length < 1) {
-          return;
-        }
-        await Linking.openURL(btn.arguments[0]); //TODO: next release alert (any site)
+        const linkArgs = btn.arguments as OpenLinkArgs;
+        //TODO: next release (normal validator)
+
+        await Linking.openURL(linkArgs.link); //TODO: next release alert (any site)
         break;
       case '/broadcast':
         try {
-          if (btn.arguments.length < 2) {
-            return;
+          const broadcastArgs = btn.arguments as BroadcastArgs;
+          //TODO: next release (normal validator)
+
+          try {
+            const tx = JSON.parse(broadcastArgs.unsignedTx);
+            const currency: Currency = toCurrency(broadcastArgs.currency);
+
+            const network: Network = getNetwork(currency);
+            const api = Adaptors.get(network)!;
+
+            dispatch(DialogStore.actions.showConfirmTxInfo(
+              await api.parseTx((user.value as Profile),
+                accountsState.accounts[AccountType.Main][currency],
+                msgId,
+                broadcastArgs,
+                tx,
+                serverInfoState.prices[currency])
+              )
+            );
+          } catch (e) {
+            console.log('Error: ' + (e as Error).toString());
           }
-
-          const tx = JSON.parse(btn.arguments[0]);
-          const currency: Currency = toCurrency(btn.arguments[1]);
-
-          const network: Network = getNetwork(currency);
-          const api = Adaptors.get(network)!;
-
-          dispatch(DialogStore.actions.showConfirmTxInfo(
-            await api.parseTx((user.value as Profile),
-              accountsState.accounts[AccountType.Main][currency],
-              msgId,
-              btn.arguments.slice(2, btn.arguments.length),
-              tx,
-              serverInfoState.prices[currency])
-            )
-          );
+          dispatch(GlobalStore.actions.hideLoading());
         } catch (e) {
           console.log('broadcast err: ' + e);
           return;
@@ -211,10 +214,9 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         {line}
         {
           item.action === '/tx' &&
-          item.args.length >= 2 &&
-          chatsState.transactions[toCurrency(item.args[0])].transactionById[item.args[1]] ?
+          chatsState.transactions[toCurrency((item.args as TransactionViewArgs).currency)].transactionById[(item.args as TransactionViewArgs).id] ?
             (() => {
-              const tx = chatsState.transactions[toCurrency(item.args[0])].transactionById[item.args[1]];
+              const tx = chatsState.transactions[toCurrency((item.args as TransactionViewArgs).currency)].transactionById[(item.args as TransactionViewArgs).id];
               return <PaymentMsg
                 onPress={() =>
                   navigation.navigate('TransactionDetails', {
@@ -250,9 +252,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     <View style={styles.chat}>
       {<FlatList
         style={[{scaleY: -1 }, styles.messages]}
-        getItemLayout={ (data, index) => (
-          { length: 50, offset: 50 * index, index }
-        )}
         windowSize={5}
         data={messages}
         renderItem={renderItem}
@@ -279,7 +278,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           />
         </TouchableOpacity>
       )}
-      {(!user.isAddressOnly && (user.value as Profile).isChatBot) && messages.length == 0 &&
+      {(!user.isAddressOnly && (user.value as Profile).isChatBot) && messages.length === 0 &&
         <TouchableOpacity
           style={styles.sendBox}
           onPress={() => {
@@ -287,7 +286,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
               id: 'answer-' + randomAsHex(32),
               value: 'Start',
               action: '/init',
-              args: [],
+              args: {},
               rows: [],
               timestamp: Date.now(),
               sender: globalState.profile!.id,

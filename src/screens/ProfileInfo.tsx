@@ -13,6 +13,7 @@ import formatNameOrAddress = StringUtils.formatNameOrAddress;
 import ChatsStore from 'storage/Chats';
 import { randomAsHex } from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
+import { Message } from 'types/message';
 
 /**
  * Screen with transaction details
@@ -37,40 +38,41 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
         });
     }, []);
 
-    const restartChatBot = () => {
-        const msg = {
+    const restartChatBot = async () => {
+        const msg: Message = {
             id: 'answer-' + randomAsHex(32),
             value: 'Start',
             action: '/init',
-            args: [],
+            args: {},
             rows: [],
             timestamp: Date.now(),
             sender: globalState.profile!.id,
             receiver: id,
             hideBtn: true,
         };
-        backend.sendMsg({
+        const timestamp = await backend.sendMsg({
             version: 1,
             value: msg.value,
-            action: msg.action,
+            action: msg.action!,
             receiver: id,
             args: msg.args,
-        }).then((timestamp) => {
-            if (timestamp != null) {
-                msg.timestamp = timestamp;
-                dispatch(ChatsStore.actions.addMessages([{
-                    chatId: id,
-                    msg: msg,
-                }]));
-                navigation.reset({
-                    index: 1,
-                    routes: [
-                        { name: 'Home' },
-                        { name: 'Chat', params: { chatId: id } },
-                    ],
-                });
-            }
         });
+
+        console.log('timestamp: ' + timestamp);
+        if (timestamp != null) {
+            msg.timestamp = timestamp;
+            dispatch(ChatsStore.actions.addMessages([{
+                chatId: id,
+                msg: msg,
+            }]));
+            navigation.reset({
+                index: 1,
+                routes: [
+                    { name: 'Home' },
+                    { name: 'Chat', params: { chatId: id } },
+                ],
+            });
+        }
     };
 
     const renderAddress = (address: string, currency: Currency) => {

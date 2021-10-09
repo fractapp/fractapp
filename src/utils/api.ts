@@ -9,7 +9,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { Adaptors } from 'adaptors/adaptor';
 import { MyProfile } from 'types/myProfile';
 import { Profile } from 'types/profile';
-import { Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
+import { ApiTransaction, Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import BN from 'bn.js';
 import MathUtils from 'utils/math';
 import math from 'utils/math';
@@ -375,7 +375,7 @@ namespace BackendApi {
     }
 
     for (let i = 0; i < data.length; i++) {
-      const tx = data[i];
+      const tx: ApiTransaction = data[i];
 
       let txType = 0;
       let member = '';
@@ -422,7 +422,11 @@ namespace BackendApi {
           api.viewDecimals,
         ),
         planckValue: tx.value,
-        usdValue: MathUtils.floorUsd(tx.usdValue),
+        usdValue: math.calculateUsdValue(
+          new BN(tx.value, 10),
+          api.decimals,
+          api.viewDecimals,
+        ),
         fullValue: math.convertFromPlanckToString(
           new BN(tx.value),
           api.decimals
@@ -433,7 +437,11 @@ namespace BackendApi {
           api.viewDecimals,
         ),
         planckFee: tx.fee,
-        usdFee: MathUtils.floorUsd(tx.usdFee),
+        usdFee:  math.calculateUsdValue(
+          new BN(tx.fee, 10),
+          api.decimals,
+          api.viewDecimals,
+        ),
         status: tx.status,
       });
     }

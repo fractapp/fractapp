@@ -42,6 +42,7 @@ export const ImportSeed = () => {
 
     (async () => {
       await tasks.createAccount(seed, dispatch);
+      dispatch(GlobalStore.actions.hideLoading());
     })();
   }, [isSaveSeed]);
 

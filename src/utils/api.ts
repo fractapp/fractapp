@@ -559,6 +559,30 @@ namespace BackendApi {
     }
   }
 
+  export async function calculateSubstrateTransferFee(
+    sender: string,
+    receiver: string,
+    value: BN,
+    isFullBalance: boolean,
+    network: Network,
+  ): Promise<FeeInfo | null> {
+    let response = await fetch(
+      `${apiUrl}/substrate/transfer/fee?sender=${sender}&receiver=${receiver}&value=${value.toString()}&isFullBalance=${isFullBalance}&network=${network}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  }
+
   export async function getSubstrateBase(
     network: Network,
   ): Promise<SubstrateBase | null> {

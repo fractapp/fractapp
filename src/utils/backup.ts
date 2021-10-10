@@ -47,7 +47,7 @@ namespace Backup {
   }
 
   export function randomFilename(): string {
-    return randomAsHex(6).toLowerCase();
+    return 'wallet-' + randomAsHex(6).toLowerCase();
   }
 
   /**

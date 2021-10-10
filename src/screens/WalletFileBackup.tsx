@@ -3,7 +3,6 @@ import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {TextInput} from 'components/TextInput';
 import {PasswordInput} from 'components/PasswordInput';
-import DB from 'storage/DB';
 import backupUtils from 'utils/backup';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
@@ -11,8 +10,6 @@ import StringUtils from 'utils/string';
 import passwordValidator from 'password-validator';
 import googleUtil from 'utils/google';
 import { useDispatch, useSelector } from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
-import AccountsStore from 'storage/Accounts';
 import tasks from 'utils/tasks';
 
 const minPasswordLength = 8;

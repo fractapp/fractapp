@@ -46,7 +46,7 @@ export const ConfirmSaveSeed = ({
       if (isNewAccount) {
         await tasks.createAccount(seed.join(' '), dispatch);
       }
-
+      dispatch(GlobalStore.actions.hideLoading());
       navigation.reset({
         index: 0,
         routes: [{name: 'Home'}],

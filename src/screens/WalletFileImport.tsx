@@ -2,15 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, NativeModules} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {PasswordInput} from 'components/PasswordInput';
-import DB from 'storage/DB';
 import backupUtil from 'utils/backup';
 import {FileBackup} from 'types/backup';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
-import AccountsStore from 'storage/Accounts';
 import tasks from 'utils/tasks';
 
 /**
@@ -64,6 +61,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
       }
 
       await tasks.createAccount(seed, dispatch);
+      dispatch(GlobalStore.actions.hideLoading());
     })();
   }, [globalState.loadInfo.isLoadingShow]);
 

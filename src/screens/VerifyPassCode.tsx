@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {showMessage} from 'react-native-flash-message';
 import {PassCode} from 'components/PassCode';
 import DB from 'storage/DB';
@@ -6,7 +6,6 @@ import PasscodeUtil from 'utils/passcode';
 import GlobalStore from 'storage/Global';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
-import UsersStore from 'storage/Users';
 import { useDispatch, useSelector } from 'react-redux';
 
 /**
@@ -53,6 +52,7 @@ export const VerifyPassCode = ({
         dispatch(GlobalStore.actions.disablePasscode());
       } else if (isChangeBiometry) {
         await DB.disablePasscode();
+        console.log('reset passcode');
         await DB.enablePasscode(
           passcode.join(''),
           !globalState.authInfo.hasBiometry,

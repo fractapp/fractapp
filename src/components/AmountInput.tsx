@@ -86,6 +86,8 @@ export const AmountInput = ({
       return;
     }
 
+    console.log('calculate value');
+
     const newEnterAmount: EnterAmountInfo = resetValues(true, '');
     onChangeValues(newEnterAmount);
     newEnterAmount.value = value;
@@ -171,6 +173,7 @@ export const AmountInput = ({
 
       setErrorText('');
 
+      console.log('set');
       setEnterAmountInfo(newEnterAmount);
       onChangeValues(newEnterAmount);
       setLoadingEnd(true);
@@ -180,14 +183,15 @@ export const AmountInput = ({
   useEffect(() => {
     if (value === '') {
       const emptyValue = resetValues(true, '');
-      setFeeLoading(false);
       onChangeValues(emptyValue);
       setEnterAmountInfo(emptyValue);
+      setLoadingEnd(true);
       return;
     }
     calculateValues(value, false);
   }, [value]);
   useEffect(() => {
+    console.log('forceValue: ' + forceValue);
     if (forceValue == null) {
       return;
     }
@@ -207,8 +211,11 @@ export const AmountInput = ({
     if (isRecall) {
       setForceValue(value);
       setRecall(false);
+      console.log('recall');
     } else {
       setFeeLoading(false);
+      setForceValue(null);
+      console.log('fee loading off');
     }
   }, [isLoadingEnd]);
 
@@ -343,20 +350,22 @@ export const AmountInput = ({
         onPress={async () => {
           let v = limit;
           setUsdMode(false);
+          console.log('v1:' + math.convertFromPlanckToString(v, api.decimals));
           setValue(math.convertFromPlanckToString(v, api.decimals));
           if (!isChatBotLimit) {
-            const fee = await calculateFee(account.address, v);
-            if (fee === undefined) {
-              const emptyValue = resetValues(false, 'Invalid connection. Please, try again.'); //TODO go to string
-              onChangeValues(emptyValue);
-              setEnterAmountInfo(emptyValue);
-              setErrorText('Invalid connection. Please, try again.');
-              setLoadingEnd(true);
-              return;
-            }
-
-            v = v.sub(fee);
-            setValue(math.convertFromPlanckToString(v, api.decimals));
+            calculateFee(account.address, v).then((fee) => {
+              if (fee === undefined) {
+                const emptyValue = resetValues(false, 'Invalid connection. Please, try again.'); //TODO go to string
+                onChangeValues(emptyValue);
+                setEnterAmountInfo(emptyValue);
+                setErrorText('Invalid connection. Please, try again.');
+                setLoadingEnd(true);
+                return;
+              }
+              v = v.sub(fee);
+              setValue(math.convertFromPlanckToString(v, api.decimals));
+              console.log('v2:' + math.convertFromPlanckToString(v, api.decimals));
+            });
           }
         }}>
         <Image

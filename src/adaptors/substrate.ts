@@ -102,11 +102,13 @@ export class SubstrateAdaptor implements IAdaptor {
 
     let unsigned;
     if (sendFull) {
+      console.log('transfer: ' + value.toString(10));
       unsigned = methods.balances.transfer(transferValue, txArgs, opt);
     } else {
       unsigned = methods.balances.transferKeepAlive(transferValue, txArgs, opt);
     }
 
+    console.log('send tx: ' + JSON.stringify(unsigned));
     const signature = this.sign(
       account,
       construct.signingPayload(unsigned, { registry: this.substrateBase.registry }),
@@ -146,13 +148,13 @@ export class SubstrateAdaptor implements IAdaptor {
     value: BN,
     receiver: string
   ): Promise<BN | undefined> {
-    const hexTx = await this.createTransferTx(new Keyring().addFromUri('fake'), value, receiver, false /*TODO: with locked balance*/ );
-    const info = await backend.calculateSubstrateFee(hexTx, this.network);
+    const info = await backend.calculateSubstrateTransferFee(sender, receiver, value, false, this.network);
     return info == null ? undefined : new BN(info?.fee);
   }
 
   public async send(receiver: string, value: BN, sendFull: boolean /*TODO: with locked balance*/): Promise<string> {
     const account = await this.getAccount();
+    console.log('sendFull: ' + sendFull);
     const hexTx = await this.createTransferTx(account, value, receiver, sendFull);
     const hash = await backend.broadcastSubstrateTx(hexTx, this.network);
     if (hash == null) {
@@ -292,11 +294,12 @@ export class SubstrateAdaptor implements IAdaptor {
 
     console.log('test load end: ' + new Date());
 
-    console.log('tx info: ' + JSON.stringify(txInfo));
 
+    console.log('method name: ' + txInfo.method.name);
     let decodedTx = null;
     switch (txInfo.method.name) {
       case 'unbond':
+        console.log(txInfo.method.args);
         if (
           Object.keys(txInfo.method.args).length !== 1 ||
           txInfo.method.args.value === undefined

@@ -17,7 +17,7 @@ export const NewPassCode = ({navigation}: {navigation: any}) => {
     StringUtils.texts.passCode.newCodeDescription,
   );
 
-  const onSubmit = async (passcode: Array<number>) => {
+  const onSubmit = async (passcode: Array<number>, isBiometrySuccess: boolean) => {
     if (newPasscode.length === 0) {
       setNewPasscode(passcode);
       setDescription(StringUtils.texts.passCode.confirmNewCodeDescription);

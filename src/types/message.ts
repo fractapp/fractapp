@@ -96,3 +96,15 @@ export type TransactionViewArgs = {
   currency: string,
   id: string
 };
+
+/**
+ * @category Models
+ */
+export enum DefaultMsgAction {
+  Init = '/init',
+  OpenUrl = '/openUrl',
+  EnterAmount = '/enterAmount',
+  Broadcast = '/broadcast',
+  WalletButtonOut = '/walletOut',
+  WalletButtonIn = '/walletIn'
+}

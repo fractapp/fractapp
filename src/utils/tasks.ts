@@ -4,7 +4,7 @@ import backend from 'utils/api';
 import AccountsStore from 'storage/Accounts';
 import { Currency } from 'types/wallet';
 import { Account, AccountType, BalanceRs } from 'types/account';
-import { Transaction, TxStatus } from 'types/transaction';
+import { Transaction, TxAction, TxStatus } from 'types/transaction';
 import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import { Adaptors } from 'adaptors/adaptor';
@@ -14,7 +14,7 @@ import { Dispatch, Store } from 'redux';
 import UsersStore from 'storage/Users';
 import ServerInfoStore from 'storage/ServerInfo';
 import Storage from 'storage/Store';
-import { Message } from 'types/message';
+import { DefaultMsgAction, Message } from 'types/message';
 import { User } from 'types/profile';
 // @ts-ignore
 import { MAIN_BOT_ID } from '@env';
@@ -252,7 +252,6 @@ namespace Task {
     if (txs.length === 0) {
       return;
     }
-
     for (let i = 0; i < txs.length; i++) {
       if (
         txs[i].status === TxStatus.Fail ||
@@ -263,7 +262,7 @@ namespace Task {
 
       if (
         existedTxs.transactionById[txs[i].id] ||
-        existedTxs.transactionById['sent-' + txs[i].hash]
+        (existedTxs.transactionById['sent-' + txs[i].hash] && txs[i].action !== TxAction.StakingWithdrawn)
       ) {
         if (isSynced) {
           return;
@@ -322,13 +321,22 @@ namespace Task {
     }
 
     if (!states.chats.chatsInfo[MAIN_BOT_ID] && !messagesInfo.users[MAIN_BOT_ID]) {
-      await backend.sendMsg({
-        version: 1,
-        value: '',
-        action: '/init',
-        receiver: MAIN_BOT_ID,
-        args: {},
-      });
+      const last = await DB.getLastInitMsgTimeout();
+
+      const now = Date.now();
+      if (last == null || now > (last! + min * 30)) {
+        console.log('send init msg');
+        const timestamp = await backend.sendMsg({
+          version: 1,
+          value: '',
+          action: DefaultMsgAction.Init,
+          receiver: MAIN_BOT_ID,
+          args: {},
+        });
+        if (timestamp != null) {
+          await DB.setLastInitMsgTimeout(timestamp);
+        }
+      }
     }
 
     if (messagesInfo.messages.length === 0) {

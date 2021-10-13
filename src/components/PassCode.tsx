@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import DB from 'storage/DB';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 /**
  * Input for write passcode
@@ -15,25 +15,28 @@ export const PassCode = ({
   isBiometry: boolean;
   isBiometryStart?: boolean;
   description: string;
-  onSubmit: (passcode: Array<number>) => void;
+  onSubmit: (passcode: Array<number>, isBiometrySuccess: boolean) => void;
 }) => {
   const PasscodeSize = 6;
   const [passcode, setPasscode] = useState<Array<number>>(new Array());
 
   const unlockWithBiometry = async () => {
-    const dbPasscode = await DB.getPasscode();
-    const passcodeArray = new Array<number>();
-    for (let i = 0; i < dbPasscode.length; i++) {
-      passcodeArray.push(Number(dbPasscode[i]));
-    }
-
-    setPasscode(passcodeArray);
+      try {
+        await FingerprintScanner.release();
+        await FingerprintScanner.authenticate({
+          title: 'Please authenticate',
+        });
+        onSubmit([], true);
+      } catch (e) {
+        console.log('biometry error: ' + e);
+      }
   };
+
   const numpadClick = async (index: number) => {
     if (index === 12) {
       setPasscode(passcode.slice(0, passcode.length - 1)); //drop last character
     } else if (index === 10 && isBiometry) {
-      unlockWithBiometry();
+      await unlockWithBiometry();
     } else if (index === 11) {
       setPasscode([...passcode, 0]);
     } else if (passcode.length < PasscodeSize) {
@@ -118,7 +121,7 @@ export const PassCode = ({
 
   useEffect(() => {
     if (passcode.length === PasscodeSize) {
-      onSubmit(passcode);
+      onSubmit(passcode, false);
       setPasscode(new Array());
     }
   }, [passcode]);
@@ -127,7 +130,7 @@ export const PassCode = ({
     <View style={styles.box}>
       <Image source={require('assets/img/logo.png')} style={styles.logo} />
 
-      <View style={{marginTop: 20, alignContent: 'center'}}>
+      <View style={{marginTop: 20, alignItems: 'center'}}>
         <Text style={styles.description}>{description}</Text>
         <View style={{flexDirection: 'row'}}>{renderPoint()}</View>
       </View>

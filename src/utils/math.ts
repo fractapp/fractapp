@@ -35,9 +35,7 @@ namespace MathUtils {
     let rounded = roundUsd(v);
 
     if (rounded === 0 && value.cmp(new BN(0)) !== 0) {
-      console.log('0: ' + rounded);
       rounded = round(v, 4);
-      console.log('1: ' + rounded);
     }
 
     return rounded;

@@ -23,7 +23,6 @@ import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersStore from 'storage/Users';
 import ChatsStore from 'storage/Chats';
-import { Account } from 'types/account';
 // @ts-ignore
 import {MAIN_BOT_ID} from '@env';
 import { Currency } from 'types/wallet';
@@ -80,6 +79,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
 
       const backendContacts = await backend.myContacts();
 
+      console.log('backendContacts: ' + JSON.stringify(backendContacts));
       const mapBackendContacts = new Map<string, boolean>();
       for (let v of backendContacts) {
         mapBackendContacts.set(v, true);
@@ -107,7 +107,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
 
       let result = Array.from(validContacts, ([number]) => number);
       if (result.length > 0) {
-        await backend.updateContacts(result);
+        console.log('contacts updated: ' + await backend.updateContacts(result));
         await getMyMatchContacts();
       }
     })();
@@ -116,6 +116,7 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const getMyMatchContacts = async () => {
     let contacts = await backend.myMatchContacts();
 
+    console.log('matched contacts: ' + JSON.stringify(contacts));
     contacts = contacts.filter(
       (user) => user.id !== globalState.profile!.id,
     );

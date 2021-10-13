@@ -17,18 +17,18 @@ import tasks from 'utils/tasks';
 export const WalletFileImport = ({route}: {route: any}) => {
   const dispatch = useDispatch();
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
+  const [isLoading, setLoading] = useState(false);
 
   const [password, setPassword] = useState<string>('');
 
   const file: FileBackup = route.params.file;
 
   const startImport = async () => {
+    setLoading(true);
     dispatch(GlobalStore.actions.showLoading());
   };
 
   useEffect(() => {
-    dispatch(GlobalStore.actions.showLoading());
-
     NativeModules.PreventScreenshotModule.forbid().then((result: string) =>
       console.log(result),
     );
@@ -40,7 +40,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
   }, []);
 
   useEffect(() => {
-    if (!globalState.loadInfo.isLoadingShow) {
+    if (!isLoading) {
       return;
     }
 
@@ -56,6 +56,7 @@ export const WalletFileImport = ({route}: {route: any}) => {
             }
           ),
         );
+        setLoading(false);
         dispatch(GlobalStore.actions.hideLoading());
         return;
       }

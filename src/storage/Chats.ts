@@ -81,7 +81,7 @@ namespace ChatsStore {
     }
     state.transactions[tx.currency]!.transactionById[tx.id] = tx;
 
-    if (tx.action === TxAction.StakingReward) {
+    if (tx.action === TxAction.StakingReward || tx.action === TxAction.StakingWithdrawn) {
       return state;
     }
 

@@ -67,7 +67,7 @@ export const TransactionInfo = ({
       style={styles.transaction}>
       <View style={{width: '90%'}}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          {user != null ? (
+          {user != null && transaction.action !== TxAction.StakingWithdrawn && transaction.action !== TxAction.StakingReward ? (
             <Image
               source={{
                 uri: backend.getImgUrl(user.id, user.lastUpdate),

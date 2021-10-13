@@ -11,7 +11,6 @@ import { MyProfile } from 'types/myProfile';
 import { Profile } from 'types/profile';
 import { ApiTransaction, Transaction, TxAction, TxStatus, TxType } from 'types/transaction';
 import BN from 'bn.js';
-import MathUtils from 'utils/math';
 import math from 'utils/math';
 import { FeeInfo, ServerInfo, SubstrateBase, SubstrateTxBase } from 'types/serverInfo';
 import { MessageRq, UndeliveredMessagesInfo } from 'types/message';
@@ -382,8 +381,8 @@ namespace BackendApi {
 
       let userId = null;
       if (tx.action === TxAction.StakingWithdrawn) {
-        txType = TxType.Received;
-        member = tx.to;
+        txType = TxType.None;
+        member = tx.from;
         if (tx.userTo !== '') {
           userId = tx.userTo;
         }
@@ -425,7 +424,7 @@ namespace BackendApi {
         usdValue: math.calculateUsdValue(
           new BN(tx.value, 10),
           api.decimals,
-          api.viewDecimals,
+          tx.price,
         ),
         fullValue: math.convertFromPlanckToString(
           new BN(tx.value),
@@ -440,7 +439,7 @@ namespace BackendApi {
         usdFee:  math.calculateUsdValue(
           new BN(tx.fee, 10),
           api.decimals,
-          api.viewDecimals,
+          tx.price,
         ),
         status: tx.status,
       });

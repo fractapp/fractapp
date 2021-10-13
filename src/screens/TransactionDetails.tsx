@@ -108,7 +108,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
             })
           }
         >
-        {user.isAddressOnly ? (
+        {user.isAddressOnly || tx.action === TxAction.StakingWithdrawn || tx.action === TxAction.StakingReward  ? (
             <WalletLogo currency={tx.currency} size={80} />
         ) : (
           <Image

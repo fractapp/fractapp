@@ -15,12 +15,16 @@ export enum TxType {
  * @category Models
  */
 export enum TxAction {
-  Transfer = 0,
+  Transfer,
   StakingReward,
+  StakingCreateWithdrawalRequest,
   StakingWithdrawn,
-  StakingOpenDeposit = 3,
-  StakingAddAmount
+  StakingOpenDeposit,
+  StakingAddAmount,
+  ConfirmWithdrawal,
+  UpdateNomination
 }
+
 export enum TxStatus {
   Pending = 0,
   Success,

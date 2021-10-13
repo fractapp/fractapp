@@ -29,11 +29,12 @@ export const VerifyPassCode = ({
   const action = route.params?.action ?? '';
   const screenKey = route.params?.screenKey ?? '';
 
-  const onSubmit = async (passcode: Array<number>) => {
+  const onSubmit = async (passcode: Array<number>, isBiometrySuccess: boolean) => {
     dispatch(GlobalStore.actions.showLoading());
 
     let hash = await DB.getPasscodeHash();
     if (
+      isBiometrySuccess ||
       hash === PasscodeUtil.hash(passcode.join(''), (await DB.getSalt()) ?? '')
     ) {
       if (isVerify) {
@@ -51,12 +52,7 @@ export const VerifyPassCode = ({
       } else if (isDisablePasscode) {
         dispatch(GlobalStore.actions.disablePasscode());
       } else if (isChangeBiometry) {
-        await DB.disablePasscode();
-        console.log('reset passcode');
-        await DB.enablePasscode(
-          passcode.join(''),
-          !globalState.authInfo.hasBiometry,
-        );
+        await DB.changeBiometry(!globalState.authInfo.hasBiometry);
 
         dispatch(
           globalState.authInfo.hasBiometry

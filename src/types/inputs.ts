@@ -12,7 +12,13 @@ export const getTxName = (action: TxAction) => {
     case TxAction.StakingReward:
       return 'Reward'; //TODO go to string
     case TxAction.StakingWithdrawn:
+      return 'Withdrawn'; //TODO  go to string
+    case TxAction.StakingCreateWithdrawalRequest:
       return 'Create withdrawn request'; //TODO  go to string
+    case TxAction.ConfirmWithdrawal:
+      return 'Confirm withdrawal'; //TODO  go to string
+    case TxAction.UpdateNomination:
+      return 'Upgrade deposit settings'; //TODO  go to string
     default:
       return 'Transaction';
   }

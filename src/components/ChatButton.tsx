@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useDispatch } from 'react-redux';
 import GlobalStore from 'storage/Global';
+import { DefaultMsgAction } from 'types/message';
 
 /**
  * Chat style button
@@ -42,7 +43,7 @@ export const ChatButton = ({
       <TouchableOpacity
         style={[styles.button, { marginRight: isLast ? 0 : 10 }]}
         onPress={() => {
-          if (action === '/broadcast') { //TODO: remove
+          if (action === DefaultMsgAction.Broadcast) { //TODO
             dispatch(GlobalStore.actions.showLoading());
           }
           setLoading(true);

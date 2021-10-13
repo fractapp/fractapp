@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
 import Dialog from 'storage/Dialog';

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import Keychain from 'react-native-keychain';
 import GlobalStore from 'storage/Global';
 import backend from 'utils/api';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
 import { useSelector } from 'react-redux';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 /**
  * Settings screen
@@ -27,9 +27,16 @@ export const Settings = ({
   route: any;
 }) => {
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
+  const [isBiometricAvailable, setBeometryAvailable] = useState<boolean>(false);
 
   const isSuccessUnlock = route.params?.isSuccessUnlock ?? false;
   const action = route.params?.action ?? '';
+
+  useEffect(() => {
+    FingerprintScanner.isSensorAvailable().then(() => {
+      setBeometryAvailable(true);
+    });
+  }, []);
 
   useEffect(() => {
     if (!isSuccessUnlock) {
@@ -93,9 +100,9 @@ export const Settings = ({
         });
       },
       isDisable:
-        (Keychain.getSupportedBiometryType() != null &&
+        (isBiometricAvailable &&
           !globalState.authInfo.hasPasscode) ||
-        Keychain.getSupportedBiometryType() == null,
+        !isBiometricAvailable,
     },
     {
       img: require('assets/img/twitter.png'),

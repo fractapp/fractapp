@@ -298,6 +298,39 @@ export class SubstrateAdaptor implements IAdaptor {
     console.log('method name: ' + txInfo.method.name);
     let decodedTx = null;
     switch (txInfo.method.name) {
+      case 'nominate':
+        console.log(txInfo.method.args);
+
+        decodedTx = {
+          value: new BN('0'),
+          txType: TxType.None,
+          action: TxAction.UpdateNomination,
+        };
+        break;
+      case 'withdrawUnbonded':
+        console.log(txInfo.method.args);
+
+        decodedTx = {
+          value: new BN((<any>txInfo.method.args).maxAdditional),
+          txType: TxType.None,
+          action: TxAction.ConfirmWithdrawal,
+        };
+        break;
+      case 'bondExtra':
+        console.log(txInfo.method.args);
+        if (
+          Object.keys(txInfo.method.args).length !== 1 ||
+          txInfo.method.args.maxAdditional === undefined
+        ) {
+          break;
+        }
+
+        decodedTx = {
+          value: new BN((<any>txInfo.method.args).maxAdditional),
+          txType: TxType.None,
+          action: TxAction.StakingAddAmount,
+        };
+        break;
       case 'unbond':
         console.log(txInfo.method.args);
         if (
@@ -310,7 +343,7 @@ export class SubstrateAdaptor implements IAdaptor {
         decodedTx = {
           value: new BN((<any>txInfo.method.args).value),
           txType: TxType.None,
-          action: TxAction.StakingWithdrawn,
+          action: TxAction.StakingCreateWithdrawalRequest,
         };
         break;
       case 'batchAll':
@@ -348,13 +381,22 @@ export class SubstrateAdaptor implements IAdaptor {
             txType: TxType.None,
             action: TxAction.StakingAddAmount,
           };
-        } else if (calls.length === 2 && calls[0].callIndex === '0x0606'
-          && calls[1].callIndex === '0x0602' &&  calls[1].args.value !== undefined
+        } else if (calls.length === 2
+          && calls[0].args.targets !== undefined
+          && calls[1].args.maxAdditional !== undefined
         ) {
           decodedTx = {
             value: new BN((<any>calls[1].args).value),
             txType: TxType.None,
-            action: TxAction.StakingWithdrawn,
+            action: TxAction.StakingCreateWithdrawalRequest,
+          };
+        } else if (calls.length === 2
+          && calls[1].args.value !== undefined
+        ) {
+          decodedTx = {
+            value: new BN((<any>calls[1].args).value),
+            txType: TxType.None,
+            action: TxAction.StakingCreateWithdrawalRequest,
           };
         }
 

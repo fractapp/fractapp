@@ -1,4 +1,4 @@
-import { Account, Balance, AccountType } from 'types/account';
+import { Account, AccountBalance, AccountType } from 'types/account';
 import { Currency, getFullCurrencyName } from 'types/wallet';
 import DB from 'storage/DB';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -33,7 +33,7 @@ namespace  AccountsStore {
       updateBalance(state: State, action: PayloadAction<{
         currency: Currency,
         viewBalance: number,
-        balance: Balance
+        balance: AccountBalance
       }>): State {
         const account = state.accounts[AccountType.Main][action.payload.currency];
         if (!account) {

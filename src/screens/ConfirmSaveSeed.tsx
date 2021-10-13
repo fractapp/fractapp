@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {BlueButton} from 'components/BlueButton';
 import {SeedButton} from 'components/SeedButton';
-import DB from 'storage/DB';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
-import AccountsStore from 'storage/Accounts';
 import tasks from 'utils/tasks';
 
 /**

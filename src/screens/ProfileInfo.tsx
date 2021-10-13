@@ -13,7 +13,7 @@ import formatNameOrAddress = StringUtils.formatNameOrAddress;
 import ChatsStore from 'storage/Chats';
 import { randomAsHex } from '@polkadot/util-crypto';
 import GlobalStore from 'storage/Global';
-import { Message } from 'types/message';
+import { DefaultMsgAction, Message } from 'types/message';
 
 /**
  * Screen with transaction details
@@ -42,7 +42,7 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
         const msg: Message = {
             id: 'answer-' + randomAsHex(32),
             value: 'Start',
-            action: '/init',
+            action: DefaultMsgAction.Init,
             args: {},
             rows: [],
             timestamp: Date.now(),

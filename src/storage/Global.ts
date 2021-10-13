@@ -99,7 +99,7 @@ namespace GlobalStore {
       enablePasscode(state: State, action: PayloadAction<string>): State {
         state.authInfo.hasPasscode = true;
         state.authInfo.hasBiometry = false;
-        DB.enablePasscode(action.payload, false);
+        DB.enablePasscode(action.payload);
         return state;
       },
       disablePasscode(state: State): State {

@@ -23,13 +23,6 @@ namespace DB {
   export const secureOption = {
     service: 'com.fractapp',
   };
-  export const biometryOption = {
-    service: 'com.fractapp',
-    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-    authenticationPrompt: {
-      title: 'Please Authenticate',
-    },
-  };
 
   export const AsyncStorageKeys = {
     version: 'version',
@@ -40,6 +33,7 @@ namespace DB {
     contacts: 'contacts',
     users: 'users',
     chatsStorage: 'chatsStorage',
+    lastInitMsgTimeout: 'lastInitMsgTimeout',
   };
   export const SecureStorageKeys = {
     firebaseToken: 'firebase_token',
@@ -92,6 +86,18 @@ namespace DB {
     return Number(result);
   }
 
+  export async function setLastInitMsgTimeout(timestamp: number) {
+    await AsyncStorage.setItem(AsyncStorageKeys.lastInitMsgTimeout, String(timestamp));
+  }
+  export async function getLastInitMsgTimeout(): Promise<number | null> {
+    const result = await AsyncStorage.getItem(AsyncStorageKeys.lastInitMsgTimeout);
+    if (result == null) {
+      return null;
+    }
+    return Number(result);
+  }
+
+
   export async function setAuthInfo(auth: AuthInfo) {
     await AsyncStorage.setItem(AsyncStorageKeys.authInfo, JSON.stringify(auth));
   }
@@ -127,20 +133,13 @@ namespace DB {
     }
     return JSON.parse(result);
   }
+  export async function changeBiometry(enable: boolean) {
+    let authInfo = await getAuthInfo();
+    authInfo!.hasBiometry = enable;
+    await setAuthInfo(authInfo!);
+  }
 
-  export async function enablePasscode(passcode: string, isBiometry: boolean) {
-    if (isBiometry) {
-      const result = await Keychain.setInternetCredentials(
-        PasscodeStorageKeys.passcode,
-        PasscodeStorageKeys.passcode,
-        passcode,
-        biometryOption,
-      );
-      if (result === false) {
-        throw new Error('invalid set passcode');
-      }
-    }
-
+  export async function enablePasscode(passcode: string) {
     const salt = base64Encode(randomAsU8a(32));
     const hash = PasscodeUtil.hash(passcode, salt);
     let authInfo = await getAuthInfo();
@@ -157,7 +156,6 @@ namespace DB {
       await setSecureItem(SecureStorageKeys.salt, salt);
       await setSecureItem(SecureStorageKeys.passcodeHash, hash);
       authInfo.hasPasscode = true;
-      authInfo.hasBiometry = isBiometry;
     } catch (e) {
       await disablePasscode();
     }
@@ -194,17 +192,6 @@ namespace DB {
   }
   export async function getPasscodeHash(): Promise<string | null> {
     return await getSecureItem(SecureStorageKeys.passcodeHash);
-  }
-  export async function getPasscode(): Promise<string> {
-    const result = await Keychain.getInternetCredentials(
-      PasscodeStorageKeys.passcode,
-      biometryOption,
-    );
-    if (result === false) {
-      throw new Error('value by passcode key not found');
-    }
-
-    return result.password;
   }
 
   export async function createAccounts(seed: string) {

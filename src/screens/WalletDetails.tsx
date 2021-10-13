@@ -25,7 +25,7 @@ import { randomAsHex } from '@polkadot/util-crypto';
 import backend from 'utils/api';
 // @ts-ignore
 import {MAIN_BOT_ID} from '@env';
-import { Message} from 'types/message';
+import { DefaultMsgAction, Message } from 'types/message';
 
 /**
  * Screen with wallet details
@@ -140,7 +140,7 @@ export const WalletDetails = ({
                 const msg: Message = {
                   id: 'answer-' + randomAsHex(32),
                   value: 'Withdraw',
-                  action: '/withdraw',
+                  action: DefaultMsgAction.WalletButtonOut,
                   args: {
                     currency: fromCurrency(account.currency),
                   },
@@ -186,7 +186,7 @@ export const WalletDetails = ({
                 const msg: Message = {
                   id: 'answer-' + randomAsHex(32),
                   value: 'Invest',
-                  action: '/invest',
+                  action: DefaultMsgAction.WalletButtonIn,
                   args: {
                     currency: fromCurrency(account.currency),
                   },

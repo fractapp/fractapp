@@ -143,9 +143,19 @@ export function fromCurrency(currency: Currency): string {
 export function filterTxsByAccountType(txs: Array<Transaction>, action: AccountType): Array<Transaction>  {
   switch (action) {
     case AccountType.Main:
-      return txs.filter((tx) => tx.action === TxAction.Transfer || tx.action === TxAction.StakingOpenDeposit || tx.action === TxAction.StakingAddAmount || tx.action === TxAction.StakingWithdrawn);
+      return txs.filter((tx) => tx.action === TxAction.Transfer
+        || tx.action === TxAction.StakingWithdrawn
+        || tx.action === TxAction.StakingOpenDeposit
+        || tx.action === TxAction.StakingAddAmount);
     case AccountType.Staking:
-      return txs.filter((tx) => tx.action === TxAction.StakingOpenDeposit || tx.action === TxAction.StakingAddAmount || tx.action === TxAction.StakingWithdrawn || tx.action === TxAction.StakingReward);
+      return txs.filter((tx) =>
+        tx.action === TxAction.StakingWithdrawn
+        || tx.action === TxAction.StakingOpenDeposit
+        || tx.action === TxAction.StakingAddAmount
+        || tx.action === TxAction.StakingCreateWithdrawalRequest
+        || tx.action === TxAction.StakingReward
+        || tx.action === TxAction.ConfirmWithdrawal
+        || tx.action === TxAction.UpdateNomination);
     default:
       throw new Error('invalid action type');
   }

@@ -6,7 +6,15 @@ import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
 import StringUtils from 'utils/string';
 import backend from 'utils/api';
-import { BroadcastArgs, Button, EnterAmountArgs, Message, OpenLinkArgs, TransactionViewArgs } from 'types/message';
+import {
+  BroadcastArgs,
+  Button,
+  DefaultMsgAction,
+  EnterAmountArgs,
+  Message,
+  OpenLinkArgs,
+  TransactionViewArgs,
+} from 'types/message';
 import { MessageView } from 'components/MessageView';
 import { AddressOnly, Profile, User } from 'types/profile';
 import { PaymentMsg } from 'components/PaymentMsg';
@@ -44,7 +52,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
 
   const onPressChatBtn = async (msgId: string, btn: Button) => {
     switch (btn.action) {
-      case '/enterAmount':
+      case DefaultMsgAction.EnterAmount:
         const enterAmountArgs = btn.arguments as EnterAmountArgs;
         //TODO: next release (normal validator)
 
@@ -60,13 +68,13 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           args: enterAmountArgs,
         });
         break;
-      case '/openUrl':
+      case DefaultMsgAction.OpenUrl:
         const linkArgs = btn.arguments as OpenLinkArgs;
         //TODO: next release (normal validator)
 
         await Linking.openURL(linkArgs.link); //TODO: next release alert (any site)
         break;
-      case '/broadcast':
+      case DefaultMsgAction.Broadcast:
         try {
           const broadcastArgs = btn.arguments as BroadcastArgs;
           //TODO: next release (normal validator)
@@ -285,7 +293,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
             const msg = {
               id: 'answer-' + randomAsHex(32),
               value: 'Start',
-              action: '/init',
+              action: DefaultMsgAction.Init,
               args: {},
               rows: [],
               timestamp: Date.now(),

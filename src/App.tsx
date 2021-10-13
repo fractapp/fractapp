@@ -21,6 +21,7 @@ import Init from './Init';
 import { Store } from 'redux';
 import tasks from 'utils/tasks';
 import { ConfirmTransaction } from 'components/ConfirmTransaction';
+import FingerprintScanner  from 'react-native-fingerprint-scanner';
 
 const App = ({store}: {store: Store}) => {
   const appState = useRef(AppState.currentState);
@@ -37,15 +38,20 @@ const App = ({store}: {store: Store}) => {
   const [url, setUrl] = useState<string | null>(null);
 
   const unlockWithBiometry = async () => {
-    const dbPasscode = await DB.getPasscode();
-    const passcodeArray: Array<number> = [];
-    for (let i = 0; i < dbPasscode.length; i++) {
-      passcodeArray.push(Number(dbPasscode[i]));
+    try {
+      await FingerprintScanner.release();
+      await FingerprintScanner.authenticate({
+        title: 'Please authenticate',
+      });
+      setLocked(false);
+      dispatch(GlobalStore.actions.showLoading());
+      onLoaded();
+    } catch (e) {
+      console.log('biometry error: ' + e);
     }
-
-    await onSubmitPasscode(passcodeArray);
   };
-  const onSubmitPasscode = async (passcode: Array<number>) => {
+  const onSubmitPasscode = async (passcode: Array<number>, isBiometrySuccess: boolean) => {
+    console.log('isBiometrySuccess: ' + isBiometrySuccess);
     let hash = await DB.getPasscodeHash();
     let salt = await DB.getSalt();
 
@@ -54,7 +60,7 @@ const App = ({store}: {store: Store}) => {
       return;
     }
 
-    if (hash === PasscodeUtil.hash(passcode.join(''), salt)) {
+    if (isBiometrySuccess || hash === PasscodeUtil.hash(passcode.join(''), salt)) {
       setLocked(false);
       dispatch(GlobalStore.actions.showLoading());
       onLoaded();

@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Test title="Title #1" && text="Text #1" && visible=true 1`] = `null`;
-
-exports[`Test title="Title #2" && text="Text #2" && visible=false 1`] = `null`;

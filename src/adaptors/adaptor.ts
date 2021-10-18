@@ -73,24 +73,18 @@ export class Adaptors {
   }
 
   public static async getSubstrateBase(network: Network): Promise<SubstrateBase> {
+    console.log('get http substrate base: ' + new Date());
     const substrateBase: SubstrateBase | null = await backend.getSubstrateBase(network);
     if (substrateBase == null) {
       throw new Error('invalid tx base loading');
     }
-
-    const registry = getRegistry({
-      chainName: network === Network.Polkadot ? 'Polkadot' : 'Kusama',
-      specName: network === Network.Polkadot ? 'polkadot' : 'kusama',
-      specVersion: substrateBase.specVersion,
-      metadataRpc: substrateBase.metadata,
-    });
+    console.log('end http get substrate base: ' + new Date());
 
     return {
       genesisHash: substrateBase.genesisHash,
       metadata: substrateBase.metadata,
       specVersion: substrateBase.specVersion,
       transactionVersion: substrateBase.transactionVersion,
-      registry: registry,
     };
   }
 

@@ -29,8 +29,11 @@ const Init = () => {
 
     (async () => {
       try {
+        console.log('start init #1: ' + new Date());
         await Adaptors.init();
+        console.log('start init #1 (two): ' + new Date());
         await tasks.init(dispatch);
+        console.log('end init #1' + new Date());
       } catch (e) {
         console.log('e: ' + e);
         Alert.alert(StringUtils.texts.showMsg.invalidConnection);
@@ -39,25 +42,22 @@ const Init = () => {
   }, []);
 
   useEffect(() => {
+    if (
+      !globalState.isInitialized ||
+      !accountsState.isInitialized ||
+      !usersState.isInitialized ||
+      !chatsState.isInitialized ||
+      !serverInfoState.isInitialized
+    ) {
+      return;
+    }
+
     console.log('Is Global init? ' + globalState.isInitialized);
     console.log('Is Accounts init? ' + accountsState.isInitialized);
     console.log('Is Users init? ' + usersState.isInitialized);
     console.log('Is Chats init? ' + chatsState.isInitialized);
     console.log('Is Server Info init? ' + serverInfoState.isInitialized);
-
-    (async () => {
-      if (
-        !globalState.isInitialized ||
-        !accountsState.isInitialized ||
-        !usersState.isInitialized ||
-        !chatsState.isInitialized ||
-        !serverInfoState.isInitialized
-      ) {
-        return;
-      }
-
-      dispatch(GlobalStore.actions.setAllStatesLoaded(true));
-    })();
+    dispatch(GlobalStore.actions.setAllStatesLoaded(true));
   }, [
     globalState.isInitialized,
     accountsState.isInitialized,

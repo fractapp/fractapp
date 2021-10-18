@@ -26,5 +26,4 @@ export type SubstrateBase = {
   specVersion: number;
   transactionVersion: number;
 
-  registry: TypeRegistry
 }

@@ -10,19 +10,28 @@ import backend from 'utils/api';
 import api from 'utils/api';
 import StringUtils from 'utils/string';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { construct, createMetadata, decode, methods, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
+import {
+  construct,
+  createMetadata,
+  decode,
+  getRegistry,
+  methods,
+  OptionsWithMeta,
+} from '@substrate/txwrapper-polkadot';
 import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
 import { ConfirmTxInfo } from 'types/inputs';
 import { Profile } from 'types/profile';
 import { SubstrateBase } from 'types/serverInfo';
 import { TxAction, TxStatus, TxType } from 'types/transaction';
 import { BroadcastArgs } from 'types/message';
+import { TypeRegistry } from '@substrate/txwrapper-core';
 
 export class SubstrateAdaptor implements IAdaptor {
   public readonly viewDecimals: number;
   public readonly network: Network;
   public readonly decimals: number;
   private substrateBase: SubstrateBase;
+  private registryForTx: TypeRegistry | null = null;
 
   public readonly currency: Currency;
   private readonly minTransfer: BN;
@@ -63,15 +72,29 @@ export class SubstrateAdaptor implements IAdaptor {
     return signature;
   }
 
+  private getRegistryForTx(): TypeRegistry {
+    if (this.registryForTx == null) {
+      this.registryForTx = getRegistry({
+        chainName: this.network === Network.Polkadot ? 'Polkadot' : 'Kusama',
+        specName: this.network === Network.Polkadot ? 'polkadot' : 'kusama',
+        specVersion: this.substrateBase.specVersion,
+        metadataRpc: this.substrateBase.metadata,
+      });
+    }
+
+    return this.registryForTx!;
+  }
+
   private async createTransferTx(
     account: KeyringPair,
     value: BN,
     receiver: string,
     sendFull: boolean
   ): Promise<string> {
+    const registry = this.getRegistryForTx();
     const opt = {
       metadataRpc: this.substrateBase.metadata,
-      registry: this.substrateBase.registry,
+      registry: registry,
     };
 
     const txBase = await api.getSubstrateTxBase(account.address, this.network);
@@ -84,7 +107,7 @@ export class SubstrateAdaptor implements IAdaptor {
     const txArgs = {
       address: account.address,
       blockHash: txBase.blockHash,
-      blockNumber: this.substrateBase.registry
+      blockNumber: registry
         .createType('BlockNumber', txBase.blockNumber)
         .toNumber(),
       eraPeriod: 128,
@@ -111,7 +134,7 @@ export class SubstrateAdaptor implements IAdaptor {
     console.log('send tx: ' + JSON.stringify(unsigned));
     const signature = this.sign(
       account,
-      construct.signingPayload(unsigned, { registry: this.substrateBase.registry }),
+      construct.signingPayload(unsigned, { registry: registry }),
       opt
     );
 
@@ -164,13 +187,14 @@ export class SubstrateAdaptor implements IAdaptor {
   }
 
   public async broadcast(unsignedTx: any): Promise<string> {
+    const registry = this.getRegistryForTx();
     const opt = {
       metadataRpc: this.substrateBase.metadata,
-      registry: this.substrateBase.registry,
+      registry: registry,
     };
     const signature = this.sign(
       await this.getAccount(),
-      construct.signingPayload(unsignedTx, { registry: this.substrateBase.registry }),
+      construct.signingPayload(unsignedTx, { registry: registry }),
       opt
     );
     const hexTx = construct.signedTx(unsignedTx, signature, opt);
@@ -285,9 +309,11 @@ export class SubstrateAdaptor implements IAdaptor {
   }
 
   public async parseTx(creator: Profile, sender: Account, msgId: string, args: BroadcastArgs, unsignedTx: any, price: number): Promise<ConfirmTxInfo> {
+    const registry = this.getRegistryForTx();
+
     const opt = {
       metadataRpc: this.substrateBase.metadata,
-      registry: this.substrateBase.registry,
+      registry: registry,
     };
 
     const txInfo = decode(unsignedTx, opt);
@@ -409,7 +435,7 @@ export class SubstrateAdaptor implements IAdaptor {
 
     const signature = this.sign(
       new Keyring().addFromUri('fake'),
-      construct.signingPayload(unsignedTx, { registry: this.substrateBase.registry }),
+      construct.signingPayload(unsignedTx, { registry: registry }),
       opt
     );
 

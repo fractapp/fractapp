@@ -179,6 +179,7 @@ const App = ({store}: {store: Store}) => {
     }
 
     (async () => {
+      console.log('start init #2' + new Date());
       tasks.initPrivateData();
 
       tasks.createTasks(store, dispatch);
@@ -202,6 +203,7 @@ const App = ({store}: {store: Store}) => {
       }
 
       dispatch(GlobalStore.actions.hideLoading());
+      console.log('end init #2' + new Date());
     })();
   }, [globalState.loadInfo.isAllStatesLoaded, globalState.authInfo.hasWallet]);
 

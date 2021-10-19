@@ -48,12 +48,15 @@ jest.mock('react-native-i18n', () => ({
 }));
 
 jest.mock('utils/backup', () => ({
-  getWalletsFromGoogle: () => {
-    return {
-      wallets: [],
-      ids: [],
-    };
+  getWalletsFromGoogle: jest.fn(),
+  BackupType: {
+    GoogleDrive: 1,
   },
+}));
+jest.mock('utils/google', () => ({
+  getFileBackup: jest.fn(),
+  signIn: jest.fn(),
+  signOut: jest.fn(),
 }));
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
@@ -66,7 +69,14 @@ it('Test view', () => {
   expect(tree).toMatchSnapshot();
 });
 
+
 it('Test backup google drive', async () => {
+  Backup.getWalletsFromGoogle.mockReturnValueOnce(
+    {
+      wallets: ['0'],
+      ids: ['1'],
+    }
+  );
   const navigate = jest.fn();
   useContext.mockReturnValueOnce({
     dispatch: () => null,
@@ -80,6 +90,57 @@ it('Test backup google drive', async () => {
   expect(googleUtils.signIn).toBeCalled();
   expect(googleUtils.signOut).toBeCalled();
   expect(navigate()).toMatchSnapshot('GoogleDrivePicker');
+});
+
+it('Test backup google drive with 0 wallets', async () => {
+  const globalState = {
+    setLoading: jest.fn(),
+  };
+  useContext.mockReturnValueOnce({
+    state: globalState,
+    dispatch: jest.fn(),
+  });
+  Backup.getWalletsFromGoogle.mockReturnValueOnce(
+    {
+      wallets: [],
+      ids: ['1'],
+    }
+  );
+  const navigate = jest.fn();
+  useContext.mockReturnValueOnce({
+    dispatch: () => null,
+  });
+
+  const component = render(<ImportWallet navigation={{navigate: navigate}} />);
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.importWallet.googleDriveTitle),
+  );
+
+  expect(googleUtils.signIn).toBeCalled();
+  expect(googleUtils.signOut).toBeCalled();
+  expect(component).toMatchSnapshot();
+});
+
+it('Test backup google drive with 3 wallets', async () => {
+  Backup.getWalletsFromGoogle.mockReturnValueOnce(
+    {
+      wallets: ['0', '1', '2'],
+      ids: ['1'],
+    }
+  );
+  const navigate = jest.fn();
+  useContext.mockReturnValueOnce({
+    dispatch: () => null,
+  });
+  
+  const component = render(<ImportWallet navigation={{navigate: navigate}} />);
+  await fireEvent.press(
+    component.getByText(StringUtils.texts.importWallet.googleDriveTitle),
+  );
+
+  expect(googleUtils.signIn).toBeCalled();
+  expect(googleUtils.signOut).toBeCalled();
+  expect(navigate()).toMatchSnapshot('ChooseImportWallet');
 });
 
 it('Test seed', async () => {

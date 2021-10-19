@@ -56,27 +56,28 @@ export const PassCode = ({
         switch (index) {
           case 10:
             element = !isBiometry ? (
-              <Text style={styles.btnText} />
+              <Text style={styles.btnText} testID={'10'}/>
             ) : (
-              <Image
+              <Image  testID={'10'}
                 source={require('assets/img/fingerprint.png')}
                 style={{width: 36, height: 40}}
               />
             );
             break;
           case 11:
-            element = <Text style={styles.btnText}>0</Text>;
+            element = <Text style={styles.btnText} testID={'11'}>0</Text>;
             break;
           case 12:
             element = (
               <Image
                 source={require('assets/img/backspace.png')}
                 style={{width: 40, height: 28}}
+                testID={'12'}
               />
             );
             break;
           default:
-            element = <Text style={styles.btnText}>{index}</Text>;
+            element = <Text style={styles.btnText} testID={'default' + `${index}`}>{index}</Text>;
             break;
         }
 

@@ -212,6 +212,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     }
 
     return (
+<<<<<<< HEAD
       <View
         key={item.id}
         style={{
@@ -219,6 +220,27 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         paddingRight: 15,
         scaleY: -1,
       }}>
+=======
+      <>
+        <TouchableOpacity
+          testID={'testNavigate'}
+          style={{
+            scaleY: -1,
+          }}
+          onPress={() =>
+            navigation.navigate('TransactionDetails', {
+              transaction: item,
+              wallet: getWallet(item.currency),
+              user:
+                item.userId != null &&
+                globalContext.state.users.has(item.userId)
+                  ? globalContext.state.users.get(item.userId)!
+                  : null,
+            })
+          }>
+          <PaymentMsg tx={item} />
+        </TouchableOpacity>
+>>>>>>> fixing-tests
         {line}
         {
           item.action === '/tx' &&
@@ -257,17 +279,29 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   };
 
   return (
+<<<<<<< HEAD
     <View style={styles.chat}>
       {<FlatList
         style={[{scaleY: -1 }, styles.messages]}
         windowSize={5}
         data={messages}
+=======
+    <View style={styles.chat} onLayout={() => onLayout()}>
+      <FlatList
+        testID={'testFlatList'}
+        style={[{scaleY: -1}, styles.messages]}
+        ref={flatListRef}
+        scrollToOverflowEnabled={true}
+        initialNumToRender={notificationCount < 10 ? 10 : notificationCount}
+        data={txs}
+>>>>>>> fixing-tests
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<View style={{marginBottom: user.isAddressOnly || !(user.value as Profile).isChatBot ? 80 : 50}}  />}
       />}
       {((user.isAddressOnly || !(user.value as Profile).isChatBot) &&
         <TouchableOpacity
+          testID={'testGetWallet'}
           style={styles.sendBox}
           onPress={() =>
             !user.isAddressOnly

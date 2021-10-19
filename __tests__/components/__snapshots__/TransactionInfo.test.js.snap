@@ -415,6 +415,144 @@ exports[`Test one 1`] = `
 </View>
 `;
 
+exports[`Test six 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+      "paddingBottom": 10,
+      "paddingTop": 10,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Image
+        height={50}
+        source={
+          Object {
+            "uri": undefined,
+          }
+        }
+        style={
+          Object {
+            "borderRadius": 25,
+            "height": 50,
+            "width": 50,
+          }
+        }
+        width={50}
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "white",
+            "borderRadius": 23,
+            "bottom": 0,
+            "height": 23,
+            "justifyContent": "center",
+            "left": 30,
+            "position": "absolute",
+            "width": 23,
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "#F39B34",
+                "fontSize": 23,
+              },
+              undefined,
+              Object {
+                "fontFamily": "Material Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "flex": 1,
+            "flexDirection": "column",
+            "marginLeft": 10,
+          }
+        }
+      >
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 16,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          Transaction
+        </Text>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+              },
+              Object {
+                "color": "#67D44D",
+                "textAlign": "left",
+              },
+            ]
+          }
+        >
+          +
+           
+          KSM
+        </Text>
+      </View>
+      <View />
+    </View>
+  </View>
+</View>
+`;
+
 exports[`Test three 1`] = `
 <View
   accessible={true}

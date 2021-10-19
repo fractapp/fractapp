@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ConfirmSaveSeed} from 'screens/ConfirmSaveSeed';
 import renderer from 'react-test-renderer';
 import GlobalStore from 'storage/Global';
+import { fireEvent, render } from '@testing-library/react-native';
 
 jest.mock('react-native-crypto', () => {});
 jest.mock('adaptors/adaptor', () => {});
@@ -94,5 +95,28 @@ it('Test confirm seed success', async () => {
       </GlobalStore.Context.Provider>,
     )
     .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('Test view', async () => {
+  useState
+  .mockImplementationOnce((init) => [seed, jest.fn()])
+  .mockImplementationOnce((init) => [[], jest.fn()])
+  .mockImplementationOnce((init) => [[], jest.fn()]);
+
+  const tree = render(
+    <GlobalStore.Context.Provider
+      value={{
+        isSign: false,
+      }}>
+      <ConfirmSaveSeed
+        route={{
+          params: {
+            seed: seed,
+          },
+        }}
+      />
+    </GlobalStore.Context.Provider>,
+  );
   expect(tree).toMatchSnapshot();
 });

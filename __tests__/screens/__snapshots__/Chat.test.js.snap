@@ -1,5 +1,119 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test getWallet positive 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <RCTScrollView
+    ListHeaderComponent={
+      <View
+        style={
+          Object {
+            "marginBottom": 90,
+          }
+        }
+      />
+    }
+    data={Array []}
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    onScrollToIndexFailed={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    scrollToOverflowEnabled={true}
+    stickyHeaderIndices={Array []}
+    style={
+      Array [
+        Object {
+          "scaleY": -1,
+        },
+        Object {
+          "width": "100%",
+        },
+      ]
+    }
+    testID="testFlatList"
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "marginBottom": 90,
+            }
+          }
+        />
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#2AB2E2",
+        "borderRadius": 50,
+        "bottom": 10,
+        "height": 60,
+        "justifyContent": "center",
+        "opacity": 1,
+        "position": "absolute",
+        "right": 10,
+        "width": 60,
+      }
+    }
+    testID="testGetWallet"
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/send.png",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 16,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
 exports[`Test view with empty txs 1`] = `
 <View
   onLayout={[Function]}
@@ -52,6 +166,7 @@ exports[`Test view with empty txs 1`] = `
         },
       ]
     }
+    testID="testFlatList"
     updateCellsBatchingPeriod={50}
     viewabilityConfigCallbackPairs={Array []}
     windowSize={21}
@@ -94,6 +209,7 @@ exports[`Test view with empty txs 1`] = `
         "width": 60,
       }
     }
+    testID="testGetWallet"
   >
     <Image
       source={
@@ -239,6 +355,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
         },
       ]
     }
+    testID="testFlatList"
     updateCellsBatchingPeriod={50}
     viewabilityConfigCallbackPairs={Array []}
     windowSize={21}
@@ -806,6 +923,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
               "scaleY": -1,
             }
           }
+          testID="testNavigate"
         >
           <View
             style={
@@ -1026,6 +1144,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
               "scaleY": -1,
             }
           }
+          testID="testNavigate"
         >
           <View
             style={
@@ -1259,6 +1378,7 @@ exports[`Test view with txs (ChatType == Address) 1`] = `
         "width": 60,
       }
     }
+    testID="testGetWallet"
   >
     <Image
       source={

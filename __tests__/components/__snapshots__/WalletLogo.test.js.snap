@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test with borders 1`] = `
+<Image
+  source={
+    Object {
+      "testUri": "../../../assets/img/dot.png",
+    }
+  }
+  style={
+    Object {
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0,
+      "height": 20,
+      "overflow": "hidden",
+      "width": 20,
+    }
+  }
+/>
+`;
+
+exports[`Test without borders 1`] = `
+<Image
+  source={
+    Object {
+      "testUri": "../../../assets/img/kusama.png",
+    }
+  }
+  style={
+    Object {
+      "borderColor": "black",
+      "borderRadius": 5,
+      "borderWidth": 0.8,
+      "height": 10,
+      "overflow": "hidden",
+      "width": 10,
+    }
+  }
+/>
+`;

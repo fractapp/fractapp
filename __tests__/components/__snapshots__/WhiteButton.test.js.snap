@@ -1,0 +1,569 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test height=20 && text="Text #1" && width=default && img=default 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 20,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text #1
+  </Text>
+</View>
+`;
+
+exports[`Test height=40 && text="Text #2" && width=50 && img=default 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "50%",
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text #2
+  </Text>
+</View>
+`;
+
+exports[`Test img=Copy 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": "#888888",
+          "fontSize": 27,
+        },
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "fontFamily": "Material Design Icons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    󰆏
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;
+
+exports[`Test img=Email 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/mail.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "height": 30,
+          "width": 30,
+        },
+      ]
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;
+
+exports[`Test img=File 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": "#888888",
+          "fontSize": 30,
+        },
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "fontFamily": "Material Icons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;
+
+exports[`Test img=GoogleDrive 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/google-drive.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "height": 30,
+          "width": 30,
+        },
+      ]
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;
+
+exports[`Test img=Key 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": "#888888",
+          "fontSize": 30,
+        },
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "fontFamily": "Material Design Icons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    󰷖
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;
+
+exports[`Test img=Phone 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/phone.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "height": 30,
+          "width": 30,
+        },
+      ]
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;
+
+exports[`Test img=Twitter 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "black",
+      "borderRadius": 10,
+      "borderWidth": 0.5,
+      "height": 40,
+      "justifyContent": "center",
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../assets/img/twitter-round.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "left": 70,
+          "position": "absolute",
+        },
+        Object {
+          "height": 30,
+          "width": 30,
+        },
+      ]
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Regular",
+          "fontSize": 15,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    Text
+  </Text>
+</View>
+`;

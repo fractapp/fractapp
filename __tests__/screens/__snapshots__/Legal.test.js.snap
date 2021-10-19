@@ -35,7 +35,9 @@ exports[`Test checkbox=false 1`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -59,13 +61,17 @@ exports[`Test checkbox=false 1`] = `
     >
       <Text
         style={
-          Object {
-            "color": "black",
-            "fontFamily": "Roboto-Regular",
-            "fontSize": 15,
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
+          Array [
+            Object {
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {
+              "color": "black",
+            },
+          ]
         }
       >
         legal.tos
@@ -81,7 +87,9 @@ exports[`Test checkbox=false 1`] = `
     >
       <View
         accessible={true}
+        collapsable={false}
         focusable={true}
+        nativeID="animatedComponent"
         onClick={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -105,13 +113,17 @@ exports[`Test checkbox=false 1`] = `
       >
         <Text
           style={
-            Object {
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 15,
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
+            Array [
+              Object {
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "color": "black",
+              },
+            ]
           }
         >
           legal.privacy_policy
@@ -176,8 +188,15 @@ exports[`Test checkbox=false 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        Object {
+          "disabled": true,
+        }
+      }
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -250,7 +269,9 @@ exports[`Test checkbox=true 1`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -274,13 +295,17 @@ exports[`Test checkbox=true 1`] = `
     >
       <Text
         style={
-          Object {
-            "color": "black",
-            "fontFamily": "Roboto-Regular",
-            "fontSize": 15,
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
+          Array [
+            Object {
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {
+              "color": "black",
+            },
+          ]
         }
       >
         legal.tos
@@ -296,7 +321,9 @@ exports[`Test checkbox=true 1`] = `
     >
       <View
         accessible={true}
+        collapsable={false}
         focusable={true}
+        nativeID="animatedComponent"
         onClick={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -320,13 +347,17 @@ exports[`Test checkbox=true 1`] = `
       >
         <Text
           style={
-            Object {
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 15,
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
+            Array [
+              Object {
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "color": "black",
+              },
+            ]
           }
         >
           legal.privacy_policy
@@ -391,8 +422,15 @@ exports[`Test checkbox=true 1`] = `
       </Text>
     </View>
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}

@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test backup google drive: GoogleDrivePicker 1`] = `undefined`;
-
 exports[`Test seed 1`] = `"ImportSeed"`;
 
 exports[`Test view 1`] = `

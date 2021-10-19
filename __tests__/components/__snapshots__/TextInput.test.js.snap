@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test one 1`] = `
+<TextInput
+  autoCompleteType="name"
+  defaultValue=""
+  onChangeText={[MockFunction]}
+  placeholder="placeholder"
+  placeholderTextColor="#BFBDBD"
+  secureTextEntry={false}
+  style={
+    Array [
+      Object {
+        "borderBottomWidth": 1,
+        "borderColor": "#CCCCCC",
+        "color": "black",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "height": 40,
+      },
+      Object {
+        "width": "100%",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`Test two 1`] = `
+<TextInput
+  autoCompleteType="name"
+  defaultValue="defaultValue"
+  onChangeText={[MockFunction]}
+  placeholder="placeholder"
+  placeholderTextColor="#BFBDBD"
+  secureTextEntry={false}
+  style={
+    Array [
+      Object {
+        "borderBottomWidth": 1,
+        "borderColor": "#CCCCCC",
+        "color": "black",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 15,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "height": 40,
+      },
+      Object {
+        "width": "90%",
+      },
+    ]
+  }
+/>
+`;

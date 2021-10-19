@@ -45,7 +45,9 @@ exports[`Test positive 1`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -88,13 +90,17 @@ exports[`Test positive 1`] = `
       />
       <Text
         style={
-          Object {
-            "color": "black",
-            "fontFamily": "Roboto-Regular",
-            "fontSize": 15,
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
+          Array [
+            Object {
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {
+              "color": "black",
+            },
+          ]
         }
       >
         connecting.phone
@@ -110,7 +116,9 @@ exports[`Test positive 1`] = `
     >
       <View
         accessible={true}
+        collapsable={false}
         focusable={true}
+        nativeID="animatedComponent"
         onClick={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -153,13 +161,17 @@ exports[`Test positive 1`] = `
         />
         <Text
           style={
-            Object {
-              "color": "black",
-              "fontFamily": "Roboto-Regular",
-              "fontSize": 15,
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
+            Array [
+              Object {
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {
+                "color": "black",
+              },
+            ]
           }
         >
           connecting.email

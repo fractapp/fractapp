@@ -1,0 +1,631 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test empty wallet 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "borderColor": "#DADADA",
+      "borderRadius": 7,
+      "borderWidth": 0.8,
+      "marginTop": 17,
+      "opacity": 1,
+      "paddingBottom": 13,
+      "paddingLeft": 25,
+      "paddingRight": 25,
+      "paddingTop": 7,
+      "width": "95%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        total_title
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        $
+        0
+      </Text>
+    </View>
+    <BVLinearGradient
+      colors={
+        Array [
+          4291611852,
+          4291611852,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      locations={
+        Array [
+          1,
+          1,
+        ]
+      }
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 20,
+          "borderWidth": 0,
+          "height": 10,
+          "marginTop": 5,
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test one currency Kusama 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "borderColor": "#DADADA",
+      "borderRadius": 7,
+      "borderWidth": 0.8,
+      "marginTop": 17,
+      "opacity": 1,
+      "paddingBottom": 13,
+      "paddingLeft": 25,
+      "paddingRight": 25,
+      "paddingTop": 7,
+      "width": "95%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        total_title
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        $
+        100
+      </Text>
+    </View>
+    <BVLinearGradient
+      colors={
+        Array [
+          4282600564,
+          4282600564,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      locations={
+        Array [
+          1,
+          1,
+        ]
+      }
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 20,
+          "borderWidth": 0,
+          "height": 10,
+          "marginTop": 5,
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test one currency Polkadot 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "borderColor": "#DADADA",
+      "borderRadius": 7,
+      "borderWidth": 0.8,
+      "marginTop": 17,
+      "opacity": 1,
+      "paddingBottom": 13,
+      "paddingLeft": 25,
+      "paddingRight": 25,
+      "paddingTop": 7,
+      "width": "95%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        total_title
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        $
+        100
+      </Text>
+    </View>
+    <BVLinearGradient
+      colors={
+        Array [
+          4293263482,
+          4293263482,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      locations={
+        Array [
+          1,
+          1,
+        ]
+      }
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 20,
+          "borderWidth": 0,
+          "height": 10,
+          "marginTop": 5,
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test two currency 10/90 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "borderColor": "#DADADA",
+      "borderRadius": 7,
+      "borderWidth": 0.8,
+      "marginTop": 17,
+      "opacity": 1,
+      "paddingBottom": 13,
+      "paddingLeft": 25,
+      "paddingRight": 25,
+      "paddingTop": 7,
+      "width": "95%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        total_title
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        $
+        100
+      </Text>
+    </View>
+    <BVLinearGradient
+      colors={
+        Array [
+          4293263482,
+          4282600564,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0.1,
+          "y": 0,
+        }
+      }
+      locations={
+        Array [
+          1,
+          1,
+        ]
+      }
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 20,
+          "borderWidth": 0,
+          "height": 10,
+          "marginTop": 5,
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test two currency 50/50 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "borderColor": "#DADADA",
+      "borderRadius": 7,
+      "borderWidth": 0.8,
+      "marginTop": 17,
+      "opacity": 1,
+      "paddingBottom": 13,
+      "paddingLeft": 25,
+      "paddingRight": 25,
+      "paddingTop": 7,
+      "width": "95%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        total_title
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "width": "50%",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 15,
+              "lineHeight": 18,
+            },
+            Object {
+              "textAlign": "right",
+            },
+          ]
+        }
+      >
+        $
+        200
+      </Text>
+    </View>
+    <BVLinearGradient
+      colors={
+        Array [
+          4282600564,
+          4293263482,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0.5,
+          "y": 0,
+        }
+      }
+      locations={
+        Array [
+          1,
+          1,
+        ]
+      }
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 20,
+          "borderWidth": 0,
+          "height": 10,
+          "marginTop": 5,
+          "width": "100%",
+        }
+      }
+    />
+  </View>
+</View>
+`;

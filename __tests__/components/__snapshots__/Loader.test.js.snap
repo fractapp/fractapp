@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test positive 1`] = `
+<View
+  style={
+    Object {
+      "height": 1334,
+      "justifyContent": "center",
+      "width": "100%",
+    }
+  }
+>
+  <ActivityIndicator
+    color="#2AB2E2"
+    size={80}
+    testID="loader"
+  />
+</View>
+`;

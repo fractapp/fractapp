@@ -49,7 +49,9 @@ exports[`Test save seed #1 1`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -104,7 +106,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -159,7 +163,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -214,7 +220,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -269,7 +277,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -324,7 +334,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -379,7 +391,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -434,7 +448,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -489,7 +505,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -544,7 +562,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -599,7 +619,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -654,7 +676,9 @@ exports[`Test save seed #1 1`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -733,8 +757,15 @@ exports[`Test save seed #1 1`] = `
     }
   >
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -863,7 +894,9 @@ exports[`Test save seed #1 2`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -918,7 +951,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -973,7 +1008,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1028,7 +1065,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1083,7 +1122,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1138,7 +1179,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1193,7 +1236,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1248,7 +1293,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1303,7 +1350,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1358,7 +1407,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1413,7 +1464,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1468,7 +1521,9 @@ exports[`Test save seed #1 2`] = `
     </View>
     <View
       accessible={true}
+      collapsable={false}
       focusable={false}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1547,8 +1602,15 @@ exports[`Test save seed #1 2`] = `
     }
   >
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
+      collapsable={false}
       focusable={true}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}

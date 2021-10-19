@@ -2,16 +2,15 @@
 
 exports[`Test AsyncStorageKeys 1`] = `
 Object {
-  "accountInfo": [Function],
-  "accounts": "accounts",
+  "accountsStore": "accounts_store",
   "authInfo": "auth_info",
   "chatsStorage": "chatsStorage",
   "contacts": "contacts",
-  "lang": "lang",
-  "price": [Function],
+  "lastInitMsgTimeout": "lastInitMsgTimeout",
   "profile": "profile",
-  "urls": "urls",
+  "serverInfo": "server_info",
   "users": "users",
+  "version": "version",
 }
 `;
 
@@ -31,15 +30,7 @@ Object {
 }
 `;
 
-exports[`Test biometryOption 1`] = `
-Object {
-  "accessControl": 0,
-  "authenticationPrompt": Object {
-    "title": "Please Authenticate",
-  },
-  "service": "com.fractapp",
-}
-`;
+exports[`Test biometryOption 1`] = `undefined`;
 
 exports[`Test disablePasscode 1`] = `
 Promise {

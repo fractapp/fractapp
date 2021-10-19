@@ -297,12 +297,12 @@ Object {
 
 exports[`Test reducer default 1`] = `
 Object {
-  "chats": Map {},
-  "chatsInfo": Map {},
+  "chats": Object {},
+  "chatsInfo": Object {},
   "isInitialized": false,
-  "pendingTransactions": Map {},
-  "sentFromFractapp": Map {},
+  "pendingTransactions": Object {},
+  "sentFromFractapp": Object {},
   "totalNotifications": 0,
-  "transactions": Map {},
+  "transactions": Object {},
 }
 `;

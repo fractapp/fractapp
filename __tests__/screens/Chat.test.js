@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import renderer from 'react-test-renderer';
 import {Chat} from 'screens/Chat';
 import {Currency} from 'types/wallet';
-import { ChatType } from 'types/chatInfo';
 import AccountsStore from 'storage/Accounts';
 import PricesStore from 'storage/ServerInfo';
 import GlobalStore from 'storage/Global';

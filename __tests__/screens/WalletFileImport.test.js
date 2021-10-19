@@ -91,7 +91,7 @@ it('Test useEffect throw', async () => {
   const setLoading = jest.fn((f) => f);
   useState
     .mockImplementationOnce((init) => ['123123', jest.fn()])
-    .mockImplementationOnce(() => [true, setLoading(false)]); //это легально?)
+    .mockImplementationOnce(() => [true, setLoading(false)]);
 
   const globalDispatch = jest.fn();
   useContext.mockReturnValueOnce({

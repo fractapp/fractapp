@@ -14,7 +14,7 @@ jest.mock('react', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-jest.mock('utils/backend', () => {});
+jest.mock('utils/api', () => {});
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

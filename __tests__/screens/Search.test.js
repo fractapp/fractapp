@@ -14,7 +14,7 @@ jest.mock('react', () => ({
   useContext: jest.fn(),
 }));
 jest.mock('storage/DB', () => ({}));
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   myMatchContacts: jest.fn(),
   myContacts: jest.fn(),
   getImgUrl: jest.fn(() => 'uri'),

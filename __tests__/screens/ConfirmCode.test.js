@@ -21,7 +21,7 @@ jest.mock('react', () => ({
 jest.mock('@polkadot/keyring', () => {});
 jest.mock('@polkadot/util', () => {});
 jest.mock('@polkadot/keyring/types', () => {});
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   auth: jest.fn(),
   sendCode: jest.fn(),
   CodeType: {

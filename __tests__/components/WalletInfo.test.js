@@ -3,6 +3,8 @@ import renderer from 'react-test-renderer';
 import {WalletInfo} from 'components/WalletInfo';
 import {Currency, Wallet} from 'types/wallet';
 import StringUtils from 'utils/string';
+import { AccountType, Network } from 'types/account';
+import { WalletDetailsInfo } from 'components/WalletDetailsInfo';
 
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
@@ -12,36 +14,21 @@ it('Test Polkadot wallet', () => {
   const tree = renderer
     .create(
       <WalletInfo
-        wallet={
-          new Wallet(
-            'Wallet Polkadot',
-            'address#1',
-            Currency.DOT,
-            100,
-            '1000000000000',
-            10,
-          )
-        }
-      />,
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
-
-it('Test Kusama wallet', () => {
-  const tree = renderer
-    .create(
-      <WalletInfo
-        wallet={
-          new Wallet(
-            'Wallet Kusama',
-            'address#2',
-            Currency.KSM,
-            20,
-            '20000000000000',
-            5,
-          )
-        }
+        account={{
+          name: 'Wallet Polkadot',
+          address: 'address#1',
+          pubKey:  'pubkey#1',
+          currency: Currency.DOT,
+          network: Network.Polkadot,
+          viewBalance: 100,
+          balance: {
+            total:  '1000000000000',
+            transferable:  '1000000000000',
+            payableForFee:  '1000000000000',
+          },
+          type: AccountType.Main,
+        }}
+        price={100}
       />,
     )
     .toJSON();

@@ -11,6 +11,7 @@ import StringUtils from 'utils/string';
 import {NativeModules} from 'react-native';
 import googleUtils from 'utils/google';
 
+jest.mock('react-native-background-timer', () => ({}));
 jest.mock('storage/DB', () => ({
   createAccounts: jest.fn(),
 }));
@@ -19,6 +20,7 @@ jest.mock('react-native-fs', () => {});
 jest.mock('react-native-share', () => {});
 jest.mock('@polkadot/util-crypto', () => ({
   randomAsHex: jest.fn(),
+  encodeAddress: jest.fn(),
 }));
 jest.mock('utils/google', () => ({
   getFileBackup: jest.fn(),

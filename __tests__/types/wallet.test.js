@@ -1,43 +1,5 @@
-import {Network} from 'types/account';
-import {getSymbol, getLogo, Wallet, Currency} from 'types/wallet';
 
-test('create model #1', () => {
-  const balance = 100;
-  const price = 12;
-  const model = new Wallet(
-    'name',
-    'address',
-    Currency.KSM,
-    Network.Kusama,
-    balance,
-    '10000',
-    price,
-  );
-  expect(model.name).toBe('name');
-  expect(model.address).toBe('address');
-  expect(model.currency).toBe(Currency.KSM);
-  expect(model.balance).toBe(balance);
-  expect(model.usdValue).toBe(balance * price);
-});
-
-test('create model #2', () => {
-  const balance = 100;
-  const price = 12.123123123;
-  const model = new Wallet(
-    'name',
-    'address',
-    Currency.KSM,
-    Network.Kusama,
-    balance,
-    '1000',
-    price,
-  );
-  expect(model.name).toBe('name');
-  expect(model.address).toBe('address');
-  expect(model.currency).toBe(Currency.KSM);
-  expect(model.balance).toBe(balance);
-  expect(model.usdValue).toBe(+(balance * price).toFixed(2));
-});
+import {getSymbol, getLogo, Currency} from 'types/wallet';
 
 test('get logo Kusama', () => {
   expect(getLogo(Currency.KSM)).toBe(require('assets/img/kusama.png'));

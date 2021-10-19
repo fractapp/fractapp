@@ -196,7 +196,7 @@ it('Test random filename', async () => {
   randomAsHex.mockReturnValueOnce('0xff00ff00');
   const first = backupUtil.randomFilename();
   expect(randomAsHex).toBeCalledWith(6);
-  expect(first).toBe('0xff00ff00');
+  expect(first).toBe('wallet-0xff00ff00');
 });
 
 it('Test backup google drive', async () => {

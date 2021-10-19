@@ -15,7 +15,7 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   sendCode: jest.fn(),
   CodeType: {
     Email: 12,

@@ -9,7 +9,7 @@ import Clipboard from '@react-native-community/clipboard';
 import StringUtils from 'utils/string';
 
 jest.mock('storage/DB', () => ({}));
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   getImgUrl: jest.fn(() => 'http://127.0.0.1/1.png'),
 }));
 jest.mock('adaptors/adaptor', () => {});

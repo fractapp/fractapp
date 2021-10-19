@@ -9,8 +9,6 @@ import GlobalStore from 'storage/Global';
 import ChatsStore from 'storage/Chats';
 import {TxStatus, TxType} from 'types/transaction';
 import { render } from '@testing-library/react-native';
-import { ConfirmCode } from 'screens/ConfirmCode';
-import BackendApi from 'utils/api';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('react', () => ({
@@ -20,7 +18,7 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-jest.mock('utils/backend', () => {});
+jest.mock('utils/api', () => {});
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));

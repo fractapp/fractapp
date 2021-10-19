@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Polkadot wallet 1`] = `
+<View
+  style={
+    Object {
+      "alignSelf": "center",
+      "marginTop": 15,
+      "width": "85%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../assets/img/dot.png",
+        }
+      }
+      style={
+        Object {
+          "borderColor": "black",
+          "borderRadius": 25,
+          "borderWidth": 0.8,
+          "height": 50,
+          "overflow": "hidden",
+          "width": 50,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "flex": 1,
+          "marginLeft": 15,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 16,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        Wallet Polkadot
+      </Text>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 23,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "left",
+                },
+              ]
+            }
+          >
+            100
+             
+            DOT
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "black",
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 23,
+                  "fontStyle": "normal",
+                },
+                Object {
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            $
+            10000
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

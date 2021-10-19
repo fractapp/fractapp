@@ -13,7 +13,7 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-jest.mock('utils/backend', () => {});
+jest.mock('utils/api', () => {});
 jest.mock('utils/tasks', () => {});
 
 jest.mock('@polkadot/util-crypto', () => {});

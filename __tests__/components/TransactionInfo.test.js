@@ -2,10 +2,9 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {TransactionInfo} from 'components/TransactionInfo';
 import {Currency} from 'types/wallet';
-import {Transaction, TxStatus, TxType} from 'types/transaction';
-import StringUtils from 'utils/string';
+import {TxStatus, TxType} from 'types/transaction';
 
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   getImgUrl: jest.fn(),
 }));
 

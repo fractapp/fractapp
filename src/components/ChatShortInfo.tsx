@@ -11,7 +11,8 @@ import backend from 'utils/api';
  */
 export const ChatShortInfo = ({
   notificationCount,
-  message, timestamp,
+  message,
+  timestamp,
   user,
 }: {
   notificationCount: number;

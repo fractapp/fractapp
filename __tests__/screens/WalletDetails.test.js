@@ -17,7 +17,7 @@ jest.mock('react', () => ({
     openURL: jest.fn(),
   })),
 }));
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   getImgUrl: jest.fn(() => 'userAvatarMock'),
 }));
 

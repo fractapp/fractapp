@@ -19,7 +19,7 @@ jest.mock('adaptors/adaptor', () => ({
     get: jest.fn(),
   },
 }));
-jest.mock('utils/backend', () => ({}));
+jest.mock('utils/api', () => ({}));
 jest.mock('storage/DB', () => ({
   getAccounts: jest.fn(),
   getAccountInfo: jest.fn(),

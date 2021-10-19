@@ -2,7 +2,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {StatisticsBar} from 'components/StatisticsBar';
 import {Currency} from 'types/wallet';
-import StringUtils from 'utils/string';
 
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
@@ -61,9 +60,3 @@ it('Test two currency 10/90', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('Test default color', () => {
-  const tree = renderer
-    .create(<StatisticsBar distribution={new Map([[999, 10]])} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});

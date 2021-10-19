@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {ChatShortInfo} from 'components/ChatShortInfo';
-import {Currency} from 'types/wallet';
-import {TxStatus, TxType} from 'types/transaction';
+import { AddressOnly, Profile } from 'types/profile';
+import { Currency } from 'types/wallet';
 
-jest.mock('utils/backend', () => ({
+jest.mock('utils/api', () => ({
   getImgUrl: jest.fn(),
 }));
 it('Test one', () => {
@@ -13,20 +13,15 @@ it('Test one', () => {
       <ChatShortInfo
         name={'name'}
         notificationCount={10}
-        tx={{
-          id: '4',
-          userId: 'userId',
-          address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
-          currency: Currency.KSM,
-          txType: TxType.Received,
-          timestamp: new Date('02-12-2020').getTime(),
-          value: 10,
-          usdValue: 0,
-          fee: 10,
-          usdFee: 10,
-          status: TxStatus.Pending,
+        message={'Test'}
+        user={{
+          isAddressOnly: true,
+          title: 'address#1',
+          value: {
+            address: 'address#1',
+            currency: Currency.DOT,
+          },
         }}
-        user={null}
       />,
     )
     .toJSON();
@@ -39,28 +34,20 @@ it('Test two', () => {
       <ChatShortInfo
         name={'name'}
         notificationCount={0}
-        tx={{
-          id: '4',
-          userId: 'userId',
-          address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
-          currency: Currency.DOT,
-          txType: TxType.Sent,
-          timestamp: new Date('02-12-2020').getTime(),
-          value: 10,
-          usdValue: 0,
-          fee: 10,
-          usdFee: 10,
-          status: TxStatus.Pending,
-        }}
+        message={'Test2'}
         user={{
-          id: 'id',
-          name: 'name',
-          username: 'username',
-          avatarExt: 'png',
-          lastUpdate: new Date('12-12-2020').getTime(),
-          addresses: {
-            0: 'addressOne',
-            1: 'addressTwo',
+          isAddressOnly: false,
+          title: 'user',
+          value: {
+            id: 'id',
+            name: 'name',
+            username: 'username',
+            avatarExt: 'png',
+            lastUpdate: new Date('12-12-2020').getTime(),
+            addresses: {
+              0: 'addressOne',
+              1: 'addressTwo',
+            },
           },
         }}
       />,
@@ -75,28 +62,20 @@ it('Test three', () => {
       <ChatShortInfo
         name={'name'}
         notificationCount={10}
-        tx={{
-          id: '4',
-          userId: 'userId',
-          address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
-          currency: Currency.KSM,
-          txType: TxType.Received,
-          timestamp: new Date('02-12-2020').getTime(),
-          value: 10,
-          usdValue: 0,
-          fee: 10,
-          usdFee: 10,
-          status: TxStatus.Pending,
-        }}
+        message={'Test3'}
         user={{
-          id: 'id',
-          name: 'name',
-          username: 'username',
-          avatarExt: '',
-          lastUpdate: new Date('12-12-2020').getTime(),
-          addresses: {
-            0: 'addressOne',
-            1: 'addressTwo',
+          isAddressOnly: false,
+          title: 'user',
+          value: {
+            id: 'id',
+            name: 'name',
+            username: 'username',
+            avatarExt: 'png',
+            lastUpdate: new Date('12-12-2020').getTime(),
+            addresses: {
+              0: 'addressOne',
+              1: 'addressTwo',
+            },
           },
         }}
       />,

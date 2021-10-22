@@ -10,7 +10,6 @@ import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import Store from 'storage/Store';
 import { AccountType, Network } from 'types/account';
-import { AddressOnly, Profile } from 'types/profile';
 
 jest.mock('storage/DB', () => ({}));
 jest.mock('utils/api', () => ({

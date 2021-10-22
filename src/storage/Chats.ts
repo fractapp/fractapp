@@ -71,8 +71,6 @@ namespace ChatsStore {
       chatId = tx.userId;
     }
 
-    console.log(state.transactions[tx.currency]);
-    console.log(!state.transactions[tx.currency]);
     // add transaction
     if (!state.transactions[tx.currency]) {
       state.transactions[tx.currency] = {

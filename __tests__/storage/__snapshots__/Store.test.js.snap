@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test initialState 1`] = `
+Object {
+  "@@observable": [Function],
+  "dispatch": [Function],
+  "getState": [Function],
+  "replaceReducer": [Function],
+  "subscribe": [Function],
+}
+`;
+
+exports[`Test initialState 2`] = `
+Object {
+  "accounts": Object {
+    "accounts": Object {},
+    "isInitialized": false,
+  },
+  "chats": Object {
+    "chats": Object {},
+    "chatsInfo": Object {},
+    "isInitialized": false,
+    "pendingTransactions": Object {},
+    "sentFromFractapp": Object {},
+    "totalNotifications": 0,
+    "transactions": Object {},
+  },
+  "dialog": Object {
+    "confirmTxInfo": Object {
+      "info": Object {
+        "accountCurrency": 0,
+        "args": Object {
+          "arguments": "",
+          "currency": "",
+          "error": "",
+          "success": "",
+          "unsignedTx": "",
+        },
+        "creator": Object {
+          "addresses": null,
+          "avatarExt": "",
+          "id": "",
+          "isChatBot": false,
+          "lastUpdate": 0,
+          "name": "",
+          "username": "",
+        },
+        "errorText": null,
+        "msgId": "",
+        "tx": Object {
+          "action": 0,
+          "address": "",
+          "currency": 0,
+          "fee": 0,
+          "fullValue": "",
+          "hash": "",
+          "id": "",
+          "planckFee": "0",
+          "planckValue": "0",
+          "status": 1,
+          "timestamp": 0,
+          "txType": 1,
+          "usdFee": 0,
+          "usdValue": 0,
+          "userId": "",
+          "value": 0,
+        },
+        "unsignedTx": "",
+        "warningText": null,
+      },
+      "isShow": false,
+    },
+    "dialog": Object {
+      "text": "",
+      "title": "",
+      "visible": false,
+    },
+  },
+  "global": Object {
+    "authInfo": Object {
+      "hasBiometry": false,
+      "hasPasscode": false,
+      "hasWallet": false,
+      "isFirstSync": false,
+    },
+    "isInitialized": false,
+    "isRegisteredInFractapp": false,
+    "isUpdatingProfile": false,
+    "loadInfo": Object {
+      "isAllStatesLoaded": false,
+      "isLoadingShow": false,
+      "isSyncShow": true,
+    },
+    "profile": Object {
+      "avatarExt": "",
+      "email": "",
+      "id": "",
+      "lastUpdate": 0,
+      "name": "",
+      "phoneNumber": "",
+      "username": "",
+    },
+  },
+  "serverInfo": Object {
+    "isInitialized": false,
+    "prices": Object {},
+  },
+  "users": Object {
+    "contacts": Array [],
+    "isInitialized": false,
+    "users": Object {},
+  },
+}
+`;

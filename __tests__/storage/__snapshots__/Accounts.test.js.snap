@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test initialState 1`] = `[Function]`;
+
+exports[`Test updateBalance 1`] = `
+Object {
+  "accounts": Object {
+    "0": Object {
+      "0": Object {
+        "address": "1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE",
+        "balance": Object {
+          "payableForFee": "500000000",
+          "total": "500000000",
+          "transferable": "500000000",
+        },
+        "currency": 0,
+        "name": "Polkadot wallet",
+        "network": 0,
+        "pubKey": "0x0000000000000000000",
+        "type": 0,
+        "viewBalance": 1000,
+      },
+      "1": Object {
+        "address": "kusamaAddress",
+        "balance": Object {
+          "payableForFee": "200000",
+          "total": "200000",
+          "transferable": "200000",
+        },
+        "currency": 1,
+        "name": "Kusama wallet",
+        "network": 1,
+        "pubKey": "0x00000000000000000001123",
+        "type": 0,
+        "viewBalance": 321,
+      },
+    },
+  },
+  "isInitialized": false,
+}
+`;
+
+exports[`Test updateBalanceSubAccount (exist) 1`] = `
+Object {
+  "accounts": Object {
+    "1": Object {
+      "0": Object {
+        "address": "1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE",
+        "balance": Object {
+          "payableForFee": "100000",
+          "total": Object {
+            "payableForFee": "500000000",
+            "total": "500000000",
+            "transferable": "500000000",
+          },
+          "transferable": "100000",
+        },
+        "currency": 0,
+        "name": "Polkadot wallet",
+        "network": 0,
+        "pubKey": "0x0000000000000000000",
+        "type": 0,
+        "viewBalance": 1000,
+      },
+      "1": Object {
+        "address": "kusamaAddress",
+        "balance": Object {
+          "payableForFee": "200000",
+          "total": "200000",
+          "transferable": "200000",
+        },
+        "currency": 1,
+        "name": "Kusama wallet",
+        "network": 1,
+        "pubKey": "0x00000000000000000001123",
+        "type": 0,
+        "viewBalance": 321,
+      },
+    },
+  },
+  "isInitialized": false,
+}
+`;
+
+exports[`Test updateBalanceSubAccount (new) 1`] = `
+Object {
+  "accounts": Object {
+    "0": Object {
+      "0": Object {
+        "address": "1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE",
+        "balance": Object {
+          "payableForFee": "100000",
+          "total": "100000",
+          "transferable": "100000",
+        },
+        "currency": 0,
+        "name": "Polkadot wallet",
+        "network": 0,
+        "pubKey": "0x0000000000000000000",
+        "type": 0,
+        "viewBalance": 123,
+      },
+      "1": Object {
+        "address": "kusamaAddress",
+        "balance": Object {
+          "payableForFee": "200000",
+          "total": "200000",
+          "transferable": "200000",
+        },
+        "currency": 1,
+        "name": "Kusama wallet",
+        "network": 1,
+        "pubKey": "0x00000000000000000001123",
+        "type": 0,
+        "viewBalance": 321,
+      },
+    },
+    "1": Object {
+      "0": Object {
+        "address": "1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE",
+        "balance": Object {
+          "payableForFee": "0",
+          "total": Object {
+            "payableForFee": "500000000",
+            "total": "500000000",
+            "transferable": "500000000",
+          },
+          "transferable": "0",
+        },
+        "currency": 0,
+        "name": "Staking Polkadot",
+        "network": 0,
+        "pubKey": "0x0000000000000000000",
+        "type": 1,
+        "viewBalance": 1000,
+      },
+    },
+  },
+  "isInitialized": false,
+}
+`;

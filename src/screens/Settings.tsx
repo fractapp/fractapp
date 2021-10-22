@@ -33,9 +33,10 @@ export const Settings = ({
   const action = route.params?.action ?? '';
 
   useEffect(() => {
-    FingerprintScanner.isSensorAvailable().then(() => {
+    (async () => {
+      await FingerprintScanner.isSensorAvailable();
       setBeometryAvailable(true);
-    });
+    })();
   }, []);
 
   useEffect(() => {

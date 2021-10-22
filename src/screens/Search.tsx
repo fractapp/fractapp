@@ -47,11 +47,13 @@ export const Search = ({navigation, route}: {navigation: any; route: any}) => {
   const [bot, setBot] = useState<Profile | null>(null);
 
   useEffect(() => {
-    backend.getUserById(MAIN_BOT_ID).then((p) => {
+    (async () => {
+      const p = await backend.getUserById(MAIN_BOT_ID);
       if (p != null) {
         setBot(p);
       }
-    });
+    })();
+
     if (!globalState.isRegisteredInFractapp) {
       return;
     }

@@ -1,0 +1,516 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test view 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+      "paddingTop": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 16,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "width": "80%",
+      }
+    }
+  >
+    confirmation_code_phone_number_text
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#067BCD",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": 17,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "marginBottom": 30,
+      }
+    }
+  >
+    +
+    email
+  </Text>
+  <View
+    style={
+      Object {
+        "alignContent": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+      value=""
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 16,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "marginTop": 30,
+      }
+    }
+  >
+    resend_text 1:00
+  </Text>
+</View>
+`;
+
+exports[`Test with code (not full) 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+      "paddingTop": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 16,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "width": "80%",
+      }
+    }
+  >
+    confirmation_code_email_text
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#067BCD",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": 17,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "marginBottom": 30,
+      }
+    }
+  >
+    
+    email
+  </Text>
+  <View
+    style={
+      Object {
+        "alignContent": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+      value="1"
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+      value=""
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+    <TextInput
+      blurOnSubmit={false}
+      caretHidden={true}
+      editable={true}
+      keyboardType="phone-pad"
+      maxLength={1}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      style={
+        Array [
+          Object {
+            "borderColor": "#CCCCCC",
+            "borderRadius": 13,
+            "borderWidth": 1,
+            "color": "#2AB2E2",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 23,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "height": 50,
+            "marginLeft": 5,
+            "marginRight": 5,
+            "textAlign": "center",
+            "width": 50,
+          },
+          Object {
+            "borderColor": "#CCCCCC",
+          },
+        ]
+      }
+    />
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "#888888",
+        "fontFamily": "Roboto-Regular",
+        "fontSize": 16,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "marginTop": 30,
+      }
+    }
+  >
+    resend_text 1:00
+  </Text>
+</View>
+`;

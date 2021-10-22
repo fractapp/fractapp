@@ -2,7 +2,6 @@ import googleUtil from 'utils/google';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import GDrive from 'react-native-google-drive-api-wrapper';
 import {Type} from 'types/google';
-import StringUtils from 'utils/string';
 
 jest.mock('@react-native-community/google-signin', () => ({
   GoogleSignin: {
@@ -26,7 +25,6 @@ jest.mock('react-native-google-drive-api-wrapper', () => ({
     get: jest.fn(),
   },
 }));
-
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));

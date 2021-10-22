@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filterTxsByAccountType 1`] = `
+Array [
+  Object {
+    "action": 0,
+    "id": 0,
+  },
+  Object {
+    "action": 3,
+    "id": 3,
+  },
+  Object {
+    "action": 4,
+    "id": 4,
+  },
+  Object {
+    "action": 5,
+    "id": 5,
+  },
+]
+`;
+
+exports[`filterTxsByAccountType 2`] = `
+Array [
+  Object {
+    "action": 1,
+    "id": 1,
+  },
+  Object {
+    "action": 2,
+    "id": 2,
+  },
+  Object {
+    "action": 3,
+    "id": 3,
+  },
+  Object {
+    "action": 4,
+    "id": 4,
+  },
+  Object {
+    "action": 5,
+    "id": 5,
+  },
+  Object {
+    "action": 6,
+    "id": 6,
+  },
+  Object {
+    "action": 7,
+    "id": 7,
+  },
+]
+`;

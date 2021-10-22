@@ -20,7 +20,7 @@ it('Test round', async () => {
 
 it('Test calculateUsdValue', async () => {
   const v = await mathUtils.calculateUsdValue(new BN('1234567890000'), 10, 100);
-  expect(v).toBe(12345.67);
+  expect(v).toBe(12345.68);
 });
 
 it('Test calculatePlanksValue', async () => {
@@ -90,5 +90,5 @@ it('Test convertFromPlanckString', async () => {
   );
   expect(
     mathUtils.convertFromPlanckToString(new BN('25000004000000'), 12),
-  ).toBe('25.000004000000');
+  ).toBe('25.000004');
 });

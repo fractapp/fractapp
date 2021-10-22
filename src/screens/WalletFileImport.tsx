@@ -17,9 +17,9 @@ import tasks from 'utils/tasks';
 export const WalletFileImport = ({route}: {route: any}) => {
   const dispatch = useDispatch();
   const globalState: GlobalStore.State = useSelector((state: any) => state.global);
-  const [isLoading, setLoading] = useState(false);
 
   const [password, setPassword] = useState<string>('');
+  const [isLoading, setLoading] = useState(false);
 
   const file: FileBackup = route.params.file;
 

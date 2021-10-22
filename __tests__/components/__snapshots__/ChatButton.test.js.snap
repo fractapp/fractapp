@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test one 1`] = `
+<View
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    nativeID="animatedComponent"
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "white",
+        "borderColor": "#2AB2E2",
+        "borderRadius": 10,
+        "borderStyle": "solid",
+        "borderWidth": 1,
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginBottom": 5,
+        "marginRight": 10,
+        "marginTop": 5,
+        "opacity": 1,
+        "paddingBottom": 10,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "paddingTop": 10,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2F2F2F",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "textAlign": "center",
+          },
+          Object {
+            "maxWidth": "100%",
+          },
+        ]
+      }
+    >
+      text
+    </Text>
+    <View
+      style={
+        Object {
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test two 1`] = `
+<View
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    nativeID="animatedComponent"
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "white",
+        "borderColor": "#2AB2E2",
+        "borderRadius": 10,
+        "borderStyle": "solid",
+        "borderWidth": 1,
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginBottom": 5,
+        "marginRight": 10,
+        "marginTop": 5,
+        "opacity": 1,
+        "paddingBottom": 10,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "paddingTop": 10,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "uri": "img.png",
+        }
+      }
+      style={
+        Object {
+          "aspectRatio": 1,
+          "marginRight": "5%",
+          "width": "25%",
+        }
+      }
+    />
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2F2F2F",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "textAlign": "center",
+          },
+          Object {
+            "maxWidth": "70%",
+          },
+        ]
+      }
+    >
+      text
+    </Text>
+    <View
+      style={
+        Object {
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+        }
+      }
+    />
+  </View>
+</View>
+`;

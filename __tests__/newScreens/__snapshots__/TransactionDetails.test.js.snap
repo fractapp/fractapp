@@ -1,0 +1,2070 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test tx details (fail) 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderColor": "#888888",
+        "borderRadius": 10,
+        "borderWidth": 0.5,
+        "justifyContent": "center",
+        "marginTop": 20,
+        "paddingBottom": 30,
+        "paddingTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      nativeID="animatedComponent"
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/dot.png",
+          }
+        }
+        style={
+          Object {
+            "borderColor": "black",
+            "borderRadius": 40,
+            "borderWidth": 0.8,
+            "height": 80,
+            "overflow": "hidden",
+            "width": 80,
+          }
+        }
+      />
+    </View>
+    <Text
+      onPress={[Function]}
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Medium",
+          "fontSize": 16,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      address#1
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "marginTop": 10,
+            "textAlign": "center",
+          },
+          Object {
+            "color": "#888888",
+            "fontSize": 36,
+          },
+        ]
+      }
+    >
+      $20.00
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 20,
+          },
+        ]
+      }
+    >
+      (
+      2000000
+       
+      DOT
+      )
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginTop": 15,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "#EA4335",
+              "fontSize": 25,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        󰅖
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 3,
+          }
+        }
+      >
+        statuses.failed
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "alignSelf": "flex-start",
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          },
+          Object {
+            "marginBottom": 10,
+          },
+        ]
+      }
+    >
+      receiving_account_title
+    </Text>
+    <View
+      style={
+        Object {
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 50,
+                "marginBottom": 10,
+                "marginTop": 10,
+              },
+              Object {
+                "paddingLeft": "5%",
+                "width": "95%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Image
+              source={
+                Object {
+                  "testUri": "../../../assets/img/dot.png",
+                }
+              }
+              style={
+                Object {
+                  "borderColor": "black",
+                  "borderRadius": 25,
+                  "borderWidth": 0.8,
+                  "height": 50,
+                  "overflow": "hidden",
+                  "width": 50,
+                }
+              }
+            />
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "flexDirection": "column-reverse",
+                  "marginLeft": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "height": 25,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    123
+                     
+                    DOT
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "right",
+                        },
+                      ]
+                    }
+                  >
+                    $
+                    0
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                Polkadot wallet
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            },
+            Object {
+              "marginBottom": 5,
+            },
+          ]
+        }
+      >
+        date_title
+      </Text>
+      <Text
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          }
+        }
+      >
+        12/12/20 00:00
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "flex": 1,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test tx details (none) 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderColor": "#888888",
+        "borderRadius": 10,
+        "borderWidth": 0.5,
+        "justifyContent": "center",
+        "marginTop": 20,
+        "paddingBottom": 30,
+        "paddingTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      nativeID="animatedComponent"
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/dot.png",
+          }
+        }
+        style={
+          Object {
+            "borderColor": "black",
+            "borderRadius": 40,
+            "borderWidth": 0.8,
+            "height": 80,
+            "overflow": "hidden",
+            "width": 80,
+          }
+        }
+      />
+    </View>
+    <Text
+      onPress={[Function]}
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Medium",
+          "fontSize": 16,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      address#1
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "marginTop": 10,
+            "textAlign": "center",
+          },
+          Object {
+            "color": "#888888",
+            "fontSize": 36,
+          },
+        ]
+      }
+    >
+      $20.00
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 20,
+          },
+        ]
+      }
+    >
+      (
+      2000000
+       
+      DOT
+      )
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginTop": 15,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "#67D44D",
+              "fontSize": 25,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 3,
+          }
+        }
+      >
+        statuses.success
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "alignSelf": "flex-start",
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          },
+          Object {
+            "marginBottom": 10,
+          },
+        ]
+      }
+    >
+      account_title
+    </Text>
+    <View
+      style={
+        Object {
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 50,
+                "marginBottom": 10,
+                "marginTop": 10,
+              },
+              Object {
+                "paddingLeft": "5%",
+                "width": "95%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Image
+              source={
+                Object {
+                  "testUri": "../../../assets/img/dot.png",
+                }
+              }
+              style={
+                Object {
+                  "borderColor": "black",
+                  "borderRadius": 25,
+                  "borderWidth": 0.8,
+                  "height": 50,
+                  "overflow": "hidden",
+                  "width": 50,
+                }
+              }
+            />
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "flexDirection": "column-reverse",
+                  "marginLeft": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "height": 25,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    123
+                     
+                    DOT
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "right",
+                        },
+                      ]
+                    }
+                  >
+                    $
+                    0
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                Polkadot wallet
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            },
+            Object {
+              "marginBottom": 5,
+            },
+          ]
+        }
+      >
+        date_title
+      </Text>
+      <Text
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          }
+        }
+      >
+        12/12/20 00:00
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "flex": 1,
+        }
+      }
+    >
+      <View>
+        <Text
+          style={
+            Array [
+              Object {
+                "alignSelf": "flex-start",
+                "color": "#888888",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 17,
+                "marginLeft": 20,
+                "marginRight": 20,
+              },
+              Object {
+                "marginBottom": 5,
+              },
+            ]
+          }
+        >
+          fee_title
+        </Text>
+        <Text
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            }
+          }
+        >
+          $
+          4000
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test tx details (pending) 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderColor": "#888888",
+        "borderRadius": 10,
+        "borderWidth": 0.5,
+        "justifyContent": "center",
+        "marginTop": 20,
+        "paddingBottom": 30,
+        "paddingTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      nativeID="animatedComponent"
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/dot.png",
+          }
+        }
+        style={
+          Object {
+            "borderColor": "black",
+            "borderRadius": 40,
+            "borderWidth": 0.8,
+            "height": 80,
+            "overflow": "hidden",
+            "width": 80,
+          }
+        }
+      />
+    </View>
+    <Text
+      onPress={[Function]}
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Medium",
+          "fontSize": 16,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      address#1
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "marginTop": 10,
+            "textAlign": "center",
+          },
+          Object {
+            "color": "#67D44D",
+            "fontSize": 36,
+          },
+        ]
+      }
+    >
+      $20.00
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 20,
+          },
+        ]
+      }
+    >
+      (
+      2000000
+       
+      DOT
+      )
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginTop": 15,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "#F39B34",
+              "fontSize": 25,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 3,
+          }
+        }
+      >
+        statuses.pending
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "alignSelf": "flex-start",
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          },
+          Object {
+            "marginBottom": 10,
+          },
+        ]
+      }
+    >
+      receiving_account_title
+    </Text>
+    <View
+      style={
+        Object {
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 50,
+                "marginBottom": 10,
+                "marginTop": 10,
+              },
+              Object {
+                "paddingLeft": "5%",
+                "width": "95%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Image
+              source={
+                Object {
+                  "testUri": "../../../assets/img/dot.png",
+                }
+              }
+              style={
+                Object {
+                  "borderColor": "black",
+                  "borderRadius": 25,
+                  "borderWidth": 0.8,
+                  "height": 50,
+                  "overflow": "hidden",
+                  "width": 50,
+                }
+              }
+            />
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "flexDirection": "column-reverse",
+                  "marginLeft": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "height": 25,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    123
+                     
+                    DOT
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "right",
+                        },
+                      ]
+                    }
+                  >
+                    $
+                    0
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                Polkadot wallet
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            },
+            Object {
+              "marginBottom": 5,
+            },
+          ]
+        }
+      >
+        date_title
+      </Text>
+      <Text
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          }
+        }
+      >
+        12/12/20 00:00
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "flex": 1,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test tx details (received) 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderColor": "#888888",
+        "borderRadius": 10,
+        "borderWidth": 0.5,
+        "justifyContent": "center",
+        "marginTop": 20,
+        "paddingBottom": 30,
+        "paddingTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      nativeID="animatedComponent"
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/dot.png",
+          }
+        }
+        style={
+          Object {
+            "borderColor": "black",
+            "borderRadius": 40,
+            "borderWidth": 0.8,
+            "height": 80,
+            "overflow": "hidden",
+            "width": 80,
+          }
+        }
+      />
+    </View>
+    <Text
+      onPress={[Function]}
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Medium",
+          "fontSize": 16,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      address#1
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "marginTop": 10,
+            "textAlign": "center",
+          },
+          Object {
+            "color": "#67D44D",
+            "fontSize": 36,
+          },
+        ]
+      }
+    >
+      $20.00
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 20,
+          },
+        ]
+      }
+    >
+      (
+      2000000
+       
+      DOT
+      )
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginTop": 15,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "#67D44D",
+              "fontSize": 25,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 3,
+          }
+        }
+      >
+        statuses.success
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "alignSelf": "flex-start",
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          },
+          Object {
+            "marginBottom": 10,
+          },
+        ]
+      }
+    >
+      receiving_account_title
+    </Text>
+    <View
+      style={
+        Object {
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 50,
+                "marginBottom": 10,
+                "marginTop": 10,
+              },
+              Object {
+                "paddingLeft": "5%",
+                "width": "95%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Image
+              source={
+                Object {
+                  "testUri": "../../../assets/img/dot.png",
+                }
+              }
+              style={
+                Object {
+                  "borderColor": "black",
+                  "borderRadius": 25,
+                  "borderWidth": 0.8,
+                  "height": 50,
+                  "overflow": "hidden",
+                  "width": 50,
+                }
+              }
+            />
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "flexDirection": "column-reverse",
+                  "marginLeft": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "height": 25,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    123
+                     
+                    DOT
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "right",
+                        },
+                      ]
+                    }
+                  >
+                    $
+                    0
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                Polkadot wallet
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            },
+            Object {
+              "marginBottom": 5,
+            },
+          ]
+        }
+      >
+        date_title
+      </Text>
+      <Text
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          }
+        }
+      >
+        12/12/20 00:00
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "flex": 1,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test tx details (sent) 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderColor": "#888888",
+        "borderRadius": 10,
+        "borderWidth": 0.5,
+        "justifyContent": "center",
+        "marginTop": 20,
+        "paddingBottom": 30,
+        "paddingTop": 30,
+        "width": "90%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      nativeID="animatedComponent"
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "testUri": "../../../assets/img/dot.png",
+          }
+        }
+        style={
+          Object {
+            "borderColor": "black",
+            "borderRadius": 40,
+            "borderWidth": 0.8,
+            "height": 80,
+            "overflow": "hidden",
+            "width": 80,
+          }
+        }
+      />
+    </View>
+    <Text
+      onPress={[Function]}
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Roboto-Medium",
+          "fontSize": 16,
+          "marginTop": 20,
+          "textAlign": "center",
+          "width": "80%",
+        }
+      }
+    >
+      address#1
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "marginTop": 10,
+            "textAlign": "center",
+          },
+          Object {
+            "color": "#EA4335",
+            "fontSize": 36,
+          },
+        ]
+      }
+    >
+      $20.00
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 20,
+          },
+        ]
+      }
+    >
+      (
+      2000000
+       
+      DOT
+      )
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginTop": 15,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "#67D44D",
+              "fontSize": 25,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 3,
+          }
+        }
+      >
+        statuses.success
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 30,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "alignSelf": "flex-start",
+            "color": "#888888",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          },
+          Object {
+            "marginBottom": 10,
+          },
+        ]
+      }
+    >
+      write_off_account_title
+    </Text>
+    <View
+      style={
+        Object {
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 50,
+                "marginBottom": 10,
+                "marginTop": 10,
+              },
+              Object {
+                "paddingLeft": "5%",
+                "width": "95%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <Image
+              source={
+                Object {
+                  "testUri": "../../../assets/img/dot.png",
+                }
+              }
+              style={
+                Object {
+                  "borderColor": "black",
+                  "borderRadius": 25,
+                  "borderWidth": 0.8,
+                  "height": 50,
+                  "overflow": "hidden",
+                  "width": 50,
+                }
+              }
+            />
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "flexDirection": "column-reverse",
+                  "marginLeft": 20,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "height": 25,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ]
+                    }
+                  >
+                    123
+                     
+                    DOT
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "black",
+                          "fontFamily": "Roboto-Bold",
+                          "fontSize": 15,
+                          "fontStyle": "normal",
+                          "lineHeight": 18,
+                        },
+                        Object {
+                          "textAlign": "right",
+                        },
+                      ]
+                    }
+                  >
+                    $
+                    15129
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "black",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 15,
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                Polkadot wallet
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#888888",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            },
+            Object {
+              "marginBottom": 5,
+            },
+          ]
+        }
+      >
+        date_title
+      </Text>
+      <Text
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "color": "black",
+            "fontFamily": "Roboto-Regular",
+            "fontSize": 17,
+            "marginLeft": 20,
+            "marginRight": 20,
+          }
+        }
+      >
+        12/12/20 00:00
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "flex": 1,
+        }
+      }
+    >
+      <View>
+        <Text
+          style={
+            Array [
+              Object {
+                "alignSelf": "flex-start",
+                "color": "#888888",
+                "fontFamily": "Roboto-Regular",
+                "fontSize": 17,
+                "marginLeft": 20,
+                "marginRight": 20,
+              },
+              Object {
+                "marginBottom": 5,
+              },
+            ]
+          }
+        >
+          fee_title
+        </Text>
+        <Text
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "black",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": 17,
+              "marginLeft": 20,
+              "marginRight": 20,
+            }
+          }
+        >
+          $
+          4000
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

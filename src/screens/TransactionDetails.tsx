@@ -123,7 +123,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
         </TouchableOpacity>
         <Text
           onPress={() => {
-            Clipboard.setString(user.isAddressOnly != null ? tx.address : (user.value as Profile).username);
+            Clipboard.setString(user.isAddressOnly ? tx.address : (user.value as Profile).username);
             showMessage({
               message: StringUtils.texts.showMsg.copiedToClipboard,
               type: 'info',

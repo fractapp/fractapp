@@ -150,12 +150,6 @@ export const WalletDetailsGraph = ({
             onPress={() =>
               navigation.navigate('TransactionDetails', {
                 transaction: item,
-                currency: item.currency,
-                user:
-                  item.userId != null &&
-                  usersState.users[item.userId]
-                    ? usersState.users[item.userId]
-                    : null,
               })
             }
           />

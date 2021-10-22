@@ -36,7 +36,7 @@ export const ChatButton = ({
     }
 
     console.log('press');
-    onPress().finally(() =>  setLoading(false));
+    onPress().finally(() => setLoading(false));
   }, [isLoading]);
   return (
     <View style={{ width: width }}>

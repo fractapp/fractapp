@@ -255,7 +255,6 @@ export const WalletDetails = ({
             onPress={() =>
               navigation.navigate('TransactionDetails', {
                 transaction: item,
-                currency: account.currency,
               })
             }
           />

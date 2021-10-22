@@ -12,8 +12,10 @@ import {
   DefaultMsgAction,
   EnterAmountArgs,
   Message,
-  OpenLinkArgs, TransactionViewArgs,
+  OpenLinkArgs,
+  TransactionViewArgs,
 } from 'types/message';
+import { MessageView } from 'components/MessageView';
 import { AddressOnly, Profile, User } from 'types/profile';
 import { PaymentMsg } from 'components/PaymentMsg';
 import { Currency, getNetwork, toCurrency } from 'types/wallet';
@@ -25,7 +27,6 @@ import AccountsStore from 'storage/Accounts';
 import { Adaptors } from 'adaptors/adaptor';
 import { AccountType, Network } from 'types/account';
 import ServerInfoStore from 'storage/ServerInfo';
-import { MessageView } from 'components/MessageView';
 
 /**
  * Chat screen
@@ -53,7 +54,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
     switch (btn.action) {
       case DefaultMsgAction.EnterAmount:
         const enterAmountArgs = btn.arguments as EnterAmountArgs;
-        //TODO: next release (normal validator)
+        //TODO: next release (normal validate)
 
         const currencyEnterAmount: Currency = toCurrency(enterAmountArgs.currency);
 
@@ -69,7 +70,7 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         break;
       case DefaultMsgAction.OpenUrl:
         const linkArgs = btn.arguments as OpenLinkArgs;
-        //TODO: next release (normal validator)
+        //TODO: next release (normal validate)
 
         await Linking.openURL(linkArgs.link); //TODO: next release alert (any site)
         break;
@@ -178,8 +179,8 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
   useEffect(() => {
     const newMessages =
       Object.keys(chatsState.chats[chatInfo.id].messages)
-        .map((key) => chatsState.chats[chatInfo.id].messages[key])
-        .sort((a, b) => b.timestamp - a.timestamp);
+      .map((key) => chatsState.chats[chatInfo.id].messages[key])
+      .sort((a, b) => b.timestamp - a.timestamp);
 
     setMessages(newMessages);
     setLengthOffset(messages.length === 0 ? 0 : lengthOffset + (messages.length - newMessages.length));
@@ -214,10 +215,10 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       <View
         key={item.id}
         style={{
-          paddingLeft: 15,
-          paddingRight: 15,
-          scaleY: -1,
-        }}>
+        paddingLeft: 15,
+        paddingRight: 15,
+        scaleY: -1,
+      }}>
         {line}
         {
           item.action === '/tx' &&
@@ -267,7 +268,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
       />}
       {((user.isAddressOnly || !(user.value as Profile).isChatBot) &&
         <TouchableOpacity
-          testID={'testGetWallet'}
           style={styles.sendBox}
           onPress={() =>
             !user.isAddressOnly
@@ -287,39 +287,39 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
         </TouchableOpacity>
       )}
       {(!user.isAddressOnly && (user.value as Profile).isChatBot) && messages.length === 0 &&
-      <TouchableOpacity
-        style={styles.sendBox}
-        onPress={() => {
-          const msg = {
-            id: 'answer-' + randomAsHex(32),
-            value: 'Start',
-            action: DefaultMsgAction.Init,
-            args: {},
-            rows: [],
-            timestamp: Date.now(),
-            sender: globalState.profile!.id,
-            receiver: chatInfo.id,
-            hideBtn: true,
-          };
-          backend.sendMsg({
-            version: 1,
-            value: msg.value,
-            action: msg.action,
-            receiver: chatInfo.id,
-            args: msg.args,
-          }).then((timestamp) => {
-            if (timestamp != null) {
-              msg.timestamp = timestamp;
-              dispatch(ChatsStore.actions.addMessages([{
-                chatId: chatInfo.id,
-                msg: msg,
-              }]));
-            }
-          });
-        }}
-      >
-        <Text style={styles.startBtnText}>Start</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.sendBox}
+          onPress={() => {
+            const msg = {
+              id: 'answer-' + randomAsHex(32),
+              value: 'Start',
+              action: DefaultMsgAction.Init,
+              args: {},
+              rows: [],
+              timestamp: Date.now(),
+              sender: globalState.profile!.id,
+              receiver: chatInfo.id,
+              hideBtn: true,
+            };
+            backend.sendMsg({
+              version: 1,
+              value: msg.value,
+              action: msg.action,
+              receiver: chatInfo.id,
+              args: msg.args,
+            }).then((timestamp) => {
+              if (timestamp != null) {
+                msg.timestamp = timestamp;
+                dispatch(ChatsStore.actions.addMessages([{
+                  chatId: chatInfo.id,
+                  msg: msg,
+                }]));
+              }
+            });
+          }}
+        >
+          <Text style={styles.startBtnText}>Start</Text>
+        </TouchableOpacity>
       }
     </View>
   );

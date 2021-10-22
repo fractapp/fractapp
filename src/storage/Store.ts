@@ -23,6 +23,15 @@ namespace Store {
       },
     });
   };
+  export const initValues = () => ({
+    global: GlobalStore.initialState(),
+    accounts: AccountsStore.initialState(),
+    chats: ChatsStore.initialState(),
+    dialog: DialogStore.initialState(),
+    serverInfo: ServerInfoStore.initialState(),
+    users: UsersStore.initialState(),
+  });
+
   export type States = {
     global: GlobalStore.State,
     accounts: AccountsStore.State,

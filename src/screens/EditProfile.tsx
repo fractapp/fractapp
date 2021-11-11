@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import GlobalStore from 'storage/Global';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';

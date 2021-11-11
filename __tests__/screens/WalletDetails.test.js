@@ -19,7 +19,7 @@ jest.mock('react', () => ({
 jest.mock('@polkadot/util-crypto', () => ({
   randomAsHex: jest.fn(),
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(() => 'userAvatarMock'),
   sendMsg: jest.fn(),
 }));
@@ -112,7 +112,7 @@ it('Test view with txs', () => {
       address: 'address' + i,
       currency: Currency.DOT,
       action: TxAction.Transfer,
-      txType: TxType.Sent,
+      txType: TxType.Out,
       timestamp: 10000 + i,
 
       value: 10 * i,

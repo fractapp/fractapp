@@ -9,7 +9,7 @@ import {
   Linking,
 } from 'react-native';
 import GlobalStore from 'storage/Global';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import {CommonActions} from '@react-navigation/native';
 import StringUtils from 'utils/string';
 import { useSelector } from 'react-redux';

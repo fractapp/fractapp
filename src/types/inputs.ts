@@ -10,9 +10,9 @@ export const getTxName = (action: TxAction) => {
     case TxAction.StakingAddAmount:
       return 'Add amount to deposit'; //TODO go to string
     case TxAction.StakingReward:
-      return 'Reward'; //TODO go to string
+      return 'Deposit payout'; //TODO go to string
     case TxAction.StakingWithdrawn:
-      return 'Withdrawn'; //TODO  go to string
+      return 'Deposit withdrawn'; //TODO  go to string
     case TxAction.StakingCreateWithdrawalRequest:
       return 'Create withdrawn request'; //TODO  go to string
     case TxAction.ConfirmWithdrawal:

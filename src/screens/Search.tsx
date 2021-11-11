@@ -15,7 +15,7 @@ import {isValidPhoneNumber, parsePhoneNumber} from 'react-phone-number-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Contact} from 'components/Contact';
 import {SendBy} from 'components/SendBy';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import { Profile, User } from 'types/profile';

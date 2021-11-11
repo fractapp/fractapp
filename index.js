@@ -7,7 +7,7 @@ import Root from './Root';
 import {name as appName} from './app.json';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import DB from 'storage/DB';
 
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
@@ -70,6 +70,8 @@ PushNotification.createChannel(
     channelName: 'Chats', // (required)
     soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
     importance: 4, // (optional) default: 4. Int value of the Android notification importance
+    vibrate: true,
+    playSound: true,
   },
   (created) => console.log(`createChannel 'chats' returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
 );

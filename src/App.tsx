@@ -11,8 +11,8 @@ import { showMessage } from 'react-native-flash-message';
 import DB from 'storage/DB';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { Loader } from 'components/Loader';
-import backend from 'utils/api';
-import BackendApi from 'utils/api';
+import backend from 'utils/fractappClient';
+import FractappClient from 'utils/fractappClient';
 import StringUtils from 'utils/string';
 import { navigate } from 'utils/RootNavigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import { Store } from 'redux';
 import tasks from 'utils/tasks';
 import { ConfirmTransaction } from 'components/ConfirmTransaction';
 import FingerprintScanner  from 'react-native-fingerprint-scanner';
+import websocket from 'utils/websocket';
 
 const App = ({store}: {store: Store}) => {
   const appState = useRef(AppState.currentState);
@@ -83,13 +84,21 @@ const App = ({store}: {store: Store}) => {
       nextAppState === 'active'
     ) {
       dispatch(GlobalStore.actions.showSync());
-      tasks.createTasks(store, dispatch);
+      if (globalState.profile.id !== '') {
+        websocket.init(store, dispatch, globalState.profile.id);
+        websocket.getWsApi().open().then(async () => {
+          await tasks.createTasks(store);
+        });
+      }
       console.log('App has come to the foreground!');
     } else if (
       appState.current === 'active' && (
       nextAppState === 'inactive' || nextAppState === 'background')
     ) {
-      tasks.cancelTasks();
+      if (globalState.profile.id !== '') {
+        tasks.cancelTasks();
+        websocket.getWsApi().close();
+      }
       console.log('App has come to the background!');
     }
 
@@ -182,12 +191,10 @@ const App = ({store}: {store: Store}) => {
       console.log('start init #2' + new Date());
       tasks.initPrivateData();
 
-      tasks.createTasks(store, dispatch);
-
       console.log('globalState.isRegisteredInFractapp: ' + globalState.isRegisteredInFractapp);
       if (!globalState.isRegisteredInFractapp) {
         try {
-          const rsCode = await BackendApi.auth(backend.CodeType.CryptoAddress);
+          const rsCode = await FractappClient.auth(backend.CodeType.CryptoAddress);
           console.log('rsCode: ' + rsCode);
           switch (rsCode) {
             case 200:
@@ -207,6 +214,16 @@ const App = ({store}: {store: Store}) => {
     })();
   }, [globalState.loadInfo.isAllStatesLoaded, globalState.authInfo.hasWallet]);
 
+  useEffect(() => {
+    if (globalState.profile.id === '') {
+      return;
+    }
+    websocket.init(store, dispatch, globalState.profile.id);
+    websocket.getWsApi().open().then(async () => {
+      await tasks.createTasks(store);
+    });
+  }, [globalState.profile.id]);
+
   //updating profile
   useEffect(() => {
     if (
@@ -217,20 +234,27 @@ const App = ({store}: {store: Store}) => {
       return;
     }
 
-    backend.myProfile().then(([code, profile]) => {
-      console.log('update profile: ' + profile?.lastUpdate);
-      if (code === 401) {
-        dispatch(GlobalStore.actions.signOutFractapp());
-      } else if (code === 200) {
-        dispatch(GlobalStore.actions.setProfile(profile));
-      }
-      dispatch(GlobalStore.actions.setUpdatingProfile(false));
-    });
+    signInFractapp();
   }, [
     globalState.isRegisteredInFractapp,
     globalState.isUpdatingProfile,
     globalState.loadInfo.isAllStatesLoaded,
   ]);
+
+  const signInFractapp = async () => {
+    const [code, profile] = await backend.myProfile();
+    console.log('update profile: ' + profile?.lastUpdate);
+    if (code === 401) {
+      dispatch(GlobalStore.actions.signOutFractapp());
+      setTimeout(signInFractapp, 2000);
+    } else if (code === 200) {
+      dispatch(GlobalStore.actions.setProfile(profile));
+    } else {
+      setTimeout(signInFractapp, 2000);
+    }
+
+    dispatch(GlobalStore.actions.setUpdatingProfile(false));
+  };
 
   // network
   useEffect(() => {

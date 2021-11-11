@@ -64,9 +64,6 @@ it('Test actions', async () => {
   expect(DB.setProfile).toBeCalledWith(null);
   expect(DB.setJWT).toBeCalledWith(null);
 
-  store = GlobalStore.reducer(store, GlobalStore.actions.setSynced());
-  expect(store.authInfo.isFirstSync).toEqual(true);
-
   store = GlobalStore.reducer(store, GlobalStore.actions.enablePasscode('123123'));
   expect(store.authInfo.hasPasscode).toEqual(true);
   expect(store.authInfo.hasBiometry).toEqual(false);

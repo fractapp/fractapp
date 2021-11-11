@@ -81,7 +81,6 @@ Object {
       "hasBiometry": false,
       "hasPasscode": false,
       "hasWallet": false,
-      "isFirstSync": false,
     },
     "isInitialized": false,
     "isRegisteredInFractapp": false,

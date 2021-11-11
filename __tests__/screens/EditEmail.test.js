@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {EditEmail} from 'screens/EditEmail';
 import {fireEvent, render} from '@testing-library/react-native';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import Dialog from 'storage/Dialog';
 import { useDispatch } from 'react-redux';
 import StringUtils from 'utils/string';
@@ -17,7 +17,7 @@ jest.mock('react-redux', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   sendCode: jest.fn(),
   CodeType: {
     Email: 12,
@@ -50,13 +50,13 @@ it('Test click success', () => {
   const successBtn = render(setOptions.mock.calls[0][0].headerRight());
 
   fireEvent.press(successBtn.getByTestId('successBtn'));
-  expect(BackendApi.sendCode).toBeCalledWith(
+  expect(FractappClient.sendCode).toBeCalledWith(
     email,
-    BackendApi.CodeType.Email
+    FractappClient.CodeType.Email
   );
   expect(navigate).toBeCalledWith('ConfirmCode', {
     value: email,
-    type: BackendApi.CodeType.Email,
+    type: FractappClient.CodeType.Email,
   });
 });
 

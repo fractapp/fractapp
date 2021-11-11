@@ -4,7 +4,7 @@ import {ChatShortInfo} from 'components/ChatShortInfo';
 import { AddressOnly, Profile } from 'types/profile';
 import { Currency } from 'types/wallet';
 
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(),
 }));
 it('Test one', () => {

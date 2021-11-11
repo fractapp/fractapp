@@ -11,7 +11,7 @@ import MathUtils from 'utils/math';
 import AccountsStore from 'storage/Accounts';
 import {EnterAmountInfo} from 'types/inputs';
 import { randomAsHex } from '@polkadot/util-crypto';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import BN from 'bn.js';
@@ -118,7 +118,6 @@ export const EnterAmount = ({
       setLoadingAnswer(true);
       try {
         const timestamp = await backend.sendMsg({
-          version: 1,
           value: msg.value,
           action: msg.action!,
           receiver: chatId!,

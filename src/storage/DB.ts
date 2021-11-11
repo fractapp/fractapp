@@ -145,7 +145,6 @@ namespace DB {
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
       authInfo = {
-        isFirstSync: false,
         hasWallet: false,
         hasPasscode: false,
         hasBiometry: false,
@@ -166,7 +165,6 @@ namespace DB {
     let authInfo = await getAuthInfo();
     if (authInfo == null) {
       authInfo = {
-        isFirstSync: false,
         hasWallet: false,
         hasPasscode: false,
         hasBiometry: false,

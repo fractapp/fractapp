@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import Dialog from 'storage/Dialog';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import StringUtils from 'utils/string';
 import { useDispatch } from 'react-redux';
 // @ts-ignore
@@ -53,9 +53,9 @@ export const EditPhoneNumber = ({
     }
 
     try {
-      BackendApi.sendCode(
+      FractappClient.sendCode(
         number,
-        BackendApi.CodeType.Phone
+        FractappClient.CodeType.Phone
       );
     } catch (e) {
       console.log(e);
@@ -63,7 +63,7 @@ export const EditPhoneNumber = ({
 
     navigation.navigate('ConfirmCode', {
       value: number,
-      type: BackendApi.CodeType.Phone,
+      type: FractappClient.CodeType.Phone,
     });
   };
 

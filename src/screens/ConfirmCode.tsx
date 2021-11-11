@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Dialog from 'storage/Dialog';
 import GlobalStore from 'storage/Global';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import StringUtils from 'utils/string';
 import { useDispatch } from 'react-redux';
 
@@ -32,7 +32,7 @@ export const ConfirmCode = ({
   const [borderColor, setBorderColor] = useState<string>('#CCCCCC');
 
   const value: string = route.params.value;
-  const type: BackendApi.CodeType = route.params.type;
+  const type: FractappClient.CodeType = route.params.type;
   const refs = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
@@ -59,13 +59,13 @@ export const ConfirmCode = ({
       setBorderColor('#CCCCCC');
     }
 
-    if (code.length < BackendApi.CodeLength) {
+    if (code.length < FractappClient.CodeLength) {
       if (!refs[code.length] || !refs[code.length].current) {
         throw new Error('invalid ref for confirm code ' + code.length);
       }
 
       refs[code.length]?.current?.focus();
-    } else if (code.length === BackendApi.CodeLength) {
+    } else if (code.length === FractappClient.CodeLength) {
       Keyboard.dismiss();
 
       (async () => {
@@ -75,7 +75,7 @@ export const ConfirmCode = ({
         try {
           dispatch(GlobalStore.actions.showLoading());
 
-          const rsCode = await BackendApi.auth(type, value, code);
+          const rsCode = await FractappClient.auth(type, value, code);
           switch (rsCode) {
             case 400:
               dispatch(
@@ -132,7 +132,7 @@ export const ConfirmCode = ({
     setLockTime(60);
     setTimeout(() => tick(60), 1000);
 
-    const rsCode = await BackendApi.sendCode(
+    const rsCode = await FractappClient.sendCode(
       value,
       type,
     );
@@ -149,10 +149,10 @@ export const ConfirmCode = ({
       case 404:
         dispatch(
           Dialog.actions.showDialog({
-              title:  type === BackendApi.CodeType.Phone
+              title:  type === FractappClient.CodeType.Phone
                 ? StringUtils.texts.InvalidPhoneNumberTitle
                 : StringUtils.texts.InvalidEmailTitle,
-              text:  type === BackendApi.CodeType.Phone
+              text:  type === FractappClient.CodeType.Phone
                 ? StringUtils.texts.InvalidPhoneNumberText
                 : StringUtils.texts.InvalidEmailText,
             },
@@ -189,7 +189,7 @@ export const ConfirmCode = ({
       />,
     );
 
-    for (let i = 1; i < BackendApi.CodeLength; i++) {
+    for (let i = 1; i < FractappClient.CodeLength; i++) {
       result.push(
         <TextInput
           key={i}
@@ -198,7 +198,7 @@ export const ConfirmCode = ({
           editable={editable}
           onFocus={() =>
             code.length !== i &&
-            code.length < BackendApi.CodeLength &&
+            code.length < FractappClient.CodeLength &&
             code.length !== 6
               ? refs[code.length]?.current?.focus()
               : {}
@@ -224,12 +224,12 @@ export const ConfirmCode = ({
   return (
     <View style={styles.box}>
       <Text style={styles.description}>
-        {type === BackendApi.CodeType.Phone
+        {type === FractappClient.CodeType.Phone
           ? StringUtils.texts.ConfirmationCodePhoneNumberText
           : StringUtils.texts.ConfirmationCodeEmailText}
       </Text>
       <Text style={styles.id}>
-        {type === BackendApi.CodeType.Phone ? '+' : ''}
+        {type === FractappClient.CodeType.Phone ? '+' : ''}
         {value}
       </Text>
       <View style={{flexDirection: 'row', alignContent: 'center'}}>

@@ -12,7 +12,7 @@ import Store from 'storage/Store';
 import { AccountType, Network } from 'types/account';
 
 jest.mock('storage/DB', () => ({}));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(() => 'http://127.0.0.1/1.png'),
 }));
 jest.mock('adaptors/adaptor', () => {});
@@ -96,7 +96,7 @@ it('Test tx details (sent)', () => {
                 address: 'address#1',
                 currency: Currency.DOT,
                 action: TxAction.Transfer,
-                txType: TxType.Sent,
+                txType: TxType.Out,
                 timestamp: new Date('12-12-2020').getTime(),
 
                 value: 10,
@@ -260,7 +260,7 @@ it('Test tx details (received)', () => {
                 address: 'address#1',
                 currency: Currency.DOT,
                 action: TxAction.Transfer,
-                txType: TxType.Received,
+                txType: TxType.In,
                 timestamp: new Date('12-12-2020').getTime(),
 
                 value: 10,
@@ -342,7 +342,7 @@ it('Test tx details (pending)', () => {
                 address: 'address#1',
                 currency: Currency.DOT,
                 action: TxAction.Transfer,
-                txType: TxType.Received,
+                txType: TxType.In,
                 timestamp: new Date('12-12-2020').getTime(),
 
                 value: 10,
@@ -424,7 +424,7 @@ it('Test tx details (fail)', () => {
                 address: 'address#1',
                 currency: Currency.DOT,
                 action: TxAction.Transfer,
-                txType: TxType.Received,
+                txType: TxType.In,
                 timestamp: new Date('12-12-2020').getTime(),
 
                 value: 10,
@@ -507,7 +507,7 @@ it('Test click start with user', () => {
                 address: 'address',
                 currency: Currency.DOT,
                 action: TxAction.Transfer,
-                txType: TxType.Sent,
+                txType: TxType.Out,
                 timestamp: new Date('12-12-2020').getTime(),
 
                 value: 10,

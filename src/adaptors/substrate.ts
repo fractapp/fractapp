@@ -6,8 +6,8 @@ import { Account, BalanceRs, Network } from 'types/account';
 import math from 'utils/math';
 import MathUtils from 'utils/math';
 import { Currency, getSymbol } from 'types/wallet';
-import backend from 'utils/api';
-import api from 'utils/api';
+import backend from 'utils/fractappClient';
+import api from 'utils/fractappClient';
 import StringUtils from 'utils/string';
 import { KeyringPair } from '@polkadot/keyring/types';
 import {

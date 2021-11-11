@@ -5,7 +5,7 @@ import ChatsStore from 'storage/Chats';
 import GlobalStore from 'storage/Global';
 import stringUtils from 'utils/string';
 import StringUtils from 'utils/string';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import {
   BroadcastArgs,
   Button,
@@ -117,7 +117,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
           hideBtn: true,
         };
         const timestamp = await backend.sendMsg({
-          version: 1,
           value: btn.value,
           action: btn.action,
           receiver: chatInfo.id,
@@ -302,7 +301,6 @@ export const Chat = ({navigation, route}: {navigation: any; route: any}) => {
               hideBtn: true,
             };
             backend.sendMsg({
-              version: 1,
               value: msg.value,
               action: msg.action,
               receiver: chatInfo.id,

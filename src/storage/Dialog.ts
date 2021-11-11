@@ -41,7 +41,7 @@ namespace DialogStore {
           action: TxAction.Transfer,
           address: '',
           currency: Currency.DOT,
-          txType: TxType.Sent,
+          txType: TxType.Out,
           timestamp: 0,
 
           value: 0,

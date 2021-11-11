@@ -4,7 +4,7 @@ import { SubstrateAdaptor } from './substrate';
 import { Profile } from 'types/profile';
 import { ConfirmTxInfo } from 'types/inputs';
 import { SubstrateBase } from 'types/serverInfo';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import { getRegistry } from '@substrate/txwrapper-polkadot';
 import { TxAction } from 'types/transaction';
 import { BroadcastArgs } from 'types/message';

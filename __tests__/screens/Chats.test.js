@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 jest.mock('storage/DB', () => {});
 jest.mock('adaptors/adaptor', () => {});
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(),
 }));
 jest.mock('react-redux', () => ({

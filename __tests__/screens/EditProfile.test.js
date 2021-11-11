@@ -4,7 +4,7 @@ import {EditProfile} from 'screens/EditProfile';
 import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import {launchImageLibrary} from 'react-native-image-picker/src/index';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import StringUtils from 'utils/string';
 import { useDispatch, useSelector } from 'react-redux';
 import Store from 'storage/Store';
@@ -14,7 +14,7 @@ jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(() => 'uri'),
   uploadAvatar: jest.fn(),
 }));

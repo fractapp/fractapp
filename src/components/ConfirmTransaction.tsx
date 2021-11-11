@@ -4,7 +4,7 @@ import { getSymbol } from 'types/wallet';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { WalletInfo } from 'components/WalletInfo';
 import StringUtils from 'utils/string';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import { BlueButton } from './BlueButton';
 import { WhiteButton } from 'components/WhiteButton';
 import { ConfirmTxInfo, getTxName } from 'types/inputs';
@@ -91,7 +91,6 @@ export const ConfirmTransaction = ({
       };
 
       await backend.sendMsg({
-        version: 1,
         value: '',
         action: msg.action!,
         receiver: msg.receiver,
@@ -123,9 +122,9 @@ export const ConfirmTransaction = ({
     switch (confirmTxInfo.tx.txType) {
       case TxType.None:
         return StringUtils.texts.AccountTitle;
-      case TxType.Sent:
+      case TxType.Out:
         return StringUtils.texts.WriteOffAccountTitle;
-      case TxType.Received:
+      case TxType.In:
         return StringUtils.texts.ReceivingAccountTitle;
     }
   };

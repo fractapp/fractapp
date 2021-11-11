@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import GlobalStore from 'storage/Global';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import { ChatInfo } from 'types/chatInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatsStore from 'storage/Chats';

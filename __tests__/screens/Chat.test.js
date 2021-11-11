@@ -15,7 +15,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
 }));
-jest.mock('utils/api', () => {});
+jest.mock('utils/fractappClient', () => {});
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
@@ -180,7 +180,7 @@ it('Test view with messages', async () => {
         address: 'address',
         currency: Currency.DOT,
         action: TxAction.Transfer,
-        txType: TxType.Sent,
+        txType: TxType.Out,
         timestamp: 100,
 
         value: 1000,

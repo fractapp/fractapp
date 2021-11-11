@@ -6,7 +6,7 @@ import { Receiver, ReceiverType } from 'components/Receiver';
 import { EnterAddress } from 'components/EnterAddress';
 import { WalletInfo } from 'components/WalletInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import { ChatInfo } from 'types/chatInfo';
 import { Currency, getSymbol } from 'types/wallet';
 import GlobalStore from 'storage/Global';
@@ -159,7 +159,7 @@ export const Send = ({ navigation, route }: { navigation: any; route: any }) => 
         userId: user !== undefined ? user.id : null,
         address: receiver,
         currency: account.currency,
-        txType: TxType.Sent,
+        txType: TxType.Out,
         timestamp: Math.round(new Date().getTime()),
         fullValue: math.convertFromPlanckToString(
           pValue,

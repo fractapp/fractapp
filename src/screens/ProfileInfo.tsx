@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import { AddressOnly, Profile, User } from 'types/profile';
 import UsersStore from 'storage/Users';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,7 +51,7 @@ export const ProfileInfo = ({navigation, route}: {navigation: any, route: any}) 
             hideBtn: true,
         };
         const timestamp = await backend.sendMsg({
-            version: 1,
+
             value: msg.value,
             action: msg.action!,
             receiver: id,

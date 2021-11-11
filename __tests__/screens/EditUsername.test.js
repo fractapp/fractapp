@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import {EditUsername} from 'screens/EditUsername';
 import DialogStore from 'storage/Dialog';
 import {fireEvent, render} from '@testing-library/react-native';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,7 @@ jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   updateProfile: jest.fn(),
   setUpdatingProfile: jest.fn(),
   isUsernameFree: jest.fn(),
@@ -65,9 +65,9 @@ it('Test click success', async () => {
 
   const setUsernameExist = jest.fn();
   useState.mockImplementationOnce((init) => [init, setUsernameExist]);
-  BackendApi.isUsernameFree.mockReturnValueOnce(true);
-  BackendApi.isUsernameFree.mockReturnValueOnce(true);
-  BackendApi.updateProfile.mockReturnValueOnce(true);
+  FractappClient.isUsernameFree.mockReturnValueOnce(true);
+  FractappClient.isUsernameFree.mockReturnValueOnce(true);
+  FractappClient.updateProfile.mockReturnValueOnce(true);
 
   render(
     <EditUsername
@@ -77,7 +77,7 @@ it('Test click success', async () => {
 
   const successBtn = render(setOptions.mock.calls[0][0].headerRight());
   await fireEvent.press(successBtn.getByTestId('successBtn'));
-  expect(BackendApi.updateProfile).toBeCalledWith(
+  expect(FractappClient.updateProfile).toBeCalledWith(
     store.global.profile.name,
     newName.toLowerCase(),
   );
@@ -97,8 +97,8 @@ it('Test click success with invalid name', async () => {
 
   const setUsernameExist = jest.fn();
   useState.mockImplementationOnce((init) => [init, setUsernameExist]);
-  BackendApi.isUsernameFree.mockReturnValueOnce(true);
-  BackendApi.updateProfile.mockReturnValueOnce(true);
+  FractappClient.isUsernameFree.mockReturnValueOnce(true);
+  FractappClient.updateProfile.mockReturnValueOnce(true);
 
   render(
     <EditUsername
@@ -130,7 +130,7 @@ it('Test click success with name is not free', async () => {
 
   const setUsernameExist = jest.fn();
   useState.mockImplementationOnce((init) => [init, setUsernameExist]);
-  BackendApi.isUsernameFree.mockReturnValueOnce(false);
+  FractappClient.isUsernameFree.mockReturnValueOnce(false);
 
   render(
     <EditUsername

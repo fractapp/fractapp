@@ -3,7 +3,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {WalletLogo} from 'components/WalletLogo';
 import stringUtils from 'utils/string';
 import { AddressOnly, Profile, User } from 'types/profile';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 
 /**
  * Short chat information

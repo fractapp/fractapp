@@ -6,7 +6,7 @@ import { WalletLogo } from 'components/WalletLogo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Profile } from 'types/profile';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import stringUtils from 'utils/string';
 import { getTxName } from 'types/inputs';
 
@@ -30,11 +30,11 @@ export const TransactionInfo = ({
       prefix = '';
       color = '#888888';
       break;
-    case TxType.Received:
+    case TxType.In:
       prefix = '+';
       color = '#67D44D';
       break;
-    case TxType.Sent:
+    case TxType.Out:
       prefix = '-';
       color = '#EA4335';
       break;

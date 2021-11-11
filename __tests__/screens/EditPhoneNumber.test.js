@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {EditPhoneNumber} from 'screens/EditPhoneNumber';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import {fireEvent, render} from '@testing-library/react-native';
 import StringUtils from 'utils/string';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getLocalByIp: jest.fn(),
 }));
 jest.mock('react-redux', () => ({
@@ -27,7 +27,7 @@ useDispatch.mockReturnValue(dispatch);
 it('Test view with empty number', async () => {
   useState.mockImplementation((init) => [init, jest.fn()]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
+  FractappClient.getLocalByIp.mockReturnValueOnce('AD');
   const tree = renderer
     .create(
       <EditPhoneNumber
@@ -52,7 +52,7 @@ it('Test useEffect with empty number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AD');
+  FractappClient.getLocalByIp.mockReturnValueOnce('AD');
   await render(
     <EditPhoneNumber
       navigation={{ setOptions: jest.fn() }}
@@ -79,7 +79,7 @@ it('Test useEffect with selectedCountryCode', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('AG');
+  FractappClient.getLocalByIp.mockReturnValueOnce('AG');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -106,7 +106,7 @@ it('Test useEffect with number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('');
+  FractappClient.getLocalByIp.mockReturnValueOnce('');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -131,7 +131,7 @@ it('Test useEffect with invalid number', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('');
+  FractappClient.getLocalByIp.mockReturnValueOnce('');
   const component = await render(
     <EditPhoneNumber
       navigation={{setOptions: jest.fn()}}
@@ -158,7 +158,7 @@ it('Test click selectCountry', async () => {
   useState.mockImplementationOnce((init) => [init, setCountryCodeLength]);
   useState.mockImplementationOnce((init) => [init, setCountryName]);
 
-  BackendApi.getLocalByIp.mockReturnValueOnce('');
+  FractappClient.getLocalByIp.mockReturnValueOnce('');
   const component = await render(
     <EditPhoneNumber
       navigation={{navigate: navigate, setOptions: jest.fn()}}

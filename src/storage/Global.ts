@@ -32,7 +32,6 @@ namespace GlobalStore {
       lastUpdate: 0,
     },
     authInfo:  {
-      isFirstSync: false,
       hasWallet: false,
       hasPasscode: false,
       hasBiometry: false,
@@ -89,11 +88,6 @@ namespace GlobalStore {
       },
       setUpdatingProfile(state: State, action: PayloadAction<boolean>): State {
         state.isUpdatingProfile = action.payload;
-        return state;
-      },
-      setSynced(state: State): State {
-        state.authInfo.isFirstSync = true;
-        DB.setAuthInfo(state.authInfo);
         return state;
       },
       enablePasscode(state: State, action: PayloadAction<string>): State {

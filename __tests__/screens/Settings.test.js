@@ -14,7 +14,7 @@ jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(() => 'uri'),
 }));
 jest.mock('react-native-fingerprint-scanner', () => ({

@@ -77,7 +77,7 @@ it('Test add pending tx', async () => {
     address: 'address#1',
     currency: Currency.DOT,
     action: TxAction.Transfer,
-    txType: TxType.Sent,
+    txType: TxType.Out,
     timestamp: new Date('12-12-2020').getTime(),
 
     value: 10,
@@ -182,16 +182,16 @@ it('Test add tx', async () => {
 
     if (i === 0) {
       action = TxAction.StakingReward;
-      txType = TxType.Received;
+      txType = TxType.In;
     } else if (i === 3) {
       txType = TxType.None;
     } else if (i === 4) {
       action = TxAction.UpdateNomination;
-      txType = TxType.Sent;
+      txType = TxType.Out;
     } else if (i % 2 === 0) {
-      txType = TxType.Sent;
+      txType = TxType.Out;
     } else if (i % 2 !== 0) {
-      txType = TxType.Received;
+      txType = TxType.In;
     }
 
     const tx = {
@@ -237,10 +237,10 @@ it('Test add tx', async () => {
       let msg = '';
       if (tx.action === TxAction.Transfer) {
         switch (tx.txType) {
-          case TxType.Sent:
+          case TxType.Out:
             msg = StringUtils.texts.YouSentTitle + amount;
             break;
-          case TxType.Received:
+          case TxType.In:
             msg = StringUtils.texts.YouReceivedTitle + amount;
             break;
           case TxType.None:

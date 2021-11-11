@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import renderer from 'react-test-renderer';
 import {ConfirmCode} from 'screens/ConfirmCode';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import GlobalStore from 'storage/Global';
 import {fireEvent, render} from '@testing-library/react-native';
 import Dialog from 'storage/Dialog';
@@ -23,7 +23,7 @@ jest.mock('react-redux', () => ({
 jest.mock('@polkadot/keyring', () => {});
 jest.mock('@polkadot/util', () => {});
 jest.mock('@polkadot/keyring/types', () => {});
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   auth: jest.fn(),
   sendCode: jest.fn(),
   CodeType: {
@@ -73,7 +73,7 @@ it('Test view', () => {
         route={{
           params: {
             value: 'email',
-            type: BackendApi.CodeType.Phone,
+            type: FractappClient.CodeType.Phone,
           },
         }}
       />,
@@ -93,7 +93,7 @@ it('Test with code (not full)', async () => {
         route={{
           params: {
             value: 'email',
-            type: BackendApi.CodeType.Email,
+            type: FractappClient.CodeType.Email,
           },
         }}
       />,
@@ -106,7 +106,7 @@ it('Test with code (not full)', async () => {
 it('Test with code (full / 200)', async () => {
   const setters = createStates('123123', 60);
 
-  BackendApi.auth.mockReturnValueOnce(200);
+  FractappClient.auth.mockReturnValueOnce(200);
 
   const navigate = jest.fn();
   const reset = jest.fn();
@@ -116,7 +116,7 @@ it('Test with code (full / 200)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -142,7 +142,7 @@ it('Test with code (full / 200)', async () => {
 it('Test with code (throw)', async () => {
   const setters = createStates('123123', 60);
 
-  BackendApi.auth.mockImplementationOnce(() => {
+  FractappClient.auth.mockImplementationOnce(() => {
     throw new Error('error!');
   });
 
@@ -154,7 +154,7 @@ it('Test with code (throw)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -176,7 +176,7 @@ it('Test with code (throw)', async () => {
 it('Test with code (full / 400)', async () => {
   const setters = createStates('123123', 60);
 
-  BackendApi.auth.mockReturnValueOnce(400);
+  FractappClient.auth.mockReturnValueOnce(400);
 
   const navigate = jest.fn();
   const reset = jest.fn();
@@ -186,7 +186,7 @@ it('Test with code (full / 400)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -216,7 +216,7 @@ it('Test with code (full / 400)', async () => {
 it('Test with code (full / 403)', async () => {
   const setters = createStates('123123', 60);
 
-  BackendApi.auth.mockReturnValueOnce(403);
+  FractappClient.auth.mockReturnValueOnce(403);
 
   const navigate = jest.fn();
   const reset = jest.fn();
@@ -227,7 +227,7 @@ it('Test with code (full / 403)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -260,7 +260,7 @@ it('Test with code (full / 403)', async () => {
 it('Test with code (full / 404)', async () => {
   const setters = createStates('123123', 60);
 
-  BackendApi.auth.mockReturnValueOnce(404);
+  FractappClient.auth.mockReturnValueOnce(404);
 
   const navigate = jest.fn();
   const reset = jest.fn();
@@ -271,7 +271,7 @@ it('Test with code (full / 404)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -294,7 +294,7 @@ it('Test with code (full / 404)', async () => {
 it('Test resend (200)', async () => {
   const setters = createStates('', 0);
 
-  BackendApi.sendCode.mockReturnValueOnce(200);
+  FractappClient.sendCode.mockReturnValueOnce(200);
 
   const navigate = jest.fn();
   const component = await render(
@@ -303,7 +303,7 @@ it('Test resend (200)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -311,16 +311,16 @@ it('Test resend (200)', async () => {
   await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
-  expect(BackendApi.sendCode).toBeCalledWith(
+  expect(FractappClient.sendCode).toBeCalledWith(
     'email',
-    BackendApi.CodeType.Email
+    FractappClient.CodeType.Email
   );
 });
 
 it('Test resend (400)', async () => {
   const setters = createStates('', 0);
 
-  BackendApi.sendCode.mockReturnValueOnce(400);
+  FractappClient.sendCode.mockReturnValueOnce(400);
   const navigate = jest.fn();
   const component = await render(
     <ConfirmCode
@@ -328,7 +328,7 @@ it('Test resend (400)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -336,9 +336,9 @@ it('Test resend (400)', async () => {
   await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
-  expect(BackendApi.sendCode).toBeCalledWith(
+  expect(FractappClient.sendCode).toBeCalledWith(
     'email',
-    BackendApi.CodeType.Email
+    FractappClient.CodeType.Email
   );
   expect(dispatch).toBeCalledWith(
     Dialog.actions.showDialog({
@@ -352,7 +352,7 @@ it('Test resend (400)', async () => {
 it('Test resend (404/email)', async () => {
   const setters = createStates('', 0);
 
-  BackendApi.sendCode.mockReturnValueOnce(404);
+  FractappClient.sendCode.mockReturnValueOnce(404);
   const navigate = jest.fn();
   const component = await render(
     <ConfirmCode
@@ -360,7 +360,7 @@ it('Test resend (404/email)', async () => {
       route={{
         params: {
           value: 'email',
-          type: BackendApi.CodeType.Email,
+          type: FractappClient.CodeType.Email,
         },
       }}
     />,
@@ -368,16 +368,16 @@ it('Test resend (404/email)', async () => {
   await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
-  expect(BackendApi.sendCode).toBeCalledWith(
+  expect(FractappClient.sendCode).toBeCalledWith(
     'email',
-    BackendApi.CodeType.Email
+    FractappClient.CodeType.Email
   );
 });
 
 it('Test resend (404/phone)', async () => {
   const setters = createStates('', 0);
 
-  BackendApi.sendCode.mockReturnValueOnce(404);
+  FractappClient.sendCode.mockReturnValueOnce(404);
   const navigate = jest.fn();
   const component = await render(
     <ConfirmCode
@@ -385,7 +385,7 @@ it('Test resend (404/phone)', async () => {
       route={{
         params: {
           value: 'phone',
-          type: BackendApi.CodeType.Phone,
+          type: FractappClient.CodeType.Phone,
         },
       }}
     />,
@@ -393,8 +393,8 @@ it('Test resend (404/phone)', async () => {
   await fireEvent.press(component.getByText(StringUtils.texts.ResendTitle));
 
   expect(setters.setLockTime).toBeCalledWith(60);
-  expect(BackendApi.sendCode).toBeCalledWith(
+  expect(FractappClient.sendCode).toBeCalledWith(
     'phone',
-    BackendApi.CodeType.Phone
+    FractappClient.CodeType.Phone
   );
 });

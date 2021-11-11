@@ -50,29 +50,29 @@ export const PaymentMsg = ({tx, onPress}: {tx: Transaction, onPress: () => void}
     if (tx.status === TxStatus.Fail || tx.txType === TxType.None) {
       return '#888888';
     }
-    if (tx.txType === TxType.Sent) {
+    if (tx.txType === TxType.Out) {
       return '#EA4335';
-    } else if (tx.txType === TxType.Received) {
+    } else if (tx.txType === TxType.In) {
       return '#67D44D';
     }
   };
 
   const alignSelf = () => {
     switch (tx.txType) {
-      case TxType.Received:
+      case TxType.In:
         return 'flex-start';
       case TxType.None:
-      case TxType.Sent:
+      case TxType.Out:
         return 'flex-end';
     }
   };
   const icon = () => {
     switch (tx.txType) {
-      case TxType.Received:
+      case TxType.In:
         return 'download-outline';
       case TxType.None:
         return 'apps';
-      case TxType.Sent:
+      case TxType.Out:
         return 'upload-outline';
     }
   };
@@ -81,9 +81,9 @@ export const PaymentMsg = ({tx, onPress}: {tx: Transaction, onPress: () => void}
       switch (tx.txType) {
         case TxType.None:
           return 'Transaction'; //TODO: string
-        case TxType.Sent:
+        case TxType.Out:
           return StringUtils.texts.YouSentTitle;
-        case TxType.Received:
+        case TxType.In:
           return StringUtils.texts.YouReceivedTitle;
       }
     } else {

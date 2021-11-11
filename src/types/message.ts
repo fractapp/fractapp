@@ -1,10 +1,13 @@
 import { Profile } from 'types/profile';
+import { Currency } from 'types/wallet';
+import { TxAction, TxStatus, TxType } from 'types/transaction';
+import { Price } from 'types/serverInfo';
+import { BalanceRs } from 'types/account';
 
 /**
  * @category Models
  */
 export type MessageRq = {
-  version: number,
   value: string,
   action: string,
   receiver: string,
@@ -108,3 +111,62 @@ export enum DefaultMsgAction {
   WalletButtonOut = '/walletOut',
   WalletButtonIn = '/walletIn'
 }
+
+/**
+ * @category Models
+ */
+export type WsTransaction = {
+  id: string;
+  hash: string;
+  currency: Currency;
+
+  memberAddress: string;
+  member: string | null;
+
+  direction: TxType;
+  status: TxStatus;
+  action: TxAction,
+
+  value: string;
+  fee: string;
+  price: number
+
+  timestamp: number;
+};
+
+/**
+ * @category Models
+ */
+export type WsUpdate = {
+  prices: Array<Price>;
+  transactions: Record<Currency, Array<WsTransaction>>,
+  messages: Array<Message>,
+  users: Record<string, Profile>,
+  notifications: Array<string>
+};
+
+
+/**
+ * @category Models
+ */
+export type WsBalanceUpdate = {
+  balances: Record<Currency, BalanceRs>
+};
+
+
+/**
+ * @category Models
+ */
+export type WsResponse = {
+  method: string;
+  value: WsUpdate | WsBalanceUpdate | Array<TxStatusApi> | Record<string, Profile>
+};
+
+/**
+ * @category Models
+ */
+export type TxStatusApi = {
+  status: TxStatus;
+  hash: string;
+};
+

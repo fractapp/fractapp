@@ -6,8 +6,8 @@ import {Currency} from './/wallet';
  */
 export enum TxType {
   None = 0,
-  Sent,
-  Received,
+  Out,
+  In,
 }
 
 /**

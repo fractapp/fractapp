@@ -97,12 +97,12 @@ namespace ChatsStore {
     let sender = owner;
     let receiver = chatId;
     switch (tx.txType) {
-      case TxType.Sent:
+      case TxType.Out:
       case TxType.None:
         sender = owner;
         receiver = chatId;
         break;
-      case TxType.Received:
+      case TxType.In:
         sender = chatId;
         receiver = owner;
         break;
@@ -118,10 +118,10 @@ namespace ChatsStore {
         case TxType.None:
           value = 'Transaction'; //TODO: string
           break;
-        case TxType.Sent:
+        case TxType.Out:
           value = StringUtils.texts.YouSentTitle + amount;
           break;
-        case TxType.Received:
+        case TxType.In:
           value = StringUtils.texts.YouReceivedTitle + amount;
           break;
       }
@@ -246,6 +246,22 @@ namespace ChatsStore {
 
         console.log('isNotify: ' + isNotify);
         state = addTx(state, owner, tx, isNotify);
+        DB.setChatsState(state);
+        return state;
+      },
+      addTxs(state: State, action: PayloadAction<{
+        txs: Array<Transaction>,
+        isNotify: boolean
+        owner: string,
+      }>): State {
+        const txs: Array<Transaction> = action.payload.txs;
+        const owner: string = action.payload.owner;
+        const isNotify: boolean = action.payload.isNotify;
+
+        console.log('isNotify: ' + isNotify);
+        for (let tx of txs) {
+          state = addTx(state, owner, tx, isNotify);
+        }
         DB.setChatsState(state);
         return state;
       },

@@ -4,7 +4,7 @@ import {TransactionInfo} from 'components/TransactionInfo';
 import {Currency} from 'types/wallet';
 import {TxStatus, TxType} from 'types/transaction';
 
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   getImgUrl: jest.fn(),
 }));
 
@@ -46,7 +46,7 @@ it('Test two', () => {
           userId: 'userId',
           address: 'address#2',
           currency: Currency.KSM,
-          txType: TxType.Sent,
+          txType: TxType.Out,
           timestamp: new Date('02-12-2020').getTime(),
           value: 10,
           usdValue: 10,
@@ -71,7 +71,7 @@ it('Test three', () => {
           userId: 'userId',
           address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
           currency: Currency.KSM,
-          txType: TxType.Received,
+          txType: TxType.In,
           timestamp: new Date('02-12-2020').getTime(),
           value: 10,
           usdValue: 10,
@@ -96,7 +96,7 @@ it('Test four', () => {
           userId: 'userId',
           address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
           currency: Currency.KSM,
-          txType: TxType.Received,
+          txType: TxType.In,
           timestamp: new Date('02-12-2020').getTime(),
           value: 10,
           usdValue: 10,
@@ -131,7 +131,7 @@ it('Test five', () => {
           userId: 'userId',
           address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
           currency: Currency.KSM,
-          txType: TxType.Received,
+          txType: TxType.In,
           timestamp: new Date('02-12-2020').getTime(),
           value: 10,
           usdValue: 0,
@@ -166,7 +166,7 @@ it('Test six', () => {
           userId: 'userId',
           address: '1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE',
           currency: Currency.KSM,
-          txType: TxType.Received,
+          txType: TxType.In,
           timestamp: new Date('02-12-2020').getTime(),
           value: 10,
           usdValue: 0,

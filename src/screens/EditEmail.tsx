@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {SuccessButton} from 'components/SuccessButton';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import Dialog from 'storage/Dialog';
 import * as EmailValidator from 'email-validator';
 import StringUtils from 'utils/string';
@@ -30,9 +30,9 @@ export const EditEmail = ({navigation}: {navigation: any}) => {
     }
 
     try {
-      BackendApi.sendCode(
+      FractappClient.sendCode(
         email,
-        BackendApi.CodeType.Email
+        FractappClient.CodeType.Email
       );
     } catch (e) {
       console.log(e);
@@ -40,7 +40,7 @@ export const EditEmail = ({navigation}: {navigation: any}) => {
 
     navigation.navigate('ConfirmCode', {
       value: email,
-      type: BackendApi.CodeType.Email,
+      type: FractappClient.CodeType.Email,
     });
   };
 

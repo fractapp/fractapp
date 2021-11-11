@@ -1,4 +1,4 @@
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import DB from 'storage/DB';
 import {FRACTAPP_API} from '@env';
 import {stringToU8a, u8aToHex} from '@polkadot/util';

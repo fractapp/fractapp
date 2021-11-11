@@ -13,7 +13,7 @@ jest.mock('react', () => ({
 jest.mock('react-native-i18n', () => ({
   t: (value) => value,
 }));
-jest.mock('utils/api', () => {});
+jest.mock('utils/fractappClient', () => {});
 
 useState.mockImplementation((init) => [init, jest.fn()]);
 

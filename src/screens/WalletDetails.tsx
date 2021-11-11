@@ -22,7 +22,7 @@ import AccountsStore from 'storage/Accounts';
 import { Account, AccountType } from 'types/account';
 import ServerInfoStore from 'storage/ServerInfo';
 import { randomAsHex } from '@polkadot/util-crypto';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 // @ts-ignore
 import {MAIN_BOT_ID} from '@env';
 import { DefaultMsgAction, Message } from 'types/message';
@@ -151,7 +151,7 @@ export const WalletDetails = ({
                   hideBtn: true,
                 };
                 backend.sendMsg({
-                  version: 1,
+
                   value: msg.value,
                   action: msg.action!,
                   receiver: MAIN_BOT_ID,
@@ -197,7 +197,7 @@ export const WalletDetails = ({
                   hideBtn: true,
                 };
                 backend.sendMsg({
-                  version: 1,
+
                   value: msg.value,
                   action: msg.action!,
                   receiver: MAIN_BOT_ID,

@@ -19,7 +19,7 @@ import { MessageRq, UndeliveredMessagesInfo } from 'types/message';
  * @namespace
  * @category Utils
  */
-namespace BackendApi {
+namespace FractappClient {
   export enum CodeType {
     Phone = 0,
     Email,
@@ -387,19 +387,19 @@ namespace BackendApi {
           userId = tx.userTo;
         }
       } else if (tx.action === TxAction.StakingReward) {
-        txType = TxType.Received;
+        txType = TxType.In;
         member = tx.to;
         if (tx.userTo !== '') {
           userId = tx.userTo;
         }
       } else if (address === tx.from) {
-        txType = TxType.Sent;
+        txType = TxType.Out;
         member = tx.to;
         if (tx.userTo !== '') {
           userId = tx.userTo;
         }
       } else {
-        txType = TxType.Received;
+        txType = TxType.In;
         member = tx.from;
         if (tx.userFrom !== '') {
           userId = tx.userFrom;
@@ -460,7 +460,7 @@ namespace BackendApi {
     }
 
     const data = await rs.json();
-    return data.status;
+    return data;
   }
 
   export async function substrateBalance(
@@ -645,4 +645,4 @@ namespace BackendApi {
     }
   }
 }
-export default BackendApi;
+export default FractappClient;

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import renderer from 'react-test-renderer';
 import {EditName} from 'screens/EditName';
 import {fireEvent, render} from '@testing-library/react-native';
-import BackendApi from 'utils/api';
+import FractappClient from 'utils/fractappClient';
 import GlobalStore from 'storage/Global';
 import Dialog from 'storage/Dialog';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
 }));
-jest.mock('utils/api', () => ({
+jest.mock('utils/fractappClient', () => ({
   updateProfile: jest.fn(),
   setUpdatingProfile: jest.fn(),
 }));
@@ -62,7 +62,7 @@ it('Test click success', async () => {
 
   const setNameIsError = jest.fn();
   useState.mockImplementationOnce((init) => [init, setNameIsError]);
-  BackendApi.updateProfile.mockReturnValueOnce(true);
+  FractappClient.updateProfile.mockReturnValueOnce(true);
 
   render(
     <EditName
@@ -73,7 +73,7 @@ it('Test click success', async () => {
 
   const successBtn = render(setOptions.mock.calls[0][0].headerRight());
   await fireEvent.press(successBtn.getByTestId('successBtn'));
-  expect(BackendApi.updateProfile).toBeCalledWith(
+  expect(FractappClient.updateProfile).toBeCalledWith(
     newName,
     store.global.profile.username,
   );
@@ -92,7 +92,7 @@ it('Test click success with invalid name', async () => {
 
   const setNameIsError = jest.fn();
   useState.mockImplementationOnce((init) => [init, setNameIsError]);
-  BackendApi.updateProfile.mockReturnValueOnce(true);
+  FractappClient.updateProfile.mockReturnValueOnce(true);
 
   render(
     <EditName

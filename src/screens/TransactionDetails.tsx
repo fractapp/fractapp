@@ -10,7 +10,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Clipboard from '@react-native-community/clipboard';
 import { showMessage } from 'react-native-flash-message';
 import { Profile, User } from 'types/profile';
-import backend from 'utils/api';
+import backend from 'utils/fractappClient';
 import AccountsStore from 'storage/Accounts';
 import { useSelector } from 'react-redux';
 import ServerInfoStore from 'storage/ServerInfo';
@@ -67,9 +67,9 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
     if (tx.status === TxStatus.Fail || tx.txType === TxType.None) {
       return '#888888';
     }
-    if (tx.txType === TxType.Sent) {
+    if (tx.txType === TxType.Out) {
       return '#EA4335';
-    } else if (tx.txType === TxType.Received) {
+    } else if (tx.txType === TxType.In) {
       return '#67D44D';
     }
   };
@@ -92,9 +92,9 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
     switch (tx.txType) {
       case TxType.None:
         return StringUtils.texts.AccountTitle;
-      case TxType.Sent:
+      case TxType.Out:
         return StringUtils.texts.WriteOffAccountTitle;
-      case TxType.Received:
+      case TxType.In:
         return StringUtils.texts.ReceivingAccountTitle;
     }
   };
@@ -167,7 +167,7 @@ export const TransactionDetails = ({route, navigation}: {route: any, navigation:
           </Text>
         </View>
         <View style={{flex: 1, alignItems: 'flex-end'}}>
-          {(tx.txType === TxType.Sent || tx.txType === TxType.None) && (
+          {(tx.txType === TxType.Out || tx.txType === TxType.None) && (
             <View>
               <Text style={[styles.title, {marginBottom: 5}]}>
                 {StringUtils.texts.FeeTitle}

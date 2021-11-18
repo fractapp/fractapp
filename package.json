@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest --verbose",
+    "test": "jest --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "doc": "typedoc --out docs src/components src/screens src/storage src/types src/utils src/adaptors --mode file --ignoreCompilerErrors "
   },

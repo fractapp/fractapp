@@ -71,10 +71,15 @@
 					<h2>Getting Started</h2>
 				</a>
 				<ol>
-					<li><p>Setup ANDROID SDK and React Native (not expo)</p>
+					<li><p>Setup ANDROID SDK and React Native (without expo and use java version from instruction)</p>
 						<p> <a href="https://reactnative.dev/docs/environment-setup">https://reactnative.dev/docs/environment-setup</a></p>
 					</li>
-					<li><p>Get SHA1 key for next step</p>
+					<li><p>Install the <a href="https://developer.android.com/studio/run/managing-avds">emulator</a> or <a href="https://reactnative.dev/docs/running-on-device">connect a device</a></p>
+					</li>
+					<li><p>Create debug.keystore</p>
+						<pre><code class="language-sh">keytool -genkey -v -keystore android/app/debug.keystore -storepass android -<span class="hljs-built_in">alias</span> androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000</code></pre>
+					</li>
+					<li><p>Get SHA1 key for next step (it will be needed for setup google drive and firebase)</p>
 						<pre><code>keytool -list -v -keystore <span class="hljs-keyword">android/app/debug.keystore </span>-alias <span class="hljs-keyword">androiddebugkey </span>-storepass <span class="hljs-keyword">android </span>-keypass <span class="hljs-keyword">android</span></code></pre>
 					</li>
 					<li><p>Setup Google Drive api (If you want to use save/import seed with Google Drive) </p>
@@ -83,20 +88,16 @@
 						<p>5.3. Open OAuth consent screen -&gt; Edit App -&gt; Save and continue -&gt; Add or remove scopes -&gt; add &#39;.../auth/drive&#39; scope </p>
 					</li>
 				</ol>
-				<ol start="4">
-					<li><p>Setup firebase (If you want to receive notifications) <a href="https://firebase.google.com/docs/android/setup">here</a></p>
-						<pre><code><span class="hljs-type">Path</span> <span class="hljs-keyword">for</span> google-services.json:
-android/app/google-services.json</code></pre>
+				<ol start="6">
+					<li><p>Setup firebase. The instruction is <a href="https://github.com/fractapp/fractapp#setup-firebase">below</a></p>
+						<p>If you want to receive notifications without install fractapp-server and setup firebase then use apk file from <a href="https://github.com/fractapp/fractapp/releases">release</a>. Otherwise, you need to run <a href="https://github.com/fractapp/fractapp-server">fractapp-server</a>. </p>
 					</li>
-					<li><p>Create debug.keystore</p>
-						<pre><code class="language-sh">keytool -genkey -v -keystore android/app/debug.keystore -storepass android -<span class="hljs-built_in">alias</span> androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000</code></pre>
-					</li>
+				</ol>
+				<ol start="7">
 					<li><p>Configure .env (example in .env-temp)</p>
 						<pre><code class="language-sh">FRACTAPP_API - fractapp server url
-POLKADOT_SUBSCAN_API - polkadot subscan url
-KUSAMA_SUBSCAN_API - kusama subscan url
-POLKADOT_WSS_API - polkadot node websocket url
-KUSAMA_WSS_API - kusama node websocket url</code></pre>
+WSFRACTAPP_API - fractapp server ws url
+MAIN_BOT_ID - main bot fractapp auth id</code></pre>
 					</li>
 					<li><p>Install yarn packages</p>
 						<pre><code class="language-sh">yarn install</code></pre>
@@ -105,13 +106,27 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<pre><code class="language-sh">yarn android</code></pre>
 					</li>
 				</ol>
+				<a href="#setup-firebase" id="setup-firebase" style="color: inherit; text-decoration: none;">
+					<h2>Setup firebase</h2>
+				</a>
+				<ol>
+					<li>Add project</li>
+					<li>Enter a name</li>
+					<li>Add app (Android)</li>
+					<li>Set &quot;com.fractapp&quot; in the &quot;Android package name&quot; input</li>
+					<li>Get SHA1 and set this in the &quot;Debug signing certificate SHA-1&quot; input<pre><code>keytool -list -v -keystore <span class="hljs-keyword">android/app/debug.keystore </span>-alias <span class="hljs-keyword">androiddebugkey </span>-storepass <span class="hljs-keyword">android </span>-keypass <span class="hljs-keyword">android</span></code></pre>
+					</li>
+					<li>Copy google-services.json to android/app/google-services.json</li>
+					<li>Skip other steps</li>
+					<li>Finish</li>
+				</ol>
 				<a href="#tests" id="tests" style="color: inherit; text-decoration: none;">
 					<h2>Tests</h2>
 				</a>
 				<p>Start tests with coverage info</p>
-				<pre><code class="language-sh">yarn <span class="hljs-built_in">test</span> --coverage</code></pre>
+				<pre><code class="language-sh">yarn <span class="hljs-built_in">test</span></code></pre>
 				<p>Start tests with update snapshot</p>
-				<pre><code class="language-sh">yarn <span class="hljs-built_in">test</span> --coverage --u</code></pre>
+				<pre><code class="language-sh">yarn <span class="hljs-built_in">test</span> --u</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -124,9 +139,6 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="modules/accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/backendapi.html">Backend<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-namespace">
 						<a href="modules/chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -134,6 +146,9 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="modules/dialogstore.html">Dialog<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="modules/fractappclient.html">Fractapp<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="modules/globalstore.html">Global<wbr>Store</a>
@@ -148,7 +163,10 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="modules/passcodeutil.html">Passcode<wbr>Util</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/pricesstore.html">Prices<wbr>Store</a>
+						<a href="modules/serverinfostore.html">Server<wbr>Info<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="modules/store.html">Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="modules/stringutils.html">String<wbr>Utils</a>
@@ -157,23 +175,35 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="modules/task.html">Task</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="modules/transactionsstore.html">Transactions<wbr>Store</a>
+						<a href="modules/usersstore.html">Users<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum">
-						<a href="enums/chattype.html" class="tsd-kind-icon">Chat<wbr>Type</a>
+						<a href="enums/accounttype.html" class="tsd-kind-icon">Account<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/currency.html" class="tsd-kind-icon">Currency</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/defaultmsgaction.html" class="tsd-kind-icon">Default<wbr>Msg<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/errorcode.html" class="tsd-kind-icon">Error<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/img.html" class="tsd-kind-icon">Img</a>
 					</li>
 					<li class=" tsd-kind-enum">
+						<a href="enums/network.html" class="tsd-kind-icon">Network</a>
+					</li>
+					<li class=" tsd-kind-enum">
 						<a href="enums/receivertype.html" class="tsd-kind-icon">Receiver<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/txaction.html" class="tsd-kind-icon">Tx<wbr>Action</a>
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/txstatus.html" class="tsd-kind-icon">Tx<wbr>Status</a>
@@ -185,64 +215,130 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="enums/type.html" class="tsd-kind-icon">Type</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/api.html" class="tsd-kind-icon">Api</a>
+						<a href="classes/adaptors.html" class="tsd-kind-icon">Adaptors</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/wallet.html" class="tsd-kind-icon">Wallet</a>
+						<a href="classes/substrateadaptor.html" class="tsd-kind-icon">Substrate<wbr>Adaptor</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/cameraoptions.html" class="tsd-kind-icon">Camera<wbr>Options</a>
+					<li class=" tsd-kind-class">
+						<a href="classes/websocketclient.html" class="tsd-kind-icon">Websocket<wbr>Client</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/imagelibraryoptions.html" class="tsd-kind-icon">Image<wbr>Library<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/imagepickerresponse.html" class="tsd-kind-icon">Image<wbr>Picker<wbr>Response</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iadaptor.html" class="tsd-kind-icon">IAdaptor</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#account" class="tsd-kind-icon">Account</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#androidvideooptions" class="tsd-kind-icon">Android<wbr>Video<wbr>Options</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountbalance" class="tsd-kind-icon">Account<wbr>Balance</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#addressonly" class="tsd-kind-icon">Address<wbr>Only</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#apitransaction" class="tsd-kind-icon">Api<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#authinfo" class="tsd-kind-icon">Auth<wbr>Info</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#callback" class="tsd-kind-icon">Callback</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#balancers" class="tsd-kind-icon">Balance<wbr>Rs</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#botvalidationargs" class="tsd-kind-icon">Bot<wbr>Validation<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#broadcastargs" class="tsd-kind-icon">Broadcast<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#button" class="tsd-kind-icon">Button</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#chatinfo" class="tsd-kind-icon">Chat<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#defaultdetails" class="tsd-kind-icon">Default<wbr>Details</a>
+						<a href="globals.html#confirmtxinfo" class="tsd-kind-icon">Confirm<wbr>TxInfo</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#driveitem" class="tsd-kind-icon">Drive<wbr>Item</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#errorcode" class="tsd-kind-icon">Error<wbr>Code</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#enteramountargs" class="tsd-kind-icon">Enter<wbr>Amount<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#enteramountinfo" class="tsd-kind-icon">Enter<wbr>Amount<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#feeinfo" class="tsd-kind-icon">Fee<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#filebackup" class="tsd-kind-icon">File<wbr>Backup</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#mediatype" class="tsd-kind-icon">Media<wbr>Type</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadinfo" class="tsd-kind-icon">Load<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#message" class="tsd-kind-icon">Message</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messagerq" class="tsd-kind-icon">Message<wbr>Rq</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#myprofile" class="tsd-kind-icon">My<wbr>Profile</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#photoquality" class="tsd-kind-icon">Photo<wbr>Quality</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openlinkargs" class="tsd-kind-icon">Open<wbr>Link<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#price" class="tsd-kind-icon">Price</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#profile" class="tsd-kind-icon">Profile</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#row" class="tsd-kind-icon">Row</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#serverinfo" class="tsd-kind-icon">Server<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#substratebase" class="tsd-kind-icon">Substrate<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#substratetxbase" class="tsd-kind-icon">Substrate<wbr>TxBase</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#transaction" class="tsd-kind-icon">Transaction</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#userprofile" class="tsd-kind-icon">User<wbr>Profile</a>
+						<a href="globals.html#transactionviewargs" class="tsd-kind-icon">Transaction<wbr>View<wbr>Args</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#iosvideooptions" class="tsd-kind-icon">iOSVideo<wbr>Options</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transfervalidationargs" class="tsd-kind-icon">Transfer<wbr>Validation<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#txstatusapi" class="tsd-kind-icon">Tx<wbr>Status<wbr>Api</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#txvalidationresult" class="tsd-kind-icon">Tx<wbr>Validation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#undeliveredmessagesinfo" class="tsd-kind-icon">Undelivered<wbr>Messages<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#user" class="tsd-kind-icon">User</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#wsbalanceupdate" class="tsd-kind-icon">Ws<wbr>Balance<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#wsresponse" class="tsd-kind-icon">Ws<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#wstransaction" class="tsd-kind-icon">Ws<wbr>Transaction</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#wsupdate" class="tsd-kind-icon">Ws<wbr>Update</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#backitemid" class="tsd-kind-icon">Back<wbr>Item<wbr>Id</a>
@@ -263,7 +359,22 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="globals.html#walletstack" class="tsd-kind-icon">Wallet<wbr>Stack</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#formatnameoraddress" class="tsd-kind-icon">format<wbr>Name<wbr>OrAddress</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#min" class="tsd-kind-icon">min</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#minpasswordlength" class="tsd-kind-icon">min<wbr>Password<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#navigationref" class="tsd-kind-icon">navigation<wbr>Ref</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#schema" class="tsd-kind-icon">schema</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sec" class="tsd-kind-icon">sec</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#styles" class="tsd-kind-icon">styles</a>
@@ -284,6 +395,9 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="globals.html#chat" class="tsd-kind-icon">Chat</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#chatbutton" class="tsd-kind-icon">Chat<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#chatshortinfo" class="tsd-kind-icon">Chat<wbr>Short<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -293,10 +407,16 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="globals.html#chatstab" class="tsd-kind-icon">Chats<wbr>Tab</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#chooseimportwallet" class="tsd-kind-icon">Choose<wbr>Import<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#confirmcode" class="tsd-kind-icon">Confirm<wbr>Code</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#confirmsaveseed" class="tsd-kind-icon">Confirm<wbr>Save<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#confirmtransaction" class="tsd-kind-icon">Confirm<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#connecting" class="tsd-kind-icon">Connecting</a>
@@ -332,9 +452,6 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="globals.html#enteramount" class="tsd-kind-icon">Enter<wbr>Amount</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#googledrivepicker" class="tsd-kind-icon">Google<wbr>Drive<wbr>Picker</a>
-					</li>
-					<li class=" tsd-kind-function">
 						<a href="globals.html#importseed" class="tsd-kind-icon">Import<wbr>Seed</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -345,6 +462,9 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#loader" class="tsd-kind-icon">Loader</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#messageview" class="tsd-kind-icon">Message<wbr>View</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#navigation" class="tsd-kind-icon">Navigation</a>
@@ -360,6 +480,9 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#paymentmsg" class="tsd-kind-icon">Payment<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#profileinfo" class="tsd-kind-icon">Profile<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#profiletab" class="tsd-kind-icon">Profile<wbr>Tab</a>
@@ -424,11 +547,17 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#transactioninfo" class="tsd-kind-icon">Transaction<wbr>Info</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#url" class="tsd-kind-icon">Url</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#verifypasscode" class="tsd-kind-icon">Verify<wbr>Pass<wbr>Code</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#walletdetails" class="tsd-kind-icon">Wallet<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#walletdetailsgraph" class="tsd-kind-icon">Wallet<wbr>Details<wbr>Graph</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#walletdetailsinfo" class="tsd-kind-icon">Wallet<wbr>Details<wbr>Info</a>
@@ -455,22 +584,40 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 						<a href="globals.html#whitebutton" class="tsd-kind-icon">White<wbr>Button</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#filtertxsbyaccounttype" class="tsd-kind-icon">filter<wbr>Txs<wbr>ByAccount<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#fromcurrency" class="tsd-kind-icon">from<wbr>Currency</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getcolor" class="tsd-kind-icon">get<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getfullcurrencyname" class="tsd-kind-icon">get<wbr>Full<wbr>Currency<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getlogo" class="tsd-kind-icon">get<wbr>Logo</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getnetwork" class="tsd-kind-icon">get<wbr>Network</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getsymbol" class="tsd-kind-icon">get<wbr>Symbol</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#launchcamera" class="tsd-kind-icon">launch<wbr>Camera</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#gettxname" class="tsd-kind-icon">get<wbr>TxName</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#launchimagelibrary" class="tsd-kind-icon">launch<wbr>Image<wbr>Library</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#navigate" class="tsd-kind-icon">navigate</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#tocurrency" class="tsd-kind-icon">to<wbr>Currency</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#withoutborder" class="tsd-kind-icon">without<wbr>Border</a>
 					</li>
-					<li class=" tsd-kind-object-literal tsd-is-external">
-						<a href="globals.html#default_options" class="tsd-kind-icon">DEFAULT_<wbr>OPTIONS</a>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#menutabs" class="tsd-kind-icon">Menu<wbr>Tabs</a>
 					</li>
 				</ul>
 			</nav>
@@ -487,7 +634,12 @@ KUSAMA_WSS_API - kusama node websocket url</code></pre>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>

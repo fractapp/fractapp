@@ -81,24 +81,22 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="task.html#maxsynctxs" class="tsd-kind-icon">max<wbr>Sync<wbr>Txs</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="task.html#min" class="tsd-kind-icon">min</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="task.html#sec" class="tsd-kind-icon">sec</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="task.html#tasksids" class="tsd-kind-icon">tasks<wbr>Ids</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#canceltasks" class="tsd-kind-icon">cancel<wbr>Tasks</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#checkpendingtxs" class="tsd-kind-icon">check<wbr>Pending<wbr>Txs</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#createtask" class="tsd-kind-icon">create<wbr>Task</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#cleardb" class="tsd-kind-icon">clearDB</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#createaccount" class="tsd-kind-icon">create<wbr>Account</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#createtasks" class="tsd-kind-icon">create<wbr>Tasks</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#initaccounts" class="tsd-kind-icon">init<wbr>Accounts</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#initprivatedata" class="tsd-kind-icon">init<wbr>Private<wbr>Data</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#settx" class="tsd-kind-icon">set<wbr>Tx</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#sync" class="tsd-kind-icon">sync</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#syncbyaccount" class="tsd-kind-icon">sync<wbr>ByAccount</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#updatebalances" class="tsd-kind-icon">update<wbr>Balances</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#updatefirebasetoken" class="tsd-kind-icon">update<wbr>Firebase<wbr>Token</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#updateprices" class="tsd-kind-icon">update<wbr>Prices</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="task.html#updateuserslist" class="tsd-kind-icon">update<wbr>Users<wbr>List</a></li>
 							</ul>
 						</section>
@@ -108,22 +106,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
-					<a name="maxsynctxs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> max<wbr>Sync<wbr>Txs</h3>
-					<div class="tsd-signature tsd-kind-icon">max<wbr>Sync<wbr>Txs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">10</span><span class="tsd-signature-symbol"> = 10</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L24">src/utils/tasks.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="min" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> min</h3>
 					<div class="tsd-signature tsd-kind-icon">min<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 60 * sec</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L23">src/utils/tasks.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L20">src/utils/tasks.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -133,7 +121,17 @@
 					<div class="tsd-signature tsd-kind-icon">sec<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">1000</span><span class="tsd-signature-symbol"> = 1000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L22">src/utils/tasks.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L19">src/utils/tasks.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
+					<a name="tasksids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> tasks<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">tasks<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = []</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L22">src/utils/tasks.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -141,22 +139,39 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="checkpendingtxs" class="tsd-anchor"></a>
-					<h3>check<wbr>Pending<wbr>Txs</h3>
+					<a name="canceltasks" class="tsd-anchor"></a>
+					<h3>cancel<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">check<wbr>Pending<wbr>Txs<span class="tsd-signature-symbol">(</span>transactionsContext<span class="tsd-signature-symbol">: </span><a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">cancel<wbr>Tasks<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L333">src/utils/tasks.ts:333</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L152">src/utils/tasks.ts:152</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="checkpendingtxs" class="tsd-anchor"></a>
+					<h3>check<wbr>Pending<wbr>Txs</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Pending<wbr>Txs<span class="tsd-signature-symbol">(</span>store<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Store</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L164">src/utils/tasks.ts:164</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>transactionsContext: <a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>store: <span class="tsd-signature-type">Store</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -164,34 +179,65 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="createtask" class="tsd-anchor"></a>
-					<h3>create<wbr>Task</h3>
+					<a name="cleardb" class="tsd-anchor"></a>
+					<h3>clearDB</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Task<span class="tsd-signature-symbol">(</span>accountsContext<span class="tsd-signature-symbol">: </span><a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, pricesContext<span class="tsd-signature-symbol">: </span><a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a>, globalContext<span class="tsd-signature-symbol">: </span><a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a>, chatsContext<span class="tsd-signature-symbol">: </span><a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, transactionsContext<span class="tsd-signature-symbol">: </span><a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">clearDB<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L89">src/utils/tasks.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L102">src/utils/tasks.ts:102</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="createaccount" class="tsd-anchor"></a>
+					<h3>create<wbr>Account</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Account<span class="tsd-signature-symbol">(</span>seed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dispatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L24">src/utils/tasks.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>accountsContext: <a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>seed: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>pricesContext: <a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>dispatch: <span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="createtasks" class="tsd-anchor"></a>
+					<h3>create<wbr>Tasks</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Tasks<span class="tsd-signature-symbol">(</span>store<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Store</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L116">src/utils/tasks.ts:116</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
-									<h5>globalContext: <a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>chatsContext: <a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>transactionsContext: <a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>store: <span class="tsd-signature-type">Store</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -202,31 +248,42 @@
 					<a name="init" class="tsd-anchor"></a>
 					<h3>init</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>globalContext<span class="tsd-signature-symbol">: </span><a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a>, accountsContext<span class="tsd-signature-symbol">: </span><a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, pricesContext<span class="tsd-signature-symbol">: </span><a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a>, chatsContext<span class="tsd-signature-symbol">: </span><a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, transactionsContext<span class="tsd-signature-symbol">: </span><a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>dispatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L26">src/utils/tasks.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L43">src/utils/tasks.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>globalContext: <a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>dispatch: <span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="initaccounts" class="tsd-anchor"></a>
+					<h3>init<wbr>Accounts</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">init<wbr>Accounts<span class="tsd-signature-symbol">(</span>dispatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L30">src/utils/tasks.ts:30</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
 								<li>
-									<h5>accountsContext: <a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>pricesContext: <a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>chatsContext: <a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>transactionsContext: <a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>dispatch: <span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -243,177 +300,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L218">src/utils/tasks.ts:218</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L159">src/utils/tasks.ts:159</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="settx" class="tsd-anchor"></a>
-					<h3>set<wbr>Tx</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Tx<span class="tsd-signature-symbol">(</span>globalContext<span class="tsd-signature-symbol">: </span><a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a>, chatsContext<span class="tsd-signature-symbol">: </span><a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, transactionsContext<span class="tsd-signature-symbol">: </span><a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, tx<span class="tsd-signature-symbol">: </span><a href="../globals.html#transaction" class="tsd-signature-type">Transaction</a>, isNotify<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#chatinfo" class="tsd-signature-type">ChatInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L145">src/utils/tasks.ts:145</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>globalContext: <a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>chatsContext: <a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>transactionsContext: <a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>tx: <a href="../globals.html#transaction" class="tsd-signature-type">Transaction</a></h5>
-								</li>
-								<li>
-									<h5>isNotify: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#chatinfo" class="tsd-signature-type">ChatInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="sync" class="tsd-anchor"></a>
-					<h3>sync</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">sync<span class="tsd-signature-symbol">(</span>accountsContext<span class="tsd-signature-symbol">: </span><a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, globalContext<span class="tsd-signature-symbol">: </span><a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a>, chatsContext<span class="tsd-signature-symbol">: </span><a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, transactionsContext<span class="tsd-signature-symbol">: </span><a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L312">src/utils/tasks.ts:312</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>accountsContext: <a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>globalContext: <a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>chatsContext: <a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>transactionsContext: <a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="syncbyaccount" class="tsd-anchor"></a>
-					<h3>sync<wbr>ByAccount</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">sync<wbr>ByAccount<span class="tsd-signature-symbol">(</span>account<span class="tsd-signature-symbol">: </span><a href="../globals.html#account" class="tsd-signature-type">Account</a>, isSynced<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, globalContext<span class="tsd-signature-symbol">: </span><a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a>, chatsContext<span class="tsd-signature-symbol">: </span><a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a>, transactionsContext<span class="tsd-signature-symbol">: </span><a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L249">src/utils/tasks.ts:249</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>account: <a href="../globals.html#account" class="tsd-signature-type">Account</a></h5>
-								</li>
-								<li>
-									<h5>isSynced: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-								<li>
-									<h5>globalContext: <a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>chatsContext: <a href="chatsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>transactionsContext: <a href="transactionsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="updatebalances" class="tsd-anchor"></a>
-					<h3>update<wbr>Balances</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Balances<span class="tsd-signature-symbol">(</span>accountsContext<span class="tsd-signature-symbol">: </span><a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L372">src/utils/tasks.ts:372</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>accountsContext: <a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="updatefirebasetoken" class="tsd-anchor"></a>
-					<h3>update<wbr>Firebase<wbr>Token</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Firebase<wbr>Token<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L227">src/utils/tasks.ts:227</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="updateprices" class="tsd-anchor"></a>
-					<h3>update<wbr>Prices</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Prices<span class="tsd-signature-symbol">(</span>pricesContext<span class="tsd-signature-symbol">: </span><a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a>, accountsContext<span class="tsd-signature-symbol">: </span><a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L401">src/utils/tasks.ts:401</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>pricesContext: <a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-								<li>
-									<h5>accountsContext: <a href="accountsstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -422,19 +311,19 @@
 					<a name="updateuserslist" class="tsd-anchor"></a>
 					<h3>update<wbr>Users<wbr>List</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Users<wbr>List<span class="tsd-signature-symbol">(</span>globalContext<span class="tsd-signature-symbol">: </span><a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Users<wbr>List<span class="tsd-signature-symbol">(</span>store<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Store</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/tasks.ts#L358">src/utils/tasks.ts:358</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/tasks.ts#L180">src/utils/tasks.ts:180</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>globalContext: <a href="globalstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>store: <span class="tsd-signature-type">Store</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -453,9 +342,6 @@
 						<a href="accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="backendapi.html">Backend<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-namespace">
 						<a href="chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -463,6 +349,9 @@
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="dialogstore.html">Dialog<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="fractappclient.html">Fractapp<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="globalstore.html">Global<wbr>Store</a>
@@ -477,7 +366,10 @@
 						<a href="passcodeutil.html">Passcode<wbr>Util</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="pricesstore.html">Prices<wbr>Store</a>
+						<a href="serverinfostore.html">Server<wbr>Info<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="store.html">Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="stringutils.html">String<wbr>Utils</a>
@@ -486,50 +378,44 @@
 						<a href="task.html">Task</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="transactionsstore.html">Transactions<wbr>Store</a>
+						<a href="usersstore.html">Users<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
-						<a href="task.html#maxsynctxs" class="tsd-kind-icon">max<wbr>Sync<wbr>Txs</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
 						<a href="task.html#min" class="tsd-kind-icon">min</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
 						<a href="task.html#sec" class="tsd-kind-icon">sec</a>
 					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
+						<a href="task.html#tasksids" class="tsd-kind-icon">tasks<wbr>Ids</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="task.html#canceltasks" class="tsd-kind-icon">cancel<wbr>Tasks</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="task.html#checkpendingtxs" class="tsd-kind-icon">check<wbr>Pending<wbr>Txs</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#createtask" class="tsd-kind-icon">create<wbr>Task</a>
+						<a href="task.html#cleardb" class="tsd-kind-icon">clearDB</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="task.html#createaccount" class="tsd-kind-icon">create<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="task.html#createtasks" class="tsd-kind-icon">create<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="task.html#init" class="tsd-kind-icon">init</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="task.html#initaccounts" class="tsd-kind-icon">init<wbr>Accounts</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="task.html#initprivatedata" class="tsd-kind-icon">init<wbr>Private<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#settx" class="tsd-kind-icon">set<wbr>Tx</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#sync" class="tsd-kind-icon">sync</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#syncbyaccount" class="tsd-kind-icon">sync<wbr>ByAccount</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#updatebalances" class="tsd-kind-icon">update<wbr>Balances</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#updatefirebasetoken" class="tsd-kind-icon">update<wbr>Firebase<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="task.html#updateprices" class="tsd-kind-icon">update<wbr>Prices</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="task.html#updateuserslist" class="tsd-kind-icon">update<wbr>Users<wbr>List</a>
@@ -549,7 +435,12 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>

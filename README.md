@@ -35,10 +35,8 @@ keytool -list -v -keystore android/app/debug.keystore -alias androiddebugkey -st
 7. Configure .env (example in .env-temp)
 ```sh
 FRACTAPP_API - fractapp server url
-POLKADOT_SUBSCAN_API - polkadot subscan url
-KUSAMA_SUBSCAN_API - kusama subscan url
-POLKADOT_WSS_API - polkadot node websocket url
-KUSAMA_WSS_API - kusama node websocket url
+WSFRACTAPP_API - fractapp server ws url
+MAIN_BOT_ID - main bot fractapp auth id
 ```
 
 8. Install yarn packages
@@ -69,10 +67,10 @@ keytool -list -v -keystore android/app/debug.keystore -alias androiddebugkey -st
 
 Start tests with coverage info
 ```sh
-yarn test --coverage
+yarn test
 ```
 
 Start tests with update snapshot
 ```sh
-yarn test --coverage --u
+yarn test --u
 ```

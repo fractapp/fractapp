@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AccountsStore | fractapp</title>
+	<title>ServerInfoStore | fractapp</title>
 	<meta name="description" content="Documentation for fractapp">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="accountsstore.html">AccountsStore</a>
+					<a href="serverinfostore.html">ServerInfoStore</a>
 				</li>
 			</ul>
-			<h1>Namespace AccountsStore</h1>
+			<h1>Namespace ServerInfoStore</h1>
 		</div>
 	</div>
 </header>
@@ -81,21 +81,21 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="accountsstore.html#state" class="tsd-kind-icon">State</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="serverinfostore.html#state" class="tsd-kind-icon">State</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="accountsstore.html#actions" class="tsd-kind-icon">actions</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="accountsstore.html#reducer" class="tsd-kind-icon">reducer</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="accountsstore.html#slice" class="tsd-kind-icon">slice</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="serverinfostore.html#actions" class="tsd-kind-icon">actions</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="serverinfostore.html#reducer" class="tsd-kind-icon">reducer</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="serverinfostore.html#slice" class="tsd-kind-icon">slice</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="accountsstore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="serverinfostore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,22 +106,22 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace">
 					<a name="state" class="tsd-anchor"></a>
 					<h3>State</h3>
-					<div class="tsd-signature tsd-kind-icon">State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>accounts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>isInitialized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>isInitialized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>prices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Accounts.ts#L11">src/storage/Accounts.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/ServerInfo.ts#L10">src/storage/ServerInfo.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>accounts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
-								<ul class="tsd-parameters">
-								</ul>
+								<h5>is<wbr>Initialized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>is<wbr>Initialized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<h5>prices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
+								<ul class="tsd-parameters">
+								</ul>
 							</li>
 						</ul>
 					</div>
@@ -132,30 +132,30 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="actions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> actions</h3>
-					<div class="tsd-signature tsd-kind-icon">actions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CaseReducerActions</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>set<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateBalance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateBalanceSubAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = slice.actions</span></div>
+					<div class="tsd-signature tsd-kind-icon">actions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CaseReducerActions</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>set<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updatePrice<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = slice.actions</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Accounts.ts#L94">src/storage/Accounts.ts:94</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/ServerInfo.ts#L39">src/storage/ServerInfo.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="reducer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> reducer</h3>
-					<div class="tsd-signature tsd-kind-icon">reducer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Reducer</span><span class="tsd-signature-symbol">&lt;</span><a href="accountsstore.html#state" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">AnyAction</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = slice.reducer</span></div>
+					<div class="tsd-signature tsd-kind-icon">reducer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Reducer</span><span class="tsd-signature-symbol">&lt;</span><a href="serverinfostore.html#state" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">AnyAction</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = slice.reducer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Accounts.ts#L95">src/storage/Accounts.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/ServerInfo.ts#L40">src/storage/ServerInfo.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="slice" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> slice</h3>
-					<div class="tsd-signature tsd-kind-icon">slice<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Slice</span><span class="tsd-signature-symbol">&lt;</span><a href="accountsstore.html#state" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">{ </span>set<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateBalance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateBalanceSubAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"accounts"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = createSlice({name: &#x27;accounts&#x27;,initialState: initialState(),reducers: {set(state: State, action: PayloadAction&lt;State&gt;): State {state &#x3D; action.payload;return state;},updateBalance(state: State, action: PayloadAction&lt;{currency: Currency,viewBalance: number,balance: AccountBalance}&gt;): State {const account &#x3D; state.accounts[AccountType.Main][action.payload.currency];if (!account) {return state;}account.viewBalance &#x3D; action.payload.viewBalance;account.balance &#x3D; action.payload.balance;DB.setAccountStore(state);return state;},updateBalanceSubAccount(state: State, action: PayloadAction&lt;{currency: Currency,accountType: AccountType,viewBalance: number,balance: string}&gt;): State {const currency &#x3D; action.payload.currency;const accountType &#x3D; action.payload.accountType;const viewBalance &#x3D; action.payload.viewBalance;const balance &#x3D; action.payload.balance;if (state.accounts[accountType] &#x3D;&#x3D;&#x3D; undefined) {state.accounts[accountType] &#x3D; &lt;{[currency in Currency]: Account}&gt;{};}if (state.accounts[accountType][currency] &#x3D;&#x3D;&#x3D; undefined) {const mainAccount &#x3D; state.accounts[AccountType.Main][currency];state.accounts[accountType][currency] &#x3D; {name: &#x27;Staking &#x27; + getFullCurrencyName(mainAccount.currency),address: mainAccount.address,pubKey: mainAccount.pubKey,currency: mainAccount.currency,network: mainAccount.network,viewBalance: mainAccount.viewBalance,type: accountType,balance: {total: balance,transferable: &#x27;0&#x27;,payableForFee: &#x27;0&#x27;,},};}const account &#x3D; state.accounts[accountType][currency];account.viewBalance &#x3D; viewBalance;account.balance.total &#x3D; balance;DB.setAccountStore(state);return state;},},})</span></div>
+					<div class="tsd-signature tsd-kind-icon">slice<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Slice</span><span class="tsd-signature-symbol">&lt;</span><a href="serverinfostore.html#state" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">{ </span>set<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updatePrice<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"serverInfo"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = createSlice({name: &#x27;serverInfo&#x27;,initialState: initialState(),reducers: {set(state: State, action: PayloadAction&lt;State&gt;): State {return action.payload;},updatePrice(state: State, action: PayloadAction&lt;{currency: Currency,price: number}&gt;): State {state.prices[action.payload.currency] &#x3D; action.payload.price;DB.setServerInfo(state);return state;},},})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Accounts.ts#L25">src/storage/Accounts.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/ServerInfo.ts#L21">src/storage/ServerInfo.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,16 +166,16 @@
 					<a name="initialstate" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> initial<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">initial<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="accountsstore.html#state" class="tsd-signature-type">State</a></li>
+						<li class="tsd-signature tsd-kind-icon">initial<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="serverinfostore.html#state" class="tsd-signature-type">State</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Accounts.ts#L20">src/storage/Accounts.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/ServerInfo.ts#L16">src/storage/ServerInfo.ts:16</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="accountsstore.html#state" class="tsd-signature-type">State</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="serverinfostore.html#state" class="tsd-signature-type">State</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -187,7 +187,7 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-namespace">
+					<li class=" tsd-kind-namespace">
 						<a href="accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -214,7 +214,7 @@
 					<li class=" tsd-kind-namespace">
 						<a href="passcodeutil.html">Passcode<wbr>Util</a>
 					</li>
-					<li class=" tsd-kind-namespace">
+					<li class="current tsd-kind-namespace">
 						<a href="serverinfostore.html">Server<wbr>Info<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -234,19 +234,19 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
-						<a href="accountsstore.html#state" class="tsd-kind-icon">State</a>
+						<a href="serverinfostore.html#state" class="tsd-kind-icon">State</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
-						<a href="accountsstore.html#actions" class="tsd-kind-icon">actions</a>
+						<a href="serverinfostore.html#actions" class="tsd-kind-icon">actions</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
-						<a href="accountsstore.html#reducer" class="tsd-kind-icon">reducer</a>
+						<a href="serverinfostore.html#reducer" class="tsd-kind-icon">reducer</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
-						<a href="accountsstore.html#slice" class="tsd-kind-icon">slice</a>
+						<a href="serverinfostore.html#slice" class="tsd-kind-icon">slice</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="accountsstore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a>
+						<a href="serverinfostore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a>
 					</li>
 				</ul>
 			</nav>

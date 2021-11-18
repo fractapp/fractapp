@@ -79,31 +79,25 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumerations</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum tsd-parent-kind-namespace"><a href="../enums/dialogstore.action.html" class="tsd-kind-icon">Action</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="dialogstore.html#contexttype" class="tsd-kind-icon">Context<wbr>Type</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="dialogstore.html#state-1" class="tsd-kind-icon">State</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="dialogstore.html#confirmtxinfodialog" class="tsd-kind-icon">Confirm<wbr>TxInfo<wbr>Dialog</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="dialogstore.html#dialog" class="tsd-kind-icon">Dialog</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="dialogstore.html#state" class="tsd-kind-icon">State</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="dialogstore.html#context" class="tsd-kind-icon">Context</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="dialogstore.html#actions" class="tsd-kind-icon">actions</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="dialogstore.html#reducer" class="tsd-kind-icon">reducer</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="dialogstore.html#slice" class="tsd-kind-icon">slice</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="dialogstore.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="dialogstore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="dialogstore.html#open" class="tsd-kind-icon">open</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="dialogstore.html#reducer" class="tsd-kind-icon">reducer</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,41 +106,38 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace">
-					<a name="contexttype" class="tsd-anchor"></a>
-					<h3>Context<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">Context<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>dispatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#state-1" class="tsd-signature-type">State</a><span class="tsd-signature-symbol"> }</span></div>
+					<a name="confirmtxinfodialog" class="tsd-anchor"></a>
+					<h3>Confirm<wbr>TxInfo<wbr>Dialog</h3>
+					<div class="tsd-signature tsd-kind-icon">Confirm<wbr>TxInfo<wbr>Dialog<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>info<span class="tsd-signature-symbol">: </span><a href="../globals.html#confirmtxinfo" class="tsd-signature-type">ConfirmTxInfo</a><span class="tsd-signature-symbol">; </span>isShow<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L26">src/storage/Dialog.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L16">src/storage/Dialog.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>dispatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Dispatch</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<h5>info<span class="tsd-signature-symbol">: </span><a href="../globals.html#confirmtxinfo" class="tsd-signature-type">ConfirmTxInfo</a></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>state<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#state-1" class="tsd-signature-type">State</a></h5>
+								<h5>is<wbr>Show<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
 							</li>
 						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace">
-					<a name="state-1" class="tsd-anchor"></a>
-					<h3>State</h3>
-					<div class="tsd-signature tsd-kind-icon">State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>onPress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>visible<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
+					<a name="dialog" class="tsd-anchor"></a>
+					<h3>Dialog</h3>
+					<div class="tsd-signature tsd-kind-icon">Dialog<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>visible<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L13">src/storage/Dialog.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L11">src/storage/Dialog.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Press<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
-							</li>
 							<li class="tsd-parameter">
 								<h5>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 							</li>
@@ -159,16 +150,57 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace">
+					<a name="state" class="tsd-anchor"></a>
+					<h3>State</h3>
+					<div class="tsd-signature tsd-kind-icon">State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>confirmTxInfo<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#confirmtxinfodialog" class="tsd-signature-type">ConfirmTxInfoDialog</a><span class="tsd-signature-symbol">; </span>dialog<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#dialog" class="tsd-signature-type">Dialog</a><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L20">src/storage/Dialog.ts:20</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>confirm<wbr>TxInfo<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#confirmtxinfodialog" class="tsd-signature-type">ConfirmTxInfoDialog</a></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>dialog<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#dialog" class="tsd-signature-type">Dialog</a></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
-					<a name="context" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Context</h3>
-					<div class="tsd-signature tsd-kind-icon">Context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Context</span><span class="tsd-signature-symbol">&lt;</span><a href="dialogstore.html#contexttype" class="tsd-signature-type">ContextType</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = createContext&lt;ContextType&gt;({state: initialState(),dispatch: () &#x3D;&gt; null,})</span></div>
+					<a name="actions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> actions</h3>
+					<div class="tsd-signature tsd-kind-icon">actions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CaseReducerActions</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>hideConfirmTxInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hideDialog<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>showConfirmTxInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>showDialog<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = slice.actions</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L31">src/storage/Dialog.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L113">src/storage/Dialog.ts:113</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
+					<a name="reducer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> reducer</h3>
+					<div class="tsd-signature tsd-kind-icon">reducer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Reducer</span><span class="tsd-signature-symbol">&lt;</span><a href="dialogstore.html#state" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">AnyAction</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = slice.reducer</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L114">src/storage/Dialog.ts:114</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
+					<a name="slice" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> slice</h3>
+					<div class="tsd-signature tsd-kind-icon">slice<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Slice</span><span class="tsd-signature-symbol">&lt;</span><a href="dialogstore.html#state" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">{ </span>hideConfirmTxInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hideDialog<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>showConfirmTxInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>showDialog<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"dialog"</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = createSlice({name: &#x27;dialog&#x27;,initialState: initialState(),reducers: {showDialog(state: State, action: PayloadAction&lt;{title: string,text: string;}&gt;): State {state.dialog &#x3D; {title: action.payload.title,text: action.payload.text,visible: true,};return state;},hideDialog(state: State): State {state.dialog.visible &#x3D; false;return state;},showConfirmTxInfo(state: State, action: PayloadAction&lt;ConfirmTxInfo&gt;): State {state.confirmTxInfo &#x3D; {isShow: true,info: action.payload,};return state;},hideConfirmTxInfo(state: State): State {state.confirmTxInfo.isShow &#x3D; false;return state;},},})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L80">src/storage/Dialog.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,134 +208,19 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="close" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> close</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><a href="../enums/dialogstore.action.html" class="tsd-signature-type">Action</a><span class="tsd-signature-symbol"> }</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L60">src/storage/Dialog.ts:60</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>type<span class="tsd-signature-symbol">: </span><a href="../enums/dialogstore.action.html" class="tsd-signature-type">Action</a><span class="tsd-signature-symbol"> }</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>type<span class="tsd-signature-symbol">: </span><a href="../enums/dialogstore.action.html" class="tsd-signature-type">Action</a></h5>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
 					<a name="initialstate" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> initial<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">initial<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dialogstore.html#state-1" class="tsd-signature-type">State</a></li>
+						<li class="tsd-signature tsd-kind-icon">initial<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dialogstore.html#state" class="tsd-signature-type">State</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L20">src/storage/Dialog.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/storage/Dialog.ts#L25">src/storage/Dialog.ts:25</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="dialogstore.html#state-1" class="tsd-signature-type">State</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="open" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> open</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">(</span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, onPress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>onPress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><a href="../enums/dialogstore.action.html" class="tsd-signature-type">Action</a><span class="tsd-signature-symbol"> }</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L54">src/storage/Dialog.ts:54</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>title: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>text: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>onPress: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>onPress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><a href="../enums/dialogstore.action.html" class="tsd-signature-type">Action</a><span class="tsd-signature-symbol"> }</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>on<wbr>Press<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li class="tsd-parameter">
-									<h5>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>type<span class="tsd-signature-symbol">: </span><a href="../enums/dialogstore.action.html" class="tsd-signature-type">Action</a></h5>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="reducer" class="tsd-anchor"></a>
-					<h3>reducer</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">reducer<span class="tsd-signature-symbol">(</span>prevState<span class="tsd-signature-symbol">: </span><a href="dialogstore.html#state-1" class="tsd-signature-type">State</a>, action<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dialogstore.html#state-1" class="tsd-signature-type">State</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/storage/Dialog.ts#L36">src/storage/Dialog.ts:36</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>prevState: <a href="dialogstore.html#state-1" class="tsd-signature-type">State</a></h5>
-								</li>
-								<li>
-									<h5>action: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="dialogstore.html#state-1" class="tsd-signature-type">State</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="dialogstore.html#state" class="tsd-signature-type">State</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -319,9 +236,6 @@
 						<a href="accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="backendapi.html">Backend<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-namespace">
 						<a href="chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -329,6 +243,9 @@
 					</li>
 					<li class="current tsd-kind-namespace">
 						<a href="dialogstore.html">Dialog<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="fractappclient.html">Fractapp<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="globalstore.html">Global<wbr>Store</a>
@@ -343,7 +260,10 @@
 						<a href="passcodeutil.html">Passcode<wbr>Util</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="pricesstore.html">Prices<wbr>Store</a>
+						<a href="serverinfostore.html">Server<wbr>Info<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="store.html">Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="stringutils.html">String<wbr>Utils</a>
@@ -352,35 +272,32 @@
 						<a href="task.html">Task</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="transactionsstore.html">Transactions<wbr>Store</a>
+						<a href="usersstore.html">Users<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-namespace">
-						<a href="../enums/dialogstore.action.html" class="tsd-kind-icon">Action</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
+						<a href="dialogstore.html#confirmtxinfodialog" class="tsd-kind-icon">Confirm<wbr>TxInfo<wbr>Dialog</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
-						<a href="dialogstore.html#contexttype" class="tsd-kind-icon">Context<wbr>Type</a>
+						<a href="dialogstore.html#dialog" class="tsd-kind-icon">Dialog</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
-						<a href="dialogstore.html#state-1" class="tsd-kind-icon">State</a>
+						<a href="dialogstore.html#state" class="tsd-kind-icon">State</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
-						<a href="dialogstore.html#context" class="tsd-kind-icon">Context</a>
+						<a href="dialogstore.html#actions" class="tsd-kind-icon">actions</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="dialogstore.html#close" class="tsd-kind-icon">close</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
+						<a href="dialogstore.html#reducer" class="tsd-kind-icon">reducer</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
+						<a href="dialogstore.html#slice" class="tsd-kind-icon">slice</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="dialogstore.html#initialstate" class="tsd-kind-icon">initial<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="dialogstore.html#open" class="tsd-kind-icon">open</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="dialogstore.html#reducer" class="tsd-kind-icon">reducer</a>
 					</li>
 				</ul>
 			</nav>
@@ -397,7 +314,12 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>

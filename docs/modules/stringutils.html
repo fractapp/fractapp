@@ -66,14 +66,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<dl class="tsd-comment-tags">
-						<dt>namespace</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -82,18 +74,27 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="stringutils.html#months" class="tsd-kind-icon">months</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="stringutils.html#today" class="tsd-kind-icon">today</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="stringutils.html#yesterday" class="tsd-kind-icon">yesterday</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#forchatinfo" class="tsd-kind-icon">for<wbr>Chat<wbr>Info</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#formsg" class="tsd-kind-icon">for<wbr>Msg</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#formatnameoraddress" class="tsd-kind-icon">format<wbr>Name<wbr>OrAddress</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#fromfulldate" class="tsd-kind-icon">from<wbr>Full<wbr>Date</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#fromtime" class="tsd-kind-icon">from<wbr>Time</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#getmonths" class="tsd-kind-icon">get<wbr>Months</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#objecttomap" class="tsd-kind-icon">object<wbr>ToMap</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#tomsg" class="tsd-kind-icon">to<wbr>Msg</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="stringutils.html#totitle" class="tsd-kind-icon">to<wbr>Title</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-namespace"><a href="stringutils.html#texts" class="tsd-kind-icon">texts</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,10 +105,30 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="months" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> months</h3>
-					<div class="tsd-signature tsd-kind-icon">months<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27;January&#x27;,&#x27;February&#x27;,&#x27;March&#x27;,&#x27;April&#x27;,&#x27;May&#x27;,&#x27;June&#x27;,&#x27;July&#x27;,&#x27;August&#x27;,&#x27;September&#x27;,&#x27;October&#x27;,&#x27;November&#x27;,&#x27;December&#x27;,]</span></div>
+					<div class="tsd-signature tsd-kind-icon">months<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [I18n.t(&#x27;months.january&#x27;),I18n.t(&#x27;months.february&#x27;),I18n.t(&#x27;months.march&#x27;),I18n.t(&#x27;months.april&#x27;),I18n.t(&#x27;months.may&#x27;),I18n.t(&#x27;months.june&#x27;),I18n.t(&#x27;months.july&#x27;),I18n.t(&#x27;months.august&#x27;),I18n.t(&#x27;months.september&#x27;),I18n.t(&#x27;months.october&#x27;),I18n.t(&#x27;months.november&#x27;),I18n.t(&#x27;months.december&#x27;),]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L6">src/utils/string.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L12">src/utils/string.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
+					<a name="today" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> today</h3>
+					<div class="tsd-signature tsd-kind-icon">today<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;today&#x27;)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L9">src/utils/string.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
+					<a name="yesterday" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> yesterday</h3>
+					<div class="tsd-signature tsd-kind-icon">yesterday<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;yesterday&#x27;)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L10">src/utils/string.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,7 +145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L62">src/utils/string.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L337">src/utils/string.ts:337</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -146,6 +167,34 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="formsg" class="tsd-anchor"></a>
+					<h3>for<wbr>Msg</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">for<wbr>Msg<span class="tsd-signature-symbol">(</span>date<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L317">src/utils/string.ts:317</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>convert date to string</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>date: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
 					<a name="formatnameoraddress" class="tsd-anchor"></a>
 					<h3>format<wbr>Name<wbr>OrAddress</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
@@ -155,7 +204,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L149">src/utils/string.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L424">src/utils/string.ts:424</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -178,7 +227,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L122">src/utils/string.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L397">src/utils/string.ts:397</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -201,7 +250,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L136">src/utils/string.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L411">src/utils/string.ts:411</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,30 +264,25 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="getmonths" class="tsd-anchor"></a>
-					<h3>get<wbr>Months</h3>
+					<a name="objecttomap" class="tsd-anchor"></a>
+					<h3>object<wbr>ToMap</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Months<span class="tsd-signature-symbol">(</span>day<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">object<wbr>ToMap<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L24">src/utils/string.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L433">src/utils/string.ts:433</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>get month name by day number</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>day: <span class="tsd-signature-type">number</span></h5>
+									<h5>obj: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -252,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L97">src/utils/string.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L372">src/utils/string.ts:372</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -283,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/string.ts#L31">src/utils/string.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L286">src/utils/string.ts:286</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -305,6 +349,1847 @@
 					</ul>
 				</section>
 			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-namespace">
+					<a name="texts" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> texts</h3>
+					<div class="tsd-signature tsd-kind-icon">texts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L27">src/utils/string.ts:27</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.accounttitle" class="tsd-anchor"></a>
+						<h3>Account<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Account<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;account_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L64">src/utils/string.ts:64</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.choosewallettitle" class="tsd-anchor"></a>
+						<h3>Choose<wbr>Wallet<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Choose<wbr>Wallet<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;choose_wallet_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L41">src/utils/string.ts:41</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.confirmbtntitle" class="tsd-anchor"></a>
+						<h3>Confirm<wbr>Btn<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Confirm<wbr>Btn<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;confirm_btn_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L54">src/utils/string.ts:54</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.confirmationcodeemailtext" class="tsd-anchor"></a>
+						<h3>Confirmation<wbr>Code<wbr>Email<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Confirmation<wbr>Code<wbr>Email<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;confirmation_code_email_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L238">src/utils/string.ts:238</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.confirmationcodephonenumbertext" class="tsd-anchor"></a>
+						<h3>Confirmation<wbr>Code<wbr>Phone<wbr>Number<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Confirmation<wbr>Code<wbr>Phone<wbr>Number<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;confirmation_code_phone_number_text&#x27;,)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L235">src/utils/string.ts:235</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.copybtn" class="tsd-anchor"></a>
+						<h3>Copy<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Copy<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;copy_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L57">src/utils/string.ts:57</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.datetitle" class="tsd-anchor"></a>
+						<h3>Date<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Date<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;date_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L34">src/utils/string.ts:34</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.differentaddresstitle" class="tsd-anchor"></a>
+						<h3>Different<wbr>Address<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Different<wbr>Address<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;different_address_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L216">src/utils/string.ts:216</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.enteraddresstitle" class="tsd-anchor"></a>
+						<h3>Enter<wbr>Address<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Enter<wbr>Address<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;enter_address_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L51">src/utils/string.ts:51</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.enteramounttitle" class="tsd-anchor"></a>
+						<h3>Enter<wbr>Amount<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Enter<wbr>Amount<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;enter_amount_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L50">src/utils/string.ts:50</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.entervalidaddresserr" class="tsd-anchor"></a>
+						<h3>Enter<wbr>Valid<wbr>Address<wbr>Err</h3>
+						<div class="tsd-signature tsd-kind-icon">Enter<wbr>Valid<wbr>Address<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;enter_valid_address_err&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L47">src/utils/string.ts:47</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.feetitle" class="tsd-anchor"></a>
+						<h3>Fee<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Fee<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;fee_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L33">src/utils/string.ts:33</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.fileexisttext" class="tsd-anchor"></a>
+						<h3>File<wbr>Exist<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">File<wbr>Exist<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;file_exist_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L233">src/utils/string.ts:233</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.fileexisttitle" class="tsd-anchor"></a>
+						<h3>File<wbr>Exist<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">File<wbr>Exist<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;file_exist_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L232">src/utils/string.ts:232</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.fractappwallettitle" class="tsd-anchor"></a>
+						<h3>Fractapp<wbr>Wallet<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Fractapp<wbr>Wallet<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;fractapp_wallet_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L32">src/utils/string.ts:32</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidemailtext" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Email<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Email<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_email_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L221">src/utils/string.ts:221</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidemailtitle" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Email<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Email<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_email_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L220">src/utils/string.ts:220</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidnametext" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Name<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Name<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_name_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L224">src/utils/string.ts:224</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidnametitle" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Name<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Name<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_name_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L223">src/utils/string.ts:223</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidphonenumbertext" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Phone<wbr>Number<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Phone<wbr>Number<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_phone_number_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L218">src/utils/string.ts:218</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidphonenumbertitle" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Phone<wbr>Number<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Phone<wbr>Number<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_phone_number_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L217">src/utils/string.ts:217</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidusernametext" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Username<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Username<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_username_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L227">src/utils/string.ts:227</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.invalidusernametitle" class="tsd-anchor"></a>
+						<h3>Invalid<wbr>Username<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Invalid<wbr>Username<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invalid_username_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L226">src/utils/string.ts:226</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.investbtn" class="tsd-anchor"></a>
+						<h3>Invest<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Invest<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;invest_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L63">src/utils/string.ts:63</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.minimumtransfererrortext" class="tsd-anchor"></a>
+						<h3>Minimum<wbr>Transfer<wbr>Error<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Minimum<wbr>Transfer<wbr>Error<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;minimum_transfer_error_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L241">src/utils/string.ts:241</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.minimumtransfererrortitle" class="tsd-anchor"></a>
+						<h3>Minimum<wbr>Transfer<wbr>Error<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Minimum<wbr>Transfer<wbr>Error<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;minimum_transfer_error_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L240">src/utils/string.ts:240</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.needfullbalanceerrtitle" class="tsd-anchor"></a>
+						<h3>Need<wbr>Full<wbr>Balance<wbr>Err<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Need<wbr>Full<wbr>Balance<wbr>Err<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;need_full_balance_err_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L243">src/utils/string.ts:243</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.nextbtntitle" class="tsd-anchor"></a>
+						<h3>Next<wbr>Btn<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Next<wbr>Btn<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;next_btn_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L55">src/utils/string.ts:55</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.noresultstitle" class="tsd-anchor"></a>
+						<h3>No<wbr>Results<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">No<wbr>Results<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;no_results_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L44">src/utils/string.ts:44</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.notransactionstitle" class="tsd-anchor"></a>
+						<h3>No<wbr>Transactions<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">No<wbr>Transactions<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;no_transactions_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L45">src/utils/string.ts:45</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.notenoughbalanceerr" class="tsd-anchor"></a>
+						<h3>Not<wbr>Enough<wbr>Balance<wbr>Err</h3>
+						<div class="tsd-signature tsd-kind-icon">Not<wbr>Enough<wbr>Balance<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;not_enough_balance_err&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L49">src/utils/string.ts:49</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.opensettingsforcontactstext" class="tsd-anchor"></a>
+						<h3>Open<wbr>Settings<wbr>For<wbr>Contacts<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Open<wbr>Settings<wbr>For<wbr>Contacts<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;open_settings_for_contacts_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L207">src/utils/string.ts:207</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.opensettingstitle" class="tsd-anchor"></a>
+						<h3>Open<wbr>Settings<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Open<wbr>Settings<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;open_settings_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L206">src/utils/string.ts:206</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.receivebtn" class="tsd-anchor"></a>
+						<h3>Receive<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Receive<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;receive_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L60">src/utils/string.ts:60</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.receivedtitle" class="tsd-anchor"></a>
+						<h3>Received<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Received<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;received_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L38">src/utils/string.ts:38</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.receivingaccounttitle" class="tsd-anchor"></a>
+						<h3>Receiving<wbr>Account<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Receiving<wbr>Account<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;receiving_account_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L66">src/utils/string.ts:66</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.resendtext" class="tsd-anchor"></a>
+						<h3>Resend<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Resend<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;resend_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L53">src/utils/string.ts:53</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.resendtitle" class="tsd-anchor"></a>
+						<h3>Resend<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Resend<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;resend_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L52">src/utils/string.ts:52</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.restorebtn" class="tsd-anchor"></a>
+						<h3>Restore<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Restore<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;restore_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L61">src/utils/string.ts:61</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.searchplaceholder" class="tsd-anchor"></a>
+						<h3>Search<wbr>Placeholder</h3>
+						<div class="tsd-signature tsd-kind-icon">Search<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;search_placeholder&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L43">src/utils/string.ts:43</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.sendbtn" class="tsd-anchor"></a>
+						<h3>Send<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Send<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;send_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L59">src/utils/string.ts:59</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.sendbyaddressbtn" class="tsd-anchor"></a>
+						<h3>Send<wbr>ByAddress<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Send<wbr>ByAddress<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;send_by_address_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L48">src/utils/string.ts:48</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.senttitle" class="tsd-anchor"></a>
+						<h3>Sent<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Sent<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;sent_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L37">src/utils/string.ts:37</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.serviceunavailabletitle" class="tsd-anchor"></a>
+						<h3>Service<wbr>Unavailable<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Service<wbr>Unavailable<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;service_unavailable_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L209">src/utils/string.ts:209</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.sharebtn" class="tsd-anchor"></a>
+						<h3>Share<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Share<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;share_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L58">src/utils/string.ts:58</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.startbtntitle" class="tsd-anchor"></a>
+						<h3>Start<wbr>Btn<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Start<wbr>Btn<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;start_btn_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L56">src/utils/string.ts:56</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.synchronizationtitle" class="tsd-anchor"></a>
+						<h3>Synchronization<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Synchronization<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;synchronization_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L30">src/utils/string.ts:30</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.totaltitle" class="tsd-anchor"></a>
+						<h3>Total<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Total<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;total_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L39">src/utils/string.ts:39</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.unreadmessagestitle" class="tsd-anchor"></a>
+						<h3>Unread<wbr>Messages<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Unread<wbr>Messages<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;unread_messages_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L40">src/utils/string.ts:40</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.userhasbeendeletedtitle" class="tsd-anchor"></a>
+						<h3>User<wbr>Has<wbr>Been<wbr>Deleted<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">User<wbr>Has<wbr>Been<wbr>Deleted<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;user_has_been_deleted_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L210">src/utils/string.ts:210</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.usernameisexisttext" class="tsd-anchor"></a>
+						<h3>Username<wbr>IsExist<wbr>Text</h3>
+						<div class="tsd-signature tsd-kind-icon">Username<wbr>IsExist<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;username_is_exist_text&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L230">src/utils/string.ts:230</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.usernameisexisttitle" class="tsd-anchor"></a>
+						<h3>Username<wbr>IsExist<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Username<wbr>IsExist<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;username_is_exist_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L229">src/utils/string.ts:229</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.waitloadingtitle" class="tsd-anchor"></a>
+						<h3>Wait<wbr>Loading<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Wait<wbr>Loading<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wait_loading_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L208">src/utils/string.ts:208</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.welcomedescription" class="tsd-anchor"></a>
+						<h3>Welcome<wbr>Description</h3>
+						<div class="tsd-signature tsd-kind-icon">Welcome<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;welcome_description&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L29">src/utils/string.ts:29</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.welcometitle" class="tsd-anchor"></a>
+						<h3>Welcome<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Welcome<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;welcome_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L28">src/utils/string.ts:28</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.withdrawbtn" class="tsd-anchor"></a>
+						<h3>Withdraw<wbr>Btn</h3>
+						<div class="tsd-signature tsd-kind-icon">Withdraw<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;withdraw_btn&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L62">src/utils/string.ts:62</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.writeoffaccounttitle" class="tsd-anchor"></a>
+						<h3>Write<wbr>Off<wbr>Account<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Write<wbr>Off<wbr>Account<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;write_off_account_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L65">src/utils/string.ts:65</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.youreceivedtitle" class="tsd-anchor"></a>
+						<h3>You<wbr>Received<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">You<wbr>Received<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;you_received_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L36">src/utils/string.ts:36</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.yousenttitle" class="tsd-anchor"></a>
+						<h3>You<wbr>Sent<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">You<wbr>Sent<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;you_sent_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L35">src/utils/string.ts:35</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="texts.yourbalancetitle" class="tsd-anchor"></a>
+						<h3>Your<wbr>Balance<wbr>Title</h3>
+						<div class="tsd-signature tsd-kind-icon">Your<wbr>Balance<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;your_balance_title&#x27;)</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L205">src/utils/string.ts:205</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
+						<a name="texts.myaddressforshare" class="tsd-anchor"></a>
+						<h3>My<wbr>Address<wbr>For<wbr>Share</h3>
+						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
+							<li class="tsd-signature tsd-kind-icon">My<wbr>Address<wbr>For<wbr>Share<span class="tsd-signature-symbol">(</span>currency<span class="tsd-signature-symbol">: </span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a>, address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, userId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L257">src/utils/string.ts:257</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>currency: <a href="../enums/currency.html" class="tsd-signature-type">Currency</a></h5>
+									</li>
+									<li>
+										<h5>address: <span class="tsd-signature-type">string</span></h5>
+									</li>
+									<li>
+										<h5>userId: <span class="tsd-signature-type">string</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
+						<a name="texts.needfullbalanceerrtext" class="tsd-anchor"></a>
+						<h3>Need<wbr>Full<wbr>Balance<wbr>Err<wbr>Text</h3>
+						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
+							<li class="tsd-signature tsd-kind-icon">Need<wbr>Full<wbr>Balance<wbr>Err<wbr>Text<span class="tsd-signature-symbol">(</span>minBalance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, currency<span class="tsd-signature-symbol">: </span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a>, isStakingBalanceEmpty<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L245">src/utils/string.ts:245</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>minBalance: <span class="tsd-signature-type">number</span></h5>
+									</li>
+									<li>
+										<h5>currency: <a href="../enums/currency.html" class="tsd-signature-type">Currency</a></h5>
+									</li>
+									<li>
+										<h5>isStakingBalanceEmpty: <span class="tsd-signature-type">boolean</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.backup" class="tsd-anchor"></a>
+						<h3>backup</h3>
+						<div class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L171">src/utils/string.ts:171</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.backup.description" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;backup.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L173">src/utils/string.ts:173</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.backup.googledrivetitle" class="tsd-anchor"></a>
+							<h3>google<wbr>Drive<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">google<wbr>Drive<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;backup.google_drive_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L174">src/utils/string.ts:174</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.backup.manuallytitle" class="tsd-anchor"></a>
+							<h3>manually<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">manually<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;backup.manually_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L175">src/utils/string.ts:175</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.backup.title" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;backup.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L172">src/utils/string.ts:172</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.confirmsaveseed" class="tsd-anchor"></a>
+						<h3>confirm<wbr>Save<wbr>Seed</h3>
+						<div class="tsd-signature tsd-kind-icon">confirm<wbr>Save<wbr>Seed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L157">src/utils/string.ts:157</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.confirmsaveseed.description-1" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;confirm_save_seed.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L159">src/utils/string.ts:159</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.confirmsaveseed.incorrectenteredseed" class="tsd-anchor"></a>
+							<h3>incorrect<wbr>Entered<wbr>Seed</h3>
+							<div class="tsd-signature tsd-kind-icon">incorrect<wbr>Entered<wbr>Seed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;confirm_save_seed.incorrect_entered_seed&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L160">src/utils/string.ts:160</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.confirmsaveseed.title-1" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;confirm_save_seed.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L158">src/utils/string.ts:158</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.connecting" class="tsd-anchor"></a>
+						<h3>connecting</h3>
+						<div class="tsd-signature tsd-kind-icon">connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L177">src/utils/string.ts:177</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.connecting.description-2" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;connecting.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L179">src/utils/string.ts:179</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.connecting.email" class="tsd-anchor"></a>
+							<h3>email</h3>
+							<div class="tsd-signature tsd-kind-icon">email<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;connecting.email&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L181">src/utils/string.ts:181</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.connecting.phone" class="tsd-anchor"></a>
+							<h3>phone</h3>
+							<div class="tsd-signature tsd-kind-icon">phone<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;connecting.phone&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L180">src/utils/string.ts:180</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.connecting.title-2" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;connecting.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L178">src/utils/string.ts:178</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.edit" class="tsd-anchor"></a>
+						<h3>edit</h3>
+						<div class="tsd-signature tsd-kind-icon">edit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L183">src/utils/string.ts:183</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.edit.countrytitle" class="tsd-anchor"></a>
+							<h3>country<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">country<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.country_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L189">src/utils/string.ts:189</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.edit.email-1" class="tsd-anchor"></a>
+							<h3>email</h3>
+							<div class="tsd-signature tsd-kind-icon">email<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.email&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L184">src/utils/string.ts:184</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.edit.invalidphonenumber" class="tsd-anchor"></a>
+							<h3>invalid<wbr>Phone<wbr>Number</h3>
+							<div class="tsd-signature tsd-kind-icon">invalid<wbr>Phone<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.invalid_phone_number&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L190">src/utils/string.ts:190</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.edit.name" class="tsd-anchor"></a>
+							<h3>name</h3>
+							<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.name&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L185">src/utils/string.ts:185</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.edit.phonetitle" class="tsd-anchor"></a>
+							<h3>phone<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">phone<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.phone_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L188">src/utils/string.ts:188</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.edit.username" class="tsd-anchor"></a>
+							<h3>username</h3>
+							<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.username&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L186">src/utils/string.ts:186</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+							<a name="texts.edit.profile" class="tsd-anchor"></a>
+							<h3>profile</h3>
+							<div class="tsd-signature tsd-kind-icon">profile<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L192">src/utils/string.ts:192</a></li>
+								</ul>
+							</aside>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.emailplaceholder" class="tsd-anchor"></a>
+								<h3>email<wbr>Placeholder</h3>
+								<div class="tsd-signature tsd-kind-icon">email<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.email_placeholder&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L201">src/utils/string.ts:201</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.emailtitle" class="tsd-anchor"></a>
+								<h3>email<wbr>Title</h3>
+								<div class="tsd-signature tsd-kind-icon">email<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.email_title&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L196">src/utils/string.ts:196</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.nameplaceholder" class="tsd-anchor"></a>
+								<h3>name<wbr>Placeholder</h3>
+								<div class="tsd-signature tsd-kind-icon">name<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.name_placeholder&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L198">src/utils/string.ts:198</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.nametitle" class="tsd-anchor"></a>
+								<h3>name<wbr>Title</h3>
+								<div class="tsd-signature tsd-kind-icon">name<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.name_title&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L193">src/utils/string.ts:193</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.phoneplaceholder" class="tsd-anchor"></a>
+								<h3>phone<wbr>Placeholder</h3>
+								<div class="tsd-signature tsd-kind-icon">phone<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.phone_placeholder&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L200">src/utils/string.ts:200</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.phonetitle-1" class="tsd-anchor"></a>
+								<h3>phone<wbr>Title</h3>
+								<div class="tsd-signature tsd-kind-icon">phone<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.phone_title&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L195">src/utils/string.ts:195</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.usernameplaceholder" class="tsd-anchor"></a>
+								<h3>username<wbr>Placeholder</h3>
+								<div class="tsd-signature tsd-kind-icon">username<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.username_placeholder&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L199">src/utils/string.ts:199</a></li>
+									</ul>
+								</aside>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="texts.edit.profile.usernametitle" class="tsd-anchor"></a>
+								<h3>username<wbr>Title</h3>
+								<div class="tsd-signature tsd-kind-icon">username<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;edit.profile.username_title&#x27;)</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L194">src/utils/string.ts:194</a></li>
+									</ul>
+								</aside>
+							</section>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.importseed" class="tsd-anchor"></a>
+						<h3>import<wbr>Seed</h3>
+						<div class="tsd-signature tsd-kind-icon">import<wbr>Seed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L162">src/utils/string.ts:162</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.importseed.description-3" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;import_seed.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L164">src/utils/string.ts:164</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.importseed.invalidsecretphraseerr" class="tsd-anchor"></a>
+							<h3>invalid<wbr>Secret<wbr>Phrase<wbr>Err</h3>
+							<div class="tsd-signature tsd-kind-icon">invalid<wbr>Secret<wbr>Phrase<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;import_seed.invalid_secret_phrase_err&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L165">src/utils/string.ts:165</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.importseed.title-3" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;import_seed.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L163">src/utils/string.ts:163</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.importwallet" class="tsd-anchor"></a>
+						<h3>import<wbr>Wallet</h3>
+						<div class="tsd-signature tsd-kind-icon">import<wbr>Wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L167">src/utils/string.ts:167</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.importwallet.googledrivetitle-1" class="tsd-anchor"></a>
+							<h3>google<wbr>Drive<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">google<wbr>Drive<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;import_wallet.google_drive_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L168">src/utils/string.ts:168</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.importwallet.manuallytitle-1" class="tsd-anchor"></a>
+							<h3>manually<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">manually<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;import_wallet.manually_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L169">src/utils/string.ts:169</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.legal" class="tsd-anchor"></a>
+						<h3>legal</h3>
+						<div class="tsd-signature tsd-kind-icon">legal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L130">src/utils/string.ts:130</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.legal.checkbox" class="tsd-anchor"></a>
+							<h3>checkbox</h3>
+							<div class="tsd-signature tsd-kind-icon">checkbox<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;legal.checkbox&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L132">src/utils/string.ts:132</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.legal.privacypolicy" class="tsd-anchor"></a>
+							<h3>privacy<wbr>Policy</h3>
+							<div class="tsd-signature tsd-kind-icon">privacy<wbr>Policy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;legal.privacy_policy&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L134">src/utils/string.ts:134</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.legal.title-4" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;legal.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L131">src/utils/string.ts:131</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.legal.tos" class="tsd-anchor"></a>
+							<h3>tos</h3>
+							<div class="tsd-signature tsd-kind-icon">tos<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;legal.tos&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L133">src/utils/string.ts:133</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.menu" class="tsd-anchor"></a>
+						<h3>menu</h3>
+						<div class="tsd-signature tsd-kind-icon">menu<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L120">src/utils/string.ts:120</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.menu.chats" class="tsd-anchor"></a>
+							<h3>chats</h3>
+							<div class="tsd-signature tsd-kind-icon">chats<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;menu.chats&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L121">src/utils/string.ts:121</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.menu.profile-1" class="tsd-anchor"></a>
+							<h3>profile</h3>
+							<div class="tsd-signature tsd-kind-icon">profile<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;menu.profile&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L123">src/utils/string.ts:123</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.menu.wallet" class="tsd-anchor"></a>
+							<h3>wallet</h3>
+							<div class="tsd-signature tsd-kind-icon">wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;menu.wallet&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L122">src/utils/string.ts:122</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.passcode" class="tsd-anchor"></a>
+						<h3>pass<wbr>Code</h3>
+						<div class="tsd-signature tsd-kind-icon">pass<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L104">src/utils/string.ts:104</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.passcode.confirmnewcodedescription" class="tsd-anchor"></a>
+							<h3>confirm<wbr>New<wbr>Code<wbr>Description</h3>
+							<div class="tsd-signature tsd-kind-icon">confirm<wbr>New<wbr>Code<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;pass_code.confirm_new_code_description&#x27;,)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L107">src/utils/string.ts:107</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.passcode.newcodedescription" class="tsd-anchor"></a>
+							<h3>new<wbr>Code<wbr>Description</h3>
+							<div class="tsd-signature tsd-kind-icon">new<wbr>Code<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;pass_code.new_code_description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L106">src/utils/string.ts:106</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.passcode.verifydescription" class="tsd-anchor"></a>
+							<h3>verify<wbr>Description</h3>
+							<div class="tsd-signature tsd-kind-icon">verify<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;pass_code.verify_description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L105">src/utils/string.ts:105</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.profile-2" class="tsd-anchor"></a>
+						<h3>profile</h3>
+						<div class="tsd-signature tsd-kind-icon">profile<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L67">src/utils/string.ts:67</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.profile-2.addressestitle" class="tsd-anchor"></a>
+							<h3>addresses<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">addresses<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;profile.addresses_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L71">src/utils/string.ts:71</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.profile-2.deletebtn" class="tsd-anchor"></a>
+							<h3>delete<wbr>Btn</h3>
+							<div class="tsd-signature tsd-kind-icon">delete<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;profile.delete_btn&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L70">src/utils/string.ts:70</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.profile-2.restartbtn" class="tsd-anchor"></a>
+							<h3>restart<wbr>Btn</h3>
+							<div class="tsd-signature tsd-kind-icon">restart<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;profile.restart_btn&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L68">src/utils/string.ts:68</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.profile-2.sendbtn-1" class="tsd-anchor"></a>
+							<h3>send<wbr>Btn</h3>
+							<div class="tsd-signature tsd-kind-icon">send<wbr>Btn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;profile.send_btn&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L69">src/utils/string.ts:69</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.saveseed" class="tsd-anchor"></a>
+						<h3>save<wbr>Seed</h3>
+						<div class="tsd-signature tsd-kind-icon">save<wbr>Seed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L152">src/utils/string.ts:152</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.saveseed.description-4" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;save_seed.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L154">src/utils/string.ts:154</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.saveseed.info" class="tsd-anchor"></a>
+							<h3>info</h3>
+							<div class="tsd-signature tsd-kind-icon">info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;save_seed.info&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L155">src/utils/string.ts:155</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.saveseed.title-5" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;save_seed.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L153">src/utils/string.ts:153</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.settingwallet" class="tsd-anchor"></a>
+						<h3>setting<wbr>Wallet</h3>
+						<div class="tsd-signature tsd-kind-icon">setting<wbr>Wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L212">src/utils/string.ts:212</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settingwallet.create" class="tsd-anchor"></a>
+							<h3>create</h3>
+							<div class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;setting_wallet.create&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L214">src/utils/string.ts:214</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settingwallet.import" class="tsd-anchor"></a>
+							<h3>import</h3>
+							<div class="tsd-signature tsd-kind-icon">import<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;setting_wallet.import&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L213">src/utils/string.ts:213</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.settings" class="tsd-anchor"></a>
+						<h3>settings</h3>
+						<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L73">src/utils/string.ts:73</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.aboutus" class="tsd-anchor"></a>
+							<h3>about<wbr>Us</h3>
+							<div class="tsd-signature tsd-kind-icon">about<wbr>Us<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.about_us&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L82">src/utils/string.ts:82</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.backup-1" class="tsd-anchor"></a>
+							<h3>backup</h3>
+							<div class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.backup&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L75">src/utils/string.ts:75</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.disablebiometry" class="tsd-anchor"></a>
+							<h3>disable<wbr>Biometry</h3>
+							<div class="tsd-signature tsd-kind-icon">disable<wbr>Biometry<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.disable_biometry&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L79">src/utils/string.ts:79</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.disablepasscode" class="tsd-anchor"></a>
+							<h3>disable<wbr>Passcode</h3>
+							<div class="tsd-signature tsd-kind-icon">disable<wbr>Passcode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.disable_passcode&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L77">src/utils/string.ts:77</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.editprofile" class="tsd-anchor"></a>
+							<h3>edit<wbr>Profile</h3>
+							<div class="tsd-signature tsd-kind-icon">edit<wbr>Profile<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.edit_profile&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L74">src/utils/string.ts:74</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.enablebiometry" class="tsd-anchor"></a>
+							<h3>enable<wbr>Biometry</h3>
+							<div class="tsd-signature tsd-kind-icon">enable<wbr>Biometry<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.enable_biometry&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L80">src/utils/string.ts:80</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.enablepasscode" class="tsd-anchor"></a>
+							<h3>enable<wbr>Passcode</h3>
+							<div class="tsd-signature tsd-kind-icon">enable<wbr>Passcode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.enable_passcode&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L78">src/utils/string.ts:78</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.help" class="tsd-anchor"></a>
+							<h3>help</h3>
+							<div class="tsd-signature tsd-kind-icon">help<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.help&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L81">src/utils/string.ts:81</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.settings.language" class="tsd-anchor"></a>
+							<h3>language</h3>
+							<div class="tsd-signature tsd-kind-icon">language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;settings.language&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L76">src/utils/string.ts:76</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.showmsg" class="tsd-anchor"></a>
+						<h3>show<wbr>Msg</h3>
+						<div class="tsd-signature tsd-kind-icon">show<wbr>Msg<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L111">src/utils/string.ts:111</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.addresscopied" class="tsd-anchor"></a>
+							<h3>address<wbr>Copied</h3>
+							<div class="tsd-signature tsd-kind-icon">address<wbr>Copied<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.address_copied&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L115">src/utils/string.ts:115</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.connectionrestored" class="tsd-anchor"></a>
+							<h3>connection<wbr>Restored</h3>
+							<div class="tsd-signature tsd-kind-icon">connection<wbr>Restored<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.connection_restored&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L117">src/utils/string.ts:117</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.copiedtoclipboard" class="tsd-anchor"></a>
+							<h3>copied<wbr>ToClipboard</h3>
+							<div class="tsd-signature tsd-kind-icon">copied<wbr>ToClipboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.copied_to_clipboard&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L116">src/utils/string.ts:116</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.incorrectpasscode" class="tsd-anchor"></a>
+							<h3>incorrect<wbr>Passcode</h3>
+							<div class="tsd-signature tsd-kind-icon">incorrect<wbr>Passcode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.incorrect_passcode&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L114">src/utils/string.ts:114</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.invalidconnection" class="tsd-anchor"></a>
+							<h3>invalid<wbr>Connection</h3>
+							<div class="tsd-signature tsd-kind-icon">invalid<wbr>Connection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.invalid_connection&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L118">src/utils/string.ts:118</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.passcodenotequals" class="tsd-anchor"></a>
+							<h3>passcode<wbr>Not<wbr>Equals</h3>
+							<div class="tsd-signature tsd-kind-icon">passcode<wbr>Not<wbr>Equals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.passcode_not_equals&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L113">src/utils/string.ts:113</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.showmsg.walletnotfound" class="tsd-anchor"></a>
+							<h3>wallet<wbr>Not<wbr>Found</h3>
+							<div class="tsd-signature tsd-kind-icon">wallet<wbr>Not<wbr>Found<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;show_msg.wallet_not_found&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L112">src/utils/string.ts:112</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.statuses" class="tsd-anchor"></a>
+						<h3>statuses</h3>
+						<div class="tsd-signature tsd-kind-icon">statuses<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L125">src/utils/string.ts:125</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.statuses.failed" class="tsd-anchor"></a>
+							<h3>failed</h3>
+							<div class="tsd-signature tsd-kind-icon">failed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;statuses.failed&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L128">src/utils/string.ts:128</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.statuses.pending" class="tsd-anchor"></a>
+							<h3>pending</h3>
+							<div class="tsd-signature tsd-kind-icon">pending<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;statuses.pending&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L127">src/utils/string.ts:127</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.statuses.success" class="tsd-anchor"></a>
+							<h3>success</h3>
+							<div class="tsd-signature tsd-kind-icon">success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;statuses.success&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L126">src/utils/string.ts:126</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.titles" class="tsd-anchor"></a>
+						<h3>titles</h3>
+						<div class="tsd-signature tsd-kind-icon">titles<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L84">src/utils/string.ts:84</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.backup-2" class="tsd-anchor"></a>
+							<h3>backup</h3>
+							<div class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.backup&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L88">src/utils/string.ts:88</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.confirmcode" class="tsd-anchor"></a>
+							<h3>confirm<wbr>Code</h3>
+							<div class="tsd-signature tsd-kind-icon">confirm<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.confirm_code&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L90">src/utils/string.ts:90</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.details" class="tsd-anchor"></a>
+							<h3>details</h3>
+							<div class="tsd-signature tsd-kind-icon">details<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.details&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L86">src/utils/string.ts:86</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.editname" class="tsd-anchor"></a>
+							<h3>edit<wbr>Name</h3>
+							<div class="tsd-signature tsd-kind-icon">edit<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.edit_name&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L95">src/utils/string.ts:95</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.editprofile-1" class="tsd-anchor"></a>
+							<h3>edit<wbr>Profile</h3>
+							<div class="tsd-signature tsd-kind-icon">edit<wbr>Profile<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.edit_profile&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L89">src/utils/string.ts:89</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.editusername" class="tsd-anchor"></a>
+							<h3>edit<wbr>Username</h3>
+							<div class="tsd-signature tsd-kind-icon">edit<wbr>Username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.edit_username&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L94">src/utils/string.ts:94</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.email-2" class="tsd-anchor"></a>
+							<h3>email</h3>
+							<div class="tsd-signature tsd-kind-icon">email<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.email&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L93">src/utils/string.ts:93</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.enteramount" class="tsd-anchor"></a>
+							<h3>enter<wbr>Amount</h3>
+							<div class="tsd-signature tsd-kind-icon">enter<wbr>Amount<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.enter_amount&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L98">src/utils/string.ts:98</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.language-1" class="tsd-anchor"></a>
+							<h3>language</h3>
+							<div class="tsd-signature tsd-kind-icon">language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.language&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L85">src/utils/string.ts:85</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.phonenumber" class="tsd-anchor"></a>
+							<h3>phone<wbr>Number</h3>
+							<div class="tsd-signature tsd-kind-icon">phone<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.phone_number&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L92">src/utils/string.ts:92</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.receive" class="tsd-anchor"></a>
+							<h3>receive</h3>
+							<div class="tsd-signature tsd-kind-icon">receive<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.receive&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L99">src/utils/string.ts:99</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.restorewallet" class="tsd-anchor"></a>
+							<h3>restore<wbr>Wallet</h3>
+							<div class="tsd-signature tsd-kind-icon">restore<wbr>Wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.restore_wallet&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L101">src/utils/string.ts:101</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.selectcountry" class="tsd-anchor"></a>
+							<h3>select<wbr>Country</h3>
+							<div class="tsd-signature tsd-kind-icon">select<wbr>Country<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.select_country&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L91">src/utils/string.ts:91</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.selectwallet" class="tsd-anchor"></a>
+							<h3>select<wbr>Wallet</h3>
+							<div class="tsd-signature tsd-kind-icon">select<wbr>Wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.select_wallet&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L96">src/utils/string.ts:96</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.send" class="tsd-anchor"></a>
+							<h3>send</h3>
+							<div class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.send&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L97">src/utils/string.ts:97</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.settingwallet-1" class="tsd-anchor"></a>
+							<h3>setting<wbr>Wallet</h3>
+							<div class="tsd-signature tsd-kind-icon">setting<wbr>Wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.setting_wallet&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L100">src/utils/string.ts:100</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.statistics" class="tsd-anchor"></a>
+							<h3>statistics</h3>
+							<div class="tsd-signature tsd-kind-icon">statistics<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.statistics&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L102">src/utils/string.ts:102</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.titles.transaction" class="tsd-anchor"></a>
+							<h3>transaction</h3>
+							<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;titles.transaction&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L87">src/utils/string.ts:87</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.walletfilebackup" class="tsd-anchor"></a>
+						<h3>wallet<wbr>File<wbr>Backup</h3>
+						<div class="tsd-signature tsd-kind-icon">wallet<wbr>File<wbr>Backup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L136">src/utils/string.ts:136</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.confirmpassword" class="tsd-anchor"></a>
+							<h3>confirm<wbr>Password</h3>
+							<div class="tsd-signature tsd-kind-icon">confirm<wbr>Password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.confirm_password&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L141">src/utils/string.ts:141</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.description-5" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L138">src/utils/string.ts:138</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.filenameplaceholder" class="tsd-anchor"></a>
+							<h3>filename<wbr>Placeholder</h3>
+							<div class="tsd-signature tsd-kind-icon">filename<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.filename_placeholder&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L139">src/utils/string.ts:139</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.passlenerr" class="tsd-anchor"></a>
+							<h3>pass<wbr>Len<wbr>Err</h3>
+							<div class="tsd-signature tsd-kind-icon">pass<wbr>Len<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.pass_len_err&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L142">src/utils/string.ts:142</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.passnotmatcherr" class="tsd-anchor"></a>
+							<h3>pass<wbr>Not<wbr>Match<wbr>Err</h3>
+							<div class="tsd-signature tsd-kind-icon">pass<wbr>Not<wbr>Match<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.pass_not_match_err&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L144">src/utils/string.ts:144</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.passwordplaceholder" class="tsd-anchor"></a>
+							<h3>password<wbr>Placeholder</h3>
+							<div class="tsd-signature tsd-kind-icon">password<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.password_placeholder&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L140">src/utils/string.ts:140</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.symbolornumbererr" class="tsd-anchor"></a>
+							<h3>symbol<wbr>OrNumber<wbr>Err</h3>
+							<div class="tsd-signature tsd-kind-icon">symbol<wbr>OrNumber<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.symbol_or_number_err&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L143">src/utils/string.ts:143</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfilebackup.title-6" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_backup.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L137">src/utils/string.ts:137</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="texts.walletfileimport" class="tsd-anchor"></a>
+						<h3>wallet<wbr>File<wbr>Import</h3>
+						<div class="tsd-signature tsd-kind-icon">wallet<wbr>File<wbr>Import<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L146">src/utils/string.ts:146</a></li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfileimport.description-6" class="tsd-anchor"></a>
+							<h3>description</h3>
+							<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_import.description&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L149">src/utils/string.ts:149</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfileimport.invalidpasswordtitle" class="tsd-anchor"></a>
+							<h3>invalid<wbr>Password<wbr>Title</h3>
+							<div class="tsd-signature tsd-kind-icon">invalid<wbr>Password<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_import.invalid_password_title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L150">src/utils/string.ts:150</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfileimport.passwordplaceholder-1" class="tsd-anchor"></a>
+							<h3>password<wbr>Placeholder</h3>
+							<div class="tsd-signature tsd-kind-icon">password<wbr>Placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_import.password_placeholder&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L148">src/utils/string.ts:148</a></li>
+								</ul>
+							</aside>
+						</section>
+						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+							<a name="texts.walletfileimport.title-7" class="tsd-anchor"></a>
+							<h3>title</h3>
+							<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = I18n.t(&#x27;wallet_file_import.title&#x27;)</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/string.ts#L147">src/utils/string.ts:147</a></li>
+								</ul>
+							</aside>
+						</section>
+					</section>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
@@ -316,9 +2201,6 @@
 						<a href="accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="backendapi.html">Backend<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-namespace">
 						<a href="chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -326,6 +2208,9 @@
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="dialogstore.html">Dialog<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="fractappclient.html">Fractapp<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="globalstore.html">Global<wbr>Store</a>
@@ -340,7 +2225,10 @@
 						<a href="passcodeutil.html">Passcode<wbr>Util</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="pricesstore.html">Prices<wbr>Store</a>
+						<a href="serverinfostore.html">Server<wbr>Info<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="store.html">Store</a>
 					</li>
 					<li class="current tsd-kind-namespace">
 						<a href="stringutils.html">String<wbr>Utils</a>
@@ -349,7 +2237,7 @@
 						<a href="task.html">Task</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="transactionsstore.html">Transactions<wbr>Store</a>
+						<a href="usersstore.html">Users<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
@@ -358,8 +2246,17 @@
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
 						<a href="stringutils.html#months" class="tsd-kind-icon">months</a>
 					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
+						<a href="stringutils.html#today" class="tsd-kind-icon">today</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
+						<a href="stringutils.html#yesterday" class="tsd-kind-icon">yesterday</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="stringutils.html#forchatinfo" class="tsd-kind-icon">for<wbr>Chat<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="stringutils.html#formsg" class="tsd-kind-icon">for<wbr>Msg</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="stringutils.html#formatnameoraddress" class="tsd-kind-icon">format<wbr>Name<wbr>OrAddress</a>
@@ -371,13 +2268,16 @@
 						<a href="stringutils.html#fromtime" class="tsd-kind-icon">from<wbr>Time</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="stringutils.html#getmonths" class="tsd-kind-icon">get<wbr>Months</a>
+						<a href="stringutils.html#objecttomap" class="tsd-kind-icon">object<wbr>ToMap</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="stringutils.html#tomsg" class="tsd-kind-icon">to<wbr>Msg</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="stringutils.html#totitle" class="tsd-kind-icon">to<wbr>Title</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-namespace">
+						<a href="stringutils.html#texts" class="tsd-kind-icon">texts</a>
 					</li>
 				</ul>
 			</nav>
@@ -394,7 +2294,12 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>

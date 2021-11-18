@@ -79,22 +79,20 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-namespace"><a href="mathutils.html#calculatetxfeeinfo" class="tsd-kind-icon">Calculate<wbr>TxFee<wbr>Info</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="mathutils.html#accuracy" class="tsd-kind-icon">Accuracy</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-namespace"><a href="mathutils.html#usddecimals" class="tsd-kind-icon">USDDecimals</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#calculatetxinfo" class="tsd-kind-icon">calculate<wbr>TxInfo</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#calculatevalue" class="tsd-kind-icon">calculate<wbr>Value</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#calculateplanksvalue" class="tsd-kind-icon">calculate<wbr>Planks<wbr>Value</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#calculateusdvalue" class="tsd-kind-icon">calculate<wbr>Usd<wbr>Value</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#convertfromplancktostring" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>ToString</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#convertfromplancktoviewdecimals" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>ToView<wbr>Decimals</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#converttoplanck" class="tsd-kind-icon">convert<wbr>ToPlanck</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#floor" class="tsd-kind-icon">floor</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#floorusd" class="tsd-kind-icon">floor<wbr>Usd</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-namespace"><a href="mathutils.html#round" class="tsd-kind-icon">round</a></li>
@@ -105,38 +103,24 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace">
-					<a name="calculatetxfeeinfo" class="tsd-anchor"></a>
-					<h3>Calculate<wbr>TxFee<wbr>Info</h3>
-					<div class="tsd-signature tsd-kind-icon">Calculate<wbr>TxFee<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>fee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span><span class="tsd-signature-symbol">; </span>usdFee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
+					<a name="accuracy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Accuracy</h3>
+					<div class="tsd-signature tsd-kind-icon">Accuracy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">5</span><span class="tsd-signature-symbol"> = 5</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L11">src/utils/math.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L9">src/utils/math.ts:9</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>fee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>usd<wbr>Fee<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-namespace">
 					<a name="usddecimals" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> USDDecimals</h3>
 					<div class="tsd-signature tsd-kind-icon">USDDecimals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">2</span><span class="tsd-signature-symbol"> = 2</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L16">src/utils/math.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L8">src/utils/math.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,66 +128,144 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="calculatetxinfo" class="tsd-anchor"></a>
-					<h3>calculate<wbr>TxInfo</h3>
+					<a name="calculateplanksvalue" class="tsd-anchor"></a>
+					<h3>calculate<wbr>Planks<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">calculate<wbr>TxInfo<span class="tsd-signature-symbol">(</span>priceContext<span class="tsd-signature-symbol">: </span><a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a>, currency<span class="tsd-signature-symbol">: </span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a>, currencyValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, receiver<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="mathutils.html#calculatetxfeeinfo" class="tsd-signature-type">CalculateTxFeeInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">calculate<wbr>Planks<wbr>Value<span class="tsd-signature-symbol">(</span>usdValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L44">src/utils/math.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L44">src/utils/math.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>priceContext: <a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>usdValue: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>currency: <a href="../enums/currency.html" class="tsd-signature-type">Currency</a></h5>
+									<h5>decimals: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>currencyValue: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>receiver: <span class="tsd-signature-type">string</span></h5>
+									<h5>price: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="mathutils.html#calculatetxfeeinfo" class="tsd-signature-type">CalculateTxFeeInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BN</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
-					<a name="calculatevalue" class="tsd-anchor"></a>
-					<h3>calculate<wbr>Value</h3>
+					<a name="calculateusdvalue" class="tsd-anchor"></a>
+					<h3>calculate<wbr>Usd<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">calculate<wbr>Value<span class="tsd-signature-symbol">(</span>priceContext<span class="tsd-signature-symbol">: </span><a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a>, currency<span class="tsd-signature-symbol">: </span><a href="../enums/currency.html" class="tsd-signature-type">Currency</a>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isUSDMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">calculate<wbr>Usd<wbr>Value<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L30">src/utils/math.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L27">src/utils/math.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>priceContext: <a href="pricesstore.html#contexttype" class="tsd-signature-type">ContextType</a></h5>
+									<h5>value: <span class="tsd-signature-type">BN</span></h5>
 								</li>
 								<li>
-									<h5>currency: <a href="../enums/currency.html" class="tsd-signature-type">Currency</a></h5>
+									<h5>decimals: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>isUSDMode: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>price: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="convertfromplancktostring" class="tsd-anchor"></a>
+					<h3>convert<wbr>From<wbr>Planck<wbr>ToString</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>ToString<span class="tsd-signature-symbol">(</span>planck<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L80">src/utils/math.ts:80</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planck: <span class="tsd-signature-type">BN</span></h5>
+								</li>
+								<li>
+									<h5>decimals: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="convertfromplancktoviewdecimals" class="tsd-anchor"></a>
+					<h3>convert<wbr>From<wbr>Planck<wbr>ToView<wbr>Decimals</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>ToView<wbr>Decimals<span class="tsd-signature-symbol">(</span>planck<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, viewDecimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isRound<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L58">src/utils/math.ts:58</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>planck: <span class="tsd-signature-type">BN</span></h5>
+								</li>
+								<li>
+									<h5>decimals: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>viewDecimals: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> isRound: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-namespace">
+					<a name="converttoplanck" class="tsd-anchor"></a>
+					<h3>convert<wbr>ToPlanck</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-namespace">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>ToPlanck<span class="tsd-signature-symbol">(</span>number<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BN</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L114">src/utils/math.ts:114</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>number: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>decimals: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BN</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -217,7 +279,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L17">src/utils/math.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L11">src/utils/math.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -243,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L20">src/utils/math.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L15">src/utils/math.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -266,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L23">src/utils/math.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L19">src/utils/math.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +354,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/fd6b06d/src/utils/math.ts#L26">src/utils/math.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/utils/math.ts#L23">src/utils/math.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -317,9 +379,6 @@
 						<a href="accountsstore.html">Accounts<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="backendapi.html">Backend<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-namespace">
 						<a href="chatsstore.html">Chats<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
@@ -327,6 +386,9 @@
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="dialogstore.html">Dialog<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="fractappclient.html">Fractapp<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="globalstore.html">Global<wbr>Store</a>
@@ -341,7 +403,10 @@
 						<a href="passcodeutil.html">Passcode<wbr>Util</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="pricesstore.html">Prices<wbr>Store</a>
+						<a href="serverinfostore.html">Server<wbr>Info<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-namespace">
+						<a href="store.html">Store</a>
 					</li>
 					<li class=" tsd-kind-namespace">
 						<a href="stringutils.html">String<wbr>Utils</a>
@@ -350,23 +415,32 @@
 						<a href="task.html">Task</a>
 					</li>
 					<li class=" tsd-kind-namespace">
-						<a href="transactionsstore.html">Transactions<wbr>Store</a>
+						<a href="usersstore.html">Users<wbr>Store</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace">
-						<a href="mathutils.html#calculatetxfeeinfo" class="tsd-kind-icon">Calculate<wbr>TxFee<wbr>Info</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
+						<a href="mathutils.html#accuracy" class="tsd-kind-icon">Accuracy</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-namespace">
 						<a href="mathutils.html#usddecimals" class="tsd-kind-icon">USDDecimals</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="mathutils.html#calculatetxinfo" class="tsd-kind-icon">calculate<wbr>TxInfo</a>
+						<a href="mathutils.html#calculateplanksvalue" class="tsd-kind-icon">calculate<wbr>Planks<wbr>Value</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
-						<a href="mathutils.html#calculatevalue" class="tsd-kind-icon">calculate<wbr>Value</a>
+						<a href="mathutils.html#calculateusdvalue" class="tsd-kind-icon">calculate<wbr>Usd<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="mathutils.html#convertfromplancktostring" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="mathutils.html#convertfromplancktoviewdecimals" class="tsd-kind-icon">convert<wbr>From<wbr>Planck<wbr>ToView<wbr>Decimals</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-namespace">
+						<a href="mathutils.html#converttoplanck" class="tsd-kind-icon">convert<wbr>ToPlanck</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-namespace">
 						<a href="mathutils.html#floor" class="tsd-kind-icon">floor</a>
@@ -395,7 +469,12 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>

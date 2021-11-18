@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TxStatus | fractapp</title>
+	<title>DefaultMsgAction | fractapp</title>
 	<meta name="description" content="Documentation for fractapp">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,20 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="txstatus.html">TxStatus</a>
+					<a href="defaultmsgaction.html">DefaultMsgAction</a>
 				</li>
 			</ul>
-			<h1>Enumeration TxStatus</h1>
+			<h1>Enumeration DefaultMsgAction</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -73,9 +77,12 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="txstatus.html#fail" class="tsd-kind-icon">Fail</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="txstatus.html#pending" class="tsd-kind-icon">Pending</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="txstatus.html#success" class="tsd-kind-icon">Success</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="defaultmsgaction.html#broadcast" class="tsd-kind-icon">Broadcast</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="defaultmsgaction.html#enteramount" class="tsd-kind-icon">Enter<wbr>Amount</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="defaultmsgaction.html#init" class="tsd-kind-icon">Init</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="defaultmsgaction.html#openurl" class="tsd-kind-icon">Open<wbr>Url</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="defaultmsgaction.html#walletbuttonin" class="tsd-kind-icon">Wallet<wbr>Button<wbr>In</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="defaultmsgaction.html#walletbuttonout" class="tsd-kind-icon">Wallet<wbr>Button<wbr>Out</a></li>
 							</ul>
 						</section>
 					</div>
@@ -84,32 +91,62 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="fail" class="tsd-anchor"></a>
-					<h3>Fail</h3>
-					<div class="tsd-signature tsd-kind-icon">Fail<span class="tsd-signature-symbol">:</span></div>
+					<a name="broadcast" class="tsd-anchor"></a>
+					<h3>Broadcast</h3>
+					<div class="tsd-signature tsd-kind-icon">Broadcast<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;/broadcast&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/transaction.ts#L31">src/types/transaction.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/message.ts#L110">src/types/message.ts:110</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="pending" class="tsd-anchor"></a>
-					<h3>Pending</h3>
-					<div class="tsd-signature tsd-kind-icon">Pending<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
+					<a name="enteramount" class="tsd-anchor"></a>
+					<h3>Enter<wbr>Amount</h3>
+					<div class="tsd-signature tsd-kind-icon">Enter<wbr>Amount<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;/enterAmount&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/transaction.ts#L29">src/types/transaction.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/message.ts#L109">src/types/message.ts:109</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="success" class="tsd-anchor"></a>
-					<h3>Success</h3>
-					<div class="tsd-signature tsd-kind-icon">Success<span class="tsd-signature-symbol">:</span></div>
+					<a name="init" class="tsd-anchor"></a>
+					<h3>Init</h3>
+					<div class="tsd-signature tsd-kind-icon">Init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;/init&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/transaction.ts#L30">src/types/transaction.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/message.ts#L107">src/types/message.ts:107</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="openurl" class="tsd-anchor"></a>
+					<h3>Open<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">Open<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;/openUrl&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/message.ts#L108">src/types/message.ts:108</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="walletbuttonin" class="tsd-anchor"></a>
+					<h3>Wallet<wbr>Button<wbr>In</h3>
+					<div class="tsd-signature tsd-kind-icon">Wallet<wbr>Button<wbr>In<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;/walletIn&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/message.ts#L112">src/types/message.ts:112</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="walletbuttonout" class="tsd-anchor"></a>
+					<h3>Wallet<wbr>Button<wbr>Out</h3>
+					<div class="tsd-signature tsd-kind-icon">Wallet<wbr>Button<wbr>Out<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;/walletOut&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fractapp/fractapp/blob/ca50e1c/src/types/message.ts#L111">src/types/message.ts:111</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -128,16 +165,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum">
-						<a href="txstatus.html" class="tsd-kind-icon">Tx<wbr>Status</a>
+						<a href="defaultmsgaction.html" class="tsd-kind-icon">Default<wbr>Msg<wbr>Action</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="txstatus.html#fail" class="tsd-kind-icon">Fail</a>
+								<a href="defaultmsgaction.html#broadcast" class="tsd-kind-icon">Broadcast</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="txstatus.html#pending" class="tsd-kind-icon">Pending</a>
+								<a href="defaultmsgaction.html#enteramount" class="tsd-kind-icon">Enter<wbr>Amount</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="txstatus.html#success" class="tsd-kind-icon">Success</a>
+								<a href="defaultmsgaction.html#init" class="tsd-kind-icon">Init</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="defaultmsgaction.html#openurl" class="tsd-kind-icon">Open<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="defaultmsgaction.html#walletbuttonin" class="tsd-kind-icon">Wallet<wbr>Button<wbr>In</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="defaultmsgaction.html#walletbuttonout" class="tsd-kind-icon">Wallet<wbr>Button<wbr>Out</a>
 							</li>
 						</ul>
 					</li>

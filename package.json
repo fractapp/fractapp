@@ -40,7 +40,7 @@
     "password-validator": "^5.1.1",
     "react": "^17.0.2",
     "react-native": "^0.66.1",
-    "react-native-background-fetch": "^4.0.3",
+    "react-native-background-fetch": "^4.0.4",
     "react-native-background-timer": "^2.4.1",
     "react-native-contacts": "^7.0.2",
     "react-native-document-picker": "^6.0.4",

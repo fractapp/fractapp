@@ -46,7 +46,7 @@ yarn install
 
 9. Start on android device or emulator
 ```sh
-yarn android
+yarn android --reset-cache
 ```
 
 ## Setup firebase 

@@ -37,7 +37,7 @@
     "babel-plugin-rewrite-require": "^1.14.5",
     "email-validator": "^2.0.4",
     "node-libs-react-native": "^1.2.1",
-    "password-validator": "^5.1.1",
+    "password-validator": "^5.2.0",
     "react": "^17.0.2",
     "react-native": "^0.66.1",
     "react-native-background-fetch": "^4.0.3",

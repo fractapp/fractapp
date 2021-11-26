@@ -72,7 +72,7 @@
     "react-phone-number-input": "^3.1.27",
     "react-redux": "^7.2.5",
     "readable-stream": "^3.6.0",
-    "styled-components": "^5.3.1",
+    "styled-components": "^5.3.3",
     "victory-native": "^35.5.5",
     "vm-browserify": "^1.1.2"
   },

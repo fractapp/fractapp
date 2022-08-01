@@ -11,7 +11,7 @@
     "doc": "typedoc --out docs src/components src/screens src/storage src/types src/utils src/adaptors --mode file --ignoreCompilerErrors "
   },
   "dependencies": {
-    "@polkadot/api": "^6.1.1",
+    "@polkadot/api": "^8.12.1",
     "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-native-community/checkbox": "^0.5.8",
     "@react-native-community/clipboard": "^1.5.1",
@@ -23,7 +23,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "@reduxjs/toolkit": "^1.6.1",
-    "@substrate/txwrapper-polkadot": "^1.2.17",
+    "@substrate/txwrapper-polkadot": "^2.0.0",
     "@testing-library/react-native": "^7.2.0",
     "@types/react-native-background-timer": "^2.0.0",
     "@types/react-native-i18n": "^2.0.0",
